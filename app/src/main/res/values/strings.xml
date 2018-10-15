@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FilmApplication</string>
+    <string name="app_name">WaimaiApplication</string>
     <string name="main_fragment">main_fragment</string>
     <string name="title_film">影片</string>
     <string name="title_cinema">影院</string>
