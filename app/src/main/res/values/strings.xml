@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">FilmApplication</string>
+    <string name="main_fragment">main_fragment</string>
+    <string name="title_film">影片</string>
+    <string name="title_cinema">影院</string>
+    <string name="cinema_empty">暂无影院</string>
+    <string name="all_area">全城</string>
+    <string name="all">全部</string>
+    <string name="price_suffix">元起</string>
+    <string name="discount_content">钱包新用户最高立减8元</string>
+    <string name="tag_content">vip</string>
+
+
+    <string-array name="tab_filters">
+        <item>全城</item>
+        <item>品牌</item>
+        <item>筛选</item>
+    </string-array>
+
+</resources>

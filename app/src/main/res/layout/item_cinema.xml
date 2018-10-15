@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg">
+
+    <TextView
+        android:id="@+id/tv_cinema_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/tv_cinema_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_cinema_id"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/tv_cinema_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_cinema_name"
+        android:layout_toLeftOf="@+id/tv_cinema_distance"
+        android:layout_toRightOf="@id/tv_cinema_id"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/white_88"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_cinema_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/tv_cinema_address"
+        android:textColor="@color/white_88"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_cinema_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_cinema_address"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/tv_cinema_id"
+        android:text="@string/tag_content"
+        android:textColor="@color/cinema_blue"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_cinema_discount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_cinema_tag"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/tv_cinema_id"
+        android:text="@string/discount_content"
+        android:textColor="@color/white_88"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_cinema_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_cinema_discount"
+        android:layout_toLeftOf="@+id/tv_cinema_price_suffix"
+        android:textColor="@color/cinema_yellow"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_cinema_price_suffix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_cinema_price"
+        android:layout_alignParentRight="true"
+        android:text="@string/price_suffix"
+        android:textColor="@color/cinema_yellow"
+        android:textSize="13sp" />
+</RelativeLayout>
