@@ -5,22 +5,21 @@ package com.baidu.iov.dueros.waimai.presenter;
 import android.os.Bundle;
 
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
-
-import java.lang.ref.WeakReference;
+import java.lang.ref.SoftReference;
 
 /**
  * Base class for Presenters.
  */
 public abstract class Presenter<U extends Ui> {
 
-    private WeakReference<U> mUi;
+    private SoftReference<U> mUi;
 
     /**
      *
      * @param ui The Ui implementation that is now ready to be used.
      */
     public void onUiReady(U ui) {
-        mUi = new WeakReference<U>(ui);
+        mUi = new SoftReference<U>(ui);
     }
 
 
@@ -28,7 +27,6 @@ public abstract class Presenter<U extends Ui> {
         onUiUnready(ui);
         if (mUi != null) {
             mUi.clear();
-            mUi = null;
         }
     }
 
