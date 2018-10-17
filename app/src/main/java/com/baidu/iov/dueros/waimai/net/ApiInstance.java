@@ -1,6 +1,12 @@
 package com.baidu.iov.dueros.waimai.net;
 
+
+import java.io.IOException;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -55,6 +61,18 @@ public class ApiInstance {
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        //set Cookie and Content-Type
+        httpClient.interceptors().add(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request()
+                        .newBuilder()
+                        .addHeader(Config.CONTENT_TYPE_KEY, Config.CONTENT_TYPE_VALUE)
+                        .addHeader(Config.COOKIE_KEY, Config.COOKIE_VALUE)
+                        .build();
+                return chain.proceed(request);
+            }
+        });
         httpClient.addInterceptor(logging);
         return httpClient.build();
     }

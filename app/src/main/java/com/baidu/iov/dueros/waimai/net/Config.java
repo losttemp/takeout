@@ -24,7 +24,7 @@ public class Config {
 
     public static final String APP_KEY ="fordedge";
 
-    public static final String CN ="300000000";
+    public static final String CN ="1002006006";
 
 
     public static final String PREFIX_SIGN ="123456";
@@ -34,5 +34,11 @@ public class Config {
     public static final int Coordinate_Type_GB =2;
 
     public static final int Coordinate_Type_BAIDU =3;
+
+    public static final String COOKIE_VALUE = "BDUSS=test-user";
+    public static final String COOKIE_KEY = "Cookie";
+    public static final String CONTENT_TYPE_KEY = "Content-Type";
+    public static final String CONTENT_TYPE_VALUE = "application/x-www-form-urlencoded; charset=UTF-8";
+
 
 }

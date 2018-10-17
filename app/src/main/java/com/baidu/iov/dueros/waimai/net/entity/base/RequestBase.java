@@ -34,7 +34,7 @@ public class RequestBase {
         this.c = Config.CLIENT_OS;
         this.ak = Config.APP_KEY;
         this.cn = Config.CN;
-        this.av = Build.VERSION.SDK_INT;
+        this.av = Build.VERSION_CODES.HONEYCOMB_MR1;
         this.coordtype = Config.Coordinate_Type_GB;
     }
 
