@@ -26,6 +26,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter.onUiReady(getUi());
     }
 
     @Override

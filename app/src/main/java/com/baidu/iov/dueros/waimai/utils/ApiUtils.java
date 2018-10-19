@@ -8,6 +8,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 
 import java.util.Iterator;
 import java.util.List;
@@ -93,6 +94,17 @@ public class ApiUtils {
         request.uuid = "qa_test_123123";
         request.sign = CommonUtils.sign(request);
         return CommonUtils.getAllFields(request);
+    }
+
+    /**
+     * get store list request
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getStoreList(D request, ApiCallBack<StoreResponse> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getStoreList(requestMap).enqueue(callBack);
     }
 
 }
