@@ -13,7 +13,7 @@ public class WaiMaiApplication extends Application {
         super.onCreate();
         SDKInitializer.initialize(this);
         mLocationUtils = LocationUtils.getInstance(getApplicationContext());
-        mLocationUtils.getLcation(null, null, 2000, true);
+        mLocationUtils.getLcation(null, null, 0, true);
         mLocationUtils.startLocation();
     }
 }
