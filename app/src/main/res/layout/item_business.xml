@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_business"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="2dp"
+        android:src="@mipmap/ic_launcher"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/tv_business_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="百花之缘"
+        android:layout_toRightOf="@id/iv_business"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/tv_business_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_business_name"
+        android:layout_toRightOf="@id/iv_business"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:text="4.5"
+        android:maxLines="1"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_month_sale_nume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_business_name"
+        android:layout_toRightOf="@id/tv_business_score"
+        android:text="月售99"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_min_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_month_sale_nume"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/iv_business"
+        android:text="起送价￥20"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_shipping_fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_month_sale_nume"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@id/tv_min_price"
+        android:text="配送费￥5"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_business_score"
+        android:layout_alignParentRight="true"
+        android:text="1.2km"
+        android:textSize="13sp" />
+    
+    <TextView
+        android:id="@+id/tv_avg_delivery_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_business_score"
+        android:layout_toLeftOf="@id/tv_distance"
+        android:text="30分钟"
+        android:textSize="13sp" />
+    
+</RelativeLayout>

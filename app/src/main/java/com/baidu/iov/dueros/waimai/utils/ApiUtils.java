@@ -3,11 +3,14 @@ package com.baidu.iov.dueros.waimai.utils;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.ApiInstance;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
+import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -64,6 +67,17 @@ public class ApiUtils {
     public static <D extends RequestBase> void getCinemaInfo(D request, ApiCallBack<CinemaInfoResponse> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getCinemaInfo(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * get cinema list request
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getBusinessByLocation(D request, ApiCallBack<Map<String,BusinessBean>> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getBusinessByLocation(requestMap).enqueue(callBack);
     }
 
 

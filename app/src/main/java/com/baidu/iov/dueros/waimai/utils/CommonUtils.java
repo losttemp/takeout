@@ -64,7 +64,11 @@ public class CommonUtils {
                     continue;
                 }
                 String attr = getFieldValueByFieldName(fieldName, request, clazz);
-                map.put(fieldName, attr);
+                if (attr == null) {
+                    continue;
+                }
+                    map.put(fieldName, attr);
+                 
             }
             fieldList.addAll(list);
             clazz = clazz.getSuperclass();
