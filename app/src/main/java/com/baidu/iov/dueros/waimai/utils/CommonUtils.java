@@ -73,7 +73,7 @@ public class CommonUtils {
                 if (attr == null) {
                     continue;
                 }
-                map.put(fieldName, attr);
+                    map.put(fieldName, attr);
             }
             fieldList.addAll(list);
             clazz = clazz.getSuperclass();
