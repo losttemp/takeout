@@ -24,6 +24,9 @@ public class HomeModel implements IHomeModel {
 			return;
 		}
 
+		storeReq.setLongitude(95369826);
+		storeReq.setLatitude(29735952);
+
 		ApiUtils.getStoreList(storeReq, new ApiCallBack<StoreResponse>() {
 			@Override
 			public void onSuccess(StoreResponse data) {

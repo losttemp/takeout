@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
@@ -7,15 +8,20 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.baidu.iov.dueros.waimai.adapter.SearchHistroyAdapter;
 import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
+import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
 
 import java.util.ArrayList;
@@ -56,6 +62,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 			ArrayList<>();
 	private StoreReq mStoreReq;
 	SortPopWindow mSortPopWindow;
+	private List<String> mHistorys;
+	private SearchHistroyAdapter mSearchHistroyAdapter;
 
 	@Override
 	HomePresenter createPresenter() {
@@ -111,20 +119,37 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mRvStore.setAdapter(mStoreAdaper);
 
 		mStoreReq = new StoreReq();
-		mStoreReq.setLongitude(95369826);
-		mStoreReq.setLatitude(29735952);
 
+		//search history
+		mHistorys = new ArrayList<>();
+		SharedPreferencesUtils.getSearchHistory(HomeActivity.this, mHistorys);
+		mSearchHistroyAdapter = new SearchHistroyAdapter(mHistorys,
+				HomeActivity.this);
+		mLvHistory.setAdapter(mSearchHistroyAdapter);
+
+		setSearchEditTextListener();
 		mEtSearch.setOnClickListener(this);
 		mTvSort.setOnClickListener(this);
 		mTvSales.setOnClickListener(this);
 		mTvDistance.setOnClickListener(this);
+		mTvSearch.setOnClickListener(this);
+		mIvBack.setOnClickListener(this);
+		mIvDelete.setOnClickListener(this);
+
+		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				searchKeyword(mHistorys.get(position));
+			}
+		});
+
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.et_search:
-
+				showSearchPage();
 				break;
 
 			case R.id.tv_sort:
@@ -142,6 +167,20 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 			case R.id.tv_distance:
 				mStoreReq.setSortType(PRICE_SORT_INDEX);
 				getPresenter().requestStoreList(mStoreReq);
+				break;
+
+			case R.id.tv_search:
+				String keyWord = mEtSearch.getText().toString();
+				searchKeyword(keyWord);
+				break;
+
+			case R.id.iv_delete:
+				SharedPreferencesUtils.clearSearchHistory(HomeActivity.this);
+				mSearchHistroyAdapter.notifyDataSetChanged();
+				break;
+
+			case R.id.iv_back:
+				onSearchBack();
 				break;
 
 			default:
@@ -162,9 +201,71 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 	}
 
+	private void setSearchEditTextListener() {
+
+		mEtSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View view, boolean b) {
+				if (b) {
+					showSearchPage();
+				}
+			}
+		});
+
+	}
+
+	private void showSearchPage() {
+		mIvBack.setVisibility(View.VISIBLE);
+		mTvSearch.setVisibility(View.VISIBLE);
+		mLlHistory.setVisibility(View.VISIBLE);
+		mTvLocation.setVisibility(View.GONE);
+		mLlBottom.setVisibility(View.GONE);
+		mLlType.setVisibility(View.GONE);
+	}
+
+	private void searchKeyword(String keyword) {
+		mStoreReq.setSortType(null);
+		if (!TextUtils.isEmpty(keyword)) {
+
+			mStoreReq.setKeyword(keyword);
+			mEtSearch.setText("");
+			SharedPreferencesUtils.saveSearchHistory(HomeActivity.this, keyword,
+					mHistorys);
+			mSearchHistroyAdapter.notifyDataSetChanged();
+		}
+		mLlHistory.setVisibility(View.GONE);
+		mTvSearch.setVisibility(View.GONE);
+		getPresenter().requestStoreList(mStoreReq);
+		hideSoftKeyboard();
+	}
+
+	private void hideSoftKeyboard() {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context
+				.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+	}
+
 	public void setSortType(int position) {
 		mStoreReq.setSortType(position);
 		mTvSort.setText(getResources().getStringArray(R.array.sort_type)[position]);
 		getPresenter().requestStoreList(mStoreReq);
+	}
+
+	private void onSearchBack() {
+		mIvBack.setVisibility(View.GONE);
+		mTvSearch.setVisibility(View.GONE);
+		mLlHistory.setVisibility(View.GONE);
+		mTvLocation.setVisibility(View.VISIBLE);
+		mLlBottom.setVisibility(View.VISIBLE);
+		mLlType.setVisibility(View.VISIBLE);
+		mStoreReq.setKeyword(null);
+		getPresenter().requestStoreList(mStoreReq);
+		hideSoftKeyboard();
+	}
+
+	@Override
+	public void onBackPressed() {
+//		super.onBackPressed();
+		onSearchBack();
 	}
 }
