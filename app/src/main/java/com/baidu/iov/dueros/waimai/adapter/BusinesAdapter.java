@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.ui.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
+import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -53,18 +54,27 @@ public class BusinesAdapter extends BaseAdapter {
             viewHolder.tvShippingFee= convertView.findViewById(R.id.tv_shipping_fee);
             viewHolder.tvDistance= convertView.findViewById(R.id.tv_distance);
             viewHolder.tvAvgDeliveryTime= convertView.findViewById(R.id.tv_avg_delivery_time);
-
+            viewHolder.tvAveragePrice= convertView.findViewById(R.id.tv_average_price);
+            viewHolder.ratingBar = convertView.findViewById(R.id.ratingBar);
+            convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
         BusinessBean.Business.OpenPoiBaseInfo mOpenPoiBaseInfo = mData.get(position);
         viewHolder.tvBusinessName.setText(mOpenPoiBaseInfo.getName());
         viewHolder.tvBusinessScore.setText(""+mOpenPoiBaseInfo.getWmPoiScore());
-        viewHolder.tvMonthSaleNume.setText(mOpenPoiBaseInfo.getMonthSaleNum());
-        viewHolder.tvMinPrice.setText(""+mOpenPoiBaseInfo.getMinPrice()); 
-        viewHolder.tvShippingFee.setText(""+mOpenPoiBaseInfo.getShippingFee());
+        viewHolder.tvMonthSaleNume.setText(String.format(mContext.getResources().getString(R.string
+                .month_sale_num), mOpenPoiBaseInfo.getMonthSaleNum()));
+        viewHolder.tvMinPrice.setText(String.format(mContext.getResources().getString(R.string
+                .min_price),mOpenPoiBaseInfo.getMinPrice())); 
+        viewHolder.tvShippingFee.setText(String.format(mContext.getResources().getString(R.string
+                .shipping_fee),mOpenPoiBaseInfo.getShippingFee()));
         viewHolder.tvDistance.setText(mOpenPoiBaseInfo.getDistance());
-        viewHolder.tvAvgDeliveryTime.setText(mOpenPoiBaseInfo.getAvgDeliveryTime());
+        viewHolder.tvAvgDeliveryTime.setText(String.format(mContext.getResources().getString(R.string
+                .delivery_time),mOpenPoiBaseInfo.getAvgDeliveryTime()));
+        viewHolder.tvAveragePrice.setText(""+mOpenPoiBaseInfo.getAveragePriceTip());
+        viewHolder.ratingBar.setClickable(false);
+        viewHolder.ratingBar.setStar((float) mOpenPoiBaseInfo.getWmPoiScore());
         Glide.with(mContext).load(mOpenPoiBaseInfo.getPicUrl()).into(viewHolder.ivBusiness);
         
         return convertView;
@@ -81,6 +91,7 @@ public class BusinesAdapter extends BaseAdapter {
         private TextView tvShippingFee;
         private TextView tvDistance;
         private TextView tvAvgDeliveryTime;
-       
+        private TextView tvAveragePrice;
+        private RatingBar ratingBar;
     }
 }

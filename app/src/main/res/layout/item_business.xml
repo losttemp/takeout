@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:background="@color/white">
 
     <ImageView
         android:id="@+id/iv_business"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="2dp"
         android:src="@mipmap/ic_launcher"
@@ -17,20 +18,35 @@
         android:id="@+id/tv_business_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="百花之缘"
+        android:text="@string/all"
         android:layout_toRightOf="@id/iv_business"
         android:textSize="16sp" />
 
+
+    <com.baidu.iov.dueros.waimai.view.RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_below="@id/tv_business_name"
+        android:layout_toRightOf="@id/iv_business"
+        app:starCount="5"
+        app:starEmpty="@mipmap/rating_small_empty"
+        app:starFill="@mipmap/rating_small_full"
+        app:starHalf="@mipmap/rating_small_half"
+        app:starImageSize="15dp"
+        app:starPadding="1dp"
+        app:starStep="3.5"
+        app:stepSize="Half" />
 
     <TextView
         android:id="@+id/tv_business_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_business_name"
-        android:layout_toRightOf="@id/iv_business"
+        android:layout_toRightOf="@id/ratingBar"
         android:layout_marginRight="10dp"
         android:ellipsize="end"
-        android:text="4.5"
         android:maxLines="1"
         android:textSize="13sp" />
 
@@ -40,7 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_business_name"
         android:layout_toRightOf="@id/tv_business_score"
-        android:text="月售99"
         android:textSize="13sp" />
 
     <TextView
@@ -50,7 +65,6 @@
         android:layout_below="@id/tv_month_sale_nume"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/iv_business"
-        android:text="起送价￥20"
         android:textSize="13sp" />
 
     <TextView
@@ -61,7 +75,16 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:layout_toRightOf="@id/tv_min_price"
-        android:text="配送费￥5"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_average_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_month_sale_nume"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@id/tv_shipping_fee"
         android:textSize="13sp" />
 
     <TextView
@@ -70,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/tv_business_score"
         android:layout_alignParentRight="true"
-        android:text="1.2km"
+        android:layout_marginRight="3dp"
         android:textSize="13sp" />
     
     <TextView
@@ -79,7 +102,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/tv_business_score"
         android:layout_toLeftOf="@id/tv_distance"
-        android:text="30分钟"
         android:textSize="13sp" />
     
 </RelativeLayout>

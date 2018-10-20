@@ -70,37 +70,25 @@ public class BusinessBean {
                 '}';
     }
 
-    /**
-     * 商家信息
-     */
+  
     public static class Business {
-        /**
-         * 符合搜索的商家总数
-         */
+        
         @Expose
         @SerializedName("poi_total_num")
         private int poiTotalNum;
-        /**
-         * 是否有下一页
-         */
+       
         @Expose
         @SerializedName("have_next_page")
         private int haveNextPage;
-        /**
-         * 当前页号
-         */
+        
         @Expose
         @SerializedName("current_page_index")
         private int currentPageIndex;
-        /**
-         * 每页数量
-         */
+        
         @Expose
         @SerializedName("page_size")
         private int pageSize;
-        /**
-         * 商家列表
-         */
+        
         @Expose
         @SerializedName("openPoiBaseInfoList")
         private List<OpenPoiBaseInfo> openPoiBaseInfoList;
@@ -156,149 +144,100 @@ public class BusinessBean {
                     '}';
         }
 
-        /**
-         * 商家信息
-         */
+      
         public static class OpenPoiBaseInfo {
 
-            /**
-             * 商家ID
-             */
+          
             @Expose
             @SerializedName("wm_poi_id")
             private long wmPoiId;
 
-            /**
-             * 营业状态 1:可配送 2:忙碌中 3:休息中
-             */
             @Expose
             @SerializedName("status")
             private int status;
 
-            /**
-             * 营业状态描述
-             */
+           
             @Expose
             @SerializedName("status_desc")
             private String statusDesc;
 
-            /**
-             * 商家名字
-             */
+          
             @Expose
             @SerializedName("name")
             private String name;
 
-            /**
-             * 商家图标
-             */
+           
             @Expose
             @SerializedName("pic_url")
             private String picUrl;
 
-            /**
-             * 配送费
-             */
+           
             @Expose
             @SerializedName("shipping_fee")
             private double shippingFee;
 
-            /**
-             * 起送价
-             */
+           
             @Expose
             @SerializedName("min_price")
             private double minPrice;
 
-            /**
-             * 商家评分
-             */
+           
             @Expose
             @SerializedName("wm_poi_score")
             private double wmPoiScore;
 
-            /**
-             * 平均配送时间
-             */
+           
             @Expose
             @SerializedName("avg_delivery_time")
             private int avgDeliveryTime;
-
-            /**
-             * 我和商家的距离
-             */
+            
             @Expose
             @SerializedName("distance")
             private String distance;
-
-            /**
-             * 商家位置经度
-             */
+            
             @Expose
             @SerializedName("longitude")
             private int longitude;
-
-
-            /**
-             * 商家位置纬度
-             */
+            
             @Expose
             @SerializedName("latitude")
             private int latitude;
-            /**
-             * 商家地址
-             */
+        
             @Expose
             @SerializedName("address")
             private String address;
-            /**
-             * 月售
-             */
+          
             @Expose
             @SerializedName("month_sale_num")
             private int monthSaleNum;
-            /**
-             * 配送类型，1:美团专送，0:非美团专送
-             */
+          
             @Expose
             @SerializedName("delivery_type")
             private int deliveryType;
-            /**
-             * 是否支持开发票，1:支持 0:不支持
-             */
+            
             @Expose
             @SerializedName("invoice_support")
             private int invoiceSupport;
 
-            /**
-             * 是否支持开发票，1:支持 0:不支持
-             */
+            
             @Expose
             @SerializedName("invoice_min_price")
             private int invoiceMinPrice;
-            /**
-             * 人均价格展示文案
-             */
+           
             @Expose
             @SerializedName("average_price_tip")
             private String averagePriceTip;
 
-            /**
-             * 商家图片角标url
-             */
+            
             @Expose
             @SerializedName("poi_type_icon")
             private String poiTypeIcon;
-            /**
-             * 门店信息列表
-             */
+            
             @Expose
             @SerializedName("discounts")
             private List<Discount> discounts;
 
-            /**
-             * 菜品列表，搜索时有
-             */
+            
             @Expose
             @SerializedName("product_list")
             private List<Product> productList;
@@ -498,21 +437,15 @@ public class BusinessBean {
                         '}';
             }
 
-            /**
-             * 门店信息
-             */
+            
             public static class Discount {
 
-                /**
-                 * 活动描述文案
-                 */
+                
                 @Expose
                 @SerializedName("info")
                 private String info;
 
-                /**
-                 * 活动图标url
-                 */
+               
                 @Expose
                 @SerializedName("icon_url")
                 private String iconUrl;
@@ -542,34 +475,24 @@ public class BusinessBean {
                 }
             }
 
-            /**
-             * 菜品
-             */
+           
             public static class Product {
-                /**
-                 * 商品ID
-                 */
+               
                 @Expose
                 @SerializedName("id")
                 private long id;
 
-                /**
-                 * 商品名称
-                 */
+               
                 @Expose
                 @SerializedName("name")
                 private String name;
 
-                /**
-                 * 价格
-                 */
+               
                 @Expose
                 @SerializedName("price")
                 private double price;
 
-                /**
-                 * 菜品图片
-                 */
+               
                 @Expose
                 @SerializedName("picture")
                 private String picture;

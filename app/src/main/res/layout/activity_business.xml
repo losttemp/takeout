@@ -1,44 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_bg"
     android:orientation="vertical" >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <Button android:id="@+id/btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
+            android:layout_margin="10dp"
+            android:background="@mipmap/back"
             />
-
-        <TextView android:id="@+id/txt"
+        <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="鲜花预定"/>
+            android:text="@string/stroe_type_flower"/>
 
-      
-       
     </RelativeLayout>
 
-    
+    <RelativeLayout
+        android:id="@+id/line_search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:animateLayoutChanges="true"
+        android:background="@color/white_88"
+        android:focusable="true"
+        android:layout_margin="5dp"
+        android:focusableInTouchMode="true">
 
-    <com.baidu.iov.dueros.waimai.view.DropDownMenu 
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/dropDownMenu"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:ddmaskColor="@color/mask_color"
-    app:ddmenuBackgroundColor="@android:color/white"
-    app:ddmenuMenuHeightPercent="0.5"
-    app:ddmenuSelectedIcon="@drawable/drop_down_selected_icon"
-    app:ddmenuTextSize="13sp"
-    app:ddmenuUnselectedIcon="@drawable/drop_down_unselected_icon"
-    app:ddtextSelectedColor="@color/drop_down_selected"
-    app:ddtextUnselectedColor="@color/drop_down_unselected" />
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:scaleType="centerInside" />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/iv_search"
+            android:layout_toRightOf="@+id/iv_search"
+            android:gravity="center_vertical"
+            android:background="@drawable/shape_list_search_bg"
+            android:drawableLeft="@mipmap/search_bar"
+            android:hint="@string/search_hint_text"
+            android:padding="8dp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="14sp"
+            tools:ignore="RtlHardcoded" />
+    </RelativeLayout>
+
+   
+    <RelativeLayout
+        android:id="@+id/Rl_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_type"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_conditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="15dp"
+            android:drawableRight="@mipmap/arrow_down"
+            android:padding="5dp"
+            android:text="@string/store_sort"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_sales"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@id/tv_conditions"
+            android:padding="5dp"
+            android:text="@string/store_sales"
+            android:textColor="@color/gray"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@id/tv_sales"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/store_distance"
+            android:textColor="@color/gray"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@mipmap/arrow_down"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="3dp"
+            android:padding="5dp"
+            android:text="@string/store_filter"
+            android:textColor="@color/gray"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+
+   
+    <ListView
+        android:id="@+id/lv_business"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/black"
+        android:dividerHeight="1dp"/>
 
 </LinearLayout>

@@ -1,80 +1,52 @@
 package com.baidu.iov.dueros.waimai.net.entity.request;
 
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
-
 import java.util.Objects;
 
 /**
- * 获取商家列表所需参数
  *
  * @author ping
  * @date 2018/10/16
  */
 public class PoilistReq extends RequestBase {
+    
+    public final static String KEYWORD="keyword";
 
-    /**
-     * 用户当前经度
-     */
+    public final static String SORTTYPE="sortType";
+
+    public final static String PAGEINDEX="pageIndex";
+    
+
+    public static final int BEST_SORT_INDEX = 0;
+    public static final int SALE_NUM_SORT_INDEX = 1;
+    public static final int PRICE_SORT_INDEX = 5;
+    
+    
+    
     private int longitude;
-
-
-    /**
-     * 用户当前纬度
-     */
+    
     private int latitude;
-
-
-    /**
-     * 关键词
-     */
+    
     private String keyword;
-
-
-    /**
-     * 排列方式 0:综合排序 1:月销量从高到低 2:配送速度从快到慢 3:外卖评分从高到低 4:起送价从低到高 5:距离从近到远 6:配送费从低到高 7:人均从低到高 8:人均从高到低
-     */
+    
     private int  sortType=0;
-
-
-    /**
-     * 页号 如果不填,默认第一页
-     */
+    
     private int pageIndex=1;
-
-    /**
-     * 每页数量 不可超过20
-     */
+    
     private int  pageSize=20;
-
-    /**
-     * 最小均价，不传默认0
-     */
+    
     private int minPrice=0;
-    /**
-     * 最大均价，不传默认999；
-     */
+   
     private int maxPrice=999;
-    /**
-     *均价的code，此值从/common/getFilterConditions 获取筛选栏接口获得；minPrice、maxPrice都不传或者不传priceCode，则不筛选均价
-     */
+    
     private String  priceCode;
-
-    /**
-     * 逗号分隔int组成的string，除均价外的筛选项
-     */
+    
     private String migFilter;
-
-    /**
-     * 金刚code
-     */
+    
     private int navigateType=0;
-    /**
-     * 一级品类
-     */
+    
     private int categoryType;
-    /**
-     * 二级品类
-     */
+   
     private int secondCategoryType;
 
     public PoilistReq() {

@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
@@ -135,6 +136,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mTvSearch.setOnClickListener(this);
 		mIvBack.setOnClickListener(this);
 		mIvDelete.setOnClickListener(this);
+        mTvFlower.setOnClickListener(this);
+        mTvCake.setOnClickListener(this);
 
 		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -182,6 +185,17 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 			case R.id.iv_back:
 				onSearchBack();
 				break;
+
+            case R.id.tv_flower:
+                Intent flowerIntent=new Intent(this,BusinessActivity.class);
+                flowerIntent.putExtra("title",mTvFilter.getText().toString());
+                startActivity(flowerIntent);
+                break;
+            case R.id.tv_cake:
+                Intent cakeIntent=new Intent(this,BusinessActivity.class);
+                cakeIntent.putExtra("title",mTvCake.getText().toString());
+                startActivity(cakeIntent);
+                break;
 
 			default:
 				break;
