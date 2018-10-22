@@ -279,7 +279,10 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 	@Override
 	public void onBackPressed() {
-//		super.onBackPressed();
-		onSearchBack();
+		if (mIvBack.getVisibility() == View.GONE) {
+			super.onBackPressed();
+		} else {
+			onSearchBack();
+		}
 	}
 }

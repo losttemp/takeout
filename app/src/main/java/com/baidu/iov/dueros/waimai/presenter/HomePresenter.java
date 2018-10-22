@@ -34,12 +34,16 @@ public class HomePresenter extends Presenter<HomePresenter.HomeUi> {
 		mModel.requestStoreList(storeReq, new RequestCallback<StoreResponse>() {
 			@Override
 			public void onSuccess(StoreResponse data) {
-				getUi().update(data);
+				if (getUi() != null) {
+					getUi().update(data);
+				}
 			}
 
 			@Override
 			public void onFailure(String error) {
-				getUi().failure(error);
+				if (getUi() != null) {
+					getUi().failure(error);
+				}
 			}
 		});
 	}

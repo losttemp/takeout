@@ -29,6 +29,9 @@ public class CommonUtils {
         for (Map.Entry<String, String> entry : map.entrySet()) {
             if (entry.getValue() != null) {
                 try {
+					if ("sign".equals(entry.getKey())) {
+						continue;
+					}
                     dataStr.append(entry.getKey() + "=" + URLEncoder.encode(entry.getValue(),"utf-8"));
                 } catch (UnsupportedEncodingException e) {
                     return "sign error!";
