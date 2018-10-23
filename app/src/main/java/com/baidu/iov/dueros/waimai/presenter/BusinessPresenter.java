@@ -1,4 +1,5 @@
 package com.baidu.iov.dueros.waimai.presenter;
+import android.content.Context;
 import android.util.ArrayMap;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
@@ -15,6 +16,21 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
     private static final String TAG = BusinessPresenter.class.getSimpleName();
 
     private IBusinessModel mBusinessModel;
+
+    @Override
+    public void onCommandCallback(String cmd, String extra) {
+
+    }
+
+    @Override
+    public void registerCmd(Context context) {
+
+    }
+
+    @Override
+    public void unregisterCmd(Context context) {
+
+    }
 
     public BusinessPresenter() {
         this.mBusinessModel = new BusinessModel();

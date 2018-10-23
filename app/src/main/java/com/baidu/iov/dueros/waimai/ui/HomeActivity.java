@@ -86,7 +86,19 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		getPresenter().requestStoreList(mStoreReq);
 	}
 
-	private void iniView() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().registerCmd(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getPresenter().unregisterCmd(this);
+    }
+
+    private void iniView() {
 		mTvLocation = (AppCompatTextView) findViewById(R.id.tv_location);
 		mRlSearch = (RelativeLayout) findViewById(R.id.rl_search);
 		mIvBack = (AppCompatImageView) findViewById(R.id.iv_back);
@@ -210,10 +222,15 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mStoreAdaper.notifyDataSetChanged();
 	}
 
-	@Override
-	public void failure(String error) {
+    @Override
+    public void failure(String msg) {
 
-	}
+    }
+
+    @Override
+    public void close() {
+        finish();
+    }
 
 	private void setSearchEditTextListener() {
 

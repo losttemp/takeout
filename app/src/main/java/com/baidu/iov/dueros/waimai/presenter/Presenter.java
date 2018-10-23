@@ -2,9 +2,12 @@
 
 package com.baidu.iov.dueros.waimai.presenter;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+
 import java.lang.ref.SoftReference;
 
 /**
@@ -13,7 +16,28 @@ import java.lang.ref.SoftReference;
 public abstract class Presenter<U extends Ui> {
 
     private SoftReference<U> mUi;
+    protected VoiceManager mVoiceManager;
 
+    protected VoiceManager.CmdCallback mVoiceCallback;
+
+    public abstract void onCommandCallback(String cmd, String extra);
+    public abstract void registerCmd(Context context);
+    public abstract void unregisterCmd(Context context);
+
+    public Presenter() {
+        if (null == mVoiceManager) {
+            mVoiceManager = VoiceManager.getInstance();
+        }
+        if (null == mVoiceCallback) {
+            mVoiceCallback = new VoiceManager.CmdCallback(){
+
+                @Override
+                public void onCmdCallback(String cmd, String extra) {
+                    onCommandCallback(cmd, extra);
+                }
+            };
+        }
+    }
     /**
      *
      * @param ui The Ui implementation that is now ready to be used.

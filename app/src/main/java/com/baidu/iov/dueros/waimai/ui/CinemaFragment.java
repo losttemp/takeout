@@ -174,8 +174,15 @@ public class CinemaFragment extends BaseFragment<CinemaPresenter, CinemaPresente
     @Override
     public void onResume() {
         super.onResume();
-
         getPresenter().requestData(null);
+        getPresenter().registerCmd(getContext());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Lg.getInstance().d(TAG, "onPause getPresenter().unregisterCmd");
+        getPresenter().unregisterCmd(getContext());
     }
 
     @Override
@@ -218,10 +225,15 @@ public class CinemaFragment extends BaseFragment<CinemaPresenter, CinemaPresente
     }
 
     @Override
-    public void onError(String error) {
+    public void failure(String msg) {
         mCinemaAdapter.setData(null);
-//        mAreaAdapter.setData(null);
-//        mBrandAdapter.setData(null);
+    }
+
+    @Override
+    public void close() {
+        if (null != getActivity()) {
+            getActivity().finish();
+        }
     }
 
     private CinemaBean addFirstItem(CinemaBean cinemaBean) {
