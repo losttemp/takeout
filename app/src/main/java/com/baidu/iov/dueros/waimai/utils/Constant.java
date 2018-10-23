@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.utils;
 
 public class Constant {
 
+    public static final boolean LEAKCANARY_DEBUG = true;
     public static final String AREA_ID = "areaId";
     public static final String AOI_ID = "aoiId";
     public static final String BRAND_ID = "brandId";
