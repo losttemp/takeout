@@ -4,11 +4,10 @@ import android.app.Application;
 
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.LeakCanaryUtils;
-import com.baidu.iov.dueros.waimai.utils.LocationUtils;
+import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.mapapi.SDKInitializer;
 
 public class WaiMaiApplication extends Application {
-    public static LocationUtils mLocationUtils = null;
 
     @Override
     public void onCreate() {
@@ -17,8 +16,8 @@ public class WaiMaiApplication extends Application {
             new LeakCanaryUtils().install(this);
         }
         SDKInitializer.initialize(this);
-        mLocationUtils = LocationUtils.getInstance(getApplicationContext());
-        mLocationUtils.getLcation(null, null, 0, true);
-        mLocationUtils.startLocation();
+        LocationManager locationManager = LocationManager.getInstance(getApplicationContext());
+        locationManager.initLocationClient(null, null, 0, true);
+        locationManager.startLocation();
     }
 }

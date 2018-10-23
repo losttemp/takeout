@@ -1,0 +1,167 @@
+package com.baidu.iov.dueros.waimai.utils;
+
+import android.content.Context;
+import android.text.TextUtils;
+
+import com.baidu.iov.dueros.waimai.bean.LocationBean;
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+
+public class LocationManager {
+    public static final int SPAN = 1000;
+    public static final int TypeGpsLocation = 61;
+    public static final int TypeCriteriaException = 62;
+    public static final int TypeNetWorkException = 63;
+    public static final int TypeNetGps = 65;
+    public static final int TypeOffLineLocation = 66;
+    public static final int TypeOffLineLocationFail = 67;
+    public static final int TypeOffLineLocationNetworkFail = 68;
+    public static final int TypeNetWorkLocation = 161;
+    public static final int TypeServerError = 167;
+    public static final int TypeServerDecryptError = 162;
+    public static final int TypeCheckKeyError = 502;
+    public static final int TypeServerCheckKeyError = 505;
+    public static final int TypeServerCheckKeyUnUsed = 601;
+    public static final int TypeServerCheckSHA = 602;
+
+    private Context context;
+    private LocationClient mLocationClient;
+    private static final String TAG = LocationManager.class.getSimpleName();
+
+    private static LocationManager mInstance = null;
+    private static LocationBean mLocationBean;
+
+    private LocationManager(Context context) {
+        this.context = context;
+        this.mLocationBean = new LocationBean();
+    }
+
+    public static LocationManager getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new LocationManager(context);
+        }
+        return mInstance;
+    }
+
+    public LocationBean getLocationBean() {
+        return mLocationBean;
+    }
+
+    public void startLocation() {
+        mLocationClient.requestLocation();
+        if ((mLocationClient != null) && !mLocationClient.isStarted()) {
+            mLocationClient.start();
+        }
+    }
+
+    public void restartLocation() {
+        if ((mLocationClient != null) && !mLocationClient.isStarted()) {
+            mLocationClient.restart();
+        }
+    }
+
+    public void stopLocation() {
+        if ((mLocationClient != null) && mLocationClient.isStarted()) {
+            mLocationClient.stop();
+            mLocationClient = null;
+            mLocationClient.unRegisterLocationListener(myListener);
+        }
+    }
+
+    public void initLocationClient(LocationClientOption.LocationMode locationMode, String coorType,
+                                   int ScanSpan, boolean GPSFlag) {
+        mLocationClient = new LocationClient(context);
+        LocationClientOption option = initLocationClientOption(locationMode,
+                coorType, ScanSpan, GPSFlag);
+        mLocationClient.registerLocationListener(myListener);
+        mLocationClient.setLocOption(option);
+    }
+
+    public void requestLocation() {
+        if (mLocationClient != null && mLocationClient.isStarted()) {
+            mLocationClient.requestLocation();
+        }
+    }
+
+    private LocationClientOption initLocationClientOption(
+            LocationClientOption.LocationMode locationMode, String coorType, int ScanSpan,
+            boolean GPSFlag) {
+        LocationClientOption option = new LocationClientOption();
+        option.setPriority(LocationClientOption.GpsOnly);
+        if (TextUtils.isEmpty(coorType)) {
+            option.setCoorType("bd09ll");
+        } else {
+            option.setCoorType(coorType);
+        }
+        option.setScanSpan(ScanSpan);
+        option.setIsNeedAddress(true);
+        option.setOpenGps(true);
+        option.setLocationNotify(true);
+        option.setIsNeedLocationDescribe(true);
+        option.setIsNeedLocationPoiList(true);
+        option.setIgnoreKillProcess(false);
+        option.SetIgnoreCacheException(false);
+        option.setEnableSimulateGps(false);
+        return option;
+    }
+
+
+    BDAbstractLocationListener myListener = new BDAbstractLocationListener() {
+        @Override
+        public void onLocDiagnosticMessage(int i, int i1, String s) {
+            super.onLocDiagnosticMessage(i, i1, s);
+            Lg.getInstance().d(TAG, "onLocDiagnosticMessage");
+        }
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            Lg.getInstance().d(TAG, "onReceiveLocation");
+            if (locationCallBack != null && location != null) {
+                mLocationBean = new LocationBean();
+                switch (location.getLocType()) {
+                    case TypeGpsLocation:
+                    case TypeOffLineLocation:
+                    case TypeNetWorkLocation:
+                        mLocationBean.setSuccess(true);
+                        mLocationBean.setLat(location.getLatitude());
+                        mLocationBean.setLng(location.getLongitude());
+                        mLocationBean.setCity(location.getCity());
+                        mLocationBean.setAddr(location.getAddrStr());
+                        break;
+                    case TypeCriteriaException:
+                    case TypeNetWorkException:
+                    case TypeNetGps:
+                    case TypeOffLineLocationFail:
+                    case TypeOffLineLocationNetworkFail:
+                    case TypeServerDecryptError:
+                    case TypeServerError:
+                    case TypeCheckKeyError:
+                    case TypeServerCheckKeyError:
+                    case TypeServerCheckKeyUnUsed:
+                    case TypeServerCheckSHA:
+                        mLocationBean.setSuccess(false);
+                    default:
+                        break;
+                }
+                locationCallBack.locationCallBack(mLocationBean);
+            }
+            mLocationClient.stop();
+        }
+    };
+
+    private LocationCallBack locationCallBack;
+
+    public interface LocationCallBack {
+        void locationCallBack(LocationBean locationBean);
+    }
+
+    public void setLocationCallBack(LocationCallBack locationCallBack) {
+        this.locationCallBack = locationCallBack;
+    }
+
+    public BDLocation getLastKnownLocation() {
+        return mLocationClient.getLastKnownLocation();
+    }
+}
