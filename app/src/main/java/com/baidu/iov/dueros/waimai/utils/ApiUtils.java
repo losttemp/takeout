@@ -10,6 +10,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 
 import java.util.Iterator;
 import java.util.List;
@@ -29,17 +30,19 @@ public class ApiUtils {
 
     /**
      * get city list request
+     *
      * @param request
      * @param callBack
      * @param <D>
      */
-    public static <D extends RequestBase>  void getCityList( D request, ApiCallBack<CityListResponse> callBack) {
+    public static <D extends RequestBase> void getCityList(D request, ApiCallBack<CityListResponse> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getCityList(requestMap).enqueue(callBack);
     }
 
     /**
      * get city by location request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -51,6 +54,7 @@ public class ApiUtils {
 
     /**
      * get cinema list request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -62,6 +66,7 @@ public class ApiUtils {
 
     /**
      * get cinema list request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -73,11 +78,12 @@ public class ApiUtils {
 
     /**
      * get cinema list request
+     *
      * @param request
      * @param callBack
      * @param <D>
      */
-    public static <D extends RequestBase> void getBusinessByLocation(D request, ApiCallBack<Map<String,BusinessBean>> callBack) {
+    public static <D extends RequestBase> void getBusinessByLocation(D request, ApiCallBack<Map<String, BusinessBean>> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getBusinessByLocation(requestMap).enqueue(callBack);
     }
@@ -99,6 +105,7 @@ public class ApiUtils {
 
     /**
      * get store list request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -110,6 +117,7 @@ public class ApiUtils {
 
     /**
      * get filterConditions list request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -119,4 +127,15 @@ public class ApiUtils {
         ApiInstance.getApi().getFilterConditions(requestMap).enqueue(callBack);
     }
 
+    /**
+     * get order list request
+     *
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getOrderList(D request, ApiCallBack<OrderListResponse> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getOrderList(requestMap).enqueue(callBack);
+    }
 }
