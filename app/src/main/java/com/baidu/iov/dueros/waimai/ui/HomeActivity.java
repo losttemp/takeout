@@ -150,7 +150,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mIvDelete.setOnClickListener(this);
         mTvFlower.setOnClickListener(this);
         mTvCake.setOnClickListener(this);
-
+		mTvFood.setOnClickListener(this);
 		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -200,7 +200,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
             case R.id.tv_flower:
                 Intent flowerIntent=new Intent(this,BusinessActivity.class);
-                flowerIntent.putExtra("title",mTvFilter.getText().toString());
+                flowerIntent.putExtra("title",mTvFlower.getText().toString());
                 startActivity(flowerIntent);
                 break;
             case R.id.tv_cake:
@@ -208,7 +208,11 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
                 cakeIntent.putExtra("title",mTvCake.getText().toString());
                 startActivity(cakeIntent);
                 break;
-
+			case R.id.tv_food:
+				Intent foodIntent=new Intent(this,FoodActivity.class);
+				foodIntent.putExtra("title",mTvFlower.getText().toString());
+				startActivity(foodIntent);
+				break;
 			default:
 				break;
 		}

@@ -27,6 +27,8 @@
 	<string name="delivery_time">%d分钟</string>
 	<string name="min_price">起送￥%.2f</string>
 	<string name="shipping_fee">配送￥%.2f</string>
+	<string name="flower">鲜花</string>
+	<string name="cake">蛋糕</string>
 
 	<string-array name="tab_filters">
 		<item>全城</item>

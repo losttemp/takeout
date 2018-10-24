@@ -26,7 +26,7 @@
 		</activity>
 
 		<activity android:name=".BusinessActivity"></activity>
-	
+		<activity android:name=".FoodActivity"></activity>
 		
 		<!--BaiDu SDK-->
 		<meta-data

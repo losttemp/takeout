@@ -6,7 +6,9 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.BusinessModel;
 import com.baidu.iov.dueros.waimai.model.IBusinessModel;
+import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import java.util.Map;
@@ -42,12 +44,12 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
         mBusinessModel.onReady();
     }
 
-    public void requestData(ArrayMap<String, String> map) {
-        mBusinessModel.requestBusinessBean(map,new RequestCallback<Map<String,BusinessBean>>(){
+    public void requestFilterConditions(FilterConditionsReq filterConditionsReq) {
+        mBusinessModel.requestFilterConditions(filterConditionsReq, new RequestCallback<FilterConditionsResponse>() {
             @Override
-            public void onSuccess(Map<String,BusinessBean> data) {
+            public void onSuccess(FilterConditionsResponse data) {
                 if ( getUi()!=null) {
-                    getUi().onSuccess(data);
+                    getUi().onFilterConditionsSuccess(data);
                 }
                 Lg.getInstance().e(TAG,"msg:"+data);
             }
@@ -55,12 +57,33 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
             @Override
             public void onFailure(String msg) {
                 if ( getUi()!=null) {
-                    getUi().onError(msg);
+                    getUi().onFilterConditionsError(msg);
                 }
                 Lg.getInstance().e(TAG,"msg:"+msg);
             }
         });
     }
+
+    public void requestBusinessBean(ArrayMap<String, String> map) {
+        mBusinessModel.requestBusinessBean(map,new RequestCallback<Map<String,BusinessBean>>(){
+            @Override
+            public void onSuccess(Map<String,BusinessBean> data) {
+                if ( getUi()!=null) {
+                    getUi().onBusinessBeanSuccess(data);
+                }
+                Lg.getInstance().e(TAG,"msg:"+data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if ( getUi()!=null) {
+                    getUi().onBusinessBeanError(msg);
+                }
+                Lg.getInstance().e(TAG,"msg:"+msg);
+            }
+        });
+    }
+
 
     @Override
     public void onUiUnready(BusinessPresenter.BusinessUi ui) {
@@ -69,7 +92,9 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
     }
 
     public interface BusinessUi extends Ui {
-        void onSuccess(Map<String,BusinessBean> data);
-        void onError(String error);
+        void onBusinessBeanSuccess(Map<String,BusinessBean> data);
+        void onBusinessBeanError(String error);
+        void onFilterConditionsSuccess(FilterConditionsResponse data);
+        void onFilterConditionsError(String error);
     }
 }

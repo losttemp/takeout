@@ -2,8 +2,10 @@ package com.baidu.iov.dueros.waimai.model;
 import android.util.ArrayMap;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
+import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.PoilistReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
@@ -27,6 +29,28 @@ public class BusinessModel implements IBusinessModel {
     @Override
     public void onDestroy() {
 
+    }
+
+    @Override
+    public void requestFilterConditions(FilterConditionsReq filterConditionsReq, final RequestCallback callback) {
+
+        ApiUtils.getFilterConditions(filterConditionsReq, new ApiCallBack<FilterConditionsResponse>() {
+            @Override
+            public void onSuccess(FilterConditionsResponse data) {
+                if (callback!=null) {
+                    callback.onSuccess(data);
+                }
+                Lg.getInstance().e(TAG,"msg:"+data);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                if (callback!=null) {
+                    callback.onFailure(msg);
+                }
+                Lg.getInstance().e(TAG,"msg:"+msg);
+            }
+        });
     }
 
     @Override
