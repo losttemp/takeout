@@ -7,22 +7,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
+		.DataBean.SortTypeListBean;
 import com.baidu.iov.dueros.waimai.ui.R;
 
 import java.util.List;
 
 public class SortPopWindowAdapter extends BaseAdapter {
 
-	private List<String> mSortList;
+	private List<SortTypeListBean> mSortList;
 	private Context mContext;
 	private LayoutInflater mLayoutInflater;
 	private int mCurrentSelect;
 
-	public SortPopWindowAdapter(List<String> sortList, Context context) {
+	public SortPopWindowAdapter(List<SortTypeListBean> sortList, Context context) {
 		this.mLayoutInflater = LayoutInflater.from(context);
 		mContext = context;
 		mSortList = sortList;
-//		mCurrentSelect = currentSelect;
 	}
 
 	@Override
@@ -31,7 +32,7 @@ public class SortPopWindowAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public String getItem(int position) {
+	public SortTypeListBean getItem(int position) {
 		return mSortList.get(position);
 	}
 
@@ -53,13 +54,13 @@ public class SortPopWindowAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.tvSortName.setText(mSortList.get(position));
+		viewHolder.tvSortName.setText(mSortList.get(position).getName());
 
-		if (mCurrentSelect == position) {
+		/*if (mCurrentSelect == position) {
 			viewHolder.tvSortName.setTextColor(mContext.getResources().getColor(R.color.blue));
 		} else {
 			viewHolder.tvSortName.setTextColor(mContext.getResources().getColor(R.color.black));
-		}
+		}*/
 
 		return convertView;
 	}

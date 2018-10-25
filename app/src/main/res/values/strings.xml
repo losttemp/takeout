@@ -1,53 +1,66 @@
 <resources>
-    <string name="app_name">WaimaiApplication</string>
-    <string name="main_fragment">main_fragment</string>
-    <string name="title_film">影片</string>
-    <string name="title_cinema">影院</string>
-    <string name="cinema_empty">暂无影院</string>
-    <string name="all_area">全城</string>
-    <string name="all">全部</string>
-    <string name="price_suffix">元起</string>
-    <string name="discount_content">钱包新用户最高立减8元</string>
-    <string name="tag_content">vip</string>
+	<string name="app_name">WaimaiApplication</string>
+	<string name="main_fragment">main_fragment</string>
+	<string name="title_film">影片</string>
+	<string name="title_cinema">影院</string>
+	<string name="cinema_empty">暂无影院</string>
+	<string name="all_area">全城</string>
+	<string name="all">全部</string>
+	<string name="price_suffix">元起</string>
+	<string name="discount_content">钱包新用户最高立减8元</string>
+	<string name="tag_content">vip</string>
 
-    <!--HomeActivity-->
-    <string name="search">搜索</string>
-    <string name="search_hint_text">请输入商家/商品名称</string>
-    <string name="stroe_type_food">美食分类</string>
-    <string name="stroe_type_flower">鲜花预订</string>
-    <string name="stroe_type_cake">蛋糕预订</string>
-    <string name="store_sort">综合排序</string>
-    <string name="store_sales">销量</string>
-    <string name="store_distance">距离</string>
-    <string name="store_filter">筛选</string>
-    <string name="search_history">历史记录</string>
-    <string name="takeaway_home">外卖首页</string>
-    <string name="takeaway_order">外卖订单</string>
-    <string name="month_sale_num">月销%d</string>
-    <string name="delivery_time">%d分钟</string>
-    <string name="min_price">起送￥%.2f</string>
-    <string name="shipping_fee">配送￥%.2f</string>
-    <string name="flower">鲜花</string>
-    <string name="cake">蛋糕</string>
+	<!--HomeActivity-->
+	<string name="search">搜索</string>
+	<string name="search_hint_text">请输入商家/商品名称</string>
+	<string name="stroe_type_food">美食分类</string>
+	<string name="stroe_type_flower">鲜花预订</string>
+	<string name="stroe_type_cake">蛋糕预订</string>
+	<string name="store_sort">综合排序</string>
+	<string name="store_sales">销量</string>
+	<string name="store_distance">距离</string>
+	<string name="store_filter">筛选</string>
+	<string name="search_history">历史记录</string>
+	<string name="takeaway_home">外卖首页</string>
+	<string name="takeaway_order">外卖订单</string>
+	<string name="month_sale_num">月销%d</string>
+	<string name="delivery_time">%d分钟</string>
+	<string name="min_price">起送￥%.2f</string>
+	<string name="shipping_fee">配送￥%.2f</string>
+	<string name="flower">鲜花</string>
+	<string name="cake">蛋糕</string>
 
-    <string-array name="tab_filters">
-        <item>全城</item>
-        <item>品牌</item>
-        <item>筛选</item>
-    </string-array>
+	<!--FilterPopWindow-->
+	<string name="ok">确定</string>
+	<string name="reset">重置</string>
 
-    <string-array name="sort_type">
-        <item>综合排序</item>
-        <item>月销量从高到低</item>
-        <item>配送速度从快到慢</item>
-        <item>外卖评分从高到低</item>
-        <item>起送价从低到高</item>
-        <item>距离从近到远</item>
-        <item>配送费从低到高</item>
-        <item>人均从低到高</item>
-        <item>人均从高到低</item>
-    </string-array>
+	<!--tools:text-->
+	<string name="tools_text_location">送至：未来科技大厦</string>
+	<string name="tools_text_filter_type">商家特色</string>
+	<string name="tools_text_filter_sub_type">免配送费</string>
+	<string name="tools_text_history_name">肯德基</string>
+	<string name="tools_text_store_name">肯德基宅急送</string>
+	<string name="tools_text_status_desc">接受预订：10:30后起送</string>
+	<string name="tools_text_average_price">人均￥25</string>
 
-    <string name="order_amount">共%s件商品</string>
-    <string name="one_more_order">再来一单</string>
+	<string-array name="tab_filters">
+		<item>全城</item>
+		<item>品牌</item>
+		<item>筛选</item>
+	</string-array>
+
+	<string-array name="sort_type">
+		<item>综合排序</item>
+		<item>月销量从高到低</item>
+		<item>配送速度从快到慢</item>
+		<item>外卖评分从高到低</item>
+		<item>起送价从低到高</item>
+		<item>距离从近到远</item>
+		<item>配送费从低到高</item>
+		<item>人均从低到高</item>
+		<item>人均从高到低</item>
+	</string-array>
+
+	<string name="order_amount">共%s件商品</string>
+	<string name="one_more_order">再来一单</string>
 </resources>

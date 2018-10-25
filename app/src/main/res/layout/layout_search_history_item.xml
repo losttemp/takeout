@@ -24,6 +24,6 @@
 		android:paddingTop="10dp"
 		android:textColor="@color/black"
 		android:textSize="16sp"
-		tools:text="肯德基" />
+		tools:text="@string/tools_text_history_name" />
 
 </RelativeLayout>

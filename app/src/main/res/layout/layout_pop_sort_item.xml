@@ -8,10 +8,10 @@
         android:id="@+id/tv_sort_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="15dp"
         android:textColor="@color/black"
         android:textSize="16sp"
-        tools:text="综合排序" />
+        tools:text="@string/store_sort" />
 
 </RelativeLayout>

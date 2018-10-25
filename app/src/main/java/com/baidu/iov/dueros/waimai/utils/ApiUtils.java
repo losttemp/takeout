@@ -8,12 +8,11 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -137,5 +136,16 @@ public class ApiUtils {
     public static <D extends RequestBase> void getOrderList(D request, ApiCallBack<OrderListResponse> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getOrderList(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * get filter condition list request
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getFilterList(D request, ApiCallBack<FilterConditionResponse> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getFilterList(requestMap).enqueue(callBack);
     }
 }

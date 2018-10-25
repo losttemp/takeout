@@ -2,7 +2,9 @@ package com.baidu.iov.dueros.waimai.model;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
+import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 
@@ -39,5 +41,24 @@ public class HomeModel implements IHomeModel {
 			}
 		});
 
+	}
+
+	@Override
+	public void requestFilterList(FilterConditionReq filterConditionReq, final RequestCallback
+			callback) {
+		filterConditionReq.setLongitude(95369826);
+		filterConditionReq.setLatitude(29735952);
+
+		ApiUtils.getFilterList(filterConditionReq, new ApiCallBack<FilterConditionResponse>() {
+			@Override
+			public void onSuccess(FilterConditionResponse data) {
+				callback.onSuccess(data);
+			}
+
+			@Override
+			public void onFailed(String msg) {
+				callback.onFailure(msg);
+			}
+		});
 	}
 }

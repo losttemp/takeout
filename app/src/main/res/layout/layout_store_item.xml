@@ -32,7 +32,7 @@
 			android:layout_height="wrap_content"
 			android:textColor="@color/black"
 			android:textSize="16sp"
-			tools:text="肯德基宅急送" />
+			tools:text="@string/tools_text_store_name" />
 
 		<android.support.v7.widget.AppCompatTextView
 			android:id="@+id/tv_status_desc"
@@ -40,7 +40,7 @@
 			android:layout_height="wrap_content"
 			android:textColor="@color/red"
 			android:textSize="14sp"
-			tools:text="接受预订：10:30后起送" />
+			tools:text="@string/tools_text_status_desc" />
 
 		<android.support.v7.widget.LinearLayoutCompat
 			android:layout_width="wrap_content"
@@ -63,15 +63,6 @@
 				app:starStep="3.5"
 				app:stepSize="Half" />
 
-			<!--<RatingBar
-				android:id="@+id/ratingBar"
-				style="?android:attr/ratingBarStyleSmall"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginRight="5dp"
-				android:numStars="5"
-				android:rating="4.5" />-->
-
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/tv_score"
 				android:layout_width="wrap_content"
@@ -90,7 +81,7 @@
 				android:layout_marginRight="5dp"
 				android:gravity="center"
 				android:textSize="14sp"
-				tools:text="月销558" />
+				tools:text="@string/month_sale_num" />
 
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/tv_time"
@@ -100,7 +91,7 @@
 				android:layout_marginRight="5dp"
 				android:gravity="center"
 				android:textSize="14sp"
-				tools:text="30分钟" />
+				tools:text="@string/delivery_time" />
 
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/tv_distance"
@@ -127,7 +118,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginRight="5dp"
 				android:textSize="14sp"
-				tools:text="起送￥20" />
+				tools:text="@string/min_price" />
 
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/tv_express_price"
@@ -135,7 +126,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginRight="5dp"
 				android:textSize="14sp"
-				tools:text="配送￥5" />
+				tools:text="@string/shipping_fee" />
 
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/tv_average_price"
@@ -143,7 +134,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginRight="5dp"
 				android:textSize="14sp"
-				tools:text="人均￥25" />
+				tools:text="@string/tools_text_average_price" />
 
 		</LinearLayout>
 
