@@ -7,6 +7,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 
 import java.util.Map;
 
@@ -66,6 +67,28 @@ public class ApiUtils {
         ApiInstance.getApi().getCinemaInfo(requestMap).enqueue(callBack);
     }
 
+    /**
+     * get poifood list request
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getPoifoodList(D request, ApiCallBack<PoifoodListBean> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getPoifood(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * get poidetailinfo request
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+//    public static <D extends RequestBase> void getPoidetailinfo(D request, ApiCallBack<PoifoodListBean> callBack) {
+//        Map<String, String> requestMap = requestPrepare(request);
+//        ApiInstance.getApi().getPoidetailinfo(requestMap).enqueue(callBack);
+//    }
+
 
     /**
      * prepare for each request
@@ -75,8 +98,7 @@ public class ApiUtils {
      * @return
      */
     private static <D extends RequestBase> Map<String, String> requestPrepare(D request) {
-        request.crd = "113.948913_22.530194";
-        request.uuid = "qa_test_123123";
+        request.uuid = "1234";
         request.sign = CommonUtils.sign(request);
         return CommonUtils.getAllFields(request);
     }

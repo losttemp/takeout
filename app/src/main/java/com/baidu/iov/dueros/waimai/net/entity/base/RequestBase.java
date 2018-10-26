@@ -14,10 +14,6 @@ import com.baidu.iov.dueros.waimai.net.Config;
  */
 
 public class RequestBase {
-    /**coordinate type*/
-    public int coordtype;
-    /**coordinate*/
-    public String crd;
     /**api version*/
     public int av;
     /**APP KEY*/
@@ -35,15 +31,12 @@ public class RequestBase {
         this.ak = Config.APP_KEY;
         this.cn = Config.CN;
         this.av = Build.VERSION_CODES.HONEYCOMB_MR1;
-        this.coordtype = Config.Coordinate_Type_GB;
     }
 
 
     @Override
     public String toString() {
         return "RequestBase{" +
-                "coordtype=" + coordtype +
-                ", crd='" + crd + '\'' +
                 ", av=" + av +
                 ", ak='" + ak + '\'' +
                 ", cn='" + cn + '\'' +

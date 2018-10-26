@@ -5,10 +5,12 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Retrofit;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -40,5 +42,13 @@ public interface TakeawayApi {
     @FormUrlEncoded
     @POST("/iovservice/movie/cinemainfo")
     Call<ResponseBase<CinemaInfoResponse>> getCinemaInfo(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("/iovservice/waimai/poifood")
+    Call<ResponseBase<PoifoodListBean>> getPoifood(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("/iovservice/waimai/poidetailinfo")
+    Call<ResponseBase<PoifoodListBean>> getPoidetailinfo(@FieldMap Map<String, String> map);
 
 }
