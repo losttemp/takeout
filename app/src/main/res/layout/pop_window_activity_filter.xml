@@ -10,7 +10,41 @@
 		android:layout_height="wrap_content"
 		android:background="@color/white"
 		android:divider="@null"
-		android:paddingBottom="15dp"
+		android:padding="10dp"
+		android:layout_marginBottom="10dp"
 		tools:listitem="@layout/item_activity_filter" />
+
+	<LinearLayout
+		android:id="@+id/l_confirm"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/lv_activity_fliter"
+		android:orientation="horizontal">
+
+		<TextView
+			android:id="@+id/tv_reset"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:background="@drawable/shape_pop_filter_set_bg"
+			android:gravity="center"
+			android:padding="10dp"
+			android:text="@string/reset"
+			android:textSize="16sp" />
+
+		<TextView
+			android:id="@+id/tv_ok"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="10dp"
+			android:layout_weight="1"
+			android:background="@drawable/shape_pop_filter_set_bg"
+			android:gravity="center"
+			android:padding="10dp"
+			android:text="@string/ok"
+			android:textSize="16sp" />
+
+	</LinearLayout>
+
 
 </RelativeLayout>

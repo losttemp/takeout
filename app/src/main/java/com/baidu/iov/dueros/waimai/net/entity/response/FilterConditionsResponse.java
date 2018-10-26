@@ -307,6 +307,9 @@ public class FilterConditionsResponse {
 
                 private List<Item> items;
 
+                public  static final int SINGLECHOICE=0;
+                public  static final int MULTICHOICE=1;
+
                 public String getGroup_title() {
                     return group_title;
                 }
@@ -354,6 +357,7 @@ public class FilterConditionsResponse {
                     private String  name;
                     private String  icon;
                     private String  remarks;
+                    private boolean chcked;
 
                     public String getCode() {
                         return code;
@@ -387,6 +391,14 @@ public class FilterConditionsResponse {
                         this.remarks = remarks;
                     }
 
+                    public boolean isChcked() {
+                        return chcked;
+                    }
+
+                    public void setChcked(boolean chcked) {
+                        this.chcked = chcked;
+                    }
+
                     @Override
                     public String toString() {
                         return "Item{" +
@@ -394,6 +406,7 @@ public class FilterConditionsResponse {
                                 ", name='" + name + '\'' +
                                 ", icon='" + icon + '\'' +
                                 ", remarks='" + remarks + '\'' +
+                                ", chcked='" + chcked + '\'' +
                                 '}';
                     }
                 }

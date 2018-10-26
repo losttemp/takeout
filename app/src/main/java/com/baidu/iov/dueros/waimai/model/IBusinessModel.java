@@ -4,6 +4,7 @@ import android.util.ArrayMap;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
+import com.baidu.iov.dueros.waimai.net.entity.request.PoilistReq;
 
 /**
  *  
@@ -13,6 +14,6 @@ import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
  */
 public interface IBusinessModel extends IModel {
     
-     void requestBusinessBean(ArrayMap<String, String> params, RequestCallback callback);
+     void requestBusinessBean(PoilistReq poilistReq, RequestCallback callback);
      void requestFilterConditions(FilterConditionsReq filterConditionsReq, final RequestCallback callback);
 }

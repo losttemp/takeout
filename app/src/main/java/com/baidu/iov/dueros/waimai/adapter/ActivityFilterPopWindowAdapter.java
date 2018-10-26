@@ -1,6 +1,8 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,11 @@ public class ActivityFilterPopWindowAdapter extends BaseAdapter {
 	private List<FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter> mData;
 	private Context mContext;
 	private LayoutInflater mLayoutInflater;
-	private int mCurrentSelect;
-
+	
 	public ActivityFilterPopWindowAdapter(Context context) {
 		mContext = context;
-		this.mLayoutInflater = LayoutInflater.from(context);
+		this.mLayoutInflater = LayoutInflater.from(mContext);
+       
 	}
 
 	public void setData(List<FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter> activityFilterList){
@@ -45,36 +47,50 @@ public class ActivityFilterPopWindowAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
 			convertView = mLayoutInflater.inflate(R.layout.item_activity_filter, parent, false);
 			viewHolder = new ViewHolder();
-			viewHolder.tvSortName = (TextView) convertView.findViewById(R.id.tv_sort_name);
+			viewHolder.tvName = (TextView) convertView.findViewById(R.id.tv_name);
+			viewHolder.rvItems = (android.support.v7.widget.RecyclerView) convertView.findViewById(R.id.rv_items);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-
-		viewHolder.tvSortName.setText(mData.get(position).getGroup_title());
-
-		if (mCurrentSelect == position) {
-			viewHolder.tvSortName.setTextColor(mContext.getResources().getColor(R.color.blue));
-		} else {
-			viewHolder.tvSortName.setTextColor(mContext.getResources().getColor(R.color.black));
-		}
-
+		viewHolder.rvItems.setLayoutManager(new GridLayoutManager(mContext, 3));
+        FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter mActivityFilter=mData.get(position);
+        viewHolder.tvName.setText(mActivityFilter.getGroup_title());
+        final ActivityFilterItemsAdpater mActivityFilterItemsAdpater=new ActivityFilterItemsAdpater(mContext);
+		mActivityFilterItemsAdpater.setData(mActivityFilter.getItems());
+		viewHolder.rvItems.setAdapter(mActivityFilterItemsAdpater);
+		mActivityFilterItemsAdpater.setOnItemClickListener(new ActivityFilterItemsAdpater.OnItemClickListener() {
+			@Override
+			public void onItemClick(int itemPosition) {
+				FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter.Item item=mData.get(position).getItems().get(itemPosition);
+				if (item.isChcked()) {
+					item.setChcked(false);
+				} else {
+					if (mData.get(position).getSupport_multi_choice() == 0) {
+						for (FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter.Item  data : mData.get(position)
+								.getItems()) {
+							if (data.isChcked()) {
+								data.setChcked(false);
+								break;
+							}
+						}
+					}
+					item.setChcked(true);
+				}
+			}
+		});
 		return convertView;
 	}
 
 	public static class ViewHolder {
-		private TextView tvSortName;
+		private TextView tvName;
+		private RecyclerView rvItems;
 	}
 
-	public void updateSelected(int positon) {
-		if (positon != mCurrentSelect) {
-			mCurrentSelect = positon;
-			notifyDataSetChanged();
-		}
-	}
+	
 }

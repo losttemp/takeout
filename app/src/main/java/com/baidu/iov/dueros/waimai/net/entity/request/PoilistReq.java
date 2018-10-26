@@ -1,7 +1,6 @@
 package com.baidu.iov.dueros.waimai.net.entity.request;
-
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
-import java.util.Objects;
+
 
 /**
  *
@@ -10,77 +9,48 @@ import java.util.Objects;
  */
 public class PoilistReq extends RequestBase {
     
-    public final static String KEYWORD="keyword";
-
-    public final static String SORTTYPE="sortType";
-
-    public final static String PAGEINDEX="pageIndex";
+    private Integer longitude;
     
-
-    public static final int BEST_SORT_INDEX = 0;
-    public static final int SALE_NUM_SORT_INDEX = 1;
-    public static final int PRICE_SORT_INDEX = 5;
-    
-    
-    
-    private int longitude;
-    
-    private int latitude;
+    private Integer latitude;
     
     private String keyword;
     
-    private int  sortType=0;
+    private Integer  sortType=0;
     
-    private int pageIndex=1;
+    private Integer page_index;
     
-    private int  pageSize=20;
+    private Integer  page_size=20;
     
-    private int minPrice=0;
+    private Integer minPrice=0;
    
-    private int maxPrice=999;
+    private Integer maxPrice=999;
     
     private String  priceCode;
     
     private String migFilter;
     
-    private int navigateType=0;
+    private Integer navigateType=0;
     
-    private int categoryType;
+    private Integer categoryType;
    
-    private int secondCategoryType;
+    private Integer secondCategoryType;
 
     public PoilistReq() {
     }
 
-    public PoilistReq(int longitude, int latitude, String keyword, int sortType, int pageIndex, int pageSize, int minPrice, int maxPrice, String priceCode, String migFilter, int navigateType, int categoryType, int secondCategoryType) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.keyword = keyword;
-        this.sortType = sortType;
-        this.pageIndex = pageIndex;
-        this.pageSize = pageSize;
-        this.minPrice = minPrice;
-        this.maxPrice = maxPrice;
-        this.priceCode = priceCode;
-        this.migFilter = migFilter;
-        this.navigateType = navigateType;
-        this.categoryType = categoryType;
-        this.secondCategoryType = secondCategoryType;
-    }
-
-    public int getLongitude() {
+    public Integer getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(Integer longitude) {
         this.longitude = longitude;
     }
 
-    public int getLatitude() {
+    public Integer getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(Integer latitude) {
         this.latitude = latitude;
     }
 
@@ -92,43 +62,43 @@ public class PoilistReq extends RequestBase {
         this.keyword = keyword;
     }
 
-    public int getSortType() {
+    public Integer getSortType() {
         return sortType;
     }
 
-    public void setSortType(int sortType) {
+    public void setSortType(Integer sortType) {
         this.sortType = sortType;
     }
 
-    public int getPageIndex() {
-        return pageIndex;
+    public Integer getPage_index() {
+        return page_index;
     }
 
-    public void setPageIndex(int pageIndex) {
-        this.pageIndex = pageIndex;
+    public void setPage_index(Integer page_index) {
+        this.page_index = page_index;
     }
 
-    public int getPageSize() {
-        return pageSize;
+    public Integer getPage_size() {
+        return page_size;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+    public void setPage_size(Integer page_size) {
+        this.page_size = page_size;
     }
 
-    public int getMinPrice() {
+    public Integer getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(int minPrice) {
+    public void setMinPrice(Integer minPrice) {
         this.minPrice = minPrice;
     }
 
-    public int getMaxPrice() {
+    public Integer getMaxPrice() {
         return maxPrice;
     }
 
-    public void setMaxPrice(int maxPrice) {
+    public void setMaxPrice(Integer maxPrice) {
         this.maxPrice = maxPrice;
     }
 
@@ -148,54 +118,28 @@ public class PoilistReq extends RequestBase {
         this.migFilter = migFilter;
     }
 
-    public int getNavigateType() {
+    public Integer getNavigateType() {
         return navigateType;
     }
 
-    public void setNavigateType(int navigateType) {
+    public void setNavigateType(Integer navigateType) {
         this.navigateType = navigateType;
     }
 
-    public int getCategoryType() {
+    public Integer getCategoryType() {
         return categoryType;
     }
 
-    public void setCategoryType(int categoryType) {
+    public void setCategoryType(Integer categoryType) {
         this.categoryType = categoryType;
     }
 
-    public int getSecondCategoryType() {
+    public Integer getSecondCategoryType() {
         return secondCategoryType;
     }
 
-    public void setSecondCategoryType(int secondCategoryType) {
+    public void setSecondCategoryType(Integer secondCategoryType) {
         this.secondCategoryType = secondCategoryType;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o){ return true;}
-        if (o == null || getClass() != o.getClass()) {return false;}
-        PoilistReq that = (PoilistReq) o;
-        return longitude == that.longitude &&
-                latitude == that.latitude &&
-                sortType == that.sortType &&
-                pageIndex == that.pageIndex &&
-                pageSize == that.pageSize &&
-                minPrice == that.minPrice &&
-                maxPrice == that.maxPrice &&
-                navigateType == that.navigateType &&
-                categoryType == that.categoryType &&
-                secondCategoryType == that.secondCategoryType &&
-                Objects.equals(keyword, that.keyword) &&
-                Objects.equals(priceCode, that.priceCode) &&
-                Objects.equals(migFilter, that.migFilter);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(longitude, latitude, keyword, sortType, pageIndex, pageSize, minPrice, maxPrice, priceCode, migFilter, navigateType, categoryType, secondCategoryType);
     }
 
     @Override
@@ -205,8 +149,8 @@ public class PoilistReq extends RequestBase {
                 ", latitude=" + latitude +
                 ", keyword='" + keyword + '\'' +
                 ", sortType=" + sortType +
-                ", pageIndex=" + pageIndex +
-                ", pageSize=" + pageSize +
+                ", page_index=" + page_index +
+                ", page_size=" + page_size +
                 ", minPrice=" + minPrice +
                 ", maxPrice=" + maxPrice +
                 ", priceCode='" + priceCode + '\'' +

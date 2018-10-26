@@ -18,7 +18,7 @@ public class TabSortTypeAdpater extends RecyclerView.Adapter<TabSortTypeAdpater.
     private Context mContext;
     
     private int currentPos=-1;
-
+    
     private List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> mData;
 
     private OnItemClickListener mOnItemClickListener;
@@ -90,6 +90,13 @@ public class TabSortTypeAdpater extends RecyclerView.Adapter<TabSortTypeAdpater.
                 ((TextView) v).setTextColor(mContext.getResources().getColor(R.color.gray));
             }
                 
+        }
+    }
+
+    public void initView(int pos){
+        if (pos!=currentPos){
+            currentPos=pos;
+            notifyDataSetChanged();
         }
     }
 

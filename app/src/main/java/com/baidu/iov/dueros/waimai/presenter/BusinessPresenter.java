@@ -7,11 +7,15 @@ import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.BusinessModel;
 import com.baidu.iov.dueros.waimai.model.IBusinessModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
+import com.baidu.iov.dueros.waimai.net.entity.request.PoilistReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
+import java.util.ArrayList;
 import java.util.Map;
+
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
 
 public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> {
 
@@ -21,17 +25,28 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
 
     @Override
     public void onCommandCallback(String cmd, String extra) {
-
+        if (CMD_NO.equals(cmd) && null != getUi()) {
+            getUi().close();
+        }
     }
 
     @Override
     public void registerCmd(Context context) {
-
+        Lg.getInstance().d(TAG, "registerCmd");
+        if (null != mVoiceManager) {
+            ArrayList<String> cmdList = new ArrayList<String>();
+            cmdList.add(CMD_NO);
+            //mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
+            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+        }
     }
 
     @Override
     public void unregisterCmd(Context context) {
-
+        Lg.getInstance().d(TAG, "registerCmd");
+        if (null != mVoiceManager) {
+            mVoiceManager.unregisterCmd(context, mVoiceCallback);
+        }
     }
 
     public BusinessPresenter() {
@@ -64,8 +79,8 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
         });
     }
 
-    public void requestBusinessBean(ArrayMap<String, String> map) {
-        mBusinessModel.requestBusinessBean(map,new RequestCallback<Map<String,BusinessBean>>(){
+    public void requestBusinessBean(PoilistReq poilistReq) {
+        mBusinessModel.requestBusinessBean(poilistReq,new RequestCallback<Map<String,BusinessBean>>(){
             @Override
             public void onSuccess(Map<String,BusinessBean> data) {
                 if ( getUi()!=null) {
@@ -96,5 +111,6 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
         void onBusinessBeanError(String error);
         void onFilterConditionsSuccess(FilterConditionsResponse data);
         void onFilterConditionsError(String error);
+        void close();
     }
 }

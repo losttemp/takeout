@@ -40,7 +40,6 @@ public class BusinessModel implements IBusinessModel {
                 if (callback!=null) {
                     callback.onSuccess(data);
                 }
-                Lg.getInstance().e(TAG,"msg:"+data);
             }
 
             @Override
@@ -48,28 +47,15 @@ public class BusinessModel implements IBusinessModel {
                 if (callback!=null) {
                     callback.onFailure(msg);
                 }
-                Lg.getInstance().e(TAG,"msg:"+msg);
             }
         });
     }
 
     @Override
-    public void requestBusinessBean(ArrayMap<String, String> params, final RequestCallback callback) {
-        PoilistReq poilistReq=new PoilistReq();
+    public void requestBusinessBean( PoilistReq poilistReq, final RequestCallback callback) {
         poilistReq.setLongitude(95369826);
         poilistReq.setLatitude(29735952);
-        if(params!=null){
-            if (params.containsKey(PoilistReq.KEYWORD)) {
-                poilistReq.setKeyword(params.get(PoilistReq.KEYWORD));
-            }
-            if (params.containsKey(PoilistReq.SORTTYPE)) {
-                poilistReq.setSortType(Integer.parseInt(params.get(PoilistReq.SORTTYPE)));
-            }
-            if (params.containsKey(PoilistReq.PAGEINDEX)) {
-                poilistReq.setSortType(Integer.parseInt(params.get(PoilistReq.PAGEINDEX)));
-            }
-        }
-            
+        Lg.getInstance().e(TAG,"poilistReq:"+poilistReq);
         ApiUtils.getBusinessByLocation(poilistReq, new ApiCallBack<Map<String,BusinessBean>>() {
             @Override
             public void onSuccess(Map<String,BusinessBean> data) {

@@ -1,11 +1,9 @@
 package com.baidu.iov.dueros.waimai.ui;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,6 +18,11 @@ import com.baidu.iov.dueros.waimai.presenter.BusinessPresenter;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.ActivityFilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.ConditionsPopWindow;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +37,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     private  TextView tvConditions;
     private  TextView tvFilter;
     
-    private ArrayMap<String, String> map;
+    private PoilistReq poilistReq;
     
     private String keyword="";
     private String title="";
@@ -42,17 +45,21 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
     private FilterConditionsReq filterConditionsReq;
 
-    private List<FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter> activityFilterList;
-    
+    private List<FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter> activityFilterList=new ArrayList<>();
     private List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> sortTypeList=new ArrayList<>();
     private List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> sortTypeTabs=new ArrayList<>();
+    private List<BusinessBean.Business.OpenPoiBaseInfo> mOpenPoiBaseInfoList = new
+            ArrayList<>();
 
     private RecyclerView rvSortType;
     
     private TabSortTypeAdpater mTabSortTypeAdpater;
 
     private ActivityFilterPopWindow mActivityFilterPopWindow;
-    
+
+    private SmartRefreshLayout mRefreshLayout;
+
+    private BusinessBean.Business mBusiness;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,11 +67,10 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         setContentView(R.layout.activity_business);
         getIntentData();
         initView();
+        initData();
         setListener();
     }
-
-
-   
+    
     public void getIntentData() {
         Intent intent=getIntent();
         if (intent!=null) {
@@ -76,7 +82,21 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         filterConditionsReq =new FilterConditionsReq();
         filterConditionsReq.setLatitude(29735952);
         filterConditionsReq.setLongitude(95369826);
+
+        if (getResources().getString(R.string.stroe_type_cake).equals(title)){
+            keyword= getResources().getString(R.string.cake);
+        }else if (getResources().getString(R.string.flower).equals(title)){
+            keyword= getResources().getString(R.string.flower);
+        }else {
+            keyword=title;
+        }
+        poilistReq=new PoilistReq();
+        poilistReq.setKeyword(keyword);
+        poilistReq.setPage_index(1);
+     
+        
         getPresenter().requestFilterConditions(filterConditionsReq);
+        getPresenter().requestBusinessBean(poilistReq);
 
     }
 
@@ -84,6 +104,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         btnBack=findViewById(R.id.btn_back);
         tvTitle=findViewById(R.id.tv_title);
         btnSearch=findViewById(R.id.btn_search);
+        mRefreshLayout = (SmartRefreshLayout) findViewById(R.id.refresh_layout);
 
         tvConditions=findViewById(R.id.tv_conditions);
         mConditionsPopWindow = new ConditionsPopWindow(this);
@@ -91,7 +112,6 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         
         
         tvFilter=findViewById(R.id.tv_filter);
-        
         rvSortType=findViewById(R.id.rv_sort_type);
         //横向列表布局
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -105,22 +125,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         mBusinessListView.setAdapter(mBusinesAdapter);
         
         tvTitle.setText(title);
-        if (getResources().getString(R.string.stroe_type_cake).equals(title)){
-            keyword= getResources().getString(R.string.cake);
-        }else if (getResources().getString(R.string.flower).equals(title)){
-            keyword= getResources().getString(R.string.flower);
-        }else {
-            keyword=title;
-        }
-
-        initData();
         
-        
-        map = new ArrayMap<>();
-        map.put(PoilistReq.KEYWORD,keyword);
-        map.put(PoilistReq.SORTTYPE,""+PoilistReq.BEST_SORT_INDEX);
-       
-       getPresenter().requestBusinessBean(map);
     }
     
     private void setListener(){
@@ -128,19 +133,22 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         btnSearch.setOnClickListener(this);
         tvConditions.setOnClickListener(this);
         tvFilter.setOnClickListener(this);
+        setRefreshView();
         mTabSortTypeAdpater.setOnItemClickListener(new TabSortTypeAdpater.OnItemClickListener() {
             @Override
             public void onItemClick(List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> data, int position) {
-                if (!map.get(PoilistReq.SORTTYPE).equals(""+data.get(position).getCode())){
-                    tvConditions.setText(getResources().getStringArray(R.array.sort_type)[PoilistReq.BEST_SORT_INDEX]);
+                if (!String.valueOf(poilistReq.getSortType()).equals(""+data.get(position).getCode())){
+                    tvConditions.setText(sortTypeList.get(0).getName());
                     tvConditions.setTextColor(getBaseContext().getResources().getColor(R.color.gray));
-                    map.put(PoilistReq.SORTTYPE,""+data.get(position).getCode());
+                    poilistReq.setSortType((int) data.get(position).getCode());
+                    poilistReq.setPage_index(1);
                 }else{
-                    tvConditions.setText(getResources().getStringArray(R.array.sort_type)[PoilistReq.BEST_SORT_INDEX]);
+                    tvConditions.setText(sortTypeList.get(0).getName());
                     tvConditions.setTextColor(getBaseContext().getResources().getColor(R.color.black));
-                    map.put(PoilistReq.SORTTYPE,""+PoilistReq.BEST_SORT_INDEX);
+                    poilistReq.setSortType((int) sortTypeList.get(0).getCode());
+                    poilistReq.setPage_index(1);
                 }
-                getPresenter().requestBusinessBean(map);
+                getPresenter().requestBusinessBean(poilistReq);
             }
         });
     }
@@ -159,20 +167,59 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     @Override
     public void onBusinessBeanSuccess(Map<String, BusinessBean> data) {
         Lg.getInstance().e(TAG,"data:"+data);
-        //mBusinesAdapter.
-        mBusinesAdapter.setData(data.get("meituan").getmBusiness().getOpenPoiBaseInfoList());
-        mBusinesAdapter.notifyDataSetChanged();
+        mBusiness=data.get("meituan").getmBusiness();
+        if (mBusiness.getCurrentPageIndex() == 1) {
+            mOpenPoiBaseInfoList.clear();
+            if (mRefreshLayout.isRefreshing()) {
+                mRefreshLayout.finishRefresh();
+            }
+        } else {
+            if (mRefreshLayout.isLoading()) {
+                mRefreshLayout.finishLoadmore();
+            }
+        }
+        mOpenPoiBaseInfoList.addAll(mBusiness.getOpenPoiBaseInfoList());
+        mBusinesAdapter.setData(mOpenPoiBaseInfoList);
+    }
+
+    private void setRefreshView() {
+        mRefreshLayout.setEnableRefresh(true);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                poilistReq.setPage_index(1);
+                getPresenter().requestBusinessBean(poilistReq);
+            }
+        });
+
+        mRefreshLayout.setEnableLoadmore(true);
+        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshLayout) {
+                if (mBusiness.getHaveNextPage() == 1) {
+                    poilistReq.setPage_index((mBusiness.getCurrentPageIndex() + 1));
+                    Lg.getInstance().e(TAG,"data:"+poilistReq.getPage_index());
+                    getPresenter().requestBusinessBean(poilistReq);
+                } else {
+                    mRefreshLayout.finishLoadmore();
+                }
+            }
+        });
     }
 
     @Override
     public void onBusinessBeanError(String error) {
-      
-        //mBusinesAdapter.setData(null);
+        if (mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.finishRefresh();
+        }
+        if (mRefreshLayout.isLoading()) {
+            mRefreshLayout.finishLoadmore();
+        }
     }
 
     @Override
     public void onFilterConditionsSuccess(FilterConditionsResponse data) {
-        Lg.getInstance().e(TAG,"msg:"+data);
+      //  Lg.getInstance().e(TAG,"msg:"+data);
         activityFilterList =data.getMeituan().getData().getActivity_filter_list();
         mActivityFilterPopWindow.setData(activityFilterList);
         
@@ -217,10 +264,16 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     @Override
     public void onFilterConditionsError(String error) {
 
-        //mBusinesAdapter.setData(null);
+        Lg.getInstance().e(TAG,"error:"+error);
     }
-    
-     
+
+   
+
+    @Override
+    public void close() {
+        finish();
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -235,6 +288,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
                 mConditionsPopWindow.showPop(tvConditions);
                 break;
             case R.id.tv_filter:
+                tvFilter.setTextColor(getResources().getColor(R.color.black));
                 mActivityFilterPopWindow.showPop(tvFilter);
                 break;
             default:
@@ -243,9 +297,23 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     }
 
     public void setSortType(int position) {
-        map.put(PoilistReq.SORTTYPE,""+sortTypeList.get(position).getCode());
+        poilistReq.setSortType((int) sortTypeList.get(position).getCode());
+        poilistReq.setPage_index(1);
         tvConditions.setText(sortTypeList.get(position).getName());
         tvConditions.setTextColor(getBaseContext().getResources().getColor(R.color.black));
-        getPresenter().requestBusinessBean(map);
+        mTabSortTypeAdpater.initView(-1);
+        getPresenter().requestBusinessBean(poilistReq);
+    }
+
+    public void setFilterTypes(String migFilter) {
+        poilistReq.setMigFilter(migFilter);
+        poilistReq.setPage_index(1);
+        if (!migFilter.isEmpty()){
+            tvFilter.setTextColor(getResources().getColor(R.color.black));
+        }else{
+            tvFilter.setTextColor(getResources().getColor(R.color.gray));
+        }
+            
+        getPresenter().requestBusinessBean(poilistReq);
     }
 }
