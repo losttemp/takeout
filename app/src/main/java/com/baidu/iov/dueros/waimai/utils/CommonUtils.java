@@ -3,7 +3,9 @@ package com.baidu.iov.dueros.waimai.utils;
 import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +28,14 @@ public class CommonUtils {
         StringBuffer dataStr = new StringBuffer();
         for (Map.Entry<String, String> entry : map.entrySet()) {
             if (entry.getValue() != null) {
-                dataStr.append(entry.getKey() + "=" + entry.getValue());
+                try {
+					if ("sign".equals(entry.getKey())) {
+						continue;
+					}
+                    dataStr.append(entry.getKey() + "=" + URLEncoder.encode(entry.getValue(),"utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    return "sign error!";
+                }
             }
         }
 
@@ -64,7 +73,10 @@ public class CommonUtils {
                     continue;
                 }
                 String attr = getFieldValueByFieldName(fieldName, request, clazz);
-                map.put(fieldName, attr);
+                if (attr == null) {
+                    continue;
+                }
+                    map.put(fieldName, attr);
             }
             fieldList.addAll(list);
             clazz = clazz.getSuperclass();

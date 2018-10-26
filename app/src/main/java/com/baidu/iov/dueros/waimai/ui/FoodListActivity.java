@@ -78,7 +78,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    // 用来清除动画后留下的垃圾
                     try {
                         animation_viewGroup.removeAllViews();
                     } catch (Exception e) {
@@ -462,7 +461,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         set.addAnimation(mScaleAnimation);
         set.addAnimation(translateAnimationY);
         set.addAnimation(translateAnimationX);
-        set.setDuration(500);// 动画的执行时间
+        set.setDuration(500);
         view.startAnimation(set);
         set.setAnimationListener(new Animation.AnimationListener() {
 

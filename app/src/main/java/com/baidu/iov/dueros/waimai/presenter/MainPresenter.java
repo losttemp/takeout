@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
+import android.content.Context;
 import android.util.ArrayMap;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
@@ -14,6 +15,21 @@ public class MainPresenter extends Presenter<MainPresenter.MainUi> {
     private static final String TAG = MainPresenter.class.getSimpleName();
 
     private IMainModel mModel;
+
+    @Override
+    public void onCommandCallback(String cmd, String extra) {
+
+    }
+
+    @Override
+    public void registerCmd(Context context) {
+
+    }
+
+    @Override
+    public void unregisterCmd(Context context) {
+
+    }
 
     public MainPresenter() {
         mModel = new MainModel();

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:paddingBottom="5dp">
+
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/tv_history_num"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingLeft="10dp"
+		android:paddingTop="10dp"
+		android:textColor="@color/black"
+		android:textSize="16sp"
+		tools:text="1" />
+
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/tv_history_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/tv_history_num"
+		android:paddingLeft="10dp"
+		android:paddingTop="10dp"
+		android:textColor="@color/black"
+		android:textSize="16sp"
+		tools:text="@string/tools_text_history_name" />
+
+</RelativeLayout>

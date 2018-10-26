@@ -3,11 +3,16 @@ package com.baidu.iov.dueros.waimai.utils;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.ApiInstance;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
+import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 
 import java.util.Map;
 
@@ -25,17 +30,19 @@ public class ApiUtils {
 
     /**
      * get city list request
+     *
      * @param request
      * @param callBack
      * @param <D>
      */
-    public static <D extends RequestBase>  void getCityList( D request, ApiCallBack<CityListResponse> callBack) {
+    public static <D extends RequestBase> void getCityList(D request, ApiCallBack<CityListResponse> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getCityList(requestMap).enqueue(callBack);
     }
 
     /**
      * get city by location request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -47,6 +54,7 @@ public class ApiUtils {
 
     /**
      * get cinema list request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -58,6 +66,7 @@ public class ApiUtils {
 
     /**
      * get cinema list request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -69,6 +78,7 @@ public class ApiUtils {
 
     /**
      * get poifood list request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -89,6 +99,10 @@ public class ApiUtils {
 //        ApiInstance.getApi().getPoidetailinfo(requestMap).enqueue(callBack);
 //    }
 
+    public static <D extends RequestBase> void getBusinessByLocation(D request, ApiCallBack<Map<String, BusinessBean>> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getBusinessByLocation(requestMap).enqueue(callBack);
+    }
 
     /**
      * prepare for each request
@@ -103,4 +117,50 @@ public class ApiUtils {
         return CommonUtils.getAllFields(request);
     }
 
+    /**
+     * get store list request
+     *
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getStoreList(D request, ApiCallBack<StoreResponse> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getStoreList(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * get filterConditions list request
+     *
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getFilterConditions(D request, ApiCallBack<FilterConditionsResponse> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getFilterConditions(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * get order list request
+     *
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getOrderList(D request, ApiCallBack<OrderListResponse> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getOrderList(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * get filter condition list request
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getFilterList(D request, ApiCallBack<FilterConditionResponse> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getFilterList(requestMap).enqueue(callBack);
+    }
 }

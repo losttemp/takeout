@@ -1,0 +1,79 @@
+package com.baidu.iov.dueros.waimai.presenter;
+
+import android.content.Context;
+
+import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
+import com.baidu.iov.dueros.waimai.interfacedef.Ui;
+import com.baidu.iov.dueros.waimai.model.FoodModel;
+import com.baidu.iov.dueros.waimai.model.IFoodModel;
+import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
+import com.baidu.iov.dueros.waimai.utils.Lg;
+/**
+ *
+ *
+ * @author ping
+ * @date 2018/10/22
+ */
+public class FoodPresenter extends Presenter< FoodPresenter.FoodUi> {
+
+    private static final String TAG = FoodPresenter.class.getSimpleName();
+
+    private IFoodModel mFoodModel;
+
+    public FoodPresenter() {
+        this.mFoodModel = new FoodModel();
+    }
+
+    @Override
+    public void onCommandCallback(String cmd, String extra) {
+
+    }
+
+    @Override
+    public void registerCmd(Context context) {
+
+    }
+
+    @Override
+    public void unregisterCmd(Context context) {
+
+    }
+
+    @Override
+    public void onUiReady(FoodPresenter.FoodUi ui) {
+        super.onUiReady(ui);
+        mFoodModel.onReady();
+    }
+
+    public void requestFilterConditions(FilterConditionsReq filterConditionsReq) {
+        mFoodModel.requestFilterConditions(filterConditionsReq,new RequestCallback<FilterConditionsResponse>(){
+            @Override
+            public void onSuccess(FilterConditionsResponse data) {
+                if ( getUi()!=null) {
+                    getUi().onSuccess(data);
+                }
+                Lg.getInstance().e(TAG,"msg:"+data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if ( getUi()!=null) {
+                    getUi().onError(msg);
+                }
+                Lg.getInstance().e(TAG,"msg:"+msg);
+            }
+        });
+    }
+
+    @Override
+    public void onUiUnready(FoodPresenter.FoodUi ui) {
+        super.onUiUnready(ui);
+        mFoodModel.onDestroy();
+    }
+
+    public interface FoodUi extends Ui {
+        void onSuccess(FilterConditionsResponse data);
+        void onError(String error);
+    }
+}

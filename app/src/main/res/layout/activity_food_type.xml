@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:background="@mipmap/back"
+            />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:text="@string/stroe_type_food"/>
+
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/search_bar"
+            android:layout_marginRight="20dp"
+            />
+
+    </RelativeLayout>
+
+    
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/lv_first_type"
+            android:layout_width="100dp"
+            android:scrollbars="none"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:background="@color/gray" />
+
+        <TextView
+            android:id="@+id/tv_first_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/lv_first_type"
+            android:layout_marginLeft="20dp"
+            android:text="@string/stroe_type_food"/>
+
+        <View
+            android:id="@+id/vw"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:paddingTop="30dp"
+            android:layout_below="@id/tv_first_category"
+            android:layout_toRightOf="@id/lv_first_type"
+            android:background="@color/gray_bg"/>
+        <GridView
+            android:id="@+id/gv_second_type"
+            android:scrollbars="none"
+            android:layout_toRightOf="@id/lv_first_type"
+            android:layout_below="@id/vw"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:numColumns="3"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+
+
+
+   
+
+</LinearLayout>

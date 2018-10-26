@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
+import android.content.Context;
 import android.util.ArrayMap;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
@@ -15,6 +16,20 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.PoifoodListUi> {
     private static final String TAG = PoifoodListPresenter.class.getSimpleName();
     private IPoifoodListModel mPoifoodListModel;
+
+    @Override
+    public void onCommandCallback(String cmd, String extra) {
+    }
+
+    @Override
+    public void registerCmd(Context context) {
+
+    }
+
+    @Override
+    public void unregisterCmd(Context context) {
+
+    }
 
     public PoifoodListPresenter() {
         mPoifoodListModel = new PoifoodListModel();
