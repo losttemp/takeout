@@ -92,4 +92,22 @@
     <string name="packing_fee">包装费</string>
     <string name="delivery_fee">配送费</string>
     <string name="discount_prompt">满减优惠与折扣商品不能同时共享</string>
+
+    <string name="address_select_title">我的收货地址</string>
+    <string name="address_select_add_address">新增地址</string>
+    <string name="address_sir">先生</string>
+    <string name="address_lady">女士</string>
+    <string name="address_destination">目的地</string>
+    <string name="address_company">公司</string>
+    <string name="address_home">家里</string>
+    <string name="address_contact">联系人：</string>
+    <string name="address_phone">手机号：</string>
+    <string name="address_addr">收货地址</string>
+    <string name="address_house_num">门牌号：</string>
+    <string name="address_tag">标签</string>
+    <string name="address_tag_home">家里</string>
+    <string name="address_tag_company">公司</string>
+    <string name="address_tag_other">其他</string>
+    <string name="address_edit_save">保存地址</string>
+    <string name="address_search_hint">请输入收货地址</string>
 </resources>

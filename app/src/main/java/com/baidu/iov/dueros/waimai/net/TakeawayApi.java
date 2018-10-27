@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.net;
 
 import com.baidu.iov.dueros.waimai.net.entity.base.ResponseBase;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
@@ -91,16 +92,20 @@ public interface TakeawayApi {
     @FormUrlEncoded
     @POST("/iovservice/waimai/getfilterconditions")
     Call<ResponseBase<FilterConditionResponse>> getFilterList(@FieldMap Map<String, String> map);
-	
-	@FormUrlEncoded
+
+    @FormUrlEncoded
     @POST("/iovservice/waimai/poiarrivetime")
     Call<ResponseBase<ArriveTimeBean>> getArriveTimeList(@FieldMap Map<String, String> map);
-	
-	@FormUrlEncoded
+
+    @FormUrlEncoded
     @POST("/iovservice/waimai/addresslist")
     Call<ResponseBase<AddressListBean>> getAddressList(@FieldMap Map<String, String> map);
-	
-	@FormUrlEncoded
+
+    @FormUrlEncoded
     @POST("/iovservice/waimai/ordersubmit")
-    Call<ResponseBase<OrderSubmitBean>> getOrderSubmit(@FieldMap Map<String, String> map);	
+    Call<ResponseBase<OrderSubmitBean>> getOrderSubmit(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("/iovservice/waimai/addressupdate")
+    Call<ResponseBase<AddressEditBean>> addAddress(@FieldMap Map<String, String> map);
 }

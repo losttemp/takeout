@@ -3,7 +3,6 @@ package com.baidu.iov.dueros.waimai.utils;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.baidu.iov.dueros.waimai.bean.LocationBean;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -31,11 +30,11 @@ public class LocationManager {
     private static final String TAG = LocationManager.class.getSimpleName();
 
     private static LocationManager mInstance = null;
-    private static LocationBean mLocationBean;
+
+    private static BDLocation mBDLocation;
 
     private LocationManager(Context context) {
         this.context = context;
-        this.mLocationBean = new LocationBean();
     }
 
     public static LocationManager getInstance(Context context) {
@@ -43,10 +42,6 @@ public class LocationManager {
             mInstance = new LocationManager(context);
         }
         return mInstance;
-    }
-
-    public LocationBean getLocationBean() {
-        return mLocationBean;
     }
 
     public void startLocation() {
@@ -119,16 +114,12 @@ public class LocationManager {
         public void onReceiveLocation(BDLocation location) {
             Lg.getInstance().d(TAG, "onReceiveLocation");
             if (locationCallBack != null && location != null) {
-                mLocationBean = new LocationBean();
+                mBDLocation = location;
                 switch (location.getLocType()) {
                     case TypeGpsLocation:
                     case TypeOffLineLocation:
                     case TypeNetWorkLocation:
-                        mLocationBean.setSuccess(true);
-                        mLocationBean.setLat(location.getLatitude());
-                        mLocationBean.setLng(location.getLongitude());
-                        mLocationBean.setCity(location.getCity());
-                        mLocationBean.setAddr(location.getAddrStr());
+                        locationCallBack.locationCallBack(true, mBDLocation);
                         break;
                     case TypeCriteriaException:
                     case TypeNetWorkException:
@@ -141,12 +132,12 @@ public class LocationManager {
                     case TypeServerCheckKeyError:
                     case TypeServerCheckKeyUnUsed:
                     case TypeServerCheckSHA:
-                        mLocationBean.setSuccess(false);
+                        locationCallBack.locationCallBack(false, mBDLocation);
                     default:
                         break;
                 }
-                locationCallBack.locationCallBack(mLocationBean);
             }
+            Lg.getInstance().d(TAG, "onReceiveLocation end");
             mLocationClient.stop();
         }
     };
@@ -154,7 +145,7 @@ public class LocationManager {
     private LocationCallBack locationCallBack;
 
     public interface LocationCallBack {
-        void locationCallBack(LocationBean locationBean);
+        void locationCallBack(boolean isSuccess, BDLocation bdLocation);
     }
 
     public void setLocationCallBack(LocationCallBack locationCallBack) {

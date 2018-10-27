@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.utils;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.ApiInstance;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
@@ -199,5 +200,17 @@ public class ApiUtils {
     public static <D extends RequestBase> void getFilterList(D request, ApiCallBack<FilterConditionResponse> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getFilterList(requestMap).enqueue(callBack);
+    }
+
+
+    /**
+     * get filter condition list request
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void addAddress(D request, ApiCallBack<AddressEditBean> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().addAddress(requestMap).enqueue(callBack);
     }
 }
