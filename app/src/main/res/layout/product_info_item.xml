@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray_bg">
+
+    <ImageView
+        android:id="@+id/product_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@mipmap/ic_goods_image"/>
+
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_toEndOf="@+id/product_photo"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/white_bg"
+        android:text="香辣鸡腿堡"/>
+    <TextView
+        android:id="@+id/product_count"
+        android:layout_toEndOf="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="80dp"
+        android:gravity="center"
+        android:text="X1"/>
+
+    <TextView
+        android:id="@+id/product_price"
+        android:layout_toEndOf="@+id/product_count"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="90dp"
+        android:textColor="@color/white_bg"
+        android:gravity="center"
+        android:text="￥28"/>
+    <TextView
+        android:id="@+id/discount_price"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:textColor="@color/white_bg"
+        android:gravity="center"
+        android:text="￥23"/>
+</RelativeLayout>

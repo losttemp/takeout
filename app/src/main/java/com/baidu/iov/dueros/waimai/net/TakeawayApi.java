@@ -2,6 +2,8 @@ package com.baidu.iov.dueros.waimai.net;
 
 import com.baidu.iov.dueros.waimai.net.entity.base.ResponseBase;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
@@ -10,6 +12,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 
 import java.util.List;
@@ -88,4 +91,16 @@ public interface TakeawayApi {
     @FormUrlEncoded
     @POST("/iovservice/waimai/getfilterconditions")
     Call<ResponseBase<FilterConditionResponse>> getFilterList(@FieldMap Map<String, String> map);
+	
+	@FormUrlEncoded
+    @POST("/iovservice/waimai/poiarrivetime")
+    Call<ResponseBase<ArriveTimeBean>> getArriveTimeList(@FieldMap Map<String, String> map);
+	
+	@FormUrlEncoded
+    @POST("/iovservice/waimai/addresslist")
+    Call<ResponseBase<AddressListBean>> getAddressList(@FieldMap Map<String, String> map);
+	
+	@FormUrlEncoded
+    @POST("/iovservice/waimai/ordersubmit")
+    Call<ResponseBase<OrderSubmitBean>> getOrderSubmit(@FieldMap Map<String, String> map);	
 }

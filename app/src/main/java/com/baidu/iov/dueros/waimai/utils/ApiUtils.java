@@ -4,6 +4,8 @@ import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.ApiInstance;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
@@ -13,6 +15,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 
 import java.util.Map;
 
@@ -76,6 +79,40 @@ public class ApiUtils {
         ApiInstance.getApi().getCinemaInfo(requestMap).enqueue(callBack);
     }
 
+
+    /**
+     * get arrivetime list request
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getArriveTimeList(D request, ApiCallBack<ArriveTimeBean> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getArriveTimeList(requestMap).enqueue(callBack);
+    }
+	
+	    /**
+     * get address list request
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getAddressList(D request, ApiCallBack<AddressListBean> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getAddressList(requestMap).enqueue(callBack);
+    }
+	
+	    /**
+     * get order submit request
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getOrderSubmit(D request, ApiCallBack<OrderSubmitBean> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getOrderSubmit(requestMap).enqueue(callBack);
+    }
+	
     /**
      * get poifood list request
      *

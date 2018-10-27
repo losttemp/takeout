@@ -39,16 +39,15 @@ public class ApiInstance {
         return SingletonHandler.sApiInstance;
     }
 
-    private TakeawayApi mFilmApi;
+    private TakeawayApi mWaimaiApi;
 
     public static TakeawayApi getApi() {
         ApiInstance instance = getApiInstance();
-        if (instance.mFilmApi == null) {
-            instance.mFilmApi = instance.mRetrofit.create(TakeawayApi.class);
+        if (instance.mWaimaiApi == null) {
+            instance.mWaimaiApi = instance.mRetrofit.create(TakeawayApi.class);
         }
-        return instance.mFilmApi;
+        return instance.mWaimaiApi;
     }
-
 
 
     private static class SingletonHandler {
