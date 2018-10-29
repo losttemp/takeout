@@ -26,4 +26,8 @@ public class Constant {
     public static String DETAIL = "detail";
     public static String OPERATORS = "Operators";
 
+    public static final String STORE_FRAGMENT_FROM_PAGE_TYPE = "page_type";
+    public static final int STORE_FRAGMENT_FROM_HOME = 0;
+    public static final int STORE_FRAGMENT_FROM_SEARCH = 1;
+
 }

@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
 
-public class HomePresenter extends Presenter<HomePresenter.HomeUi> {
+public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 
-	private static final String TAG = HomePresenter.class.getSimpleName();
+	private static final String TAG = SearchPresenter.class.getSimpleName();
 
 	private IHomeModel mModel;
 
@@ -43,24 +43,25 @@ public class HomePresenter extends Presenter<HomePresenter.HomeUi> {
 		}
 	}
 
-	public HomePresenter() {
+	public SearchPresenter() {
 		mModel = new HomeModel();
 	}
 
 	@Override
-	public void onUiReady(HomeUi ui) {
+	public void onUiReady(SearchUi ui) {
 		super.onUiReady(ui);
 		mModel.onReady();
 	}
 
 	@Override
-	public void onUiUnready(HomeUi ui) {
+	public void onUiUnready(SearchUi ui) {
 		super.onUiUnready(ui);
 		mModel.onDestroy();
 	}
 
-	public interface HomeUi extends Ui {
+	public interface SearchUi extends Ui {
 		void close();
+
 	}
 
 }

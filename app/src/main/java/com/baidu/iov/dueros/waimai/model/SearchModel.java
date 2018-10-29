@@ -1,6 +1,6 @@
 package com.baidu.iov.dueros.waimai.model;
 
-public class HomeModel implements IHomeModel {
+public class SearchModel implements ISearchModel {
 
 	@Override
 	public void onReady() {

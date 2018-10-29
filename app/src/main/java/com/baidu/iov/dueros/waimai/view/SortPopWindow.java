@@ -9,19 +9,21 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.baidu.iov.dueros.waimai.adapter.SortPopWindowAdapter;
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean;
-import com.baidu.iov.dueros.waimai.ui.HomeActivity;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
+		.DataBean.SortTypeListBean;
 import com.baidu.iov.dueros.waimai.ui.R;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SortPopWindow extends PopupWindow {
 
 	private List<SortTypeListBean> mSortList;
 	private SortPopWindowAdapter mAdapter;
-	public SortPopWindow(final Context context, List<SortTypeListBean> sortList) {
+	private OnSelectedSortListener mOnSelectedSortListener;
+
+	public SortPopWindow(final Context context, List<SortTypeListBean> sortList,
+						 final OnSelectedSortListener listener) {
 		mSortList = sortList;
 
 		View mContentView;
@@ -42,8 +44,9 @@ public class SortPopWindow extends PopupWindow {
 		lvSortClass.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//				adapter.updateSelected(position);
-				((HomeActivity) context).setSortType(mSortList.get(position));
+				if (listener != null) {
+					listener.OnSelectedSort(mSortList.get(position));
+				}
 				dismiss();
 			}
 		});
@@ -52,6 +55,10 @@ public class SortPopWindow extends PopupWindow {
 
 	public void updateList() {
 		mAdapter.notifyDataSetChanged();
+	}
+
+	public interface OnSelectedSortListener {
+		void OnSelectedSort(FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean type);
 	}
 
 }
