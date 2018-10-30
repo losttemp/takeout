@@ -29,5 +29,11 @@ public class Constant {
     public static final String STORE_FRAGMENT_FROM_PAGE_TYPE = "page_type";
     public static final int STORE_FRAGMENT_FROM_HOME = 0;
     public static final int STORE_FRAGMENT_FROM_SEARCH = 1;
+    public static String ACCOUNT_LOGIN_SUCCESS = "login_success";
+    public static String ACCOUNT_LOGIN_FAIL = "login_fail";
+    public static String ACCOUNT_AUTH_SUCCESS = "auth_success";
+    public static String ACCOUNT_AUTH_FAIL = "auth_fail";
+    public static String ACCOUNT_PAID_SUCCESS = "paid_success";
+    public static String ACCOUNT_PAID_FAIL = "paid_fail";
 
 }

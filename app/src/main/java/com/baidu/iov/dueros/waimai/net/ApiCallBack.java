@@ -19,12 +19,16 @@ import retrofit2.Response;
 public abstract class ApiCallBack<T> implements Callback<ResponseBase<T>> {
     private static final String TAG = ApiCallBack.class.getSimpleName();
     public static final int SUCCESS_CODE = 0;
+    public static final int AuthFail_CODE = 10010;
 
     @Override
     public void onResponse(Call<ResponseBase<T>> call, Response<ResponseBase<T>> response) {
         try {
             ResponseBase<T> responseBase = response.body();
             if (responseBase.getErrno() == SUCCESS_CODE) {
+                onSuccess(responseBase.getData());
+                Lg.getInstance().i(TAG, responseBase.getData().toString());
+            } else if (responseBase.getErrno() == AuthFail_CODE){
                 onSuccess(responseBase.getData());
                 Lg.getInstance().i(TAG, responseBase.getData().toString());
             } else {

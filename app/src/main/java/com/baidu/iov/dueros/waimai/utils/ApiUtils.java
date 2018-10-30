@@ -17,6 +17,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 
 import java.util.Map;
 
@@ -212,5 +213,16 @@ public class ApiUtils {
     public static <D extends RequestBase> void addAddress(D request, ApiCallBack<AddressEditBean> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().addAddress(requestMap).enqueue(callBack);
+    }
+	
+    /**
+     * get meituan Authorize
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getMeituanAuth(D request, ApiCallBack<MeituanAuthorizeResponse> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getMeituanAuth(requestMap).enqueue(callBack);
     }
 }
