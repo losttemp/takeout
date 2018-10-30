@@ -138,7 +138,7 @@ public class ApiUtils {
 //        ApiInstance.getApi().getPoidetailinfo(requestMap).enqueue(callBack);
 //    }
 
-    public static <D extends RequestBase> void getBusinessByLocation(D request, ApiCallBack<Map<String, BusinessBean>> callBack) {
+    public static <D extends RequestBase> void getBusinessByLocation(D request, ApiCallBack<BusinessBean> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getBusinessByLocation(requestMap).enqueue(callBack);
     }

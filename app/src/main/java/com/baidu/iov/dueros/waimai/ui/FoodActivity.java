@@ -129,7 +129,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
                 finish();
                 break;
             case R.id.btn_search:
-                
+                Intent intent = new Intent(FoodActivity.this, SearchActivity.class);
+                startActivity(intent);
                 break;
         }
     }

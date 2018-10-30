@@ -74,7 +74,7 @@ public interface TakeawayApi {
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/poilist")
-    Call<ResponseBase<Map<String, BusinessBean>>> getBusinessByLocation(@FieldMap Map<String, String> map);
+    Call<ResponseBase<BusinessBean>> getBusinessByLocation(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/getfilterconditions")

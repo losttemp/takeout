@@ -7,19 +7,17 @@
     android:orientation="vertical" >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:layout_height="40dp"
         android:orientation="vertical" >
 
         <Button
             android:id="@+id/btn_back"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:background="@mipmap/back"
+            android:background="@mipmap/arrow_return"
             />
         <TextView
             android:id="@+id/tv_title"
@@ -31,11 +29,11 @@
 
         <Button
             android:id="@+id/btn_search"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@mipmap/search_bar"
+            android:background="@mipmap/search"
             android:layout_marginRight="20dp"
             />
 
