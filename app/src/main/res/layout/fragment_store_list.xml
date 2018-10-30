@@ -126,4 +126,26 @@
 
 	</com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/tv_tip_no_result"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_centerHorizontal="true"
+		android:background="@color/gray_bg"
+		android:drawableTop="@mipmap/ic_no_result"
+		android:drawablePadding="16dp"
+		android:gravity="center_horizontal"
+		android:lineSpacingMultiplier="1.2"
+		android:paddingTop="50dp"
+		android:text="@string/no_search_result_keyword"
+		android:visibility="gone" />
+
+	<View
+		android:id="@+id/view_bg"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/ll_filter"
+		android:background="@color/pop_window_bg"
+		android:visibility="gone" />
+
 </RelativeLayout>
