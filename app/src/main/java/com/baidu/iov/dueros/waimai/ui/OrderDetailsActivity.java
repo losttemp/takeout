@@ -1,7 +1,6 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,10 +10,15 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.adapter.FoodListAdaper;
+import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.TestClass;
+import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +26,28 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 
 
-public class OrderDetailsActivity extends Activity implements View.OnClickListener {
+public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, OrderDetailsPresenter.OrderDetailsUi> implements OrderDetailsPresenter.OrderDetailsUi, View.OnClickListener {
     /**
      *
      */
-    private TextView  arrival_time,business_name,packing_fee,distribution_fee,discount,real_pay,contact,address,expected_time,order_id,order_time,pay_method;
-    private ListView ll_food;
+    private TextView  mArrivalTime,mBusinessName,mPackingFee,mDistributionFee,mDiscount,mRealPay,mContact,mAddress,mExpectedTime,mOrderId,mOrderTime,mPayMethod;
+    private ListView mFood;
+    private RelativeLayout mPayMethodInfo;
+    private OrderQueryData mData;
     private FoodListAdaper mFoodListAdaper;
+    private long id;
+    private String phone;
+
+    @Override
+    OrderDetailsPresenter createPresenter() {
+        return new OrderDetailsPresenter();
+    }
+
+    @Override
+    OrderDetailsPresenter.OrderDetailsUi getUi() {
+        return this;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +55,8 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         setListener();
         initView();
         setTextView();
+        requesData();
+        initData();
         final OkHttpClient okHttpClient=new OkHttpClient();
         mFoodListAdaper = new FoodListAdaper(this);
         TestClass t1 = new TestClass("黄焖鸡米饭","¥20");
@@ -44,7 +65,11 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         mData.add(t1);
         mData.add(t2);
         mFoodListAdaper.setData(mData);
-        ll_food.setAdapter(mFoodListAdaper);
+        mFood.setAdapter(mFoodListAdaper);
+    }
+
+    private void requesData() {
+
     }
 
     private void setListener() {
@@ -54,23 +79,53 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     }
 
     private void initView() {
-        arrival_time = (TextView)findViewById(R.id.arrival_time);
-        business_name = (TextView)findViewById(R.id.business_name);
-        packing_fee = (TextView)findViewById(R.id.packing_fee);
-        distribution_fee = (TextView)findViewById(R.id.distribution_fee);
-        discount = (TextView)findViewById(R.id.discount);
-        real_pay = (TextView)findViewById(R.id.real_pay);
-        contact = (TextView)findViewById(R.id.contact);
-        address = (TextView)findViewById(R.id.address);
-        expected_time = (TextView)findViewById(R.id.expected_time);
-        order_id = (TextView)findViewById(R.id.order_id);
-        order_time = (TextView)findViewById(R.id.order_time);
-        pay_method = (TextView)findViewById(R.id.pay_method);
-        ll_food = (ListView)findViewById(R.id.ll_food);
+        mArrivalTime = (TextView)findViewById(R.id.arrival_time);
+        mBusinessName = (TextView)findViewById(R.id.business_name);
+        mPackingFee = (TextView)findViewById(R.id.packing_fee);
+        mDistributionFee = (TextView)findViewById(R.id.distribution_fee);
+        mDiscount = (TextView)findViewById(R.id.discount);
+        mRealPay = (TextView)findViewById(R.id.real_pay);
+        mContact = (TextView)findViewById(R.id.contact);
+        mAddress = (TextView)findViewById(R.id.address);
+        mExpectedTime = (TextView)findViewById(R.id.expected_time);
+        mOrderId = (TextView)findViewById(R.id.order_id);
+        mOrderTime = (TextView)findViewById(R.id.order_time);
+        mPayMethod = (TextView)findViewById(R.id.pay_method);
+        mFood = (ListView)findViewById(R.id.ll_food);
+        mPayMethodInfo = (RelativeLayout) findViewById(R.id.pay_method_info);
     }
 
     private void setTextView() {
-        arrival_time.setText("预计12:00送达");
+        mArrivalTime.setText("预计12:00送达");
+    }
+
+    private void initData() {
+        loadData();
+    }
+
+    private void loadData() {
+        RequestCallback<OrderQueryData> loadDataListener = new RequestCallback <OrderQueryData>() {
+            @Override
+            public void onSuccess(OrderQueryData data) {
+                if (data==null) return;
+                mData = data;
+                refreshUI(data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                Toast.makeText(OrderDetailsActivity.this,msg,Toast.LENGTH_SHORT).show();
+            }
+        };
+//        MTWMApi.queryOrder(mOrderId, mUserPhone, mUserId, loadDataListener);
+    }
+
+    private void refreshUI(OrderQueryData data) {
+        if (data.getPayType()==1 || data.getPayType()==2){
+            String type=data.getPayType()==1?"货到付款":"在线支付";
+            mPayMethod.setText(type);
+            mPayMethodInfo.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -121,5 +176,20 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
                 dialog1.show();
                 break;
         }
+    }
+
+    @Override
+    public void update(OrderDetailsResponse data) {
+
+    }
+
+    @Override
+    public void failure(String msg) {
+
+    }
+
+    @Override
+    public void close() {
+        finish();
     }
 }

@@ -4,22 +4,22 @@ import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.ApiInstance;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 
 import java.util.Map;
 
@@ -193,6 +193,18 @@ public class ApiUtils {
     public static <D extends RequestBase> void getOrderList(D request, ApiCallBack<OrderListResponse> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getOrderList(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * get order details request
+     *
+     * @param <D>
+     * @param request
+     * @param callBack
+     */
+    public static <D extends RequestBase> void getOrderDetails(D request, ApiCallBack<OrderDetailsResponse> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getOrderDetails(requestMap).enqueue(callBack);
     }
 
     /**
