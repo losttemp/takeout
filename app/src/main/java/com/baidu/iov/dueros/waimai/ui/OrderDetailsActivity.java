@@ -100,33 +100,10 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void initData() {
-        loadData();
+//        loadData();
     }
 
-    private void loadData() {
-        RequestCallback<OrderQueryData> loadDataListener = new RequestCallback <OrderQueryData>() {
-            @Override
-            public void onSuccess(OrderQueryData data) {
-                if (data==null) return;
-                mData = data;
-                refreshUI(data);
-            }
 
-            @Override
-            public void onFailure(String msg) {
-                Toast.makeText(OrderDetailsActivity.this,msg,Toast.LENGTH_SHORT).show();
-            }
-        };
-//        MTWMApi.queryOrder(mOrderId, mUserPhone, mUserId, loadDataListener);
-    }
-
-    private void refreshUI(OrderQueryData data) {
-        if (data.getPayType()==1 || data.getPayType()==2){
-            String type=data.getPayType()==1?"货到付款":"在线支付";
-            mPayMethod.setText(type);
-            mPayMethodInfo.setVisibility(View.VISIBLE);
-        }
-    }
 
     @Override
     public void onClick(View v) {
