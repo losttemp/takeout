@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +17,6 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
 
-	private AppCompatTextView mTvLocation;
 	private LinearLayoutCompat mLlType;
 	private AppCompatTextView mTvFood;
 	private AppCompatTextView mTvFlower;
@@ -27,6 +27,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	private FrameLayout mFragmentStoreList;
 	private AppCompatImageView mIvBack;
 	private AppCompatImageView mIvRight;
+	private AppCompatTextView mTvTitle;
 
 	private HomePresenter mPresenter;
 	private StoreListFragment mStoreListFragment;
@@ -63,7 +64,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	}
 
 	private void iniView() {
-		mTvLocation = (AppCompatTextView) findViewById(R.id.tv_location);
 		mLlType = (LinearLayoutCompat) findViewById(R.id.ll_type);
 		mTvFood = (AppCompatTextView) findViewById(R.id.tv_food);
 		mTvFlower = (AppCompatTextView) findViewById(R.id.tv_flower);
@@ -74,11 +74,18 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mFragmentStoreList = (FrameLayout) findViewById(R.id.fragment_store_list);
 		mIvBack = (AppCompatImageView) findViewById(R.id.iv_back);
 		mIvRight = (AppCompatImageView) findViewById(R.id.iv_right);
+		mTvTitle = (AppCompatTextView) findViewById(R.id.tv_title);
 
 	}
 
 	private void iniData() {
 		mPresenter = getPresenter();
+
+		//address
+		Drawable drawable = getResources().getDrawable(R.mipmap.arrow_down_white);
+		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+		mTvTitle.setCompoundDrawables(null, null, drawable, null);
+		mTvTitle.setText("地址");
 
 		//fragment
 		mStoreListFragment = new StoreListFragment();
@@ -95,6 +102,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mTvFlower.setOnClickListener(this);
 		mTvCake.setOnClickListener(this);
 		mTvFood.setOnClickListener(this);
+		mTvOrder.setOnClickListener(this);
+		mTvTitle.setOnClickListener(this);
 
 	}
 
@@ -105,9 +114,14 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 				finish();
 				break;
 
+			case R.id.tv_title:
+				Intent addressIntent = new Intent(HomeActivity.this, AddressSelectActivity.class);
+				startActivity(addressIntent);
+				break;
+
 			case R.id.iv_right:
-				Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
-				startActivity(intent);
+				Intent searchIntent = new Intent(HomeActivity.this, SearchActivity.class);
+				startActivity(searchIntent);
 				break;
 
 			case R.id.tv_flower:

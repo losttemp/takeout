@@ -19,14 +19,16 @@ public class SearchModel implements ISearchModel {
 	}
 
 	@Override
-	public void requestSuggestList(SearchSuggestReq searchSuggestReq, final RequestCallback
+	public void requestSuggestList(String query, final RequestCallback
 			callback) {
 		if (callback == null) {
 			return;
 		}
 
+		SearchSuggestReq searchSuggestReq = new SearchSuggestReq();
 		searchSuggestReq.setLongitude(95369826);
 		searchSuggestReq.setLatitude(29735952);
+		searchSuggestReq.setQuery(query);
 
 		ApiUtils.getSearchSuggest(searchSuggestReq, new ApiCallBack<SearchSuggestResponse>() {
 			@Override
@@ -40,4 +42,5 @@ public class SearchModel implements ISearchModel {
 			}
 		});
 	}
+
 }

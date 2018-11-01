@@ -62,9 +62,9 @@ public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 		mModel.onDestroy();
 	}
 
-	public void requestSuggestList(SearchSuggestReq searchSuggestReq) {
+	public void requestSuggestList(String query) {
 
-		mModel.requestSuggestList(searchSuggestReq, new RequestCallback<SearchSuggestResponse>() {
+		mModel.requestSuggestList(query, new RequestCallback<SearchSuggestResponse>() {
 			@Override
 			public void onSuccess(SearchSuggestResponse data) {
 				if (getUi() != null) {
