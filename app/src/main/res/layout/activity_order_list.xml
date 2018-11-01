@@ -3,29 +3,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:background="@color/gray_bg">
 
     <RelativeLayout
-        android:id="@+id/tv_title"
+        android:id="@+id/rl_layout_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:background="@color/gray_bg"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
-        <TextView
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_back"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/close" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="外卖订单"
+            android:layout_centerInParent="true"
+            android:text="@string/takeaway_order"
             android:textColor="@color/white"
-            android:textSize="25sp" />
+            android:textSize="16sp" />
     </RelativeLayout>
-
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title"
+        android:layout_below="@id/rl_layout_header"
         android:background="@color/white"
         tools:listitem="@layout/layout_order_item" />
 

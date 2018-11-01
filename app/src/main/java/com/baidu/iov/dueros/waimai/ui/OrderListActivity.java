@@ -39,6 +39,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private RecyclerView mRvOrder;
     private AppCompatTextView mTvHomeBtn;
     private AppCompatTextView mTvOrderBtn;
+    private AppCompatImageView mIvBack;
 
     private OrderListAdaper mOrderListAdaper;
     private List<OrderListResponse.IovBean.DataBean> mOrderList = new
@@ -83,6 +84,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     private void initView() {
 
+        mIvBack = (AppCompatImageView) findViewById(R.id.iv_back);
         mRvOrder = (RecyclerView) findViewById(R.id.rv_order);
         mTvHomeBtn = (AppCompatTextView) findViewById(R.id.tv_home);
         mTvOrderBtn = (AppCompatTextView) findViewById(R.id.tv_order);
@@ -97,6 +99,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
         mOrderListReq = new OrderListReq();
         mTvOrderBtn.setOnClickListener(this);
+        mIvBack.setOnClickListener(this);
 
         mOrderListAdaper.setOnItemClickListener(new OrderListAdaper.OnItemClickListener() {
             @Override
@@ -110,7 +113,17 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
+
             case R.id.tv_order:
+                break;
+
+            case R.id.tv_home:
+                Intent homeIntent = new Intent(this, HomeActivity.class);
+                startActivity(homeIntent);
+                finish();
                 break;
 
             default:

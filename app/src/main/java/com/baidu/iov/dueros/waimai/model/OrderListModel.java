@@ -26,9 +26,6 @@ public class OrderListModel implements IOrderListModel {
             return;
         }
 
-        orderlistReq.setLongitude(95369826);
-        orderlistReq.setLatitude(29735952);
-
         ApiUtils.getOrderList(orderlistReq, new ApiCallBack<OrderListResponse>() {
             @Override
             public void onSuccess(OrderListResponse data) {
@@ -37,6 +34,7 @@ public class OrderListModel implements IOrderListModel {
 
             @Override
             public void onFailed(String msg) {
+                callback.onFailure(msg);
             }
         });
 
