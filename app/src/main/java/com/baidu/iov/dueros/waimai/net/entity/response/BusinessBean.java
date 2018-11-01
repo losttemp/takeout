@@ -93,7 +93,7 @@ public class BusinessBean {
 
         @Override
         public String toString() {
-            return "BusinessBean{" +
+            return "MeituanBean{" +
                     "code=" + code +
                     ", msg='" + msg + '\'' +
                     ", errorInfo='" + errorInfo + '\'' +
