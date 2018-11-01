@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_bg"
     android:orientation="vertical" >
+    
     <RelativeLayout
+        android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="vertical" >
@@ -42,6 +44,8 @@
     
 
     <RelativeLayout
+        android:id="@+id/rl_center"
+        android:layout_below="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -88,8 +92,21 @@
     </RelativeLayout>
 
 
-
+    <TextView
+        android:id="@+id/tv_tip_no_result"
+        android:layout_below="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:drawableTop="@mipmap/ic_no_result"
+        android:drawablePadding="16dp"
+        android:gravity="center_horizontal"
+        android:lineSpacingMultiplier="1.2"
+        android:paddingTop="50dp"
+        android:text="@string/no_search_result_keyword"
+        android:background="@color/gray_bg"
+        android:visibility="visible" />
 
    
 
-</LinearLayout>
+</RelativeLayout>

@@ -41,6 +41,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     
     private int lvFirstTypePos;
 
+    private TextView tvNoResult;
+
     @Override
     FoodPresenter createPresenter() {
         return new FoodPresenter();
@@ -74,6 +76,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         tvFirstCategory=findViewById(R.id.tv_first_category);
         btnBack=findViewById(R.id.btn_back);
         btnSearch=findViewById(R.id.btn_search);
+        tvNoResult=findViewById(R.id.tv_tip_no_result);
+        tvNoResult.setVisibility(View.GONE);
         
         mFirstTypeFoodAdapter=new FirstTypeFoodAdapter(this);
         lvFirstType.setAdapter(mFirstTypeFoodAdapter);
@@ -110,10 +114,12 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     @Override
     public void onSuccess(FilterConditionsResponse data) {
         categoryFilterList=data.getMeituan().getData().getCategory_filter_list();
-        //categoryFilterList.remove(0);
         mFirstTypeFoodAdapter.setData(categoryFilterList);
         tvFirstCategory.setText(categoryFilterList.get(0).getName());
         mSecondTypeFoodAdapter.setData(categoryFilterList.get(0).getSub_category_list());
+        if (categoryFilterList.size() == 0) {
+            tvNoResult.setVisibility(View.VISIBLE);
+        }
         Lg.getInstance().e(TAG,"msg:"+data);
     }
 
