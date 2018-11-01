@@ -51,7 +51,7 @@ import java.util.List;
 
 public class FoodListActivity extends BaseActivity<PoifoodListPresenter, PoifoodListPresenter.PoifoodListUi> implements PoifoodListPresenter.PoifoodListUi, View.OnClickListener, PoifoodSpusListAdapter.onCallBackListener, IShoppingCartToDetailListener {
     private static final String TAG = FoodListActivity.class.getSimpleName();
-    public static final String SHOP_NAME = "shop_name";
+    public static final String POI_INFO = "poi_info";
     public static final String PRODUCT_LIST_BEAN = "product_list_bean";
 
     private boolean isScroll = true;
@@ -99,6 +99,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private RelativeLayout mStoreDetails;
     private TextView mClearshopCart;
     private PoidetailinfoBean mPoidetailinfoBean;
+    private PoifoodListBean.MeituanBean.DataBean.PoiInfoBean mPoiInfoBean;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -230,6 +231,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         shopping_cart.setOnClickListener(this);
         mClearshopCart.setOnClickListener(this);
 
+//        long wmPoiId = (long) getIntent().getExtras().get(Constant.STORE_ID);
+//        Map map = new HashMap();
+//        map.put()
         getPresenter().requestData(null);
     }
 
@@ -380,8 +384,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     return;
                 }
                 Intent intent = new Intent(this, SubmitOrderActivity.class);
-                //TODO 店名 购物车列表（物品图片、物品名称、价格、规格、优惠活动）
-                intent.putExtra(SHOP_NAME, mPoidetailinfoBean.getMeituan().getData().getName());
+                //TODO 店名 包装费 配送费 优惠信息 美团专送    购物车列表（物品图片、物品名称、价格、规格、优惠活动）
+                intent.putExtra(POI_INFO, mPoiInfoBean);
                 intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
                 startActivity(intent);
                 break;
@@ -535,6 +539,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void onPoifoodListSuccess(PoifoodListBean data) {
         foodSpuTagsBeans.clear();
         foodSpuTagsBeanName.clear();
+        mPoiInfoBean = data.getMeituan().getData().getPoi_info();
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> food_spu_tags = data.getMeituan().getData().getFood_spu_tags();
         for (int i = 0; i < food_spu_tags.size(); i++) {
             PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean foodSpuTagsBean = food_spu_tags.get(i);

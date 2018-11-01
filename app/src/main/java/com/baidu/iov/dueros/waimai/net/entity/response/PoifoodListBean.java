@@ -85,7 +85,7 @@ public class PoifoodListBean {
                 this.food_spu_tags = food_spu_tags;
             }
 
-            public static class PoiInfoBean {
+            public static class PoiInfoBean implements Serializable{
                 private long id;
                 private long wm_poi_id;
                 private String name;
