@@ -9,6 +9,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
@@ -59,7 +60,7 @@ public interface TakeawayApi {
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/poidetailinfo")
-    Call<ResponseBase<PoifoodListBean>> getPoidetailinfo(@FieldMap Map<String, String> map);
+    Call<ResponseBase<PoidetailinfoBean>> getPoidetailinfo(@FieldMap Map<String, String> map);
 
     /**
      * get store list request

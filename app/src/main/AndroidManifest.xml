@@ -27,8 +27,7 @@
         </activity>
         <activity
             android:name=".FoodListActivity"
-            android:theme="@style/AppTheme" />
-        <!--<activity android:name=".WebViewActivity"/>-->
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity android:name=".BusinessActivity"></activity>
         <activity android:name=".FoodActivity"></activity>

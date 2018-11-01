@@ -48,6 +48,9 @@
     <string name="add_to_cart">加入购物车</string>
     <string name="chicken">推荐大鸡排</string>
     <string name="explain">大块鸡排，鲜嫩多汁，配上超多芝士和新鲜生菜</string>
+    <string name="shop_cart">购物车</string>
+    <string name="empty_all">清空全部</string>
+    <string name="please_add_to_the_shopping_cart_first">请先添加商品至购物车</string>
 
     <!--tools:text-->
     <string name="tools_text_location">送至：未来科技大厦</string>

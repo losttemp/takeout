@@ -1,10 +1,8 @@
 package com.baidu.iov.dueros.waimai.utils;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class DoubleUtil implements Serializable {
-    private static final long serialVersionUID = -3345205828566485102L;
+public class DoubleUtil {
     private static final Integer DEF_DIV_SCALE = 2;
 
     public static double round(double value, int scale,

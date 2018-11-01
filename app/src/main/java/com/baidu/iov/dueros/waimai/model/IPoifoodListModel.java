@@ -10,4 +10,6 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 
 public interface IPoifoodListModel extends IModel {
     void requestPoifoodList(ArrayMap<String, String> params, final RequestCallback callback);
+
+    void requestPoidetailinfo(ArrayMap<String, String> params, final RequestCallback callback);
 }
