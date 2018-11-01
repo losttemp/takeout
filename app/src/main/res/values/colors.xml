@@ -6,7 +6,8 @@
 
 	<color name="def_mask_color">#FF4081</color>
 	<color name="mask_color">#88888888</color>
-	<color name="refresh_ayout">#00000000</color>
+	<color name="refresh_layout">#00000000</color>
+	<color name="pop_window_bg">#66000000</color>
 
 	<!--<color name="drop_down_selected">#7B1FA2</color>-->
 	<!--<color name="drop_down_unselected">#111111</color>-->
@@ -25,11 +26,11 @@
 	<color name="black">#000000</color>
 	<color name="gray">#cccccc</color>
 	<color name="dark_gray">#999999</color>
-	<color name="red">#ff0000</color><!--红色 -->
-	<color name="blue">#0000ff</color><!--蓝色 -->
-	<color name="deepskyblue">#00bfff</color><!--深天蓝色 -->
+	<color name="red">#ff0000</color>
+	<color name="blue">#0000ff</color>
+	<color name="deepskyblue">#00bfff</color>
 	<color name="white_bg">#FFFFFF</color>
-	<color name="gray_bg">#434343</color>
+	<color name="gray_bg">#FF6D7681</color>
 	<color name="divider">#767676</color>
 	<color name="gray_text">#767676</color>
 	<color name="red_text">#FF0000</color>

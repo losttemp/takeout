@@ -11,7 +11,6 @@
 		android:background="@color/white"
 		android:divider="@null"
 		android:padding="10dp"
-		android:layout_marginBottom="10dp"
 		tools:listitem="@layout/item_activity_filter" />
 
 	<LinearLayout

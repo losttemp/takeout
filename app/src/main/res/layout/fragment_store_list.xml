@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/gray_bg">
+
+	<!--filter-->
+	<android.support.v7.widget.LinearLayoutCompat
+		android:id="@+id/ll_filter"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/ll_type"
+		android:layout_marginTop="5dp"
+		android:background="@color/white"
+		android:orientation="horizontal"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp">
+
+		<RelativeLayout
+			android:id="@+id/rl_sort"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_weight="1.5"
+			android:padding="5dp">
+
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/tv_sort"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:maxLines="1"
+				android:text="@string/store_sort"
+				android:textColor="@color/dark_gray"
+				android:textSize="16sp" />
+
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/iv_sort"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="5dp"
+				android:layout_toRightOf="@+id/tv_sort"
+				android:src="@mipmap/arrow_down" />
+
+		</RelativeLayout>
+
+		<android.support.v7.widget.AppCompatTextView
+			android:id="@+id/tv_sales"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:padding="5dp"
+			android:text="@string/store_sales"
+			android:textColor="@color/dark_gray"
+			android:textSize="16sp" />
+
+		<android.support.v7.widget.AppCompatTextView
+			android:id="@+id/tv_distance"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:padding="5dp"
+			android:text="@string/store_distance"
+			android:textColor="@color/dark_gray"
+			android:textSize="16sp" />
+
+		<RelativeLayout
+			android:id="@+id/rl_filter"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_weight="1"
+			android:gravity="right"
+			android:padding="5dp">
+
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/tv_filter"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:text="@string/store_filter"
+				android:textColor="@color/dark_gray"
+				android:textSize="16sp" />
+
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/iv_filter"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="5dp"
+				android:layout_toRightOf="@+id/tv_filter"
+				android:src="@mipmap/arrow_down" />
+
+		</RelativeLayout>
+
+	</android.support.v7.widget.LinearLayoutCompat>
+
+	<com.scwang.smartrefresh.layout.SmartRefreshLayout
+		android:id="@+id/refresh_layout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/ll_filter"
+		app:srlAccentColor="@color/refresh_layout"
+		app:srlEnablePreviewInEditMode="true"
+		app:srlPrimaryColor="@color/refresh_layout">
+
+		<com.scwang.smartrefresh.layout.header.ClassicsHeader
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/rv_store"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="@color/white"
+			tools:listitem="@layout/layout_store_item" />
+
+		<com.scwang.smartrefresh.layout.footer.ClassicsFooter
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+
+	</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/tv_tip_no_result"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/ll_filter"
+		android:layout_centerHorizontal="true"
+		android:background="@color/gray_bg"
+		android:drawableTop="@mipmap/ic_no_result"
+		android:drawablePadding="16dp"
+		android:gravity="center_horizontal"
+		android:lineSpacingMultiplier="1.2"
+		android:paddingTop="50dp"
+		android:text="@string/no_search_result_keyword"
+		android:visibility="gone" />
+
+	<View
+		android:id="@+id/view_bg"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/ll_filter"
+		android:background="@color/pop_window_bg"
+		android:visibility="gone" />
+
+</RelativeLayout>

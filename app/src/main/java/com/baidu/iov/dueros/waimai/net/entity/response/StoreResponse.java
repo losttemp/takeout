@@ -4,22 +4,6 @@ import java.util.List;
 
 public class StoreResponse {
 
-	/**
-	 * meituan : {"code":0,"msg":"调用成功","errorInfo":{"failCode":"11014","name":"addressId错误",
-	 * "description":""},"data":{"poi_total_num":3683,"have_next_page":1,"current_page_index":1,
-	 * "page_size":20,"openPoiBaseInfoList":[{"wm_poi_id":432401136636641,"status":1,
-	 * "status_desc":"可配送","name":"外卖C端KHD专用_活动大全","pic_url":"http://p0.meituan
-	 * .net/waimaipoi/f0abb9bc6ced8d0ff77402dda2dc3fed242943.jpg","shipping_fee":3,"min_price":20,
-	 * "wm_poi_score":4.6,"avg_delivery_time":30,"poi_type_icon":"","distance":"1.4km",
-	 * "latitude":29727678,"longitude":95380403,"address":"懂拉嘎波","month_sale_num":0,
-	 * "delivery_type":1,"invoice_support":1,"invoice_min_price":20,
-	 * "product_list":[{"id":403529562,"name":"豉汁排骨+有机花菜双拼饭","price":25,
-	 * "picture":"http://p0.meituan.net/xianfu/bdcae6f8144b2576f7a9ba32677198c8159942.jpg"}],
-	 * "discounts":[{"info":"实际支付18元返1元商家代金券","icon_url":"http://p0.meituan
-	 * .net/xianfu/652eea4034250563fe11b02e3219ba8d981.png"}],"average_price_tip":""}]}}
-	 * iov : {}
-	 */
-
 	private MeituanBean meituan;
 	private IovBean iov;
 
@@ -40,22 +24,6 @@ public class StoreResponse {
 	}
 
 	public static class MeituanBean {
-		/**
-		 * code : 0
-		 * msg : 调用成功
-		 * errorInfo : {"failCode":"11014","name":"addressId错误","description":""}
-		 * data : {"poi_total_num":3683,"have_next_page":1,"current_page_index":1,"page_size":20,
-		 * "openPoiBaseInfoList":[{"wm_poi_id":432401136636641,"status":1,"status_desc":"可配送",
-		 * "name":"外卖C端KHD专用_活动大全","pic_url":"http://p0.meituan
-		 * .net/waimaipoi/f0abb9bc6ced8d0ff77402dda2dc3fed242943.jpg","shipping_fee":3,
-		 * "min_price":20,"wm_poi_score":4.6,"avg_delivery_time":30,"poi_type_icon":"",
-		 * "distance":"1.4km","latitude":29727678,"longitude":95380403,"address":"懂拉嘎波",
-		 * "month_sale_num":0,"delivery_type":1,"invoice_support":1,"invoice_min_price":20,
-		 * "product_list":[{"id":403529562,"name":"豉汁排骨+有机花菜双拼饭","price":25,
-		 * "picture":"http://p0.meituan.net/xianfu/bdcae6f8144b2576f7a9ba32677198c8159942.jpg"}],
-		 * "discounts":[{"info":"实际支付18元返1元商家代金券","icon_url":"http://p0.meituan
-		 * .net/xianfu/652eea4034250563fe11b02e3219ba8d981.png"}],"average_price_tip":""}]}
-		 */
 
 		private int code;
 		private String msg;
@@ -95,11 +63,6 @@ public class StoreResponse {
 		}
 
 		public static class ErrorInfoBean {
-			/**
-			 * failCode : 11014
-			 * name : addressId错误
-			 * description :
-			 */
 
 			private String failCode;
 			private String name;
@@ -131,22 +94,6 @@ public class StoreResponse {
 		}
 
 		public static class DataBean {
-			/**
-			 * poi_total_num : 3683
-			 * have_next_page : 1
-			 * current_page_index : 1
-			 * page_size : 20
-			 * openPoiBaseInfoList : [{"wm_poi_id":432401136636641,"status":1,"status_desc":"可配送",
-			 * "name":"外卖C端KHD专用_活动大全","pic_url":"http://p0.meituan
-			 * .net/waimaipoi/f0abb9bc6ced8d0ff77402dda2dc3fed242943.jpg","shipping_fee":3,
-			 * "min_price":20,"wm_poi_score":4.6,"avg_delivery_time":30,"poi_type_icon":"",
-			 * "distance":"1.4km","latitude":29727678,"longitude":95380403,"address":"懂拉嘎波",
-			 * "month_sale_num":0,"delivery_type":1,"invoice_support":1,"invoice_min_price":20,
-			 * "product_list":[{"id":403529562,"name":"豉汁排骨+有机花菜双拼饭","price":25,
-			 * "picture":"http://p0.meituan.net/xianfu/bdcae6f8144b2576f7a9ba32677198c8159942.jpg
-			 * "}],"discounts":[{"info":"实际支付18元返1元商家代金券","icon_url":"http://p0.meituan
-			 * .net/xianfu/652eea4034250563fe11b02e3219ba8d981.png"}],"average_price_tip":""}]
-			 */
 
 			private int poi_total_num;
 			private int have_next_page;
@@ -195,33 +142,6 @@ public class StoreResponse {
 			}
 
 			public static class OpenPoiBaseInfoListBean {
-				/**
-				 * wm_poi_id : 432401136636641
-				 * status : 1
-				 * status_desc : 可配送
-				 * name : 外卖C端KHD专用_活动大全
-				 * pic_url : http://p0.meituan
-				 * .net/waimaipoi/f0abb9bc6ced8d0ff77402dda2dc3fed242943.jpg
-				 * shipping_fee : 3
-				 * min_price : 20
-				 * wm_poi_score : 4.6
-				 * avg_delivery_time : 30
-				 * poi_type_icon :
-				 * distance : 1.4km
-				 * latitude : 29727678
-				 * longitude : 95380403
-				 * address : 懂拉嘎波
-				 * month_sale_num : 0
-				 * delivery_type : 1
-				 * invoice_support : 1
-				 * invoice_min_price : 20
-				 * product_list : [{"id":403529562,"name":"豉汁排骨+有机花菜双拼饭","price":25,
-				 * "picture":"http://p0.meituan
-				 * .net/xianfu/bdcae6f8144b2576f7a9ba32677198c8159942.jpg"}]
-				 * discounts : [{"info":"实际支付18元返1元商家代金券","icon_url":"http://p0.meituan
-				 * .net/xianfu/652eea4034250563fe11b02e3219ba8d981.png"}]
-				 * average_price_tip :
-				 */
 
 				private long wm_poi_id;
 				private int status;
@@ -414,13 +334,6 @@ public class StoreResponse {
 				}
 
 				public static class ProductListBean {
-					/**
-					 * id : 403529562
-					 * name : 豉汁排骨+有机花菜双拼饭
-					 * price : 25.0
-					 * picture : http://p0.meituan
-					 * .net/xianfu/bdcae6f8144b2576f7a9ba32677198c8159942.jpg
-					 */
 
 					private int id;
 					private String name;
@@ -461,11 +374,6 @@ public class StoreResponse {
 				}
 
 				public static class DiscountsBean {
-					/**
-					 * info : 实际支付18元返1元商家代金券
-					 * icon_url : http://p0.meituan
-					 * .net/xianfu/652eea4034250563fe11b02e3219ba8d981.png
-					 */
 
 					private String info;
 					private String icon_url;

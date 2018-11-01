@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.baidu.iov.dueros.waimai.ui.WaiMaiApplication;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,13 +16,9 @@ public class SharedPreferencesUtils {
 	private static final int SEARCH_HISTORY_MAX = 20;
 
 
-	public static void getSearchHistory(Context context, List<String> historys) {
-		if (context == null || historys == null) {
-			return;
-		}
-
-		SharedPreferences pref = context.getSharedPreferences(SEARCH_HISTORY, Context
-				.MODE_PRIVATE);
+	public static void getSearchHistory(List<String> historys) {
+		SharedPreferences pref = WaiMaiApplication.getInstance().getSharedPreferences
+				(SEARCH_HISTORY, Context.MODE_PRIVATE);
 		historys.clear();
 		String result = pref.getString(SEARCH_KEYWORD, "");
 
@@ -36,15 +34,16 @@ public class SharedPreferencesUtils {
 		}
 	}
 
-	public static void saveSearchHistory(Context context, String word, List<String>
+	public static void saveSearchHistory(String word, List<String>
 			historys) {
-		if (context == null || historys == null) {
+		if (historys == null) {
 			return;
 		}
 
-		SharedPreferences pref = context.getSharedPreferences(SEARCH_HISTORY, Context
-				.MODE_PRIVATE);
-		getSearchHistory(context, historys);
+		SharedPreferences pref = WaiMaiApplication.getInstance().getSharedPreferences
+				(SEARCH_HISTORY, Context
+						.MODE_PRIVATE);
+		getSearchHistory(historys);
 		//Delete duplicate historys
 		if (historys.contains(word)) {
 			historys.remove(word);
@@ -60,15 +59,19 @@ public class SharedPreferencesUtils {
 		editor.commit();
 	}
 
-	public static void clearSearchHistory(Context context) {
-		if (context == null) {
-			return;
-		}
-
-		SharedPreferences pref = context.getSharedPreferences(SEARCH_HISTORY, Context
-				.MODE_PRIVATE);
+	public static void clearSearchHistory() {
+		SharedPreferences pref = WaiMaiApplication.getInstance().getSharedPreferences
+				(SEARCH_HISTORY, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.remove(SEARCH_KEYWORD);
+		editor.commit();
+	}
+
+	public static void deleteSearchHistory(List<String> historys) {
+		SharedPreferences pref = WaiMaiApplication.getInstance().getSharedPreferences
+				(SEARCH_HISTORY, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putString(SEARCH_KEYWORD, historys.toString());
 		editor.commit();
 	}
 

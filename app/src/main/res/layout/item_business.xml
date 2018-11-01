@@ -1,25 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:background="@color/white">
+    
+    <FrameLayout
+        android:id="@+id/fl"
+        android:layout_width="80dp"
+        android:layout_margin="10dp"
+        android:layout_height="80dp">
 
     <ImageView
         android:id="@+id/iv_business"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="2dp"
-        android:src="@mipmap/ic_launcher"
-        android:textSize="25sp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_status_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/all"
+            android:background="#80ffffff"
+            android:layout_gravity="bottom"
+            android:gravity="center_horizontal"
+            android:textSize="16sp" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_business_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/all"
-        android:layout_toRightOf="@id/iv_business"
+        android:layout_alignTop="@id/fl"
+        android:layout_toRightOf="@id/fl"
         android:textSize="16sp" />
 
 
@@ -29,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_below="@id/tv_business_name"
-        android:layout_toRightOf="@id/iv_business"
+        android:layout_toRightOf="@id/fl"
         app:starCount="5"
         app:starEmpty="@mipmap/rating_small_empty"
         app:starFill="@mipmap/rating_small_full"
@@ -64,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_month_sale_nume"
         android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/iv_business"
+        android:layout_toRightOf="@id/fl"
         android:textSize="13sp" />
 
     <TextView
@@ -102,6 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/tv_business_score"
         android:layout_toLeftOf="@id/tv_distance"
+        android:layout_marginRight="3dp"
         android:textSize="13sp" />
     
 </RelativeLayout>

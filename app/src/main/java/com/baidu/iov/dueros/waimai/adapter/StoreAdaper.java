@@ -12,15 +12,18 @@ import android.widget.LinearLayout;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.Glide;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
 	private List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean> mStoreList;
 	private Context mContext;
+	private OnItemClickListener mItemClickListener;
 
 	public StoreAdaper(List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean> storeList,
 					   Context context) {
@@ -35,6 +38,15 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 				.layout_store_item, viewGroup, false);
 		final ViewHolder holder = new ViewHolder(view);
 
+		view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mItemClickListener != null) {
+					mItemClickListener.onItemClick((Integer) v.getTag());
+				}
+			}
+		});
+
 		return holder;
 	}
 
@@ -47,18 +59,36 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		viewHolder.tvScore.setText(store.getWm_poi_score() + "");
 		viewHolder.tvDistance.setText(store.getDistance());
 		viewHolder.tvAveragePrice.setText(store.getAverage_price_tip());
-		viewHolder.tvStatusDesc.setText(store.getStatus_desc());
 		viewHolder.tvSales.setText(String.format(mContext.getResources().getString(R.string
 				.month_sale_num), store.getMonth_sale_num()));
 		viewHolder.tvTime.setText(String.format(mContext.getResources().getString(R.string
 				.delivery_time), store.getAvg_delivery_time()));
 		viewHolder.tvMinPrice.setText(String.format(mContext.getResources().getString(R.string
-				.min_price), store.getMin_price()));
+				.min_price_s), NumberFormat.getInstance().format(store.getMin_price())));
 		viewHolder.tvExpressPrice.setText(String.format(mContext.getResources().getString(R.string
-				.shipping_fee), store.getShipping_fee()));
+				.shipping_fee_s), NumberFormat.getInstance().format(store.getShipping_fee())));
+		viewHolder.tvStoreIndex.setText(position + 1 + "");
 
 		viewHolder.ratingBar.setClickable(false);
 		viewHolder.ratingBar.setStar((float) store.getWm_poi_score());
+
+		int status = store.getStatus();
+		if (status == Constant.STROE_STATUS_BREAK) {
+			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string
+					.store_status_break));
+			viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
+
+		} else if (status == Constant.STROE_STATUS_BUSY) {
+			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string
+					.store_status_busy));
+			viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
+
+		} else {
+			viewHolder.tvStatusDesc.setVisibility(View.GONE);
+
+		}
+
+		viewHolder.itemView.setTag(position);
 
 		Glide.with(mContext).load(store.getPic_url()).into(viewHolder.ivStore);
 
@@ -82,6 +112,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		private AppCompatTextView tvMinPrice;
 		private AppCompatTextView tvExpressPrice;
 		private AppCompatTextView tvAveragePrice;
+		private AppCompatTextView tvStoreIndex;
 
 		private ViewHolder(View view) {
 			super(view);
@@ -98,6 +129,15 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			tvMinPrice = (AppCompatTextView) view.findViewById(R.id.tv_min_price);
 			tvExpressPrice = (AppCompatTextView) view.findViewById(R.id.tv_express_price);
 			tvAveragePrice = (AppCompatTextView) view.findViewById(R.id.tv_average_price);
+			tvStoreIndex = (AppCompatTextView) view.findViewById(R.id.tv_store_index);
 		}
+	}
+
+	public interface OnItemClickListener {
+		void onItemClick(int position);
+	}
+
+	public void setItemClickListener(OnItemClickListener itemClickListener) {
+		mItemClickListener = itemClickListener;
 	}
 }

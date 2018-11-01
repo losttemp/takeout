@@ -80,9 +80,9 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
     }
 
     public void requestBusinessBean(PoilistReq poilistReq) {
-        mBusinessModel.requestBusinessBean(poilistReq,new RequestCallback<Map<String,BusinessBean>>(){
+        mBusinessModel.requestBusinessBean(poilistReq,new RequestCallback<BusinessBean>(){
             @Override
-            public void onSuccess(Map<String,BusinessBean> data) {
+            public void onSuccess(BusinessBean data) {
                 if ( getUi()!=null) {
                     getUi().onBusinessBeanSuccess(data);
                 }
@@ -107,7 +107,7 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
     }
 
     public interface BusinessUi extends Ui {
-        void onBusinessBeanSuccess(Map<String,BusinessBean> data);
+        void onBusinessBeanSuccess(BusinessBean data);
         void onBusinessBeanError(String error);
         void onFilterConditionsSuccess(FilterConditionsResponse data);
         void onFilterConditionsError(String error);

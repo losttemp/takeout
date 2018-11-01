@@ -13,9 +13,11 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -74,7 +76,7 @@ public interface TakeawayApi {
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/poilist")
-    Call<ResponseBase<Map<String, BusinessBean>>> getBusinessByLocation(@FieldMap Map<String, String> map);
+    Call<ResponseBase<BusinessBean>> getBusinessByLocation(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/getfilterconditions")
@@ -109,4 +111,12 @@ public interface TakeawayApi {
     @FormUrlEncoded
     @POST("/iovservice/waimai/addressupdate")
     Call<ResponseBase<AddressEditBean>> addAddress(@FieldMap Map<String, String> map);
+	
+    @FormUrlEncoded
+    @POST("/iovservice/waimai/authorize")
+    Call<ResponseBase<MeituanAuthorizeResponse>> getMeituanAuth(@FieldMap Map<String, String> map);
+
+	@FormUrlEncoded
+	@POST("/iovservice/waimai/suggest")
+	Call<ResponseBase<SearchSuggestResponse>> getSearchSuggest(@FieldMap Map<String, String> map);
 }

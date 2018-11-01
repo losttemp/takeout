@@ -4,10 +4,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.ui.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
+import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -15,13 +17,13 @@ public class BusinesAdapter extends BaseAdapter {
 
     private Context mContext;
     
-    private List<BusinessBean.Business.OpenPoiBaseInfo> mData;
+    private List<BusinessBean.MeituanBean.Business.OpenPoiBaseInfo> mData;
 
     public BusinesAdapter(Context context) {
         mContext = context;
     }
 
-    public void setData(List<BusinessBean.Business.OpenPoiBaseInfo> data) {
+    public void setData(List<BusinessBean.MeituanBean.Business.OpenPoiBaseInfo> data) {
         mData = data;
         notifyDataSetChanged();
     }
@@ -56,11 +58,13 @@ public class BusinesAdapter extends BaseAdapter {
             viewHolder.tvAvgDeliveryTime= convertView.findViewById(R.id.tv_avg_delivery_time);
             viewHolder.tvAveragePrice= convertView.findViewById(R.id.tv_average_price);
             viewHolder.ratingBar = convertView.findViewById(R.id.ratingBar);
+            viewHolder.tvStatusDesc = convertView.findViewById(R.id.tv_status_desc);
+            viewHolder.rl= convertView.findViewById(R.id.rl);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        BusinessBean.Business.OpenPoiBaseInfo mOpenPoiBaseInfo = mData.get(position);
+        BusinessBean.MeituanBean.Business.OpenPoiBaseInfo mOpenPoiBaseInfo = mData.get(position);
         viewHolder.tvBusinessName.setText(mOpenPoiBaseInfo.getName());
         viewHolder.tvBusinessScore.setText(""+mOpenPoiBaseInfo.getWmPoiScore());
         viewHolder.tvMonthSaleNume.setText(String.format(mContext.getResources().getString(R.string
@@ -75,6 +79,17 @@ public class BusinesAdapter extends BaseAdapter {
         viewHolder.tvAveragePrice.setText(""+mOpenPoiBaseInfo.getAveragePriceTip());
         viewHolder.ratingBar.setClickable(false);
         viewHolder.ratingBar.setStar((float) mOpenPoiBaseInfo.getWmPoiScore());
+        if (mOpenPoiBaseInfo.getStatus()==1){
+            viewHolder.tvStatusDesc.setVisibility(View.GONE);
+        }else{
+            viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
+            viewHolder.tvStatusDesc.setText(mOpenPoiBaseInfo.getStatusDesc());
+        }
+        if (mOpenPoiBaseInfo.getStatus()==3){
+            viewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.gray));
+        }else{
+            viewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+        }
         Glide.with(mContext).load(mOpenPoiBaseInfo.getPicUrl()).into(viewHolder.ivBusiness);
         
         return convertView;
@@ -93,5 +108,7 @@ public class BusinesAdapter extends BaseAdapter {
         private TextView tvAvgDeliveryTime;
         private TextView tvAveragePrice;
         private RatingBar ratingBar;
+        private TextView tvStatusDesc;
+        private RelativeLayout rl;
     }
 }

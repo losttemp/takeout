@@ -13,10 +13,8 @@ import android.widget.PopupWindow;
 import com.baidu.iov.dueros.waimai.adapter.FilterPopWindowAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
 		.DataBean.ActivityFilterListBean;
-import com.baidu.iov.dueros.waimai.ui.HomeActivity;
 import com.baidu.iov.dueros.waimai.ui.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FilterPopWindow extends PopupWindow {
@@ -24,7 +22,8 @@ public class FilterPopWindow extends PopupWindow {
 			mFilterList;
 	private FilterPopWindowAdapter mFilterAdapter;
 
-	public FilterPopWindow(final Context context, List<ActivityFilterListBean> filterList) {
+	public FilterPopWindow(final Context context, List<ActivityFilterListBean> filterList,
+						   final OnClickOkListener listener) {
 		mFilterList = filterList;
 
 		final View mContentView;
@@ -60,7 +59,9 @@ public class FilterPopWindow extends PopupWindow {
 						}
 					}
 				}
-				((HomeActivity) context).setFilterTypes(migFilter.toString());
+				if (listener != null) {
+					listener.onClickOk(migFilter.toString());
+				}
 				dismiss();
 			}
 		});
@@ -82,6 +83,10 @@ public class FilterPopWindow extends PopupWindow {
 
 	public void updateList() {
 		mFilterAdapter.notifyDataSetChanged();
+	}
+
+	public interface OnClickOkListener {
+		void onClickOk(String migFilter);
 	}
 }
 
