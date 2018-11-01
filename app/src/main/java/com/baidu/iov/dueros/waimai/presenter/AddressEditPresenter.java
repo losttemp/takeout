@@ -6,7 +6,7 @@ import android.util.ArrayMap;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.AddressEditModel;
-import com.baidu.iov.dueros.waimai.model.IAddressEditModel;
+import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 
@@ -46,7 +46,7 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
 
 
     public void requestData(ArrayMap<String, String> map) {
-        addressEditModel.requestAdressList(map, new RequestCallback<AddressEditBean>() {
+        addressEditModel.requestAdressList(new AddressEditReq(), new RequestCallback<AddressEditBean>() {
 
             @Override
             public void onSuccess(AddressEditBean data) {

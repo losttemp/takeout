@@ -61,6 +61,7 @@ public class LocationManager {
         if ((mLocationClient != null) && mLocationClient.isStarted()) {
             mLocationClient.stop();
             mLocationClient = null;
+            locationCallBack =null;
             mLocationClient.unRegisterLocationListener(myListener);
         }
     }

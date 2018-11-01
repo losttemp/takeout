@@ -3,20 +3,29 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.ArrayMap;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
+import com.baidu.iov.dueros.waimai.adapter.AddressSelectAdapter;
+import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, AddressSelectPresenter.AddressSelectUi> implements AddressSelectPresenter.AddressSelectUi, LocationManager.LocationCallBack, View.OnClickListener {
-    private TextView desTv;
-    private TextView desDetails;
     private BDLocation mBDLocation;
+    private List<AddressListBean.MeituanBean.DataBean> mDataList;
+    private AddressListBean.MeituanBean.DataBean mHeaderDataBean;
+    private RecyclerView mRecyclerView;
+    private AddressSelectAdapter mAdapter;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -32,9 +41,15 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_select);
+        mDataList = new ArrayList<>();
+        getPresenter().requestData(new AddressListReqBean());
         initView();
+        initData();
         initLocation();
-        getPresenter().requestData(new ArrayMap<String, String>());
+    }
+
+    private void initData() {
+        mHeaderDataBean = new AddressListBean.MeituanBean.DataBean();
     }
 
     private void initLocation() {
@@ -44,21 +59,48 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         mBDLocation = instance.getLastKnownLocation();
         if (mBDLocation != null) {
             String addrStr = mBDLocation.getAddrStr();
-            desDetails.setText(addrStr);
+            if (TextUtils.isEmpty(addrStr)) {
+                mHeaderDataBean.setAddress(addrStr);
+            }
         }
     }
 
     private void initView() {
-        desTv = (TextView) findViewById(R.id.address_select_des);
-        desDetails = (TextView) findViewById(R.id.address_select_des_details);
-        findViewById(R.id.address_select_edit).setOnClickListener(this);
+        mRecyclerView = findViewById(R.id.address_select_lv);
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(layout);
+        findViewById(R.id.address_back).setOnClickListener(this);
         findViewById(R.id.address_select_add).setOnClickListener(this);
+        mAdapter = new AddressSelectAdapter(mDataList, this);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setmItemClickListerner(new AddressSelectAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View v, AddressListBean.MeituanBean.DataBean dataBean) {
+                switch (v.getId()) {
+                    case R.id.address_select_des_details:
+                        finish();
+                        break;
+                    case R.id.address_select_edit:
+                        Intent intent = new Intent(AddressSelectActivity.this, AddressEditActivity.class);
+                        intent.putExtra("address_select_address",dataBean.getAddress());
+                        intent.putExtra("address_select_lat", dataBean.getLatitude());
+                        intent.putExtra("address_select_lo", dataBean.getLongitude());
+                        intent.putExtra("address_select_phone", dataBean.getPhone());
+                        intent.putExtra("address_select_name", dataBean.getName());
+                        intent.putExtra("address_select_bd_location",mBDLocation);
+                        AddressSelectActivity.this.startActivity(intent);
+                        break;
+                }
+            }
+        });
     }
 
 
     @Override
-    public void onSuccess(CinemaBean data) {
-
+    public void onSuccess(List<AddressListBean.MeituanBean.DataBean> data) {
+        mDataList.addAll(data);
+        mAdapter.setAddressList(mDataList);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -70,13 +112,14 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     public void onClick(View v) {
         Intent intent = new Intent(this, AddressEditActivity.class);
         switch (v.getId()) {
-            case R.id.address_select_edit:
+            case R.id.address_back:
+                finish();
+                break;
             case R.id.address_select_add:
                 if (mBDLocation == null) {
-                    Log.d("hhr","start null");
                 }
-                intent.putExtra("address_select",mBDLocation);
-                startActivityForResult(intent,3);
+                intent.putExtra("address_select", mBDLocation);
+                startActivityForResult(intent, 3);
                 break;
         }
     }
@@ -85,10 +128,20 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
         this.mBDLocation = bdLocation;
         if (isSuccess) {
-            desDetails.setText(bdLocation.getAddrStr());
+            mHeaderDataBean.setName("ZhangSan");
+            mHeaderDataBean.setPhone("1888888888");
+            mHeaderDataBean.setAddress(bdLocation.getAddrStr());
+            mDataList.add(mHeaderDataBean);
+            mAdapter.notifyDataSetChanged();
         } else {
-            desDetails.setText("location erro");
+            Toast.makeText(this, bdLocation.getLocType() + " eoor", Toast.LENGTH_SHORT).show();
             LocationManager.getInstance(this).requestLocation();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocationManager.getInstance(this).stopLocation();
     }
 }

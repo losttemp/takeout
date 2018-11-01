@@ -1,9 +1,9 @@
 package com.baidu.iov.dueros.waimai.model;
 
-import android.util.ArrayMap;
-
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
+import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 
 public interface IAddressEditModel extends IModel {
-    void requestAdressList(ArrayMap<String, String> params, final RequestCallback callback);
+    void requestAdressList(AddressEditReq addressEditReq, final RequestCallback callback);
 }

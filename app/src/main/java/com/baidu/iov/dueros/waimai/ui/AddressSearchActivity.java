@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -50,7 +51,8 @@ public class AddressSearchActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        mBDLocation = getIntent().getParcelableExtra("address_select");
+        mBDLocation= getIntent().getParcelableExtra("address_edit_bd_location");
+        Log.d("hhr",mBDLocation.getLongitude()+"--"+mBDLocation.getLatitude());
         final LatLng location = new LatLng(mBDLocation.getLatitude(), mBDLocation.getLongitude());
 //        final LatLng location = new LatLng(39.92235, 116.380338);
         initReverseGeoCode(location);
@@ -72,10 +74,7 @@ public class AddressSearchActivity extends AppCompatActivity {
                     pt = mAllSuggestions.get(position).getPt();
                     addr = mAllSuggestions.get(position).getKey();
                 }
-                mBDLocation.setLatitude(pt.latitude);
-                mBDLocation.setLongitude(pt.longitude);
-                mBDLocation.setAddrStr(addr);
-                Log.d("hhr","su-- "+addr);
+
                 intent.putExtra("address_search_lat", pt.longitude);
                 intent.putExtra("addStr",addr);
                 intent.putExtra("address_search_lat",pt.longitude);

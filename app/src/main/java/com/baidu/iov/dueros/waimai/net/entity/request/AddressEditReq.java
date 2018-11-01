@@ -3,12 +3,25 @@ package com.baidu.iov.dueros.waimai.net.entity.request;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 
 public class AddressEditReq extends RequestBase {
+    private int addressId;
     private String name;
     private int gender;
     private String phone;
     private String address;
-    private int longitude;
+    private String houseNumber;
     private int latitude;
+    private int longitude;
+    private int bindType;
+    private int canShipping;
+    private String addressRangeTip;
+
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
 
     public String getName() {
         return name;
@@ -42,12 +55,12 @@ public class AddressEditReq extends RequestBase {
         this.address = address;
     }
 
-    public int getLongitude() {
-        return longitude;
+    public String getHouseNumber() {
+        return houseNumber;
     }
 
-    public void setLongitude(int longitude) {
-        this.longitude = longitude;
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
     }
 
     public int getLatitude() {
@@ -58,15 +71,52 @@ public class AddressEditReq extends RequestBase {
         this.latitude = latitude;
     }
 
+    public int getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(int longitude) {
+        this.longitude = longitude;
+    }
+
+    public int getBindType() {
+        return bindType;
+    }
+
+    public void setBindType(int bindType) {
+        this.bindType = bindType;
+    }
+
+    public int getCanShipping() {
+        return canShipping;
+    }
+
+    public void setCanShipping(int canShipping) {
+        this.canShipping = canShipping;
+    }
+
+    public String getAddressRangeTip() {
+        return addressRangeTip;
+    }
+
+    public void setAddressRangeTip(String addressRangeTip) {
+        this.addressRangeTip = addressRangeTip;
+    }
+
     @Override
     public String toString() {
         return "AddressEditReq{" +
-                "name='" + name + '\'' +
+                "addressId=" + addressId +
+                ", name='" + name + '\'' +
                 ", gender=" + gender +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-                ", longitude=" + longitude +
+                ", houseNumber='" + houseNumber + '\'' +
                 ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", bindType=" + bindType +
+                ", canShipping=" + canShipping +
+                ", addressRangeTip='" + addressRangeTip + '\'' +
                 '}';
     }
 }

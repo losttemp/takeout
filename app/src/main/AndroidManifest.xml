@@ -44,6 +44,7 @@
         <activity android:name=".SearchActivity" />
         <activity android:name=".AddressSelectActivity" />
         <activity android:name=".AddressEditActivity" />
+        <activity android:name=".AddressSearchActivity" />
 
         <!--BaiDu SDK-->
         <meta-data

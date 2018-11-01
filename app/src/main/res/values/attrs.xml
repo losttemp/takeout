@@ -27,4 +27,10 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="TagListView">
+        <attr name="textSize" format="dimension" />
+        <attr name="textColor" format="color" />
+        <attr name="itemBackgroundResource" format="reference" />
+        <attr name="dividerWidth" format="dimension" />
+    </declare-styleable>
 </resources>
