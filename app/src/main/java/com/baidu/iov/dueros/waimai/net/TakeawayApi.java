@@ -2,28 +2,26 @@ package com.baidu.iov.dueros.waimai.net;
 
 import com.baidu.iov.dueros.waimai.net.entity.base.ResponseBase;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
-import retrofit2.Retrofit;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -85,6 +83,10 @@ public interface TakeawayApi {
     @FormUrlEncoded
     @POST("/iovservice/waimai/orderlist")
     Call<ResponseBase<OrderListResponse>> getOrderList(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("/iovservice/waimai/orderquery")
+    Call<ResponseBase<OrderDetailsResponse>> getOrderDetails(@FieldMap Map<String, String> map);
 
     /**
      * get filter condition list request
