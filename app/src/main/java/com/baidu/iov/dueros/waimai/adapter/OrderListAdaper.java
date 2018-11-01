@@ -44,6 +44,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         OrderListResponse.IovBean.DataBean order = mOrderList.get
                 (position);
 
+        viewHolder.tvIndex.setText(((position + 1) + ""));
         viewHolder.tvStoreName.setText(order.getOrder_name());
         viewHolder.tvFood.setText(order.getOut_trade_status());
         viewHolder.tvPrice.setText(order.getOrder_amount());
@@ -51,7 +52,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         viewHolder.tvFoodNum.setText(String.format(mContext.getResources().getString(R.string
                 .order_amount), order.getOrder_amount()));
         viewHolder.tvOrderStatus.setText(order.getOrder_status());
-        viewHolder.tvOrderId.setText(order.getOrder_id());
         viewHolder.tvOrderTime.setText(order.getOrder_time());
         viewHolder.tvOneMore.setText(mContext.getResources().getString(R.string.one_more_order));
         //Glide.with(mContext).load(order.getPic_url()).into(viewHolder.ivStore);
@@ -73,14 +73,13 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        private AppCompatTextView tvIndex;
         private ImageView ivStore;
-        private LinearLayout llStoreInfo;
+        private LinearLayout llOrderInfo;
         private AppCompatTextView tvStoreName;
         private AppCompatTextView tvFood;
-        //private RatingBar ratingBar;
         private AppCompatTextView tvPrice;
         private AppCompatTextView tvFoodNum;
-        private AppCompatTextView tvOrderId;
         private AppCompatTextView tvOrderTime;
         private AppCompatTextView tvOrderStatus;
         private AppCompatTextView tvOneMore;
@@ -88,14 +87,13 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         private ViewHolder(View view) {
             super(view);
 
+            tvIndex = (AppCompatTextView) view.findViewById(R.id.index);
             ivStore = (ImageView) view.findViewById(R.id.iv_store);
-            llStoreInfo = (LinearLayout) view.findViewById(R.id.ll_store_info);
+            llOrderInfo = (LinearLayout) view.findViewById(R.id.ll_order_info);
             tvStoreName = (AppCompatTextView) view.findViewById(R.id.tv_store_name);
             tvFood = (AppCompatTextView) view.findViewById(R.id.tv_food);
-            //ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
             tvPrice = (AppCompatTextView) view.findViewById(R.id.tv_price);
             tvFoodNum = (AppCompatTextView) view.findViewById(R.id.tv_food_num);
-            tvOrderId = (AppCompatTextView) view.findViewById(R.id.tv_order_id);
             tvOrderTime = (AppCompatTextView) view.findViewById(R.id.tv_order_time);
             tvOrderStatus = (AppCompatTextView) view.findViewById(R.id.tv_order_status);
             tvOneMore = (AppCompatTextView) view.findViewById(R.id.one_more_order);
