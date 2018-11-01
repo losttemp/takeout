@@ -110,7 +110,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     @Override
     public void onSuccess(FilterConditionsResponse data) {
         categoryFilterList=data.getMeituan().getData().getCategory_filter_list();
-        categoryFilterList.remove(0);
+        //categoryFilterList.remove(0);
         mFirstTypeFoodAdapter.setData(categoryFilterList);
         tvFirstCategory.setText(categoryFilterList.get(0).getName());
         mSecondTypeFoodAdapter.setData(categoryFilterList.get(0).getSub_category_list());

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -47,8 +48,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     private List<FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter> activityFilterList=new ArrayList<>();
     private List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> sortTypeList=new ArrayList<>();
     private List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> sortTypeTabs=new ArrayList<>();
-    private List<BusinessBean.MeituanBean.Business.OpenPoiBaseInfo> mOpenPoiBaseInfoList = new
-            ArrayList<>();
+    private List<BusinessBean.MeituanBean.Business.OpenPoiBaseInfo> mOpenPoiBaseInfoList = new ArrayList<>();
 
     private RecyclerView rvSortType;
     
@@ -74,6 +74,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         Intent intent=getIntent();
         if (intent!=null) {
             title = intent.getStringExtra("title");
+            Lg.getInstance().e(TAG,"title:"+title);
         }
     }
 
@@ -84,7 +85,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
         if (getResources().getString(R.string.stroe_type_cake).equals(title)){
             keyword= getResources().getString(R.string.cake);
-        }else if (getResources().getString(R.string.flower).equals(title)){
+        }else if (getResources().getString(R.string.stroe_type_flower).equals(title)){
             keyword= getResources().getString(R.string.flower);
         }else {
             keyword=title;
@@ -148,6 +149,14 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
                     poilistReq.setPage_index(1);
                 }
                 getPresenter().requestBusinessBean(poilistReq);
+            }
+        });
+        mBusinessListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(BusinessActivity.this, FoodListActivity.class);
+                //intent.putExtra(Constant.STORE_ID, mOpenPoiBaseInfoList.get(position).getWmPoiId());
+                startActivity(intent);
             }
         });
     }

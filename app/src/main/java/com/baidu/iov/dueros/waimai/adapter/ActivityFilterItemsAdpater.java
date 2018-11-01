@@ -50,9 +50,9 @@ public class ActivityFilterItemsAdpater extends RecyclerView.Adapter<ActivityFil
         itemsViewHolder.itemRl.setTag(i);
         Lg.getInstance().e("ActivityFilterItemsAdpater","item.isChcked():"+item.isChcked());
         if (item.isChcked()) {
-             itemsViewHolder.tvName.setBackgroundColor(mContext.getResources().getColor(R.color.blue));
+             itemsViewHolder.tvName.setBackgroundResource(R.drawable.shape_type_selected_bg);
         }else {
-            itemsViewHolder.tvName.setBackgroundColor(mContext.getResources().getColor(R.color.gray_bg));
+            itemsViewHolder.tvName.setBackgroundResource(R.drawable.shape_pop_filter_set_bg);
         }
         itemsViewHolder.itemRl.setOnClickListener(this);
     }
