@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -124,6 +125,14 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mRvStore.setLayoutManager(layoutManager);
 		mRvStore.setAdapter(mStoreAdaper);
+		mStoreAdaper.setItemClickListener(new StoreAdaper.OnItemClickListener() {
+			@Override
+			public void onItemClick(int position) {
+				Intent intent = new Intent(mContext, FoodListActivity.class);
+				intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());
+				startActivity(intent);
+			}
+		});
 
 		setRefreshView();
 		mRlSort.setOnClickListener(this);
@@ -232,6 +241,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		//set emptey view
 		if (mStoreList.size() == 0) {
 			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
+				mLlFilter.setVisibility(View.GONE);
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
 						.no_search_result_keyword));
 			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
@@ -321,6 +331,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mPresenter.requestStoreList(storeReq);
 		mStoreReq = storeReq;
 		mTvTipNoResult.setVisibility(View.GONE);
+		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH &&
+				mLlFilter.getVisibility() == View.GONE) {
+			mLlFilter.setVisibility(View.VISIBLE);
+		}
 	}
 
 }

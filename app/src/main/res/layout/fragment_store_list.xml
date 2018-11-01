@@ -130,6 +130,7 @@
 		android:id="@+id/tv_tip_no_result"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_below="@+id/ll_filter"
 		android:layout_centerHorizontal="true"
 		android:background="@color/gray_bg"
 		android:drawableTop="@mipmap/ic_no_result"

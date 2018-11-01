@@ -57,9 +57,11 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 
 		viewHolder.tvSubTypeName.setText(mHistorys.get(position).getName());
 		if (mHistorys.get(position).isChcked()) {
-			viewHolder.tvSubTypeName.setTextColor(mContext.getResources().getColor(R.color.blue));
+			viewHolder.tvSubTypeName.setBackgroundResource(R.drawable.shape_type_selected_bg);
+//			viewHolder.tvSubTypeName.setTextColor(mContext.getResources().getColor(R.color.blue));
 		} else {
-			viewHolder.tvSubTypeName.setTextColor(mContext.getResources().getColor(R.color.black));
+			viewHolder.tvSubTypeName.setBackgroundResource(R.drawable.shape_pop_filter_set_bg);
+//			viewHolder.tvSubTypeName.setTextColor(mContext.getResources().getColor(R.color.black));
 		}
 
 		return convertView;

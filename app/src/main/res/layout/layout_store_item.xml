@@ -5,17 +5,43 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:background="@color/white"
-	android:paddingLeft="15dp"
+	android:paddingLeft="10dp"
 	android:paddingTop="10dp"
 	android:paddingBottom="5dp">
 
-	<android.support.v7.widget.AppCompatImageView
-		android:id="@+id/iv_store"
-		android:layout_width="80dp"
-		android:layout_height="80dp"
-		android:layout_centerVertical="true"
-		android:scaleType="centerCrop"
-		tools:src="@mipmap/ic_launcher" />
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/tv_store_index"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="1"
+		android:layout_marginRight="5dp"
+		android:textSize="18sp" />
+
+	<FrameLayout
+		android:id="@+id/fl_img"
+		android:layout_width="60dp"
+		android:layout_height="60dp"
+		android:layout_toRightOf="@+id/tv_store_index">
+
+		<android.support.v7.widget.AppCompatImageView
+			android:id="@+id/iv_store"
+			android:layout_width="60dp"
+			android:layout_height="60dp"
+			android:layout_centerVertical="true"
+			android:scaleType="centerCrop"
+			tools:src="@mipmap/ic_launcher" />
+
+		<android.support.v7.widget.AppCompatTextView
+			android:id="@+id/tv_status_desc"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom"
+			android:background="@color/pop_window_bg"
+			android:gravity="center_horizontal"
+			android:text="@string/store_status_break"
+			android:textColor="@color/white"
+			android:textSize="16sp" />
+	</FrameLayout>
 
 	<LinearLayout
 		android:id="@+id/ll_store_info"
@@ -23,7 +49,7 @@
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
 		android:layout_marginLeft="10dp"
-		android:layout_toRightOf="@+id/iv_store"
+		android:layout_toRightOf="@+id/fl_img"
 		android:orientation="vertical">
 
 		<android.support.v7.widget.AppCompatTextView
@@ -33,14 +59,6 @@
 			android:textColor="@color/black"
 			android:textSize="16sp"
 			tools:text="@string/tools_text_store_name" />
-
-		<android.support.v7.widget.AppCompatTextView
-			android:id="@+id/tv_status_desc"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textColor="@color/red"
-			android:textSize="14sp"
-			tools:text="@string/tools_text_status_desc" />
 
 		<android.support.v7.widget.LinearLayoutCompat
 			android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -56,7 +57,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private SearchSuggestAdapter mSearchSuggestAdapter;
 	private StoreListFragment mStoreListFragment;
 	private ListView mLvSuggest;
-	private SearchSuggestReq mSearchSuggestReq;
 	private List<SearchSuggestResponse.MeituanBean.DataBean.SuggestBean> mSuggests;
 
 
@@ -109,7 +109,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private void iniData() {
 		mPresenter = getPresenter();
 		mStoreReq = new StoreReq();
-		mSearchSuggestReq = new SearchSuggestReq();
 
 		//fragment
 		mStoreListFragment = new StoreListFragment();
@@ -149,10 +148,19 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mLvSuggest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				String name = mSuggests.get(position).getSuggest_query();
-				mEtSearch.setText(name);
-				mEtSearch.setSelection(name.length());
-				searchKeyword(name);
+				SearchSuggestResponse.MeituanBean.DataBean.SuggestBean suggest = mSuggests.get
+						(position);
+				if (suggest.getType() == 0 && suggest.getPoi_addition_info() != null) {
+					Intent intent = new Intent(SearchActivity.this, FoodListActivity.class);
+					intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id
+							());
+					startActivity(intent);
+				} else {
+					String name = suggest.getSuggest_query();
+					mEtSearch.setText(name);
+					mEtSearch.setSelection(name.length());
+					searchKeyword(name);
+				}
 			}
 		});
 
@@ -181,8 +189,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					hideSuggestView();
 				} else {
 					mLvSuggest.setVisibility(View.VISIBLE);
-					mSearchSuggestReq.setQuery(mEtSearch.getText().toString());
-					mPresenter.requestSuggestList(mSearchSuggestReq);
+					mPresenter.requestSuggestList(mEtSearch.getText().toString());
 				}
 			}
 

@@ -23,16 +23,20 @@
 	<string name="search_history">历史记录</string>
 	<string name="takeaway_home">外卖首页</string>
 	<string name="takeaway_order">外卖订单</string>
-	<string name="month_sale_num">月销%d</string>
-	<string name="delivery_time">%d分钟</string>
-	<string name="min_price">起送￥%.2f</string>
-	<string name="shipping_fee">配送￥%.2f</string>
+	<string name="month_sale_num">月销%d笔</string>
+	<string name="delivery_time">%d分钟 |</string>
+	<string name="min_price">起送￥%.2f |</string>
+	<string name="shipping_fee">配送￥%.2f |</string>
+	<string name="min_price_s">起送￥%s |</string>
+	<string name="shipping_fee_s">配送￥%s |</string>
 	<string name="flower">鲜花</string>
 	<string name="cake">蛋糕</string>
 	<string name="takeaway">外卖</string>
 	<string name="no_search_result_keyword">对不起，没有你想要的结果\n换个关键词试试看！</string>
-	<string name="no_search_result_filter">抱歉，未能找到您搜索的商家和商店</string>
+	<string name="no_search_result_filter">抱歉，未能找到您搜索的商家或商店</string>
 	<string name="no_search_result_position">抱歉，当前位置无外卖服务覆盖</string>
+	<string name="store_status_break">休息中</string>
+	<string name="store_status_busy">忙碌中</string>
 
 	<!--FilterPopWindow-->
 	<string name="ok">确定</string>
