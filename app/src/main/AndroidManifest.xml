@@ -18,20 +18,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MeituanLoginActivity">
+        <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
+        <!--<activity
             android:name=".HomeActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>-->
         <activity
             android:name=".FoodListActivity"
-            android:theme="@style/AppTheme" />
-        <!--<activity android:name=".WebViewActivity"/>-->
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity android:name=".BusinessActivity"></activity>
         <activity android:name=".FoodActivity"></activity>
@@ -43,6 +42,8 @@
         <activity android:name=".PaymentActivity" />
         <activity android:name=".PaySuccessActivity"></activity>
         <activity android:name=".SearchActivity" />
+        <activity android:name=".AddressSelectActivity" />
+        <activity android:name=".AddressEditActivity" />
 
         <!--BaiDu SDK-->
         <meta-data

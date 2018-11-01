@@ -56,9 +56,9 @@ public class BusinessModel implements IBusinessModel {
         poilistReq.setLongitude(95369826);
         poilistReq.setLatitude(29735952);
         Lg.getInstance().e(TAG,"poilistReq:"+poilistReq);
-        ApiUtils.getBusinessByLocation(poilistReq, new ApiCallBack<Map<String,BusinessBean>>() {
+        ApiUtils.getBusinessByLocation(poilistReq, new ApiCallBack<BusinessBean>() {
             @Override
-            public void onSuccess(Map<String,BusinessBean> data) {
+            public void onSuccess(BusinessBean data) {
                 if (callback!=null) {
                     callback.onSuccess(data);
                 }

@@ -1,39 +1,46 @@
 <resources>
-    <string name="app_name">WaimaiApplication</string>
-    <string name="main_fragment">main_fragment</string>
-    <string name="title_film">影片</string>
-    <string name="title_cinema">影院</string>
-    <string name="cinema_empty">暂无影院</string>
-    <string name="all_area">全城</string>
-    <string name="all">全部</string>
-    <string name="price_suffix">元起</string>
-    <string name="discount_content">钱包新用户最高立减8元</string>
-    <string name="tag_content">vip</string>
+	<string name="app_name">WaimaiApplication</string>
+	<string name="main_fragment">main_fragment</string>
+	<string name="title_film">影片</string>
+	<string name="title_cinema">影院</string>
+	<string name="cinema_empty">暂无影院</string>
+	<string name="all_area">全城</string>
+	<string name="all">全部</string>
+	<string name="price_suffix">元起</string>
+	<string name="discount_content">钱包新用户最高立减8元</string>
+	<string name="tag_content">vip</string>
 
-    <!--HomeActivity-->
-    <string name="search">搜索</string>
-    <string name="search_hint_text">请输入商家/商品名称</string>
-    <string name="stroe_type_food">美食分类</string>
-    <string name="stroe_type_flower">鲜花预订</string>
-    <string name="stroe_type_cake">蛋糕预订</string>
-    <string name="store_sort">综合排序</string>
-    <string name="store_sales">销量</string>
-    <string name="store_distance">距离</string>
-    <string name="store_filter">筛选</string>
-    <string name="search_history">历史记录</string>
-    <string name="takeaway_home">外卖首页</string>
-    <string name="takeaway_order">外卖订单</string>
-    <string name="month_sale_num">月销%d</string>
-    <string name="delivery_time">%d分钟</string>
-    <string name="min_price">起送￥%.2f</string>
-    <string name="shipping_fee">配送￥%.2f</string>
-    <string name="flower">鲜花</string>
-    <string name="cake">蛋糕</string>
-    <string name="takeaway">外卖</string>
+	<!--HomeActivity-->
+	<string name="search">搜索</string>
+	<string name="search_hint_text">请输入商家/商品名称</string>
+	<string name="stroe_type_food">美食分类</string>
+	<string name="stroe_type_flower">鲜花预订</string>
+	<string name="stroe_type_cake">蛋糕预订</string>
+	<string name="store_sort">综合排序</string>
+	<string name="store_sales">销量</string>
+	<string name="store_distance">距离</string>
+	<string name="store_filter">筛选</string>
+	<string name="search_history">历史记录</string>
+	<string name="takeaway_home">外卖首页</string>
+	<string name="takeaway_order">外卖订单</string>
+	<string name="month_sale_num">月销%d笔</string>
+	<string name="delivery_time">%d分钟 |</string>
+	<string name="min_price">起送￥%.2f |</string>
+	<string name="shipping_fee">配送￥%.2f |</string>
+	<string name="min_price_s">起送￥%s |</string>
+	<string name="shipping_fee_s">配送￥%s |</string>
+	<string name="flower">鲜花</string>
+	<string name="cake">蛋糕</string>
+	<string name="takeaway">外卖</string>
+	<string name="no_search_result_keyword">对不起，没有你想要的结果\n换个关键词试试看！</string>
+	<string name="no_search_result_filter">抱歉，未能找到您搜索的商家或商店</string>
+	<string name="no_search_result_position">抱歉，当前位置无外卖服务覆盖</string>
+	<string name="store_status_break">休息中</string>
+	<string name="store_status_busy">忙碌中</string>
 
-    <!--FilterPopWindow-->
-    <string name="ok">确定</string>
-    <string name="reset">重置</string>
+	<!--FilterPopWindow-->
+	<string name="ok">确定</string>
+	<string name="reset">重置</string>
 
     <string name="no_more_data">暂无更多数据</string>
     <string name="distribution_situation">起送￥20|配送￥3|30分钟送达</string>
@@ -49,66 +56,69 @@
     <string name="add_to_cart">加入购物车</string>
     <string name="chicken">推荐大鸡排</string>
     <string name="explain">大块鸡排，鲜嫩多汁，配上超多芝士和新鲜生菜</string>
+    <string name="shop_cart">购物车</string>
+    <string name="empty_all">清空全部</string>
+    <string name="please_add_to_the_shopping_cart_first">请先添加商品至购物车</string>
 
-    <!--tools:text-->
-    <string name="tools_text_location">送至：未来科技大厦</string>
-    <string name="tools_text_filter_type">商家特色</string>
-    <string name="tools_text_filter_sub_type">免配送费</string>
-    <string name="tools_text_history_name">肯德基</string>
-    <string name="tools_text_store_name">肯德基宅急送</string>
-    <string name="tools_text_status_desc">接受预订：10:30后起送</string>
-    <string name="tools_text_average_price">人均￥25</string>
+	<!--tools:text-->
+	<string name="tools_text_location">送至：未来科技大厦</string>
+	<string name="tools_text_filter_type">商家特色</string>
+	<string name="tools_text_filter_sub_type">免配送费</string>
+	<string name="tools_text_history_name">肯德基</string>
+	<string name="tools_text_store_name">肯德基宅急送</string>
+	<string name="tools_text_status_desc">接受预订：10:30后起送</string>
+	<string name="tools_text_average_price">人均￥25</string>
 
-    <string-array name="tab_filters">
-        <item>全城</item>
-        <item>品牌</item>
-        <item>筛选</item>
-    </string-array>
+	<string-array name="tab_filters">
+		<item>全城</item>
+		<item>品牌</item>
+		<item>筛选</item>
+	</string-array>
 
-    <string-array name="sort_type">
-        <item>综合排序</item>
-        <item>月销量从高到低</item>
-        <item>配送速度从快到慢</item>
-        <item>外卖评分从高到低</item>
-        <item>起送价从低到高</item>
-        <item>距离从近到远</item>
-        <item>配送费从低到高</item>
-        <item>人均从低到高</item>
-        <item>人均从高到低</item>
-    </string-array>
+	<string-array name="sort_type">
+		<item>综合排序</item>
+		<item>月销量从高到低</item>
+		<item>配送速度从快到慢</item>
+		<item>外卖评分从高到低</item>
+		<item>起送价从低到高</item>
+		<item>距离从近到远</item>
+		<item>配送费从低到高</item>
+		<item>人均从低到高</item>
+		<item>人均从高到低</item>
+	</string-array>
 
-    <string name="order_amount">共%s件商品</string>
-    <string name="one_more_order">再来一单</string>
-    <string name="cancel">取消</string>
-    <string name="select_address">选择收货地址</string>
-    <string name="add_address">新增收货地址</string>
-    <string name="network_anomaly">您的网络好像不太给力，请稍候再试</string>
-    <string name="reload">重新加载</string>
-    <string name="arrive_time">大约%s送达</string>
-    <string name="cost">\&#165;%1d</string>
-    <string name="total_cost">去支付\&#165;%1d</string>
-    <string name="discount_exist"><Data><![CDATA[<b>已优惠</b><font color="#ff0000"><b>&#165;%1d</b></font>]]></Data></string>
-    <string name="payment_summary">支付方式</string>
-    <string name="payment">在线支付</string>
-    <string name="packing_fee">包装费</string>
-    <string name="delivery_fee">配送费</string>
-    <string name="discount_prompt">满减优惠与折扣商品不能同时共享</string>
+	<string name="order_amount">共%s件商品</string>
+	<string name="one_more_order">再来一单</string>
+	<string name="cancel">取消</string>
+	<string name="select_address">选择收货地址</string>
+	<string name="add_address">新增收货地址</string>
+	<string name="network_anomaly">您的网络好像不太给力，请稍候再试</string>
+	<string name="reload">重新加载</string>
+	<string name="arrive_time">大约%s送达</string>
+	<string name="cost">\&#165;%1d</string>
+	<string name="total_cost">去支付\&#165;%1d</string>
+	<string name="discount_exist"><Data><![CDATA[<b>已优惠</b><font color="#ff0000"><b>&#165;%1d</b></font>]]></Data></string>
+	<string name="payment_summary">支付方式</string>
+	<string name="payment">在线支付</string>
+	<string name="packing_fee">包装费</string>
+	<string name="delivery_fee">配送费</string>
+	<string name="discount_prompt">满减优惠与折扣商品不能同时共享</string>
 
-    <string name="address_select_title">我的收货地址</string>
-    <string name="address_select_add_address">新增地址</string>
-    <string name="address_sir">先生</string>
-    <string name="address_lady">女士</string>
-    <string name="address_destination">目的地</string>
-    <string name="address_company">公司</string>
-    <string name="address_home">家里</string>
-    <string name="address_contact">联系人：</string>
-    <string name="address_phone">手机号：</string>
-    <string name="address_addr">收货地址</string>
-    <string name="address_house_num">门牌号：</string>
-    <string name="address_tag">标签</string>
-    <string name="address_tag_home">家里</string>
-    <string name="address_tag_company">公司</string>
-    <string name="address_tag_other">其他</string>
-    <string name="address_edit_save">保存地址</string>
-    <string name="address_search_hint">请输入收货地址</string>
+	<string name="address_select_title">我的收货地址</string>
+	<string name="address_select_add_address">新增地址</string>
+	<string name="address_sir">先生</string>
+	<string name="address_lady">女士</string>
+	<string name="address_destination">目的地</string>
+	<string name="address_company">公司</string>
+	<string name="address_home">家里</string>
+	<string name="address_contact">联系人：</string>
+	<string name="address_phone">手机号：</string>
+	<string name="address_addr">收货地址</string>
+	<string name="address_house_num">门牌号：</string>
+	<string name="address_tag">标签</string>
+	<string name="address_tag_home">家里</string>
+	<string name="address_tag_company">公司</string>
+	<string name="address_tag_other">其他</string>
+	<string name="address_edit_save">保存地址</string>
+	<string name="address_search_hint">请输入收货地址</string>
 </resources>

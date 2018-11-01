@@ -5,6 +5,7 @@ import android.util.ArrayMap;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.PoifoodListReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
@@ -44,6 +45,31 @@ public class PoifoodListModel implements IPoifoodListModel {
         ApiUtils.getPoifoodList(poifoodListReq, new ApiCallBack<PoifoodListBean>() {
             @Override
             public void onSuccess(PoifoodListBean data) {
+                callback.onSuccess(data);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                callback.onFailure(msg);
+            }
+        });
+    }
+
+    @Override
+    public void requestPoidetailinfo(ArrayMap<String, String> params, final RequestCallback callback) {
+        if (callback == null) {
+            return;
+        }
+
+        if (params != null) {
+            Lg.getInstance().d(TAG, "areaId:" + params.get(Constant.AREA_ID) + " aoiId:" + params.get(Constant.AOI_ID)
+                    + " brandId:" + params.get(Constant.BRAND_ID));
+        }
+        PoifoodListReq poidetailinfoReq = new PoifoodListReq();
+        poidetailinfoReq.setWm_poi_id(2868095);
+        ApiUtils.getPoidetailinfo(poidetailinfoReq, new ApiCallBack<PoidetailinfoBean>() {
+            @Override
+            public void onSuccess(PoidetailinfoBean data) {
                 callback.onSuccess(data);
             }
 

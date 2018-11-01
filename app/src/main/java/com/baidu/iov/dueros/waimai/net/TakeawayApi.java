@@ -9,9 +9,11 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
@@ -60,7 +62,7 @@ public interface TakeawayApi {
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/poidetailinfo")
-    Call<ResponseBase<PoifoodListBean>> getPoidetailinfo(@FieldMap Map<String, String> map);
+    Call<ResponseBase<PoidetailinfoBean>> getPoidetailinfo(@FieldMap Map<String, String> map);
 
     /**
      * get store list request
@@ -74,7 +76,7 @@ public interface TakeawayApi {
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/poilist")
-    Call<ResponseBase<Map<String, BusinessBean>>> getBusinessByLocation(@FieldMap Map<String, String> map);
+    Call<ResponseBase<BusinessBean>> getBusinessByLocation(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/getfilterconditions")
@@ -113,4 +115,8 @@ public interface TakeawayApi {
     @FormUrlEncoded
     @POST("/iovservice/waimai/authorize")
     Call<ResponseBase<MeituanAuthorizeResponse>> getMeituanAuth(@FieldMap Map<String, String> map);
+
+	@FormUrlEncoded
+	@POST("/iovservice/waimai/suggest")
+	Call<ResponseBase<SearchSuggestResponse>> getSearchSuggest(@FieldMap Map<String, String> map);
 }

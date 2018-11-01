@@ -98,6 +98,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mRvOrder.setAdapter(mOrderListAdaper);
 
         mOrderListReq = new OrderListReq();
+        mTvHomeBtn.setOnClickListener(this);
         mTvOrderBtn.setOnClickListener(this);
         mIvBack.setOnClickListener(this);
 

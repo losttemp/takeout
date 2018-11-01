@@ -11,10 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="5dp"
-        android:textColor="@color/gray"
+        android:textColor="@color/black_text"
         android:textSize="16sp"
         android:gravity="center"
-        android:background="@color/gray_bg"
+        android:background="@drawable/shape_pop_filter_set_bg"
         tools:text="@string/flower" />
 
 </RelativeLayout>

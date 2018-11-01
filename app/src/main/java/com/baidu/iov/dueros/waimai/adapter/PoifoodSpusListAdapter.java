@@ -5,11 +5,13 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
 import com.baidu.iov.dueros.waimai.ui.R;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
@@ -20,8 +22,9 @@ import java.util.List;
  * Created by ubuntu on 18-10-19.
  */
 
-public class PoifoodPoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter {
-    private static final String TAG = PoifoodPoifoodSpusListAdapter.class.getSimpleName();
+public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter {
+    private static final String TAG = PoifoodSpusListAdapter.class.getSimpleName();
+    private FoodListActivity activity;
     List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans;
     private HolderClickListener mHolderClickListener;
     private Context context;
@@ -32,10 +35,11 @@ public class PoifoodPoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseA
         this.callBackListener = callBackListener;
     }
 
-    public PoifoodPoifoodSpusListAdapter(Context context, List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans) {
+    public PoifoodSpusListAdapter(Context context, List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans, FoodListActivity activity) {
         this.context = context;
         this.foodSpuTagsBeans = foodSpuTagsBeans;
         mInflater = LayoutInflater.from(context);
+        this.activity = activity;
     }
 
     @Override
@@ -77,7 +81,7 @@ public class PoifoodPoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseA
         final PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean = foodSpuTagsBeans.get(section).getSpus().get(position);
         Lg.getInstance().d(TAG, "spusBean.getName() = " + spusBean.getName());
         viewHolder.name.setText(spusBean.getName());
-        String pictureUrl = spusBean.getPicture();
+        final String pictureUrl = spusBean.getPicture();
         GlideApp.with(context)
                 .load(pictureUrl)
                 .placeholder(R.mipmap.ic_launcher)
@@ -98,8 +102,8 @@ public class PoifoodPoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseA
                 }
                 if (mHolderClickListener != null) {
                     int[] start_location = new int[2];
-                    viewHolder.shoppingNum.getLocationInWindow(start_location);//获取点击商品图片的位置
-                    Drawable drawable = context.getResources().getDrawable(R.drawable.adddetail);//复制一个新的商品图标
+                    viewHolder.shoppingNum.getLocationInWindow(start_location);
+                    Drawable drawable = context.getResources().getDrawable(R.drawable.adddetail);
                     mHolderClickListener.onHolderClick(drawable, start_location);
                 }
             }
@@ -129,6 +133,40 @@ public class PoifoodPoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseA
                 }
             }
         });
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View popView = activity.getPopView(R.layout.dialog_spus_details);
+                Button addToCart = (Button) popView.findViewById(R.id.btn_add_to_cart);
+                TextView spusName = (TextView) popView.findViewById(R.id.tv_spus_name);
+                ImageView spusPicture = (ImageView) popView.findViewById(R.id.iv_spus);
+                TextView spusPrice = (TextView) popView.findViewById(R.id.tv_spus_price);
+                spusPrice.setText(String.format("￥%1$s", "" + spusBean.getMin_price()));
+                spusName.setText(spusBean.getName());
+                GlideApp.with(context)
+                        .load(pictureUrl)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .centerCrop()
+                        .into(spusPicture);
+                addToCart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int num = spusBean.getNumber();
+                        num++;
+                        spusBean.setNumber(num);
+                        viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
+                        if (callBackListener != null) {
+                            Lg.getInstance().d("FoodListActivity", "spusBean.getNumber() = " + spusBean.getNumber());
+                            callBackListener.updateProduct(spusBean, spusBean.getTag());
+                        }
+                    }
+                });
+                activity.showFoodListActivityDialog(view, popView);
+            }
+        });
+
+
 
         return convertView;
     }

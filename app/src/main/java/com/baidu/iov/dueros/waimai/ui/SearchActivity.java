@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,7 +23,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.adapter.SearchHistroyAdapter;
+import com.baidu.iov.dueros.waimai.adapter.SearchSuggestAdapter;
+import com.baidu.iov.dueros.waimai.net.entity.request.SearchSuggestReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.presenter.SearchPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
@@ -50,7 +54,10 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private StoreReq mStoreReq;
 	private List<String> mHistorys;
 	private SearchHistroyAdapter mSearchHistroyAdapter;
+	private SearchSuggestAdapter mSearchSuggestAdapter;
 	private StoreListFragment mStoreListFragment;
+	private ListView mLvSuggest;
+	private List<SearchSuggestResponse.MeituanBean.DataBean.SuggestBean> mSuggests;
 
 
 	@Override
@@ -96,6 +103,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mLvHistory = (ListView) findViewById(R.id.lv_history);
 		mIvClean = (AppCompatImageView) findViewById(R.id.iv_clean);
 		mTvCancel = (AppCompatTextView) findViewById(R.id.tv_cancel);
+		mLvSuggest = (ListView) findViewById(R.id.lv_suggest);
 	}
 
 	private void iniData() {
@@ -115,9 +123,13 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		//search history
 		mHistorys = new ArrayList<>();
 		SharedPreferencesUtils.getSearchHistory(mHistorys);
-		mSearchHistroyAdapter = new SearchHistroyAdapter(mHistorys,
-				SearchActivity.this);
+		mSearchHistroyAdapter = new SearchHistroyAdapter(mHistorys, SearchActivity.this);
 		mLvHistory.setAdapter(mSearchHistroyAdapter);
+
+		//search suggest
+		mSuggests = new ArrayList<>();
+		mSearchSuggestAdapter = new SearchSuggestAdapter(mSuggests, SearchActivity.this);
+		mLvSuggest.setAdapter(mSearchSuggestAdapter);
 
 		mEtSearch.setOnClickListener(this);
 		mIvDelete.setOnClickListener(this);
@@ -128,7 +140,27 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				mEtSearch.setText(mHistorys.get(position));
+				mEtSearch.setSelection(mHistorys.get(position).length());
 				searchKeyword(mHistorys.get(position));
+			}
+		});
+
+		mLvSuggest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				SearchSuggestResponse.MeituanBean.DataBean.SuggestBean suggest = mSuggests.get
+						(position);
+				if (suggest.getType() == 0 && suggest.getPoi_addition_info() != null) {
+					Intent intent = new Intent(SearchActivity.this, FoodListActivity.class);
+					intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id
+							());
+					startActivity(intent);
+				} else {
+					String name = suggest.getSuggest_query();
+					mEtSearch.setText(name);
+					mEtSearch.setSelection(name.length());
+					searchKeyword(name);
+				}
 			}
 		});
 
@@ -154,8 +186,10 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (TextUtils.isEmpty(s)) {
 					mIvClean.setVisibility(View.GONE);
+					hideSuggestView();
 				} else {
-					mIvClean.setVisibility(View.VISIBLE);
+					mLvSuggest.setVisibility(View.VISIBLE);
+					mPresenter.requestSuggestList(mEtSearch.getText().toString());
 				}
 			}
 
@@ -174,6 +208,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				if (mLlHistory.getVisibility() == View.GONE) {
 					mLlHistory.setVisibility(View.VISIBLE);
 					mFragmentStoreList.setVisibility(View.GONE);
+					hideSuggestView();
 				} else {
 					finish();
 				}
@@ -200,16 +235,31 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		finish();
 	}
 
+	@Override
+	public void onSuggestSuccess(SearchSuggestResponse data) {
+		mIvClean.setVisibility(View.VISIBLE);
+		mSuggests.clear();
+		mSuggests.addAll(data.getMeituan().getData().getSuggest());
+		mSearchSuggestAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onSuggestFailure(String msg) {
+
+	}
+
 	private void searchKeyword(String keyword) {
 		mStoreReq.setSortType(null);
 		if (!TextUtils.isEmpty(keyword)) {
-
 			mStoreReq.setKeyword(keyword);
 			SharedPreferencesUtils.saveSearchHistory(keyword,
 					mHistorys);
 			mSearchHistroyAdapter.notifyDataSetChanged();
+		} else {
+			mStoreReq.setKeyword(null);
 		}
 		mLlHistory.setVisibility(View.GONE);
+		hideSuggestView();
 		mFragmentStoreList.setVisibility(View.VISIBLE);
 		mStoreListFragment.loadFirstPage(mStoreReq);
 		hideSoftKeyboard();
@@ -219,6 +269,16 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context
 				.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+	}
+
+	private void hideSuggestView() {
+		if (mLvSuggest.getVisibility() == View.VISIBLE) {
+			mLvSuggest.setVisibility(View.GONE);
+		}
+		if (mSuggests.size() > 0) {
+			mSuggests.clear();
+			mSearchSuggestAdapter.notifyDataSetChanged();
+		}
 	}
 
 }

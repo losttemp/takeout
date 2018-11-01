@@ -2,17 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+	android:layout_height="wrap_content"
+	android:layout_marginLeft="10dp"
+	android:layout_marginRight="10dp"
+	android:paddingBottom="5dp">
 
 	<android.support.v7.widget.AppCompatTextView
-		android:id="@+id/tv_sub_type_name"
+		android:id="@+id/tv_suggest_name"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_centerInParent="true"
-		android:background="@drawable/shape_pop_filter_set_bg"
-		android:padding="10dp"
+		android:layout_marginEnd="10dp"
+		android:ellipsize="end"
+		android:maxLines="1"
+		android:paddingLeft="10dp"
+		android:paddingTop="10dp"
 		android:textColor="@color/black"
 		android:textSize="16sp"
-		tools:text="@string/tools_text_filter_sub_type" />
+		tools:text="@string/tools_text_store_name" />
 
 </RelativeLayout>

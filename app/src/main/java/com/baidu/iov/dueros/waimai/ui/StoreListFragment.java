@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +52,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private AppCompatImageView mIvFilter;
 	private SmartRefreshLayout mRefreshLayout;
 	private RecyclerView mRvStore;
+	private View mViewBg;
+	private AppCompatTextView mTvTipNoResult;
 
 	private Context mContext;
 	private StoreListPresenter mPresenter;
@@ -101,6 +105,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mIvFilter = (AppCompatImageView) view.findViewById(R.id.iv_filter);
 		mRefreshLayout = (SmartRefreshLayout) view.findViewById(R.id.refresh_layout);
 		mRvStore = (RecyclerView) view.findViewById(R.id.rv_store);
+		mViewBg = (View) view.findViewById(R.id.view_bg);
+		mTvTipNoResult = (AppCompatTextView) view.findViewById(R.id.tv_tip_no_result);
 
 	}
 
@@ -119,6 +125,14 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mRvStore.setLayoutManager(layoutManager);
 		mRvStore.setAdapter(mStoreAdaper);
+		mStoreAdaper.setItemClickListener(new StoreAdaper.OnItemClickListener() {
+			@Override
+			public void onItemClick(int position) {
+				Intent intent = new Intent(mContext, FoodListActivity.class);
+				intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());
+				startActivity(intent);
+			}
+		});
 
 		setRefreshView();
 		mRlSort.setOnClickListener(this);
@@ -128,7 +142,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 		mStoreReq = new StoreReq();
 		if (mFromPageType != Constant.STORE_FRAGMENT_FROM_SEARCH) {
-			mPresenter.requestStoreList(mStoreReq);
+			loadFirstPage(mStoreReq);
 		}
 
 		//request filter condition list
@@ -156,12 +170,17 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 						public void onDismiss() {
 							mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
 							mIvSort.setImageResource(R.mipmap.arrow_down);
+							mViewBg.setVisibility(View.GONE);
 						}
 					});
+				}
+				if (mSortList.size() == 0) {
+					mPresenter.requestFilterList(mFilterConditionReq);
 				}
 				mTvSort.setTextColor(getResources().getColor(R.color.black));
 				mIvSort.setImageResource(R.mipmap.arrow_up);
 				mSortPopWindow.showAsDropDown(mTvSort);
+				mViewBg.setVisibility(View.VISIBLE);
 				break;
 
 			case R.id.rl_filter:
@@ -179,12 +198,17 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 						public void onDismiss() {
 							mTvFilter.setTextColor(getResources().getColor(R.color.dark_gray));
 							mIvFilter.setImageResource(R.mipmap.arrow_down);
+							mViewBg.setVisibility(View.GONE);
 						}
 					});
+				}
+				if (mFilterList.size() == 0) {
+					mPresenter.requestFilterList(mFilterConditionReq);
 				}
 				mTvFilter.setTextColor(getResources().getColor(R.color.black));
 				mIvFilter.setImageResource(R.mipmap.arrow_up);
 				mFilterPopWindow.showAsDropDown(mTvFilter);
+				mViewBg.setVisibility(View.VISIBLE);
 				break;
 
 			case R.id.tv_sales:
@@ -210,26 +234,44 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreData = data.getMeituan().getData();
 		if (mStoreData.getCurrent_page_index() == 1) {
 			mStoreList.clear();
-			if (mRefreshLayout.isRefreshing()) {
-				mRefreshLayout.finishRefresh();
-			}
-		} else {
-			if (mRefreshLayout.isLoading()) {
-				mRefreshLayout.finishLoadmore();
-			}
 		}
 		mStoreList.addAll(data.getMeituan().getData().getOpenPoiBaseInfoList());
 		mStoreAdaper.notifyDataSetChanged();
+
+		//set emptey view
+		if (mStoreList.size() == 0) {
+			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
+				mLlFilter.setVisibility(View.GONE);
+				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+						.no_search_result_keyword));
+			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
+				if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
+					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+							.no_search_result_filter));
+				} else {
+					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+							.no_search_result_position));
+				}
+			}
+			mTvTipNoResult.setVisibility(View.VISIBLE);
+		}
+
+		if (mRefreshLayout.isRefreshing()) {
+			mRefreshLayout.finishRefresh();
+		}
+		if (mRefreshLayout.isLoading()) {
+			mRefreshLayout.finishLoadmore();
+		}
 
 	}
 
 	@Override
 	public void failure(String msg) {
 		if (mRefreshLayout.isRefreshing()) {
-			mRefreshLayout.finishRefresh();
+			mRefreshLayout.finishRefresh(false);
 		}
 		if (mRefreshLayout.isLoading()) {
-			mRefreshLayout.finishLoadmore();
+			mRefreshLayout.finishLoadmore(1000, false);
 		}
 
 	}
@@ -262,7 +304,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	private void setRefreshView() {
 
-		mRefreshLayout.setEnableRefresh(true);
 		mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
 			@Override
 			public void onRefresh(RefreshLayout refreshLayout) {
@@ -270,7 +311,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			}
 		});
 
-		mRefreshLayout.setEnableLoadmore(true);
 		mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
 			@Override
 			public void onLoadmore(RefreshLayout refreshLayout) {
@@ -279,6 +319,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mPresenter.requestStoreList(mStoreReq);
 				} else {
 					mRefreshLayout.finishLoadmore();
+
 				}
 			}
 		});
@@ -288,6 +329,12 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	public void loadFirstPage(StoreReq storeReq) {
 		storeReq.setPage_index(1);
 		mPresenter.requestStoreList(storeReq);
+		mStoreReq = storeReq;
+		mTvTipNoResult.setVisibility(View.GONE);
+		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH &&
+				mLlFilter.getVisibility() == View.GONE) {
+			mLlFilter.setVisibility(View.VISIBLE);
+		}
 	}
 
 }

@@ -7,6 +7,7 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.IPoifoodListModel;
 import com.baidu.iov.dueros.waimai.model.PoifoodListModel;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 
 /**
@@ -52,19 +53,35 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
             @Override
             public void onSuccess(PoifoodListBean data) {
-                getUi().onSuccess(data);
+                getUi().onPoifoodListSuccess(data);
             }
 
             @Override
             public void onFailure(String msg) {
-                getUi().onError(msg);
+                getUi().onPoifoodListError(msg);
+            }
+        });
+        mPoifoodListModel.requestPoidetailinfo(map, new RequestCallback<PoidetailinfoBean>() {
+
+            @Override
+            public void onSuccess(PoidetailinfoBean data) {
+                getUi().onPoidetailinfoSuccess(data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                getUi().onPoidetailinfoError(msg);
             }
         });
     }
 
     public interface PoifoodListUi extends Ui {
-        void onSuccess(PoifoodListBean data);
+        void onPoifoodListSuccess(PoifoodListBean data);
 
-        void onError(String error);
+        void onPoidetailinfoSuccess(PoidetailinfoBean data);
+
+        void onPoifoodListError(String error);
+
+        void onPoidetailinfoError(String error);
     }
 }

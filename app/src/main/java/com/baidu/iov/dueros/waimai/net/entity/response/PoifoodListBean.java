@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.net.entity.response;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -323,7 +324,7 @@ public class PoifoodListBean {
                     this.spus = spus;
                 }
 
-                public static class SpusBean {
+                public static class SpusBean implements Serializable {
                     private int id;
                     private String name;
                     private double min_price;
@@ -339,7 +340,7 @@ public class PoifoodListBean {
                     private int sequence;
                     private String shippingTimeX;
                     private int mport_sell_status;
-                    private List<?> attrs;
+                    private List<?> attrs;//TODO
                     private List<SkusBean> skus;
                     private int number;
 
@@ -487,7 +488,7 @@ public class PoifoodListBean {
                         this.skus = skus;
                     }
 
-                    public static class SkusBean {
+                    public static class SkusBean implements Serializable{
                         private int id;
                         private String spec;
                         private String description;

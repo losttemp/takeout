@@ -11,10 +11,12 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
@@ -129,16 +131,17 @@ public class ApiUtils {
 
     /**
      * get poidetailinfo request
+     *
      * @param request
      * @param callBack
      * @param <D>
      */
-//    public static <D extends RequestBase> void getPoidetailinfo(D request, ApiCallBack<PoifoodListBean> callBack) {
-//        Map<String, String> requestMap = requestPrepare(request);
-//        ApiInstance.getApi().getPoidetailinfo(requestMap).enqueue(callBack);
-//    }
+    public static <D extends RequestBase> void getPoidetailinfo(D request, ApiCallBack<PoidetailinfoBean> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getPoidetailinfo(requestMap).enqueue(callBack);
+    }
 
-    public static <D extends RequestBase> void getBusinessByLocation(D request, ApiCallBack<Map<String, BusinessBean>> callBack) {
+    public static <D extends RequestBase> void getBusinessByLocation(D request, ApiCallBack<BusinessBean> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getBusinessByLocation(requestMap).enqueue(callBack);
     }
@@ -224,5 +227,17 @@ public class ApiUtils {
     public static <D extends RequestBase> void getMeituanAuth(D request, ApiCallBack<MeituanAuthorizeResponse> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getMeituanAuth(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * get search suggest list request
+     *
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getSearchSuggest(D request, ApiCallBack<SearchSuggestResponse> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getSearchSuggest(requestMap).enqueue(callBack);
     }
 }

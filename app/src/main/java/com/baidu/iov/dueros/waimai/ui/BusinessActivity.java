@@ -1,12 +1,15 @@
 package com.baidu.iov.dueros.waimai.ui;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.adapter.BusinesAdapter;
 import com.baidu.iov.dueros.waimai.adapter.TabSortTypeAdpater;
@@ -22,11 +25,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPresenter.BusinessUi> implements BusinessPresenter.BusinessUi, View.OnClickListener{
     private static final String TAG = BusinessActivity.class.getSimpleName();
     private Button btnBack;
@@ -48,8 +48,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     private List<FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter> activityFilterList=new ArrayList<>();
     private List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> sortTypeList=new ArrayList<>();
     private List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> sortTypeTabs=new ArrayList<>();
-    private List<BusinessBean.Business.OpenPoiBaseInfo> mOpenPoiBaseInfoList = new
-            ArrayList<>();
+    private List<BusinessBean.MeituanBean.Business.OpenPoiBaseInfo> mOpenPoiBaseInfoList = new ArrayList<>();
 
     private RecyclerView rvSortType;
     
@@ -59,7 +58,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
     private SmartRefreshLayout mRefreshLayout;
 
-    private BusinessBean.Business mBusiness;
+    private BusinessBean.MeituanBean.Business mBusiness;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +74,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         Intent intent=getIntent();
         if (intent!=null) {
             title = intent.getStringExtra("title");
+            Lg.getInstance().e(TAG,"title:"+title);
         }
     }
 
@@ -85,7 +85,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
         if (getResources().getString(R.string.stroe_type_cake).equals(title)){
             keyword= getResources().getString(R.string.cake);
-        }else if (getResources().getString(R.string.flower).equals(title)){
+        }else if (getResources().getString(R.string.stroe_type_flower).equals(title)){
             keyword= getResources().getString(R.string.flower);
         }else {
             keyword=title;
@@ -151,6 +151,14 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
                 getPresenter().requestBusinessBean(poilistReq);
             }
         });
+        mBusinessListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(BusinessActivity.this, FoodListActivity.class);
+                //intent.putExtra(Constant.STORE_ID, mOpenPoiBaseInfoList.get(position).getWmPoiId());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -165,9 +173,9 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
 
     @Override
-    public void onBusinessBeanSuccess(Map<String, BusinessBean> data) {
+    public void onBusinessBeanSuccess(BusinessBean data) {
         Lg.getInstance().e(TAG,"data:"+data);
-        mBusiness=data.get("meituan").getmBusiness();
+        mBusiness=data.getMeituan().getmBusiness();
         if (mBusiness.getCurrentPageIndex() == 1) {
             mOpenPoiBaseInfoList.clear();
             if (mRefreshLayout.isRefreshing()) {
@@ -282,14 +290,37 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
                 finish();
                 break;
             case R.id.btn_search:
-               
+                Intent intent = new Intent(BusinessActivity.this, SearchActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tv_conditions:
                 mConditionsPopWindow.showPop(tvConditions);
+                mConditionsPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        Drawable downDrawable =getResources().getDrawable(R.mipmap.arrow_down);
+                        downDrawable.setBounds(0, 0, downDrawable.getIntrinsicWidth(), downDrawable.getIntrinsicHeight());
+                       tvConditions.setCompoundDrawables(null,null,downDrawable,null);
+                    }
+                });
+                Drawable upDrawable =getResources().getDrawable(R.mipmap.arrow_up);
+                upDrawable.setBounds(0, 0, upDrawable.getIntrinsicWidth(), upDrawable.getIntrinsicHeight());
+                tvConditions.setCompoundDrawables(null,null,upDrawable,null);
                 break;
             case R.id.tv_filter:
                 tvFilter.setTextColor(getResources().getColor(R.color.black));
                 mActivityFilterPopWindow.showPop(tvFilter);
+                mActivityFilterPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        Drawable downDrawable =getResources().getDrawable(R.mipmap.arrow_down);
+                        downDrawable.setBounds(0, 0, downDrawable.getIntrinsicWidth(), downDrawable.getIntrinsicHeight());
+                        tvFilter.setCompoundDrawables(null,null,downDrawable,null);
+                    }
+                });
+                Drawable upFilterDrawable =getResources().getDrawable(R.mipmap.arrow_up);
+                upFilterDrawable.setBounds(0, 0, upFilterDrawable.getIntrinsicWidth(), upFilterDrawable.getIntrinsicHeight());
+                tvFilter.setCompoundDrawables(null,null,upFilterDrawable,null);
                 break;
             default:
                 break;
@@ -313,7 +344,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         }else{
             tvFilter.setTextColor(getResources().getColor(R.color.gray));
         }
-            
+        
         getPresenter().requestBusinessBean(poilistReq);
     }
 }
