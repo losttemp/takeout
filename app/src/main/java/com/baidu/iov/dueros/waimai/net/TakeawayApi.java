@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.net;
 
 import com.baidu.iov.dueros.waimai.net.entity.base.ResponseBase;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;

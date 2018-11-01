@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.ui.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.Glide;
@@ -79,13 +80,13 @@ public class BusinesAdapter extends BaseAdapter {
         viewHolder.tvAveragePrice.setText(""+mOpenPoiBaseInfo.getAveragePriceTip());
         viewHolder.ratingBar.setClickable(false);
         viewHolder.ratingBar.setStar((float) mOpenPoiBaseInfo.getWmPoiScore());
-        if (mOpenPoiBaseInfo.getStatus()==1){
+        if (mOpenPoiBaseInfo.getStatus()==Constant.STROE_STATUS_NORMAL){
             viewHolder.tvStatusDesc.setVisibility(View.GONE);
         }else{
             viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
             viewHolder.tvStatusDesc.setText(mOpenPoiBaseInfo.getStatusDesc());
         }
-        if (mOpenPoiBaseInfo.getStatus()==3){
+        if (mOpenPoiBaseInfo.getStatus()==Constant.STROE_STATUS_BREAK){
             viewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.gray));
         }else{
             viewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.white));

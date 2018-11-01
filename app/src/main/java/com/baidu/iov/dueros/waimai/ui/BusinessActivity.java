@@ -18,6 +18,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.PoilistReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.presenter.BusinessPresenter;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.ActivityFilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.ConditionsPopWindow;
@@ -59,6 +60,8 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     private SmartRefreshLayout mRefreshLayout;
 
     private BusinessBean.MeituanBean.Business mBusiness;
+
+    private TextView tvNoResult;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,8 +107,8 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         btnBack=findViewById(R.id.btn_back);
         tvTitle=findViewById(R.id.tv_title);
         btnSearch=findViewById(R.id.btn_search);
-        mRefreshLayout = (SmartRefreshLayout) findViewById(R.id.refresh_layout);
-
+        mRefreshLayout =  findViewById(R.id.refresh_layout);
+        tvNoResult=findViewById(R.id.tv_tip_no_result);
         tvConditions=findViewById(R.id.tv_conditions);
         mConditionsPopWindow = new ConditionsPopWindow(this);
         mActivityFilterPopWindow= new ActivityFilterPopWindow(this);
@@ -125,7 +128,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         mBusinessListView.setAdapter(mBusinesAdapter);
         
         tvTitle.setText(title);
-        
+        tvNoResult.setVisibility(View.GONE);
     }
     
     private void setListener(){
@@ -154,9 +157,15 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         mBusinessListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(BusinessActivity.this, FoodListActivity.class);
-                //intent.putExtra(Constant.STORE_ID, mOpenPoiBaseInfoList.get(position).getWmPoiId());
-                startActivity(intent);
+                BusinessBean.MeituanBean.Business.OpenPoiBaseInfo mOpenPoiBaseInfo=mOpenPoiBaseInfoList.get(position);
+                if (mOpenPoiBaseInfo.getStatus()==Constant.STROE_STATUS_BREAK){
+                    
+                }else{
+                    Intent intent = new Intent(BusinessActivity.this, FoodListActivity.class);
+                    intent.putExtra(Constant.STORE_ID, mOpenPoiBaseInfo.getWmPoiId());
+                    startActivity(intent);
+                }
+                
             }
         });
     }
@@ -186,8 +195,14 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
                 mRefreshLayout.finishLoadmore();
             }
         }
+      
         mOpenPoiBaseInfoList.addAll(mBusiness.getOpenPoiBaseInfoList());
-        mBusinesAdapter.setData(mOpenPoiBaseInfoList);
+        if (mOpenPoiBaseInfoList.size() == 0) {
+            tvNoResult.setVisibility(View.VISIBLE);
+        }else{
+            mBusinesAdapter.setData(mOpenPoiBaseInfoList);
+        }
+       
     }
 
     private void setRefreshView() {
@@ -227,7 +242,6 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
     @Override
     public void onFilterConditionsSuccess(FilterConditionsResponse data) {
-      //  Lg.getInstance().e(TAG,"msg:"+data);
         activityFilterList =data.getMeituan().getData().getActivity_filter_list();
         mActivityFilterPopWindow.setData(activityFilterList);
         

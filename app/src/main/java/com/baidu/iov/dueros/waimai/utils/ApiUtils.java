@@ -4,6 +4,7 @@ import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.ApiInstance;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
