@@ -96,7 +96,7 @@
 	<string name="network_anomaly">您的网络好像不太给力，请稍候再试</string>
 	<string name="reload">重新加载</string>
 	<string name="arrive_time">大约%s送达</string>
-	<string name="cost">\&#165;%1d</string>
+	<string name="cost">\&#165;%1.1f</string>
 	<string name="total_cost">去支付\&#165;%1d</string>
 	<string name="discount_exist"><Data><![CDATA[<b>已优惠</b><font color="#ff0000"><b>&#165;%1d</b></font>]]></Data></string>
 	<string name="payment_summary">支付方式</string>
@@ -104,6 +104,8 @@
 	<string name="packing_fee">包装费</string>
 	<string name="delivery_fee">配送费</string>
 	<string name="discount_prompt">满减优惠与折扣商品不能同时共享</string>
+	<string name="count_char">\&#935;%1d</string>
+	<string name="count_down_timer">支付剩余时间%6s</string>
 
 	<string name="address_select_title">我的收货地址</string>
 	<string name="address_select_add_address">新增地址</string>

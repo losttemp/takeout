@@ -40,11 +40,11 @@
             android:name=".AddressListActivity"
             android:theme="@style/NoTitleDialog" />
         <activity android:name=".PaymentActivity" />
-        <activity android:name=".PaySuccessActivity"></activity>
+        <activity android:name=".PaySuccessActivity"/>
+        <activity android:name=".OrderDetailsActivity"/>
         <activity android:name=".SearchActivity" />
         <activity android:name=".AddressSelectActivity" />
         <activity android:name=".AddressEditActivity" />
-        <activity android:name=".AddressSearchActivity" />
 
         <!--BaiDu SDK-->
         <meta-data

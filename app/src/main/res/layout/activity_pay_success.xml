@@ -1,50 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:background="@color/gray_bg"
+    android:orientation="vertical"
     tools:context="com.baidu.iov.dueros.waimai.ui.PaySuccessActivity">
 
-    <ImageView
-        android:id="@+id/pay_success_img"
-        android:layout_width="70dp"
-        android:layout_height="40dp"
-        android:background="@mipmap/ic_pay_success"
-        android:layout_marginTop="10dp"/>
+    <ListView
+        android:id="@+id/product_listview"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/delivery_addrs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:gravity="center_vertical"
+            android:text="配送地址"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/user_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:gravity="center_vertical"
+            android:text="周女士 1561233425"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/user_info"
+            android:layout_below="@+id/user_info"
+            android:layout_marginTop="10dp"
+            android:text="南海生物科技园"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:drawableLeft="@drawable/icn_payfailed"
+            android:gravity="center"
+            android:text="支付失败，请点击下方按钮重新支付"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider" />
+
+        <TextView
+            android:id="@+id/replay"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/gray"
+            android:gravity="center"
+            android:text="重新支付"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="19dp"
+            android:background="@color/divider" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/pay_success"
+        android:id="@+id/order_details"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pay_success_img"
-        android:layout_marginTop="10dp"
-        android:textSize="35sp"
-        android:textColor="@color/white_bg"
-        android:text="支付成功!"/>
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:drawableRight="@drawable/icn_come_in"
+        android:gravity="center"
+        android:text="进入订单中心"
+        android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pay_success"
-        android:textSize="30sp"
-        android:textColor="@color/white_bg"
-        android:layout_marginTop="10dp"
-        android:text="￥ 35"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/money"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/white_bg"
-        android:text="点击查看订单详情"
-        android:textSize="15sp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-</RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+</LinearLayout>

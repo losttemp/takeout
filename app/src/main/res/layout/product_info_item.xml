@@ -1,49 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/gray_bg">
+    android:layout_height="60dp">
 
     <ImageView
         android:id="@+id/product_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@mipmap/ic_goods_image"/>
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="5dp"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_goods_image" />
 
     <TextView
         android:id="@+id/product_name"
-        android:layout_toEndOf="@+id/product_photo"
-        android:layout_height="match_parent"
         android:layout_width="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:textColor="@color/white_bg"
-        android:text="香辣鸡腿堡"/>
+        android:layout_toEndOf="@+id/product_photo"
+        android:text="黄焖鸡米饭 (小份) "
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/product_attrs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/product_name"
+        android:layout_below="@+id/product_name"
+        android:layout_marginTop="5dp"
+        android:text="中辣" />
+
     <TextView
         android:id="@+id/product_count"
-        android:layout_toEndOf="@+id/product_name"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/product_attrs"
+        android:layout_below="@+id/product_attrs"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/product_discount"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBaseline="@+id/product_name"
+        android:layout_toEndOf="@+id/product_name"
+        android:background="@color/gray"
         android:gravity="center"
-        android:text="X1"/>
+        android:text="折" />
 
     <TextView
         android:id="@+id/product_price"
-        android:layout_toEndOf="@+id/product_count"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginStart="90dp"
-        android:textColor="@color/white_bg"
-        android:gravity="center"
-        android:text="￥28"/>
+        android:layout_marginEnd="20dp"
+        android:layout_alignBaseline="@+id/product_name"
+        android:layout_toStartOf="@+id/origin_price"
+        android:text="￥28" />
+
     <TextView
-        android:id="@+id/discount_price"
+        android:id="@+id/origin_price"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
+        android:layout_alignBaseline="@+id/product_name"
         android:layout_marginEnd="10dp"
-        android:textColor="@color/white_bg"
-        android:gravity="center"
-        android:text="￥23"/>
+        android:text="￥23" />
 </RelativeLayout>

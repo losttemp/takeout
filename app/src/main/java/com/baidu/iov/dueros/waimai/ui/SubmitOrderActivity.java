@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -21,11 +24,15 @@ import com.baidu.iov.dueros.waimai.adapter.ProductInfoAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitInfoPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import java.util.List;
+
+import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.POI_INFO;
+import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.PRODUCT_LIST_BEAN;
 
 public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, SubmitInfoPresenter.SubmitInfoUi>
         implements SubmitInfoPresenter.SubmitInfoUi, View.OnClickListener {
@@ -35,6 +42,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private final static int SELECT_DELIVERY_ADDRESS = 100;
     private RelativeLayout mArrivetimeLayout;
     private RelativeLayout mAddressUpdateLayout;
+    private ListView mProductInfoList;
     private TextView mPackingFee;
     private TextView mDeliveryFee;
     private TextView mDiscount;
@@ -63,7 +71,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     public void initView() {
 
-//        mProductInfoAdapter = new ProductInfoAdapter(this);
 /*
         mPackingFee = findViewById(R.id.packing_fee);
         mDeliveryFee = findViewById(R.id.delivery_fee);
@@ -80,18 +87,50 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mDiscountExists.setText(Html.fromHtml(text));
 */
 
+        Intent intent = getIntent();
+        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList = null;
+        PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfo = null;
+        if (intent != null) {
+            productList = (List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean>) intent.getSerializableExtra(PRODUCT_LIST_BEAN);
+            poiInfo = (PoifoodListBean.MeituanBean.DataBean.PoiInfoBean) intent.getSerializableExtra(POI_INFO);
+        }
+
         mToPay = findViewById(R.id.to_pay);
         mToPay.setOnClickListener(this);
         mTypeTip = findViewById(R.id.type_tip);
         mArriveTime = findViewById(R.id.arrive_time);
-        mArrivetimeLayout = findViewById(R.id.delivery_info);
-        mArrivetimeLayout.setOnClickListener(this);
-
         mAddressUpdateLayout = findViewById(R.id.address_info);
+        mArrivetimeLayout = findViewById(R.id.delivery_info);
+        mProductInfoList = findViewById(R.id.product_listview);
+
+        mArrivetimeLayout.setOnClickListener(this);
         mAddressUpdateLayout.setOnClickListener(this);
+        mProductInfoAdapter = new ProductInfoAdapter(this);
+        mProductInfoList.setAdapter(mProductInfoAdapter);
+        setListViewHeightBasedOnChildren(mProductInfoList);
+        if (productList != null && poiInfo != null) {
+            mProductInfoAdapter.setData(productList ,poiInfo);
+        }
 
         map = new ArrayMap<>();
         loadData(-1, -1, -1, Constant.SPECIAL_HALL_ID);
+    }
+
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 
 
@@ -121,6 +160,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             case R.id.address_info:
 
                 Intent intent = new Intent(this, AddressListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivityForResult(intent, SELECT_DELIVERY_ADDRESS);
                 break;
 
@@ -133,7 +173,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             case R.id.to_pay:
                 //OrderSubmitReqBean orderSubmitReqBean = null;
                 //getPresenter().requestOrderSubmitData(orderSubmitReqBean);
-                Intent data = new Intent(this, PaymentActivity.class);
+                Intent data = new Intent(this, PaySuccessActivity.class);
+                data.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(data);
                 break;
 
@@ -153,7 +194,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         ColorDrawable dw = new ColorDrawable(0xb0808080);
         popWindow.setBackgroundDrawable(dw);
         popWindow.setAnimationStyle(R.style.Popupwindow);
-        popWindow.showAtLocation(this.findViewById(R.id.pay_panel), Gravity.BOTTOM, 0, 0);
+        popWindow.showAtLocation(this.findViewById(R.id.address_info), Gravity.TOP, 0, 0);
 
         mListViewDate = view.findViewById(R.id.list_date);
         mListViewTime = view.findViewById(R.id.list_time);
@@ -192,13 +233,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 if (mDataBean != null) {
                     String type = mDataBean.get(mCurDateItem).getTimelist().get(position).getDate_type_tip();
                     mTypeTip.setText(type);
-                        String time = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_time();
-                    if (!type.isEmpty() && type.equals(time)){
+                    String time = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_time();
+                    if (!type.isEmpty() && type.equals(time)) {
                         mArriveTime.setText(String.format(getResources().getString(R.string.arrive_time), "14:20"));
-                    }else{
+                    } else {
                         mArriveTime.setText(time);
                     }
-
 
 
                 }
