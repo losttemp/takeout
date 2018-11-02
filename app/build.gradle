@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        sing {
+            keyAlias 'archermind'
+            keyPassword 'archermind'
+            storeFile file('waimai.jks')
+            storePassword 'archermind'
+        }
+    }
     compileSdkVersion 28
     buildToolsVersion "25.0.3"
     defaultConfig {
@@ -23,8 +31,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.sing
+        }
     }
-
     android.applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def outputFile = output.outputFile
