@@ -5,8 +5,10 @@ import android.util.ArrayMap;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
@@ -53,9 +55,11 @@ public class SubmitInfoImpl implements ISubmitInfoModel {
             return;
         }
 
+
         ApiUtils.getOrderSubmit(orderSubmitReqBean, new ApiCallBack<OrderSubmitBean>() {
             @Override
             public void onSuccess(OrderSubmitBean data) {
+                Lg.getInstance().d("zhangbing","-----------Order ID " + data.getMeituan().getData().getOrder_id());
                 //OrderSubmitBean cinemaInfoData = parseCinemaInfo(data);
                 //callback.onSuccess(cinemaInfoData);
             }
@@ -66,6 +70,26 @@ public class SubmitInfoImpl implements ISubmitInfoModel {
             }
         });
 
+    }
+
+    @Override
+    public void requestOrderPreview(OrderPreviewReqBean orderPreviewReqBean, final RequestCallback<OrderPreviewBean> callback) {
+        if (callback == null){
+            return;
+        }
+
+        ApiUtils.getOrderPreview(orderPreviewReqBean, new ApiCallBack<OrderPreviewBean>(){
+            @Override
+            public void onSuccess(OrderPreviewBean data) {
+                Lg.getInstance().d("zhangbing","--------------token = " +
+                        data.getMeituan().getData().getToken());
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                callback.onFailure(msg);
+            }
+        });
     }
 
     @Override
