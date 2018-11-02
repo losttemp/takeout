@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:background="@color/white">
     
     <FrameLayout
         android:id="@+id/fl"
-        android:layout_width="80dp"
+        android:layout_width="70dp"
         android:layout_margin="10dp"
-        android:layout_height="80dp">
+        android:layout_height="70dp">
 
     <ImageView
         android:id="@+id/iv_business"
@@ -23,7 +23,7 @@
             android:id="@+id/tv_status_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/all"
+            android:text="@string/store_status_break"
             android:background="@color/pop_window_bg"
             android:layout_gravity="bottom"
             android:gravity="center_horizontal"
@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/all"
+        android:textColor="@color/black_text"
         android:layout_alignTop="@id/fl"
         android:layout_toRightOf="@id/fl"
         android:textSize="16sp" />
@@ -45,10 +46,11 @@
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:layout_below="@id/tv_business_name"
         android:layout_toRightOf="@id/fl"
         app:starCount="5"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
         app:starEmpty="@mipmap/rating_small_empty"
         app:starFill="@mipmap/rating_small_full"
         app:starHalf="@mipmap/rating_small_half"
@@ -63,7 +65,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_business_name"
         android:layout_toRightOf="@id/ratingBar"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="13sp" />
@@ -74,6 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_business_name"
         android:layout_toRightOf="@id/tv_business_score"
+        android:layout_marginTop="4dp"
         android:textSize="13sp" />
 
     <TextView
@@ -82,6 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_month_sale_nume"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
         android:layout_toRightOf="@id/fl"
         android:textSize="13sp" />
 
