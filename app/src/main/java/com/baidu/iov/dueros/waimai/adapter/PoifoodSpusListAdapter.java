@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 

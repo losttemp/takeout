@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressSearchAdapter;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;

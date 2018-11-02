@@ -34,6 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusListAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ShoppingCartAdapter;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;

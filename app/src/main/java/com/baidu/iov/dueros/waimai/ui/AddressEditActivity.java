@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressEditPresenter;
 import com.baidu.iov.dueros.waimai.view.TagListView;

@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 

@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+
+import com.baidu.iov.dueros.waimai.R;
 //import com.baidu.iov.dueros.waimai.ui.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {

@@ -18,6 +18,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryDateAdapter;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryTimeAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ProductInfoAdapter;

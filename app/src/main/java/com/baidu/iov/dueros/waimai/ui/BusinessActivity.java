@@ -14,6 +14,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.BusinesAdapter;
 import com.baidu.iov.dueros.waimai.adapter.TabSortTypeAdpater;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;

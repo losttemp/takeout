@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 
 import java.math.BigDecimal;
 

@@ -8,11 +8,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.SortPopWindowAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
 		.DataBean.SortTypeListBean;
-import com.baidu.iov.dueros.waimai.ui.R;
+
 
 import java.util.List;
 

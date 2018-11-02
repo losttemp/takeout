@@ -24,6 +24,7 @@ import android.widget.Toast;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.MeituanAuthorizeReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.presenter.MeituanAuthPresenter;

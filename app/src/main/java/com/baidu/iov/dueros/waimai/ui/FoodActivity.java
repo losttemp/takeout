@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.FirstTypeFoodAdapter;
 import com.baidu.iov.dueros.waimai.adapter.SecondTypeFoodAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;

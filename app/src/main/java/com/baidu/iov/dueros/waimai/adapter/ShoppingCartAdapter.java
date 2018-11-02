@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 
 import java.util.List;
 

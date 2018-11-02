@@ -7,7 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 
 import java.util.List;
 

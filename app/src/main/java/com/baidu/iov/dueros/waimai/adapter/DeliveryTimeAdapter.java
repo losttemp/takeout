@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 
 import java.util.List;
 

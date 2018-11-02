@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.presenter.MainPresenter;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;

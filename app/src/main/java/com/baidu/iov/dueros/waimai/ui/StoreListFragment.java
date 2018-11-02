@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;

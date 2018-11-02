@@ -12,7 +12,7 @@ import com.baidu.iov.dueros.waimai.adapter.ConditionsPopWindowAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.ui.BaseActivity;
 import com.baidu.iov.dueros.waimai.ui.BusinessActivity;
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 
 import java.util.List;
 

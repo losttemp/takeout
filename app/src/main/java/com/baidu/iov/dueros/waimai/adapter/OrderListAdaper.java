@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.Glide;
 

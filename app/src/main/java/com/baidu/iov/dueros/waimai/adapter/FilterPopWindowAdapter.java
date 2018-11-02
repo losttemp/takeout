@@ -11,7 +11,7 @@ import android.widget.GridView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
 		.DataBean.ActivityFilterListBean;
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 
 import java.util.ArrayList;
 import java.util.List;

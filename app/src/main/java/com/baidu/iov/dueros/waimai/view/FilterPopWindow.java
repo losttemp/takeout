@@ -13,7 +13,7 @@ import android.widget.PopupWindow;
 import com.baidu.iov.dueros.waimai.adapter.FilterPopWindowAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
 		.DataBean.ActivityFilterListBean;
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 
 import java.util.List;
 

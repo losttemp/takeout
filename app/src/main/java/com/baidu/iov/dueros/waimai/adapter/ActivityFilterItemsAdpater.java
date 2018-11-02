@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import java.util.List;

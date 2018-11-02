@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.SearchHistroyAdapter;
 import com.baidu.iov.dueros.waimai.adapter.OrderListAdaper;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;

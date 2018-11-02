@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse.MeituanBean.DataBean
 		.SuggestBean;
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 
 import java.util.List;
 

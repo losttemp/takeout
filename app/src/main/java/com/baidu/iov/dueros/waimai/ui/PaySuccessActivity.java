@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.baidu.iov.dueros.waimai.R;
+
 public class PaySuccessActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView mOrderDetails;

@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baidu.iov.dueros.waimai.ui.R;
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.DeviceUtils;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 

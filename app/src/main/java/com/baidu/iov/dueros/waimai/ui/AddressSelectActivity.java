@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressSelectAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;

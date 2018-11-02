@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.SearchHistroyAdapter;
 import com.baidu.iov.dueros.waimai.adapter.SearchSuggestAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.SearchSuggestReq;

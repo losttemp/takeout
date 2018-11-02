@@ -50,7 +50,7 @@ public class CinemaFragment extends BaseFragment<CinemaPresenter, CinemaPresente
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(com.baidu.iov.dueros.waimai.ui.R.layout.cinema_fragment, container, false);
+        View view = inflater.inflate(com.baidu.iov.dueros.waimai.R.layout.cinema_fragment, container, false);
         initView(view);
 
         map = new ArrayMap<>();
@@ -58,7 +58,7 @@ public class CinemaFragment extends BaseFragment<CinemaPresenter, CinemaPresente
     }
 
     private void initView(View view) {
-        mDropDownMenu = (DropDownMenu) view.findViewById(com.baidu.iov.dueros.waimai.ui.R.id.dropDownMenu);
+        mDropDownMenu = (DropDownMenu) view.findViewById(com.baidu.iov.dueros.waimai.R.id.dropDownMenu);
 
         mCityView = new DoubleLinkListView(getActivity());
         mCityView.setBackgroundColor(Color.WHITE);
@@ -168,7 +168,7 @@ public class CinemaFragment extends BaseFragment<CinemaPresenter, CinemaPresente
             }
         });
 
-        mDropDownMenu.setDropDownMenu(Arrays.asList(getResources().getStringArray(com.baidu.iov.dueros.waimai.ui.R.array.tab_filters)), popupViews, cinimaList);
+        mDropDownMenu.setDropDownMenu(Arrays.asList(getResources().getStringArray(com.baidu.iov.dueros.waimai.R.array.tab_filters)), popupViews, cinimaList);
     }
 
     @Override
@@ -262,11 +262,11 @@ public class CinemaFragment extends BaseFragment<CinemaPresenter, CinemaPresente
         T allBean = list.get(0);
         if(allBean instanceof CinemaBean.FilterBean.AreasBean){
             allBean = (T) new CinemaBean.FilterBean.AreasBean();
-            allBean.setName(getString(com.baidu.iov.dueros.waimai.ui.R.string.all_area));
+            allBean.setName(getString(com.baidu.iov.dueros.waimai.R.string.all_area));
             allBean.setValue(sum);
         } else {
             allBean = (T) new CinemaBean.DataBean();
-            allBean.setName(getString(com.baidu.iov.dueros.waimai.ui.R.string.all));
+            allBean.setName(getString(com.baidu.iov.dueros.waimai.R.string.all));
             allBean.setValue(sum);
         }
         return allBean;
