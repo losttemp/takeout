@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.baidu.iov.dueros.waimai.adapter.BusinesAdapter;
 import com.baidu.iov.dueros.waimai.adapter.TabSortTypeAdpater;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
@@ -159,7 +162,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BusinessBean.MeituanBean.Business.OpenPoiBaseInfo mOpenPoiBaseInfo=mOpenPoiBaseInfoList.get(position);
                 if (mOpenPoiBaseInfo.getStatus()==Constant.STROE_STATUS_BREAK){
-                    
+                    Toast.makeText(BusinessActivity.this,getResources().getString(R.string.tips_earliest_delivery_time),Toast.LENGTH_LONG).show();
                 }else{
                     Intent intent = new Intent(BusinessActivity.this, FoodListActivity.class);
                     intent.putExtra(Constant.STORE_ID, mOpenPoiBaseInfo.getWmPoiId());
@@ -186,23 +189,32 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         Lg.getInstance().e(TAG,"data:"+data);
         mBusiness=data.getMeituan().getmBusiness();
         if (mBusiness.getCurrentPageIndex() == 1) {
-            mOpenPoiBaseInfoList.clear();
-            if (mRefreshLayout.isRefreshing()) {
-                mRefreshLayout.finishRefresh();
-            }
-        } else {
-            if (mRefreshLayout.isLoading()) {
-                mRefreshLayout.finishLoadmore();
-            }
+            mOpenPoiBaseInfoList.clear(); 
         }
-      
+        
         mOpenPoiBaseInfoList.addAll(mBusiness.getOpenPoiBaseInfoList());
+        mBusinesAdapter.setData(mOpenPoiBaseInfoList);
         if (mOpenPoiBaseInfoList.size() == 0) {
+            if (!TextUtils.isEmpty(poilistReq.getMigFilter())) {
+                tvNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+                        .no_search_result_filter));
+            } else {
+                tvNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+                        .no_search_result_keyword));
+            }
             tvNoResult.setVisibility(View.VISIBLE);
-        }else{
-            mBusinesAdapter.setData(mOpenPoiBaseInfoList);
+            mRefreshLayout.setVisibility(View.GONE);
+        }else {
+            tvNoResult.setVisibility(View.GONE);
+            mRefreshLayout.setVisibility(View.VISIBLE);
         }
-       
+
+        if (mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.finishRefresh();
+        }
+        if (mRefreshLayout.isLoading()) {
+            mRefreshLayout.finishLoadmore();
+        }
     }
 
     private void setRefreshView() {
@@ -219,7 +231,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshLayout) {
-                if (mBusiness.getHaveNextPage() == 1) {
+                if (mBusiness!=null&&mBusiness.getHaveNextPage() == 1) {
                     poilistReq.setPage_index((mBusiness.getCurrentPageIndex() + 1));
                     Lg.getInstance().e(TAG,"data:"+poilistReq.getPage_index());
                     getPresenter().requestBusinessBean(poilistReq);
@@ -309,12 +321,14 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
                 break;
             case R.id.tv_conditions:
                 mConditionsPopWindow.showPop(tvConditions);
+                mConditionsPopWindow.setBackgroundAlpha(0.5f);
                 mConditionsPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
                         Drawable downDrawable =getResources().getDrawable(R.mipmap.arrow_down);
                         downDrawable.setBounds(0, 0, downDrawable.getIntrinsicWidth(), downDrawable.getIntrinsicHeight());
-                       tvConditions.setCompoundDrawables(null,null,downDrawable,null);
+                        tvConditions.setCompoundDrawables(null,null,downDrawable,null);
+                        mConditionsPopWindow.setBackgroundAlpha(1.0f);
                     }
                 });
                 Drawable upDrawable =getResources().getDrawable(R.mipmap.arrow_up);
@@ -324,12 +338,14 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
             case R.id.tv_filter:
                 tvFilter.setTextColor(getResources().getColor(R.color.black));
                 mActivityFilterPopWindow.showPop(tvFilter);
+                mActivityFilterPopWindow.setBackgroundAlpha(0.5f);
                 mActivityFilterPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
                         Drawable downDrawable =getResources().getDrawable(R.mipmap.arrow_down);
                         downDrawable.setBounds(0, 0, downDrawable.getIntrinsicWidth(), downDrawable.getIntrinsicHeight());
                         tvFilter.setCompoundDrawables(null,null,downDrawable,null);
+                        mActivityFilterPopWindow.setBackgroundAlpha(1.0f);
                     }
                 });
                 Drawable upFilterDrawable =getResources().getDrawable(R.mipmap.arrow_up);

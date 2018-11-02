@@ -4,12 +4,14 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.adapter.ActivityFilterPopWindowAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
+import com.baidu.iov.dueros.waimai.ui.BaseActivity;
 import com.baidu.iov.dueros.waimai.ui.BusinessActivity;
 import com.baidu.iov.dueros.waimai.ui.R;
 import java.util.List;
@@ -44,6 +46,12 @@ public class ActivityFilterPopWindow extends PopupWindow {
 		mAdapter = new ActivityFilterPopWindowAdapter(mContext);
 		
 
+	}
+
+	public void setBackgroundAlpha(float bgAlpha) {
+		WindowManager.LayoutParams lp = ((BaseActivity)mContext).getWindow().getAttributes();
+		lp.alpha = bgAlpha;
+		((BaseActivity)mContext).getWindow().setAttributes(lp);
 	}
 
 	public void setData(List<FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter> mData){

@@ -3,12 +3,14 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.baidu.iov.dueros.waimai.adapter.ConditionsPopWindowAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
+import com.baidu.iov.dueros.waimai.ui.BaseActivity;
 import com.baidu.iov.dueros.waimai.ui.BusinessActivity;
 import com.baidu.iov.dueros.waimai.ui.R;
 
@@ -53,6 +55,12 @@ public class ConditionsPopWindow extends PopupWindow {
 			}
 		});
 	}
+
+	public void setBackgroundAlpha(float bgAlpha) {
+		WindowManager.LayoutParams lp = ((BaseActivity)mContext).getWindow().getAttributes();  
+        lp.alpha = bgAlpha;
+		((BaseActivity)mContext).getWindow().setAttributes(lp);
+	}  
 
 	
 	public void showPop(View parentView) {

@@ -37,6 +37,7 @@
 	<string name="no_search_result_position">抱歉，当前位置无外卖服务覆盖</string>
 	<string name="store_status_break">休息中</string>
 	<string name="store_status_busy">忙碌中</string>
+	<string name="tips_earliest_delivery_time">现在预订，最早10:30开始配送</string>
 
 	<!--FilterPopWindow-->
 	<string name="ok">确定</string>

@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/all"
-            android:background="#80ffffff"
+            android:background="@color/pop_window_bg"
             android:layout_gravity="bottom"
             android:gravity="center_horizontal"
             android:textSize="16sp" />
