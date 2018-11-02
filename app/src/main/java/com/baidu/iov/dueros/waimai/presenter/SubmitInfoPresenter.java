@@ -7,8 +7,10 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.ISubmitInfoModel;
 import com.baidu.iov.dueros.waimai.model.SubmitInfoImpl;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 
 public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInfoUi> {
@@ -89,10 +91,30 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
     }
 
 
+    public void requestOrderPreview(OrderPreviewReqBean orderPreviewReqBean){
+        mSubmitInfo.requestOrderPreview(orderPreviewReqBean, new RequestCallback<OrderPreviewBean>() {
+            @Override
+            public void onSuccess(OrderPreviewBean data) {
+                if (getUi() != null){
+                    getUi().onOrderPreviewSuccess(data);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+                if (getUi() != null){
+                    getUi().onError(msg);
+                }
+            }
+        });
+    }
+
     public interface SubmitInfoUi extends Ui {
 
         void onArriveTimeSuccess(ArriveTimeBean data);
         void onOrderSubmitSuccess(OrderSubmitBean data);
+        void onOrderPreviewSuccess(OrderPreviewBean data);
         void onError(String error);
     }
 }
