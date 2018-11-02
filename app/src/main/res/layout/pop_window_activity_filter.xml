@@ -15,7 +15,7 @@
 		tools:listitem="@layout/item_activity_filter" />
 
 	<LinearLayout
-		android:id="@+id/l_confirm"
+		android:id="@+id/ll_confirm"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@+id/lv_activity_fliter"
