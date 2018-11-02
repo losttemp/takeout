@@ -33,7 +33,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private TextView  mArrivalTime,mBusinessName,mPackingFee,mDistributionFee,mDiscount,mRealPay,mContact,mAddress,mExpectedTime,mOrderId,mOrderTime,mPayMethod;
     private ListView mFood;
     private RelativeLayout mPayMethodInfo;
-    private OrderQueryData mData;
     private FoodListAdaper mFoodListAdaper;
     private long id;
     private String phone;
@@ -100,9 +99,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void initData() {
-//        loadData();
     }
-
 
 
     @Override
