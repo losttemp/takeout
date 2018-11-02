@@ -23,6 +23,7 @@ import com.baidu.iov.dueros.waimai.adapter.DeliveryTimeAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ProductInfoAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitInfoPresenter;
@@ -332,6 +333,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     @Override
     public void onOrderSubmitSuccess(OrderSubmitBean data) {
+
+    }
+
+    @Override
+    public void onOrderPreviewSuccess(OrderPreviewBean data) {
 
     }
 
