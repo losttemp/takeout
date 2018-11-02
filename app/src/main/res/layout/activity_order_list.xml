@@ -28,7 +28,23 @@
             android:text="@string/takeaway_order"
             android:textColor="@color/white"
             android:textSize="16sp" />
+
     </RelativeLayout>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_tip_no_order"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_layout_header"
+        android:layout_centerHorizontal="true"
+        android:background="@color/gray_bg"
+        android:drawablePadding="16dp"
+        android:drawableTop="@mipmap/ic_no_result"
+        android:gravity="center_horizontal"
+        android:lineSpacingMultiplier="1.2"
+        android:paddingTop="50dp"
+        android:text="@string/no_search_result_keyword"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_order"

@@ -170,6 +170,7 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
     public void accountSuccess(String msg) {
         if (Constant.ACCOUNT_LOGIN_SUCCESS.equals(msg)) {
             Lg.getInstance().d(TAG, "account login success");
+            getPresenter().requestMeituanAuth(mMeituanAuthReq);
         }
     }
 

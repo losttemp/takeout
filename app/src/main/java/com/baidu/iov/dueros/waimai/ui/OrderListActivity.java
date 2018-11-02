@@ -9,13 +9,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.baidu.iov.dueros.waimai.adapter.SearchHistroyAdapter;
 import com.baidu.iov.dueros.waimai.adapter.OrderListAdaper;
@@ -26,7 +20,7 @@ import com.baidu.iov.dueros.waimai.presenter.OrderListPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.widget.Toast;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 
 //import com.baidu.iov.dueros.waimai.waimaiapplication.R;
 
@@ -35,6 +29,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
 
     private AppCompatTextView mTvtitle;
+    private AppCompatTextView mTvNoOrder;
 
     private RecyclerView mRvOrder;
     private AppCompatTextView mTvHomeBtn;
@@ -45,7 +40,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private List<OrderListResponse.IovBean.DataBean> mOrderList = new
             ArrayList<>();
     private OrderListReq mOrderListReq;
-    //SortPopWindow mSortPopWindow;
     private List<String> mHistorys;
     private SearchHistroyAdapter mSearchHistroyAdapter;
 
@@ -88,6 +82,8 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mRvOrder = (RecyclerView) findViewById(R.id.rv_order);
         mTvHomeBtn = (AppCompatTextView) findViewById(R.id.tv_home);
         mTvOrderBtn = (AppCompatTextView) findViewById(R.id.tv_order);
+        mTvNoOrder = (AppCompatTextView) findViewById(R.id.tv_tip_no_order);
+        mTvNoOrder.setVisibility(View.GONE);
     }
 
     private void initData() {
@@ -105,7 +101,8 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mOrderListAdaper.setOnItemClickListener(new OrderListAdaper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                Intent intent = new Intent(getApplicationContext(), OrderDetailsActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -130,7 +127,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             default:
                 break;
         }
-
     }
 
     @Override
@@ -138,11 +134,14 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mOrderList.clear();
         mOrderList.addAll(data.getIov().getData());
         mOrderListAdaper.notifyDataSetChanged();
+        if (mOrderList.size() == 0) {
+            mTvNoOrder.setText("no order");
+            mTvNoOrder.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void failure(String msg) {
-
     }
 
     @Override
