@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.baidu.iov.dueros.waimai.ui">
+    package="com.baidu.iov.dueros.waimai">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -12,13 +12,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".WaiMaiApplication"
+        android:name=".ui.WaiMaiApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MeituanLoginActivity">
+        <activity android:name=".ui.MeituanLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,25 +26,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".ui.HomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
-            android:name=".FoodListActivity"
+            android:name=".ui.FoodListActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name=".BusinessActivity"></activity>
-        <activity android:name=".FoodActivity"></activity>
-        <activity android:name=".OrderListActivity" />
-        <activity android:name=".SubmitOrderActivity" />
+        <activity android:name=".ui.BusinessActivity"></activity>
+        <activity android:name=".ui.FoodActivity"></activity>
+        <activity android:name=".ui.OrderListActivity" />
+        <activity android:name=".ui.SubmitOrderActivity" />
         <activity
-            android:name=".AddressListActivity"
+            android:name=".ui.AddressListActivity"
             android:theme="@style/NoTitleDialog" />
-        <activity android:name=".PaymentActivity" />
-        <activity android:name=".PaySuccessActivity"/>
-        <activity android:name=".OrderDetailsActivity"/>
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".AddressSelectActivity" />
-        <activity android:name=".AddressEditActivity" />
+        <activity android:name=".ui.PaymentActivity" />
+        <activity android:name=".ui.PaySuccessActivity"/>
+        <activity android:name=".ui.OrderDetailsActivity"/>
+        <activity android:name=".ui.SearchActivity" />
+        <activity android:name=".ui.AddressSelectActivity" />
+        <activity android:name=".ui.AddressEditActivity" />
 
         <!--BaiDu SDK-->
         <meta-data
