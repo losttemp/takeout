@@ -93,7 +93,6 @@
                 android:layout_marginRight="50dp"
                 android:textColor="@color/black_text"
                 android:singleLine="true"
-                android:text="大约16：40送达"
                 android:textSize="15sp" />
 
             <ImageView
@@ -128,7 +127,6 @@
                     android:layout_marginStart="20dp"
                     android:textColor="@color/black_text"
                     android:gravity="center_vertical"
-                    android:text="杨铭宇黄焖鸡米饭（景明佳园店)"
                     android:textSize="18sp" />
 
                 <TextView
@@ -137,7 +135,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="10dp"
-                    android:text="美团专送"
                     android:textColor="@color/gray_text" />
 
             </RelativeLayout>
@@ -146,7 +143,7 @@
             <ListView
                 android:id="@+id/product_listview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="160dp"
                 android:background="@drawable/layout_border_shape"
                 android:dividerHeight="1px"
                 android:divider="@color/divider">
@@ -182,17 +179,16 @@
                     android:layout_below="@+id/packing_fee_summary"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="@string/delivery_fee" />
+                    android:text="@string/shipping_fee_text" />
 
                 <TextView
-                    android:id="@+id/delivery_fee"
+                    android:id="@+id/shipping_fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_below="@+id/packing_fee"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="￥4" />
+                    android:layout_marginTop="5dp"/>
 
             </RelativeLayout>
 
