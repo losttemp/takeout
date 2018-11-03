@@ -102,7 +102,10 @@
 	<string name="payment_summary">支付方式</string>
 	<string name="payment">在线支付</string>
 	<string name="packing_fee">包装费</string>
-	<string name="delivery_fee">配送费</string>
+	<string name="shipping_fee_text">配送费</string>
+	<string name="shipping_fee1_text">元配送费</string>
+	<string name="delivery_type1_text">美团配送</string>
+	<string name="delivery_type2_text">非美团配送</string>
 	<string name="discount_prompt">满减优惠与折扣商品不能同时共享</string>
 	<string name="count_char">\&#935;%1d</string>
 	<string name="count_down_timer">支付剩余时间%6s</string>
