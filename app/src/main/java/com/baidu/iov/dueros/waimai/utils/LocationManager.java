@@ -120,6 +120,8 @@ public class LocationManager {
                     case TypeGpsLocation:
                     case TypeOffLineLocation:
                     case TypeNetWorkLocation:
+                        Constant.LONGITUDE = String.valueOf(location.getLongitude());
+                        Constant.LATITUDE = String.valueOf(location.getLatitude());
                         locationCallBack.locationCallBack(true, mBDLocation);
                         break;
                     case TypeCriteriaException:
