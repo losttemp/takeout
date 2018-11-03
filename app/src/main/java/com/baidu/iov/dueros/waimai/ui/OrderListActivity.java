@@ -21,6 +21,7 @@ import com.baidu.iov.dueros.waimai.presenter.OrderListPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
 //import com.baidu.iov.dueros.waimai.waimaiapplication.R;
@@ -103,6 +104,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), OrderDetailsActivity.class);
+                intent.putExtra(Constant.ORDER_ID, mOrderList.get(position).getOut_trade_no());
                 startActivity(intent);
             }
         });

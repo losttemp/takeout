@@ -79,6 +79,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             public void OnItemClick(View v, AddressListBean.MeituanBean.DataBean dataBean) {
                 switch (v.getId()) {
                     case R.id.address_select_des_details:
+                        Intent homeintent = new Intent(AddressSelectActivity.this, HomeActivity.class);
+                        AddressSelectActivity.this.startActivity(homeintent);
                         finish();
                         break;
                     case R.id.address_select_edit:

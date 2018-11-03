@@ -147,8 +147,8 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
     public void update(MeituanAuthorizeResponse data) {
         if(data.getIov().getAuthorizedState()){
             if(CacheUtils.getAuth()){
-                Intent HomeIntent = new Intent(this, HomeActivity.class);
-                startActivity(HomeIntent);
+                Intent intent = new Intent(this, AddressSelectActivity.class);
+                startActivity(intent);
                 finish();
             } else {
                 getPresenter().requestAuthInfo();
@@ -187,8 +187,8 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
     public void authSuccess(String msg) {
         if (Constant.ACCOUNT_AUTH_SUCCESS.equals(msg)) {
             Lg.getInstance().d(TAG, "account auth success");
-            Intent HomeIntent = new Intent(this, HomeActivity.class);
-            startActivity(HomeIntent);
+            Intent addressIntent = new Intent(this, AddressSelectActivity.class);
+            startActivity(addressIntent);
             finish();
         }
     }
