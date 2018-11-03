@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.BusinesAdapter;
 import com.baidu.iov.dueros.waimai.adapter.TabSortTypeAdpater;
@@ -100,7 +99,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         poilistReq=new PoilistReq();
         poilistReq.setKeyword(keyword);
         poilistReq.setPage_index(1);
-     
+        poilistReq.setPage_size(DEFAULT_PAGE_SIZE);
         
         getPresenter().requestFilterConditions(filterConditionsReq);
         getPresenter().requestBusinessBean(poilistReq);
@@ -161,15 +160,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         mBusinessListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BusinessBean.MeituanBean.Business.OpenPoiBaseInfo mOpenPoiBaseInfo=mOpenPoiBaseInfoList.get(position);
-                if (mOpenPoiBaseInfo.getStatus()==Constant.STROE_STATUS_BREAK){
-                    Toast.makeText(BusinessActivity.this,getResources().getString(R.string.tips_earliest_delivery_time),Toast.LENGTH_LONG).show();
-                }else{
-                    Intent intent = new Intent(BusinessActivity.this, FoodListActivity.class);
-                    intent.putExtra(Constant.STORE_ID, mOpenPoiBaseInfo.getWmPoiId());
-                    startActivity(intent);
-                }
-                
+                toBusinessItem(position);
             }
         });
     }
@@ -232,15 +223,19 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshLayout) {
-                if (mBusiness!=null&&mBusiness.getHaveNextPage() == 1) {
-                    poilistReq.setPage_index((mBusiness.getCurrentPageIndex() + 1));
-                    Lg.getInstance().e(TAG,"data:"+poilistReq.getPage_index());
-                    getPresenter().requestBusinessBean(poilistReq);
-                } else {
-                    mRefreshLayout.finishLoadmore();
-                }
+                loadMoreData();
             }
         });
+    }
+    
+    private void loadMoreData(){
+        if (mBusiness!=null&&mBusiness.getHaveNextPage() == 1) {
+            poilistReq.setPage_index((mBusiness.getCurrentPageIndex() + 1));
+            Lg.getInstance().e(TAG,"data:"+poilistReq.getPage_index());
+            getPresenter().requestBusinessBean(poilistReq);
+        } else {
+            mRefreshLayout.finishLoadmore();
+        }
     }
 
     @Override
@@ -307,6 +302,55 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     @Override
     public void close() {
         finish();
+    }
+
+    private void toBusinessItem(int position){
+        if (position < 0 || position >= mBusinesAdapter.getCount()) {
+            return;
+        }
+        BusinessBean.MeituanBean.Business.OpenPoiBaseInfo mOpenPoiBaseInfo=mOpenPoiBaseInfoList.get(position);
+        if (mOpenPoiBaseInfo.getStatus()==Constant.STROE_STATUS_BREAK){
+            Toast.makeText(BusinessActivity.this,getResources().getString(R.string.tips_earliest_delivery_time),Toast.LENGTH_LONG).show();
+        }else{
+            Intent intent = new Intent(BusinessActivity.this, FoodListActivity.class);
+            intent.putExtra(Constant.STORE_ID, mOpenPoiBaseInfo.getWmPoiId());
+            startActivity(intent);
+        }
+    }
+    
+    @Override
+    public void selectBusinessItem(int position) {
+        toBusinessItem(position);
+    }
+    
+    public static final int BUSINESS_PAGET_SIZE=5;
+
+    public static final int DEFAULT_PAGE_SIZE=20;
+
+    @Override
+    public void prePage() {
+        if (!mOpenPoiBaseInfoList.isEmpty()) {
+            int startPos = mBusinessListView.getFirstVisiblePosition();
+            int nextPos = startPos - BUSINESS_PAGET_SIZE;
+            nextPos = nextPos < 0 ? 0 : nextPos;
+            mBusinessListView.setSelection(nextPos);
+            if (nextPos + BUSINESS_PAGET_SIZE >= DEFAULT_PAGE_SIZE * (mBusiness.getCurrentPageIndex() + 1)) {
+                loadMoreData();
+            }
+        }
+    }
+
+    @Override
+    public void nextPage() {
+        if (!mOpenPoiBaseInfoList.isEmpty()) {
+            int startPos = mBusinessListView.getFirstVisiblePosition();
+            int nextPos = startPos + BUSINESS_PAGET_SIZE;
+            nextPos = nextPos > mBusinessListView.getCount() ? mBusinessListView.getCount() : nextPos;
+            mBusinessListView.setSelection(nextPos);
+            if (nextPos + BUSINESS_PAGET_SIZE >= DEFAULT_PAGE_SIZE * (mBusiness.getCurrentPageIndex()  + 1)) {
+                loadMoreData();
+            }
+        }
     }
 
 

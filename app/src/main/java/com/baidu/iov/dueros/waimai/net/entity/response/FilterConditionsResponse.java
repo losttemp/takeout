@@ -40,7 +40,7 @@ public class FilterConditionsResponse {
         private String msg;
 
       
-        private String errorInfo;
+        private ErrorInfo errorInfo;
 
       
         private MeituanData data;
@@ -61,11 +61,11 @@ public class FilterConditionsResponse {
             this.msg = msg;
         }
 
-        public String getErrorInfo() {
+        public ErrorInfo getErrorInfo() {
             return errorInfo;
         }
 
-        public void setErrorInfo(String errorInfo) {
+        public void setErrorInfo(ErrorInfo errorInfo) {
             this.errorInfo = errorInfo;
         }
 
@@ -85,6 +85,45 @@ public class FilterConditionsResponse {
                     ", errorInfo='" + errorInfo + '\'' +
                     ", data=" + data +
                     '}';
+        }
+
+        public static class ErrorInfo{
+            private String failCode;
+            private String name;
+            private String description;
+
+            public String getFailCode() {
+                return failCode;
+            }
+
+            public void setFailCode(String failCode) {
+                this.failCode = failCode;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getDescription() {
+                return description;
+            }
+
+            public void setDescription(String description) {
+                this.description = description;
+            }
+
+            @Override
+            public String toString() {
+                return "ErrorInfo{" +
+                        "failCode='" + failCode + '\'' +
+                        ", name='" + name + '\'' +
+                        ", description='" + description + '\'' +
+                        '}';
+            }
         }
 
         public static class MeituanData  {

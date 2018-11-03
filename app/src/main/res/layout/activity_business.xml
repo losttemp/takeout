@@ -38,8 +38,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@mipmap/search_bar"
-            android:layout_marginRight="20dp"
-            />
+            android:layout_marginRight="20dp" />
        
 
     </RelativeLayout>
@@ -66,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="15dp"
             android:drawableRight="@mipmap/arrow_down"
             android:padding="5dp"
@@ -76,8 +75,7 @@
         
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_sort_type"
-            android:layout_toRightOf="@id/tv_conditions"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"/>
@@ -89,7 +87,7 @@
             android:drawableRight="@mipmap/arrow_down"
             android:layout_marginLeft="15dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="5dp"
             android:padding="5dp"
             android:text="@string/store_filter"
             android:textColor="@color/gray"
