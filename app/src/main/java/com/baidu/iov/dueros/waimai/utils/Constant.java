@@ -13,18 +13,18 @@ public class Constant {
 
     public static final int CINEMA = 1024;
 
-    public static String GPS = "GPS";
-    public static String LATITUDE = "Latitude";
-    public static String LONGITUDE = "Longitude";
-    public static String STREET = "street";
-    public static String STREET_NUMBER = "street_number";
-    public static String LBS_DISTRICT = "district";
-    public static String CITY = "city";
-    public static String CITYCODE = "citycode";
-    public static String PROVINCE = "province";
-    public static String COUNTRY = "country";
-    public static String DETAIL = "detail";
-    public static String OPERATORS = "Operators";
+	public static String GPS = "GPS";
+	public static Integer LATITUDE = -1;
+	public static Integer LONGITUDE = -1;
+	public static String STREET = "street";
+	public static String STREET_NUMBER = "street_number";
+	public static String LBS_DISTRICT = "district";
+	public static String CITY = "city";
+	public static String CITYCODE = "citycode";
+	public static String PROVINCE = "province";
+	public static String COUNTRY = "country";
+	public static String DETAIL = "detail";
+	public static String OPERATORS = "Operators";
 
     public static final String STORE_FRAGMENT_FROM_PAGE_TYPE = "page_type";
     public static final int STORE_FRAGMENT_FROM_HOME = 0;
