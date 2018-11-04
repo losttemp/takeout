@@ -85,7 +85,7 @@ public class PoifoodListBean {
                 this.food_spu_tags = food_spu_tags;
             }
 
-            public static class PoiInfoBean implements Serializable{
+            public static class PoiInfoBean implements Serializable {
                 private long id;
                 private long wm_poi_id;
                 private String name;
@@ -340,9 +340,18 @@ public class PoifoodListBean {
                     private int sequence;
                     private String shippingTimeX;
                     private int mport_sell_status;
-                    private List<?> attrs;//TODO
+                    private List<AttrsBean> attrs;
                     private List<SkusBean> skus;
+                    private List<SkusBean> choiceSkus;
                     private int number;
+
+                    public List<SkusBean> getChoiceSkus() {
+                        return choiceSkus;
+                    }
+
+                    public void setChoiceSkus(List<SkusBean> choiceSkus) {
+                        this.choiceSkus = choiceSkus;
+                    }
 
                     public int getNumber() {
                         return number;
@@ -472,11 +481,11 @@ public class PoifoodListBean {
                         this.mport_sell_status = mport_sell_status;
                     }
 
-                    public List<?> getAttrs() {
+                    public List<AttrsBean> getAttrs() {
                         return attrs;
                     }
 
-                    public void setAttrs(List<?> attrs) {
+                    public void setAttrs(List<AttrsBean> attrs) {
                         this.attrs = attrs;
                     }
 
@@ -488,7 +497,58 @@ public class PoifoodListBean {
                         this.skus = skus;
                     }
 
-                    public static class SkusBean implements Serializable{
+                    public static class AttrsBean implements Serializable {
+                        private String name;
+                        private List<ValuesBean> values;
+                        private List<ValuesBean> choiceAttrs;
+
+                        public List<ValuesBean> getChoiceAttrs() {
+                            return choiceAttrs;
+                        }
+
+                        public void setChoiceAttrs(List<ValuesBean> choiceAttrs) {
+                            this.choiceAttrs = choiceAttrs;
+                        }
+
+                        public String getName() {
+                            return name;
+                        }
+
+                        public void setName(String name) {
+                            this.name = name;
+                        }
+
+                        public List<ValuesBean> getValues() {
+                            return values;
+                        }
+
+                        public void setValues(List<ValuesBean> values) {
+                            this.values = values;
+                        }
+
+                        public static class ValuesBean implements Serializable {
+                            private long id;
+                            private String value;
+
+                            public long getId() {
+                                return id;
+                            }
+
+                            public void setId(long id) {
+                                this.id = id;
+                            }
+
+                            public String getValue() {
+                                return value;
+                            }
+
+                            public void setValue(String value) {
+                                this.value = value;
+                            }
+                        }
+                    }
+
+                    public static class SkusBean implements Serializable {
                         private int id;
                         private String spec;
                         private String description;

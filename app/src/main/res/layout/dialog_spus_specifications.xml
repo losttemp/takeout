@@ -23,20 +23,21 @@
             android:text="@string/chicken" />
     </RelativeLayout>
 
-    <GridView
+    <ListView
         android:id="@+id/gv_specifications"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="3" />
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tv_specifications_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥25" />
+            android:layout_centerVertical="true"
+            android:text="￥%1$s" />
 
         <Button
             android:id="@+id/btn_add_to_cart_specification"
@@ -45,5 +46,47 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:text="@string/add_to_cart" />
+
+        <LinearLayout
+            android:id="@+id/action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shopping_choice"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/reduce"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="—"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/shoppingNum"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:maxLength="10"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/increase"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/black" />
+        </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

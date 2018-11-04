@@ -44,8 +44,8 @@
 	<string name="reset">重置</string>
 
     <string name="no_more_data">暂无更多数据</string>
-    <string name="distribution_situation">起送￥20|配送￥3|30分钟送达</string>
-    <string name="notice">公告：欢迎光临汉堡王，本店新推出麦辣鸡腿堡，欢迎选购</string>
+    <string name="distribution_situation">起送￥%1$s|配送￥%2$s|%3$s分钟送达</string>
+    <string name="notice">公告：%1$s</string>
     <string name="discount">25减8 40减15</string>
     <string name="shopping_cart_is_empty">当前购物车为空快去选购吧！</string>
     <string name="confirmation_of_the_order">确认下单</string>
@@ -59,7 +59,9 @@
     <string name="explain">大块鸡排，鲜嫩多汁，配上超多芝士和新鲜生菜</string>
     <string name="shop_cart">购物车</string>
     <string name="empty_all">清空全部</string>
-    <string name="please_add_to_the_shopping_cart_first">请先添加商品至购物车</string>
+	<string name="please_add_to_the_shopping_cart_first">请先添加商品至购物车</string>
+	<string name="please_select_the_specifications_first">请先选择规格</string>
+	<string name="specifications">规格</string>
 
 	<!--tools:text-->
 	<string name="tools_text_location">送至：未来科技大厦</string>

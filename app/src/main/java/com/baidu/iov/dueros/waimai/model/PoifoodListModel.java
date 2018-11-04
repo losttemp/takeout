@@ -41,7 +41,7 @@ public class PoifoodListModel implements IPoifoodListModel {
         PoifoodListReq poifoodListReq = new PoifoodListReq();
         poifoodListReq.setLongitude(95369826);
         poifoodListReq.setLatitude(29735952);
-        poifoodListReq.setWm_poi_id(2868090);
+        poifoodListReq.setWm_poi_id(Long.parseLong(params.get(Constant.STORE_ID)));
         ApiUtils.getPoifoodList(poifoodListReq, new ApiCallBack<PoifoodListBean>() {
             @Override
             public void onSuccess(PoifoodListBean data) {
@@ -66,7 +66,8 @@ public class PoifoodListModel implements IPoifoodListModel {
                     + " brandId:" + params.get(Constant.BRAND_ID));
         }
         PoifoodListReq poidetailinfoReq = new PoifoodListReq();
-        poidetailinfoReq.setWm_poi_id(2868095);
+        poidetailinfoReq.setWm_poi_id(Long.parseLong(params.get(Constant.STORE_ID)));
+        Lg.getInstance().d(TAG, "wm_poi_id = " + params.get(Constant.STORE_ID));
         ApiUtils.getPoidetailinfo(poidetailinfoReq, new ApiCallBack<PoidetailinfoBean>() {
             @Override
             public void onSuccess(PoidetailinfoBean data) {

@@ -67,6 +67,25 @@
                         android:textSize="13sp" />
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/btn_add"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="+" />
+
+                <Button
+                    android:id="@+id/btn_specifications"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/specifications"
+                    android:visibility="gone" />
+
                 <LinearLayout
                     android:id="@+id/action"
                     android:layout_width="60dp"
@@ -76,7 +95,8 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/shopping_choice"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/reduce"

@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,9 @@ import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.PoifoodListPresenter;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
+import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.PoifoodListPinnedHeaderListView;
 
@@ -79,6 +82,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList;
     private ListView shoppingListView;
     private ShoppingCartAdapter shoppingCartAdapter;
+    private ArrayMap<String, String> map;
     private Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -101,6 +105,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private TextView mClearshopCart;
     private PoidetailinfoBean mPoidetailinfoBean;
     private PoifoodListBean.MeituanBean.DataBean.PoiInfoBean mPoiInfoBean;
+    private ImageView mFinish;
+    private TextView mShopTitle;
+    private TextView mDelivery;
+    private TextView mBulletin;
+    private TextView mDiscounts;
+    private ImageView mShopPicture;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -116,6 +126,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_list);
+        map = new ArrayMap<>();
         initView();
         initData();
     }
@@ -137,12 +148,18 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         bg_layout = findViewById(R.id.bg_layout);
         mStoreDetails = (RelativeLayout) findViewById(R.id.rl_store_details);
         mClearshopCart = (TextView) findViewById(R.id.tv_clear);
+        mFinish = (ImageView) findViewById(R.id.iv_finish);
+        mShopTitle = (TextView) findViewById(R.id.tv_shop_title);
+        mDelivery = (TextView) findViewById(R.id.tv_delivery);
+        mBulletin = (TextView) findViewById(R.id.tv_bulletin);
+        mDiscounts = (TextView) findViewById(R.id.tv_discounts);
+        mShopPicture = (ImageView) findViewById(R.id.iv_shop);
     }
 
     public void initData() {
         productList = new ArrayList<>();
         foodSpuTagsBeanName = new ArrayList<>();
-        mPoifoodSpusListAdapter = new PoifoodSpusListAdapter(this, foodSpuTagsBeans,FoodListActivity.this);
+        mPoifoodSpusListAdapter = new PoifoodSpusListAdapter(this, foodSpuTagsBeans, FoodListActivity.this);
         mPoifoodSpusListAdapter.SetOnSetHolderClickListener(new PoifoodSpusListAdapter.HolderClickListener() {
             @Override
             public void onHolderClick(Drawable drawable, int[] start_location) {
@@ -211,19 +228,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
         mStoreDetails.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {//TODO
+            public void onClick(View view) {
                 View popView = getPopView(R.layout.dialog_shop_details);
-//                View popView = getPopView(R.layout.dialog_spus_specifications);
-//                GridView specificationsList = (GridView) popView.findViewById(R.id.gv_specifications);
-//                final String[] string = {"椒盐大鸡排", "椒盐大鸡排", "椒盐大鸡排", "椒盐大鸡排", "椒盐大鸡排", "椒盐大鸡排"};
-//                specificationsList.setAdapter(new ArrayAdapter<String>(FoodListActivity.this, R.layout.categorize_item, string));
-//                specificationsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                        Toast.makeText(FoodListActivity.this, string[i], Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-                showFoodListActivityDialog(view, popView);
+                showFoodListActivityDialog(view, popView, 0, 0);
             }
         });
 
@@ -231,14 +238,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         settlement.setOnClickListener(this);
         shopping_cart.setOnClickListener(this);
         mClearshopCart.setOnClickListener(this);
+        mFinish.setOnClickListener(this);
 
-//        long wmPoiId = (long) getIntent().getExtras().get(Constant.STORE_ID);
-//        Map map = new HashMap();
-//        map.put()
-        getPresenter().requestData(null);
+        long wmPoiId = (long) getIntent().getExtras().get(Constant.STORE_ID);
+        map.put(Constant.STORE_ID, String.valueOf(wmPoiId));
+        getPresenter().requestData(map);
     }
 
-    public void showFoodListActivityDialog(View view, View contentView) {
+    public void showFoodListActivityDialog(View view, View contentView, final int section, final int position) {
         final PopupWindow window = new PopupWindow(contentView,
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT, true);
@@ -258,6 +265,15 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             @Override
             public void onDismiss() {
                 backgroundAlpha(1.0f);
+                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean = foodSpuTagsBeans.get(section).getSpus().get(position);
+                if (spusBean.getChoiceSkus() != null) {
+                    spusBean.getChoiceSkus().clear();
+                }
+                for (int i = 0; i < spusBean.getAttrs().size(); i++) {
+                    if (spusBean.getAttrs().get(i).getChoiceAttrs() != null) {
+                        spusBean.getAttrs().get(i).getChoiceAttrs().clear();
+                    }
+                }
             }
         });
     }
@@ -291,7 +307,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     }
                 }
             } else {
-                Lg.getInstance().d(TAG,"updateProduct else");
+                Lg.getInstance().d(TAG, "updateProduct else");
                 productList.add(spusBean);
             }
         }
@@ -385,7 +401,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     return;
                 }
                 Intent intent = new Intent(this, SubmitOrderActivity.class);
-                //TODO 店名 包装费 配送费 优惠信息 美团专送    购物车列表（物品图片、物品名称、价格、规格、优惠活动）
                 intent.putExtra(POI_INFO, mPoiInfoBean);
                 intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
                 startActivity(intent);
@@ -410,6 +425,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     shoppingCartAdapter.notifyDataSetChanged();
                     setPrise();
                 }
+                break;
+            case R.id.iv_finish:
+                finish();
                 break;
         }
     }
@@ -541,6 +559,16 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         foodSpuTagsBeans.clear();
         foodSpuTagsBeanName.clear();
         mPoiInfoBean = data.getMeituan().getData().getPoi_info();
+        mShopTitle.setText(mPoiInfoBean.getName());
+        mDelivery.setText(getString(R.string.distribution_situation, "" + mPoiInfoBean.getMin_price(),
+                "" + mPoiInfoBean.getShipping_fee(), "" + mPoiInfoBean.getAvg_delivery_time()));
+        mBulletin.setText(getString(R.string.notice, mPoiInfoBean.getBulletin()));
+//        mDiscounts.setText(mPoiInfoBean.getDiscounts());TODO
+        GlideApp.with(this)
+                .load(mPoiInfoBean.getPic_url())
+                .placeholder(R.mipmap.ic_launcher)
+                .centerCrop()
+                .into(mShopPicture);
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> food_spu_tags = data.getMeituan().getData().getFood_spu_tags();
         for (int i = 0; i < food_spu_tags.size(); i++) {
             PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean foodSpuTagsBean = food_spu_tags.get(i);
