@@ -4,12 +4,24 @@
     android:id="@+id/rl"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="5dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
     android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_business_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:layout_marginRight="5dp"
+        android:textSize="18sp" />
     
     <FrameLayout
         android:id="@+id/fl"
+        android:layout_toRightOf="@+id/tv_business_index"
         android:layout_width="70dp"
-        android:layout_margin="10dp"
+        android:layout_marginRight="5dp"
         android:layout_height="70dp">
 
     <ImageView
@@ -36,6 +48,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/all"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="@color/black_text"
         android:layout_alignTop="@id/fl"
         android:layout_toRightOf="@id/fl"

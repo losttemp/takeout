@@ -61,11 +61,13 @@ public class BusinesAdapter extends BaseAdapter {
             viewHolder.ratingBar = convertView.findViewById(R.id.ratingBar);
             viewHolder.tvStatusDesc = convertView.findViewById(R.id.tv_status_desc);
             viewHolder.rl= convertView.findViewById(R.id.rl);
+            viewHolder.tvBusinessIndex= convertView.findViewById(R.id.tv_business_index);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
         BusinessBean.MeituanBean.Business.OpenPoiBaseInfo mOpenPoiBaseInfo = mData.get(position);
+        viewHolder.tvBusinessIndex.setText(""+(position+1));
         viewHolder.tvBusinessName.setText(mOpenPoiBaseInfo.getName());
         viewHolder.tvBusinessScore.setText(""+mOpenPoiBaseInfo.getWmPoiScore());
         viewHolder.tvMonthSaleNume.setText(String.format(mContext.getResources().getString(R.string
@@ -111,5 +113,6 @@ public class BusinesAdapter extends BaseAdapter {
         private RatingBar ratingBar;
         private TextView tvStatusDesc;
         private RelativeLayout rl;
+        private TextView tvBusinessIndex;
     }
 }

@@ -15,7 +15,10 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NEXT;
 import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_PRE;
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_SELECT;
 
 public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> {
 
@@ -25,8 +28,25 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
 
     @Override
     public void onCommandCallback(String cmd, String extra) {
-        if (CMD_NO.equals(cmd) && null != getUi()) {
-            getUi().close();
+        if (null == getUi()) {
+            return;
+        }
+
+        switch (cmd) {
+            case CMD_NO:
+                getUi().close();
+                break;
+            case CMD_SELECT:
+                getUi().selectBusinessItem(Integer.parseInt(extra));
+                break;
+            case CMD_NEXT:
+                getUi().nextPage();
+                break;
+            case CMD_PRE:
+                getUi().prePage();
+                break;
+            default:
+                break;
         }
     }
 
@@ -34,9 +54,11 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
     public void registerCmd(Context context) {
         Lg.getInstance().d(TAG, "registerCmd");
         if (null != mVoiceManager) {
-            ArrayList<String> cmdList = new ArrayList<String>();
+            ArrayList<String> cmdList =new ArrayList<>();
+            cmdList.add(CMD_PRE);
+            cmdList.add(CMD_NEXT);
+            cmdList.add(CMD_SELECT);
             cmdList.add(CMD_NO);
-            //mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
             mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
         }
     }
@@ -112,5 +134,8 @@ public class BusinessPresenter extends Presenter< BusinessPresenter.BusinessUi> 
         void onFilterConditionsSuccess(FilterConditionsResponse data);
         void onFilterConditionsError(String error);
         void close();
+        void selectBusinessItem(int position);
+        void prePage() ;
+        void nextPage() ;
     }
 }

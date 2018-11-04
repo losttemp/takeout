@@ -5,20 +5,16 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryDateAdapter;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryTimeAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ProductInfoAdapter;
@@ -30,7 +26,11 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitInfoPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.R;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.POI_INFO;
@@ -44,14 +44,16 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private final static int SELECT_DELIVERY_ADDRESS = 100;
     private RelativeLayout mArrivetimeLayout;
     private RelativeLayout mAddressUpdateLayout;
-    private ListView mProductInfoList;
+    private ListView mProductInfoListview;
     private TextView mPackingFee;
-    private TextView mDeliveryFee;
+    private TextView mShippingFeeTv;
     private TextView mDiscount;
-    private TextView mToPay;
+    private TextView mToPayTv;
     private TextView mDiscountExists;
-    private TextView mArriveTime;
-    private TextView mTypeTip;
+    private TextView mShopNameTv;
+    private TextView mArriveTimeTv;
+    private TextView mTypeTipTv;
+    private TextView mDeliveryTypeTv;
     private ArrayMap<String, String> map;
     private static List<ArriveTimeBean.MeituanBean.DataBean> mDataBean;
 
@@ -75,7 +77,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
 /*
         mPackingFee = findViewById(R.id.packing_fee);
-        mDeliveryFee = findViewById(R.id.delivery_fee);
+
         mDiscount = findViewById(R.id.discount);
 
         mDiscountExists = findViewById(R.id.discount_exists);
@@ -97,42 +99,45 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             poiInfo = (PoifoodListBean.MeituanBean.DataBean.PoiInfoBean) intent.getSerializableExtra(POI_INFO);
         }
 
-        mToPay = findViewById(R.id.to_pay);
-        mToPay.setOnClickListener(this);
-        mTypeTip = findViewById(R.id.type_tip);
-        mArriveTime = findViewById(R.id.arrive_time);
+        mToPayTv = findViewById(R.id.to_pay);
+        mToPayTv.setOnClickListener(this);
+        mTypeTipTv = findViewById(R.id.type_tip);
+        mArriveTimeTv = findViewById(R.id.arrive_time);
         mAddressUpdateLayout = findViewById(R.id.address_info);
         mArrivetimeLayout = findViewById(R.id.delivery_info);
-        mProductInfoList = findViewById(R.id.product_listview);
+        mProductInfoListview = findViewById(R.id.product_listview);
+        mShopNameTv = findViewById(R.id.store_name);
+        mDeliveryTypeTv = findViewById(R.id.delivery_type);
+        mShippingFeeTv = findViewById(R.id.shipping_fee);
 
         mArrivetimeLayout.setOnClickListener(this);
         mAddressUpdateLayout.setOnClickListener(this);
         mProductInfoAdapter = new ProductInfoAdapter(this);
-        mProductInfoList.setAdapter(mProductInfoAdapter);
-        setListViewHeightBasedOnChildren(mProductInfoList);
+        mProductInfoListview.setAdapter(mProductInfoAdapter);
+
         if (productList != null && poiInfo != null) {
-            mProductInfoAdapter.setData(productList ,poiInfo);
+
+            mProductInfoAdapter.setData(productList, poiInfo);
+            String shopName = poiInfo.getName();
+            mShopNameTv.setText(shopName);
+            String deliveryType = poiInfo.getDelivery_type() == 1 ? getString(R.string.delivery_type1_text)
+                    : getString(R.string.delivery_type2_text);
+            mDeliveryTypeTv.setText(deliveryType);
+
+            double shippingFee = poiInfo.getShipping_fee();
+            mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost), shippingFee));
+
         }
+
+        if (mDataBean != null) {
+
+            String defaultType = mDataBean.get(0).getTimelist().get(0).getDate_type_tip();
+            mTypeTipTv.setText(defaultType);
+        }
+
 
         map = new ArrayMap<>();
         loadData(-1, -1, -1, Constant.SPECIAL_HALL_ID);
-    }
-
-
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
     }
 
 
@@ -173,8 +178,37 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 break;
 
             case R.id.to_pay:
-                //OrderSubmitReqBean orderSubmitReqBean = null;
-                //getPresenter().requestOrderSubmitData(orderSubmitReqBean);
+                OrderSubmitReqBean orderSubmitReqBean = new OrderSubmitReqBean();
+                orderSubmitReqBean.setWm_pic_url("www.baidu.com");
+                orderSubmitReqBean.setUser_phone("18503040492");
+                orderSubmitReqBean.setPay_source(3);
+                orderSubmitReqBean.setReturn_url("www.meituan.com");
+
+                OrderSubmitReqBean.WmOrderingListBean wmOrderingListBean = new OrderSubmitReqBean.WmOrderingListBean();
+                wmOrderingListBean.setWm_poi_id("1505351");
+                wmOrderingListBean.setDelivery_time(0);
+                wmOrderingListBean.setPay_type(2);
+
+
+                List<OrderSubmitReqBean.WmOrderingListBean.FoodListBean> foodListBeans = new ArrayList<>();
+                OrderSubmitReqBean.WmOrderingListBean.FoodListBean foodListBean = new OrderSubmitReqBean.WmOrderingListBean.FoodListBean();
+                foodListBean.setWm_food_sku_id(1239556963);
+                foodListBean.setCount(1);
+                foodListBeans.add(foodListBean);
+                wmOrderingListBean.setFood_list(foodListBeans);
+                orderSubmitReqBean.setWm_ordering_list(wmOrderingListBean);
+
+                OrderSubmitReqBean.WmOrderingUserBean wmOrderingUserBean = new OrderSubmitReqBean.WmOrderingUserBean();
+                wmOrderingUserBean.setUser_phone("1323372555");
+                wmOrderingUserBean.setUser_name("肖");
+                wmOrderingUserBean.setUser_address("美团大厦");
+                wmOrderingUserBean.setAddr_longitude(95369826);
+                wmOrderingUserBean.setAddr_latitude(29735952);
+                wmOrderingUserBean.setAddress_id(1323372555);
+                orderSubmitReqBean.setWm_ordering_user(wmOrderingUserBean);
+
+                getPresenter().requestOrderSubmitData(orderSubmitReqBean);
+
                 Intent data = new Intent(this, PaySuccessActivity.class);
                 data.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(data);
@@ -234,14 +268,17 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
                 if (mDataBean != null) {
                     String type = mDataBean.get(mCurDateItem).getTimelist().get(position).getDate_type_tip();
-                    mTypeTip.setText(type);
+                    mTypeTipTv.setText(type);
                     String time = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_time();
                     if (!type.isEmpty() && type.equals(time)) {
-                        mArriveTime.setText(String.format(getResources().getString(R.string.arrive_time), "14:20"));
+                        mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), "14:20"));
                     } else {
-                        mArriveTime.setText(time);
+                        mArriveTimeTv.setText(time);
                     }
 
+                    String shippingFee = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_shipping_fee().trim();
+                    String value = StringUtils.substringBefore(shippingFee, getString(R.string.shipping_fee1_text));
+                    mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost), Double.parseDouble(value)));
 
                 }
                 mCurTimeItem = position;
@@ -278,21 +315,15 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     }
 
     private void showFirstItem() {
+
         List<ArriveTimeBean.MeituanBean.DataBean.TimelistBean> defaultListBeans = null;
         if (mDataBean != null) {
-
             defaultListBeans = mDataBean.get(mPreDateItem).getTimelist();
-            String type = mDataBean.get(mCurDateItem).getTimelist().get(0).getDate_type_tip();
-            mTypeTip.setText(type);
+            mTimeAdapter.setData(defaultListBeans, mPreDateItem);
+            mTimeAdapter.setCurrentItem(mCurTimeItem, mPreDateItem);
+            mListViewTime.smoothScrollToPosition(mCurTimeItem);
+            mDateAdapter.setCurrentItem(mPreDateItem);
         }
-        //String time = defaultListBeans.get(0).getView_time();
-        //mArriveTime.setText(String.format(getResources().getString(R.string.arrive_time), time));
-
-        mTimeAdapter.setData(defaultListBeans, mPreDateItem);
-        mTimeAdapter.setCurrentItem(mCurTimeItem, mPreDateItem);
-        mListViewTime.smoothScrollToPosition(mCurTimeItem);
-        mDateAdapter.setCurrentItem(mPreDateItem);
-
     }
 
 

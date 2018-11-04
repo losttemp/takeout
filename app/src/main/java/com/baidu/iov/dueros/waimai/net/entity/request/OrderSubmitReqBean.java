@@ -6,12 +6,20 @@ import java.util.List;
 
 public class OrderSubmitReqBean extends RequestBase {
 
+    private String wm_pic_url;
     private String user_phone;
     private WmOrderingListBean wm_ordering_list;
     private WmOrderingUserBean wm_ordering_user;
-    private String return_url;
     private int pay_source;
-    private int address_id;
+    private String return_url;
+
+    public String getWm_pic_url() {
+        return wm_pic_url;
+    }
+
+    public void setWm_pic_url(String wm_pic_url) {
+        this.wm_pic_url = wm_pic_url;
+    }
 
     public String getUser_phone() {
         return user_phone;
@@ -37,14 +45,6 @@ public class OrderSubmitReqBean extends RequestBase {
         this.wm_ordering_user = wm_ordering_user;
     }
 
-    public String getReturn_url() {
-        return return_url;
-    }
-
-    public void setReturn_url(String return_url) {
-        this.return_url = return_url;
-    }
-
     public int getPay_source() {
         return pay_source;
     }
@@ -53,12 +53,12 @@ public class OrderSubmitReqBean extends RequestBase {
         this.pay_source = pay_source;
     }
 
-    public int getAddress_id() {
-        return address_id;
+    public String getReturn_url() {
+        return return_url;
     }
 
-    public void setAddress_id(int address_id) {
-        this.address_id = address_id;
+    public void setReturn_url(String return_url) {
+        this.return_url = return_url;
     }
 
     public static class WmOrderingListBean {
@@ -104,7 +104,6 @@ public class OrderSubmitReqBean extends RequestBase {
 
             private int wm_food_sku_id;
             private int count;
-            private List<Integer> food_spu_attr_ids;
 
             public int getWm_food_sku_id() {
                 return wm_food_sku_id;
@@ -121,26 +120,25 @@ public class OrderSubmitReqBean extends RequestBase {
             public void setCount(int count) {
                 this.count = count;
             }
-
-            public List<Integer> getFood_spu_attr_ids() {
-                return food_spu_attr_ids;
-            }
-
-            public void setFood_spu_attr_ids(List<Integer> food_spu_attr_ids) {
-                this.food_spu_attr_ids = food_spu_attr_ids;
-            }
         }
     }
 
     public static class WmOrderingUserBean {
 
+        private int address_id;
         private String user_phone;
         private String user_name;
         private String user_address;
         private int addr_longitude;
         private int addr_latitude;
-        private String user_invoice;
-        private String invoice_taxpayer_id;
+
+        public int getAddress_id() {
+            return address_id;
+        }
+
+        public void setAddress_id(int address_id) {
+            this.address_id = address_id;
+        }
 
         public String getUser_phone() {
             return user_phone;
@@ -180,22 +178,6 @@ public class OrderSubmitReqBean extends RequestBase {
 
         public void setAddr_latitude(int addr_latitude) {
             this.addr_latitude = addr_latitude;
-        }
-
-        public String getUser_invoice() {
-            return user_invoice;
-        }
-
-        public void setUser_invoice(String user_invoice) {
-            this.user_invoice = user_invoice;
-        }
-
-        public String getInvoice_taxpayer_id() {
-            return invoice_taxpayer_id;
-        }
-
-        public void setInvoice_taxpayer_id(String invoice_taxpayer_id) {
-            this.invoice_taxpayer_id = invoice_taxpayer_id;
         }
     }
 }
