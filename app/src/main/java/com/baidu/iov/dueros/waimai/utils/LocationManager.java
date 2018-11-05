@@ -85,7 +85,8 @@ public class LocationManager {
             LocationClientOption.LocationMode locationMode, String coorType, int ScanSpan,
             boolean GPSFlag) {
         LocationClientOption option = new LocationClientOption();
-        option.setPriority(LocationClientOption.GpsOnly);
+        //option.setPriority(LocationClientOption.GpsOnly);
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //"bd09ll"
         if (TextUtils.isEmpty(coorType)) {
             option.setCoorType("gcj02");
@@ -121,8 +122,8 @@ public class LocationManager {
                     case TypeGpsLocation:
                     case TypeOffLineLocation:
                     case TypeNetWorkLocation:
-                        Constant.LONGITUDE = (int) location.getLongitude() * SPAN;
-                        Constant.LATITUDE = (int) location.getLatitude() * SPAN;
+                        Constant.LONGITUDE = (int) (location.getLongitude() * SPAN);
+                        Constant.LATITUDE = (int) (location.getLatitude() * SPAN);
                         locationCallBack.locationCallBack(true, mBDLocation);
                         break;
                     case TypeCriteriaException:
