@@ -11,10 +11,9 @@ import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 
 import java.util.ArrayList;
-
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
 
 public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi> {
 
@@ -24,8 +23,19 @@ public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi
 
 	@Override
 	public void onCommandCallback(String cmd, String extra) {
-		if (CMD_NO.equals(cmd) && null != getUi()) {
-			getUi().close();
+		if (getUi() == null) {
+			return;
+		}
+
+		switch (cmd) {
+			case VoiceManager.CMD_SELECT:
+				getUi().selectListItem(Integer.parseInt(extra));
+				break;
+			case VoiceManager.CMD_NEXT:
+				getUi().nextPage();
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -34,8 +44,9 @@ public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi
 		Lg.getInstance().d(TAG, "registerCmd");
 		if (null != mVoiceManager) {
 			ArrayList<String> cmdList = new ArrayList<String>();
-			cmdList.add(CMD_NO);
-			//mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
+			cmdList.add(VoiceManager.CMD_NO);
+			cmdList.add(VoiceManager.CMD_SELECT);
+			cmdList.add(VoiceManager.CMD_NEXT);
 			mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
 		}
 	}
@@ -108,11 +119,13 @@ public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi
 
 		void failure(String msg);
 
-		void close();
-
 		void updateFilterCondition(FilterConditionResponse data);
 
 		void failureFilterCondition(String msg);
+
+		void selectListItem(int index);
+
+		void nextPage();
 	}
 
 }

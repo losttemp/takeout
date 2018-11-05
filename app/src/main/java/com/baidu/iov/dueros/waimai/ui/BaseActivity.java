@@ -50,6 +50,18 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().registerCmd(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getPresenter().unregisterCmd(this);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onUiDestroy(getUi());
