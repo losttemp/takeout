@@ -11,6 +11,8 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.bumptech.glide.Glide;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class ProductInfoAdapter extends BaseAdapter {
@@ -75,8 +77,9 @@ public class ProductInfoAdapter extends BaseAdapter {
         Glide.with(mContext).load(pictureUrl).into(viewHolder.im_photo);
         viewHolder.tv_name.setText(name);
         viewHolder.tv_count.setText(String.format(mContext.getResources().getString(R.string.count_char), count));
-        viewHolder.tv_price.setText(String.format(mContext.getResources().getString(R.string.cost), price));
-        viewHolder.tv_origin_price.setText(String.format(mContext.getResources().getString(R.string.cost), origin_price));
+        NumberFormat nf = new DecimalFormat("#.#");
+        viewHolder.tv_price.setText(String.format(mContext.getResources().getString(R.string.cost_text), nf.format(price)));
+        viewHolder.tv_origin_price.setText(String.format(mContext.getResources().getString(R.string.cost_text), nf.format(origin_price)));
 
         return convertView;
 
