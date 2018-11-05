@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.net.entity.request;
-import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
+import com.baidu.iov.dueros.waimai.net.entity.base.LatLongRequestBase;
+
 
 
 /**
@@ -7,11 +8,7 @@ import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
  * @author ping
  * @date 2018/10/16
  */
-public class PoilistReq extends RequestBase {
-    
-    private Integer longitude;
-    
-    private Integer latitude;
+public class PoilistReq extends LatLongRequestBase {
     
     private String keyword;
     
@@ -37,23 +34,7 @@ public class PoilistReq extends RequestBase {
 
     public PoilistReq() {
     }
-
-    public Integer getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Integer longitude) {
-        this.longitude = longitude;
-    }
-
-    public Integer getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Integer latitude) {
-        this.latitude = latitude;
-    }
-
+    
     public String getKeyword() {
         return keyword;
     }
@@ -145,8 +126,6 @@ public class PoilistReq extends RequestBase {
     @Override
     public String toString() {
         return "PoilistReq{" +
-                "longitude=" + longitude +
-                ", latitude=" + latitude +
                 ", keyword='" + keyword + '\'' +
                 ", sortType=" + sortType +
                 ", page_index=" + page_index +

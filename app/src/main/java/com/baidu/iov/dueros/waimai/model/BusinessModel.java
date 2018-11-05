@@ -7,6 +7,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.PoilistReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public class BusinessModel implements IBusinessModel {
                 if (callback!=null) {
                     callback.onSuccess(data);
                 }
+                Lg.getInstance().e(TAG,"msg:"+data);
             }
 
             @Override
@@ -53,8 +55,8 @@ public class BusinessModel implements IBusinessModel {
 
     @Override
     public void requestBusinessBean( PoilistReq poilistReq, final RequestCallback callback) {
-        poilistReq.setLongitude(95369826);
-        poilistReq.setLatitude(29735952);
+        poilistReq.setLongitude(Constant.LONGITUDE);
+        poilistReq.setLatitude(Constant.LATITUDE);
         Lg.getInstance().e(TAG,"poilistReq:"+poilistReq);
         ApiUtils.getBusinessByLocation(poilistReq, new ApiCallBack<BusinessBean>() {
             @Override

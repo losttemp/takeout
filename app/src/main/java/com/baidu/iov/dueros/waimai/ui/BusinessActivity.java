@@ -43,8 +43,8 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     
     private PoilistReq poilistReq;
     
-    private String keyword="";
     private String title="";
+    
     private ConditionsPopWindow mConditionsPopWindow;
 
     private FilterConditionsReq filterConditionsReq;
@@ -65,6 +65,17 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     private BusinessBean.MeituanBean.Business mBusiness;
 
     private TextView tvNoResult;
+
+    private int categoryType;
+    private int secondCategoryType;
+
+    private final static int flowerSecondCategoryType=1063;
+
+    private final static int cakeSecondCategoryType=101563;
+
+    private final static int flowerCategoryType=23;
+    
+    private final static int cakeCategoryType=23;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,26 +91,31 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         Intent intent=getIntent();
         if (intent!=null) {
             title = intent.getStringExtra("title");
+            categoryType=(int)intent.getLongExtra("categoryType",0);
+            secondCategoryType=(int)intent.getLongExtra("secondCategoryType",0);
             Lg.getInstance().e(TAG,"title:"+title);
+            Lg.getInstance().e(TAG,"categoryType:"+categoryType);
+            Lg.getInstance().e(TAG,"secondCategoryType:"+secondCategoryType);
         }
     }
 
     private void initData (){
         filterConditionsReq =new FilterConditionsReq();
-        filterConditionsReq.setLatitude(29735952);
-        filterConditionsReq.setLongitude(95369826);
-
+        filterConditionsReq.setLatitude(Constant.LATITUDE);
+        filterConditionsReq.setLongitude(Constant.LONGITUDE);
+    
         if (getResources().getString(R.string.stroe_type_cake).equals(title)){
-            keyword= getResources().getString(R.string.cake);
+            categoryType=cakeCategoryType;
+            secondCategoryType=cakeSecondCategoryType;
         }else if (getResources().getString(R.string.stroe_type_flower).equals(title)){
-            keyword= getResources().getString(R.string.flower);
-        }else {
-            keyword=title;
+            categoryType=flowerCategoryType;
+            secondCategoryType=flowerSecondCategoryType;
         }
         poilistReq=new PoilistReq();
-        poilistReq.setKeyword(keyword);
         poilistReq.setPage_index(1);
         poilistReq.setPage_size(DEFAULT_PAGE_SIZE);
+        poilistReq.setCategoryType(categoryType);
+        poilistReq.setSecondCategoryType(secondCategoryType);
         
         getPresenter().requestFilterConditions(filterConditionsReq);
         getPresenter().requestBusinessBean(poilistReq);
@@ -296,7 +312,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
         Lg.getInstance().e(TAG,"error:"+error);
     }
-
+ 
    
 
     @Override
@@ -359,6 +375,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         switch (v.getId()) {
             case R.id.btn_back:
                 finish();
+                onBackPressed();
                 break;
             case R.id.btn_search:
                 Intent intent = new Intent(BusinessActivity.this, SearchActivity.class);

@@ -1,35 +1,16 @@
 package com.baidu.iov.dueros.waimai.net.entity.request;
 
+import com.baidu.iov.dueros.waimai.net.entity.base.LatLongRequestBase;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 
-public class FilterConditionsReq extends RequestBase {
-
-    private Integer longitude;
-
-    private Integer latitude;
-
+public class FilterConditionsReq extends LatLongRequestBase {
+    
     private Integer navigateType;
 
     private Integer categoryType;
 
     private Integer secondCategoryType;
-
-    public Integer getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Integer longitude) {
-        this.longitude = longitude;
-    }
-
-    public Integer getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Integer latitude) {
-        this.latitude = latitude;
-    }
-
+    
     public Integer getNavigateType() {
         return navigateType;
     }
@@ -56,10 +37,8 @@ public class FilterConditionsReq extends RequestBase {
 
     @Override
     public String toString() {
-        return "FilterconditionsReq{" +
-                "longitude=" + longitude +
-                ", latitude=" + latitude +
-                ", navigateType=" + navigateType +
+        return "FilterConditionsReq{" +
+                "navigateType=" + navigateType +
                 ", categoryType=" + categoryType +
                 ", secondCategoryType=" + secondCategoryType +
                 '}';
