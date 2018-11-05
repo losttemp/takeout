@@ -7,6 +7,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 
 public class StoreListModel implements IStoreListModel {
 
@@ -22,12 +23,9 @@ public class StoreListModel implements IStoreListModel {
 
 	@Override
 	public void requestStoreList(StoreReq storeReq, final RequestCallback callback) {
-		if (callback == null) {
+		if (callback == null || Constant.LONGITUDE == -1 || Constant.LATITUDE == -1) {
 			return;
 		}
-
-		storeReq.setLongitude(95369826);
-		storeReq.setLatitude(29735952);
 
 		ApiUtils.getStoreList(storeReq, new ApiCallBack<StoreResponse>() {
 			@Override
@@ -46,8 +44,6 @@ public class StoreListModel implements IStoreListModel {
 	@Override
 	public void requestFilterList(FilterConditionReq filterConditionReq, final RequestCallback
 			callback) {
-		filterConditionReq.setLongitude(95369826);
-		filterConditionReq.setLatitude(29735952);
 
 		ApiUtils.getFilterList(filterConditionReq, new ApiCallBack<FilterConditionResponse>() {
 			@Override

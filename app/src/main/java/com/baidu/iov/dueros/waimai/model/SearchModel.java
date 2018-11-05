@@ -26,8 +26,6 @@ public class SearchModel implements ISearchModel {
 		}
 
 		SearchSuggestReq searchSuggestReq = new SearchSuggestReq();
-		searchSuggestReq.setLongitude(95369826);
-		searchSuggestReq.setLatitude(29735952);
 		searchSuggestReq.setQuery(query);
 
 		ApiUtils.getSearchSuggest(searchSuggestReq, new ApiCallBack<SearchSuggestResponse>() {

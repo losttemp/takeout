@@ -356,7 +356,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 	}
 
-
 	public void loadFirstPage(StoreReq storeReq) {
 		storeReq.setPage_index(1);
 		mPresenter.requestStoreList(storeReq);
