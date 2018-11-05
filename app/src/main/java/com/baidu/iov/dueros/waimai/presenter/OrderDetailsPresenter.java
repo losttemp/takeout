@@ -7,6 +7,7 @@ import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.IOrderDetailsModel;
 import com.baidu.iov.dueros.waimai.model.OrderDetailsModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
@@ -50,6 +51,7 @@ public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.Order
         mModel = new OrderDetailsModel();
     }
 
+
     @Override
     public void onUiReady(OrderDetailsUi ui) {
         super.onUiReady(ui);
@@ -63,7 +65,6 @@ public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.Order
     }
 
     public void requestOrderDetails(OrderDetailsReq orderDetailsReq) {
-
         mModel.requestOrderDetails(orderDetailsReq, new RequestCallback<OrderDetailsResponse>() {
             @Override
             public void onSuccess(OrderDetailsResponse data) {
@@ -81,8 +82,28 @@ public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.Order
         });
     }
 
+    public void requestOrderCancel(OrderDetailsReq orderDetailsReq) {
+        mModel.requestOrderCancel(orderDetailsReq, new RequestCallback<OrderCancelResponse>() {
+            @Override
+            public void onSuccess(OrderCancelResponse data) {
+                if (getUi() != null) {
+                    getUi().updateOrderCancel(data);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if (getUi() != null) {
+                    getUi().failure(msg);
+                }
+            }
+        });
+    }
+
     public interface OrderDetailsUi extends Ui {
         void update(OrderDetailsResponse data);
+
+        void updateOrderCancel(OrderCancelResponse data);
 
         void failure(String msg);
 

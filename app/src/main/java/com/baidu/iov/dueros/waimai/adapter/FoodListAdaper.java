@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.baidu.iov.dueros.waimai.net.entity.response.TestClass;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.R;
 
 import java.util.List;
 
 public class FoodListAdaper extends BaseAdapter {
-//    private List<OrderpreviewBean.DataBean> mData;
-    private List<TestClass> mData;
+    private List<OrderDetailsResponse.MeituanBean.DataBean.FoodListBean> mData;
     private LayoutInflater mInflater;
     private Context mContext;
 
@@ -22,7 +21,7 @@ public class FoodListAdaper extends BaseAdapter {
         mContext = context;
     }
 
-    public void setData(List<TestClass> data) {
+    public void setData(List<OrderDetailsResponse.MeituanBean.DataBean.FoodListBean> data) {
         mData = data;
         notifyDataSetChanged();
     }
@@ -54,7 +53,7 @@ public class FoodListAdaper extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.tvfoodname.setText(mData.get(position).getName());
-        viewHolder.tvfoodprice.setText(mData.get(position).getPrice());
+        viewHolder.tvfoodprice.setText(String.valueOf(mData.get(position).getPrice()));
         return convertView;
     }
 
