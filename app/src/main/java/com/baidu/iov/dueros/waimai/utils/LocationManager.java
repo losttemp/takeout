@@ -9,7 +9,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
 public class LocationManager {
-    public static final int SPAN = 1000;
+    public static final int SPAN = 1000000;
     public static final int TypeGpsLocation = 61;
     public static final int TypeCriteriaException = 62;
     public static final int TypeNetWorkException = 63;
@@ -61,7 +61,7 @@ public class LocationManager {
         if ((mLocationClient != null) && mLocationClient.isStarted()) {
             mLocationClient.stop();
             mLocationClient = null;
-            locationCallBack =null;
+            locationCallBack = null;
             mLocationClient.unRegisterLocationListener(myListener);
         }
     }
@@ -85,9 +85,11 @@ public class LocationManager {
             LocationClientOption.LocationMode locationMode, String coorType, int ScanSpan,
             boolean GPSFlag) {
         LocationClientOption option = new LocationClientOption();
-        option.setPriority(LocationClientOption.GpsOnly);
+        //option.setPriority(LocationClientOption.GpsOnly);
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        //"bd09ll"
         if (TextUtils.isEmpty(coorType)) {
-            option.setCoorType("bd09ll");
+            option.setCoorType("gcj02");
         } else {
             option.setCoorType(coorType);
         }
@@ -120,8 +122,8 @@ public class LocationManager {
                     case TypeGpsLocation:
                     case TypeOffLineLocation:
                     case TypeNetWorkLocation:
-                        Constant.LONGITUDE = String.valueOf(location.getLongitude());
-                        Constant.LATITUDE = String.valueOf(location.getLatitude());
+                        Constant.LONGITUDE = (int) (location.getLongitude() * SPAN);
+                        Constant.LATITUDE = (int) (location.getLatitude() * SPAN);
                         locationCallBack.locationCallBack(true, mBDLocation);
                         break;
                     case TypeCriteriaException:
