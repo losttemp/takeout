@@ -40,6 +40,9 @@ public class Constant {
     public static String ACCOUNT_AUTH_FAIL = "auth_fail";
     public static String ACCOUNT_PAID_SUCCESS = "paid_success";
     public static String ACCOUNT_PAID_FAIL = "paid_fail";
+	public static final int SEARCH_STATUS_HISTORY = 0;
+	public static final int SEARCH_STATUS_SUGGEST = 1;
+	public static final int SEARCH_STATUS_FRAGMENT = 2;
 
 
 }

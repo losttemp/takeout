@@ -7,9 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
@@ -18,19 +16,14 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
 
-	private LinearLayoutCompat mLlType;
 	private AppCompatTextView mTvFood;
 	private AppCompatTextView mTvFlower;
 	private AppCompatTextView mTvCake;
-	private LinearLayoutCompat mLlBottom;
-	private AppCompatTextView mTvHome;
 	private AppCompatTextView mTvOrder;
-	private FrameLayout mFragmentStoreList;
 	private AppCompatImageView mIvBack;
 	private AppCompatImageView mIvRight;
 	private AppCompatTextView mTvTitle;
 
-	private HomePresenter mPresenter;
 	private StoreListFragment mStoreListFragment;
 
 	@Override
@@ -52,27 +45,11 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		getPresenter().registerCmd(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		getPresenter().unregisterCmd(this);
-	}
-
 	private void iniView() {
-		mLlType = (LinearLayoutCompat) findViewById(R.id.ll_type);
 		mTvFood = (AppCompatTextView) findViewById(R.id.tv_food);
 		mTvFlower = (AppCompatTextView) findViewById(R.id.tv_flower);
 		mTvCake = (AppCompatTextView) findViewById(R.id.tv_cake);
-		mLlBottom = (LinearLayoutCompat) findViewById(R.id.ll_bottom);
-		mTvHome = (AppCompatTextView) findViewById(R.id.tv_home);
 		mTvOrder = (AppCompatTextView) findViewById(R.id.tv_order);
-		mFragmentStoreList = (FrameLayout) findViewById(R.id.fragment_store_list);
 		mIvBack = (AppCompatImageView) findViewById(R.id.iv_back);
 		mIvRight = (AppCompatImageView) findViewById(R.id.iv_right);
 		mTvTitle = (AppCompatTextView) findViewById(R.id.tv_title);
@@ -80,8 +57,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	}
 
 	private void iniData() {
-		mPresenter = getPresenter();
-
 		//address
 		Drawable drawable = getResources().getDrawable(R.mipmap.arrow_down_white);
 		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());

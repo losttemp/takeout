@@ -3,30 +3,28 @@ package com.baidu.iov.dueros.waimai.net.entity.request;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 
 public class OrderDetailsReq extends RequestBase {
-    private Integer id;
-    private String phone;
+    private long order_id;
+    private String user_phone;
 
-    public Integer getId() {
-        return id;
+    public OrderDetailsReq(long id, String phone) {
+        this.order_id = id;
+        this.user_phone = phone;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public long getId() {
+        return order_id;
+    }
+
+    public void setId(long id) {
+        this.order_id = id;
     }
 
     public String getPhone() {
-        return phone;
+        return user_phone;
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.user_phone = phone;
     }
 
-    @Override
-    public String toString() {
-        return "OrderDetailsReq{" +
-                "id=" + id +
-                ", phone='" + phone + '\'' +
-                '}';
-    }
 }

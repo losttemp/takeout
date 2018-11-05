@@ -129,9 +129,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreAdaper.setItemClickListener(new StoreAdaper.OnItemClickListener() {
 			@Override
 			public void onItemClick(int position) {
-				Intent intent = new Intent(mContext, FoodListActivity.class);
-				intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());
-				startActivity(intent);
+				jumpPage(position);
 			}
 		});
 
@@ -278,11 +276,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	}
 
 	@Override
-	public void close() {
-
-	}
-
-	@Override
 	public void updateFilterCondition(FilterConditionResponse data) {
 		mSortList.clear();
 		mSortList.addAll(data.getMeituan().getData().getSort_type_list());
@@ -300,6 +293,34 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	@Override
 	public void failureFilterCondition(String msg) {
+
+	}
+
+	@Override
+	public void selectListItem(int index) {
+		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH && ((SearchActivity) mContext)
+				.getStatus() != Constant.SEARCH_STATUS_FRAGMENT) {
+			return;
+		}
+
+		jumpPage(index);
+	}
+
+	@Override
+	public void nextPage() {
+		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH && ((SearchActivity) mContext)
+				.getStatus() != Constant.SEARCH_STATUS_FRAGMENT) {
+			return;
+		}
+
+		if (mTvTipNoResult.getVisibility() == View.GONE) {
+			if (mRvStore != null) {
+				mRvStore.smoothScrollToPosition(mStoreAdaper.getItemCount() - 1);
+			}
+			if (mRefreshLayout != null) {
+				mRefreshLayout.autoLoadmore(100);
+			}
+		}
 
 	}
 
@@ -326,6 +347,15 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		});
 
 	}
+
+	private void jumpPage(int position) {
+		if (mStoreList.size() > position) {
+			Intent intent = new Intent(mContext, FoodListActivity.class);
+			intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());
+			startActivity(intent);
+		}
+	}
+
 
 	public void loadFirstPage(StoreReq storeReq) {
 		storeReq.setPage_index(1);

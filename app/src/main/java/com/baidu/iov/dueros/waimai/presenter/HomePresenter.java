@@ -6,10 +6,10 @@ import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.HomeModel;
 import com.baidu.iov.dueros.waimai.model.IHomeModel;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 
 import java.util.ArrayList;
 
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
 
 public class HomePresenter extends Presenter<HomePresenter.HomeUi> {
 
@@ -19,7 +19,7 @@ public class HomePresenter extends Presenter<HomePresenter.HomeUi> {
 
 	@Override
 	public void onCommandCallback(String cmd, String extra) {
-		if (CMD_NO.equals(cmd) && null != getUi()) {
+		if (VoiceManager.CMD_NO.equals(cmd) && null != getUi()) {
 			getUi().close();
 		}
 	}
@@ -29,8 +29,7 @@ public class HomePresenter extends Presenter<HomePresenter.HomeUi> {
 		Lg.getInstance().d(TAG, "registerCmd");
 		if (null != mVoiceManager) {
 			ArrayList<String> cmdList = new ArrayList<String>();
-			cmdList.add(CMD_NO);
-			//mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
+			cmdList.add(VoiceManager.CMD_NO);
 			mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
 		}
 	}

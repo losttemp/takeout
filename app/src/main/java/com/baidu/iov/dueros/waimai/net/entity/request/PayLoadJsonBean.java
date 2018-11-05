@@ -4,22 +4,13 @@ import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 
 import java.util.List;
 
-public class OrderSubmitReqBean extends RequestBase {
+public class PayLoadJsonBean {
 
-    private String wm_pic_url;
     private String user_phone;
     private WmOrderingListBean wm_ordering_list;
     private WmOrderingUserBean wm_ordering_user;
     private int pay_source;
     private String return_url;
-
-    public String getWm_pic_url() {
-        return wm_pic_url;
-    }
-
-    public void setWm_pic_url(String wm_pic_url) {
-        this.wm_pic_url = wm_pic_url;
-    }
 
     public String getUser_phone() {
         return user_phone;

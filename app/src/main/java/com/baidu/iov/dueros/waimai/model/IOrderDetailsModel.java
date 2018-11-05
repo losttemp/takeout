@@ -6,4 +6,6 @@ import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 public interface IOrderDetailsModel extends IModel {
     void requestOrderDetails(OrderDetailsReq orderDetailsReq, final RequestCallback callback);
 
+    void requestOrderCancel(OrderDetailsReq orderDetailsReq, final RequestCallback callback);
+
 }

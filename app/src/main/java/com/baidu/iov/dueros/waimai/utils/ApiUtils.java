@@ -14,6 +14,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
@@ -208,6 +209,18 @@ public class ApiUtils {
     public static <D extends RequestBase> void getOrderDetails(D request, ApiCallBack<OrderDetailsResponse> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getOrderDetails(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * get order cancel request
+     *
+     * @param <D>
+     * @param request
+     * @param callBack
+     */
+    public static <D extends RequestBase> void getOrderCancel(D request, ApiCallBack<OrderCancelResponse> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getOrderCancel(requestMap).enqueue(callBack);
     }
 
     /**

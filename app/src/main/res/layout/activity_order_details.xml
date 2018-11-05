@@ -13,13 +13,13 @@
         <Button
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:text="Button" />
+            android:text="back" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="订单详情" />
+            android:text="@string/order_details"/>
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,11 +33,11 @@
             android:text="Button" />
 
         <TextView
+            android:id="@+id/pay_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/button1"
-            android:text="已支付" />
+            android:layout_toRightOf="@id/button1" />
 
         <TextView
             android:id="@+id/arrival_time"
@@ -56,13 +56,13 @@
             android:id="@+id/repeat_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="再来一单" />
+            android:text="@string/one_more_order" />
 
         <Button
             android:id="@+id/cancel_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="取消订单" />
+            android:text="@string/order_cancel" />
     </LinearLayout>
 
     <RelativeLayout
@@ -98,38 +98,6 @@
         android:clickable="false"
         android:divider="@null">
     </ListView>
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:text="黄焖鸡米饭（小份）" />-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:text="¥20" />-->
-    <!--</RelativeLayout>-->
-
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:text="青菜" />-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:text="¥2" />-->
-    <!--</RelativeLayout>-->
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

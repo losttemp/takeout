@@ -6,13 +6,11 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.ISearchModel;
 import com.baidu.iov.dueros.waimai.model.SearchModel;
-import com.baidu.iov.dueros.waimai.net.entity.request.SearchSuggestReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 
 import java.util.ArrayList;
-
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
 
 public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 
@@ -22,8 +20,19 @@ public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 
 	@Override
 	public void onCommandCallback(String cmd, String extra) {
-		if (CMD_NO.equals(cmd) && null != getUi()) {
-			getUi().close();
+		if (getUi() == null) {
+			return;
+		}
+
+		switch (cmd) {
+			case VoiceManager.CMD_SELECT:
+				getUi().selectListItem(Integer.parseInt(extra));
+				break;
+			case VoiceManager.CMD_NO:
+				getUi().close();
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -32,8 +41,8 @@ public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 		Lg.getInstance().d(TAG, "registerCmd");
 		if (null != mVoiceManager) {
 			ArrayList<String> cmdList = new ArrayList<String>();
-			cmdList.add(CMD_NO);
-			//mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
+			cmdList.add(VoiceManager.CMD_NO);
+			cmdList.add(VoiceManager.CMD_SELECT);
 			mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
 		}
 	}
@@ -82,11 +91,13 @@ public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 	}
 
 	public interface SearchUi extends Ui {
-		void close();
-
 		void onSuggestSuccess(SearchSuggestResponse data);
 
 		void onSuggestFailure(String msg);
+
+		void close();
+
+		void selectListItem(int index);
 
 	}
 

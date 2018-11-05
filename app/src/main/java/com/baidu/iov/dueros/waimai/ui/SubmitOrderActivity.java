@@ -18,18 +18,21 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryDateAdapter;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryTimeAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ProductInfoAdapter;
-import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReqBean;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReq;
+import com.baidu.iov.dueros.waimai.net.entity.request.PayLoadJsonBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitInfoPresenter;
-import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.faceos.client.GsonUtil;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +68,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private int mCurTimeItem = 0;
     private int mCurDateItem = 0;
     private int mPreDateItem = 0;
+    private NumberFormat mNumberFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +103,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             poiInfo = (PoifoodListBean.MeituanBean.DataBean.PoiInfoBean) intent.getSerializableExtra(POI_INFO);
         }
 
+        mNumberFormat = new DecimalFormat("#.#");
+        map = new ArrayMap<>();
+
         mToPayTv = findViewById(R.id.to_pay);
         mToPayTv.setOnClickListener(this);
         mTypeTipTv = findViewById(R.id.type_tip);
@@ -125,7 +132,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mDeliveryTypeTv.setText(deliveryType);
 
             double shippingFee = poiInfo.getShipping_fee();
-            mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost), shippingFee));
+            mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
+
+            getPresenter().requestArriveTimeData(poiInfo.getWm_poi_id());
 
         }
 
@@ -135,13 +144,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mTypeTipTv.setText(defaultType);
         }
 
-
-        map = new ArrayMap<>();
-        loadData(-1, -1, -1, Constant.SPECIAL_HALL_ID);
     }
 
+/*
 
-    private void loadData(int areaId, int aoiId, int brandId, int extraId) {
+    private void loadData(int areaId, int aoiId, Long brandId) {
         Lg.getInstance().d(TAG, "loadData areaId:" + areaId + "aoiId:" + aoiId + " brandId:" + brandId + " extraId:" + extraId);
         if (areaId != -1) {
             map.put(Constant.AREA_ID, areaId + "");
@@ -153,11 +160,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             map.put(Constant.BRAND_ID, brandId + "");
         }
 
-        if (extraId != -1) {
-            map.put(Constant.EXTRA_ID, extraId + "");
-        }
         getPresenter().requestArriveTimeData(map);
     }
+*/
 
 
     @Override
@@ -178,36 +183,39 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 break;
 
             case R.id.to_pay:
-                OrderSubmitReqBean orderSubmitReqBean = new OrderSubmitReqBean();
-                orderSubmitReqBean.setWm_pic_url("www.baidu.com");
-                orderSubmitReqBean.setUser_phone("18503040492");
-                orderSubmitReqBean.setPay_source(3);
-                orderSubmitReqBean.setReturn_url("www.meituan.com");
+                PayLoadJsonBean payLoadJsonBean = new PayLoadJsonBean();
+                payLoadJsonBean.setUser_phone("18503040492");
+                payLoadJsonBean.setPay_source(3);
+                payLoadJsonBean.setReturn_url("www.meituan.com");
 
-                OrderSubmitReqBean.WmOrderingListBean wmOrderingListBean = new OrderSubmitReqBean.WmOrderingListBean();
+                PayLoadJsonBean.WmOrderingListBean wmOrderingListBean = new PayLoadJsonBean.WmOrderingListBean();
                 wmOrderingListBean.setWm_poi_id("1505351");
                 wmOrderingListBean.setDelivery_time(0);
                 wmOrderingListBean.setPay_type(2);
 
 
-                List<OrderSubmitReqBean.WmOrderingListBean.FoodListBean> foodListBeans = new ArrayList<>();
-                OrderSubmitReqBean.WmOrderingListBean.FoodListBean foodListBean = new OrderSubmitReqBean.WmOrderingListBean.FoodListBean();
+                List<PayLoadJsonBean.WmOrderingListBean.FoodListBean> foodListBeans = new ArrayList<>();
+                PayLoadJsonBean.WmOrderingListBean.FoodListBean foodListBean = new PayLoadJsonBean.WmOrderingListBean.FoodListBean();
                 foodListBean.setWm_food_sku_id(1239556963);
                 foodListBean.setCount(1);
                 foodListBeans.add(foodListBean);
                 wmOrderingListBean.setFood_list(foodListBeans);
-                orderSubmitReqBean.setWm_ordering_list(wmOrderingListBean);
+                payLoadJsonBean.setWm_ordering_list(wmOrderingListBean);
 
-                OrderSubmitReqBean.WmOrderingUserBean wmOrderingUserBean = new OrderSubmitReqBean.WmOrderingUserBean();
+                PayLoadJsonBean.WmOrderingUserBean wmOrderingUserBean = new PayLoadJsonBean.WmOrderingUserBean();
                 wmOrderingUserBean.setUser_phone("1323372555");
                 wmOrderingUserBean.setUser_name("肖");
                 wmOrderingUserBean.setUser_address("美团大厦");
                 wmOrderingUserBean.setAddr_longitude(95369826);
                 wmOrderingUserBean.setAddr_latitude(29735952);
                 wmOrderingUserBean.setAddress_id(1323372555);
-                orderSubmitReqBean.setWm_ordering_user(wmOrderingUserBean);
+                payLoadJsonBean.setWm_ordering_user(wmOrderingUserBean);
 
-                getPresenter().requestOrderSubmitData(orderSubmitReqBean);
+
+                OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
+                orderSubmitReq.setPayload(GsonUtil.toJson(payLoadJsonBean));
+                orderSubmitReq.setWm_pic_url("www.baidu.com");
+                getPresenter().requestOrderSubmitData(orderSubmitReq);
 
                 Intent data = new Intent(this, PaySuccessActivity.class);
                 data.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -278,7 +286,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
                     String shippingFee = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_shipping_fee().trim();
                     String value = StringUtils.substringBefore(shippingFee, getString(R.string.shipping_fee1_text));
-                    mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost), Double.parseDouble(value)));
+                    mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(Double.parseDouble(value))));
 
                 }
                 mCurTimeItem = position;
