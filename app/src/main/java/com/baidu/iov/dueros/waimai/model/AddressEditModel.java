@@ -8,6 +8,7 @@ import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class AddressEditModel implements IAddressEditModel {
         addressEditReq.setPhone("17638916218");
         addressEditReq.setAddress("WuHan JiangXia");
         addressEditReq.setHouseNumber("18");
-        addressEditReq.setLatitude(40002102);
-        addressEditReq.setLongitude(116491116);
+        addressEditReq.setLatitude(Constant.LATITUDE);
+        addressEditReq.setLongitude(Constant.LONGITUDE);
         addressEditReq.setBindType(11);
         addressEditReq.setAddressRangeTip("");
         Log.d("hhr", addressEditReq.toString());

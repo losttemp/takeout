@@ -72,7 +72,7 @@ public class PoidetailinfoBean {
             private String pic_url;
             private double shipping_fee;
             private double min_price;
-            private int wm_poi_score;
+            private double wm_poi_score;
             private int avg_delivery_time;
             private String poi_type_icon;
             private String distance;
@@ -147,11 +147,11 @@ public class PoidetailinfoBean {
                 this.min_price = min_price;
             }
 
-            public int getWm_poi_score() {
+            public double getWm_poi_score() {
                 return wm_poi_score;
             }
 
-            public void setWm_poi_score(int wm_poi_score) {
+            public void setWm_poi_score(double wm_poi_score) {
                 this.wm_poi_score = wm_poi_score;
             }
 

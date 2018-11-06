@@ -99,7 +99,7 @@ public class PoifoodListBean {
                 private int support_pay;
                 private int invoice_support;
                 private int invoice_min_price;
-                private int wm_poi_score;
+                private double wm_poi_score;
                 private String poi_back_pic_url;
                 private String pic_url;
                 private int delivery_type;
@@ -209,11 +209,11 @@ public class PoifoodListBean {
                     this.invoice_min_price = invoice_min_price;
                 }
 
-                public int getWm_poi_score() {
+                public double getWm_poi_score() {
                     return wm_poi_score;
                 }
 
-                public void setWm_poi_score(int wm_poi_score) {
+                public void setWm_poi_score(double wm_poi_score) {
                     this.wm_poi_score = wm_poi_score;
                 }
 
