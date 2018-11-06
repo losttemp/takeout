@@ -69,19 +69,19 @@ public class ActivityFilterPopWindowAdapter extends BaseAdapter {
 			@Override
 			public void onItemClick(int itemPosition) {
 				FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter.Item item=mData.get(position).getItems().get(itemPosition);
-				if (item.isChcked()) {
-					item.setChcked(false);
+				if (item.getBubble_info().isIs_show()) {
+					item.getBubble_info().setIs_show(false);
 				} else {
 					if (mData.get(position).getSupport_multi_choice() == 0) {
 						for (FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter.Item  data : mData.get(position)
 								.getItems()) {
-							if (data.isChcked()) {
-								data.setChcked(false);
+							if (data.getBubble_info().isIs_show()) {
+								data.getBubble_info().setIs_show(false);
 								break;
 							}
 						}
 					}
-					item.setChcked(true);
+					item.getBubble_info().setIs_show(true);
 				}
 			}
 		});
