@@ -94,7 +94,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 .into(viewHolder.head);
         viewHolder.prise.setText("" + spusBean.getMin_price());
         viewHolder.shoppingNum.setText("" + spusBean.getNumber());
-        if ((spusBean.getAttrs() != null && spusBean.getAttrs().size() > 1) ||
+        if ((spusBean.getAttrs() != null && spusBean.getAttrs().size() > 0) ||
                 (spusBean.getSkus() != null && spusBean.getSkus().size() > 1)) {
             viewHolder.specifications.setVisibility(View.VISIBLE);
             viewHolder.add.setVisibility(View.GONE);
@@ -241,7 +241,13 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
     private void reduceOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, ViewHolder viewHolder) {
         int num = spusBean.getNumber();
         if (num > 0) {
-            num--;
+            int min_order_count = 1;
+            if (spusBean.getSkus().size() > 1) {
+                min_order_count = spusBean.getChoiceSkus().get(0).getMin_order_count();
+            } else {
+                min_order_count = spusBean.getSkus().get(0).getMin_order_count();
+            }
+            num -= min_order_count;
             spusBean.setNumber(num);
             viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
             if (callBackListener != null) {
@@ -252,8 +258,15 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
     }
 
     private void increaseOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, ViewHolder viewHolder) {
+        int min_order_count = 1;
+        if (spusBean.getSkus().size() > 1) {
+            min_order_count = spusBean.getChoiceSkus().get(0).getMin_order_count();
+        } else {
+            min_order_count = spusBean.getSkus().get(0).getMin_order_count();
+        }
         int num = spusBean.getNumber();
-        num++;
+
+        num += min_order_count;
         spusBean.setNumber(num);
         viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
         if (callBackListener != null) {

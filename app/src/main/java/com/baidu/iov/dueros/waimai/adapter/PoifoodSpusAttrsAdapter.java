@@ -41,14 +41,18 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (attrsBeans.size() > 1) {
+        if (attrsBeans.size() > 0) {
             if (skusBeans.size() > 1) {
                 return attrsBeans.size() + 1;
             } else {
                 return attrsBeans.size();
             }
         } else {
-            return 1;
+            if (skusBeans.size() > 1) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -75,7 +79,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.radioGroup.removeAllViews();
-        if (attrsBeans.size() > 1 && position != attrsBeans.size()) {
+        if (attrsBeans.size() > 0 && position != attrsBeans.size()) {
             viewHolder.attrsName.setText(attrsBeans.get(position).getName());
             final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> values = attrsBeans.get(position).getValues();
             for (int i = 0; i < values.size(); i++) {
