@@ -41,7 +41,6 @@ public class BusinessModel implements IBusinessModel {
                 if (callback!=null) {
                     callback.onSuccess(data);
                 }
-                Lg.getInstance().e(TAG,"msg:"+data);
             }
 
             @Override
@@ -55,16 +54,12 @@ public class BusinessModel implements IBusinessModel {
 
     @Override
     public void requestBusinessBean( PoilistReq poilistReq, final RequestCallback callback) {
-        poilistReq.setLongitude(Constant.LONGITUDE);
-        poilistReq.setLatitude(Constant.LATITUDE);
-        Lg.getInstance().e(TAG,"poilistReq:"+poilistReq);
         ApiUtils.getBusinessByLocation(poilistReq, new ApiCallBack<BusinessBean>() {
             @Override
             public void onSuccess(BusinessBean data) {
                 if (callback!=null) {
                     callback.onSuccess(data);
                 }
-                Lg.getInstance().e(TAG,"msg:"+data);
             }
 
             @Override
@@ -73,7 +68,6 @@ public class BusinessModel implements IBusinessModel {
                 if (callback!=null) {
                     callback.onFailure(msg);
                 }
-                Lg.getInstance().e(TAG,"msg:"+msg);
             }
         });
     }

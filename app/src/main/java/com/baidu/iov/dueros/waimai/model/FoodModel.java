@@ -23,7 +23,6 @@ public class FoodModel implements IFoodModel {
                 if (callback!=null) {
                     callback.onSuccess(data);
                 }
-                Lg.getInstance().e(TAG,"msg:"+data);
             }
 
             @Override
@@ -31,7 +30,6 @@ public class FoodModel implements IFoodModel {
                 if (callback!=null) {
                     callback.onFailure(msg);
                 }
-                Lg.getInstance().e(TAG,"msg:"+msg);
             }
         });
     }

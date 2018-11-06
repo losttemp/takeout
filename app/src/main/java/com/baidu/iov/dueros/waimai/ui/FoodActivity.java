@@ -18,6 +18,7 @@ import com.baidu.iov.dueros.waimai.presenter.FoodPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodUi> implements FoodPresenter.FoodUi,View.OnClickListener{
@@ -66,8 +67,6 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     private void initData (){
         filterConditionsReq =new FilterConditionsReq();
-        filterConditionsReq.setLatitude(Constant.LATITUDE);
-        filterConditionsReq.setLongitude(Constant.LONGITUDE);
         getPresenter().requestFilterConditions(filterConditionsReq);
 
     }
@@ -94,7 +93,6 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 lvFirstTypePos=position;
-                Lg.getInstance().e(TAG,"msg:"+categoryFilterList.get(position));
                 mFirstTypeFoodAdapter.updateSelected(position);
                 tvFirstCategory.setText(categoryFilterList.get(position).getName());
                 mSecondTypeFoodAdapter.setData(categoryFilterList.get(position).getSub_category_list());
@@ -104,7 +102,6 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         gvSecondType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Lg.getInstance().e(TAG,"msg:"+categoryFilterList.get(lvFirstTypePos).getSub_category_list().get(position));
                 String title = categoryFilterList.get(lvFirstTypePos).getSub_category_list().get(position).getName();
                 if (position==0){
                     title=categoryFilterList.get(lvFirstTypePos).getName();
@@ -122,15 +119,33 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     @Override
     public void onSuccess(FilterConditionsResponse data) {
+        if (data==null||data.getMeituan()==null||data.getMeituan().getData().getCategory_filter_list().isEmpty()){
+            return;
+        }
         categoryFilterList=data.getMeituan().getData().getCategory_filter_list();
-        categoryFilterList.remove(0);
+        categoryFilterList.get(0).getSub_category_list().addAll(getAllSubCategory(categoryFilterList));
         mFirstTypeFoodAdapter.setData(categoryFilterList);
         tvFirstCategory.setText(categoryFilterList.get(0).getName());
         mSecondTypeFoodAdapter.setData(categoryFilterList.get(0).getSub_category_list());
         if (categoryFilterList.size() == 0) {
             tvNoResult.setVisibility(View.VISIBLE);
         }
-        Lg.getInstance().e(TAG,"msg:"+data);
+    }
+    
+    private List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter.SubCategory> getAllSubCategory(List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter> categoryFilterList){
+        List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter.SubCategory> subCategorys=new ArrayList<>();
+        if (categoryFilterList==null||categoryFilterList.isEmpty()||categoryFilterList.size()==1){
+            return subCategorys;
+        }
+        
+        int size =categoryFilterList.size();
+        for (int i = 1; i < size; i++) {
+            int subCategorySize =categoryFilterList.get(i).getSub_category_list().size();
+            for (int j = 1; j < subCategorySize; j++) {
+                subCategorys.add(categoryFilterList.get(i).getSub_category_list().get(j));
+            }
+        }
+        return  subCategorys;
     }
 
     @Override

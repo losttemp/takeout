@@ -93,16 +93,12 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
             title = intent.getStringExtra("title");
             categoryType=(int)intent.getLongExtra("categoryType",0);
             secondCategoryType=(int)intent.getLongExtra("secondCategoryType",0);
-            Lg.getInstance().e(TAG,"title:"+title);
-            Lg.getInstance().e(TAG,"categoryType:"+categoryType);
-            Lg.getInstance().e(TAG,"secondCategoryType:"+secondCategoryType);
         }
     }
 
     private void initData (){
         filterConditionsReq =new FilterConditionsReq();
-        filterConditionsReq.setLatitude(Constant.LATITUDE);
-        filterConditionsReq.setLongitude(Constant.LONGITUDE);
+        
     
         if (getResources().getString(R.string.stroe_type_cake).equals(title)){
             categoryType=cakeCategoryType;
@@ -194,7 +190,9 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
     @Override
     public void onBusinessBeanSuccess(BusinessBean data) {
-        Lg.getInstance().e(TAG,"data:"+data);
+        if (data==null||data.getMeituan()==null||data.getMeituan().getmBusiness()==null){
+            return;
+        }
         mBusiness=data.getMeituan().getmBusiness();
         if (mBusiness.getCurrentPageIndex() == 1) {
             mOpenPoiBaseInfoList.clear(); 
@@ -247,7 +245,6 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     private void loadMoreData(){
         if (mBusiness!=null&&mBusiness.getHaveNextPage() == 1) {
             poilistReq.setPage_index((mBusiness.getCurrentPageIndex() + 1));
-            Lg.getInstance().e(TAG,"data:"+poilistReq.getPage_index());
             getPresenter().requestBusinessBean(poilistReq);
         } else {
             mRefreshLayout.finishLoadmore();
@@ -266,6 +263,9 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
     @Override
     public void onFilterConditionsSuccess(FilterConditionsResponse data) {
+        if (data==null||data.getMeituan()==null||data.getMeituan().getData().getCategory_filter_list().isEmpty()){
+            return;
+        }
         activityFilterList =data.getMeituan().getData().getActivity_filter_list();
         mActivityFilterPopWindow.setData(activityFilterList);
         
@@ -279,6 +279,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     }
     
     private List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> getSortTypeTab(List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> sortTypes) {
+        List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> sortTypeTabs = new ArrayList<>();
         if (sortTypes != null && !sortTypes.isEmpty()) {
             int size = sortTypes.size();
             for (int i = 0; i < size; i++) {
@@ -293,6 +294,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     }
 
     private List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> getSortTypeList(List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> sortTypes) {
+        List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> sortTypeList = new ArrayList<>();
         if (sortTypes != null && !sortTypes.isEmpty()) {
             int size = sortTypes.size();
             for (int i = 0; i < size; i++) {
@@ -310,7 +312,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     @Override
     public void onFilterConditionsError(String error) {
 
-        Lg.getInstance().e(TAG,"error:"+error);
+        Lg.getInstance().d(TAG,"error:"+error);
     }
  
    
@@ -327,11 +329,11 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         BusinessBean.MeituanBean.Business.OpenPoiBaseInfo mOpenPoiBaseInfo=mOpenPoiBaseInfoList.get(position);
         if (mOpenPoiBaseInfo.getStatus()==Constant.STROE_STATUS_BREAK){
             Toast.makeText(BusinessActivity.this,getResources().getString(R.string.tips_earliest_delivery_time),Toast.LENGTH_LONG).show();
-        }else{
+        }
             Intent intent = new Intent(BusinessActivity.this, FoodListActivity.class);
             intent.putExtra(Constant.STORE_ID, mOpenPoiBaseInfo.getWmPoiId());
             startActivity(intent);
-        }
+        
     }
     
     @Override

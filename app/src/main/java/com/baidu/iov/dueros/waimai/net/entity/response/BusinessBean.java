@@ -314,6 +314,10 @@ public class BusinessBean {
                 @SerializedName("product_list")
                 private List<Product> productList;
 
+                @Expose
+                @SerializedName("categoryInfoList")
+                private List<CategoryInfo> categoryInfoList;
+
                 public long getWmPoiId() {
                     return wmPoiId;
                 }
@@ -482,6 +486,15 @@ public class BusinessBean {
                     this.productList = productList;
                 }
 
+
+                public List<CategoryInfo> getCategoryInfoList() {
+                    return categoryInfoList;
+                }
+
+                public void setCategoryInfoList(List<CategoryInfo> categoryInfoList) {
+                    this.categoryInfoList = categoryInfoList;
+                }
+
                 @Override
                 public String toString() {
                     return "OpenPoiBaseInfo{" +
@@ -503,12 +516,12 @@ public class BusinessBean {
                             ", invoiceSupport=" + invoiceSupport +
                             ", invoiceMinPrice=" + invoiceMinPrice +
                             ", averagePriceTip='" + averagePriceTip + '\'' +
-                            ", poiTypeIcon=" + poiTypeIcon +
+                            ", poiTypeIcon='" + poiTypeIcon + '\'' +
                             ", discounts=" + discounts +
                             ", productList=" + productList +
+                            ", categoryInfoList=" + categoryInfoList +
                             '}';
                 }
-
 
                 public static class Discount {
 
@@ -608,6 +621,39 @@ public class BusinessBean {
                                 ", name='" + name + '\'' +
                                 ", price=" + price +
                                 ", picture='" + picture + '\'' +
+                                '}';
+                    }
+                }
+                
+                public static  class CategoryInfo{
+                    @Expose
+                    @SerializedName("name")
+                    private String name;
+                    @Expose
+                    @SerializedName("level")
+                    private int level;
+
+                    public String getName() {
+                        return name;
+                    }
+
+                    public void setName(String name) {
+                        this.name = name;
+                    }
+
+                    public int getLevel() {
+                        return level;
+                    }
+
+                    public void setLevel(int level) {
+                        this.level = level;
+                    }
+
+                    @Override
+                    public String toString() {
+                        return "CategoryInfo{" +
+                                "name='" + name + '\'' +
+                                ", level=" + level +
                                 '}';
                     }
                 }
