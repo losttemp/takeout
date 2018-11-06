@@ -23,12 +23,9 @@ public class StoreListModel implements IStoreListModel {
 
 	@Override
 	public void requestStoreList(StoreReq storeReq, final RequestCallback callback) {
-		if (callback == null) {
+		if (callback == null || Constant.LONGITUDE == -1 || Constant.LATITUDE == -1) {
 			return;
 		}
-
-		storeReq.setLongitude(Constant.LONGITUDE);
-		storeReq.setLatitude(Constant.LATITUDE);
 
 		ApiUtils.getStoreList(storeReq, new ApiCallBack<StoreResponse>() {
 			@Override
@@ -47,8 +44,6 @@ public class StoreListModel implements IStoreListModel {
 	@Override
 	public void requestFilterList(FilterConditionReq filterConditionReq, final RequestCallback
 			callback) {
-		filterConditionReq.setLongitude(Constant.LONGITUDE);
-		filterConditionReq.setLatitude(Constant.LATITUDE);
 
 		ApiUtils.getFilterList(filterConditionReq, new ApiCallBack<FilterConditionResponse>() {
 			@Override

@@ -5,7 +5,6 @@ import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.SearchSuggestReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
-import com.baidu.iov.dueros.waimai.utils.Constant;
 
 public class SearchModel implements ISearchModel {
 
@@ -27,8 +26,6 @@ public class SearchModel implements ISearchModel {
 		}
 
 		SearchSuggestReq searchSuggestReq = new SearchSuggestReq();
-		searchSuggestReq.setLongitude(Constant.LONGITUDE);
-		searchSuggestReq.setLatitude(Constant.LATITUDE);
 		searchSuggestReq.setQuery(query);
 
 		ApiUtils.getSearchSuggest(searchSuggestReq, new ApiCallBack<SearchSuggestResponse>() {

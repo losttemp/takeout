@@ -10,8 +10,10 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.location.BDLocation;
 
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
@@ -135,4 +137,10 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		finish();
 	}
 
+	@Override
+	public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
+		super.locationCallBack(isSuccess, bdLocation);
+		mStoreListFragment.loadFirstPage(new StoreReq());
+
+	}
 }

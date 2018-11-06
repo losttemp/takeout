@@ -1,8 +1,8 @@
 package com.baidu.iov.dueros.waimai.net.entity.request;
 
-import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
+import com.baidu.iov.dueros.waimai.net.entity.base.LatLongRequestBase;
 
-public class StoreReq extends RequestBase {
+public class StoreReq extends LatLongRequestBase {
 	private Integer longitude;
 	private Integer latitude;
 	private Integer sortType;

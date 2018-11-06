@@ -1,8 +1,8 @@
 package com.baidu.iov.dueros.waimai.net.entity.request;
 
-import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
+import com.baidu.iov.dueros.waimai.net.entity.base.LatLongRequestBase;
 
-public class FilterConditionReq extends RequestBase {
+public class FilterConditionReq extends LatLongRequestBase {
 	private Integer longitude;
 	private Integer latitude;
 	private Integer navigate_type;
