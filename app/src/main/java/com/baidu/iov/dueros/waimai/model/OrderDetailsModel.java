@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
@@ -42,18 +43,19 @@ public class OrderDetailsModel implements IOrderDetailsModel {
     }
 
     @Override
-    public void requestOrderCancel(OrderDetailsReq orderDetailsReq, final RequestCallback callback) {
+    public void requestOrderCancel(OrderCancelReq orderCancelReq, final RequestCallback callback) {
         if (callback == null) {
             return;
         }
-        ApiUtils.getOrderCancel(orderDetailsReq, new ApiCallBack<OrderCancelResponse>() {
+        ApiUtils.getOrderCancel(orderCancelReq, new ApiCallBack<OrderCancelResponse>() {
             @Override
             public void onSuccess(OrderCancelResponse data) {
-
+                callback.onSuccess(data);
             }
 
             @Override
             public void onFailed(String msg) {
+                callback.onFailure(msg);;
             }
         });
     }

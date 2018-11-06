@@ -2,19 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/close"
             android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/ic_menu_close" />
 
         <TextView
             android:id="@+id/title"
@@ -25,12 +28,12 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp">
-    </View>
+        android:layout_height="2dp"
+        android:background="@color/gray"></View>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:gravity="center">
 
         <TextView
@@ -41,18 +44,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="80dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/dialog_positive"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:background="@color/gray" />
+
+        <View
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <Button
             android:id="@+id/dialog_negative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="30dp"
+            android:background="@color/white" />
     </LinearLayout>
 </LinearLayout>

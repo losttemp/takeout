@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,25 +18,31 @@ import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.FoodListAdaper;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
+import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 
 
+import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
 
-public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, OrderDetailsPresenter.OrderDetailsUi>implements OrderDetailsPresenter.OrderDetailsUi, View.OnClickListener {
+public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, OrderDetailsPresenter.OrderDetailsUi> implements OrderDetailsPresenter.OrderDetailsUi, View.OnClickListener {
     /**
      *
      */
-    private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod,mPayStatus;
+    private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod, mPayStatus;
     private ListView mFood;
-    private RelativeLayout mPayMethodInfo;
+    private Button mRepeatOrder, mPayOrder, mCancelOrder;
     private FoodListAdaper mFoodListAdaper;
     private OrderDetailsReq mOrderDetailsReq;
+    private OrderCancelReq mOrderCancelReq;
     private long order_id;
     private String user_phone;
     private ArrayMap<String, String> map;
@@ -65,7 +72,9 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private void setListener() {
         findViewById(R.id.repeat_order).setOnClickListener(this);
         findViewById(R.id.cancel_order).setOnClickListener(this);
+        findViewById(R.id.pay_order).setOnClickListener(this);
         findViewById(R.id.phone).setOnClickListener(this);
+        findViewById(R.id.back).setOnClickListener(this);
     }
 
     private void initView() {
@@ -82,12 +91,15 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         mOrderTime = (TextView) findViewById(R.id.order_time);
         mPayMethod = (TextView) findViewById(R.id.pay_method);
         mFood = (ListView) findViewById(R.id.ll_food);
-        mPayMethodInfo = (RelativeLayout) findViewById(R.id.pay_method_info);
-        mPayStatus = (TextView)findViewById(R.id.pay_status);
+        mPayStatus = (TextView) findViewById(R.id.pay_status);
+        mRepeatOrder = (Button) findViewById(R.id.repeat_order);
+        mPayOrder = (Button) findViewById(R.id.pay_order);
+        mCancelOrder = (Button) findViewById(R.id.cancel_order);
     }
 
     private void setTextView() {
-        mArrivalTime.setText(String.valueOf(mOrderDetails.getEstimate_arrival_time()));
+        //getPayStatus(3);
+        getPayStatus(mOrderDetails.getPay_status());
         mBusinessName.setText(mOrderDetails.getPoi_name());
         mPackingFee.setText("¥" + mOrderDetails.getBox_total_price());
         mDistributionFee.setText("¥" + mOrderDetails.getShipping_fee());
@@ -99,25 +111,53 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         mOrderId.setText(String.valueOf(mOrderDetails.getOrder_id()));
         mOrderTime.setText(String.valueOf(mOrderDetails.getCtime()));
         if (mOrderDetails.getWm_order_pay_type() == 1) {
-            mPayMethod.setText("货到付款");
+            mPayMethod.setText(R.string.order_pay_type1);
         } else if (mOrderDetails.getWm_order_pay_type() == 2) {
-            mPayMethod.setText("在线支付");
-        }
-        if(mOrderDetails.getPay_status()==1)
-        {
-
+            mPayMethod.setText(R.string.order_pay_type2);
         }
         List<OrderDetailsResponse.MeituanBean.DataBean.FoodListBean> mfoodList = mOrderDetails.getFood_list();
         mFoodListAdaper = new FoodListAdaper(this);
         mFoodListAdaper.setData(mfoodList);
         mFood.setAdapter(mFoodListAdaper);
+    }
 
+    private void hidePayView() {
+        mCancelOrder.setVisibility(View.GONE);
+        mPayOrder.setVisibility(View.GONE);
+        mRepeatOrder.setVisibility(View.GONE);
+        mArrivalTime.setVisibility(View.GONE);
+    }
 
+    private void getPayStatus(int status) {
+        hidePayView();
+        if (status == 1) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.pay_done);
+        } else if (status == 2) {
+            mPayOrder.setVisibility(View.VISIBLE);
+            mCancelOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.count_down_timer);
+        } else if (status == 3) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mCancelOrder.setVisibility(View.VISIBLE);
+            mArrivalTime.setVisibility(View.VISIBLE);
+            String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time());
+            mPayStatus.setText(R.string.have_paid);
+            mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
+        }
+    }
+
+    public String formatTime(long time) {
+        Date date = new Date(time);
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+        return format.format(date);
     }
 
     private void initData() {
-        order_id = Long.parseLong("15053513663693918");
-        user_phone = "18201010600";
+//        order_id = Long.parseLong("15053512850898388");
+//        user_phone = "18201010600";
+        order_id = getIntent().getLongExtra(Constant.ORDER_ID,-1);
+        user_phone = getIntent().getStringExtra(Constant.USER_PHONE);
         mOrderDetailsReq = new OrderDetailsReq(order_id, user_phone);
         loadData();
     }
@@ -130,20 +170,33 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.back:
+                finish();
+                break;
             case R.id.repeat_order:
+                Intent intentFoodList = new Intent(OrderDetailsActivity.this,FoodListActivity.class);
+                intentFoodList.putExtra(Constant.STORE_ID,mOrderDetails.getWm_poi_id());
+                startActivity(intentFoodList);
+                finish();
+                break;
+            case R.id.pay_order:
+                Intent intentPayment = new Intent(OrderDetailsActivity.this,PaymentActivity.class);
+                startActivity(intentPayment);
+                finish();
                 break;
             case R.id.cancel_order:
+                mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId(),mOrderDetailsReq.getPhone());
                 ConfirmDialog dialog = new ConfirmDialog.Builder(this)
-                        .setTitle("取消订单并退款")
-                        .setMessage("退款将原路退还你的支付账户，详情请查看退款进度")
-                        .setNegativeButton("取消订单", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.order_cancel_title)
+                        .setMessage(R.string.order_cancel_message)
+                        .setNegativeButton(R.string.order_cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                getPresenter().requestOrderCancel(mOrderDetailsReq);
+                                getPresenter().requestOrderCancel(mOrderCancelReq);
                                 dialog.dismiss();
                             }
                         })
-                        .setPositiveButton("先等等", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.order_cancel_positive, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -160,15 +213,15 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.phone:
                 ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
-                        .setTitle("温馨提示")
-                        .setMessage("该订单需要联系客服取消，确定拨打电话123456789取消吗？")
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.remind_title)
+                        .setMessage(R.string.remind_message)
+                        .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         })
-                        .setPositiveButton("10109777", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.remind_phone, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(Intent.ACTION_CALL);
@@ -201,7 +254,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
         mOrderCancel = data.getErrorInfo();
-        Log.d("xss","OrderCancel = "+mOrderCancel.getFailCode());
         Toast.makeText(this,"订单已取消",Toast.LENGTH_LONG).show();
 
     }
