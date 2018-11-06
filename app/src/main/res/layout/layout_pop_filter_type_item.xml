@@ -9,7 +9,7 @@
 		android:id="@+id/tv_type_name"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:textSize="16sp"
+		android:textSize="14sp"
 		tools:text="@string/tools_text_filter_type" />
 
 	<GridView
@@ -18,7 +18,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginTop="10dp"
 		android:layout_marginBottom="10dp"
-		android:numColumns="3"
+		android:numColumns="4"
 		android:scrollbars="none"
 		tools:listitem="@layout/layout_filter_sub_type_item" />
 

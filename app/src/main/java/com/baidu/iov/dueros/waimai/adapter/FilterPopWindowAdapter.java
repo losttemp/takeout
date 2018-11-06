@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,13 @@ public class FilterPopWindowAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.tvTypeName.setText(mFilterList.get(position).getGroup_title());
+		String name = mFilterList.get(position).getGroup_title();
+		if (!TextUtils.isEmpty(name)) {
+			viewHolder.tvTypeName.setText(mFilterList.get(position).getGroup_title());
+			viewHolder.tvTypeName.setVisibility(View.VISIBLE);
+		} else {
+			viewHolder.tvTypeName.setVisibility(View.GONE);
+		}
 
 		final List<ActivityFilterListBean.ItemsBean> subTypeList = new ArrayList<>();
 		subTypeList.addAll(mFilterList.get(position).getItems());

@@ -7,13 +7,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
+import com.baidu.location.Poi;
+
+import java.util.List;
 
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
@@ -27,6 +32,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	private AppCompatTextView mTvTitle;
 
 	private StoreListFragment mStoreListFragment;
+	private BDLocation mBDLocation;
 
 	@Override
 	HomePresenter createPresenter() {
@@ -60,10 +66,11 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 	private void iniData() {
 		//address
+		mTvTitle.setText("地址");
+		initLocation();
 		Drawable drawable = getResources().getDrawable(R.mipmap.arrow_down_white);
 		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
 		mTvTitle.setCompoundDrawables(null, null, drawable, null);
-		mTvTitle.setText("地址");
 
 		//fragment
 		mStoreListFragment = new StoreListFragment();
@@ -141,6 +148,31 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
 		super.locationCallBack(isSuccess, bdLocation);
 		mStoreListFragment.loadFirstPage(new StoreReq());
+		mStoreListFragment.requestFilterList();
+
+		mBDLocation = bdLocation;
+		if (isSuccess && mBDLocation != null) {
+			List<Poi> addrList = mBDLocation.getPoiList();
+			if (addrList != null && addrList.size() > 0
+					&& (!TextUtils.isEmpty(addrList.get(0).getName()))) {
+				String addr = addrList.get(0).getName();
+				mTvTitle.setText(addr);
+			}
+		}
 
 	}
+
+	private void initLocation() {
+		LocationManager instance = LocationManager.getInstance(this);
+		mBDLocation = instance.getLastKnownLocation();
+		if (mBDLocation != null) {
+			List<Poi> addrList = mBDLocation.getPoiList();
+			if (addrList != null && addrList.size() > 0
+					&& (!TextUtils.isEmpty(addrList.get(0).getName()))) {
+				String addr = addrList.get(0).getName();
+				mTvTitle.setText(addr);
+			}
+		}
+	}
+
 }
