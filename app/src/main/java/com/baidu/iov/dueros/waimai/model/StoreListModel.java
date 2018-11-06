@@ -23,7 +23,7 @@ public class StoreListModel implements IStoreListModel {
 
 	@Override
 	public void requestStoreList(StoreReq storeReq, final RequestCallback callback) {
-		if (callback == null || Constant.LONGITUDE == -1 || Constant.LATITUDE == -1) {
+		if (callback == null) {
 			return;
 		}
 

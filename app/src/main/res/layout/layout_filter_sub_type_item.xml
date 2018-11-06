@@ -12,7 +12,7 @@
 		android:background="@drawable/shape_pop_filter_set_bg"
 		android:padding="10dp"
 		android:textColor="@color/black"
-		android:textSize="16sp"
+		android:textSize="12sp"
 		tools:text="@string/tools_text_filter_sub_type" />
 
 </RelativeLayout>

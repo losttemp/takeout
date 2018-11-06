@@ -140,13 +140,12 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mTvDistance.setOnClickListener(this);
 
 		mStoreReq = new StoreReq();
-		if (mFromPageType != Constant.STORE_FRAGMENT_FROM_SEARCH) {
+		if (mFromPageType != Constant.STORE_FRAGMENT_FROM_SEARCH &&
+				Constant.LONGITUDE > 0 && Constant.LATITUDE > 0) {
 			loadFirstPage(mStoreReq);
 		}
 
-		//request filter condition list
-		mFilterConditionReq = new FilterConditionReq();
-		mPresenter.requestFilterList(mFilterConditionReq);
+		requestFilterList();
 	}
 
 	@Override
@@ -162,6 +161,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 							mStoreReq.setSortType((int) type.getCode());
 							mTvSort.setText(type.getName());
 							loadFirstPage(mStoreReq);
+							mTvSales.setTextColor(mContext.getResources().getColor(
+									R.color.dark_gray));
+							mTvDistance.setTextColor(mContext.getResources().getColor(
+									R.color.dark_gray));
 						}
 					}));
 					mSortPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -174,7 +177,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					});
 				}
 				if (mSortList.size() == 0) {
-					mPresenter.requestFilterList(mFilterConditionReq);
+					requestFilterList();
 				}
 				mTvSort.setTextColor(getResources().getColor(R.color.black));
 				mIvSort.setImageResource(R.mipmap.arrow_up);
@@ -202,7 +205,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					});
 				}
 				if (mFilterList.size() == 0) {
-					mPresenter.requestFilterList(mFilterConditionReq);
+					requestFilterList();
 				}
 				mTvFilter.setTextColor(getResources().getColor(R.color.black));
 				mIvFilter.setImageResource(R.mipmap.arrow_up);
@@ -214,12 +217,20 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				mTvSort.setText(getResources().getString(R.string.store_sort));
 				mStoreReq.setSortType(SALE_NUM_SORT_INDEX);
 				loadFirstPage(mStoreReq);
+				mTvSales.setTextColor(mContext.getResources().getColor(
+						R.color.black));
+				mTvDistance.setTextColor(mContext.getResources().getColor(
+						R.color.dark_gray));
 				break;
 
 			case R.id.tv_distance:
 				mTvSort.setText(getResources().getString(R.string.store_sort));
 				mStoreReq.setSortType(DISTANCE_SORT_INDEX);
 				loadFirstPage(mStoreReq);
+				mTvSales.setTextColor(mContext.getResources().getColor(
+						R.color.dark_gray));
+				mTvDistance.setTextColor(mContext.getResources().getColor(
+						R.color.black));
 				break;
 
 			default:
@@ -365,6 +376,13 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				mLlFilter.getVisibility() == View.GONE) {
 			mLlFilter.setVisibility(View.VISIBLE);
 		}
+	}
+
+	/**
+	 * request filter condition list
+	 */
+	public void requestFilterList() {
+		mPresenter.requestFilterList(new FilterConditionReq());
 	}
 
 }
