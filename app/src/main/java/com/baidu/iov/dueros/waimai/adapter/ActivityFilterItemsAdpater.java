@@ -48,8 +48,7 @@ public class ActivityFilterItemsAdpater extends RecyclerView.Adapter<ActivityFil
         FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter.Item  item=mData.get(i);
         itemsViewHolder.tvName.setText(mData.get(i).getName());
         itemsViewHolder.itemRl.setTag(i);
-        Lg.getInstance().e("ActivityFilterItemsAdpater","item.isChcked():"+item.isChcked());
-        if (item.isChcked()) {
+        if (item.getBubble_info().isIs_show()) {
              itemsViewHolder.tvName.setBackgroundResource(R.drawable.shape_type_selected_bg);
         }else {
             itemsViewHolder.tvName.setBackgroundResource(R.drawable.shape_pop_filter_set_bg);

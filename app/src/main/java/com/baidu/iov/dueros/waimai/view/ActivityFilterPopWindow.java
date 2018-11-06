@@ -70,7 +70,7 @@ public class ActivityFilterPopWindow extends PopupWindow {
 				StringBuffer migFilter = new StringBuffer();
 				for (FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter activityFilter : activityFilterList) {
 					for (FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter.Item item : activityFilter.getItems()) {
-						if (item.isChcked()) {
+						if (item.getBubble_info().isIs_show()) {
 							if (!TextUtils.isEmpty(migFilter)) {
 								migFilter.append(",");
 							}
@@ -88,8 +88,8 @@ public class ActivityFilterPopWindow extends PopupWindow {
 			public void onClick(View v) {
 				for (FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter activityFilter : activityFilterList) {
 					for (FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter.Item item : activityFilter.getItems()) {
-						if (item.isChcked()) {
-							item.setChcked(false);
+						if (item.getBubble_info().isIs_show()) {
+							item.getBubble_info().setIs_show(false);
 						}
 					}
 				}

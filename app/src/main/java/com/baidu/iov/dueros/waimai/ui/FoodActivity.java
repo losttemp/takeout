@@ -102,14 +102,21 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         gvSecondType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String title = categoryFilterList.get(lvFirstTypePos).getSub_category_list().get(position).getName();
-                if (position==0){
-                    title=categoryFilterList.get(lvFirstTypePos).getName();
+                FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter categoryFilter=categoryFilterList.get(lvFirstTypePos);
+                FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter.SubCategory subCategory=categoryFilter.getSub_category_list().get(position);
+                String title = subCategory.getName();
+                long categoryType=categoryFilter.getCode();
+                long secondCategoryType=subCategory.getCode();
+                if (lvFirstTypePos!=0&&position==0){
+                    title=categoryFilter.getName();
+                }
+                if (lvFirstTypePos==0){
+                    categoryType=getCategoryCode(secondCategoryType,categoryFilterList);
                 }
                 Intent itemIntent=new Intent(FoodActivity.this,BusinessActivity.class);
                 itemIntent.putExtra("title",  title);
-                itemIntent.putExtra("categoryType",  categoryFilterList.get(lvFirstTypePos).getCode());
-                itemIntent.putExtra("secondCategoryType", categoryFilterList.get(lvFirstTypePos).getSub_category_list().get(position).getCode());
+                itemIntent.putExtra("categoryType",  categoryType);
+                itemIntent.putExtra("secondCategoryType", secondCategoryType);
                 startActivity(itemIntent);
             }
         });
@@ -131,6 +138,26 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
             tvNoResult.setVisibility(View.VISIBLE);
         }
     }
+
+    private long getCategoryCode(long secondCategoryCode,List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter> categoryFilterList){
+        long categoryCode =0;
+        if (categoryFilterList==null||categoryFilterList.isEmpty()||categoryFilterList.size()==1){
+            return categoryCode;
+        }
+        int size =categoryFilterList.size();
+        for (int i = 1; i < size; i++) {
+            if (categoryFilterList.get(i).getSub_category_list().isEmpty()){
+                return categoryCode;
+            }
+            int subCategorySize =categoryFilterList.get(i).getSub_category_list().size();
+            for (int j = 1; j < subCategorySize; j++) {
+                if (secondCategoryCode==categoryFilterList.get(i).getSub_category_list().get(j).getCode()){
+                    categoryCode=categoryFilterList.get(i).getCode();
+                }
+            }
+        }
+        return  categoryCode;
+    }
     
     private List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter.SubCategory> getAllSubCategory(List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter> categoryFilterList){
         List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter.SubCategory> subCategorys=new ArrayList<>();
@@ -140,6 +167,9 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         
         int size =categoryFilterList.size();
         for (int i = 1; i < size; i++) {
+            if (categoryFilterList.get(i).getSub_category_list().isEmpty()){
+                return subCategorys;
+            }
             int subCategorySize =categoryFilterList.get(i).getSub_category_list().size();
             for (int j = 1; j < subCategorySize; j++) {
                 subCategorys.add(categoryFilterList.get(i).getSub_category_list().get(j));

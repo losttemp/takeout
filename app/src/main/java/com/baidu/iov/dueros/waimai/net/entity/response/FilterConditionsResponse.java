@@ -396,7 +396,7 @@ public class FilterConditionsResponse {
                     private String  name;
                     private String  icon;
                     private String  remarks;
-                    private boolean chcked;
+                    private BubbleInfo bubble_info;
 
                     public String getCode() {
                         return code;
@@ -430,12 +430,12 @@ public class FilterConditionsResponse {
                         this.remarks = remarks;
                     }
 
-                    public boolean isChcked() {
-                        return chcked;
+                    public BubbleInfo getBubble_info() {
+                        return bubble_info;
                     }
 
-                    public void setChcked(boolean chcked) {
-                        this.chcked = chcked;
+                    public void setBubble_info(BubbleInfo bubble_info) {
+                        this.bubble_info = bubble_info;
                     }
 
                     @Override
@@ -445,12 +445,42 @@ public class FilterConditionsResponse {
                                 ", name='" + name + '\'' +
                                 ", icon='" + icon + '\'' +
                                 ", remarks='" + remarks + '\'' +
-                                ", chcked='" + chcked + '\'' +
+                                ", bubble_info=" + bubble_info +
                                 '}';
                     }
-                }
-            
 
+                    public static class BubbleInfo{
+                        private boolean is_show;
+                        private int  bubble_version;
+
+                        public boolean isIs_show() {
+                            return is_show;
+                        }
+
+                        public void setIs_show(boolean is_show) {
+                            this.is_show = is_show;
+                        }
+
+                        public int getBubble_version() {
+                            return bubble_version;
+                        }
+
+                        public void setBubble_version(int bubble_version) {
+                            this.bubble_version = bubble_version;
+                        }
+
+                        @Override
+                        public String toString() {
+                            return "BubbleInfo{" +
+                                    "is_show=" + is_show +
+                                    ", bubble_version=" + bubble_version +
+                                    '}';
+                        }
+                    }
+                }
+                
+
+                
            
               
 
