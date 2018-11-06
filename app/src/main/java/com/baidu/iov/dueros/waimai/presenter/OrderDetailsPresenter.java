@@ -6,6 +6,7 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.IOrderDetailsModel;
 import com.baidu.iov.dueros.waimai.model.OrderDetailsModel;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
@@ -82,8 +83,8 @@ public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.Order
         });
     }
 
-    public void requestOrderCancel(OrderDetailsReq orderDetailsReq) {
-        mModel.requestOrderCancel(orderDetailsReq, new RequestCallback<OrderCancelResponse>() {
+    public void requestOrderCancel(OrderCancelReq orderCancelReq) {
+        mModel.requestOrderCancel(orderCancelReq, new RequestCallback<OrderCancelResponse>() {
             @Override
             public void onSuccess(OrderCancelResponse data) {
                 if (getUi() != null) {

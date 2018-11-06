@@ -34,6 +34,7 @@ public class Constant {
     public static final int STROE_STATUS_BUSY = 2;
     public static final int STROE_STATUS_BREAK = 3;
     public static final String ORDER_ID = "order_id";
+    public static final String USER_PHONE = "user_phone";
     public static String ACCOUNT_LOGIN_SUCCESS = "login_success";
     public static String ACCOUNT_LOGIN_FAIL = "login_fail";
     public static String ACCOUNT_AUTH_SUCCESS = "auth_success";
