@@ -88,13 +88,11 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
     @Override
     protected void onResume() {
         super.onResume();
-        getPresenter().registerCmd(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        getPresenter().unregisterCmd(this);
     }
 
 

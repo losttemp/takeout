@@ -2,8 +2,10 @@ package com.baidu.iov.dueros.waimai.model;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 
 import android.util.Log;
@@ -38,5 +40,23 @@ public class OrderListModel implements IOrderListModel {
             }
         });
 
+    }
+
+    @Override
+    public void requestOrderCancel(OrderDetailsReq orderDetailsReq, final RequestCallback callback) {
+        if (callback == null) {
+            return;
+        }
+        ApiUtils.getOrderCancel(orderDetailsReq, new ApiCallBack<OrderCancelResponse>() {
+            @Override
+            public void onSuccess(OrderCancelResponse data) {
+                callback.onSuccess(data);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                callback.onFailure(msg);
+            }
+        });
     }
 }
