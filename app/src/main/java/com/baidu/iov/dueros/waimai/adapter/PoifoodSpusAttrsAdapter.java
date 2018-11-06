@@ -31,11 +31,15 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
 
     public PoifoodSpusAttrsAdapter(Context context, List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrsBeans,
                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusBeans,
-                                   PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
+                                   PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
+                                   List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs,
+                                   List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus) {
         this.context = context;
         this.attrsBeans = attrsBeans;
         this.skusBeans = skusBeans;
         this.spusBean = spusBean;
+        this.choiceAttrs = choiceAttrs;
+        this.choiceSkus = choiceSkus;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -93,10 +97,6 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                 public void onCheckedChanged(RadioGroup radioGroup, int id) {
                     for (int k = 0; k < values.size(); k++) {
                         if (id == values.get(k).getId()) {
-                            choiceAttrs = spusBean.getAttrs().get(position).getChoiceAttrs();
-                            if (choiceAttrs == null) {
-                                choiceAttrs = new ArrayList<>();
-                            }
                             choiceAttrs.clear();
                             choiceAttrs.add(values.get(k));
                             spusBean.getAttrs().get(position).setChoiceAttrs(choiceAttrs);
@@ -118,10 +118,6 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                     public void onCheckedChanged(RadioGroup radioGroup, int id) {
                         for (int i = 0; i < skusBeans.size(); i++) {
                             if (id == skusBeans.get(i).getId()) {
-                                choiceSkus = spusBean.getChoiceSkus();
-                                if (choiceSkus == null) {
-                                    choiceSkus = new ArrayList<>();
-                                }
                                 choiceSkus.clear();
                                 choiceSkus.add(skusBeans.get(i));
                                 spusBean.setChoiceSkus(choiceSkus);

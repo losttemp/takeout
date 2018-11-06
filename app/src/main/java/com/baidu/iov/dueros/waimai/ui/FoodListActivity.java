@@ -230,7 +230,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             @Override
             public void onClick(View view) {
                 View popView = getPopView(R.layout.dialog_shop_details);
-                showFoodListActivityDialog(view, popView, 0, 0);
+                showFoodListActivityDialog(view, popView);
             }
         });
 
@@ -245,7 +245,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         getPresenter().requestData(map);
     }
 
-    public void showFoodListActivityDialog(View view, View contentView, final int section, final int position) {
+    public void showFoodListActivityDialog(View view, View contentView) {
         final PopupWindow window = new PopupWindow(contentView,
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT, true);
@@ -265,15 +265,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             @Override
             public void onDismiss() {
                 backgroundAlpha(1.0f);
-                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean = foodSpuTagsBeans.get(section).getSpus().get(position);
-                if (spusBean.getChoiceSkus() != null) {
-                    spusBean.getChoiceSkus().clear();
-                }
-                for (int i = 0; i < spusBean.getAttrs().size(); i++) {
-                    if (spusBean.getAttrs().get(i).getChoiceAttrs() != null) {
-                        spusBean.getAttrs().get(i).getChoiceAttrs().clear();
-                    }
-                }
             }
         });
     }

@@ -69,7 +69,13 @@ public class ShoppingCartAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int num = spusBeans.get(position).getNumber();
-                num++;
+                int min_order_count = 1;
+                if (spusBeans.get(position).getSkus().size() > 1) {
+                    min_order_count = spusBeans.get(position).getChoiceSkus().get(0).getMin_order_count();
+                } else {
+                    min_order_count = spusBeans.get(position).getSkus().get(0).getMin_order_count();
+                }
+                num += min_order_count;
                 spusBeans.get(position).setNumber(num);
                 viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
                 if (shopToDetailListener != null) {
