@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.bumptech.glide.Glide;
 
 import java.text.DecimalFormat;
@@ -57,7 +59,7 @@ public class ProductInfoAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.im_photo = convertView.findViewById(R.id.product_photo);
             viewHolder.tv_name = convertView.findViewById(R.id.product_name);
-            viewHolder.attrs = convertView.findViewById(R.id.product_attrs);
+            viewHolder.tv_attrs = convertView.findViewById(R.id.product_attrs);
             viewHolder.tv_count = convertView.findViewById(R.id.product_count);
             viewHolder.tv_price = convertView.findViewById(R.id.product_price);
             viewHolder.tv_origin_price = convertView.findViewById(R.id.origin_price);
@@ -69,17 +71,41 @@ public class ProductInfoAdapter extends BaseAdapter {
 
         String pictureUrl = mProductList.get(position).getPicture();
         String name = mProductList.get(position).getName();
-        //String attrs = mProductList.get(position).getAttrs().get(position).;
+
+        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrsBeanList;
+        attrsBeanList = mProductList.get(position).getAttrs();
+        StringBuilder attrs = new StringBuilder();
+
+        if (attrsBeanList.size() > 0) {
+            for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrsBeanList){
+                for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean valuesBean : attrsBean.getChoiceAttrs())
+                    attrs.append(valuesBean.getValue() + " ");
+            }
+            viewHolder.tv_attrs.setText(attrs.toString());
+            viewHolder.tv_attrs.setVisibility(View.VISIBLE);
+        }else {
+            viewHolder.tv_attrs.setVisibility(View.INVISIBLE);
+        }
+
+
+        NumberFormat nf = new DecimalFormat("#.#");
         int count = mProductList.get(position).getNumber();
         double price = mProductList.get(position).getSkus().get(0).getPrice();
         double origin_price = mProductList.get(position).getSkus().get(0).getOrigin_price();
 
+        if (price > origin_price) {
+            viewHolder.tv_origin_price.setText(String.format(mContext.getResources().getString(R.string.cost_text), nf.format(origin_price)));
+            viewHolder.tv_origin_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            viewHolder.tv_origin_price.setVisibility(View.VISIBLE);
+            viewHolder.tv_discounts.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.tv_origin_price.setVisibility(View.INVISIBLE);
+            viewHolder.tv_discounts.setVisibility(View.INVISIBLE);
+        }
         Glide.with(mContext).load(pictureUrl).into(viewHolder.im_photo);
         viewHolder.tv_name.setText(name);
         viewHolder.tv_count.setText(String.format(mContext.getResources().getString(R.string.count_char), count));
-        NumberFormat nf = new DecimalFormat("#.#");
         viewHolder.tv_price.setText(String.format(mContext.getResources().getString(R.string.cost_text), nf.format(price)));
-        viewHolder.tv_origin_price.setText(String.format(mContext.getResources().getString(R.string.cost_text), nf.format(origin_price)));
 
         return convertView;
 
@@ -89,7 +115,7 @@ public class ProductInfoAdapter extends BaseAdapter {
 
         ImageView im_photo;
         TextView tv_name;
-        TextView attrs;
+        TextView tv_attrs;
         TextView tv_discounts;
         TextView tv_count;
         TextView tv_price;

@@ -134,6 +134,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:background="@drawable/delivery_text_border"
+                    android:padding="5dp"
                     android:layout_marginEnd="10dp"
                     android:textColor="@color/gray_text" />
 
@@ -283,7 +285,7 @@
                 android:background="@color/gray_bg"
                 android:gravity="center"
                 android:textColor="@color/white_bg"
-                android:text="去支付" />
+                android:text="@string/to_pay_text" />
         </LinearLayout>
 
     </RelativeLayout>

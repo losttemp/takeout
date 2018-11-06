@@ -52,7 +52,7 @@ public class SubmitInfoImpl implements ISubmitInfoModel {
             public void onSuccess(OrderSubmitBean data) {
                 Lg.getInstance().d("zhangbing","-----------Order ID " + data.getMeituan().getData().getOrder_id());
                 //OrderSubmitBean cinemaInfoData = parseCinemaInfo(data);
-                //callback.onSuccess(cinemaInfoData);
+                callback.onSuccess(data);
             }
 
             @Override

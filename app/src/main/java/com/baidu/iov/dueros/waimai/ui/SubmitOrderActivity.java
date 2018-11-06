@@ -44,6 +44,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     private static final String TAG = SubmitOrderActivity.class.getSimpleName();
 
+    public final static String TOTAL_COST = "total_cost";
+    public final static String ORDER_ID = "order_id";
+    public final static String SHOP_NAME = "shop_name";
+    public final static String PAY_URL = "pay_url";
+
     private final static int SELECT_DELIVERY_ADDRESS = 100;
     private RelativeLayout mArrivetimeLayout;
     private RelativeLayout mAddressUpdateLayout;
@@ -59,6 +64,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private TextView mDeliveryTypeTv;
     private ArrayMap<String, String> map;
     private static List<ArriveTimeBean.MeituanBean.DataBean> mDataBean;
+    private OrderSubmitBean.MeituanBean.DataBean mOrderInfo;
 
     private ListView mListViewDate;
     private ListView mListViewTime;
@@ -80,7 +86,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     public void initView() {
 
 /*
-        mPackingFee = findViewById(R.id.packing_fee);
 
         mDiscount = findViewById(R.id.discount);
 
@@ -116,6 +121,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mShopNameTv = findViewById(R.id.store_name);
         mDeliveryTypeTv = findViewById(R.id.delivery_type);
         mShippingFeeTv = findViewById(R.id.shipping_fee);
+        mPackingFee = findViewById(R.id.packing_fee);
 
         mArrivetimeLayout.setOnClickListener(this);
         mAddressUpdateLayout.setOnClickListener(this);
@@ -134,15 +140,24 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             double shippingFee = poiInfo.getShipping_fee();
             mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
 
+
+            double packingFee = 0;
+            for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : productList) {
+
+                packingFee = packingFee + spusBean.getSkus().get(0).getBox_num() * spusBean.getSkus().get(0).getBox_price();
+            }
+            mPackingFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(packingFee)));
+
             getPresenter().requestArriveTimeData(poiInfo.getWm_poi_id());
+
 
         }
 
         if (mDataBean != null) {
-
             String defaultType = mDataBean.get(0).getTimelist().get(0).getDate_type_tip();
             mTypeTipTv.setText(defaultType);
         }
+        load();
 
     }
 
@@ -162,7 +177,45 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         getPresenter().requestArriveTimeData(map);
     }
+
+
 */
+
+    public void load() {
+        PayLoadJsonBean payLoadJsonBean = new PayLoadJsonBean();
+        payLoadJsonBean.setUser_phone("18503040492");
+        payLoadJsonBean.setPay_source(3);
+        payLoadJsonBean.setReturn_url("www.meituan.com");
+
+        PayLoadJsonBean.WmOrderingListBean wmOrderingListBean = new PayLoadJsonBean.WmOrderingListBean();
+        wmOrderingListBean.setWm_poi_id("1505351");
+        wmOrderingListBean.setDelivery_time(0);
+        wmOrderingListBean.setPay_type(2);
+
+
+        List<PayLoadJsonBean.WmOrderingListBean.FoodListBean> foodListBeans = new ArrayList<>();
+        PayLoadJsonBean.WmOrderingListBean.FoodListBean foodListBean = new PayLoadJsonBean.WmOrderingListBean.FoodListBean();
+        foodListBean.setWm_food_sku_id(1239556963);
+        foodListBean.setCount(1);
+        foodListBeans.add(foodListBean);
+        wmOrderingListBean.setFood_list(foodListBeans);
+        payLoadJsonBean.setWm_ordering_list(wmOrderingListBean);
+
+        PayLoadJsonBean.WmOrderingUserBean wmOrderingUserBean = new PayLoadJsonBean.WmOrderingUserBean();
+        wmOrderingUserBean.setUser_phone("1323372555");
+        wmOrderingUserBean.setUser_name("肖");
+        wmOrderingUserBean.setUser_address("美团大厦");
+        wmOrderingUserBean.setAddr_longitude(95369826);
+        wmOrderingUserBean.setAddr_latitude(29735952);
+        wmOrderingUserBean.setAddress_id(1323372555);
+        payLoadJsonBean.setWm_ordering_user(wmOrderingUserBean);
+
+
+        OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
+        orderSubmitReq.setPayload(GsonUtil.toJson(payLoadJsonBean));
+        orderSubmitReq.setWm_pic_url("www.baidu.com");
+        getPresenter().requestOrderSubmitData(orderSubmitReq);
+    }
 
 
     @Override
@@ -179,47 +232,27 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             case R.id.delivery_info:
 
                 showPopwindow();
-                backgroundAlpha(0.6f);
+                backgroundAlpha(0.5f);
                 break;
 
             case R.id.to_pay:
-                PayLoadJsonBean payLoadJsonBean = new PayLoadJsonBean();
-                payLoadJsonBean.setUser_phone("18503040492");
-                payLoadJsonBean.setPay_source(3);
-                payLoadJsonBean.setReturn_url("www.meituan.com");
-
-                PayLoadJsonBean.WmOrderingListBean wmOrderingListBean = new PayLoadJsonBean.WmOrderingListBean();
-                wmOrderingListBean.setWm_poi_id("1505351");
-                wmOrderingListBean.setDelivery_time(0);
-                wmOrderingListBean.setPay_type(2);
 
 
-                List<PayLoadJsonBean.WmOrderingListBean.FoodListBean> foodListBeans = new ArrayList<>();
-                PayLoadJsonBean.WmOrderingListBean.FoodListBean foodListBean = new PayLoadJsonBean.WmOrderingListBean.FoodListBean();
-                foodListBean.setWm_food_sku_id(1239556963);
-                foodListBean.setCount(1);
-                foodListBeans.add(foodListBean);
-                wmOrderingListBean.setFood_list(foodListBeans);
-                payLoadJsonBean.setWm_ordering_list(wmOrderingListBean);
+                //Intent data = new Intent(this, PaySuccessActivity.class);
+                if (mOrderInfo != null) {
+                    double amount = 0;
+                    Long orderId = mOrderInfo.getOrder_id();
+                    String payUrl = mOrderInfo.getPayUrl();
+                    String shopName = null;
+                    Intent data = new Intent(this, PaymentActivity.class);
+                    data.putExtra(TOTAL_COST, amount);
+                    data.putExtra(ORDER_ID, orderId);
+                    data.putExtra(PAY_URL, payUrl);
+                    data.putExtra(SHOP_NAME, shopName);
+                    data.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(data);
+                }
 
-                PayLoadJsonBean.WmOrderingUserBean wmOrderingUserBean = new PayLoadJsonBean.WmOrderingUserBean();
-                wmOrderingUserBean.setUser_phone("1323372555");
-                wmOrderingUserBean.setUser_name("肖");
-                wmOrderingUserBean.setUser_address("美团大厦");
-                wmOrderingUserBean.setAddr_longitude(95369826);
-                wmOrderingUserBean.setAddr_latitude(29735952);
-                wmOrderingUserBean.setAddress_id(1323372555);
-                payLoadJsonBean.setWm_ordering_user(wmOrderingUserBean);
-
-
-                OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
-                orderSubmitReq.setPayload(GsonUtil.toJson(payLoadJsonBean));
-                orderSubmitReq.setWm_pic_url("www.baidu.com");
-                getPresenter().requestOrderSubmitData(orderSubmitReq);
-
-                Intent data = new Intent(this, PaySuccessActivity.class);
-                data.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(data);
                 break;
 
             default:
@@ -278,6 +311,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     String type = mDataBean.get(mCurDateItem).getTimelist().get(position).getDate_type_tip();
                     mTypeTipTv.setText(type);
                     String time = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_time();
+                    Lg.getInstance().d("zhangbing", "-----------type = " + type + "-----time = " + time);
                     if (!type.isEmpty() && type.equals(time)) {
                         mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), "14:20"));
                     } else {
@@ -286,7 +320,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
                     String shippingFee = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_shipping_fee().trim();
                     String value = StringUtils.substringBefore(shippingFee, getString(R.string.shipping_fee1_text));
-                    mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(Double.parseDouble(value))));
+                    if (!value.isEmpty()){
+
+                        mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(Double.parseDouble(value))));
+                    }
 
                 }
                 mCurTimeItem = position;
@@ -374,6 +411,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     @Override
     public void onOrderSubmitSuccess(OrderSubmitBean data) {
 
+        if (data != null) {
+            mOrderInfo = data.getMeituan().getData();
+        } else {
+            Lg.getInstance().d(TAG, "submit order failed !");
+        }
     }
 
     @Override
