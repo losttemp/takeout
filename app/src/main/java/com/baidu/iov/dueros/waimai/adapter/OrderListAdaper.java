@@ -26,14 +26,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
 
     private List<OrderListResponse.IovBean.DataBean> mOrderList;
     private Context mContext;
-    String user_phone;
-    String pay_status;
-    String food_name;
-    String wm_pic_url;
-    int total_price;
-    int food_num;
-    double food_price;
-    OrderListExtraBean extraBean;
+
     private OrderListExtraBean.OrderInfos.Food_list mOrderInfosfood_list;
 
     public OrderListAdaper(List<OrderListResponse.IovBean.DataBean> orderList,
@@ -57,16 +50,37 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         OrderListResponse.IovBean.DataBean order = mOrderList.get
                 (position);
 
-        pay_status = order.getOrder_status();
+        viewHolder.tvOneMore.setText(mContext.getResources().getString(R.string.one_more_order));
+        viewHolder.tvCancelOrder.setText(mContext.getResources().getString(R.string.order_cancel));
+        String pay_status = order.getOrder_status();
         switch (pay_status) {
             case "1":
-                pay_status = mContext.getResources().getString(R.string.paid);
-                break;
-            case "2":
-                pay_status = mContext.getResources().getString(R.string.to_be_paid);
+                pay_status = mContext.getResources().getString(R.string.waiting_to_pay);
+                viewHolder.tvOneMore.setText(mContext.getResources().getString(R.string.pay_order));
                 break;
             case "3":
-                pay_status = mContext.getResources().getString(R.string.completed);
+                pay_status = mContext.getResources().getString(R.string.have_paid);
+                break;
+            case "4":
+                pay_status = mContext.getResources().getString(R.string.pay_fail);
+                viewHolder.tvCancelOrder.setVisibility(View.GONE);
+                break;
+            case "5":
+                pay_status = mContext.getResources().getString(R.string.pay_invalid);
+                viewHolder.tvCancelOrder.setVisibility(View.GONE);
+                break;
+            case "6":
+                pay_status = mContext.getResources().getString(R.string.pay_refunding);
+                viewHolder.tvCancelOrder.setVisibility(View.GONE);
+                break;
+            case "7":
+                pay_status = mContext.getResources().getString(R.string.pay_refunded);
+                viewHolder.tvCancelOrder.setVisibility(View.GONE);
+                break;
+            case "8":
+                pay_status = mContext.getResources().getString(R.string.pay_cancel);
+                viewHolder.tvCancelOrder.setVisibility(View.GONE);
+                break;
             default:
                 break;
         }
@@ -74,20 +88,18 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         viewHolder.tvStoreName.setText(order.getOrder_name());
         viewHolder.tvOrderStatus.setText(pay_status);
         viewHolder.tvOrderTime.setText(order.getOrder_time());
-        viewHolder.tvCancelOrder.setText(mContext.getResources().getString(R.string.order_cancel));
-        viewHolder.tvOneMore.setText(mContext.getResources().getString(R.string.one_more_order));
         String extra = order.getExtra();
-        extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
-        user_phone = extraBean.getPayload().getUser_phone();
+        OrderListExtraBean extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
+        String user_phone = extraBean.getPayload().getUser_phone();
         int total_count = 0;
         for (int i = 0; i < extraBean.getOrderInfos().getFood_list().size(); i++) {
             total_count = total_count + extraBean.getOrderInfos().getFood_list().get(i).getCount();
         }
         mOrderInfosfood_list = extraBean.getOrderInfos().getFood_list().get(0);
-        food_name = mOrderInfosfood_list.getName();
-        food_num = mOrderInfosfood_list.getCount();
-        total_price = extraBean.getOrderInfos().getGoods_total_price();
-        wm_pic_url = extraBean.getOrderInfos().getWm_pic_url();
+        String food_name = mOrderInfosfood_list.getName();
+        int food_num = mOrderInfosfood_list.getCount();
+        int total_price = extraBean.getOrderInfos().getGoods_total_price();
+        String wm_pic_url = extraBean.getOrderInfos().getWm_pic_url();
 
         viewHolder.tvFood.setText(food_name);
         viewHolder.tvFoodNum.setText("x" + String.valueOf(food_num));

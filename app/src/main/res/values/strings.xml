@@ -93,10 +93,7 @@
     <string name="goods_total_count">共%d件商品</string>
     <string name="one_more_order">再来一单</string>
     <string name="no_order">没有订单</string>
-    <string name="to_be_paid">待支付</string>
-    <string name="paid">已支付</string>
     <string name="order_cancelled">订单已取消</string>
-    <string name="completed">已完成</string>
     <string name="cancel">取消</string>
     <string name="select_address">选择收货地址</string>
     <string name="add_address">新增收货地址</string>
@@ -151,8 +148,14 @@
     <string name="remind_phone">10109777</string>
     <string name="order_pay_type1">货到付款</string>
     <string name="order_pay_type2">在线支付</string>
+    <string name="waiting_to_pay">待支付</string>
     <string name="have_paid">已支付</string>
     <string name="pay_order">去支付</string>
     <string name="pay_done">已完成</string>
+    <string name="pay_fail">支付失败</string>
+    <string name="pay_invalid">已失效</string>
+    <string name="pay_refunding">退款中</string>
+    <string name="pay_refunded">已退款</string>
+    <string name="pay_cancel">已取消</string>
     <string name="arrival_time">预计%s到达</string>
 </resources>

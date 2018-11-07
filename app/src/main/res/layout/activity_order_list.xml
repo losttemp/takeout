@@ -18,7 +18,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/close" />
+            android:src="@drawable/back" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_title"

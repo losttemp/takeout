@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,6 +9,8 @@ import android.net.http.SslError;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
@@ -25,14 +28,13 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.request.MeituanAuthorizeReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.presenter.MeituanAuthPresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-
-import java.util.List;
 
 //import com.baidu.iov.dueros.waimai.waimaiapplication.R;
 
@@ -43,6 +45,7 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
     private WebView mWVMeituan;
     private ProgressBar progressBar;
     private MeituanAuthorizeReq mMeituanAuthReq;
+    private final String baiduUrl = "http://sandbox.codriverapi.baidu.com/";
     Bundle savedInstanceState;
 
     @Override
@@ -60,11 +63,6 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
         init();
-        if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
-            getPresenter().requestAccountInfo();
-        } else {
-            getPresenter().requestMeituanAuth(mMeituanAuthReq);
-        }
         setContentView(R.layout.activity_meituan_login);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mWVMeituan = (WebView) findViewById(R.id.meituan_login);
@@ -83,6 +81,12 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
 
         mWVMeituan.getSettings().setSupportZoom(true);
         mWVMeituan.getSettings().setBuiltInZoomControls(true);
+
+        if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
+            getPresenter().requestAccountInfo();
+        } else {
+            getPresenter().requestMeituanAuth(mMeituanAuthReq);
+        }
     }
 
     @Override
@@ -152,8 +156,15 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
                 getPresenter().requestAuthInfo();
             }
         } else {
+            syncCookie(this, baiduUrl);
             mWVMeituan.loadUrl(data.getIov().getAuthorizeUrl());
         }
+    }
+
+    private void syncCookie(Context context, String url) {
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.setCookie(url, Config.COOKIE_VALUE);
     }
 
     @Override

@@ -7,20 +7,20 @@ import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
  */
 
 public class MeituanAuthorizeReq extends RequestBase  {
-    private String mBduss;
+    private String bduss;
 
     public String getBduss() {
-        return mBduss;
+        return bduss;
     }
 
     public void setBduss(String bduss) {
-        this.mBduss = bduss;
+        this.bduss = bduss;
     }
 
     @Override
     public String toString() {
         return "MeituanAuthorizeReq{" +
-                "bduss=" + mBduss +
+                "bduss=" + bduss +
                 '}';
     }
 }
