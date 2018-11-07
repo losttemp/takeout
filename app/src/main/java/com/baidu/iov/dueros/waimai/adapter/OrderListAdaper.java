@@ -26,6 +26,13 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
 
     private List<OrderListResponse.IovBean.DataBean> mOrderList;
     private Context mContext;
+    private final String STATUS_WAITING_PAY = "1";
+    private final String STATUS_PAID_SUCCESS = "3";
+    private final String STATUS_PAID_FAIL = "4";
+    private final String STATUS_PAY_EXPIRED = "5";
+    private final String STATUS_PAY_REFUNDING = "6";
+    private final String STATUS_PAY_REFUNDED = "7";
+    private final String STATUS_PAY_CANCEL = "8";
 
     private OrderListExtraBean.OrderInfos.Food_list mOrderInfosfood_list;
 
@@ -54,30 +61,30 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         viewHolder.tvCancelOrder.setText(mContext.getResources().getString(R.string.order_cancel));
         String pay_status = order.getOrder_status();
         switch (pay_status) {
-            case "1":
+            case STATUS_WAITING_PAY:
                 pay_status = mContext.getResources().getString(R.string.waiting_to_pay);
                 viewHolder.tvOneMore.setText(mContext.getResources().getString(R.string.pay_order));
                 break;
-            case "3":
+            case STATUS_PAID_SUCCESS:
                 pay_status = mContext.getResources().getString(R.string.have_paid);
                 break;
-            case "4":
+            case STATUS_PAID_FAIL:
                 pay_status = mContext.getResources().getString(R.string.pay_fail);
                 viewHolder.tvCancelOrder.setVisibility(View.GONE);
                 break;
-            case "5":
+            case STATUS_PAY_EXPIRED:
                 pay_status = mContext.getResources().getString(R.string.pay_invalid);
                 viewHolder.tvCancelOrder.setVisibility(View.GONE);
                 break;
-            case "6":
+            case STATUS_PAY_REFUNDING:
                 pay_status = mContext.getResources().getString(R.string.pay_refunding);
                 viewHolder.tvCancelOrder.setVisibility(View.GONE);
                 break;
-            case "7":
+            case STATUS_PAY_REFUNDED:
                 pay_status = mContext.getResources().getString(R.string.pay_refunded);
                 viewHolder.tvCancelOrder.setVisibility(View.GONE);
                 break;
-            case "8":
+            case STATUS_PAY_CANCEL:
                 pay_status = mContext.getResources().getString(R.string.pay_cancel);
                 viewHolder.tvCancelOrder.setVisibility(View.GONE);
                 break;
