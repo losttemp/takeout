@@ -19,10 +19,10 @@ import java.util.List;
 public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdapter.AddressViewHolder> {
 
     private final Context mContext;
-    private List<AddressListBean.MeituanBean.DataBean> mAddressList;
+    private List<AddressListBean.IovBean.DataBean> mAddressList;
     private OnItemClickListener mItemClickListerner;
 
-    public void setAddressList(List<AddressListBean.MeituanBean.DataBean> mAddressList) {
+    public void setAddressList(List<AddressListBean.IovBean.DataBean> mAddressList) {
         this.mAddressList = mAddressList;
     }
 
@@ -30,7 +30,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         this.mItemClickListerner = mItemClickListerner;
     }
 
-    public AddressSelectAdapter(List<AddressListBean.MeituanBean.DataBean> addressList, Context context) {
+    public AddressSelectAdapter(List<AddressListBean.IovBean.DataBean> addressList, Context context) {
         mAddressList = addressList;
         this.mContext = context;
     }
@@ -46,7 +46,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
     @Override
     public void onBindViewHolder(@NonNull AddressViewHolder viewHolder, int position) {
-        AddressListBean.MeituanBean.DataBean dataBean = mAddressList.get(position);
+        AddressListBean.IovBean.DataBean dataBean = mAddressList.get(position);
         viewHolder.bindData(dataBean);
     }
 
@@ -62,7 +62,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         private TextView phone;
         private TextView des;
         private ImageView edit;
-        private AddressListBean.MeituanBean.DataBean mDataBean;
+        private AddressListBean.IovBean.DataBean mDataBean;
 
         private AddressViewHolder(View view) {
             super(view);
@@ -75,12 +75,12 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             edit.setOnClickListener(this);
         }
 
-        public void bindData(AddressListBean.MeituanBean.DataBean dataBean) {
+        public void bindData(AddressListBean.IovBean.DataBean dataBean) {
             this.mDataBean = dataBean;
-            des.setText(dataBean.getName());
+            des.setText(dataBean.getUser_name());
             details.setText(dataBean.getAddress());
-            name.setText(dataBean.getName());
-            phone.setText(dataBean.getPhone());
+            name.setText(dataBean.getUser_name());
+            phone.setText(dataBean.getUser_phone());
         }
 
         @Override
@@ -92,6 +92,6 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
     }
 
     public interface OnItemClickListener {
-        void OnItemClick(View v, AddressListBean.MeituanBean.DataBean dataBean);
+        void OnItemClick(View v, AddressListBean.IovBean.DataBean dataBean);
     }
 }
