@@ -148,7 +148,7 @@ public class OrderPreviewBean {
                 private String invoice_title;
                 private String invoice_taxpayer_id;
                 private int wm_order_pay_type;
-                private int wm_poi_id;
+                private long wm_poi_id;
                 private String poi_name;
                 private double wm_poi_min_fee;
                 private int total;
@@ -231,11 +231,11 @@ public class OrderPreviewBean {
                     this.wm_order_pay_type = wm_order_pay_type;
                 }
 
-                public int getWm_poi_id() {
+                public long getWm_poi_id() {
                     return wm_poi_id;
                 }
 
-                public void setWm_poi_id(int wm_poi_id) {
+                public void setWm_poi_id(long wm_poi_id) {
                     this.wm_poi_id = wm_poi_id;
                 }
 

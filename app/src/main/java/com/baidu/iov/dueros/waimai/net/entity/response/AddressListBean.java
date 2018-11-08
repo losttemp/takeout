@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.net.entity.response;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 public class AddressListBean {
@@ -38,7 +39,7 @@ public class AddressListBean {
             this.data = data;
         }
 
-        public static class DataBean {
+        public static class DataBean implements Serializable{
 
             private String address;
             private int latitude;

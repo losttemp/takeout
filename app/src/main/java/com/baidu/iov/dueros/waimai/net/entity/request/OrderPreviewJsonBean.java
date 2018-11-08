@@ -1,16 +1,13 @@
 package com.baidu.iov.dueros.waimai.net.entity.request;
 
-import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
-
 import java.util.List;
 
-public class PayLoadJsonBean {
+public class OrderPreviewJsonBean {
 
     private String user_phone;
     private WmOrderingListBean wm_ordering_list;
     private WmOrderingUserBean wm_ordering_user;
-    private int pay_source;
-    private String return_url;
+    private int address_id;
 
     public String getUser_phone() {
         return user_phone;
@@ -36,34 +33,26 @@ public class PayLoadJsonBean {
         this.wm_ordering_user = wm_ordering_user;
     }
 
-    public int getPay_source() {
-        return pay_source;
+    public int getAddress_id() {
+        return address_id;
     }
 
-    public void setPay_source(int pay_source) {
-        this.pay_source = pay_source;
-    }
-
-    public String getReturn_url() {
-        return return_url;
-    }
-
-    public void setReturn_url(String return_url) {
-        this.return_url = return_url;
+    public void setAddress_id(int address_id) {
+        this.address_id = address_id;
     }
 
     public static class WmOrderingListBean {
 
-        private String wm_poi_id;
+        private long wm_poi_id;
         private int delivery_time;
         private int pay_type;
         private List<FoodListBean> food_list;
 
-        public String getWm_poi_id() {
+        public long getWm_poi_id() {
             return wm_poi_id;
         }
 
-        public void setWm_poi_id(String wm_poi_id) {
+        public void setWm_poi_id(long wm_poi_id) {
             this.wm_poi_id = wm_poi_id;
         }
 
@@ -95,6 +84,7 @@ public class PayLoadJsonBean {
 
             private int wm_food_sku_id;
             private int count;
+            private List<Integer> food_spu_attr_ids;
 
             public int getWm_food_sku_id() {
                 return wm_food_sku_id;
@@ -111,25 +101,27 @@ public class PayLoadJsonBean {
             public void setCount(int count) {
                 this.count = count;
             }
+
+            public List<Integer> getFood_spu_attr_ids() {
+                return food_spu_attr_ids;
+            }
+
+            public void setFood_spu_attr_ids(List<Integer> food_spu_attr_ids) {
+                this.food_spu_attr_ids = food_spu_attr_ids;
+            }
         }
     }
 
     public static class WmOrderingUserBean {
 
-        private int address_id;
         private String user_phone;
         private String user_name;
         private String user_address;
-        private int addr_longitude;
+        private String user_caution;
+        private String house_number;
         private int addr_latitude;
-
-        public int getAddress_id() {
-            return address_id;
-        }
-
-        public void setAddress_id(int address_id) {
-            this.address_id = address_id;
-        }
+        private int addr_longitu_longitude;
+        private int user_latitude;
 
         public String getUser_phone() {
             return user_phone;
@@ -155,12 +147,20 @@ public class PayLoadJsonBean {
             this.user_address = user_address;
         }
 
-        public int getAddr_longitude() {
-            return addr_longitude;
+        public String getUser_caution() {
+            return user_caution;
         }
 
-        public void setAddr_longitude(int addr_longitude) {
-            this.addr_longitude = addr_longitude;
+        public void setUser_caution(String user_caution) {
+            this.user_caution = user_caution;
+        }
+
+        public String getHouse_number() {
+            return house_number;
+        }
+
+        public void setHouse_number(String house_number) {
+            this.house_number = house_number;
         }
 
         public int getAddr_latitude() {
@@ -169,6 +169,22 @@ public class PayLoadJsonBean {
 
         public void setAddr_latitude(int addr_latitude) {
             this.addr_latitude = addr_latitude;
+        }
+
+        public int getAddr_longitu_longitude() {
+            return addr_longitu_longitude;
+        }
+
+        public void setAddr_longitu_longitude(int addr_longitu_longitude) {
+            this.addr_longitu_longitude = addr_longitu_longitude;
+        }
+
+        public int getUser_latitude() {
+            return user_latitude;
+        }
+
+        public void setUser_latitude(int user_latitude) {
+            this.user_latitude = user_latitude;
         }
     }
 }

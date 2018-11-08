@@ -9,6 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitJsonBean;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.presenter.SubmitOrderPresenter;
+import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.faceos.client.GsonUtil;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -18,15 +26,21 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static com.baidu.iov.dueros.waimai.ui.AddressListActivity.ADDRESS_DATA;
+import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.POI_INFO;
+import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.PRODUCT_LIST_BEAN;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.ORDER_ID;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.PAY_URL;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.SHOP_NAME;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.TOTAL_COST;
 
-public class PaymentActivity extends AppCompatActivity {
+public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOrderPresenter.SubmitOrderUi>
+        implements SubmitOrderPresenter.SubmitOrderUi {
 
     private TextView mTimerTv;
     private TextView mAmountTv;
@@ -34,14 +48,51 @@ public class PaymentActivity extends AppCompatActivity {
     private TextView mShopNameTv;
     private ImageView mPayUrlImg;
 
+    private AddressListBean.IovBean.DataBean mAddressData;
+    private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> mProductList;
+    private PoifoodListBean.MeituanBean.DataBean.PoiInfoBean mPoiInfo;
+    private OrderSubmitBean.MeituanBean.DataBean mSubmitInfo;
+
+    @Override
+    SubmitOrderPresenter createPresenter() {
+        return new SubmitOrderPresenter();
+    }
+
+    @Override
+    SubmitOrderPresenter.SubmitOrderUi getUi() {
+        return this;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-        initView();
         timerStart();
+
+        initData();
+
+
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        initView();
+    }
+
+    private void initData(){
+
+        Intent intent = getIntent();
+        if (intent != null){
+            mPoiInfo = (PoifoodListBean.MeituanBean.DataBean.PoiInfoBean)intent.getSerializableExtra(POI_INFO);
+            mAddressData = (AddressListBean.IovBean.DataBean)intent.getSerializableExtra(ADDRESS_DATA);
+            mProductList = (List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean>)intent.getSerializableExtra(PRODUCT_LIST_BEAN);
+
+        }
+        getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, mProductList);
+    }
 
     private void initView() {
 
@@ -67,7 +118,7 @@ public class PaymentActivity extends AppCompatActivity {
             }
             mOrderIdTv.setText(String.valueOf(orderId));
             mShopNameTv.setText(shopName);
-            createQRImage(payUrl, mPayUrlImg.getMaxWidth(), mPayUrlImg.getMaxHeight(), mPayUrlImg);
+            //createQRImage(payUrl, mPayUrlImg.getMaxWidth(), mPayUrlImg.getMaxHeight(), mPayUrlImg);
 
         }
 
@@ -155,4 +206,17 @@ public class PaymentActivity extends AppCompatActivity {
         mTimer.start();
     }
 
+    @Override
+    public void onOrderSubmitSuccess(OrderSubmitBean data) {
+
+        if (data != null){
+            mSubmitInfo = data.getMeituan().getData();
+            Lg.getInstance().d("zhangbing", "--------------"+ mSubmitInfo.getOrder_id());
+        }
+    }
+
+    @Override
+    public void onError(String error) {
+
+    }
 }

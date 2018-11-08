@@ -24,33 +24,30 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/address"
+                    android:id="@+id/tv_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:textColor="@color/black_text"
-                    android:text="百度国际大厦"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/address"
+                    android:layout_below="@+id/tv_address"
                     android:layout_marginTop="5dp"
                     android:singleLine="true"
-                    android:text="卢女士"
                     android:textColor="@color/gray_text" />
 
                 <TextView
-                    android:id="@+id/phone"
+                    android:id="@+id/tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/name"
+                    android:layout_alignBaseline="@+id/tv_name"
                     android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@+id/name"
+                    android:layout_toEndOf="@+id/tv_name"
                     android:singleLine="true"
-                    android:text="13886634012"
                     android:textColor="@color/gray_text" />
 
             </RelativeLayout>
