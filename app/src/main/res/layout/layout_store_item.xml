@@ -3,9 +3,8 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
+	android:layout_height="100dp"
 	android:background="@color/white"
-	android:paddingLeft="10dp"
 	android:paddingTop="10dp"
 	android:paddingBottom="5dp">
 
@@ -13,8 +12,9 @@
 		android:id="@+id/tv_store_index"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="1"
+		android:layout_marginLeft="5dp"
 		android:layout_marginRight="5dp"
+		android:text="1"
 		android:textSize="18sp" />
 
 	<FrameLayout
@@ -136,7 +136,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginRight="5dp"
 				android:textSize="14sp"
-				tools:text="@string/min_price" />
+				tools:text="@string/min_price_s" />
 
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/tv_express_price"
@@ -144,7 +144,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginRight="5dp"
 				android:textSize="14sp"
-				tools:text="@string/shipping_fee" />
+				tools:text="@string/shipping_fee_s" />
 
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/tv_average_price"
@@ -152,10 +152,17 @@
 				android:layout_height="wrap_content"
 				android:layout_marginRight="5dp"
 				android:textSize="14sp"
-				tools:text="@string/tools_text_average_price" />
+				tools:text="@string/average_price" />
 
 		</LinearLayout>
 
 	</LinearLayout>
+
+	<View
+		android:id="@+id/view_mask_layer"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/translucence_bg"
+		android:visibility="gone" />
 
 </RelativeLayout>

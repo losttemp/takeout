@@ -5,13 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.Glide;
@@ -69,6 +70,14 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 				.shipping_fee_s), NumberFormat.getInstance().format(store.getShipping_fee())));
 		viewHolder.tvStoreIndex.setText(position + 1 + "");
 
+		String averagePrice = store.getAverage_price_tip();
+		if (!TextUtils.isEmpty(averagePrice)) {
+			viewHolder.tvAveragePrice.setText(String.format(mContext.getResources().
+					getString(R.string.average_price), averagePrice));
+		} else {
+			viewHolder.tvAveragePrice.setText("");
+		}
+
 		viewHolder.ratingBar.setClickable(false);
 		viewHolder.ratingBar.setStar((float) store.getWm_poi_score());
 
@@ -77,14 +86,17 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string
 					.store_status_break));
 			viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
+			viewHolder.viewMaskLayer.setVisibility(View.VISIBLE);
 
 		} else if (status == Constant.STROE_STATUS_BUSY) {
 			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string
 					.store_status_busy));
 			viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
+			viewHolder.viewMaskLayer.setVisibility(View.GONE);
 
 		} else {
 			viewHolder.tvStatusDesc.setVisibility(View.GONE);
+			viewHolder.viewMaskLayer.setVisibility(View.GONE);
 
 		}
 
@@ -113,6 +125,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		private AppCompatTextView tvExpressPrice;
 		private AppCompatTextView tvAveragePrice;
 		private AppCompatTextView tvStoreIndex;
+		private View viewMaskLayer;
 
 		private ViewHolder(View view) {
 			super(view);
@@ -130,6 +143,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			tvExpressPrice = (AppCompatTextView) view.findViewById(R.id.tv_express_price);
 			tvAveragePrice = (AppCompatTextView) view.findViewById(R.id.tv_average_price);
 			tvStoreIndex = (AppCompatTextView) view.findViewById(R.id.tv_store_index);
+			viewMaskLayer = (View) view.findViewById(R.id.view_mask_layer);
 		}
 	}
 

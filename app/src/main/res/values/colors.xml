@@ -8,6 +8,7 @@
 	<color name="mask_color">#88888888</color>
 	<color name="refresh_layout">#00000000</color>
 	<color name="pop_window_bg">#66000000</color>
+	<color name="translucence_bg">#66000000</color>
 
 	<!--<color name="drop_down_selected">#7B1FA2</color>-->
 	<!--<color name="drop_down_unselected">#111111</color>-->

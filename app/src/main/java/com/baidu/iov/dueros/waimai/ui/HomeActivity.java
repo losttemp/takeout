@@ -9,6 +9,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
@@ -30,6 +31,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	private AppCompatImageView mIvBack;
 	private AppCompatImageView mIvRight;
 	private AppCompatTextView mTvTitle;
+	private RelativeLayout mRlSearch;
 
 	private StoreListFragment mStoreListFragment;
 	private BDLocation mBDLocation;
@@ -61,6 +63,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mIvBack = (AppCompatImageView) findViewById(R.id.iv_back);
 		mIvRight = (AppCompatImageView) findViewById(R.id.iv_right);
 		mTvTitle = (AppCompatTextView) findViewById(R.id.tv_title);
+		mRlSearch = (RelativeLayout) findViewById(R.id.rl_search);
 
 	}
 
@@ -89,6 +92,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mTvFood.setOnClickListener(this);
 		mTvOrder.setOnClickListener(this);
 		mTvTitle.setOnClickListener(this);
+		mRlSearch.setOnClickListener(this);
 
 	}
 
@@ -105,6 +109,12 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 				break;
 
 			case R.id.iv_right:
+				Intent orderListIntent = new Intent(this, OrderListActivity.class);
+				orderListIntent.putExtra("title", mTvOrder.getText().toString());
+				startActivity(orderListIntent);
+				break;
+
+			case R.id.rl_search:
 				Intent searchIntent = new Intent(HomeActivity.this, SearchActivity.class);
 				startActivity(searchIntent);
 				break;
@@ -127,21 +137,10 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 				startActivity(foodIntent);
 				break;
 
-			case R.id.tv_order:
-				Intent orderListIntent = new Intent(this, OrderListActivity.class);
-				orderListIntent.putExtra("title", mTvOrder.getText().toString());
-				startActivity(orderListIntent);
-				break;
-
 			default:
 				break;
 		}
 
-	}
-
-	@Override
-	public void close() {
-		finish();
 	}
 
 	@Override
@@ -163,7 +162,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	}
 
 	private void initLocation() {
-		LocationManager instance = LocationManager.getInstance(this);
+		LocationManager instance = LocationManager.getInstance(getApplicationContext());
 		mBDLocation = instance.getLastKnownLocation();
 		if (mBDLocation != null) {
 			List<Poi> addrList = mBDLocation.getPoiList();
