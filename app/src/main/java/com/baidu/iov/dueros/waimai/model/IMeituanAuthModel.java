@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.model;
 
 import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
+import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.MeituanAuthorizeReq;
 
 /**
@@ -12,5 +13,5 @@ public interface IMeituanAuthModel extends IModel {
     void requestAccountInfo(final AccountCallback callback);
     void requestAuthInfo(final AccountCallback callback);
     void requestMeituanAuth(MeituanAuthorizeReq meituanAuthtReq, final RequestCallback callback);
-
+    void requestAdressList(AddressListReqBean reqBean, final RequestCallback callback);
 }

@@ -5,13 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.net.http.SslError;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
@@ -24,17 +20,20 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import android.util.Log;
 import android.view.KeyEvent;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.Config;
+import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.MeituanAuthorizeReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.presenter.MeituanAuthPresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+
+import java.util.List;
 
 //import com.baidu.iov.dueros.waimai.waimaiapplication.R;
 
@@ -45,6 +44,7 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
     private WebView mWVMeituan;
     private ProgressBar progressBar;
     private MeituanAuthorizeReq mMeituanAuthReq;
+    private AddressListReqBean mAddressListReq;
     private final String baiduUrl = "http://sandbox.codriverapi.baidu.com/";
     Bundle savedInstanceState;
 
@@ -103,6 +103,7 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
     private void init() {
         mMeituanAuthReq = new MeituanAuthorizeReq();
         mMeituanAuthReq.setBduss(CacheUtils.getBduss());
+        mAddressListReq = new AddressListReqBean();
     }
 
     private WebViewClient webViewClient = new WebViewClient() {
@@ -147,11 +148,9 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
 
     @Override
     public void update(MeituanAuthorizeResponse data) {
-        if(data.getIov().getAuthorizedState()){
-            if(CacheUtils.getAuth()){
-                Intent intent = new Intent(this, AddressSelectActivity.class);
-                startActivity(intent);
-                finish();
+        if (data.getIov().getAuthorizedState()) {
+            if (CacheUtils.getAuth()) {
+                getPresenter().requestAddressListData(mAddressListReq);
             } else {
                 getPresenter().requestAuthInfo();
             }
@@ -169,6 +168,7 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
 
     @Override
     public void failure(String msg) {
+        finish();
     }
 
     @Override
@@ -196,9 +196,7 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
     public void authSuccess(String msg) {
         if (Constant.ACCOUNT_AUTH_SUCCESS.equals(msg)) {
             Lg.getInstance().d(TAG, "account auth success");
-            Intent addressIntent = new Intent(this, AddressSelectActivity.class);
-            startActivity(addressIntent);
-            finish();
+            getPresenter().requestAddressListData(mAddressListReq);
         }
     }
 
@@ -208,6 +206,26 @@ public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, Mei
             Lg.getInstance().d(TAG, "account auth fail");
             finish();
         }
+    }
+
+    @Override
+    public void getAddressListSuccess(List<AddressListBean.IovBean.DataBean> data) {
+        Lg.getInstance().d(TAG, "get addresslist success");
+        Intent addressIntent;
+        if (data.size()== 0) {
+            addressIntent = new Intent(this, AddressEditActivity.class);
+            startActivityForResult(addressIntent,3);
+        } else {
+            addressIntent = new Intent(this, AddressSelectActivity.class);
+            startActivity(addressIntent);
+        }
+        finish();
+    }
+
+    @Override
+    public void getAddressListFail(String msg) {
+        Lg.getInstance().d(TAG, "get addresslist fail");
+        finish();
     }
 
     @Override
