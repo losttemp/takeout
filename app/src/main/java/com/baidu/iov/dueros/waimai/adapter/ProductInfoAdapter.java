@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.R;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.bumptech.glide.Glide;
 
 import java.text.DecimalFormat;

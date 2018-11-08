@@ -23,8 +23,8 @@ import java.util.List;
 
 public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, AddressSelectPresenter.AddressSelectUi> implements AddressSelectPresenter.AddressSelectUi, LocationManager.LocationCallBack, View.OnClickListener {
     private BDLocation mBDLocation;
-    private List<AddressListBean.MeituanBean.DataBean> mDataList;
-    private AddressListBean.MeituanBean.DataBean mHeaderDataBean;
+    private List<AddressListBean.IovBean.DataBean> mDataList;
+    private AddressListBean.IovBean.DataBean mHeaderDataBean;
     private RecyclerView mRecyclerView;
     private AddressSelectAdapter mAdapter;
 
@@ -50,7 +50,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     }
 
     private void initData() {
-        mHeaderDataBean = new AddressListBean.MeituanBean.DataBean();
+        mHeaderDataBean = new AddressListBean.IovBean.DataBean();
     }
 
     private void initLocation() {
@@ -76,7 +76,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setmItemClickListerner(new AddressSelectAdapter.OnItemClickListener() {
             @Override
-            public void OnItemClick(View v, AddressListBean.MeituanBean.DataBean dataBean) {
+            public void OnItemClick(View v, AddressListBean.IovBean.DataBean dataBean) {
                 switch (v.getId()) {
                     case R.id.address_select_des_details:
                         Intent homeintent = new Intent(AddressSelectActivity.this, HomeActivity.class);
@@ -87,9 +87,9 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                         Intent intent = new Intent(AddressSelectActivity.this, AddressEditActivity.class);
                         intent.putExtra("address_select_address",dataBean.getAddress());
                         intent.putExtra("address_select_lat", dataBean.getLatitude());
-                        intent.putExtra("address_select_lo", dataBean.getLongitude());
-                        intent.putExtra("address_select_phone", dataBean.getPhone());
-                        intent.putExtra("address_select_name", dataBean.getName());
+                       intent.putExtra("address_select_lo", dataBean.getLongitude());
+                        intent.putExtra("address_select_phone", dataBean.getUser_phone());
+                        intent.putExtra("address_select_name", dataBean.getUser_name());
                         intent.putExtra("address_select_bd_location",mBDLocation);
                         AddressSelectActivity.this.startActivity(intent);
                         break;
@@ -100,7 +100,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
 
 
     @Override
-    public void onSuccess(List<AddressListBean.MeituanBean.DataBean> data) {
+    public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
         mDataList.addAll(data);
         mAdapter.setAddressList(mDataList);
         mAdapter.notifyDataSetChanged();
@@ -131,8 +131,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
         this.mBDLocation = bdLocation;
         if (isSuccess) {
-            mHeaderDataBean.setName("ZhangSan");
-            mHeaderDataBean.setPhone("1888888888");
+            mHeaderDataBean.setUser_name("ZhangSan");
+            mHeaderDataBean.setUser_phone("1888888888");
             mHeaderDataBean.setAddress(bdLocation.getAddrStr());
             mDataList.add(mHeaderDataBean);
             mAdapter.notifyDataSetChanged();

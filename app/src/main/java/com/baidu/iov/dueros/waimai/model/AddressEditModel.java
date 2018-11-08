@@ -20,15 +20,15 @@ public class AddressEditModel implements IAddressEditModel {
             return;
         }
 
-        addressEditReq.setName("Stanford Zhang");
-        addressEditReq.setGender(1);
-        addressEditReq.setPhone("17638916218");
+        addressEditReq.setUser_name("Stanford Zhang");
+        addressEditReq.setSex(1);
+        addressEditReq.setUser_name("17638916218");
         addressEditReq.setAddress("WuHan JiangXia");
-        addressEditReq.setHouseNumber("18");
+        addressEditReq.setHouse("18");
         addressEditReq.setLatitude(Constant.LATITUDE);
         addressEditReq.setLongitude(Constant.LONGITUDE);
-        addressEditReq.setBindType(11);
-        addressEditReq.setAddressRangeTip("");
+        addressEditReq.setType("家");
+
         Log.d("hhr", addressEditReq.toString());
         ApiUtils.addAddress(addressEditReq, new ApiCallBack<AddressEditBean>() {
             @Override

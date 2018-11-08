@@ -27,7 +27,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     private CheckBox mAdd;
     private ListView mAddressListView;
     private AddressListAdapter mAddressListAdapter;
-    private List<AddressListBean.MeituanBean.DataBean> mDataListBean;
+    private List<AddressListBean.IovBean.DataBean> mDataListBean;
 
 
     @Override
@@ -117,7 +117,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     public void onSuccess(AddressListBean data) {
 
         if (data != null) {
-            mDataListBean = data.getMeituan().getData();
+            mDataListBean = data.getIov().getData();
             mAddressListAdapter.setData(mDataListBean);
         } else {
             Lg.getInstance().d(TAG, "not find data !");

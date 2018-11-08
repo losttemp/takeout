@@ -3,48 +3,63 @@ package com.baidu.iov.dueros.waimai.net.entity.request;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 
 public class AddressEditReq extends RequestBase {
-    private int addressId;
-    private String name;
-    private int gender;
-    private String phone;
+    private long address_id;
+    private long mt_address_id;
+    private String type;
+    private String user_name;
+    private int sex;
+    private String user_phone;
     private String address;
-    private String houseNumber;
+    private String house;
     private int latitude;
     private int longitude;
-    private int bindType;
-    private int canShipping;
-    private String addressRangeTip;
 
-    public int getAddressId() {
-        return addressId;
+    public long getAddress_id() {
+        return address_id;
     }
 
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
+    public void setAddress_id(long address_id) {
+        this.address_id = address_id;
     }
 
-    public String getName() {
-        return name;
+    public long getMt_address_id() {
+        return mt_address_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMt_address_id(long mt_address_id) {
+        this.mt_address_id = mt_address_id;
     }
 
-    public int getGender() {
-        return gender;
+    public String getType() {
+        return type;
     }
 
-    public void setGender(int gender) {
-        this.gender = gender;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
+    public String getUser_phone() {
+        return user_phone;
+    }
+
+    public void setUser_phone(String user_phone) {
+        this.user_phone = user_phone;
     }
 
     public String getAddress() {
@@ -55,12 +70,12 @@ public class AddressEditReq extends RequestBase {
         this.address = address;
     }
 
-    public String getHouseNumber() {
-        return houseNumber;
+    public String getHouse() {
+        return house;
     }
 
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
+    public void setHouse(String house) {
+        this.house = house;
     }
 
     public int getLatitude() {
@@ -77,46 +92,5 @@ public class AddressEditReq extends RequestBase {
 
     public void setLongitude(int longitude) {
         this.longitude = longitude;
-    }
-
-    public int getBindType() {
-        return bindType;
-    }
-
-    public void setBindType(int bindType) {
-        this.bindType = bindType;
-    }
-
-    public int getCanShipping() {
-        return canShipping;
-    }
-
-    public void setCanShipping(int canShipping) {
-        this.canShipping = canShipping;
-    }
-
-    public String getAddressRangeTip() {
-        return addressRangeTip;
-    }
-
-    public void setAddressRangeTip(String addressRangeTip) {
-        this.addressRangeTip = addressRangeTip;
-    }
-
-    @Override
-    public String toString() {
-        return "AddressEditReq{" +
-                "addressId=" + addressId +
-                ", name='" + name + '\'' +
-                ", gender=" + gender +
-                ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
-                ", houseNumber='" + houseNumber + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", bindType=" + bindType +
-                ", canShipping=" + canShipping +
-                ", addressRangeTip='" + addressRangeTip + '\'' +
-                '}';
     }
 }

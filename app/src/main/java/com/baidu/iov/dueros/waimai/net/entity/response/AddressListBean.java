@@ -1,12 +1,12 @@
 package com.baidu.iov.dueros.waimai.net.entity.response;
 
+
 import java.util.List;
 
 public class AddressListBean {
 
-
     private MeituanBean meituan;
-
+    private IovBean iov;
 
     public MeituanBean getMeituan() {
         return meituan;
@@ -16,37 +16,19 @@ public class AddressListBean {
         this.meituan = meituan;
     }
 
+    public IovBean getIov() {
+        return iov;
+    }
+
+    public void setIov(IovBean iov) {
+        this.iov = iov;
+    }
 
     public static class MeituanBean {
+    }
 
-        private int code;
-        private String msg;
-        private Object errorInfo;
+    public static class IovBean {
         private List<DataBean> data;
-
-        public int getCode() {
-            return code;
-        }
-
-        public void setCode(int code) {
-            this.code = code;
-        }
-
-        public String getMsg() {
-            return msg;
-        }
-
-        public void setMsg(String msg) {
-            this.msg = msg;
-        }
-
-        public Object getErrorInfo() {
-            return errorInfo;
-        }
-
-        public void setErrorInfo(Object errorInfo) {
-            this.errorInfo = errorInfo;
-        }
 
         public List<DataBean> getData() {
             return data;
@@ -58,49 +40,15 @@ public class AddressListBean {
 
         public static class DataBean {
 
-            private int addressId;
-            private String name;
-            private int gender;
-            private String phone;
             private String address;
-            private String houseNumber;
             private int latitude;
             private int longitude;
-            private int bindType;
-            private int canShipping;
-            private String addressRangeTip;
-
-            public int getAddressId() {
-                return addressId;
-            }
-
-            public void setAddressId(int addressId) {
-                this.addressId = addressId;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public int getGender() {
-                return gender;
-            }
-
-            public void setGender(int gender) {
-                this.gender = gender;
-            }
-
-            public String getPhone() {
-                return phone;
-            }
-
-            public void setPhone(String phone) {
-                this.phone = phone;
-            }
+            private boolean is_hint;
+            private int mt_address_id;
+            private String house;
+            private String user_phone;
+            private String user_name;
+            private int sex;
 
             public String getAddress() {
                 return address;
@@ -108,14 +56,6 @@ public class AddressListBean {
 
             public void setAddress(String address) {
                 this.address = address;
-            }
-
-            public String getHouseNumber() {
-                return houseNumber;
-            }
-
-            public void setHouseNumber(String houseNumber) {
-                this.houseNumber = houseNumber;
             }
 
             public int getLatitude() {
@@ -134,30 +74,53 @@ public class AddressListBean {
                 this.longitude = longitude;
             }
 
-            public int getBindType() {
-                return bindType;
+            public boolean isIs_hint() {
+                return is_hint;
             }
 
-            public void setBindType(int bindType) {
-                this.bindType = bindType;
+            public void setIs_hint(boolean is_hint) {
+                this.is_hint = is_hint;
             }
 
-            public int getCanShipping() {
-                return canShipping;
+            public int getMt_address_id() {
+                return mt_address_id;
             }
 
-            public void setCanShipping(int canShipping) {
-                this.canShipping = canShipping;
+            public void setMt_address_id(int mt_address_id) {
+                this.mt_address_id = mt_address_id;
             }
 
-            public String getAddressRangeTip() {
-                return addressRangeTip;
+            public String getHouse() {
+                return house;
             }
 
-            public void setAddressRangeTip(String addressRangeTip) {
-                this.addressRangeTip = addressRangeTip;
+            public void setHouse(String house) {
+                this.house = house;
+            }
+
+            public String getUser_phone() {
+                return user_phone;
+            }
+
+            public void setUser_phone(String user_phone) {
+                this.user_phone = user_phone;
+            }
+
+            public String getUser_name() {
+                return user_name;
+            }
+
+            public void setUser_name(String user_name) {
+                this.user_name = user_name;
+            }
+
+            public int getSex() {
+                return sex;
+            }
+
+            public void setSex(int sex) {
+                this.sex = sex;
             }
         }
     }
-
 }

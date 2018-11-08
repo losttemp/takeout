@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,10 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
-import com.bumptech.glide.Glide;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.ORDER_ID;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.PAY_URL;
@@ -52,18 +60,49 @@ public class PaymentActivity extends AppCompatActivity {
             String shopName = intent.getStringExtra(SHOP_NAME);
             String payUrl = intent.getStringExtra(PAY_URL);
 
-            if (amount != 0){
+            if (amount != 0) {
                 mAmountTv.setText(String.format(getResources().getString(R.string.cost_text), nf.format(amount)));
-            }else {
+            } else {
                 mAmountTv.setText("0.00");
             }
             mOrderIdTv.setText(String.valueOf(orderId));
             mShopNameTv.setText(shopName);
-            Glide.with(this).load(payUrl).into(mPayUrlImg);
+            createQRImage(payUrl, mPayUrlImg.getMaxWidth(), mPayUrlImg.getMaxHeight(), mPayUrlImg);
 
         }
 
 
+    }
+
+
+    public static boolean createQRImage(String content, int widthPix, int heightPix, ImageView imageView) {
+        try {
+            if (content == null || "".equals(content)) {
+                return false;
+            }
+
+            Map<EncodeHintType, Object> hints = new HashMap<>();
+            hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+            hints.put(EncodeHintType.MARGIN, 2);
+            BitMatrix bitMatrix = new QRCodeWriter().encode(content, BarcodeFormat.QR_CODE, widthPix, heightPix, hints);
+            int[] pixels = new int[widthPix * heightPix];
+            for (int y = 0; y < heightPix; y++) {
+                for (int x = 0; x < widthPix; x++) {
+                    if (bitMatrix.get(x, y)) {
+                        pixels[y * widthPix + x] = 0xff000000;
+                    } else {
+                        pixels[y * widthPix + x] = 0xffffffff;
+                    }
+                }
+            }
+            Bitmap bitmap = Bitmap.createBitmap(widthPix, heightPix, Bitmap.Config.ARGB_8888);
+            bitmap.setPixels(pixels, 0, widthPix, 0, 0, widthPix, heightPix);
+
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

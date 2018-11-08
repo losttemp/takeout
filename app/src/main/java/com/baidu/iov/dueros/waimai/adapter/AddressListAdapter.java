@@ -16,13 +16,13 @@ import java.util.List;
 public class AddressListAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<AddressListBean.MeituanBean.DataBean> mData;
+    private List<AddressListBean.IovBean.DataBean> mData;
 
     public AddressListAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
-    public void setData(List<AddressListBean.MeituanBean.DataBean> data) {
+    public void setData(List<AddressListBean.IovBean.DataBean> data) {
         mData = data;
         notifyDataSetChanged();
     }
@@ -63,13 +63,13 @@ public class AddressListAdapter extends BaseAdapter {
         String address = mData.get(position).getAddress();
         viewHolder.tv_address.setText(address);
 
-        String address_type = mData.get(position).getAddressRangeTip();
+        //String address_type = mData.get(position).getAddressRangeTip();
         //viewHolder.tv_address_type.setText(address_type);
 
-        String name = mData.get(position).getName();
+        String name = mData.get(position).getUser_name();
         viewHolder.tv_name.setText(name);
 
-        String phone = mData.get(position).getPhone();
+        String phone = mData.get(position).getUser_phone();
         viewHolder.tv_phone.setText(phone);
 
         return convertView;

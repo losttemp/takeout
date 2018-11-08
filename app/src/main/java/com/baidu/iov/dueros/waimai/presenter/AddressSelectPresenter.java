@@ -49,7 +49,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
 
             @Override
             public void onSuccess(AddressListBean data) {
-                List<AddressListBean.MeituanBean.DataBean> dataBeans = data.getMeituan().getData();
+                List<AddressListBean.IovBean.DataBean> dataBeans = data.getIov().getData();
                 getUi().onSuccess(dataBeans);
             }
 
@@ -61,7 +61,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
     }
 
     public interface AddressSelectUi extends Ui {
-        void onSuccess(List<AddressListBean.MeituanBean.DataBean> data);
+        void onSuccess(List<AddressListBean.IovBean.DataBean> data);
 
         void onError(String error);
     }
