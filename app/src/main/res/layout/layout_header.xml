@@ -30,6 +30,6 @@
 		android:layout_height="20dp"
 		android:layout_alignParentEnd="true"
 		android:layout_centerVertical="true"
-		android:src="@mipmap/search" />
+		android:src="@mipmap/arrow_down_white" />
 
 </RelativeLayout>

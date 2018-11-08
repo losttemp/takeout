@@ -8,12 +8,34 @@
 
 	<include layout="@layout/layout_header" />
 
+	<!--search-->
+	<RelativeLayout
+		android:id="@+id/rl_search"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/rl_layout_header"
+		android:layout_margin="5dp"
+		android:background="@drawable/shape_pop_filter_set_bg">
+
+		<android.support.v7.widget.AppCompatTextView
+			android:id="@+id/tv_search"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:drawableLeft="@mipmap/search_bar"
+			android:text="@string/search_hint_text_1"
+			android:textColor="@color/gray"
+			android:padding="8dp"
+			android:textSize="14sp" />
+
+	</RelativeLayout>
+
 	<!--store type-->
 	<android.support.v7.widget.LinearLayoutCompat
 		android:id="@+id/ll_type"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/rl_layout_header"
+		android:layout_below="@+id/rl_search"
 		android:layout_marginLeft="10dp"
 		android:layout_marginRight="10dp"
 		android:orientation="horizontal">
@@ -74,7 +96,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"
-		android:visibility="visible">
+		android:visibility="gone">
 
 		<android.support.v7.widget.AppCompatTextView
 			android:id="@+id/tv_home"

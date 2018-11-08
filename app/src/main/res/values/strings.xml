@@ -13,6 +13,7 @@
     <!--HomeActivity-->
     <string name="search">搜索</string>
     <string name="search_hint_text">请输入商家/商品名称</string>
+    <string name="search_hint_text_1">商家/商品</string>
     <string name="stroe_type_food">美食分类</string>
     <string name="stroe_type_flower">鲜花预订</string>
     <string name="stroe_type_cake">蛋糕预订</string>
@@ -27,8 +28,9 @@
     <string name="delivery_time">%d分钟 |</string>
     <string name="min_price">起送￥%.2f |</string>
     <string name="shipping_fee">配送￥%.2f |</string>
-    <string name="min_price_s">起送￥%s |</string>
-    <string name="shipping_fee_s">配送￥%s |</string>
+    <string name="min_price_s">起送￥%s</string>
+    <string name="shipping_fee_s">| 配送￥%s</string>
+    <string name="average_price">| %s</string>
     <string name="flower">鲜花</string>
     <string name="cake">蛋糕</string>
     <string name="takeaway">外卖</string>
