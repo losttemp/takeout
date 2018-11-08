@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -68,6 +69,11 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         setListener();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timerCancel();
+    }
 
     private void setListener() {
         findViewById(R.id.repeat_order).setOnClickListener(this);
@@ -162,6 +168,49 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         loadData();
     }
 
+    public void timerCancel() {
+        mTimer.cancel();
+    }
+
+    public void timerStart() {
+        mTimer.start();
+    }
+
+    private CountDownTimer mTimer = new CountDownTimer(15 * 60 * 1000, 1000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            mPayStatus.setText(String.format(getResources().getString(R.string.count_down_timer), formatCountDownTime(millisUntilFinished)));
+        }
+
+        @Override
+        public void onFinish() {
+
+            mPayStatus.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
+        }
+    };
+
+    public String formatCountDownTime(long millisecond) {
+        int minute;
+        int second;
+
+        minute = (int) ((millisecond / 1000) / 60);
+        second = (int) ((millisecond / 1000) % 60);
+
+        if (minute < 10) {
+            if (second < 10) {
+                return "0" + minute + ":" + "0" + second;
+            } else {
+                return "0" + minute + ":" + second;
+            }
+        } else {
+            if (second < 10) {
+                return minute + ":" + "0" + second;
+            } else {
+                return minute + ":" + second;
+            }
+        }
+    }
+
     private void loadData() {
         getPresenter().requestOrderDetails(mOrderDetailsReq);
     }
@@ -174,18 +223,18 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 finish();
                 break;
             case R.id.repeat_order:
-                Intent intentFoodList = new Intent(OrderDetailsActivity.this,FoodListActivity.class);
-                intentFoodList.putExtra(Constant.STORE_ID,mOrderDetails.getWm_poi_id());
+                Intent intentFoodList = new Intent(OrderDetailsActivity.this, FoodListActivity.class);
+                intentFoodList.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id());
                 startActivity(intentFoodList);
                 finish();
                 break;
             case R.id.pay_order:
-                Intent intentPayment = new Intent(OrderDetailsActivity.this,PaymentActivity.class);
+                Intent intentPayment = new Intent(OrderDetailsActivity.this, PaymentActivity.class);
                 startActivity(intentPayment);
                 finish();
                 break;
             case R.id.cancel_order:
-                mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId(),mOrderDetailsReq.getPhone());
+                mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId(), mOrderDetailsReq.getPhone());
                 ConfirmDialog dialog = new ConfirmDialog.Builder(this)
                         .setTitle(R.string.order_cancel_title)
                         .setMessage(R.string.order_cancel_message)
