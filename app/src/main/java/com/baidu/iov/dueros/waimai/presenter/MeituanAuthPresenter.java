@@ -7,12 +7,14 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.MeituanAuthModel;
 import com.baidu.iov.dueros.waimai.model.IMeituanAuthModel;
+import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.MeituanAuthorizeReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import java.util.ArrayList;
-import android.util.Log;
+import java.util.List;
 
 import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
 /**
@@ -123,6 +125,28 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
         });
     }
 
+    public void requestAddressListData(AddressListReqBean reqBean) {
+        mModel.requestAdressList(reqBean, new RequestCallback<AddressListBean>() {
+
+            @Override
+            public void onSuccess(AddressListBean data) {
+                List<AddressListBean.IovBean.DataBean> dataBeans = data.getIov().getData();
+                if (null != getUi()) {
+                    getUi().getAddressListSuccess(dataBeans);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+                if (null != getUi()) {
+                    getUi().getAddressListFail(msg);
+                }
+            }
+        });
+
+    }
+
     public interface MeituanLoginUi extends Ui {
         void update(MeituanAuthorizeResponse data);
 
@@ -137,6 +161,10 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
         void authSuccess(String msg);
 
         void authFailure(String msg);
+
+        void getAddressListSuccess(List<AddressListBean.IovBean.DataBean> data);
+
+        void getAddressListFail(String msg);
     }
 
 }
