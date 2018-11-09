@@ -142,7 +142,7 @@ public class OrderPreviewBean {
                 private String recipient_address;
                 private String recipient_name;
                 private String recipient_phone;
-                private int shipping_fee;
+                private double shipping_fee;
                 private int estimate_arrival_time;
                 private String caution;
                 private String invoice_title;
@@ -183,11 +183,11 @@ public class OrderPreviewBean {
                     this.recipient_phone = recipient_phone;
                 }
 
-                public int getShipping_fee() {
+                public double getShipping_fee() {
                     return shipping_fee;
                 }
 
-                public void setShipping_fee(int shipping_fee) {
+                public void setShipping_fee(double shipping_fee) {
                     this.shipping_fee = shipping_fee;
                 }
 
@@ -319,7 +319,7 @@ public class OrderPreviewBean {
                 private String unit;
                 private int count;
                 private int box_num;
-                private int box_price;
+                private double box_price;
                 private String food_name;
                 private int origin_food_price;
                 private String picture;
@@ -367,7 +367,7 @@ public class OrderPreviewBean {
                     this.box_num = box_num;
                 }
 
-                public int getBox_price() {
+                public double getBox_price() {
                     return box_price;
                 }
 

@@ -61,7 +61,7 @@ public class OrderDetailsResponse {
             private int pay_status;
             private double total;
             private double original_price;
-            private int shipping_fee;
+            private double shipping_fee;
             private int box_total_price;
             private int night_shipping_fee;
             private int status;
@@ -145,11 +145,11 @@ public class OrderDetailsResponse {
                 this.original_price = original_price;
             }
 
-            public int getShipping_fee() {
+            public double getShipping_fee() {
                 return shipping_fee;
             }
 
-            public void setShipping_fee(int shipping_fee) {
+            public void setShipping_fee(double shipping_fee) {
                 this.shipping_fee = shipping_fee;
             }
 
@@ -448,7 +448,7 @@ public class OrderDetailsResponse {
                 private int count;
                 private String spec;
                 private int box_num;
-                private int box_price;
+                private double box_price;
                 private List<?> attrIds;
                 private List<?> attrValues;
 
@@ -516,11 +516,11 @@ public class OrderDetailsResponse {
                     this.box_num = box_num;
                 }
 
-                public int getBox_price() {
+                public double getBox_price() {
                     return box_price;
                 }
 
-                public void setBox_price(int box_price) {
+                public void setBox_price(double box_price) {
                     this.box_price = box_price;
                 }
 

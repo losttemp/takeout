@@ -1,5 +1,9 @@
 package com.baidu.iov.dueros.waimai.net.entity.response;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -345,6 +349,30 @@ public class PoifoodListBean {
                     private List<SkusBean> choiceSkus;
                     private int number;
 
+                    public Object deepClone() throws Exception {
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        ObjectOutputStream oos = new ObjectOutputStream(bos);
+
+                        oos.writeObject(this);
+
+                        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+                        ObjectInputStream ois = new ObjectInputStream(bis);
+
+                        return ois.readObject();
+                    }
+
+                    @Override
+                    public boolean equals(Object obj) {
+                        SpusBean spusBean = (SpusBean) obj;
+                        if (attrs != null) {
+                            return id == spusBean.getId() && attrs.equals(spusBean.getAttrs());
+                        }
+                        if (choiceSkus != null) {
+                            return id == spusBean.getId() && choiceSkus.equals(spusBean.getChoiceSkus());
+                        }
+                        return super.equals(obj);
+                    }
+
                     public List<SkusBean> getChoiceSkus() {
                         return choiceSkus;
                     }
@@ -502,6 +530,15 @@ public class PoifoodListBean {
                         private List<ValuesBean> values;
                         private List<ValuesBean> choiceAttrs;
 
+                        @Override
+                        public boolean equals(Object obj) {
+                            AttrsBean attrsBean = (AttrsBean) obj;
+                            if (choiceAttrs != null) {
+                                return choiceAttrs.equals(attrsBean.getChoiceAttrs());
+                            }
+                            return super.equals(obj);
+                        }
+
                         public List<ValuesBean> getChoiceAttrs() {
                             return choiceAttrs;
                         }
@@ -530,6 +567,12 @@ public class PoifoodListBean {
                             private long id;
                             private String value;
 
+                            @Override
+                            public boolean equals(Object obj) {
+                                ValuesBean valuesBean = (ValuesBean) obj;
+                                return id == valuesBean.getId() && value.equals(valuesBean.getValue());
+                            }
+
                             public long getId() {
                                 return id;
                             }
@@ -545,6 +588,7 @@ public class PoifoodListBean {
                             public void setValue(String value) {
                                 this.value = value;
                             }
+
                         }
                     }
 
@@ -556,13 +600,19 @@ public class PoifoodListBean {
                         private double price;
                         private double origin_price;
                         private int box_num;
-                        private int box_price;
+                        private double box_price;
                         private int min_order_count;
                         private int status;
                         private int stock;
                         private int realStock;
                         private int virtualStock;
                         private int restrict;
+
+                        @Override
+                        public boolean equals(Object obj) {
+                            SkusBean skusBean = (SkusBean) obj;
+                            return spec.equals(skusBean.getSpec());
+                        }
 
                         public int getId() {
                             return id;
@@ -620,11 +670,11 @@ public class PoifoodListBean {
                             this.box_num = box_num;
                         }
 
-                        public int getBox_price() {
+                        public double getBox_price() {
                             return box_price;
                         }
 
-                        public void setBox_price(int box_price) {
+                        public void setBox_price(double box_price) {
                             this.box_price = box_price;
                         }
 

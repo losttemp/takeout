@@ -57,6 +57,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private static final String TAG = FoodListActivity.class.getSimpleName();
     public static final String POI_INFO = "poi_info";
     public static final String PRODUCT_LIST_BEAN = "product_list_bean";
+    public static final String DISCOUNT = "discount";
 
     private boolean isScroll = true;
     private ListView mFoodSpuTagsList;
@@ -111,6 +112,15 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private TextView mBulletin;
     private TextView mDiscounts;
     private ImageView mShopPicture;
+    private List<Integer> listFull;
+    private List<Integer> listReduce;
+    private TextView mDiscount;
+    private Integer discount;
+    private Integer mDiscountNumber;
+    private TextView mDetailsNotice;
+    private TextView mDetailsDistribution;
+    private TextView mDetailsDiscount;
+    private TextView mDetailsShopName;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -154,12 +164,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mBulletin = (TextView) findViewById(R.id.tv_bulletin);
         mDiscounts = (TextView) findViewById(R.id.tv_discounts);
         mShopPicture = (ImageView) findViewById(R.id.iv_shop);
+        mDiscount = (TextView) findViewById(R.id.tv_discount);
     }
 
     public void initData() {
         productList = new ArrayList<>();
         foodSpuTagsBeanName = new ArrayList<>();
-        mPoifoodSpusListAdapter = new PoifoodSpusListAdapter(this, foodSpuTagsBeans, FoodListActivity.this);
+        mPoifoodSpusListAdapter = new PoifoodSpusListAdapter(this, productList, foodSpuTagsBeans, FoodListActivity.this);
         mPoifoodSpusListAdapter.SetOnSetHolderClickListener(new PoifoodSpusListAdapter.HolderClickListener() {
             @Override
             public void onHolderClick(Drawable drawable, int[] start_location) {
@@ -226,19 +237,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         });
 
-        mStoreDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                View popView = getPopView(R.layout.dialog_shop_details);
-                showFoodListActivityDialog(view, popView);
-            }
-        });
-
         bg_layout.setOnClickListener(this);
         settlement.setOnClickListener(this);
         shopping_cart.setOnClickListener(this);
         mClearshopCart.setOnClickListener(this);
         mFinish.setOnClickListener(this);
+        mStoreDetails.setOnClickListener(this);
 
         long wmPoiId = (long) getIntent().getExtras().get(Constant.STORE_ID);
         map.put(Constant.STORE_ID, String.valueOf(wmPoiId));
@@ -293,12 +297,32 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         Lg.getInstance().d(TAG, "shopProduct.getId() = " + shopProduct.getId() + "; spusBean.getId() = " + spusBean.getId());
                         if (spusBean.getId() == shopProduct.getId()) {
                             Lg.getInstance().d(TAG, "shopProduct.getNumber() = " + shopProduct.getNumber());
-                            shopProduct.setNumber(shopProduct.getNumber());
+                            if (shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0) {
+                                for (int i = 0; i < shopProduct.getAttrs().size(); i++) {
+                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs = shopProduct.getAttrs().get(i).getChoiceAttrs();
+                                    long id = choiceAttrs.get(0).getId();
+                                    if (id == spusBean.getAttrs().get(i).getChoiceAttrs().get(0).getId()) {
+                                        int num = spusBean.getNumber();
+                                        shopProduct.setNumber(num);
+                                    }
+                                }
+                            } else {
+                                if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
+                                    for (int i = 0; i < shopProduct.getSkus().size(); i++) {
+                                        int id = shopProduct.getChoiceSkus().get(0).getId();
+                                        if (id == spusBean.getSkus().get(i).getId()) {
+                                            int num = shopProduct.getNumber();
+                                            shopProduct.setNumber(num);
+                                        }
+                                    }
+
+                                }
+                            }
                         }
                     }
                 }
             } else {
-                Lg.getInstance().d(TAG, "updateProduct else");
+                Lg.getInstance().d(TAG, "shopProduct else");
                 productList.add(spusBean);
             }
         }
@@ -360,6 +384,29 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
         shoppingPrise.setText("¥" + " " + (new DecimalFormat("0.00")).format(sum));
         shoppingNum.setText(String.valueOf(shopNum));
+
+        if (listFull != null && listReduce != null) {
+            if (listFull.size() > 0 && sum > listFull.get(listFull.size() - 1)) {
+                mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(listReduce.size() - 1) + getString(R.string.element));
+                mDiscountNumber = listReduce.get(listReduce.size() - 1);
+                return;
+            }
+            for (int i = 0; i < listFull.size(); i++) {
+                Lg.getInstance().d(TAG, "listFull.get(0) = " + listFull.get(0));
+                if (listFull.get(i) > sum) {
+                    double v = listFull.get(i) - sum;
+                    mDiscount.setVisibility(View.VISIBLE);
+                    if (i == 0) {
+                        mDiscount.setText(getString(R.string.buy_again) + v + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                    } else {
+                        mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
+                                getString(R.string.buy_again) + v + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                        mDiscountNumber = listReduce.get(i - 1);
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -394,6 +441,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 Intent intent = new Intent(this, SubmitOrderActivity.class);
                 intent.putExtra(POI_INFO, mPoiInfoBean);
                 intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
+                intent.putExtra(DISCOUNT, mDiscountNumber);
                 startActivity(intent);
                 break;
 
@@ -402,6 +450,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 bg_layout.setVisibility(View.GONE);
                 cardShopLayout.setVisibility(View.GONE);
                 break;
+
             case R.id.tv_clear:
                 if (productList != null && productList.size() > 0) {
                     productList.clear();
@@ -416,9 +465,18 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     shoppingCartAdapter.notifyDataSetChanged();
                     setPrise();
                 }
+                mDiscount.setVisibility(View.GONE);
                 break;
             case R.id.iv_finish:
                 finish();
+                break;
+            case R.id.rl_store_details:
+                View popView = getPopView(R.layout.dialog_shop_details);
+                mDetailsNotice = (TextView) popView.findViewById(R.id.tv_notice);
+                mDetailsShopName = (TextView) popView.findViewById(R.id.tv_shop_name);
+                mDetailsDistribution = (TextView) popView.findViewById(R.id.tv_details_distribution);
+                mDetailsDiscount = (TextView) popView.findViewById(R.id.tv_discount);
+                showFoodListActivityDialog(v, popView);
                 break;
         }
     }
@@ -592,6 +650,32 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void onPoidetailinfoSuccess(PoidetailinfoBean data) {
         mPoidetailinfoBean = data;
+        List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
+        for (int i = 0; i < discounts.size(); i++) {
+            String info = discounts.get(i).getInfo();
+            if (info.startsWith(getString(R.string.full))) {
+                String[] split = info.split(";");
+                listFull = new ArrayList();
+                listReduce = new ArrayList();
+                Lg.getInstance().d(TAG, "split.length = " + split.length);
+                for (int j = 0; j < split.length; j++) {
+                    String splitString = split[j];
+                    int y = 0;
+                    for (int k = 0; k < splitString.length(); k++) {
+                        String s = splitString.charAt(k) + "";
+                        if (s.equals(getString(R.string.reduce))) {
+                            y = k;
+                        }
+                    }
+                    String substring = splitString.substring(1, y);
+                    Lg.getInstance().d(TAG, "substring = " + substring);
+                    String lastString = splitString.substring(y + 1, splitString.length());
+                    Lg.getInstance().d(TAG, "lastString = " + lastString);
+                    listFull.add(Integer.valueOf(substring));
+                    listReduce.add(Integer.valueOf(lastString));
+                }
+            }
+        }
         Lg.getInstance().d(TAG, "onPoidetailinfoSuccess data = " + data);
     }
 

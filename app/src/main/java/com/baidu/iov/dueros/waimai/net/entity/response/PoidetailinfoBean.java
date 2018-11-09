@@ -7,6 +7,7 @@ import java.util.List;
  */
 
 public class PoidetailinfoBean {
+
     private MeituanBean meituan;
     private IovBean iov;
 
@@ -27,6 +28,7 @@ public class PoidetailinfoBean {
     }
 
     public static class MeituanBean {
+
         private int code;
         private String msg;
         private Object errorInfo;
@@ -65,6 +67,7 @@ public class PoidetailinfoBean {
         }
 
         public static class DataBean {
+
             private long wm_poi_id;
             private int status;
             private String status_desc;
@@ -87,9 +90,9 @@ public class PoidetailinfoBean {
             private String call_center;
             private String shipping_time;
             private List<?> product_list;
-            private List<?> discounts;
+            private List<DiscountsBean> discounts;
             private List<?> categoryInfoList;
-            private List<?> poiUserCommentVOList;
+            private List<PoiUserCommentVOListBean> poiUserCommentVOList;
 
             public long getWm_poi_id() {
                 return wm_poi_id;
@@ -267,11 +270,11 @@ public class PoidetailinfoBean {
                 this.product_list = product_list;
             }
 
-            public List<?> getDiscounts() {
+            public List<DiscountsBean> getDiscounts() {
                 return discounts;
             }
 
-            public void setDiscounts(List<?> discounts) {
+            public void setDiscounts(List<DiscountsBean> discounts) {
                 this.discounts = discounts;
             }
 
@@ -283,12 +286,99 @@ public class PoidetailinfoBean {
                 this.categoryInfoList = categoryInfoList;
             }
 
-            public List<?> getPoiUserCommentVOList() {
+            public List<PoiUserCommentVOListBean> getPoiUserCommentVOList() {
                 return poiUserCommentVOList;
             }
 
-            public void setPoiUserCommentVOList(List<?> poiUserCommentVOList) {
+            public void setPoiUserCommentVOList(List<PoiUserCommentVOListBean> poiUserCommentVOList) {
                 this.poiUserCommentVOList = poiUserCommentVOList;
+            }
+
+            public static class DiscountsBean {
+                private String info;
+                private String icon_url;
+                private String name;
+                private int reduceFree;
+
+                public String getInfo() {
+                    return info;
+                }
+
+                public void setInfo(String info) {
+                    this.info = info;
+                }
+
+                public String getIcon_url() {
+                    return icon_url;
+                }
+
+                public void setIcon_url(String icon_url) {
+                    this.icon_url = icon_url;
+                }
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
+
+                public int getReduceFree() {
+                    return reduceFree;
+                }
+
+                public void setReduceFree(int reduceFree) {
+                    this.reduceFree = reduceFree;
+                }
+            }
+
+            public static class PoiUserCommentVOListBean {
+                private String user_name;
+                private int ship_time;
+                private String comment;
+                private int comment_score;
+                private int comment_time;
+
+                public String getUser_name() {
+                    return user_name;
+                }
+
+                public void setUser_name(String user_name) {
+                    this.user_name = user_name;
+                }
+
+                public int getShip_time() {
+                    return ship_time;
+                }
+
+                public void setShip_time(int ship_time) {
+                    this.ship_time = ship_time;
+                }
+
+                public String getComment() {
+                    return comment;
+                }
+
+                public void setComment(String comment) {
+                    this.comment = comment;
+                }
+
+                public int getComment_score() {
+                    return comment_score;
+                }
+
+                public void setComment_score(int comment_score) {
+                    this.comment_score = comment_score;
+                }
+
+                public int getComment_time() {
+                    return comment_time;
+                }
+
+                public void setComment_time(int comment_time) {
+                    this.comment_time = comment_time;
+                }
             }
         }
     }

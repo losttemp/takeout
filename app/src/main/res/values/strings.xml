@@ -64,6 +64,11 @@
     <string name="please_add_to_the_shopping_cart_first">请先添加商品至购物车</string>
     <string name="please_select_the_specifications_first">请先选择规格</string>
     <string name="specifications">规格</string>
+    <string name="already_reduced">已减</string>
+    <string name="element">元</string>
+    <string name="full">满</string>
+    <string name="reduce">减</string>
+    <string name="buy_again">再买</string>
 
     <!--tools:text-->
     <string name="tools_text_location">送至：未来科技大厦</string>
