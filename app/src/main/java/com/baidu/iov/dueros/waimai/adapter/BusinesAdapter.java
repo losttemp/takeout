@@ -114,18 +114,20 @@ public class BusinesAdapter extends BaseAdapter implements View.OnClickListener 
         viewHolder.ratingBar.setClickable(false);
         viewHolder.ratingBar.setStar((float) mOpenPoiBaseInfo.getWmPoiScore());
         final BusDiscountAdpater mBusDiscountAdpater=new BusDiscountAdpater(mContext);
+        Lg.getInstance().e(TAG,"error:"+mOpenPoiBaseInfo.getDiscounts());
         if (mOpenPoiBaseInfo.getDiscounts().isEmpty()||mOpenPoiBaseInfo.getDiscounts().size()<=DEFALUT_SHOW){
             viewHolder.ivDiscount.setVisibility(View.GONE);
-        }
-        if (mOpenPoiBaseInfo.isOpenDiscount()){
-            mBusDiscountAdpater.setData(mOpenPoiBaseInfo.getDiscounts());
-            viewHolder.ivDiscount.setImageResource(R.mipmap.arrow_up);
         }else{
-            mBusDiscountAdpater.setData(mOpenPoiBaseInfo.getDiscounts().subList(0,DEFALUT_SHOW));
-            viewHolder.ivDiscount.setImageResource(R.mipmap.arrow_down);
+            viewHolder.ivDiscount.setVisibility(View.VISIBLE);
+            if (mOpenPoiBaseInfo.isOpenDiscount()){
+                mBusDiscountAdpater.setData(mOpenPoiBaseInfo.getDiscounts());
+                viewHolder.ivDiscount.setImageResource(R.mipmap.arrow_up);
+            }else{
+                mBusDiscountAdpater.setData(mOpenPoiBaseInfo.getDiscounts().subList(0,DEFALUT_SHOW));
+                viewHolder.ivDiscount.setImageResource(R.mipmap.arrow_down);
+            }
         }
-            
-      
+        
         viewHolder.rvDiscount.setAdapter(mBusDiscountAdpater);
         if (mOpenPoiBaseInfo.getStatus()==Constant.STROE_STATUS_NORMAL){
             viewHolder.tvStatusDesc.setVisibility(View.GONE);

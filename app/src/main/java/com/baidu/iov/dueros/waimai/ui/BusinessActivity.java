@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.R;
@@ -34,7 +35,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     private static final String TAG = BusinessActivity.class.getSimpleName();
     private Button btnBack;
     private TextView tvTitle;
-    private Button btnSearch;
+    private RelativeLayout mRlSearch;
     private BusinesAdapter mBusinesAdapter;
     private ListView mBusinessListView;
     private  TextView tvConditions;
@@ -117,7 +118,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     private  void initView(){
         btnBack=findViewById(R.id.btn_back);
         tvTitle=findViewById(R.id.tv_title);
-        btnSearch=findViewById(R.id.btn_search);
+        mRlSearch = (RelativeLayout) findViewById(R.id.rl_search);
         mRefreshLayout =  findViewById(R.id.refresh_layout);
         tvNoResult=findViewById(R.id.tv_tip_no_result);
         tvConditions=findViewById(R.id.tv_conditions);
@@ -144,7 +145,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     
     private void setListener(){
         btnBack.setOnClickListener(this);
-        btnSearch.setOnClickListener(this);
+        mRlSearch.setOnClickListener(this);
         tvConditions.setOnClickListener(this);
         tvFilter.setOnClickListener(this);
         setRefreshView();
@@ -376,7 +377,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
                 finish();
                 onBackPressed();
                 break;
-            case R.id.btn_search:
+            case R.id.rl_search:
                 Intent intent = new Intent(BusinessActivity.this, SearchActivity.class);
                 startActivity(intent);
                 break;
