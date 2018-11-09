@@ -6,13 +6,18 @@ import android.content.Context;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 
+import com.baidu.iov.dueros.waimai.model.IOrderDetailsModel;
 import com.baidu.iov.dueros.waimai.model.ISubmitOrderModel;
+import com.baidu.iov.dueros.waimai.model.OrderDetailsModel;
 import com.baidu.iov.dueros.waimai.model.SubmitOrderImpl;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitJsonBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.faceos.client.GsonUtil;
 
@@ -23,9 +28,11 @@ public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitO
 
 
     private ISubmitOrderModel mSubmitOrder;
+    private IOrderDetailsModel mModel;
 
     public SubmitOrderPresenter() {
         mSubmitOrder = new SubmitOrderImpl();
+        mModel = new OrderDetailsModel();
     }
 
     @Override
@@ -84,6 +91,26 @@ public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitO
 
     }
 
+    public void requestOrderDetails(OrderDetailsReq orderDetailsReq) {
+        Lg.getInstance().d("xss","requestOrderDetails ");
+        mModel.requestOrderDetails(orderDetailsReq, new RequestCallback<OrderDetailsResponse>() {
+            @Override
+            public void onSuccess(OrderDetailsResponse data) {
+                Lg.getInstance().d("xss","requestOrderDetails success");
+                if (getUi() != null) {
+                    getUi().OrderDetailsUpdate(data);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if (getUi() != null) {
+                    getUi().OrderDetailsFailure(msg);
+                }
+            }
+        });
+    }
+
     private String OnCreateOrderPayLoad(AddressListBean.IovBean.DataBean addressData,
                                         PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean,
                                         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList){
@@ -126,5 +153,7 @@ public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitO
         void onOrderSubmitSuccess(OrderSubmitBean data);
 
         void onError(String error);
+        void OrderDetailsUpdate(OrderDetailsResponse data);
+        void OrderDetailsFailure(String msg);
     }
 }

@@ -136,8 +136,7 @@
         android:layout_marginRight="@dimen/px80dp"
         android:clickable="false"
         android:divider="@null"
-        android:scrollbars="none"
-        android:visibility="gone"></ListView>
+        android:scrollbars="none"></ListView>
 
     <LinearLayout
         android:layout_width="match_parent"

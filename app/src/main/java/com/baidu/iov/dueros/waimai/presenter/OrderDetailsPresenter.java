@@ -42,7 +42,7 @@ public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.Order
 
     @Override
     public void unregisterCmd(Context context) {
-        Lg.getInstance().d(TAG, "registerCmd");
+        Lg.getInstance().d(TAG, "unregisterCmd");
         if (null != mVoiceManager) {
             mVoiceManager.unregisterCmd(context, mVoiceCallback);
         }

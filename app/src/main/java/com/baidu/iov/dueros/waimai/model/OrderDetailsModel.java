@@ -26,17 +26,19 @@ public class OrderDetailsModel implements IOrderDetailsModel {
 
     @Override
     public void requestOrderDetails(OrderDetailsReq orderDetailsReq, final RequestCallback callback) {
-        if (callback == null) {
-            return;
-        }
         ApiUtils.getOrderDetails(orderDetailsReq, new ApiCallBack<OrderDetailsResponse>() {
             @Override
             public void onSuccess(OrderDetailsResponse data) {
-                callback.onSuccess(data);
+                if (callback!=null) {
+                    callback.onSuccess(data);
+                }
             }
 
             @Override
             public void onFailed(String msg) {
+                if (callback!=null) {
+                    callback.onFailure(msg);
+                }
             }
         });
 
@@ -44,18 +46,22 @@ public class OrderDetailsModel implements IOrderDetailsModel {
 
     @Override
     public void requestOrderCancel(OrderCancelReq orderCancelReq, final RequestCallback callback) {
-        if (callback == null) {
-            return;
-        }
+        Lg.getInstance().d("OkHttp","OrderCancelModel");
         ApiUtils.getOrderCancel(orderCancelReq, new ApiCallBack<OrderCancelResponse>() {
             @Override
             public void onSuccess(OrderCancelResponse data) {
-                callback.onSuccess(data);
+                Lg.getInstance().d("OkHttp","OrderCancelModel  Success");
+                if (callback!=null) {
+                    Lg.getInstance().d("OkHttp","OrderCancelModel  no null + info" + data.getErrorInfo());
+                    callback.onSuccess(data);
+                }
             }
 
             @Override
             public void onFailed(String msg) {
-                callback.onFailure(msg);;
+                if (callback!=null) {
+                    callback.onFailure(msg);
+                }
             }
         });
     }
