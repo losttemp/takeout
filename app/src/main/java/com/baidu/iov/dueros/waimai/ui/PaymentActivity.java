@@ -9,12 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitJsonBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitOrderPresenter;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.google.zxing.BarcodeFormat;
@@ -47,6 +50,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     private TextView mOrderIdTv;
     private TextView mShopNameTv;
     private ImageView mPayUrlImg;
+    private int mCount = 0;
 
     private AddressListBean.IovBean.DataBean mAddressData;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> mProductList;
@@ -149,6 +153,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             }
             Bitmap bitmap = Bitmap.createBitmap(widthPix, heightPix, Bitmap.Config.ARGB_8888);
             bitmap.setPixels(pixels, 0, widthPix, 0, 0, widthPix, heightPix);
+            imageView.setImageBitmap(bitmap);
 
         } catch (WriterException e) {
             e.printStackTrace();
@@ -167,6 +172,16 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         @Override
         public void onTick(long millisUntilFinished) {
             mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), formatTime(millisUntilFinished)));
+            mCount++;
+            if (mCount == 5){
+                Lg.getInstance().d("xss","onCreate");
+                Long order_id = Long.parseLong("15053512850898388");
+                String user_phone = "18201010600";
+                String phone = Encryption.encrypt(user_phone);
+                OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq(order_id, phone);
+                getPresenter().requestOrderDetails(mOrderDetailsReq);
+                mCount = 0;
+            }
         }
 
         @Override
@@ -217,6 +232,19 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
     @Override
     public void onError(String error) {
+
+    }
+
+    @Override
+    public void OrderDetailsUpdate(OrderDetailsResponse data) {
+            Lg.getInstance().d("xss","phone = "+data.getMeituan().getData().getUser_phone());
+            if(data.getMeituan().getData().getPay_status()==3){
+                timerCancel();
+            }
+    }
+
+    @Override
+    public void OrderDetailsFailure(String msg) {
 
     }
 }
