@@ -145,7 +145,7 @@
             android:layout_height="20dp"
             android:src="@mipmap/arrow_down"
             android:layout_centerVertical="true"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"

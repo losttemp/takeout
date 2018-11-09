@@ -7,8 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -17,7 +15,6 @@ import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.BusinesAdapter;
 import com.baidu.iov.dueros.waimai.adapter.TabSortTypeAdpater;
-import com.baidu.iov.dueros.waimai.model.IFoodModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.PoilistReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
@@ -442,6 +439,5 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         getPresenter().requestBusinessBean(poilistReq);
     }
     
-    boolean  mIsScroll=false;
     
 }
