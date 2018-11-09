@@ -164,6 +164,7 @@ public class StoreResponse {
 				private String average_price_tip;
 				private List<ProductListBean> product_list;
 				private List<DiscountsBean> discounts;
+				private boolean isDiscountsDown;
 
 				public long getWm_poi_id() {
 					return wm_poi_id;
@@ -331,6 +332,14 @@ public class StoreResponse {
 
 				public void setDiscounts(List<DiscountsBean> discounts) {
 					this.discounts = discounts;
+				}
+
+				public boolean isDiscountsDown() {
+					return isDiscountsDown;
+				}
+
+				public void setDiscountsDown(boolean discountsDown) {
+					isDiscountsDown = discountsDown;
 				}
 
 				public static class ProductListBean {
