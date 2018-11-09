@@ -65,8 +65,10 @@ public class TabSortTypeAdpater extends RecyclerView.Adapter<TabSortTypeAdpater.
 
     @Override
     public void onClick(View v) {
-        mOnItemClickListener.onItemClick(mData,(int)v.getTag());
-        updateSelected(v);
+        if (mOnItemClickListener!=null) {
+            mOnItemClickListener.onItemClick(mData, (int) v.getTag());
+            updateSelected(v);
+        }
     }
 
     static class TabSortTypeViewHolder extends RecyclerView.ViewHolder {

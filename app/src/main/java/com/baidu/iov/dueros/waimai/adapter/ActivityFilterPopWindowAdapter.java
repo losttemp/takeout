@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.adapter;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +60,14 @@ public class ActivityFilterPopWindowAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		viewHolder.rvItems.setLayoutManager(new GridLayoutManager(mContext, 3));
-        FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter mActivityFilter=mData.get(position);
+		viewHolder.rvItems.setLayoutManager(new GridLayoutManager(mContext, 4));
+		FilterConditionsResponse.MeituanBean.MeituanData.ActivityFilter mActivityFilter=mData.get(position);
+		if (!TextUtils.isEmpty(mActivityFilter.getGroup_title())){
+			viewHolder.tvName.setText(mActivityFilter.getGroup_title());
+			viewHolder.tvName.setVisibility(View.VISIBLE);
+		}else{
+			viewHolder.tvName.setVisibility(View.GONE);
+		}
         viewHolder.tvName.setText(mActivityFilter.getGroup_title());
         final ActivityFilterItemsAdpater mActivityFilterItemsAdpater=new ActivityFilterItemsAdpater(mContext);
 		mActivityFilterItemsAdpater.setData(mActivityFilter.getItems());
