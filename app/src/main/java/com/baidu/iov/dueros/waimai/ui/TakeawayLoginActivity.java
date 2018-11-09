@@ -37,10 +37,10 @@ import java.util.List;
 
 //import com.baidu.iov.dueros.waimai.waimaiapplication.R;
 
-public class MeituanLoginActivity extends BaseActivity<MeituanAuthPresenter, MeituanAuthPresenter.MeituanLoginUi> implements
+public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, MeituanAuthPresenter.MeituanLoginUi> implements
         MeituanAuthPresenter.MeituanLoginUi {
 
-    private static final String TAG = MeituanLoginActivity.class.getSimpleName();
+    private static final String TAG = TakeawayLoginActivity.class.getSimpleName();
     private WebView mWVMeituan;
     private ProgressBar progressBar;
     private MeituanAuthorizeReq mMeituanAuthReq;

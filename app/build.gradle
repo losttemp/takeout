@@ -75,4 +75,5 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     compile files('libs/sun.misc.BASE64Decoder.jar')
+    compile 'com.google.zxing:core:3.3.3'
 }
