@@ -13,6 +13,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.ArrayList;
@@ -61,8 +62,8 @@ public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitO
 
         OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
         String payload = OnCreateOrderPayLoad(addressData, poiInfoBean, productList);
-        orderSubmitReq.setPayload(payload);
-        orderSubmitReq.setWm_pic_url(poiInfoBean.getPic_url());
+        orderSubmitReq.setPayload(Encryption.encrypt(payload));
+        orderSubmitReq.setWm_pic_url(Encryption.encrypt(poiInfoBean.getPic_url()));
         mSubmitOrder.requestOrderSubmitData(orderSubmitReq, new RequestCallback<OrderSubmitBean>() {
 
             @Override
@@ -99,7 +100,7 @@ public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitO
         List<OrderSubmitJsonBean.WmOrderingListBean.FoodListBean> foodListBeans = new ArrayList<>();
         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : productList){
             OrderSubmitJsonBean.WmOrderingListBean.FoodListBean foodListBean = new OrderSubmitJsonBean.WmOrderingListBean.FoodListBean();
-            foodListBean.setWm_food_sku_id(spusBean.getId());
+            foodListBean.setWm_food_sku_id(spusBean.getSkus().get(0).getId());
             foodListBean.setCount(spusBean.getNumber());
             foodListBeans.add(foodListBean);
         }

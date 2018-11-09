@@ -24,6 +24,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitInfoPresenter;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.R;
 
@@ -158,7 +159,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
 
 
-
         }
 
         if (mDataBean != null) {
@@ -195,8 +195,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 break;
 
             case R.id.to_pay:
-                //Intent data = new Intent(this, PaySuccessActivity.class);
-                if (mPoiInfo != null && mOrderPreview != null) {
+
+                if (mPoiInfo != null && mProductList != null) {
 
                     Intent data = new Intent(this, PaymentActivity.class);
                     data.putExtra(POI_INFO, (Serializable) mPoiInfo);
@@ -264,7 +264,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     String type = mDataBean.get(mCurDateItem).getTimelist().get(position).getDate_type_tip();
                     mTypeTipTv.setText(type);
                     String time = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_time();
-                    Lg.getInstance().d("zhangbing", "-----------type = " + type + "-----time = " + time);
                     if (!type.isEmpty() && type.equals(time)) {
                         mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), "14:20"));
                     } else {
@@ -334,9 +333,15 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             case SELECT_DELIVERY_ADDRESS:
                 if (data != null) {
                     mAddressData = (AddressListBean.IovBean.DataBean) data.getSerializableExtra(ADDRESS_DATA);
-                    mAddressTv.setText(mAddressData.getAddress());
-                    mUserNameTv.setText(mAddressData.getUser_name());
-                    mUserPhoneTv.setText(mAddressData.getUser_phone());
+
+                    try {
+                        mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
+                        mUserNameTv.setText(Encryption.desEncrypt(mAddressData.getUser_name()));
+                        mUserPhoneTv.setText(Encryption.desEncrypt(mAddressData.getUser_phone()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     getPresenter().requestOrderPreview(mProductList, mPoiInfo, mAddressData);
                 }
 

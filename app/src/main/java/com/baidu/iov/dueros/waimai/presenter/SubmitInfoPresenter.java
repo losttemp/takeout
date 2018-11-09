@@ -17,6 +17,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.ArrayList;
@@ -90,7 +91,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                                     AddressListBean.IovBean.DataBean addressData){
         String payload = onCreatePayLoadJson(spusBeanList, poiInfoBean, addressData);
         OrderPreviewReqBean orderPreviewReqBean = new OrderPreviewReqBean();
-        orderPreviewReqBean.setPayload(payload);
+        orderPreviewReqBean.setPayload(Encryption.encrypt(payload));
         mSubmitInfo.requestOrderPreview(orderPreviewReqBean, new RequestCallback<OrderPreviewBean>() {
             @Override
             public void onSuccess(OrderPreviewBean data) {
@@ -120,7 +121,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         OrderPreviewJsonBean.WmOrderingListBean wmOrderingListBean = new OrderPreviewJsonBean.WmOrderingListBean();
         wmOrderingListBean.setWm_poi_id(poiInfoBean.getWm_poi_id());
         wmOrderingListBean.setDelivery_time(0);
-        wmOrderingListBean.setPay_type(/*poiInfoBean.getSupport_pay()*/2);
+        wmOrderingListBean.setPay_type(2);
 
         List<OrderPreviewJsonBean.WmOrderingListBean.FoodListBean> foodListBeans = new ArrayList<>();
         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList){

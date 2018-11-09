@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 
 import java.util.List;
 
@@ -60,17 +61,22 @@ public class AddressListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        String address = mData.get(position).getAddress();
-        viewHolder.tv_address.setText(address);
+        try {
+            String address = Encryption.desEncrypt(mData.get(position).getAddress());
+            viewHolder.tv_address.setText(address);
 
-        //String address_type = mData.get(position).getAddressRangeTip();
-        //viewHolder.tv_address_type.setText(address_type);
+            //String address_type = mData.get(position).getAddressRangeTip();
+            //viewHolder.tv_address_type.setText(address_type);
 
-        String name = mData.get(position).getUser_name();
-        viewHolder.tv_name.setText(name);
+            String name = Encryption.desEncrypt(mData.get(position).getUser_name());
+            viewHolder.tv_name.setText(name);
 
-        String phone = mData.get(position).getUser_phone();
-        viewHolder.tv_phone.setText(phone);
+            String phone = Encryption.desEncrypt(mData.get(position).getUser_phone());
+            viewHolder.tv_phone.setText(phone);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         return convertView;
     }
