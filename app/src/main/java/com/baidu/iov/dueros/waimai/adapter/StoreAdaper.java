@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -9,18 +10,29 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean.DataBean
+		.OpenPoiBaseInfoListBean.DiscountsBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.Glide;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
+
 public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
+
+	private static final int DISCOUNT_LINE_HEIGHT = 25;
 
 	private List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean> mStoreList;
 	private Context mContext;
@@ -52,12 +64,12 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder viewHolder, int position) {
-		StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean store = mStoreList.get
+	public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
+		final StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean store = mStoreList.get
 				(position);
 
 		viewHolder.tvStoreName.setText(store.getName());
-		viewHolder.tvScore.setText(store.getWm_poi_score() + "");
+		viewHolder.tvScore.setText(String.valueOf(store.getWm_poi_score()));
 		viewHolder.tvDistance.setText(store.getDistance());
 		viewHolder.tvAveragePrice.setText(store.getAverage_price_tip());
 		viewHolder.tvSales.setText(String.format(mContext.getResources().getString(R.string
@@ -68,7 +80,11 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 				.min_price_s), NumberFormat.getInstance().format(store.getMin_price())));
 		viewHolder.tvExpressPrice.setText(String.format(mContext.getResources().getString(R.string
 				.shipping_fee_s), NumberFormat.getInstance().format(store.getShipping_fee())));
-		viewHolder.tvStoreIndex.setText(position + 1 + "");
+		viewHolder.tvStoreIndex.setText(String.valueOf(position + 1));
+		Glide.with(mContext).load(store.getPic_url()).into(viewHolder.ivStore);
+
+		viewHolder.ratingBar.setClickable(false);
+		viewHolder.ratingBar.setStar((float) store.getWm_poi_score());
 
 		String averagePrice = store.getAverage_price_tip();
 		if (!TextUtils.isEmpty(averagePrice)) {
@@ -78,31 +94,90 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			viewHolder.tvAveragePrice.setText("");
 		}
 
-		viewHolder.ratingBar.setClickable(false);
-		viewHolder.ratingBar.setStar((float) store.getWm_poi_score());
-
-		int status = store.getStatus();
+		//status
+		final int status = store.getStatus();
 		if (status == Constant.STROE_STATUS_BREAK) {
 			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string
 					.store_status_break));
 			viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
 			viewHolder.viewMaskLayer.setVisibility(View.VISIBLE);
-
 		} else if (status == Constant.STROE_STATUS_BUSY) {
 			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string
 					.store_status_busy));
 			viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
 			viewHolder.viewMaskLayer.setVisibility(View.GONE);
-
 		} else {
 			viewHolder.tvStatusDesc.setVisibility(View.GONE);
 			viewHolder.viewMaskLayer.setVisibility(View.GONE);
+		}
+
+		//Discounts
+		List<String> discounts = getDiscountList(store.getDiscounts());
+		final FlowLayoutManager layoutManager = new FlowLayoutManager();
+		if (discounts == null || discounts.size() == 0) {
+			viewHolder.rlDiscount.setVisibility(View.GONE);
+		} else {
+			if (viewHolder.rvStoreDiscount.getItemDecorationCount() == 0) {
+				viewHolder.rvStoreDiscount.addItemDecoration(new SpaceItemDecoration(dp2px(3)));
+			}
+			viewHolder.rvStoreDiscount.setLayoutManager(layoutManager);
+			DiscountAdaper discountAdaper = new DiscountAdaper(discounts);
+			viewHolder.rvStoreDiscount.setAdapter(discountAdaper);
+			viewHolder.rlDiscount.setVisibility(View.VISIBLE);
+
+			viewHolder.itemView.getViewTreeObserver().addOnGlobalLayoutListener(new
+																						ViewTreeObserver
+					.OnGlobalLayoutListener() {
+				@Override
+				public void onGlobalLayout() {
+					int lines = layoutManager.getLineRows();
+					if (lines > 1) {
+						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT *
+								lines);
+						viewHolder.ivStoreDiscount.setVisibility(View.VISIBLE);
+					} else {
+						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
+						viewHolder.ivStoreDiscount.setVisibility(View.GONE);
+					}
+
+					if (store.isDiscountsDown()) {
+						viewHolder.ivStoreDiscount.setImageResource(R.mipmap.arrow_up);
+						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT *
+								lines);
+					} else {
+						viewHolder.ivStoreDiscount.setImageResource(R.mipmap.arrow_down);
+						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
+					}
+
+					viewHolder.itemView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+				}
+			});
+
+			viewHolder.ivStoreDiscount.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (store.isDiscountsDown()) {
+						viewHolder.ivStoreDiscount.setImageResource(R.mipmap.arrow_down);
+						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
+						store.setDiscountsDown(false);
+					} else {
+						int lines = layoutManager.getLineRows();
+						if (lines > 1) {
+							viewHolder.ivStoreDiscount.setImageResource(R.mipmap.arrow_up);
+							store.setDiscountsDown(true);
+							setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT
+									* lines);
+						} else {
+							setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
+						}
+					}
+				}
+			});
 
 		}
 
 		viewHolder.itemView.setTag(position);
-
-		Glide.with(mContext).load(store.getPic_url()).into(viewHolder.ivStore);
 
 	}
 
@@ -126,6 +201,9 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		private AppCompatTextView tvAveragePrice;
 		private AppCompatTextView tvStoreIndex;
 		private View viewMaskLayer;
+		private RelativeLayout rlDiscount;
+		private RecyclerView rvStoreDiscount;
+		private AppCompatImageView ivStoreDiscount;
 
 		private ViewHolder(View view) {
 			super(view);
@@ -144,6 +222,9 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			tvAveragePrice = (AppCompatTextView) view.findViewById(R.id.tv_average_price);
 			tvStoreIndex = (AppCompatTextView) view.findViewById(R.id.tv_store_index);
 			viewMaskLayer = (View) view.findViewById(R.id.view_mask_layer);
+			rlDiscount = (RelativeLayout) view.findViewById(R.id.rl_discount);
+			rvStoreDiscount = (RecyclerView) view.findViewById(R.id.rv_store_discount);
+			ivStoreDiscount = (AppCompatImageView) view.findViewById(R.id.iv_store_discount);
 		}
 	}
 
@@ -153,5 +234,43 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
 	public void setItemClickListener(OnItemClickListener itemClickListener) {
 		mItemClickListener = itemClickListener;
+	}
+
+	class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+		private int space;
+
+		public SpaceItemDecoration(int space) {
+			this.space = space;
+		}
+
+		@Override
+		public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull
+				RecyclerView parent, @NonNull RecyclerView.State state) {
+			outRect.top = 0;
+			outRect.left = 0;
+			outRect.right = space;
+			outRect.bottom = space;
+		}
+	}
+
+	private void setRecyclerViewHight(RecyclerView rvStoreDiscount, int height) {
+		ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) rvStoreDiscount.getLayoutParams();
+		if (height > 0) {
+			params.height = dp2px(height);
+		} else {
+			params.height = height;
+		}
+		rvStoreDiscount.setLayoutParams(params);
+
+	}
+
+	private List<String> getDiscountList(List<DiscountsBean> discounts) {
+		List<String> list = new ArrayList<>();
+		for (DiscountsBean bean : discounts) {
+			String[] name = bean.getInfo().split(";");
+			list.addAll(Arrays.asList(name));
+		}
+
+		return list;
 	}
 }
