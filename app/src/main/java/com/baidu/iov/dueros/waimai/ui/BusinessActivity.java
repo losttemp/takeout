@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.BusinesAdapter;
 import com.baidu.iov.dueros.waimai.adapter.TabSortTypeAdpater;
+import com.baidu.iov.dueros.waimai.model.IFoodModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.PoilistReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
@@ -44,6 +46,8 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     private PoilistReq poilistReq;
     
     private String title="";
+
+    private String keyword="";
     
     private ConditionsPopWindow mConditionsPopWindow;
 
@@ -68,14 +72,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
     private int categoryType;
     private int secondCategoryType;
-
-    private final static int flowerSecondCategoryType=1063;
-
-    private final static int cakeSecondCategoryType=101563;
-
-    private final static int flowerCategoryType=23;
     
-    private final static int cakeCategoryType=23;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,21 +95,23 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
     private void initData (){
         filterConditionsReq =new FilterConditionsReq();
-        
-    
         if (getResources().getString(R.string.stroe_type_cake).equals(title)){
-            categoryType=cakeCategoryType;
-            secondCategoryType=cakeSecondCategoryType;
+            keyword=getResources().getString(R.string.cake);
         }else if (getResources().getString(R.string.stroe_type_flower).equals(title)){
-            categoryType=flowerCategoryType;
-            secondCategoryType=flowerSecondCategoryType;
+            keyword=getResources().getString(R.string.flower);
         }
         poilistReq=new PoilistReq();
         poilistReq.setPage_index(1);
+        if (!keyword.isEmpty()){
+            poilistReq.setKeyword(keyword);
+        }
         poilistReq.setPage_size(DEFAULT_PAGE_SIZE);
-        poilistReq.setCategoryType(categoryType);
-        poilistReq.setSecondCategoryType(secondCategoryType);
-        
+        if (categoryType!=0) {
+            poilistReq.setCategoryType(categoryType);
+        }
+        if (secondCategoryType!=0) {
+            poilistReq.setSecondCategoryType(secondCategoryType);
+        }
         getPresenter().requestFilterConditions(filterConditionsReq);
         getPresenter().requestBusinessBean(poilistReq);
 
@@ -169,10 +168,11 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
                 getPresenter().requestBusinessBean(poilistReq);
             }
         });
-        mBusinessListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+     
+        mBusinesAdapter.setOnItemClickListener(new BusinesAdapter.OnBusinessItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                toBusinessItem(position);
+            public void onItemClick(int itemPosition) {
+                toBusinessItem(itemPosition);
             }
         });
     }
@@ -441,4 +441,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         
         getPresenter().requestBusinessBean(poilistReq);
     }
+    
+    boolean  mIsScroll=false;
+    
 }

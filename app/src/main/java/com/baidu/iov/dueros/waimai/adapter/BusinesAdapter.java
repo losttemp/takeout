@@ -1,5 +1,8 @@
 package com.baidu.iov.dueros.waimai.adapter;
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,26 +11,43 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
+import com.baidu.iov.dueros.waimai.ui.BusinessActivity;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.view.NoClikRecyclerView;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
-public class BusinesAdapter extends BaseAdapter {
-
+public class BusinesAdapter extends BaseAdapter implements View.OnClickListener {
+    private static final String TAG = BusinesAdapter.class.getSimpleName();
     private Context mContext;
     
     private List<BusinessBean.MeituanBean.Business.OpenPoiBaseInfo> mData;
+
+    private BusinesAdapter.OnBusinessItemClickListener mOnItemClickListener;
+    
 
     public BusinesAdapter(Context context) {
         mContext = context;
     }
 
+    private boolean mIsScroll=false;
+    
     public void setData(List<BusinessBean.MeituanBean.Business.OpenPoiBaseInfo> data) {
         mData = data;
         notifyDataSetChanged();
     }
+
+    public void setOnItemClickListener(OnBusinessItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+    public void setmIsScroll(boolean mIsScroll) {
+        this.mIsScroll = mIsScroll;
+    }
+
     @Override
     public int getCount() {
         return mData == null ? 0 : mData.size();
@@ -44,7 +64,7 @@ public class BusinesAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_business, null);
@@ -62,10 +82,18 @@ public class BusinesAdapter extends BaseAdapter {
             viewHolder.tvStatusDesc = convertView.findViewById(R.id.tv_status_desc);
             viewHolder.rl= convertView.findViewById(R.id.rl);
             viewHolder.tvBusinessIndex= convertView.findViewById(R.id.tv_business_index);
+            viewHolder.rvDiscount= convertView.findViewById(R.id.rv_discount);
+            viewHolder.rlDiscount=convertView.findViewById(R.id.rl_discount);
+            viewHolder.ivDiscount=convertView.findViewById(R.id.iv_discount);
+            //横向列表布局
+            LinearLayoutManager manager = new LinearLayoutManager(mContext);
+            manager.setOrientation(LinearLayoutManager.VERTICAL);
+            viewHolder.rvDiscount.setLayoutManager(manager);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        
         BusinessBean.MeituanBean.Business.OpenPoiBaseInfo mOpenPoiBaseInfo = mData.get(position);
         viewHolder.tvBusinessIndex.setText(""+(position+1));
         viewHolder.tvBusinessName.setText(mOpenPoiBaseInfo.getName());
@@ -82,6 +110,9 @@ public class BusinesAdapter extends BaseAdapter {
         viewHolder.tvAveragePrice.setText(""+mOpenPoiBaseInfo.getAveragePriceTip());
         viewHolder.ratingBar.setClickable(false);
         viewHolder.ratingBar.setStar((float) mOpenPoiBaseInfo.getWmPoiScore());
+        final BusDiscountAdpater mBusDiscountAdpater=new BusDiscountAdpater(mContext);
+        mBusDiscountAdpater.setData(mOpenPoiBaseInfo.getDiscounts());
+        viewHolder.rvDiscount.setAdapter(mBusDiscountAdpater);
         if (mOpenPoiBaseInfo.getStatus()==Constant.STROE_STATUS_NORMAL){
             viewHolder.tvStatusDesc.setVisibility(View.GONE);
         }else{
@@ -93,12 +124,45 @@ public class BusinesAdapter extends BaseAdapter {
         }else{
             viewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.white));
         }
+       
         Glide.with(mContext).load(mOpenPoiBaseInfo.getPicUrl()).into(viewHolder.ivBusiness);
+        viewHolder.rlDiscount.setTag(position);
+        viewHolder.rlDiscount.setOnClickListener(this);
+        viewHolder.rl.setOnClickListener(this);
         
         return convertView;
     }
+ 
+    
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.rl:
+                ViewHolder viewHolder =(ViewHolder)v.getTag();
+                int position =Integer.parseInt(viewHolder.tvBusinessIndex.getText().toString())-1;
+                Lg.getInstance().d(TAG,"position:"+position);
+                if (mOnItemClickListener!=null) {
+                    mOnItemClickListener.onItemClick(position);
+                }
+                break;
+            case R.id.rl_discount:
+                Lg.getInstance().d(TAG," v:"+ v.getTag());
+                if (mOnItemClickListener!=null) {
+                    mOnItemClickListener.onItemClick((int)v.getTag());
+                }
+                break;
+                       
+
+        }
+       
+    }
 
 
+    public interface OnBusinessItemClickListener {
+        void onItemClick(int itemPosition);
+    }
 
     public class ViewHolder {
         private ImageView ivBusiness;
@@ -114,5 +178,8 @@ public class BusinesAdapter extends BaseAdapter {
         private TextView tvStatusDesc;
         private RelativeLayout rl;
         private TextView tvBusinessIndex;
+        private NoClikRecyclerView rvDiscount;
+        private RelativeLayout rlDiscount;
+        private ImageView ivDiscount;
     }
 }

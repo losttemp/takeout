@@ -123,7 +123,35 @@
         android:layout_marginRight="5dp"
         android:layout_toRightOf="@id/tv_shipping_fee"
         android:textSize="13sp" />
+    
+    <RelativeLayout
+        android:id="@+id/rl_discount"
+        android:layout_below="@id/tv_min_price"
+        android:layout_toRightOf="@id/fl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+    <com.baidu.iov.dueros.waimai.view.NoClikRecyclerView
+        android:id="@+id/rv_discount"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginRight="3dp"
+        android:layout_alignParentLeft="true"
+        android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/iv_discount"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/arrow_down"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:textSize="13sp" />
+
+        </RelativeLayout>
     <TextView
         android:id="@+id/tv_distance"
         android:layout_width="wrap_content"
