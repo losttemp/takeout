@@ -9,20 +9,21 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/px80dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/address_contact" />
 
-        <EditText
+        <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@null"
-            android:lines="1" />
+            android:lines="1"
+            android:maxLength="64" />
 
     </LinearLayout>
 
@@ -33,19 +34,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/px200dp"
         android:gravity="center_horizontal">
 
         <RadioGroup
             android:id="@+id/address_edit_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/address_edit_sir"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:checked="true"
                 android:padding="20dp"
                 android:text="@string/address_sir" />
@@ -53,7 +55,7 @@
             <RadioButton
                 android:id="@+id/address_edit_lady"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:padding="20dp"
                 android:text="@string/address_lady" />
         </RadioGroup>
@@ -66,19 +68,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/px80dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/address_phone" />
 
-        <EditText
+        <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_phone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@null"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:maxLength="11" />
     </LinearLayout>
 
     <View
@@ -88,17 +91,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/px80dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/address_addr" />
 
         <TextView
             android:id="@+id/address_edit_address"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@null" />
     </LinearLayout>
 
@@ -109,17 +112,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/px80dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/address_house_num" />
 
-        <EditText
+        <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_house_num"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@null" />
     </LinearLayout>
 
@@ -130,18 +133,18 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/px160dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:padding="20dp"
             android:text="@string/address_tag" />
 
         <com.baidu.iov.dueros.waimai.view.TagListView
             android:id="@+id/address_edit_tags"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:dividerWidth="20dp"
             app:textColor="#1f1fe9" />
     </LinearLayout>

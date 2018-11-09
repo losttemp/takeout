@@ -26,7 +26,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         this.mAddressList = mAddressList;
     }
 
-    public void setmItemClickListerner(OnItemClickListener mItemClickListerner) {
+    public void setOnItemClickListerner(OnItemClickListener mItemClickListerner) {
         this.mItemClickListerner = mItemClickListerner;
     }
 
@@ -71,8 +71,10 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             name = view.findViewById(R.id.address_select_name);
             phone = view.findViewById(R.id.address_select_phone);
             edit = view.findViewById(R.id.address_select_edit);
+            des.setOnClickListener(this);
             details.setOnClickListener(this);
             edit.setOnClickListener(this);
+            view.findViewById(R.id.address_select_details_container).setOnClickListener(this);
         }
 
         public void bindData(AddressListBean.IovBean.DataBean dataBean) {

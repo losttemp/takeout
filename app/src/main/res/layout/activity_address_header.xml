@@ -10,7 +10,7 @@
         android:id="@+id/address_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/arrow_return" />
 
     <TextView
         android:id="@+id/address_title"

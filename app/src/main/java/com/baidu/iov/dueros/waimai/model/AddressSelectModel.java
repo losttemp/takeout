@@ -22,14 +22,12 @@ public class AddressSelectModel implements IAddressSelectModel {
         ApiUtils.getAddressList(reqBean, new ApiCallBack<AddressListBean>() {
             @Override
             public void onSuccess(AddressListBean data) {
-                Log.d("hhr", "AddressListBean" + data.toString());
                 callback.onSuccess(data);
             }
 
             @Override
             public void onFailed(String msg) {
                 callback.onFailure(msg);
-                Log.d("hhr", "Ade erro" + msg);
             }
         });
     }

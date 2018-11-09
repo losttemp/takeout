@@ -29,16 +29,13 @@ public class AddressEditModel implements IAddressEditModel {
         addressEditReq.setLongitude(Constant.LONGITUDE);
         addressEditReq.setType("家");
 
-        Log.d("hhr", addressEditReq.toString());
         ApiUtils.addAddress(addressEditReq, new ApiCallBack<AddressEditBean>() {
             @Override
             public void onSuccess(AddressEditBean data) {
-                Log.d("hhr", "AddressEditBean" + data.toString());
             }
 
             @Override
             public void onFailed(String msg) {
-                Log.d("hhr", "Address erro:--" + msg);
             }
         });
     }

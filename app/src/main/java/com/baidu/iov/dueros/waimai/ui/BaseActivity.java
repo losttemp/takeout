@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -33,7 +34,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         mPresenter = createPresenter();
     }
 
-    private BDLocation mBDLocation;
+    protected BDLocation mBDLocation;
 
     public T getPresenter() {
         return mPresenter;
@@ -64,19 +65,31 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LocationManager.getInstance(this).stopLocation();
         mPresenter.onUiDestroy(getUi());
     }
 
     protected void initLocationCity() {
         LocationManager instance = LocationManager.getInstance(this);
+        instance.initLocationClient(null, null, 0, true);
         LocationManager.getInstance(this).setLocationCallBack(this);
         instance.startLocation();
+        BDLocation lastKnownLocation = instance.getLastKnownLocation();
+        if (lastKnownLocation != null) {
+            mBDLocation = lastKnownLocation;
+            Constant.LATITUDE = (int) mBDLocation.getLatitude()*LocationManager.SPAN;
+            Constant.LONGITUDE = (int) mBDLocation.getLongitude()*LocationManager.SPAN;
+        }
     }
 
     @Override
     public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
-
-
+        if (isSuccess) {
+            mBDLocation = bdLocation;
+        } else {
+            Toast.makeText(this,"locationErrorTYPE:"+bdLocation.getLocType(),Toast.LENGTH_LONG).show();
+            LocationManager.getInstance(this).requestLocation();
+        }
     }
 
     private void requestPermission() {
