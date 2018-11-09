@@ -246,4 +246,11 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 		return self.getWidth() - self.getPaddingLeft() - self.getPaddingRight();
 	}
 
+	public int getLineRows() {
+		if (lineRows != null) {
+			return lineRows.size();
+		}
+		return 0;
+	}
+
 }
