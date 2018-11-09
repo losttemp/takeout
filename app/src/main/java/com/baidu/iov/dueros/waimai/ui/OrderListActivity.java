@@ -36,8 +36,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private AppCompatTextView mTvNoOrder;
 
     private RecyclerView mRvOrder;
-    private AppCompatTextView mTvHomeBtn;
-    private AppCompatTextView mTvOrderBtn;
     private AppCompatImageView mIvBack;
 
     private OrderListAdaper mOrderListAdaper;
@@ -83,8 +81,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
         mIvBack = (AppCompatImageView) findViewById(R.id.iv_back);
         mRvOrder = (RecyclerView) findViewById(R.id.rv_order);
-        mTvHomeBtn = (AppCompatTextView) findViewById(R.id.tv_home);
-        mTvOrderBtn = (AppCompatTextView) findViewById(R.id.tv_order);
         mTvNoOrder = (AppCompatTextView) findViewById(R.id.tv_tip_no_order);
         mTvNoOrder.setVisibility(View.GONE);
     }
@@ -97,8 +93,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mRvOrder.setAdapter(mOrderListAdaper);
 
         mOrderListReq = new OrderListReq();
-        mTvHomeBtn.setOnClickListener(this);
-        mTvOrderBtn.setOnClickListener(this);
         mIvBack.setOnClickListener(this);
 
         mOrderListAdaper.setOnItemClickListener(new OrderListAdaper.OnItemClickListener() {
@@ -160,16 +154,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             case R.id.iv_back:
                 onBackPressed();
                 break;
-
-            case R.id.tv_order:
-                break;
-
-            case R.id.tv_home:
-                Intent homeIntent = new Intent(this, HomeActivity.class);
-                startActivity(homeIntent);
-                finish();
-                break;
-
             default:
                 break;
         }
