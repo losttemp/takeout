@@ -91,18 +91,15 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 int num = spusBeans.get(position).getNumber();
                 if (num > 0) {
                     num--;
-                    if (num == 0) {
-                        spusBeans.get(position).setNumber(num);
-                        shopToDetailListener.onRemovePriduct(spusBeans.get(position));
+                    spusBeans.get(position).setNumber(num);
+                    viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
+                    if (shopToDetailListener != null) {
+                        shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag());
                     } else {
-                        spusBeans.get(position).setNumber(num);
-                        viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
-                        if (shopToDetailListener != null) {
-                            shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag());
-                        } else {
-                        }
                     }
-
+                    if (num == 0) {
+                        shopToDetailListener.onRemovePriduct(spusBeans.get(position));
+                    }
                 }
             }
         });

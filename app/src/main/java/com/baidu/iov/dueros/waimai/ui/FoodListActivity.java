@@ -311,19 +311,27 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                     for (int i = 0; i < shopProduct.getSkus().size(); i++) {
                                         int id = shopProduct.getChoiceSkus().get(0).getId();
                                         if (id == spusBean.getSkus().get(i).getId()) {
-                                            int num = shopProduct.getNumber();
+                                            int num = spusBean.getNumber();
                                             shopProduct.setNumber(num);
                                         }
                                     }
 
+                                } else {
+                                    shopProduct.setNumber(spusBean.getNumber());
                                 }
                             }
                         }
                     }
                 }
             } else {
+                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBeanNew = null;
+                try {
+                    spusBeanNew = (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean) spusBean.deepClone();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 Lg.getInstance().d(TAG, "shopProduct else");
-                productList.add(spusBean);
+                productList.add(spusBeanNew);
             }
         }
         shoppingCartAdapter.notifyDataSetChanged();
@@ -476,6 +484,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 mDetailsShopName = (TextView) popView.findViewById(R.id.tv_shop_name);
                 mDetailsDistribution = (TextView) popView.findViewById(R.id.tv_details_distribution);
                 mDetailsDiscount = (TextView) popView.findViewById(R.id.tv_discount);
+
+                mDetailsDiscount.setText(mPoidetailinfoBean.getMeituan().getData().getDiscounts().get(0).getInfo());
+                mDetailsShopName.setText(mPoidetailinfoBean.getMeituan().getData().getName());
+                mDetailsDistribution.setText(getString(R.string.distribution_situation, "" + mPoidetailinfoBean.getMeituan().getData().getMin_price(),
+                        "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee(), "" + mPoidetailinfoBean.getMeituan().getData().getAvg_delivery_time()));
+                mDetailsNotice.setText(getString(R.string.notice, mPoiInfoBean.getBulletin()));
+
                 showFoodListActivityDialog(v, popView);
                 break;
         }
@@ -612,7 +627,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mDelivery.setText(getString(R.string.distribution_situation, "" + mPoiInfoBean.getMin_price(),
                 "" + mPoiInfoBean.getShipping_fee(), "" + mPoiInfoBean.getAvg_delivery_time()));
         mBulletin.setText(getString(R.string.notice, mPoiInfoBean.getBulletin()));
-//        mDiscounts.setText(mPoiInfoBean.getDiscounts());TODO
         GlideApp.with(this)
                 .load(mPoiInfoBean.getPic_url())
                 .placeholder(R.mipmap.ic_launcher)
@@ -651,6 +665,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void onPoidetailinfoSuccess(PoidetailinfoBean data) {
         mPoidetailinfoBean = data;
         List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
+        mDiscounts.setText(data.getMeituan().getData().getDiscounts().get(0).getInfo());
         for (int i = 0; i < discounts.size(); i++) {
             String info = discounts.get(i).getInfo();
             if (info.startsWith(getString(R.string.full))) {

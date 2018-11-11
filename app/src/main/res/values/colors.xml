@@ -41,4 +41,10 @@
 	<color name="delivery_bg">#D7D7D7</color>
 	<color name="blue_text">#0045FF</color>
 	<color name="black_text">#000000</color>
+
+	<color name="goods_item_text_normal">#ff8000</color>
+	<color name="goods_item_text_selected">#ffffff</color>
+	<color name="goods_item_btn_bg_normal">#ffffff</color>
+	<color name="goods_item_btn_bg_selected">#ff8000</color>
+	<color name="goods_item_btn_bg_border">@color/goods_item_btn_bg_selected</color>
 </resources>

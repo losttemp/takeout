@@ -12,6 +12,15 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_store_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="1"
+            android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/head"
             android:layout_width="wrap_content"
@@ -67,66 +76,66 @@
                         android:textSize="13sp" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_add"
+                <RelativeLayout
+                    android:id="@+id/rl_add_number"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:text="+" />
+                    android:layout_marginRight="10dp">
 
-                <Button
-                    android:id="@+id/btn_specifications"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/specifications"
-                    android:visibility="gone" />
+                    <Button
+                        android:id="@+id/btn_add"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text="+" />
 
-                <LinearLayout
-                    android:id="@+id/action"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/shopping_choice"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+                    <Button
+                        android:id="@+id/btn_specifications"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/specifications"
+                        android:visibility="gone" />
 
-                    <TextView
-                        android:id="@+id/reduce"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                    <LinearLayout
+                        android:id="@+id/action"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shopping_choice"
                         android:gravity="center"
-                        android:text="—"
-                        android:textColor="@color/black" />
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/shoppingNum"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="center"
-                        android:maxLength="10"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/reduce"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="—"
+                            android:textColor="@color/black" />
 
-                    <TextView
-                        android:id="@+id/increase"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="+"
-                        android:textColor="@color/black" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/shoppingNum"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:maxLength="10"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/increase"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="+"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+                </RelativeLayout>
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

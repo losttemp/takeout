@@ -26,10 +26,10 @@
     <string name="takeaway_order">外卖订单</string>
     <string name="month_sale_num">月销%d笔</string>
     <string name="delivery_time">%d分钟 |</string>
-    <string name="min_price">起送￥%.2f |</string>
-    <string name="shipping_fee">配送￥%.2f |</string>
-    <string name="min_price_s">起送￥%s</string>
-    <string name="shipping_fee_s">| 配送￥%s</string>
+    <string name="min_price">起送¥%.2f |</string>
+    <string name="shipping_fee">配送¥%.2f |</string>
+    <string name="min_price_s">起送¥%s</string>
+    <string name="shipping_fee_s">| 配送¥%s</string>
     <string name="average_price">| %s</string>
     <string name="flower">鲜花</string>
     <string name="cake">蛋糕</string>
@@ -46,7 +46,7 @@
     <string name="reset">重置</string>
 
     <string name="no_more_data">暂无更多数据</string>
-    <string name="distribution_situation">起送￥%1$s|配送￥%2$s|%3$s分钟送达</string>
+    <string name="distribution_situation">起送¥%1$s|配送¥%2$s|%3$s分钟送达</string>
     <string name="notice">公告：%1$s</string>
     <string name="discount">25减8 40减15</string>
     <string name="shopping_cart_is_empty">当前购物车为空快去选购吧！</string>
@@ -55,7 +55,7 @@
     <string name="shop_details">店铺详情</string>
     <string name="kfc">肯德基</string>
     <string name="porridge">皮蛋瘦肉粥</string>
-    <string name="evaluate">月售128 好评度98%</string>
+    <string name="evaluate">月售%1$s</string>
     <string name="add_to_cart">加入购物车</string>
     <string name="chicken">推荐大鸡排</string>
     <string name="explain">大块鸡排，鲜嫩多汁，配上超多芝士和新鲜生菜</string>
@@ -69,6 +69,7 @@
     <string name="full">满</string>
     <string name="reduce">减</string>
     <string name="buy_again">再买</string>
+    <string name="commodity_description">商品描述</string>
 
     <!--tools:text-->
     <string name="tools_text_location">送至：未来科技大厦</string>
@@ -77,7 +78,7 @@
     <string name="tools_text_history_name">肯德基</string>
     <string name="tools_text_store_name">肯德基宅急送</string>
     <string name="tools_text_status_desc">接受预订：10:30后起送</string>
-    <string name="tools_text_average_price">人均￥25</string>
+    <string name="tools_text_average_price">人均¥25</string>
 
     <string-array name="tab_filters">
         <item>全城</item>
