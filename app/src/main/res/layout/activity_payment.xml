@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:gravity="center"
-            android:text="金额"
+            android:text="@string/pay_amount"
             android:textSize="20sp" />
 
         <TextView
@@ -52,7 +52,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginEnd="20dp"
-            android:text="￥25"
             android:textSize="20dp" />
 
     </RelativeLayout>
@@ -73,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:gravity="center"
-            android:text="订单编号"
+            android:text="@string/pay_order_id"
             android:textSize="20sp" />
 
         <TextView
@@ -83,7 +82,6 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
             android:gravity="center"
-            android:text="201809261234"
             android:textSize="20sp" />
     </RelativeLayout>
 
@@ -103,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:gravity="center"
-            android:text="店铺名称"
+            android:text="@string/pay_shop_name"
             android:textSize="20sp" />
 
         <TextView
@@ -113,7 +111,6 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
             android:gravity="center"
-            android:text="杨铭宇黄焖鸡米饭"
             android:textSize="20sp" />
     </RelativeLayout>
 
@@ -130,12 +127,20 @@
         android:layout_marginTop="20dp"
         android:background="@color/gray" />
 
+    <ImageView
+        android:id="@+id/pay_type_img"
+        android:layout_width="@dimen/px400dp"
+        android:layout_height="@dimen/px100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/px20dp"
+        android:background="@drawable/icn_pay_type"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:textSize="20sp"
-        android:text="请使用微信或支付宝扫码支付"/>
+        android:text="@string/pay_hint"/>
 
 </LinearLayout>

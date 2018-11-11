@@ -107,6 +107,7 @@
     <string name="network_anomaly">您的网络好像不太给力，请稍候再试</string>
     <string name="reload">重新加载</string>
     <string name="arrive_time">大约%s送达</string>
+    <string name="delivery_immediately">立即送出</string>
     <string name="cost">\&#165;%1.1f</string>
     <string name="cost_text">\&#165;%s</string>
     <string name="total_cost">去支付\&#165;%1d</string>
@@ -123,6 +124,12 @@
 	<string name="discount_text">折</string>
 	<string name="to_pay_text">去支付</string>
     <string name="count_down_timer">支付剩余时间%6s</string>
+    <string name="pay_amount">金额</string>
+    <string name="pay_order_id">订单编号</string>
+    <string name="pay_shop_name">店铺名称</string>
+    <string name="pay_hint">请使用微信或支付宝扫码支付</string>
+    <string name="submit_total">合计 \&#165;%2.2f</string>
+    <string name="submit_discount">已优惠 \&#165;%s</string>
 
     <string name="address_select_title">我的收货地址</string>
     <string name="address_select_add_address">新增地址</string>

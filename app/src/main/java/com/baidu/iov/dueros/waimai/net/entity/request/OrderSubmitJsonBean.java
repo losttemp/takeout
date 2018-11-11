@@ -93,14 +93,14 @@ public class OrderSubmitJsonBean {
 
         public static class FoodListBean {
 
-            private int wm_food_sku_id;
+            private Long wm_food_sku_id;
             private int count;
 
-            public int getWm_food_sku_id() {
+            public Long getWm_food_sku_id() {
                 return wm_food_sku_id;
             }
 
-            public void setWm_food_sku_id(int wm_food_sku_id) {
+            public void setWm_food_sku_id(Long wm_food_sku_id) {
                 this.wm_food_sku_id = wm_food_sku_id;
             }
 

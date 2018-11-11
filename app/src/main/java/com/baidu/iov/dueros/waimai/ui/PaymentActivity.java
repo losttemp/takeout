@@ -3,15 +3,12 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
-import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitJsonBean;
-import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
@@ -19,7 +16,6 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitOrderPresenter;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.faceos.client.GsonUtil;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -29,7 +25,6 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,11 +46,11 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     private TextView mShopNameTv;
     private ImageView mPayUrlImg;
     private int mCount = 0;
+    private Long mOrderId;
+    private int mPayStatus;
 
-    private AddressListBean.IovBean.DataBean mAddressData;
-    private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> mProductList;
-    private PoifoodListBean.MeituanBean.DataBean.PoiInfoBean mPoiInfo;
-    private OrderSubmitBean.MeituanBean.DataBean mSubmitInfo;
+    private final static int PAY_STATUS_SUCCESS = 3;
+
 
     @Override
     SubmitOrderPresenter createPresenter() {
@@ -73,30 +68,8 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         setContentView(R.layout.activity_payment);
         timerStart();
 
-        initData();
-
-
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        initView();
-    }
-
-    private void initData(){
-
-        Intent intent = getIntent();
-        if (intent != null){
-            mPoiInfo = (PoifoodListBean.MeituanBean.DataBean.PoiInfoBean)intent.getSerializableExtra(POI_INFO);
-            mAddressData = (AddressListBean.IovBean.DataBean)intent.getSerializableExtra(ADDRESS_DATA);
-            mProductList = (List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean>)intent.getSerializableExtra(PRODUCT_LIST_BEAN);
-
-        }
-        getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, mProductList);
-    }
 
     private void initView() {
 
@@ -111,7 +84,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         if (intent != null) {
 
             double amount = intent.getDoubleExtra(TOTAL_COST, 0);
-            long orderId = intent.getLongExtra(ORDER_ID, 0);
+            mOrderId = intent.getLongExtra(ORDER_ID, 0);
             String shopName = intent.getStringExtra(SHOP_NAME);
             String payUrl = intent.getStringExtra(PAY_URL);
 
@@ -120,15 +93,24 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             } else {
                 mAmountTv.setText("0.00");
             }
-            mOrderIdTv.setText(String.valueOf(orderId));
+
+            mAmountTv.setText(String.valueOf(amount));
+            mOrderIdTv.setText(String.valueOf(mOrderId));
             mShopNameTv.setText(shopName);
-            //createQRImage(payUrl, mPayUrlImg.getMaxWidth(), mPayUrlImg.getMaxHeight(), mPayUrlImg);
+            createQRImage(payUrl, 200, 200, mPayUrlImg);
 
         }
 
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        initView();
+    }
 
     public static boolean createQRImage(String content, int widthPix, int heightPix, ImageView imageView) {
         try {
@@ -173,12 +155,11 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         public void onTick(long millisUntilFinished) {
             mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), formatTime(millisUntilFinished)));
             mCount++;
-            if (mCount == 5){
-                Lg.getInstance().d("xss","onCreate");
-                Long order_id = Long.parseLong("15053512850898388");
+            if (mCount == 5) {
+
                 String user_phone = "18201010600";
                 String phone = Encryption.encrypt(user_phone);
-                OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq(order_id, phone);
+                OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq(mOrderId, phone);
                 getPresenter().requestOrderDetails(mOrderDetailsReq);
                 mCount = 0;
             }
@@ -188,6 +169,9 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         public void onFinish() {
 
             mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
+            if (mPayStatus != PAY_STATUS_SUCCESS){
+                
+            }
         }
     };
 
@@ -221,30 +205,25 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         mTimer.start();
     }
 
-    @Override
-    public void onOrderSubmitSuccess(OrderSubmitBean data) {
 
-        if (data != null){
-            mSubmitInfo = data.getMeituan().getData();
-            Lg.getInstance().d("zhangbing", "--------------"+ mSubmitInfo.getOrder_id());
+    @Override
+    public void onOrderSubmitSuccess(OrderDetailsResponse data) {
+        if (data != null) {
+
+
+            mPayStatus = data.getMeituan().getData().getPay_status();
+            if (mPayStatus == PAY_STATUS_SUCCESS){
+                timerCancel();
+                Intent intent = new Intent();
+                intent.setClass(this, PaySuccessActivity.class);
+                startActivity(intent);
+            }
+
         }
     }
 
     @Override
-    public void onError(String error) {
-
-    }
-
-    @Override
-    public void OrderDetailsUpdate(OrderDetailsResponse data) {
-            Lg.getInstance().d("xss","phone = "+data.getMeituan().getData().getUser_phone());
-            if(data.getMeituan().getData().getPay_status()==3){
-                timerCancel();
-            }
-    }
-
-    @Override
-    public void OrderDetailsFailure(String msg) {
+    public void onSubmitFailure(String msg) {
 
     }
 }
