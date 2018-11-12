@@ -21,15 +21,6 @@ public class AddressEditModel implements IAddressEditModel {
             return;
         }
 
-        addressEditReq.setAddress_id(123456);
-        addressEditReq.setType("家");
-        addressEditReq.setUser_name("Stanford Zhang");
-        addressEditReq.setSex(1);
-        addressEditReq.setUser_phone("17638916218");
-        addressEditReq.setAddress("WuHan JiangXia");
-        addressEditReq.setLatitude(Constant.LATITUDE);
-        addressEditReq.setLongitude(Constant.LONGITUDE);
-
         ApiUtils.updateAddress(addressEditReq, new ApiCallBack<AddressEditBean>() {
             @Override
             public void onSuccess(AddressEditBean data) {
@@ -50,14 +41,6 @@ public class AddressEditModel implements IAddressEditModel {
             return;
         }
 
-        addressEditReq.setType("家");
-        addressEditReq.setUser_name("Stanford Zhang");
-        addressEditReq.setSex(1);
-        addressEditReq.setUser_phone("17638916218");
-        addressEditReq.setAddress("WuHan JiangXia");
-        addressEditReq.setLatitude(Constant.LATITUDE);
-        addressEditReq.setLongitude(Constant.LONGITUDE);
-
         ApiUtils.addAddress(addressEditReq, new ApiCallBack<AddressEditBean>() {
             @Override
             public void onSuccess(AddressEditBean data) {
@@ -76,8 +59,6 @@ public class AddressEditModel implements IAddressEditModel {
         if (callback == null) {
             return;
         }
-
-        addressDeleteReq.setAddress_id(123456);
 
         ApiUtils.deleteAddress(addressDeleteReq, new ApiCallBack<AddressEditBean>() {
             @Override
