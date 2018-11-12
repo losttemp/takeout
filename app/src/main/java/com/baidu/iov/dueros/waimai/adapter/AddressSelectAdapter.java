@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 
 import java.util.List;
 
@@ -78,16 +79,20 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
         public void bindData(AddressListBean.IovBean.DataBean dataBean) {
             this.mDataBean = dataBean;
-            des.setText(dataBean.getUser_name());
-            details.setText(dataBean.getAddress());
-            name.setText(dataBean.getUser_name());
-            phone.setText(dataBean.getUser_phone());
+            try {
+                des.setText(Encryption.desEncrypt(dataBean.getUser_name()));
+                details.setText(Encryption.desEncrypt(dataBean.getAddress()));
+                name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
+                phone.setText(Encryption.desEncrypt(dataBean.getUser_phone()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public void onClick(View v) {
             if (mItemClickListerner != null) {
-                mItemClickListerner.OnItemClick(v,mDataBean);
+                mItemClickListerner.OnItemClick(v, mDataBean);
             }
         }
     }

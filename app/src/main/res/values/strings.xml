@@ -176,4 +176,9 @@
     <string name="arrival_time">预计%s到达</string>
 
     <string name="address_suggestion_erro">抱歉，未能找到您搜索的地址，换个地址试试</string>
+    <string name="edit_address">编辑地址</string>
+    <string name="delete_address_title">删除地址</string>
+    <string name="delete_address_message">确定要删除这个地址吗</string>
+    <string name="delete_address_cancel">还是算了</string>
+    <string name="delete_address_ok">确定</string>
 </resources>

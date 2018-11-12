@@ -46,8 +46,8 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
     }
 
 
-    public void requestUpdateAddressData(ArrayMap<String, String> map) {
-        addressEditModel.updateAddressData(new AddressEditReq(), new RequestCallback<AddressEditBean>() {
+    public void requestUpdateAddressData(AddressEditReq addressEditreq) {
+        addressEditModel.updateAddressData(addressEditreq, new RequestCallback<AddressEditBean>() {
 
             @Override
             public void onSuccess(AddressEditBean data) {
@@ -65,8 +65,8 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
         });
     }
 
-    public void requestAddAddressData(ArrayMap<String, String> map) {
-        addressEditModel.updateAddressData(new AddressEditReq(), new RequestCallback<AddressEditBean>() {
+    public void requestAddAddressData(AddressEditReq addrEditreq) {
+        addressEditModel.updateAddressData(addrEditreq, new RequestCallback<AddressEditBean>() {
 
             @Override
             public void onSuccess(AddressEditBean data) {
@@ -109,6 +109,6 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
         void addAddressSuccess(AddressEditBean data);
         void addAddressFail(String error);
         void deleteAddressSuccess(AddressEditBean data);
-        void deleteAddressFail(String error);
+        void deleteAddressFail(String msg);
     }
 }
