@@ -72,7 +72,6 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             phone = view.findViewById(R.id.address_select_phone);
             edit = view.findViewById(R.id.address_select_edit);
             des.setOnClickListener(this);
-            details.setOnClickListener(this);
             edit.setOnClickListener(this);
             view.findViewById(R.id.address_select_details_container).setOnClickListener(this);
         }
