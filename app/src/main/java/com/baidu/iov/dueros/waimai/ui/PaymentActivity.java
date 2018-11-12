@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
@@ -9,13 +10,10 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
-import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitOrderPresenter;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
-import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -26,14 +24,11 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static com.baidu.iov.dueros.waimai.ui.AddressListActivity.ADDRESS_DATA;
-import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.POI_INFO;
-import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.PRODUCT_LIST_BEAN;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.ORDER_ID;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.PAY_URL;
+import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.PIC_URL;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.SHOP_NAME;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.TOTAL_COST;
 
@@ -47,8 +42,18 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     private ImageView mPayUrlImg;
     private int mCount = 0;
     private Long mOrderId;
+    private String mPicUrl;
+
+    public final static String USER_NAME = "user_name";
+    public final static String USER_PHONE = "user_phone";
+    public final static String USER_ADDRESS = "user_address";
+    public final static String STORE_NAME = "store_name";
+    public final static String PRODUCT_COUNT = "product_count";
+    public final static String PRODUCT_NAME = "product_name";
+
     private int mPayStatus;
 
+    public final static String TO_SHOW_SHOP_CART = "show_shop_card";
     private final static int PAY_STATUS_SUCCESS = 3;
 
 
@@ -85,6 +90,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
             double amount = intent.getDoubleExtra(TOTAL_COST, 0);
             mOrderId = intent.getLongExtra(ORDER_ID, 0);
+            mPicUrl = intent.getStringExtra(PIC_URL);
             String shopName = intent.getStringExtra(SHOP_NAME);
             String payUrl = intent.getStringExtra(PAY_URL);
 
@@ -169,11 +175,44 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         public void onFinish() {
 
             mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
-            if (mPayStatus != PAY_STATUS_SUCCESS){
-                
+            if (mPayStatus != PAY_STATUS_SUCCESS) {
+
+                ConfirmDialog dialog = new ConfirmDialog.Builder(PaymentActivity.this)
+                        .setTitle(R.string.pay_title)
+                        .setMessage(R.string.pay_time_out)
+                        .setNegativeButton(R.string.anew_submit, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Intent intent = new Intent();
+                                intent.setClass(PaymentActivity.this, FoodListActivity.class);
+                                intent.putExtra(TO_SHOW_SHOP_CART, true);
+                                startActivity(intent);
+
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton(R.string.back_store, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent();
+                                intent.setClass(PaymentActivity.this, FoodListActivity.class);
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setCloseButton(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                dialog.show();
             }
         }
     };
+
 
     public String formatTime(long millisecond) {
         int minute;
@@ -210,11 +249,29 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     public void onOrderSubmitSuccess(OrderDetailsResponse data) {
         if (data != null) {
 
+            OrderDetailsResponse.MeituanBean.DataBean dataBean = data.getMeituan().getData();
+            mPayStatus = dataBean.getPay_status();
 
-            mPayStatus = data.getMeituan().getData().getPay_status();
-            if (mPayStatus == PAY_STATUS_SUCCESS){
+            if (mPayStatus == PAY_STATUS_SUCCESS) {
                 timerCancel();
+
+                String storeName = dataBean.getPoi_name();
+                String recipientPhone = dataBean.getRecipient_phone();
+                String recipientAddress = dataBean.getRecipient_address();
+                String recipient_name = dataBean.getRecipient_name();
+                String foodNameOne = dataBean.getFood_list().get(0).getName();
+                int count = dataBean.getFood_list().size();
+
                 Intent intent = new Intent();
+                intent.putExtra(PIC_URL, mPicUrl);
+                intent.putExtra(ORDER_ID, mOrderId);
+                intent.putExtra(STORE_NAME, storeName);
+                intent.putExtra(USER_NAME, recipient_name);
+                intent.putExtra(USER_ADDRESS, recipientAddress);
+                intent.putExtra(USER_PHONE, recipientPhone);
+                intent.putExtra(PRODUCT_NAME, foodNameOne);
+                intent.putExtra(PRODUCT_COUNT, count);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setClass(this, PaySuccessActivity.class);
                 startActivity(intent);
             }

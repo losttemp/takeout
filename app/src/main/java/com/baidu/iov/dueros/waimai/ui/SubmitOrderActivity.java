@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.adapter.DeliveryDateAdapter;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryTimeAdapter;
-import com.baidu.iov.dueros.waimai.adapter.ProductInfoAdapter;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
@@ -35,11 +34,9 @@ import com.bumptech.glide.Glide;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +53,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     public final static String ORDER_ID = "order_id";
     public final static String SHOP_NAME = "shop_name";
     public final static String PAY_URL = "pay_url";
+    public final static String PIC_URL = "pic_url";
 
     private final static int SELECT_DELIVERY_ADDRESS = 100;
     private final static int ORDER_PREVIEW_SUCCESS = 0;
@@ -109,7 +107,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             if (mProductList != null && mPoiInfo != null) {
                 getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mAddressData);
+                getPresenter().requestOrderPreview(mProductList, mPoiInfo);
             }
         }
 
@@ -157,6 +155,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             LayoutInflater inflater = this.getLayoutInflater();
             final RelativeLayout viewItem = (RelativeLayout) inflater.inflate(R.layout.product_info_item, null);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             ImageView img_photo = viewItem.findViewById(R.id.product_photo);
             TextView tv_name = viewItem.findViewById(R.id.product_name);
@@ -204,7 +203,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             tv_count.setText(String.format(getResources().getString(R.string.count_char), count));
             tv_price.setText(String.format(getResources().getString(R.string.cost_text), nf.format(price)));
 
-            mProductInfoListview.addView(viewItem);
+            mProductInfoListview.addView(viewItem, params);
 
         }
     }
@@ -468,7 +467,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             intent.putExtra(ORDER_ID, orderId);
             intent.putExtra(SHOP_NAME, poiName);
             intent.putExtra(PAY_URL, payUrl);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(PIC_URL, mPoiInfo.getPic_url());
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
 

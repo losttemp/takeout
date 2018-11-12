@@ -53,6 +53,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.TO_SHOW_SHOP_CART;
+
 public class FoodListActivity extends BaseActivity<PoifoodListPresenter, PoifoodListPresenter.PoifoodListUi> implements PoifoodListPresenter.PoifoodListUi, View.OnClickListener, PoifoodSpusListAdapter.onCallBackListener, IShoppingCartToDetailListener {
     private static final String TAG = FoodListActivity.class.getSimpleName();
     public static final String POI_INFO = "poi_info";
@@ -167,6 +169,18 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mDiscount = (TextView) findViewById(R.id.tv_discount);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        if (getIntent() != null) {
+            boolean IsShowShopCart = getIntent().getBooleanExtra(TO_SHOW_SHOP_CART, false);
+            if (IsShowShopCart) {
+                showOrHideShopCart();
+            }
+        }
+    }
+
     public void initData() {
         productList = new ArrayList<>();
         foodSpuTagsBeanName = new ArrayList<>();
@@ -211,6 +225,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
 
         });
+
+
 
         mSpusList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -417,28 +433,32 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
     }
 
+    public void showOrHideShopCart() {
+        if (productList.isEmpty() || productList == null) {
+            defaultText.setVisibility(View.VISIBLE);
+        } else {
+            defaultText.setVisibility(View.GONE);
+        }
+
+        if (cardLayout.getVisibility() == View.GONE) {
+            cardLayout.setVisibility(View.VISIBLE);
+            Animation animation = AnimationUtils.loadAnimation(this, R.anim.push_bottom_in);
+            cardShopLayout.setVisibility(View.VISIBLE);
+            cardShopLayout.startAnimation(animation);
+            bg_layout.setVisibility(View.VISIBLE);
+
+        } else {
+            cardLayout.setVisibility(View.GONE);
+            bg_layout.setVisibility(View.GONE);
+            cardShopLayout.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.shopping_cart:
-                if (productList.isEmpty() || productList == null) {
-                    defaultText.setVisibility(View.VISIBLE);
-                } else {
-                    defaultText.setVisibility(View.GONE);
-                }
-
-                if (cardLayout.getVisibility() == View.GONE) {
-                    cardLayout.setVisibility(View.VISIBLE);
-                    Animation animation = AnimationUtils.loadAnimation(this, R.anim.push_bottom_in);
-                    cardShopLayout.setVisibility(View.VISIBLE);
-                    cardShopLayout.startAnimation(animation);
-                    bg_layout.setVisibility(View.VISIBLE);
-
-                } else {
-                    cardLayout.setVisibility(View.GONE);
-                    bg_layout.setVisibility(View.GONE);
-                    cardShopLayout.setVisibility(View.GONE);
-                }
+                showOrHideShopCart();
                 break;
 
             case R.id.settlement:

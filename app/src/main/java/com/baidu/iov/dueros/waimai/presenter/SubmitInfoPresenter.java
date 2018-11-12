@@ -1,12 +1,10 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
-import android.util.ArrayMap;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.ISubmitInfoModel;
-import com.baidu.iov.dueros.waimai.model.ISubmitOrderModel;
 import com.baidu.iov.dueros.waimai.model.SubmitInfoImpl;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewJsonBean;
@@ -95,7 +93,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
         String payload = OnCreateOrderPayLoad(addressData, poiInfoBean, wmOrderingPreviewDetailVoListBean);
         orderSubmitReq.setPayload(Encryption.encrypt(payload));
-        orderSubmitReq.setWm_pic_url(Encryption.encrypt(poiInfoBean.getPic_url()));
+        orderSubmitReq.setWm_pic_url(poiInfoBean.getPic_url());
         mSubmitInfo.requestOrderSubmitData(orderSubmitReq, new RequestCallback<OrderSubmitBean>() {
 
             @Override
@@ -161,9 +159,8 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
 
     public void requestOrderPreview(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,
-                                    PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean,
-                                    AddressListBean.IovBean.DataBean addressData) {
-        String payload = onCreatePayLoadJson(spusBeanList, poiInfoBean, addressData);
+                                    PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean) {
+        String payload = onCreatePayLoadJson(spusBeanList, poiInfoBean);
         OrderPreviewReqBean orderPreviewReqBean = new OrderPreviewReqBean();
         orderPreviewReqBean.setPayload(Encryption.encrypt(payload));
         mSubmitInfo.requestOrderPreview(orderPreviewReqBean, new RequestCallback<OrderPreviewBean>() {
@@ -185,13 +182,10 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
     }
 
     private String onCreatePayLoadJson(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,
-                                       PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean,
-                                       AddressListBean.IovBean.DataBean addressData) {
+                                       PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean) {
 
 
         OrderPreviewJsonBean orderPreviewJsonBean = new OrderPreviewJsonBean();
-
-        orderPreviewJsonBean.setUser_phone(/*addressData.getUser_phone()*/"17638916218");
         OrderPreviewJsonBean.WmOrderingListBean wmOrderingListBean = new OrderPreviewJsonBean.WmOrderingListBean();
         wmOrderingListBean.setWm_poi_id(poiInfoBean.getWm_poi_id());
         wmOrderingListBean.setDelivery_time(0);

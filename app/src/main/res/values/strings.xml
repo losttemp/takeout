@@ -132,6 +132,14 @@
     <string name="pay_hint">请使用微信或支付宝扫码支付</string>
     <string name="submit_total">合计 \&#165;%2.2f</string>
     <string name="submit_discount">已优惠 \&#165;%s</string>
+    <string name="pay_title">支付超时</string>
+    <string name="pay_time_out">支付超时,请重新下单。</string>
+    <string name="back_store">返回店铺</string>
+    <string name="anew_submit">重新下单</string>
+    <string name="complete">完成(%ds)</string>
+    <string name="check_order_details">查看订单详情</string>
+    <string name="product_info">%s等%d件商品</string>
+    <string name="pay_succuess_address">配送地址</string>
 
     <string name="address_select_title">我的收货地址</string>
     <string name="address_select_add_address">新增地址</string>
