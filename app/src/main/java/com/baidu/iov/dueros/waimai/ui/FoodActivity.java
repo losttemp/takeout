@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -33,7 +34,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     private Button btnBack;
     
-    private Button btnSearch;
+    private RelativeLayout mRlSearch;
     private FirstTypeFoodAdapter mFirstTypeFoodAdapter;
   
     private SecondTypeFoodAdapter mSecondTypeFoodAdapter;
@@ -76,7 +77,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         gvSecondType=findViewById(R.id.gv_second_type);
         tvFirstCategory=findViewById(R.id.tv_first_category);
         btnBack=findViewById(R.id.btn_back);
-        btnSearch=findViewById(R.id.btn_search);
+        mRlSearch = (RelativeLayout) findViewById(R.id.rl_search);
         tvNoResult=findViewById(R.id.tv_tip_no_result);
         tvNoResult.setVisibility(View.GONE);
         
@@ -87,7 +88,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         gvSecondType.setAdapter(mSecondTypeFoodAdapter);
 
         btnBack.setOnClickListener(this);
-        btnSearch.setOnClickListener(this);
+        mRlSearch.setOnClickListener(this);
         
         lvFirstType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -180,7 +181,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     @Override
     public void onError(String error) {
-
+        tvNoResult.setText(error);
+        tvNoResult.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -189,7 +191,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
             case R.id.btn_back:
                 finish();
                 break;
-            case R.id.btn_search:
+            case R.id.rl_search:
                 Intent intent = new Intent(FoodActivity.this, SearchActivity.class);
                 startActivity(intent);
                 break;

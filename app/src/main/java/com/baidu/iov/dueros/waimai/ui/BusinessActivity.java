@@ -7,17 +7,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.BusinesAdapter;
 import com.baidu.iov.dueros.waimai.adapter.TabSortTypeAdpater;
-import com.baidu.iov.dueros.waimai.model.IFoodModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.PoilistReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
@@ -37,7 +35,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     private static final String TAG = BusinessActivity.class.getSimpleName();
     private Button btnBack;
     private TextView tvTitle;
-    private Button btnSearch;
+    private RelativeLayout mRlSearch;
     private BusinesAdapter mBusinesAdapter;
     private ListView mBusinessListView;
     private  TextView tvConditions;
@@ -120,7 +118,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     private  void initView(){
         btnBack=findViewById(R.id.btn_back);
         tvTitle=findViewById(R.id.tv_title);
-        btnSearch=findViewById(R.id.btn_search);
+        mRlSearch = (RelativeLayout) findViewById(R.id.rl_search);
         mRefreshLayout =  findViewById(R.id.refresh_layout);
         tvNoResult=findViewById(R.id.tv_tip_no_result);
         tvConditions=findViewById(R.id.tv_conditions);
@@ -147,7 +145,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
     
     private void setListener(){
         btnBack.setOnClickListener(this);
-        btnSearch.setOnClickListener(this);
+        mRlSearch.setOnClickListener(this);
         tvConditions.setOnClickListener(this);
         tvFilter.setOnClickListener(this);
         setRefreshView();
@@ -253,6 +251,8 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
     @Override
     public void onBusinessBeanError(String error) {
+        tvNoResult.setText(error);
+        tvNoResult.setVisibility(View.VISIBLE);
         if (mRefreshLayout.isRefreshing()) {
             mRefreshLayout.finishRefresh();
         }
@@ -379,7 +379,7 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
                 finish();
                 onBackPressed();
                 break;
-            case R.id.btn_search:
+            case R.id.rl_search:
                 Intent intent = new Intent(BusinessActivity.this, SearchActivity.class);
                 startActivity(intent);
                 break;
@@ -442,6 +442,5 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
         getPresenter().requestBusinessBean(poilistReq);
     }
     
-    boolean  mIsScroll=false;
     
 }

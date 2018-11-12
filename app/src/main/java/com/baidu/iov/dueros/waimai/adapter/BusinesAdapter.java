@@ -27,13 +27,16 @@ public class BusinesAdapter extends BaseAdapter implements View.OnClickListener 
     private List<BusinessBean.MeituanBean.Business.OpenPoiBaseInfo> mData;
 
     private BusinesAdapter.OnBusinessItemClickListener mOnItemClickListener;
-    
+
+    private static  final int FREE_DISTRIBUTION=0;
+
+    private static  final int DEFALUT_SHOW=2;
+
 
     public BusinesAdapter(Context context) {
         mContext = context;
     }
 
-    private boolean mIsScroll=false;
     
     public void setData(List<BusinessBean.MeituanBean.Business.OpenPoiBaseInfo> data) {
         mData = data;
@@ -43,11 +46,7 @@ public class BusinesAdapter extends BaseAdapter implements View.OnClickListener 
     public void setOnItemClickListener(OnBusinessItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
     }
-
-    public void setmIsScroll(boolean mIsScroll) {
-        this.mIsScroll = mIsScroll;
-    }
-
+    
     @Override
     public int getCount() {
         return mData == null ? 0 : mData.size();
@@ -102,8 +101,12 @@ public class BusinesAdapter extends BaseAdapter implements View.OnClickListener 
                 .month_sale_num), mOpenPoiBaseInfo.getMonthSaleNum()));
         viewHolder.tvMinPrice.setText(String.format(mContext.getResources().getString(R.string
                 .min_price),mOpenPoiBaseInfo.getMinPrice())); 
-        viewHolder.tvShippingFee.setText(String.format(mContext.getResources().getString(R.string
-                .shipping_fee),mOpenPoiBaseInfo.getShippingFee()));
+        if (mOpenPoiBaseInfo.getShippingFee()!=FREE_DISTRIBUTION) {
+            viewHolder.tvShippingFee.setText(String.format(mContext.getResources().getString(R.string
+                    .shipping_fee), mOpenPoiBaseInfo.getShippingFee()));
+        }else{
+            viewHolder.tvShippingFee.setText(mContext.getString(R.string.free_distribution));
+        }
         viewHolder.tvDistance.setText(mOpenPoiBaseInfo.getDistance());
         viewHolder.tvAvgDeliveryTime.setText(String.format(mContext.getResources().getString(R.string
                 .delivery_time),mOpenPoiBaseInfo.getAvgDeliveryTime()));
@@ -111,7 +114,20 @@ public class BusinesAdapter extends BaseAdapter implements View.OnClickListener 
         viewHolder.ratingBar.setClickable(false);
         viewHolder.ratingBar.setStar((float) mOpenPoiBaseInfo.getWmPoiScore());
         final BusDiscountAdpater mBusDiscountAdpater=new BusDiscountAdpater(mContext);
-        mBusDiscountAdpater.setData(mOpenPoiBaseInfo.getDiscounts());
+        Lg.getInstance().e(TAG,"error:"+mOpenPoiBaseInfo.getDiscounts());
+        if (mOpenPoiBaseInfo.getDiscounts().isEmpty()||mOpenPoiBaseInfo.getDiscounts().size()<=DEFALUT_SHOW){
+            viewHolder.ivDiscount.setVisibility(View.GONE);
+        }else{
+            viewHolder.ivDiscount.setVisibility(View.VISIBLE);
+            if (mOpenPoiBaseInfo.isOpenDiscount()){
+                mBusDiscountAdpater.setData(mOpenPoiBaseInfo.getDiscounts());
+                viewHolder.ivDiscount.setImageResource(R.mipmap.arrow_up);
+            }else{
+                mBusDiscountAdpater.setData(mOpenPoiBaseInfo.getDiscounts().subList(0,DEFALUT_SHOW));
+                viewHolder.ivDiscount.setImageResource(R.mipmap.arrow_down);
+            }
+        }
+        
         viewHolder.rvDiscount.setAdapter(mBusDiscountAdpater);
         if (mOpenPoiBaseInfo.getStatus()==Constant.STROE_STATUS_NORMAL){
             viewHolder.tvStatusDesc.setVisibility(View.GONE);
@@ -149,8 +165,14 @@ public class BusinesAdapter extends BaseAdapter implements View.OnClickListener 
                 break;
             case R.id.rl_discount:
                 Lg.getInstance().d(TAG," v:"+ v.getTag());
-                if (mOnItemClickListener!=null) {
-                    mOnItemClickListener.onItemClick((int)v.getTag());
+                int index =(int)v.getTag();
+                if (!mData.get(index).getDiscounts().isEmpty()||mData.get(index).getDiscounts().size()>DEFALUT_SHOW) {
+                    if (mData.get(index).isOpenDiscount()) {
+                        mData.get(index).setOpenDiscount(false);
+                    } else {
+                        mData.get(index).setOpenDiscount(true);
+                    }
+                    notifyDataSetChanged();
                 }
                 break;
                        

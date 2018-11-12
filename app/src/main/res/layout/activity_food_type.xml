@@ -29,22 +29,33 @@
             android:textSize="18sp"
             android:textColor="@color/black_text"
             android:text="@string/stroe_type_food"/>
+        
+    </RelativeLayout>
 
-        <Button
-            android:id="@+id/btn_search"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@mipmap/search_bar"
-            android:layout_marginRight="20dp"
-            />
+    <RelativeLayout
+        android:id="@+id/rl_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top"
+        android:layout_margin="5dp"
+        android:background="@drawable/shape_pop_filter_set_bg">
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableLeft="@mipmap/search_bar"
+            android:text="@string/search_hint_text_1"
+            android:textColor="@color/gray"
+            android:padding="8dp"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 
     <View
         android:id="@+id/view"
-        android:layout_below="@+id/rl_top"
+        android:layout_below="@+id/rl_search"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray"/>

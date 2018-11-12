@@ -318,6 +318,8 @@ public class BusinessBean {
                 @SerializedName("categoryInfoList")
                 private List<CategoryInfo> categoryInfoList;
 
+                private boolean openDiscount=false;
+
                 public long getWmPoiId() {
                     return wmPoiId;
                 }
@@ -495,6 +497,14 @@ public class BusinessBean {
                     this.categoryInfoList = categoryInfoList;
                 }
 
+                public boolean isOpenDiscount() {
+                    return openDiscount;
+                }
+
+                public void setOpenDiscount(boolean openDiscount) {
+                    this.openDiscount = openDiscount;
+                }
+
                 @Override
                 public String toString() {
                     return "OpenPoiBaseInfo{" +
@@ -520,6 +530,7 @@ public class BusinessBean {
                             ", discounts=" + discounts +
                             ", productList=" + productList +
                             ", categoryInfoList=" + categoryInfoList +
+                            ", openDiscount=" + openDiscount +
                             '}';
                 }
 
