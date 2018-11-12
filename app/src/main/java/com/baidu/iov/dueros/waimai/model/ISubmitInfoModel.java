@@ -16,5 +16,6 @@ public interface ISubmitInfoModel extends IModel {
 
     void requestOrderPreview(OrderPreviewReqBean orderPreviewReqBean, final RequestCallback<OrderPreviewBean> callback);
 
+    void requestOrderSubmitData(OrderSubmitReq orderSubmitReq, final RequestCallback<OrderSubmitBean> callback);
 
 }

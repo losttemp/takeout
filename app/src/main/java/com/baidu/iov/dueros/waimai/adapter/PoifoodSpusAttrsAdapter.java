@@ -1,18 +1,21 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.view.GoodsViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,18 +31,21 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs;
     private SetPriceListener setPriceListener;
+    private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList;
 
     public PoifoodSpusAttrsAdapter(Context context, List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrsBeans,
                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusBeans,
                                    PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs,
-                                   List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus) {
+                                   List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus,
+                                   List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList) {
         this.context = context;
         this.attrsBeans = attrsBeans;
         this.skusBeans = skusBeans;
         this.spusBean = spusBean;
         this.choiceAttrs = choiceAttrs;
         this.choiceSkus = choiceSkus;
+        this.productList = productList;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -77,12 +83,13 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.spus_attrs, null);
             viewHolder = new ViewHolder();
             viewHolder.attrsName = (TextView) convertView.findViewById(R.id.tv_attrs_name);
-            viewHolder.radioGroup = (RadioGroup) convertView.findViewById(R.id.rg_group);
+            viewHolder.radioGroup = (GoodsViewGroup) convertView.findViewById(R.id.rg_group);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.radioGroup.removeAllViews();
+
         if (attrsBeans.size() > 0 && position != attrsBeans.size()) {
             viewHolder.attrsName.setText(attrsBeans.get(position).getName());
             final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> values = attrsBeans.get(position).getValues();
@@ -102,6 +109,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                             spusBean.getAttrs().get(position).setChoiceAttrs(choiceAttrs);
                         }
                     }
+                    inProductList();
                 }
             });
         } else {
@@ -127,6 +135,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                                 }
                             }
                         }
+                        inProductList();
                     }
                 });
             }
@@ -134,9 +143,45 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
         return convertView;
     }
 
+    private void inProductList() {
+        if (productList.contains(spusBean)) {
+            for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : productList) {
+                if (spusBean.getId() == shopProduct.getId()) {
+                    if (shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0) {
+                        for (int i = 0; i < shopProduct.getAttrs().size(); i++) {
+                            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs = shopProduct.getAttrs().get(i).getChoiceAttrs();
+                            long id = choiceAttrs.get(0).getId();
+                            if (id == spusBean.getAttrs().get(i).getChoiceAttrs().get(0).getId()) {
+                                if (setPriceListener != null) {
+                                    setPriceListener.setNumber(shopProduct.getNumber());
+                                }
+                            }
+                        }
+                    } else {
+                        if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
+                            for (int i = 0; i < shopProduct.getSkus().size(); i++) {
+                                int id = shopProduct.getChoiceSkus().get(0).getId();
+                                if (id == spusBean.getSkus().get(i).getId()) {
+                                    if (setPriceListener != null) {
+                                        setPriceListener.setNumber(shopProduct.getNumber());
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        } else {
+            if (setPriceListener != null) {
+                setPriceListener.setNumber(0);
+            }
+        }
+    }
+
     class ViewHolder {
         public TextView attrsName;
-        public RadioGroup radioGroup;
+        public GoodsViewGroup radioGroup;
     }
 
     public void setPriceListener(SetPriceListener setPriceListener) {
@@ -145,5 +190,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
 
     public interface SetPriceListener {
         void setPrice(String price);
+
+        void setNumber(int number);
     }
 }

@@ -151,9 +151,9 @@ public class OrderPreviewBean {
                 private long wm_poi_id;
                 private String poi_name;
                 private double wm_poi_min_fee;
-                private int total;
-                private int original_price;
-                private int box_total_price;
+                private double total;
+                private double original_price;
+                private double box_total_price;
                 private String user_phone;
                 private int is_pre_order;
                 private int first_order;
@@ -255,7 +255,7 @@ public class OrderPreviewBean {
                     this.wm_poi_min_fee = wm_poi_min_fee;
                 }
 
-                public int getTotal() {
+                public double getTotal() {
                     return total;
                 }
 
@@ -263,7 +263,7 @@ public class OrderPreviewBean {
                     this.total = total;
                 }
 
-                public int getOriginal_price() {
+                public double getOriginal_price() {
                     return original_price;
                 }
 
@@ -271,7 +271,7 @@ public class OrderPreviewBean {
                     this.original_price = original_price;
                 }
 
-                public int getBox_total_price() {
+                public double getBox_total_price() {
                     return box_total_price;
                 }
 
@@ -314,28 +314,28 @@ public class OrderPreviewBean {
 
             public static class WmOrderingPreviewDetailVoListBean {
 
-                private int wm_food_sku_id;
-                private int food_price;
+                private Long wm_food_sku_id;
+                private double food_price;
                 private String unit;
                 private int count;
                 private int box_num;
                 private double box_price;
                 private String food_name;
-                private int origin_food_price;
+                private double origin_food_price;
                 private String picture;
                 private String spec;
-                private int wm_food_spu_id;
+                private Long wm_food_spu_id;
                 private List<WmOrderingPreviewFoodSpuAttrListBean> wm_ordering_preview_food_spu_attr_list;
 
-                public int getWm_food_sku_id() {
+                public Long getWm_food_sku_id() {
                     return wm_food_sku_id;
                 }
 
-                public void setWm_food_sku_id(int wm_food_sku_id) {
+                public void setWm_food_sku_id(Long wm_food_sku_id) {
                     this.wm_food_sku_id = wm_food_sku_id;
                 }
 
-                public int getFood_price() {
+                public double getFood_price() {
                     return food_price;
                 }
 
@@ -383,11 +383,23 @@ public class OrderPreviewBean {
                     this.food_name = food_name;
                 }
 
-                public int getOrigin_food_price() {
+                public double getOrigin_food_price() {
                     return origin_food_price;
                 }
 
                 public void setOrigin_food_price(int origin_food_price) {
+                    this.origin_food_price = origin_food_price;
+                }
+
+                public void setFood_price(double food_price) {
+                    this.food_price = food_price;
+                }
+
+                public void setBox_price(double box_price) {
+                    this.box_price = box_price;
+                }
+
+                public void setOrigin_food_price(double origin_food_price) {
                     this.origin_food_price = origin_food_price;
                 }
 
@@ -407,11 +419,12 @@ public class OrderPreviewBean {
                     this.spec = spec;
                 }
 
-                public int getWm_food_spu_id() {
+
+                public Long getWm_food_spu_id() {
                     return wm_food_spu_id;
                 }
 
-                public void setWm_food_spu_id(int wm_food_spu_id) {
+                public void setWm_food_spu_id(Long wm_food_spu_id) {
                     this.wm_food_spu_id = wm_food_spu_id;
                 }
 

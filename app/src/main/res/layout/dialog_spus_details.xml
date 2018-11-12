@@ -33,6 +33,7 @@
         android:scaleType="centerCrop" />
 
     <TextView
+        android:id="@+id/tv_spus_evaluate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -46,8 +47,9 @@
             android:id="@+id/tv_spus_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="￥%$s" />
+            android:text="¥%$s" />
 
         <Button
             android:id="@+id/btn_add_to_cart"
@@ -56,9 +58,57 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:text="@string/add_to_cart" />
+
+        <LinearLayout
+            android:id="@+id/action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shopping_choice"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/reduce"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="—"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/shoppingNum"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:maxLength="10"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/increase"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/black" />
+        </LinearLayout>
     </RelativeLayout>
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/commodity_description" />
+
+    <TextView
+        android:id="@+id/tv_spus_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"

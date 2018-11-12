@@ -26,13 +26,11 @@ import java.util.List;
 
 public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitOrderUi> {
 
-
     private ISubmitOrderModel mSubmitOrder;
-    private IOrderDetailsModel mModel;
 
     public SubmitOrderPresenter() {
         mSubmitOrder = new SubmitOrderImpl();
-        mModel = new OrderDetailsModel();
+
     }
 
     @Override
@@ -62,98 +60,29 @@ public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitO
 
     }
 
-    public void requestOrderSubmitData(AddressListBean.IovBean.DataBean addressData,
-                                       PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean,
-                                       List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList) {
-
-
-        OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
-        String payload = OnCreateOrderPayLoad(addressData, poiInfoBean, productList);
-        orderSubmitReq.setPayload(Encryption.encrypt(payload));
-        orderSubmitReq.setWm_pic_url(Encryption.encrypt(poiInfoBean.getPic_url()));
-        mSubmitOrder.requestOrderSubmitData(orderSubmitReq, new RequestCallback<OrderSubmitBean>() {
-
+    public void requestOrderDetails(OrderDetailsReq orderDetailsReq) {
+        mSubmitOrder.requestOrderDetails(orderDetailsReq, new RequestCallback<OrderDetailsResponse>() {
             @Override
-            public void onSuccess(OrderSubmitBean data) {
-                if (null != getUi()) {
+            public void onSuccess(OrderDetailsResponse data) {
+                if (getUi() != null) {
                     getUi().onOrderSubmitSuccess(data);
                 }
             }
 
             @Override
             public void onFailure(String msg) {
-
-                if (null != getUi()) {
-                    getUi().onError(msg);
-                }
-            }
-        });
-
-    }
-
-    public void requestOrderDetails(OrderDetailsReq orderDetailsReq) {
-        Lg.getInstance().d("xss","requestOrderDetails ");
-        mModel.requestOrderDetails(orderDetailsReq, new RequestCallback<OrderDetailsResponse>() {
-            @Override
-            public void onSuccess(OrderDetailsResponse data) {
-                Lg.getInstance().d("xss","requestOrderDetails success");
                 if (getUi() != null) {
-                    getUi().OrderDetailsUpdate(data);
-                }
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                if (getUi() != null) {
-                    getUi().OrderDetailsFailure(msg);
+                    getUi().onSubmitFailure(msg);
                 }
             }
         });
     }
 
-    private String OnCreateOrderPayLoad(AddressListBean.IovBean.DataBean addressData,
-                                        PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean,
-                                        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList){
-
-        OrderSubmitJsonBean orderSubmitJsonBean = new OrderSubmitJsonBean();
-        orderSubmitJsonBean.setUser_phone(addressData.getUser_phone());
-        orderSubmitJsonBean.setPay_source(3);
-
-        OrderSubmitJsonBean.WmOrderingListBean wmOrderingListBean = new OrderSubmitJsonBean.WmOrderingListBean();
-        wmOrderingListBean.setWm_poi_id(poiInfoBean.getWm_poi_id());
-        wmOrderingListBean.setDelivery_time(0);
-        wmOrderingListBean.setPay_type(2);
-
-        List<OrderSubmitJsonBean.WmOrderingListBean.FoodListBean> foodListBeans = new ArrayList<>();
-        for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : productList){
-            OrderSubmitJsonBean.WmOrderingListBean.FoodListBean foodListBean = new OrderSubmitJsonBean.WmOrderingListBean.FoodListBean();
-            foodListBean.setWm_food_sku_id(spusBean.getSkus().get(0).getId());
-            foodListBean.setCount(spusBean.getNumber());
-            foodListBeans.add(foodListBean);
-        }
-
-        wmOrderingListBean.setFood_list(foodListBeans);
-        orderSubmitJsonBean.setWm_ordering_list(wmOrderingListBean);
-
-        OrderSubmitJsonBean.WmOrderingUserBean wmOrderingUserBean = new OrderSubmitJsonBean.WmOrderingUserBean();
-        wmOrderingUserBean.setUser_phone(addressData.getUser_phone());
-        wmOrderingUserBean.setUser_name(addressData.getUser_name());
-        wmOrderingUserBean.setUser_address(addressData.getAddress());
-        wmOrderingUserBean.setAddr_longitude(addressData.getLongitude());
-        wmOrderingUserBean.setAddr_latitude(addressData.getLatitude());
-        wmOrderingUserBean.setAddress_id(addressData.getMt_address_id());
-        orderSubmitJsonBean.setWm_ordering_user(wmOrderingUserBean);
-
-        return GsonUtil.toJson(orderSubmitJsonBean);
-
-    }
 
     public interface SubmitOrderUi extends Ui {
 
-        void onOrderSubmitSuccess(OrderSubmitBean data);
+        void onOrderSubmitSuccess(OrderDetailsResponse data);
 
-        void onError(String error);
-        void OrderDetailsUpdate(OrderDetailsResponse data);
-        void OrderDetailsFailure(String msg);
+        void onSubmitFailure(String msg);
     }
 }
