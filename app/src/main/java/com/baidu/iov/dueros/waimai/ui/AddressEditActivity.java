@@ -100,12 +100,32 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
 
     @Override
-    public void onSuccess(AddressEditBean data) {
+    public void updateAddressSuccess(AddressEditBean data) {
 
     }
 
     @Override
-    public void onError(String error) {
+    public void updateAddressFail(String error) {
+
+    }
+
+    @Override
+    public void addAddressSuccess(AddressEditBean data) {
+
+    }
+
+    @Override
+    public void addAddressFail(String error) {
+
+    }
+
+    @Override
+    public void deleteAddressSuccess(AddressEditBean data) {
+
+    }
+
+    @Override
+    public void deleteAddressFail(String error) {
 
     }
 
@@ -159,7 +179,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             String name = et_name.getText() + "";
             String phone = et_phone.getText() + "";
             reqMap = new ArrayMap<>();
-            getPresenter().requestData(reqMap);
+            if (isEditModle) {
+                getPresenter().requestUpdateAddressData(reqMap);
+            } else {
+                getPresenter().requestAddAddressData(reqMap);
+            }
             finish();
         }
     }

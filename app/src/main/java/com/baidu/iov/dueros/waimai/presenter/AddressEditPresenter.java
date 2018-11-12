@@ -6,6 +6,7 @@ import android.util.ArrayMap;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.AddressEditModel;
+import com.baidu.iov.dueros.waimai.net.entity.request.AddressDeleteReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
@@ -45,23 +46,69 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
     }
 
 
-    public void requestData(ArrayMap<String, String> map) {
-        addressEditModel.requestAdressList(new AddressEditReq(), new RequestCallback<AddressEditBean>() {
+    public void requestUpdateAddressData(ArrayMap<String, String> map) {
+        addressEditModel.updateAddressData(new AddressEditReq(), new RequestCallback<AddressEditBean>() {
 
             @Override
             public void onSuccess(AddressEditBean data) {
-                getUi().onSuccess(data);
+                if (null != getUi()){
+                    getUi().updateAddressSuccess(data);
+                }
             }
 
             @Override
             public void onFailure(String msg) {
-                getUi().onError(msg);
+                if (null != getUi()){
+                    getUi().updateAddressFail(msg);
+                }
+            }
+        });
+    }
+
+    public void requestAddAddressData(ArrayMap<String, String> map) {
+        addressEditModel.updateAddressData(new AddressEditReq(), new RequestCallback<AddressEditBean>() {
+
+            @Override
+            public void onSuccess(AddressEditBean data) {
+                if (null != getUi()){
+                    getUi().addAddressSuccess(data);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if (null != getUi()){
+                    getUi().addAddressFail(msg);
+                }
+            }
+        });
+    }
+
+    public void requestDeleteAddressData(AddressDeleteReq addressDeleteReq) {
+        addressEditModel.deleteAddressData(addressDeleteReq, new RequestCallback<AddressEditBean>() {
+
+            @Override
+            public void onSuccess(AddressEditBean data) {
+                if (null != getUi()){
+                    getUi().deleteAddressSuccess(data);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if (null != getUi()){
+                    getUi().deleteAddressFail(msg);
+                }
             }
         });
     }
 
     public interface AddressEditUi extends Ui {
-        void onSuccess(AddressEditBean data);
-        void onError(String error);
+        void updateAddressSuccess(AddressEditBean data);
+        void updateAddressFail(String error);
+        void addAddressSuccess(AddressEditBean data);
+        void addAddressFail(String error);
+        void deleteAddressSuccess(AddressEditBean data);
+        void deleteAddressFail(String error);
     }
 }

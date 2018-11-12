@@ -89,6 +89,7 @@ public class ApiUtils {
 
     /**
      * get arrivetime list request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -97,9 +98,10 @@ public class ApiUtils {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getArriveTimeList(requestMap).enqueue(callBack);
     }
-	
-	    /**
+
+    /**
      * get address list request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -108,9 +110,10 @@ public class ApiUtils {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getAddressList(requestMap).enqueue(callBack);
     }
-	
-	    /**
+
+    /**
      * get order submit request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -119,7 +122,7 @@ public class ApiUtils {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getOrderSubmit(requestMap).enqueue(callBack);
     }
-	
+
     /**
      * get poifood list request
      *
@@ -157,7 +160,7 @@ public class ApiUtils {
      * @return
      */
     private static <D extends RequestBase> Map<String, String> requestPrepare(D request) {
-        Lg.getInstance().d(TAG,"LONGITUDE==="+Constant.LONGITUDE +"LATITUDE==="+Constant.LATITUDE);
+        Lg.getInstance().d(TAG, "LONGITUDE===" + Constant.LONGITUDE + "LATITUDE===" + Constant.LATITUDE);
         request.uuid = "1234";
         request.sign = CommonUtils.sign(request);
         return CommonUtils.getAllFields(request);
@@ -225,6 +228,7 @@ public class ApiUtils {
 
     /**
      * get filter condition list request
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -236,7 +240,20 @@ public class ApiUtils {
 
 
     /**
-     * get filter condition list request
+     * updateAddress
+     *
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void updateAddress(D request, ApiCallBack<AddressEditBean> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().updateAddress(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * addAddress
+     *
      * @param request
      * @param callBack
      * @param <D>
@@ -245,9 +262,22 @@ public class ApiUtils {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().addAddress(requestMap).enqueue(callBack);
     }
-	
+
+    /**
+     * deleteAddress
+     *
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void deleteAddress(D request, ApiCallBack<AddressEditBean> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().deleteAddress(requestMap).enqueue(callBack);
+    }
+
     /**
      * get meituan Authorize
+     *
      * @param request
      * @param callBack
      * @param <D>

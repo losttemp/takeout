@@ -119,15 +119,23 @@ public interface TakeawayApi {
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/addressupdate")
+    Call<ResponseBase<AddressEditBean>> updateAddress(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("/iovservice/waimai/addressadd")
     Call<ResponseBase<AddressEditBean>> addAddress(@FieldMap Map<String, String> map);
-	
+
+    @FormUrlEncoded
+    @POST("/iovservice/waimai/addressdelete")
+    Call<ResponseBase<AddressEditBean>> deleteAddress(@FieldMap Map<String, String> map);
+
     @FormUrlEncoded
     @POST("/iovservice/waimai/authorize")
     Call<ResponseBase<MeituanAuthorizeResponse>> getMeituanAuth(@FieldMap Map<String, String> map);
 
-	@FormUrlEncoded
-	@POST("/iovservice/waimai/suggest")
-	Call<ResponseBase<SearchSuggestResponse>> getSearchSuggest(@FieldMap Map<String, String> map);
+    @FormUrlEncoded
+    @POST("/iovservice/waimai/suggest")
+    Call<ResponseBase<SearchSuggestResponse>> getSearchSuggest(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/orderpreview")
