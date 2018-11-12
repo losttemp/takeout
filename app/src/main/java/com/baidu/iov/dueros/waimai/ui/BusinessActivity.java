@@ -251,6 +251,8 @@ public class BusinessActivity extends BaseActivity<BusinessPresenter,BusinessPre
 
     @Override
     public void onBusinessBeanError(String error) {
+        tvNoResult.setText(error);
+        tvNoResult.setVisibility(View.VISIBLE);
         if (mRefreshLayout.isRefreshing()) {
             mRefreshLayout.finishRefresh();
         }

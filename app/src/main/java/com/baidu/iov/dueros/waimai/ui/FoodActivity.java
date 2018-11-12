@@ -181,7 +181,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     @Override
     public void onError(String error) {
-
+        tvNoResult.setText(error);
+        tvNoResult.setVisibility(View.VISIBLE);
     }
 
     @Override
