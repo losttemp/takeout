@@ -92,7 +92,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private int mPreDateItem = 0;
     private int mPreAddressItem = -1;
     private NumberFormat mNumberFormat;
-    private  String mEstimateTime;
+    private String mEstimateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,7 +236,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
                 if (mOrderPreviewData != null && mOrderPreviewData.getCode() == ORDER_PREVIEW_SUCCESS && mAddressData != null) {
                     List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
-                    wmOrderingPreviewDetailVoListBean =mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
+                    wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
                     getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean);
                 }
 
@@ -312,7 +312,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     }
 
                 }
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mAddressData);
+                getPresenter().requestOrderPreview(mProductList, mPoiInfo);
                 mCurTimeItem = position;
                 mPreDateItem = mCurDateItem;
                 mTimeAdapter.setCurrentItem(mCurTimeItem, mPreDateItem);
@@ -437,7 +437,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             int estimate = mOrderPreviewData.getWm_ordering_preview_order_vo().getEstimate_arrival_time();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             Date date = new Date((estimate + System.currentTimeMillis()));
             mEstimateTime = sdf.format(date);
 
@@ -445,6 +445,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
 
     }
+
 
     @Override
     public void onOrderPreviewFailure(String msg) {
@@ -457,7 +458,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mOrderSubmitData = data.getMeituan().getData();
         }
 
-        if (mOrderSubmitData.getCode() == SUBMIT_ORDER_SUCCESS){
+        if (mOrderSubmitData.getCode() == SUBMIT_ORDER_SUCCESS) {
             double total = mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal();
             long orderId = mOrderSubmitData.getOrder_id();
             String poiName = mOrderPreviewData.getWm_ordering_preview_order_vo().getPoi_name();
