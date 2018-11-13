@@ -45,6 +45,7 @@ public class AddressListBean {
             private int latitude;
             private int longitude;
             private boolean is_hint;
+            private int address_id;
             private int mt_address_id;
             private String house;
             private String user_phone;
@@ -81,6 +82,14 @@ public class AddressListBean {
 
             public void setIs_hint(boolean is_hint) {
                 this.is_hint = is_hint;
+            }
+
+            public int getaddress_id() {
+                return address_id;
+            }
+
+            public void setaddress_id(int address_id) {
+                this.address_id = address_id;
             }
 
             public int getMt_address_id() {
