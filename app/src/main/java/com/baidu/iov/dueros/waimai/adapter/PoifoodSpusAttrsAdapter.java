@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.GoodsViewGroup;
 
 import java.util.List;
@@ -95,6 +98,10 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
             final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> values = attrsBeans.get(position).getValues();
             for (int i = 0; i < values.size(); i++) {
                 RadioButton radioButton = new RadioButton(context);
+                radioButton.setButtonDrawable(null);
+                radioButton.setGravity(Gravity.CENTER);
+                radioButton.setTextColor(context.getResources().getColorStateList(R.color.checked_bg));
+                radioButton.setBackground(context.getResources().getDrawable(R.drawable.selector_radiobtn_bg));
                 radioButton.setText(values.get(i).getValue());
                 radioButton.setId((int) values.get(i).getId());
                 viewHolder.radioGroup.addView(radioButton);
@@ -109,6 +116,18 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                             spusBean.getAttrs().get(position).setChoiceAttrs(choiceAttrs);
                         }
                     }
+                    if (spusBean.getSkus().size() >= 2) {
+                        if (choiceSkus.size() == 0) {
+                            return;
+                        }
+                    }
+                    if (spusBean.getAttrs().size() > 0) {
+                        for (int i = 0; i < spusBean.getAttrs().size(); i++) {
+                            if (choiceAttrs.size() == 0) {
+                                return;
+                            }
+                        }
+                    }
                     inProductList();
                 }
             });
@@ -117,6 +136,10 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                 viewHolder.attrsName.setText(context.getString(R.string.specifications));
                 for (int i = 0; i < skusBeans.size(); i++) {
                     RadioButton radioButton = new RadioButton(context);
+                    radioButton.setButtonDrawable(null);
+                    radioButton.setGravity(Gravity.CENTER);
+                    radioButton.setTextColor(context.getResources().getColorStateList(R.color.checked_bg));
+                    radioButton.setBackground(context.getResources().getDrawable(R.drawable.selector_radiobtn_bg));
                     radioButton.setText(skusBeans.get(i).getSpec());
                     radioButton.setId(skusBeans.get(i).getId());
                     viewHolder.radioGroup.addView(radioButton);
@@ -135,6 +158,18 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                                 }
                             }
                         }
+                        if (spusBean.getSkus().size() >= 2) {
+                            if (choiceSkus.size() == 0) {
+                                return;
+                            }
+                        }
+                        if (spusBean.getAttrs().size() > 0) {
+                            for (int i = 0; i < spusBean.getAttrs().size(); i++) {
+                                if (choiceAttrs.size() == 0) {
+                                    return;
+                                }
+                            }
+                        }
                         inProductList();
                     }
                 });
@@ -144,6 +179,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
     }
 
     private void inProductList() {
+        boolean inList = false;
         if (productList.contains(spusBean)) {
             for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : productList) {
                 if (spusBean.getId() == shopProduct.getId()) {
@@ -152,28 +188,57 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs = shopProduct.getAttrs().get(i).getChoiceAttrs();
                             long id = choiceAttrs.get(0).getId();
                             if (id == spusBean.getAttrs().get(i).getChoiceAttrs().get(0).getId()) {
-                                if (setPriceListener != null) {
+                                if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
+                                    for (int j = 0; j < shopProduct.getSkus().size(); j++) {
+                                        int skusId = shopProduct.getChoiceSkus().get(0).getId();
+                                        if (skusId == spusBean.getChoiceSkus().get(i).getId()) {
+                                            if (setPriceListener != null) {
+                                                setPriceListener.setNumber(shopProduct.getNumber());
+                                                inList = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (inList) {
+                                        break;
+                                    }
+                                } else {
                                     setPriceListener.setNumber(shopProduct.getNumber());
+                                    inList = true;
+                                    break;
                                 }
+                            } else {
+                                break;
                             }
+                        }
+                        if (inList) {
+                            break;
                         }
                     } else {
                         if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
                             for (int i = 0; i < shopProduct.getSkus().size(); i++) {
                                 int id = shopProduct.getChoiceSkus().get(0).getId();
-                                if (id == spusBean.getSkus().get(i).getId()) {
+                                if (id == spusBean.getChoiceSkus().get(i).getId()) {
                                     if (setPriceListener != null) {
                                         setPriceListener.setNumber(shopProduct.getNumber());
+                                        inList = true;
+                                        break;
                                     }
                                 }
                             }
-
                         }
                     }
                 }
             }
+            if (!inList) {
+                if (setPriceListener != null) {
+                    inList = false;
+                    setPriceListener.setNumber(0);
+                }
+            }
         } else {
             if (setPriceListener != null) {
+                inList = false;
                 setPriceListener.setNumber(0);
             }
         }

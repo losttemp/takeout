@@ -1,50 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="colorPrimary">#3F51B5</color>
-	<color name="colorPrimaryDark">#303F9F</color>
-	<color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">@color/base_color</color>
+    <color name="colorAccent">#FF4081</color>
 
-	<color name="def_mask_color">#FF4081</color>
-	<color name="mask_color">#88888888</color>
-	<color name="refresh_layout">#00000000</color>
-	<color name="pop_window_bg">#66000000</color>
-	<color name="translucence_bg">#66000000</color>
+    <color name="def_mask_color">#FF4081</color>
+    <color name="mask_color">#88888888</color>
+    <color name="refresh_layout">#00000000</color>
+    <color name="pop_window_bg">#66000000</color>
+    <color name="translucence_bg">#66000000</color>
 
-	<!--<color name="drop_down_selected">#7B1FA2</color>-->
-	<!--<color name="drop_down_unselected">#111111</color>-->
-	<color name="drop_down_selected">#FFFFFF</color>
-	<color name="drop_down_unselected">#FFBDC0C3</color>
-	<color name="checked_bg">#f2f2f2</color>
-	<color name="color_d6d6d6">#d6d6d6</color>
+    <!--<color name="drop_down_selected">#7B1FA2</color>-->
+    <!--<color name="drop_down_unselected">#111111</color>-->
+    <color name="drop_down_selected">#FFFFFF</color>
+    <color name="drop_down_unselected">#FFBDC0C3</color>
+    <color name="checked_bg">#f2f2f2</color>
+    <color name="color_d6d6d6">#d6d6d6</color>
 
-	<!--cinema item-->
-	<color name="white_88">#FFBDC0C3</color>
-	<color name="cinema_blue">#FF43A7BC</color>
-	<color name="cinema_yellow">#FFEEBC37</color>
+    <!--cinema item-->
+    <color name="white_88">#FFBDC0C3</color>
+    <color name="cinema_blue">#FF43A7BC</color>
+    <color name="cinema_yellow">#FFEEBC37</color>
 
-	<!--common color-->
-	<color name="white">#FFFFFF</color>
-	<color name="black">#000000</color>
-	<color name="gray">#cccccc</color>
-	<color name="dark_gray">#999999</color>
-	<color name="red">#ff0000</color>
-	<color name="blue">#0000ff</color>
-	<color name="deepskyblue">#00bfff</color>
-	<color name="white_bg">#FFFFFF</color>
-	<color name="gray_bg">#FF6D7681</color>
-	<color name="divider">#767676</color>
-	<color name="gray_text">#767676</color>
-	<color name="red_text">#FF0000</color>
-	<color name="red_bg">#FF0000</color>
-	<color name="yellow_bg">#FF9900</color>
-	<color name="discount_bg">#9A9A9A</color>
-	<color name="delivery_bg">#D7D7D7</color>
-	<color name="blue_text">#0045FF</color>
-	<color name="black_text">#000000</color>
+    <!--common color-->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#cccccc</color>
+    <color name="dark_gray">#999999</color>
+    <color name="red">#ff0000</color>
+    <color name="blue">#0000ff</color>
+    <color name="deepskyblue">#00bfff</color>
+    <color name="white_bg">#FFFFFF</color>
+    <color name="gray_bg">#FF6D7681</color>
+    <color name="divider">#767676</color>
+    <color name="gray_text">#767676</color>
+    <color name="red_text">#FF0000</color>
+    <color name="red_bg">#FF0000</color>
+    <color name="yellow_bg">#FF9900</color>
+    <color name="discount_bg">#9A9A9A</color>
+    <color name="delivery_bg">#D7D7D7</color>
+    <color name="blue_text">#0045FF</color>
+    <color name="black_text">#000000</color>
 
-	<color name="goods_item_text_normal">#ff8000</color>
-	<color name="goods_item_text_selected">#ffffff</color>
-	<color name="goods_item_btn_bg_normal">#ffffff</color>
-	<color name="goods_item_btn_bg_selected">#ff8000</color>
-	<color name="goods_item_btn_bg_border">@color/goods_item_btn_bg_selected</color>
+    <color name="goods_item_text_normal">#ff8000</color>
+    <color name="goods_item_text_selected">#ffffff</color>
+    <color name="goods_item_btn_bg_normal">#ffffff</color>
+    <color name="goods_item_btn_bg_selected">#ff8000</color>
+    <color name="goods_item_btn_bg_border">@color/goods_item_btn_bg_selected</color>
+
+    <color name="base_color">#262D37</color>
 </resources>

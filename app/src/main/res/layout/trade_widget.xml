@@ -8,16 +8,30 @@
     android:paddingTop="6dp">
 
 
-    <TextView
-        android:id="@+id/commodityName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_commodityName"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_weight="1"
-        android:paddingLeft="20dp"
-        android:singleLine="true"
-        android:text=""
-        android:textColor="@color/black" />
+        android:orientation="vertical"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:id="@+id/commodityName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_shop_specifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -25,7 +39,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="30dp"
         android:layout_toLeftOf="@+id/choiceLayout"
-        android:layout_toRightOf="@+id/commodityName"
+        android:layout_toRightOf="@+id/ll_commodityName"
         android:gravity="center|right">
 
         <TextView

@@ -1,5 +1,12 @@
 package com.baidu.iov.dueros.waimai.utils;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.view.Window;
+import android.view.WindowManager;
+
 import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 
@@ -10,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
+
+import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
+import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 
 /**
  * @author pengqm
@@ -79,5 +89,33 @@ public class CommonUtils {
 			clazz = clazz.getSuperclass();
 		}
 		return map;
+	}
+
+	/**
+	 * statusbar color
+	 *
+	 * @param color
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public static void setStatusBarColor(Activity activity, @ColorInt int color) {
+		final Window window = activity.getWindow();
+		window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+		window.setStatusBarColor(color);
+	}
+
+	/**
+	 * set translucent
+	 *
+	 * @param translucent
+	 */
+	public static void setTranslucentStatusBar(Activity activity, boolean translucent) {
+		Window win = activity.getWindow();
+		WindowManager.LayoutParams winParams = win.getAttributes();
+		if (true == translucent) {
+			winParams.flags |= FLAG_TRANSLUCENT_STATUS;
+		} else {
+			winParams.flags &= ~FLAG_TRANSLUCENT_STATUS;
+		}
+		win.setAttributes(winParams);
 	}
 }
