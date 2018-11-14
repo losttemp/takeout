@@ -54,6 +54,24 @@ public class AddressListBean {
             private String addressRangeTip;
             private int sex;
 
+            public int getAddress_id() {
+                return address_id;
+            }
+
+            public void setAddress_id(int address_id) {
+                this.address_id = address_id;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            private String type;
+
             public int getCanShipping() {
                 return canShipping;
             }

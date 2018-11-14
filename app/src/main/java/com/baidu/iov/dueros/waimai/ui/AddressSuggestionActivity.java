@@ -8,8 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,7 +29,7 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressSuggestionActivity extends AppCompatActivity implements TextWatcher {
+public class AddressSuggestionActivity extends AppCompatActivity implements TextWatcher ,View.OnClickListener {
     private RecyclerView mRecyclerView;
     private AutoCompleteTextView mSearchEdit;
     private AddressSuggestionAdapter mAdapter;
@@ -38,6 +40,9 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
     private OnGetSuggestionResultListener mGetSuggestionResultListener;
     private LinearLayout mErrorLL;
     private String mCity;
+    private boolean isEditModle;
+    private TextView tv_title;
+    private ImageView iv_back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +54,8 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
     }
 
     private void initView() {
+        tv_title =(TextView) findViewById(R.id.address_title);
+        iv_back =(ImageView) findViewById(R.id.address_back);
         mRecyclerView = (RecyclerView) findViewById(R.id.address_search_rv);
         mSearchEdit = (AutoCompleteTextView) findViewById(R.id.address_search_edit);
         mCityTV = (TextView) findViewById(R.id.address_search_city);
@@ -56,8 +63,11 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layout);
     }
+
     private void initData() {
+        tv_title .setText(getResources().getString(R.string.address_title_search));
         mCity = getIntent().getStringExtra(Constant.ADDRESS_EDIT_INTENT_EXTRE_CITY);
+        isEditModle = getIntent().getBooleanExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
         mCityTV.setText(mCity);
         mAllSuggestions = new ArrayList<>();
         mAdapter = new AddressSuggestionAdapter(mAllSuggestions);
@@ -65,16 +75,19 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
     }
 
     private void initListener() {
+        iv_back.setOnClickListener(this);
         mAdapter.setOnItemClickListener(new AddressSuggestionAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View v, SuggestionResult.SuggestionInfo dataBean) {
                 Lg.getInstance().d(TAG, "setOnItemClickListener");
                 Intent intent = new Intent(AddressSuggestionActivity.this, AddressEditActivity.class);
-                LatLng pt = dataBean.getPt();
-                intent.putExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_LA, pt.latitude);
-                intent.putExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR, dataBean.getKey());
-                intent.putExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_LO, pt.longitude);
-                setResult(Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE, intent);
+                intent.putExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR, dataBean);
+                if (isEditModle) {
+                    setResult(Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE, intent);
+                } else {
+                    intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, false);
+                    startActivity(intent);
+                }
                 finish();
             }
         });
@@ -92,9 +105,6 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
         mGetSuggestionResultListener = new OnGetSuggestionResultListener() {
             @Override
             public void onGetSuggestionResult(SuggestionResult suggestionResult) {
-                if (key.length() == 0) {
-                    mAllSuggestions.clear();
-                } else {
                     List<SuggestionResult.SuggestionInfo> allSuggestions = suggestionResult.getAllSuggestions();
                     if (allSuggestions != null && allSuggestions.size() > 0) {
                         mErrorLL.setVisibility(View.GONE);
@@ -104,9 +114,8 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
                         mAdapter.notifyDataSetChanged();
                     } else {
                         mErrorLL.setVisibility(View.VISIBLE);
-                        mRecyclerView.setVisibility(View.INVISIBLE);
+                        mRecyclerView.setVisibility(View.GONE);
                     }
-                }
             }
         };
         mSuggestionSearch.setOnGetSuggestionResultListener(mGetSuggestionResultListener);
@@ -120,9 +129,13 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (count == 0) {
+        if (s.length() < 1) {
             mAllSuggestions.clear();
+            mAdapter.notifyDataSetChanged();
+            mErrorLL.setVisibility(View.GONE);
+            return;
         }
+
         initSuggestionInfo(mCity, s + "");
     }
 
@@ -134,7 +147,17 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mAdapter.destroy();
-        mSuggestionSearch.destroy();
+        if (mSuggestionSearch != null) {
+            mSuggestionSearch.destroy();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.address_back:
+                finish();
+                break;
+        }
     }
 }
