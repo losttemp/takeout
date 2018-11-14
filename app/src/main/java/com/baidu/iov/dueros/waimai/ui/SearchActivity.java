@@ -74,6 +74,13 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		iniData();
 
 	}
+	
+	
+	public void setmEtTipNoResult(){
+		mEtSearch.setText("这个关键词有点复杂");
+		mLlHistory.setVisibility(View.GONE);
+		mLvSuggest.setVisibility(View.GONE);
+	}
 
 	private void iniView() {
 		mEtSearch = (AppCompatEditText) findViewById(R.id.et_search);

@@ -63,11 +63,12 @@
 				android:textSize="16sp"
 				tools:text="@string/tools_text_store_name" />
 
-			<android.support.v7.widget.LinearLayoutCompat
+			<RelativeLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="5dp"
-				android:orientation="horizontal">
+				android:gravity="center_vertical"
+				android:layout_gravity="center_vertical">
 
 				<com.baidu.iov.dueros.waimai.view.RatingBar
 					android:id="@+id/ratingBar"
@@ -75,6 +76,7 @@
 					android:layout_height="wrap_content"
 					android:layout_gravity="center_vertical"
 					android:layout_marginRight="5dp"
+					android:layout_marginTop="2dp"
 					app:starCount="5"
 					app:starEmpty="@mipmap/rating_small_empty"
 					app:starFill="@mipmap/rating_small_full"
@@ -86,45 +88,49 @@
 
 				<android.support.v7.widget.AppCompatTextView
 					android:id="@+id/tv_score"
+					android:layout_toRightOf="@id/ratingBar"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
 					android:layout_marginRight="5dp"
-					android:gravity="center"
+					android:layout_centerVertical="true"
 					android:textSize="14sp"
 					tools:text="5.0" />
 
 				<android.support.v7.widget.AppCompatTextView
 					android:id="@+id/tv_sales"
+					android:layout_toRightOf="@id/tv_score"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
+					android:layout_centerVertical="true"
 					android:layout_marginRight="5dp"
 					android:gravity="center"
 					android:textSize="14sp"
+					android:visibility="gone"
 					tools:text="@string/month_sale_num" />
+				
 
+				<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/tv_distance"
+					android:layout_alignParentRight="true"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_marginRight="3dp"
+					android:gravity="center"
+					android:textSize="14sp"
+					tools:text="2.5km" />
 				<android.support.v7.widget.AppCompatTextView
 					android:id="@+id/tv_time"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
+					android:layout_centerVertical="true"
 					android:layout_marginRight="5dp"
 					android:gravity="center"
 					android:textSize="14sp"
+					android:layout_toLeftOf="@id/tv_distance"
 					tools:text="@string/delivery_time" />
 
-				<android.support.v7.widget.AppCompatTextView
-					android:id="@+id/tv_distance"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:layout_marginRight="5dp"
-					android:gravity="center"
-					android:textSize="14sp"
-					tools:text="2.5km" />
-
-			</android.support.v7.widget.LinearLayoutCompat>
+			</RelativeLayout>
 
 			<LinearLayout
 				android:layout_width="wrap_content"

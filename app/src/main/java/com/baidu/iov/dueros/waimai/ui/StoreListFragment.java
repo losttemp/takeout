@@ -16,12 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.StoreListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
@@ -39,6 +41,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		.StoreListUi> implements
 		StoreListPresenter.StoreListUi, View.OnClickListener {
 
+	private static final int COMPREHENSIVE = 0;
 	private static final int SALE_NUM_SORT_INDEX = 1;
 	private static final int DISTANCE_SORT_INDEX = 5;
 
@@ -170,7 +173,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mSortPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 						@Override
 						public void onDismiss() {
-							mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
+							mTvSort.setTextColor(getResources().getColor(R.color.black));
 							mIvSort.setImageResource(R.mipmap.arrow_down);
 							mViewBg.setVisibility(View.GONE);
 						}
@@ -192,13 +195,18 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 								@Override
 								public void onClickOk(String migFilter) {
 									mStoreReq.setMigFilter(migFilter);
+									if (!migFilter.isEmpty()){
+										mTvFilter.setTextColor(getResources().getColor(R.color.black));
+									}else{
+										mTvFilter.setTextColor(getResources().getColor(R.color.gray));
+									}
 									loadFirstPage(mStoreReq);
 								}
 							});
 					mFilterPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 						@Override
 						public void onDismiss() {
-							mTvFilter.setTextColor(getResources().getColor(R.color.dark_gray));
+							//mTvFilter.setTextColor(getResources().getColor(R.color.dark_gray));
 							mIvFilter.setImageResource(R.mipmap.arrow_down);
 							mViewBg.setVisibility(View.GONE);
 						}
@@ -214,23 +222,47 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				break;
 
 			case R.id.tv_sales:
-				mTvSort.setText(getResources().getString(R.string.store_sort));
-				mStoreReq.setSortType(SALE_NUM_SORT_INDEX);
-				loadFirstPage(mStoreReq);
-				mTvSales.setTextColor(mContext.getResources().getColor(
-						R.color.black));
-				mTvDistance.setTextColor(mContext.getResources().getColor(
-						R.color.dark_gray));
+				int salesaSortType = mStoreReq.getSortType()==null?0:mStoreReq.getSortType();
+				if (salesaSortType!=SALE_NUM_SORT_INDEX) {
+					mTvSort.setText(getResources().getString(R.string.store_sort));
+					mStoreReq.setSortType(SALE_NUM_SORT_INDEX);
+					mTvSales.setTextColor(mContext.getResources().getColor(
+							R.color.black));
+					mTvDistance.setTextColor(mContext.getResources().getColor(
+							R.color.dark_gray));
+					mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
+					loadFirstPage(mStoreReq);
+				}else {
+					mStoreReq.setSortType(COMPREHENSIVE);
+					mTvSales.setTextColor(mContext.getResources().getColor(
+							R.color.dark_gray));
+					mTvDistance.setTextColor(mContext.getResources().getColor(
+							R.color.dark_gray));
+					mTvSort.setTextColor(getResources().getColor(R.color.black));
+					loadFirstPage(mStoreReq);
+				}
 				break;
 
 			case R.id.tv_distance:
-				mTvSort.setText(getResources().getString(R.string.store_sort));
-				mStoreReq.setSortType(DISTANCE_SORT_INDEX);
-				loadFirstPage(mStoreReq);
-				mTvSales.setTextColor(mContext.getResources().getColor(
-						R.color.dark_gray));
-				mTvDistance.setTextColor(mContext.getResources().getColor(
-						R.color.black));
+				int distanceSortType = mStoreReq.getSortType()==null?0:mStoreReq.getSortType();
+				if (distanceSortType!=DISTANCE_SORT_INDEX) {
+					mTvSort.setText(getResources().getString(R.string.store_sort));
+					mStoreReq.setSortType(DISTANCE_SORT_INDEX);
+					mTvSales.setTextColor(mContext.getResources().getColor(
+							R.color.dark_gray));
+					mTvDistance.setTextColor(mContext.getResources().getColor(
+							R.color.black));
+					mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
+					loadFirstPage(mStoreReq);
+				}else {
+					mStoreReq.setSortType(COMPREHENSIVE);
+					mTvSales.setTextColor(mContext.getResources().getColor(
+							R.color.dark_gray));
+					mTvDistance.setTextColor(mContext.getResources().getColor(
+							R.color.dark_gray));
+					mTvSort.setTextColor(getResources().getColor(R.color.black));
+					loadFirstPage(mStoreReq);
+				}
 				break;
 
 			default:
@@ -254,6 +286,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				mLlFilter.setVisibility(View.GONE);
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
 						.no_search_result_keyword));
+				((SearchActivity)mContext).setmEtTipNoResult();
 			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
 				if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
@@ -286,10 +319,25 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	}
 
+	private List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> getSortTypeList(List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> sortTypes) {
+		List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> sortTypeList = new ArrayList<>();
+		if (sortTypes != null && !sortTypes.isEmpty()) {
+			int size = sortTypes.size();
+			for (int i = 0; i < size; i++) {
+				FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean sortType = sortTypes.get(i);
+				//1:list 
+				if (sortType.getPosition() == FilterConditionsResponse.MeituanBean.MeituanData.SortType.LISTPOS) {
+					sortTypeList.add(sortType);
+				}
+			}
+		}
+		return sortTypeList;
+	}
+
 	@Override
 	public void updateFilterCondition(FilterConditionResponse data) {
 		mSortList.clear();
-		mSortList.addAll(data.getMeituan().getData().getSort_type_list());
+		mSortList.addAll(getSortTypeList(data.getMeituan().getData().getSort_type_list()));
 		if (mSortPopWindow != null) {
 			mSortPopWindow.updateList();
 		}
@@ -361,6 +409,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	private void jumpPage(int position) {
 		if (mStoreList.size() > position) {
+			if (mStoreList.get(position).getStatus()==Constant.STROE_STATUS_BREAK){
+				Toast.makeText(mContext,getResources().getString(R.string.tips_earliest_delivery_time),Toast.LENGTH_LONG).show();
+			}
 			Intent intent = new Intent(mContext, FoodListActivity.class);
 			intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());
 			startActivity(intent);
