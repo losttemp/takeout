@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.presenter.Presenter;
+import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
@@ -45,6 +47,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
         mPresenter.onUiReady(getUi());
         initLocationCity();
         requestPermission();
@@ -79,6 +82,13 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
             mBDLocation = lastKnownLocation;
             Constant.LATITUDE = (int) mBDLocation.getLatitude()*LocationManager.SPAN;
             Constant.LONGITUDE = (int) mBDLocation.getLongitude()*LocationManager.SPAN;
+        }
+    }
+
+    public void setStatusBar(boolean translucent, @ColorInt int color) {
+        CommonUtils.setTranslucentStatusBar(this, translucent);
+        if (color != 0) {
+            CommonUtils.setStatusBarColor(this, color);
         }
     }
 

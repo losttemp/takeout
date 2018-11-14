@@ -56,6 +56,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
             viewHolder.increase = (TextView) convertView.findViewById(R.id.increase);
             viewHolder.reduce = (TextView) convertView.findViewById(R.id.reduce);
             viewHolder.shoppingNum = (TextView) convertView.findViewById(R.id.shoppingNum);
+            viewHolder.shopSpecifications = (TextView) convertView.findViewById(R.id.tv_shop_specifications);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -64,6 +65,22 @@ public class ShoppingCartAdapter extends BaseAdapter {
         viewHolder.commodityPrise.setText("" + spusBeans.get(position).getMin_price());
         viewHolder.commodityNum.setText(1 + "");
         viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
+        
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < spusBeans.get(position).getAttrs().size(); i++) {
+            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs =
+                    spusBeans.get(position).getAttrs().get(i).getChoiceAttrs();
+            for (int j = 0; j < choiceAttrs.size(); j++) {
+                String value = choiceAttrs.get(j).getValue();
+                stringBuffer.append(value);
+            }
+        }
+        if (spusBeans.get(position).getSkus().size() <= 1) {
+        } else {
+            String spec = spusBeans.get(position).getChoiceSkus().get(0).getSpec();
+            stringBuffer.append("+" + spec);
+        }
+        viewHolder.shopSpecifications.setText(stringBuffer);
 
         viewHolder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,5 +131,6 @@ public class ShoppingCartAdapter extends BaseAdapter {
         public TextView increase;
         public TextView reduce;
         public TextView shoppingNum;
+        public TextView shopSpecifications;
     }
 }

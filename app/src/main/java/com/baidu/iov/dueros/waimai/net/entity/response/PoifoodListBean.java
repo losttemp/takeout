@@ -364,13 +364,12 @@ public class PoifoodListBean {
                     @Override
                     public boolean equals(Object obj) {
                         SpusBean spusBean = (SpusBean) obj;
-                        if (attrs != null) {
+                        if (choiceSkus == null) {
                             return id == spusBean.getId() && attrs.equals(spusBean.getAttrs());
+                        } else {
+                            return id == spusBean.getId() && attrs.equals(spusBean.getAttrs()) &&
+                                    id == spusBean.getId() && choiceSkus.get(0).spec.equals(spusBean.getChoiceSkus().get(0).spec);
                         }
-                        if (choiceSkus != null) {
-                            return id == spusBean.getId() && choiceSkus.equals(spusBean.getChoiceSkus());
-                        }
-                        return super.equals(obj);
                     }
 
                     public List<SkusBean> getChoiceSkus() {

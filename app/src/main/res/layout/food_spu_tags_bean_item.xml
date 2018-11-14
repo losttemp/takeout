@@ -74,6 +74,16 @@
                         android:layout_marginLeft="5dp"
                         android:textColor="#EB6100"
                         android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_discount_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="¥%1$s"
+                        android:textColor="#EB6100"
+                        android:textSize="13sp"
+                        android:visibility="visible" />
                 </LinearLayout>
 
                 <RelativeLayout

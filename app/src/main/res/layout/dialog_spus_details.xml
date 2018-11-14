@@ -59,6 +59,15 @@
             android:layout_marginRight="10dp"
             android:text="@string/add_to_cart" />
 
+        <Button
+            android:id="@+id/btn_spus_details_specifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/specifications"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/action"
             android:layout_width="wrap_content"
