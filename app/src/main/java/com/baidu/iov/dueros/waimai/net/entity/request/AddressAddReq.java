@@ -1,20 +1,18 @@
 package com.baidu.iov.dueros.waimai.net.entity.request;
 
-import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
+import com.baidu.iov.dueros.waimai.net.entity.base.LatLongRequestBase;
 
 /**
  * Created by ubuntu on 18-11-13.
  */
 
-public class AddressAddReq extends RequestBase {
+public class AddressAddReq extends LatLongRequestBase {
     private String type;
     private String user_name;
     private int sex;
     private String user_phone;
     private String address;
     private String house;
-    private int latitude;
-    private int longitude;
 
     public String getType() {
         return type;
@@ -64,19 +62,4 @@ public class AddressAddReq extends RequestBase {
         this.house = house;
     }
 
-    public int getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(int latitude) {
-        this.latitude = latitude;
-    }
-
-    public int getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(int longitude) {
-        this.longitude = longitude;
-    }
 }
