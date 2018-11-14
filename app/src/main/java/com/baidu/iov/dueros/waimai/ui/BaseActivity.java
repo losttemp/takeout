@@ -7,18 +7,19 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.presenter.Presenter;
+import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
@@ -46,6 +47,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
         mPresenter.onUiReady(getUi());
         initLocationCity();
         requestPermission();
@@ -78,8 +80,15 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         BDLocation lastKnownLocation = instance.getLastKnownLocation();
         if (lastKnownLocation != null) {
             mBDLocation = lastKnownLocation;
-            Constant.LATITUDE = (int) mBDLocation.getLatitude()*LocationManager.SPAN;
-            Constant.LONGITUDE = (int) mBDLocation.getLongitude()*LocationManager.SPAN;
+            Constant.LATITUDE = (int) mBDLocation.getLatitude() * LocationManager.SPAN;
+            Constant.LONGITUDE = (int) mBDLocation.getLongitude() * LocationManager.SPAN;
+        }
+    }
+
+    public void setStatusBar(boolean translucent, @ColorInt int color) {
+        CommonUtils.setTranslucentStatusBar(this, translucent);
+        if (color != 0) {
+            CommonUtils.setStatusBarColor(this, color);
         }
     }
 
@@ -88,7 +97,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         if (isSuccess) {
             mBDLocation = bdLocation;
         } else {
-            Toast.makeText(this,"locationErrorTYPE:"+bdLocation.getLocType(),Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "locationErrorTYPE:" + bdLocation.getLocType(), Toast.LENGTH_LONG).show();
             LocationManager.getInstance(this).requestLocation();
         }
     }
