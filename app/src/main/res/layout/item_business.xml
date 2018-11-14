@@ -92,13 +92,14 @@
         android:layout_below="@id/tv_business_name"
         android:layout_toRightOf="@id/tv_business_score"
         android:layout_marginTop="4dp"
+        android:visibility="gone"
         android:textSize="13sp" />
 
     <TextView
         android:id="@+id/tv_min_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_month_sale_nume"
+        android:layout_below="@id/ratingBar"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:layout_toRightOf="@id/fl"
@@ -108,7 +109,7 @@
         android:id="@+id/tv_shipping_fee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_month_sale_nume"
+        android:layout_below="@id/ratingBar"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:layout_toRightOf="@id/tv_min_price"
@@ -118,7 +119,7 @@
         android:id="@+id/tv_average_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_month_sale_nume"
+        android:layout_below="@id/ratingBar"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:layout_toRightOf="@id/tv_shipping_fee"
@@ -135,7 +136,7 @@
         android:id="@+id/rv_discount"
         android:layout_width="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginRight="3dp"
+        android:layout_marginRight="20dp"
         android:layout_alignParentLeft="true"
         android:layout_height="wrap_content"/>
 

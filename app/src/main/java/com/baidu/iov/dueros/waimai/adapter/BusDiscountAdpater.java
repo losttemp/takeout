@@ -7,14 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
-import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -49,7 +45,7 @@ public class BusDiscountAdpater extends RecyclerView.Adapter<BusDiscountAdpater.
         BusinessBean.MeituanBean.Business.OpenPoiBaseInfo.Discount  mDiscount=mData.get(i);
         itemsViewHolder.tvName.setText(mDiscount.getInfo());
         itemsViewHolder.ivDiscount.setVisibility(View.GONE);
-        Glide.with(mContext).load(mDiscount.getIconUrl()).into(itemsViewHolder.ivDiscount);
+        //Glide.with(mContext).load(mDiscount.getIconUrl()).into(itemsViewHolder.ivDiscount);
     }
 
     @Override
