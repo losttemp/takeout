@@ -116,18 +116,18 @@ public class OrderSubmitJsonBean {
 
     public static class WmOrderingUserBean {
 
-        private int address_id;
+        private long address_id;
         private String user_phone;
         private String user_name;
         private String user_address;
         private int addr_longitude;
         private int addr_latitude;
 
-        public int getAddress_id() {
+        public long getAddress_id() {
             return address_id;
         }
 
-        public void setAddress_id(int address_id) {
+        public void setAddress_id(long address_id) {
             this.address_id = address_id;
         }
 

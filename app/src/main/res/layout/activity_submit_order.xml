@@ -191,28 +191,11 @@
 
                 </RelativeLayout>
 
-
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/discounts_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/layout_border_shape"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="满减优惠" />
-
-                    <TextView
-                        android:id="@+id/discount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="10dp" />
-                </RelativeLayout>
-
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
 
                 <RelativeLayout
                     android:id="@+id/pay_type_panel"
@@ -254,7 +237,7 @@
             android:layout_height="@dimen/px100dp"
             android:background="@drawable/delivery_text_border"
             android:gravity="center"
-            android:text="@string/discount_prompt" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"

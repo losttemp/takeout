@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.adapter.DeliveryDateAdapter;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryTimeAdapter;
@@ -34,11 +35,14 @@ import com.bumptech.glide.Glide;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.security.Timestamp;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import static com.baidu.iov.dueros.waimai.ui.AddressListActivity.ADDRESS_DATA;
 import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.POI_INFO;
@@ -58,12 +62,19 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private final static int SELECT_DELIVERY_ADDRESS = 100;
     private final static int ORDER_PREVIEW_SUCCESS = 0;
     private final static int SUBMIT_ORDER_SUCCESS = 0;
+    private final static int STORE_CANT_NOT_BUY = 2;
+    private final static int FOOD_CANT_NOT_BUY = 3;
+    private final static int FOOD_COST_NOT_BUY = 5;
+    private final static int FOOD_COUNT_NOT_BUY = 15;
+    private final static int FOOD_LACK_NOT_BUY = 20;
+    private final static int BEYOND_DELIVERY_RANGE = 9;
+    private final static int SERVICE_ERROR = 26;
     private RelativeLayout mArrivetimeLayout;
     private RelativeLayout mAddressUpdateLayout;
+    private LinearLayout mDiscountsLayout;
     private LinearLayout mProductInfoListview;
     private TextView mPackingFee;
     private TextView mShippingFeeTv;
-    private TextView mDiscount;
     private TextView mToPayTv;
     private TextView mDiscountTv;
     private TextView mShopNameTv;
@@ -74,6 +85,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private TextView mUserNameTv;
     private TextView mUserPhoneTv;
     private TextView mTotalTv;
+    private TextView mDiscountWarnTipTv;
 
     private List<ArriveTimeBean.MeituanBean.DataBean> mDataBean;
     private AddressListBean.IovBean.DataBean mAddressData;
@@ -93,6 +105,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private int mPreAddressItem = -1;
     private NumberFormat mNumberFormat;
     private String mEstimateTime;
+    private int mUnixtime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +120,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             if (mProductList != null && mPoiInfo != null) {
                 getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo);
+                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime);
             }
         }
 
@@ -132,6 +145,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mPackingFee = findViewById(R.id.packing_fee);
         mDiscountTv = findViewById(R.id.discount_exists);
         mTotalTv = findViewById(R.id.total);
+        mDiscountWarnTipTv = findViewById(R.id.discount_WarnTip);
+        mDiscountsLayout = findViewById(R.id.discounts_layout);
 
         mArrivetimeLayout.setOnClickListener(this);
         mAddressUpdateLayout.setOnClickListener(this);
@@ -234,10 +249,14 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             case R.id.to_pay:
 
+                if (mAddressData == null) {
+                    Toast.makeText(this, getString(R.string.please_select_address), Toast.LENGTH_SHORT).show();
+                }
+
                 if (mOrderPreviewData != null && mOrderPreviewData.getCode() == ORDER_PREVIEW_SUCCESS && mAddressData != null) {
                     List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
                     wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
-                    getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean);
+                    getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime);
                 }
 
                 break;
@@ -296,12 +315,14 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
                 if (mDataBean != null) {
                     String type = mDataBean.get(mCurDateItem).getTimelist().get(position).getDate_type_tip();
-                    mTypeTipTv.setText(type);
                     String time = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_time();
-                    if (!type.isEmpty() && type.equals(getString(R.string.delivery_immediately))) {
+                    mUnixtime = mDataBean.get(mCurDateItem).getTimelist().get(position).getUnixtime();
+                    if (mUnixtime == 0) {
                         mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
+                        mTypeTipTv.setText(getString(R.string.delivery_immediately));
                     } else {
                         mArriveTimeTv.setText(time);
+                        mTypeTipTv.setText(type);
                     }
 
                     String shippingFee = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_shipping_fee().trim();
@@ -312,7 +333,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     }
 
                 }
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo);
+                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime);
                 mCurTimeItem = position;
                 mPreDateItem = mCurDateItem;
                 mTimeAdapter.setCurrentItem(mCurTimeItem, mPreDateItem);
@@ -401,11 +422,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     public void onArriveTimeSuccess(ArriveTimeBean arriveTimeBean) {
         if (arriveTimeBean != null) {
             mDataBean = arriveTimeBean.getMeituan().getData();
-            String defaultType = mDataBean.get(0).getTimelist().get(0).getDate_type_tip();
-            mTypeTipTv.setText(defaultType);
-
-            String time = mDataBean.get(0).getTimelist().get(0).getView_time();
-            mArriveTimeTv.setText(time);
         } else {
             Lg.getInstance().d(TAG, "no find data !");
         }
@@ -421,7 +437,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             Lg.getInstance().d(TAG, "not find data !");
         }
 
-        if (mOrderPreviewData.getCode() == ORDER_PREVIEW_SUCCESS) {
+
+        int code = mOrderPreviewData.getCode();
+        if (code == ORDER_PREVIEW_SUCCESS) {
             double shippingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getShipping_fee();
             mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
 
@@ -435,17 +453,68 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             double reduced = original_price - total;
             mDiscountTv.setText(String.format(getResources().getString(R.string.submit_discount), mNumberFormat.format(reduced)));
 
+            List<OrderPreviewBean.MeituanBean.DataBean.DiscountsBean> discountsBeanList = mOrderPreviewData.getDiscounts();
+            mDiscountsLayout.removeAllViews();
+            for (OrderPreviewBean.MeituanBean.DataBean.DiscountsBean discountsBean : discountsBeanList) {
+
+                LayoutInflater inflater = this.getLayoutInflater();
+                final LinearLayout discountItem = (LinearLayout) inflater.inflate(R.layout.discount_list_item, mDiscountsLayout);
+                TextView discount_name_tv = discountItem.findViewById(R.id.discount_name);
+                discount_name_tv.setText(discountsBean.getName());
+                TextView discount_info_tv = discountItem.findViewById(R.id.discount);
+                discount_info_tv.setText(String.format(getString(R.string.discount_money), mNumberFormat.format(discountsBean.getReduceFree())));
+
+            }
+
+            String discount_WarnTip = mOrderPreviewData.getDiscountWarnTip();
+            if (discount_WarnTip != null) {
+                mDiscountWarnTipTv.setText(discount_WarnTip);
+                mDiscountWarnTipTv.setVisibility(View.VISIBLE);
+            } else {
+                mDiscountWarnTipTv.setVisibility(View.GONE);
+            }
+
             int estimate = mOrderPreviewData.getWm_ordering_preview_order_vo().getEstimate_arrival_time();
-
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-            Date date = new Date((estimate + System.currentTimeMillis()));
-            mEstimateTime = sdf.format(date);
+            mEstimateTime = sdf.format(new Date(Long.valueOf(String.valueOf(estimate)) * 1000L + 8 * 60 * 60 * 1000L));
+            if (mUnixtime == 0) {
+                mTypeTipTv.setText(getString(R.string.delivery_immediately));
+                mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
+            }
 
+        } else {
+            handlePreviewMsg(code);
         }
-
 
     }
 
+
+    private void handlePreviewMsg(int code) {
+
+        switch (code) {
+            case STORE_CANT_NOT_BUY:
+                Toast.makeText(this, getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT).show();
+                break;
+
+            case FOOD_CANT_NOT_BUY:
+                Toast.makeText(this, getString(R.string.order_preview_msg3), Toast.LENGTH_SHORT).show();
+                break;
+            case FOOD_COST_NOT_BUY:
+                Toast.makeText(this, getString(R.string.order_preview_msg5), Toast.LENGTH_SHORT).show();
+                break;
+            case FOOD_COUNT_NOT_BUY:
+                Toast.makeText(this, getString(R.string.order_preview_msg15), Toast.LENGTH_SHORT).show();
+                break;
+
+            case FOOD_LACK_NOT_BUY:
+                Toast.makeText(this, getString(R.string.order_preview_msg20), Toast.LENGTH_SHORT).show();
+                break;
+            case SERVICE_ERROR:
+                Toast.makeText(this, getString(R.string.service_error), Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+    }
 
     @Override
     public void onOrderPreviewFailure(String msg) {
@@ -458,7 +527,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mOrderSubmitData = data.getMeituan().getData();
         }
 
-        if (mOrderSubmitData.getCode() == SUBMIT_ORDER_SUCCESS) {
+
+        int submitCode = mOrderSubmitData.getCode();
+        if (submitCode == SUBMIT_ORDER_SUCCESS) {
             double total = mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal();
             long orderId = mOrderSubmitData.getOrder_id();
             String poiName = mOrderPreviewData.getWm_ordering_preview_order_vo().getPoi_name();
@@ -471,7 +542,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             intent.putExtra(PIC_URL, mPoiInfo.getPic_url());
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+        } else if (submitCode == SERVICE_ERROR) {
+
+        } else if (submitCode == BEYOND_DELIVERY_RANGE) {
+            Toast.makeText(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT).show();
         }
 
     }
+
 }

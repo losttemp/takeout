@@ -50,7 +50,25 @@ public class AddressListBean {
             private String house;
             private String user_phone;
             private String user_name;
+            private int canShipping;
+            private String addressRangeTip;
             private int sex;
+
+            public int getCanShipping() {
+                return canShipping;
+            }
+
+            public void setCanShipping(int canShipping) {
+                this.canShipping = canShipping;
+            }
+
+            public String getAddressRangeTip() {
+                return addressRangeTip;
+            }
+
+            public void setAddressRangeTip(String addressRangeTip) {
+                this.addressRangeTip = addressRangeTip;
+            }
 
             public String getAddress() {
                 return address;

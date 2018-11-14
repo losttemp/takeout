@@ -86,7 +86,6 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         Intent intent = new Intent();
         intent.putExtra(ADDRESS_DATA, AddressData);
         setResult(RESULT_OK, intent);
-        Lg.getInstance().e("zhangbing","---------click--------");
         finish();
 
     }

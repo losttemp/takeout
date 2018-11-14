@@ -96,10 +96,16 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
 
         mOrderDetailsTv = findViewById(R.id.order_details_tv);
         mOrderDetailsTv.setOnClickListener(this);
-        mCountDownTv.findViewById(R.id.complete_tv);
+        mCountDownTv = findViewById(R.id.complete_tv);
+        mCountDownTv.setText(String.format(getString(R.string.complete), mCountDownTime));
         mCountDownTv.setOnClickListener(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 
     private void startOtherActivity() {
         Intent data = new Intent(this, HomeActivity.class);

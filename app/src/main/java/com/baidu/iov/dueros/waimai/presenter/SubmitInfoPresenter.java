@@ -87,11 +87,12 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
     public void requestOrderSubmitData(AddressListBean.IovBean.DataBean addressData,
                                        PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean,
-                                       List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean) {
+                                       List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean,
+                                       int unixtime) {
 
 
         OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
-        String payload = OnCreateOrderPayLoad(addressData, poiInfoBean, wmOrderingPreviewDetailVoListBean);
+        String payload = OnCreateOrderPayLoad(addressData, poiInfoBean, wmOrderingPreviewDetailVoListBean, unixtime);
         orderSubmitReq.setPayload(Encryption.encrypt(payload));
         orderSubmitReq.setWm_pic_url(poiInfoBean.getPic_url());
         mSubmitInfo.requestOrderSubmitData(orderSubmitReq, new RequestCallback<OrderSubmitBean>() {
@@ -116,25 +117,25 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
     private String OnCreateOrderPayLoad(AddressListBean.IovBean.DataBean addressData,
                                         PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean,
-                                        List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean) {
+                                        List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean,
+                                        int unixtime) {
         OrderSubmitJsonBean orderSubmitJsonBean = new OrderSubmitJsonBean();
         try {
 
-            orderSubmitJsonBean.setUser_phone(Encryption.desEncrypt(addressData.getUser_phone())/*"17638916218"*/);
             orderSubmitJsonBean.setPay_source(3);
             orderSubmitJsonBean.setReturn_url("www.meituan.com");
 
             OrderSubmitJsonBean.WmOrderingListBean wmOrderingListBean = new OrderSubmitJsonBean.WmOrderingListBean();
-            wmOrderingListBean.setWm_poi_id(poiInfoBean.getWm_poi_id()/*1505351*/);
-            wmOrderingListBean.setDelivery_time(0);
+            wmOrderingListBean.setWm_poi_id(poiInfoBean.getWm_poi_id());
+            wmOrderingListBean.setDelivery_time(unixtime);
             wmOrderingListBean.setPay_type(2);
 
             List<OrderSubmitJsonBean.WmOrderingListBean.FoodListBean> foodListBeans = new ArrayList<>();
             for (OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean previewDetailVoListBean : wmOrderingPreviewDetailVoListBean) {
 
                 OrderSubmitJsonBean.WmOrderingListBean.FoodListBean foodListBean = new OrderSubmitJsonBean.WmOrderingListBean.FoodListBean();
-                foodListBean.setCount(previewDetailVoListBean.getCount()/*1*/);
-                foodListBean.setWm_food_sku_id(previewDetailVoListBean.getWm_food_sku_id()/*1239556963*/);
+                foodListBean.setCount(previewDetailVoListBean.getCount());
+                foodListBean.setWm_food_sku_id(previewDetailVoListBean.getWm_food_sku_id());
                 foodListBeans.add(foodListBean);
             }
 
@@ -142,11 +143,11 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             orderSubmitJsonBean.setWm_ordering_list(wmOrderingListBean);
 
             OrderSubmitJsonBean.WmOrderingUserBean wmOrderingUserBean = new OrderSubmitJsonBean.WmOrderingUserBean();
-            wmOrderingUserBean.setUser_phone(Encryption.desEncrypt(addressData.getUser_phone())/*"17638916218"*/);
-            wmOrderingUserBean.setUser_name(Encryption.desEncrypt(addressData.getUser_name())/*"肖"*/);
-            wmOrderingUserBean.setUser_address(Encryption.desEncrypt(addressData.getAddress())/*"美团大厦"*/);
-            wmOrderingUserBean.setAddr_longitude(addressData.getLongitude()/*95369826*/);
-            wmOrderingUserBean.setAddr_latitude(addressData.getLatitude()/*29735952*/);
+            wmOrderingUserBean.setUser_phone(Encryption.desEncrypt(addressData.getUser_phone()));
+            wmOrderingUserBean.setUser_name(Encryption.desEncrypt(addressData.getUser_name()));
+            wmOrderingUserBean.setUser_address(Encryption.desEncrypt(addressData.getAddress()));
+            wmOrderingUserBean.setAddr_longitude(addressData.getLongitude());
+            wmOrderingUserBean.setAddr_latitude(addressData.getLatitude());
             wmOrderingUserBean.setAddress_id(addressData.getMt_address_id());
             orderSubmitJsonBean.setWm_ordering_user(wmOrderingUserBean);
         } catch (Exception e) {
@@ -159,8 +160,8 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
 
     public void requestOrderPreview(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,
-                                    PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean) {
-        String payload = onCreatePayLoadJson(spusBeanList, poiInfoBean);
+                                    PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean, int delivery_time) {
+        String payload = onCreatePayLoadJson(spusBeanList, poiInfoBean, delivery_time);
         OrderPreviewReqBean orderPreviewReqBean = new OrderPreviewReqBean();
         orderPreviewReqBean.setPayload(Encryption.encrypt(payload));
         mSubmitInfo.requestOrderPreview(orderPreviewReqBean, new RequestCallback<OrderPreviewBean>() {
@@ -182,13 +183,13 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
     }
 
     private String onCreatePayLoadJson(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,
-                                       PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean) {
+                                       PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean, int delivery_time) {
 
 
         OrderPreviewJsonBean orderPreviewJsonBean = new OrderPreviewJsonBean();
         OrderPreviewJsonBean.WmOrderingListBean wmOrderingListBean = new OrderPreviewJsonBean.WmOrderingListBean();
         wmOrderingListBean.setWm_poi_id(poiInfoBean.getWm_poi_id());
-        wmOrderingListBean.setDelivery_time(0);
+        wmOrderingListBean.setDelivery_time(delivery_time);
         wmOrderingListBean.setPay_type(2);
 
         List<OrderPreviewJsonBean.WmOrderingListBean.FoodListBean> foodListBeans = new ArrayList<>();
