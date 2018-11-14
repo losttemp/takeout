@@ -6,6 +6,8 @@
     android:background="@color/gray_bg"
     android:orientation="vertical">
 
+    <include layout="@layout/activity_address_header" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -13,20 +15,24 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/location" />
 
         <TextView
             android:id="@+id/address_search_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="@string/wuhan" />
+            android:text="@string/wuhan"
+            android:textColor="@color/white" />
 
-        <AutoCompleteTextView
+        <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_search_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/address_search_hint" />
+            android:hint="@string/address_search_hint"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_88" />
     </LinearLayout>
 
     <FrameLayout
@@ -36,8 +42,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/address_search_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#9b8f8f" />
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:id="@+id/address_search_error"

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressAddReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressDeleteReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
@@ -25,8 +27,10 @@ import com.baidu.iov.dueros.waimai.presenter.AddressEditPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
+import com.baidu.mapapi.search.sug.SuggestionResult;
 
 import java.util.ArrayList;
 
@@ -35,17 +39,18 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private TextView address_title;
     private TextView address_tv;
     private TagListView mTagListView;
-    private EditText et_phone;
-    private EditText et_name;
+    private ClearEditText et_phone;
+    private ClearEditText et_name;
     private ImageView iv_del_button;
     private RadioGroup radioGroup;
-    private EditText et_house_num;
+    private ClearEditText et_house_num;
     private boolean isEditMode;
     private int address_id;
     private AddressDeleteReq mAddressDelReq;
     private AddressEditReq mAddrEditReq;
     private AddressAddReq mAddrAddReq;
     AddressListBean.IovBean.DataBean dataBean;
+    private SuggestionResult.SuggestionInfo mLocationBean;
 
     @Override
     AddressEditPresenter createPresenter() {
@@ -68,12 +73,12 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private void initView() {
         address_title = (TextView) findViewById(R.id.address_title);
         address_tv = (TextView) findViewById(R.id.address_edit_address);
-        et_name = (EditText) findViewById(R.id.address_edit_name);
-        et_phone = (EditText) findViewById(R.id.address_edit_phone);
+        et_name = (ClearEditText) findViewById(R.id.address_edit_name);
+        et_phone = (ClearEditText) findViewById(R.id.address_edit_phone);
         iv_del_button = (ImageView) findViewById(R.id.address_del);
         mTagListView = (TagListView) findViewById(R.id.address_edit_tags);
         radioGroup = (RadioGroup) findViewById(R.id.address_edit_gender);
-        et_house_num = (EditText) findViewById(R.id.address_edit_house_num);
+        et_house_num = (ClearEditText) findViewById(R.id.address_edit_house_num);
         findViewById(R.id.address_edit_save).setOnClickListener(this);
         findViewById(R.id.address_back).setOnClickListener(this);
         iv_del_button.setOnClickListener(this);
@@ -103,10 +108,25 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             }
             iv_del_button.setVisibility(View.VISIBLE);
         } else {
+            mLocationBean = intent.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
             address_title.setText(getResources().getString(R.string.add_address));
-            iv_del_button.setVisibility(View.GONE);
+            iv_del_button.setVisibility(View.INVISIBLE);
+            address_tv.setText(mLocationBean.getKey());
+            try {
+                et_name.setText(MyApplicationAddressBean.USER_NAMES.get(0));
+                et_phone.setText(MyApplicationAddressBean.USER_PHONES.get(0));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ArrayAdapter<String> nameAdapter = new ArrayAdapter<>(this, R.layout.address_simple_list_item, MyApplicationAddressBean.USER_NAMES);
+            ArrayAdapter<String> phoneAdapter = new ArrayAdapter<>(this, R.layout.address_simple_list_item, MyApplicationAddressBean.USER_PHONES);
+            et_phone.setThreshold(1);
+            et_name.setThreshold(1);
+            et_name.setAdapter(nameAdapter);
+            et_phone.setAdapter(phoneAdapter);
         }
     }
+
 
     @Override
     protected void onResume() {
@@ -118,15 +138,15 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE) {
-            String address = data.getStringExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
-            address_tv.setText(address);
+            mLocationBean = data.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
+            address_tv.setText(mLocationBean.getKey());
         }
     }
 
 
     @Override
     public void updateAddressSuccess(AddressEditBean data) {
-        if (dataBean.getMt_address_id() != 0){
+        if (dataBean.getMt_address_id() != 0) {
             mAddressDelReq.setAddress_id(address_id);
             getPresenter().requestDeleteAddressData(mAddressDelReq);
         }
@@ -141,7 +161,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     @Override
     public void addAddressSuccess(AddressAddBean data) {
         address_id = data.getIov().getData().getAddress_id();
-        if (isEditMode){
+        if (isEditMode) {
             mAddrEditReq.setAddress_id(address_id);
             mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
             getPresenter().requestUpdateAddressData(mAddrEditReq);
@@ -170,7 +190,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.address_edit_address:
-                doSearchAddress();
+                doSearchAddress(true);
                 break;
             case R.id.address_edit_save:
                 doSave();
@@ -184,16 +204,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         }
     }
 
-
-    private void doSearchAddress() {
-        Intent intent = new Intent(this, AddressSuggestionActivity.class);
-        if (mBDLocation != null) {
-            intent.putExtra(Constant.ADDRESS_EDIT_INTENT_EXTRE_CITY, mBDLocation.getCity());
-            startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
-        } else {
-//                    TODO:
-        }
-    }
 
     private void doSave() {
         mAddrAddReq = new AddressAddReq();

@@ -3,141 +3,103 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:paddingLeft="@dimen/px40dp"
+    android:paddingRight="@dimen/px40dp"
     android:orientation="vertical">
 
     <include layout="@layout/activity_address_header" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px80dp"
-        android:orientation="horizontal">
+    <View style="@style/AddressEditDividerStyle" />
+
+    <LinearLayout style="@style/AddressEditLLStyle">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            style="@style/AddressEditViewTextStyle"
             android:text="@string/address_contact" />
 
         <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:lines="1"
+            style="@style/AddressEditTextStyle"
             android:maxLength="64" />
 
     </LinearLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#746b6b" />
+        style="@style/AddressEditDividerStyle"
+        android:layout_marginLeft="@dimen/px240dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px200dp"
-        android:gravity="center_horizontal">
+    <RadioGroup
+        android:id="@+id/address_edit_gender"
+        style="@style/AddressEditLLStyle">
 
-        <RadioGroup
-            android:id="@+id/address_edit_gender"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/address_edit_sir"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:checked="true"
-                android:padding="20dp"
-                android:text="@string/address_sir" />
-
-            <RadioButton
-                android:id="@+id/address_edit_lady"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="20dp"
-                android:text="@string/address_lady" />
-        </RadioGroup>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#746b6b" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px80dp">
-
-        <TextView
+        <RadioButton
+            android:id="@+id/address_edit_sir"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/px240dp"
+            android:checked="true"
+            android:text="@string/address_sir"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/address_edit_lady"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/px240dp"
+            android:text="@string/address_lady"
+            android:textColor="@color/white" />
+    </RadioGroup>
+
+    <View style="@style/AddressEditDividerStyle" />
+
+    <LinearLayout style="@style/AddressEditLLStyle">
+
+        <TextView
+            style="@style/AddressEditViewTextStyle"
             android:text="@string/address_phone" />
 
         <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_phone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
+            style="@style/AddressEditTextStyle"
             android:inputType="phone"
             android:maxLength="11" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#746b6b" />
+    <View style="@style/AddressEditDividerStyle" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px80dp">
+    <LinearLayout style="@style/AddressEditLLStyle">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            style="@style/AddressEditViewTextStyle"
             android:text="@string/address_addr" />
 
         <TextView
             android:id="@+id/address_edit_address"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null" />
+            style="@style/AddressEditTextStyle" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#746b6b" />
+    <View style="@style/AddressEditDividerStyle" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px80dp">
+    <LinearLayout style="@style/AddressEditLLStyle">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            style="@style/AddressEditViewTextStyle"
             android:text="@string/address_house_num" />
 
         <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_house_num"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null" />
+            style="@style/AddressEditTextStyle" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#746b6b" />
+    <View style="@style/AddressEditDividerStyle" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="@dimen/px160dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            style="@style/AddressEditViewTextStyle"
             android:padding="20dp"
             android:text="@string/address_tag" />
 
@@ -145,15 +107,15 @@
             android:id="@+id/address_edit_tags"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:dividerWidth="20dp"
-            app:textColor="#1f1fe9" />
+            android:gravity="center_vertical"
+            app:dividerWidth="10dp"
+            app:textColor="@color/white" />
     </LinearLayout>
-
 
     <Button
         android:id="@+id/address_edit_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/address_edit_save" />
-
 </LinearLayout>

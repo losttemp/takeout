@@ -7,19 +7,18 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.presenter.Presenter;
-import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
@@ -47,7 +46,6 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
         mPresenter.onUiReady(getUi());
         initLocationCity();
         requestPermission();
@@ -82,13 +80,6 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
             mBDLocation = lastKnownLocation;
             Constant.LATITUDE = (int) mBDLocation.getLatitude()*LocationManager.SPAN;
             Constant.LONGITUDE = (int) mBDLocation.getLongitude()*LocationManager.SPAN;
-        }
-    }
-
-    public void setStatusBar(boolean translucent, @ColorInt int color) {
-        CommonUtils.setTranslucentStatusBar(this, translucent);
-        if (color != 0) {
-            CommonUtils.setStatusBarColor(this, color);
         }
     }
 
@@ -169,4 +160,15 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         }
     }
 
+    protected void doSearchAddress(boolean isEditModle) {
+        Intent intent = new Intent(this, AddressSuggestionActivity.class);
+        if (mBDLocation != null) {
+            intent.putExtra(Constant.ADDRESS_EDIT_INTENT_EXTRE_CITY, mBDLocation.getCity());
+            intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, isEditModle);
+            startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
+        } else {
+//                    TODO:
+            Toast.makeText(this, "please check netWork", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

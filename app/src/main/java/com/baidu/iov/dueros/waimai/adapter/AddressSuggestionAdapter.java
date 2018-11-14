@@ -28,7 +28,6 @@ public class AddressSuggestionAdapter extends RecyclerView.Adapter<AddressSugges
     private List<SuggestionResult.SuggestionInfo> mSuggestionInfos;
     private OnItemClickListener mItemClickListener;
     private LatLng location;
-    private GeoCoder mSearch;
 
     public AddressSuggestionAdapter(List<SuggestionResult.SuggestionInfo> suggestionInfos) {
         mSuggestionInfos = suggestionInfos;
@@ -88,38 +87,13 @@ public class AddressSuggestionAdapter extends RecyclerView.Adapter<AddressSugges
             suggestionInfo.getCity();
             num.setText((position + 1) + "");
             name.setText(suggestionInfo.getKey());
-
             LatLng pt = suggestionInfo.getPt();
             double distance = DistanceUtil.getDistance(location, pt);
-
             float distanceValue = Math.round((distance / 10f)) / 100f;
-            suggestionInfo.getAddress();
-//            getAddress(pt);
             DecimalFormat decimalFormat = new DecimalFormat("0.0");
             String distanceString = decimalFormat.format(distanceValue) + "km";
             distance_tv.setText(distanceString);
-        }
-
-        private void getAddress(LatLng pt) {
-            mSearch = GeoCoder.newInstance();
-            OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
-
-                @Override
-                public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-
-                }
-
-                @Override
-                public void onGetReverseGeoCodeResult(ReverseGeoCodeResult geoCodeResult) {
-                    if (geoCodeResult != null && geoCodeResult.error == SearchResult.ERRORNO.NO_ERROR) {
-//                        TODO
-                        address.setText(geoCodeResult.getAddress());
-
-                    }
-                }
-            };
-            mSearch.setOnGetGeoCodeResultListener(listener);
-            mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(pt));
+            address.setText(suggestionInfo.getAddress());
         }
 
         @Override
@@ -134,8 +108,6 @@ public class AddressSuggestionAdapter extends RecyclerView.Adapter<AddressSugges
         void OnItemClick(View v, SuggestionResult.SuggestionInfo dataBean);
     }
 
-    public void destroy() {
-        if (mSearch!=null)
-        mSearch.destroy();
-    }
+
+
 }

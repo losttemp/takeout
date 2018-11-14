@@ -50,13 +50,13 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
             textView.setTextSize(mTextSize);
             textView.setTextColor(mTextColor);
             if (i == 0) {
-                textView.setBackgroundColor(Color.GREEN);
+                textView.setBackgroundColor(Color.BLACK);
             } else {
                 textView.setBackgroundColor(Color.GRAY);
             }
 //            textView.setBackgroundResource(mItemBackgroundResource);
             int padding = 20;
-            textView.setPadding(padding, padding, padding, padding);
+            textView.setPadding(30, 10, 30, 10);
 
             LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.setMargins(0, 0, mDividerWidth, 0);
@@ -72,7 +72,7 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
         for (int i = 0; i < mTags.size(); i++) {
             if (v.getTag().equals(mTags.get(i))) {
                 this.mTagValue = mTags.get(i);
-                v.setBackgroundColor(Color.GREEN);
+                v.setBackgroundColor(Color.BLACK);
                 v.setClickable(false);
             } else {
                 View childAt = this.getChildAt(i);

@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
     @Override
     public void onBindViewHolder(@NonNull AddressViewHolder viewHolder, int position) {
         AddressListBean.IovBean.DataBean dataBean = mAddressList.get(position);
-        viewHolder.bindData(dataBean);
+        viewHolder.bindData(position,dataBean);
     }
 
     @Override
@@ -58,6 +59,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
 
     class AddressViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView num;
         private TextView details;
         private TextView name;
         private TextView phone;
@@ -67,6 +69,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
         private AddressViewHolder(View view) {
             super(view);
+            num = view.findViewById(R.id.address_select_num);
             des = view.findViewById(R.id.address_select_des);
             details = view.findViewById(R.id.address_select_des_details);
             name = view.findViewById(R.id.address_select_name);
@@ -77,10 +80,16 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             view.findViewById(R.id.address_select_details_container).setOnClickListener(this);
         }
 
-        public void bindData(AddressListBean.IovBean.DataBean dataBean) {
+        public void bindData(int position,AddressListBean.IovBean.DataBean dataBean) {
             this.mDataBean = dataBean;
             try {
-                des.setText(Encryption.desEncrypt(dataBean.getUser_name()));
+                String type = dataBean.getType();
+                if (TextUtils.isEmpty(type)) {
+                    des.setText(mContext.getResources().getString(R.string.address_tag_other));
+                } else {
+                    des.setText(Encryption.desEncrypt(type));
+                }
+                num.setText((position+1)+"");
                 details.setText(Encryption.desEncrypt(dataBean.getAddress()));
                 name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
                 phone.setText(Encryption.desEncrypt(dataBean.getUser_phone()));

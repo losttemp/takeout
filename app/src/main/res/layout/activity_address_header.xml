@@ -8,22 +8,26 @@
 
     <ImageView
         android:id="@+id/address_back"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:src="@mipmap/arrow_return" />
+        android:layout_weight="1"
+        android:src="@drawable/ic_back" />
 
     <TextView
         android:id="@+id/address_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
+        android:layout_weight="4"
+        android:gravity="center_horizontal"
         android:text="@string/address_select_title"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/address_del"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
-        android:visibility="gone"/>
+        android:layout_weight="1"
+        android:src="@drawable/ic_close"
+        android:visibility="invisible" />
 </LinearLayout>
