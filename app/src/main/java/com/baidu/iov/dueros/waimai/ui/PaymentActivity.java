@@ -84,7 +84,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         mPayUrlImg = findViewById(R.id.qr_code);
         mTimerTv = findViewById(R.id.tv_pay_time);
 
-        NumberFormat nf = new DecimalFormat("##.##");
+        NumberFormat nf = new DecimalFormat("#.#");
         Intent intent = getIntent();
         if (intent != null) {
 
@@ -97,7 +97,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             if (amount != 0) {
                 mAmountTv.setText(String.format(getResources().getString(R.string.cost_text), nf.format(amount)));
             } else {
-                mAmountTv.setText("0.00");
+                mAmountTv.setText("0");
             }
 
             mAmountTv.setText(String.valueOf(amount));

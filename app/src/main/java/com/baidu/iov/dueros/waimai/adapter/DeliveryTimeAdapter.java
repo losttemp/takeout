@@ -74,7 +74,12 @@ public class DeliveryTimeAdapter extends BaseAdapter {
         String time = mData.get(position).getView_time();
         String shipping_fee = mData.get(position).getView_shipping_fee();
 
-        viewHolder.tv_time.setText(time);
+        int unixtime = mData.get(position).getUnixtime();
+        if (unixtime == 0) {
+            viewHolder.tv_time.setText(mContext.getString(R.string.delivery_immediately));
+        } else {
+            viewHolder.tv_time.setText(time);
+        }
         viewHolder.tv_cost.setText(shipping_fee);
         viewHolder.img_select.setImageResource(R.drawable.ic_select);
 
