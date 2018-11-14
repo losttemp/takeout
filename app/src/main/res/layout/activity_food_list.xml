@@ -144,6 +144,7 @@
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:textSize="18sp"
+                android:textColor="@color/white"
                 android:visibility="gone" />
 
             <LinearLayout

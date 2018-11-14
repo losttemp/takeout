@@ -114,11 +114,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private TextView mBulletin;
     private TextView mDiscounts;
     private ImageView mShopPicture;
-    private List<Integer> listFull;
-    private List<Integer> listReduce;
+    private List<Double> listFull;
+    private List<Double> listReduce;
     private TextView mDiscount;
     private Integer discount;
-    private Integer mDiscountNumber;
+    private double mDiscountNumber;
     private TextView mDetailsNotice;
     private TextView mDetailsDistribution;
     private TextView mDetailsDiscount;
@@ -346,7 +346,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                             break;
                                         }
                                     }
-
+                                } else {
+                                    int num = spusBean.getNumber();
+                                    shopProduct.setNumber(num);
+                                    inList = true;
+                                    break;
                                 }
                             }
                         }
@@ -433,12 +437,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 Lg.getInstance().d(TAG, "listFull.get(0) = " + listFull.get(0));
                 if (listFull.get(i) > sum) {
                     double v = listFull.get(i) - sum;
+                    java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
+                    String str = myformat.format(v);
                     mDiscount.setVisibility(View.VISIBLE);
                     if (i == 0) {
-                        mDiscount.setText(getString(R.string.buy_again) + v + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                        mDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
                     } else {
                         mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
-                                getString(R.string.buy_again) + v + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                                getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
                         mDiscountNumber = listReduce.get(i - 1);
                     }
                     break;
@@ -705,26 +711,28 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mDiscounts.setText(data.getMeituan().getData().getDiscounts().get(0).getInfo());
         for (int i = 0; i < discounts.size(); i++) {
             String info = discounts.get(i).getInfo();
-            if (info.startsWith(getString(R.string.full))) {
-                String[] split = info.split(";");
-                listFull = new ArrayList();
-                listReduce = new ArrayList();
-                Lg.getInstance().d(TAG, "split.length = " + split.length);
-                for (int j = 0; j < split.length; j++) {
-                    String splitString = split[j];
-                    int y = 0;
-                    for (int k = 0; k < splitString.length(); k++) {
-                        String s = splitString.charAt(k) + "";
-                        if (s.equals(getString(R.string.reduce))) {
-                            y = k;
+            if (info.contains(getString(R.string.full)) && info.contains(getString(R.string.reduce))) {
+                if (info.startsWith(getString(R.string.full))) {
+                    String[] split = info.split(";");
+                    listFull = new ArrayList();
+                    listReduce = new ArrayList();
+                    Lg.getInstance().d(TAG, "split.length = " + split.length);
+                    for (int j = 0; j < split.length; j++) {
+                        String splitString = split[j];
+                        int y = 0;
+                        for (int k = 0; k < splitString.length(); k++) {
+                            String s = splitString.charAt(k) + "";
+                            if (s.equals(getString(R.string.reduce))) {
+                                y = k;
+                            }
                         }
+                        String substring = splitString.substring(1, y);
+                        Lg.getInstance().d(TAG, "substring = " + substring);
+                        String lastString = splitString.substring(y + 1, splitString.length());
+                        Lg.getInstance().d(TAG, "lastString = " + lastString);
+                        listFull.add(Double.parseDouble(substring));
+                        listReduce.add(Double.parseDouble(lastString));
                     }
-                    String substring = splitString.substring(1, y);
-                    Lg.getInstance().d(TAG, "substring = " + substring);
-                    String lastString = splitString.substring(y + 1, splitString.length());
-                    Lg.getInstance().d(TAG, "lastString = " + lastString);
-                    listFull.add(Integer.valueOf(substring));
-                    listReduce.add(Integer.valueOf(lastString));
                 }
             }
         }
