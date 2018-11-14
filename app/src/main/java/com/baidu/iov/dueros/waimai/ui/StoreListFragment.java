@@ -143,7 +143,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mTvDistance.setOnClickListener(this);
 
 		mStoreReq = new StoreReq();
-		//mStoreReq.setSortType(COMPREHENSIVE);
 		if (mFromPageType != Constant.STORE_FRAGMENT_FROM_SEARCH &&
 				Constant.LONGITUDE > 0 && Constant.LATITUDE > 0) {
 			loadFirstPage(mStoreReq);
