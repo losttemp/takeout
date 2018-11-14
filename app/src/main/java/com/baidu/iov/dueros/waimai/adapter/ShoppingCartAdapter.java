@@ -65,7 +65,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
         viewHolder.commodityPrise.setText("" + spusBeans.get(position).getMin_price());
         viewHolder.commodityNum.setText(1 + "");
         viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
-        
+
         StringBuffer stringBuffer = new StringBuffer();
         for (int i = 0; i < spusBeans.get(position).getAttrs().size(); i++) {
             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs =
@@ -80,7 +80,12 @@ public class ShoppingCartAdapter extends BaseAdapter {
             String spec = spusBeans.get(position).getChoiceSkus().get(0).getSpec();
             stringBuffer.append("+" + spec);
         }
-        viewHolder.shopSpecifications.setText(stringBuffer);
+        if (stringBuffer.length() > 0) {
+            viewHolder.shopSpecifications.setVisibility(View.VISIBLE);
+            viewHolder.shopSpecifications.setText(stringBuffer);
+        } else {
+            viewHolder.shopSpecifications.setVisibility(View.GONE);
+        }
 
         viewHolder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
