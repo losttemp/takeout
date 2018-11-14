@@ -68,6 +68,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			ArrayList<>();
 	private List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> mSortList
 			= new ArrayList<>();
+	private List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> sortTypeTabs=new ArrayList<>();
 	private List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean> mFilterList
 			= new ArrayList<>();
 	private StoreReq mStoreReq;
@@ -143,7 +144,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mTvDistance.setOnClickListener(this);
 
 		mStoreReq = new StoreReq();
-		if (mFromPageType != Constant.STORE_FRAGMENT_FROM_SEARCH &&
+		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME &&
 				Constant.LONGITUDE > 0 && Constant.LATITUDE > 0) {
 			loadFirstPage(mStoreReq);
 		}
@@ -334,8 +335,26 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		return sortTypeList;
 	}
 
+	private List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> getSortTypeTab(List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> sortTypes) {
+		List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> sortTypeTabs = new ArrayList<>();
+		if (sortTypes != null && !sortTypes.isEmpty()) {
+			int size = sortTypes.size();
+			for (int i = 0; i < size; i++) {
+				FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean sortType = sortTypes.get(i);
+				//0:tab  
+				if (sortType.getPosition() ==FilterConditionsResponse.MeituanBean.MeituanData.SortType.TABPOS) {
+					sortTypeTabs.add(sortType);
+				}
+			}
+		}
+		return sortTypeTabs;
+	}
+
 	@Override
 	public void updateFilterCondition(FilterConditionResponse data) {
+		if (data==null||data.getMeituan()==null){
+			return;
+		}
 		mSortList.clear();
 		mSortList.addAll(getSortTypeList(data.getMeituan().getData().getSort_type_list()));
 		if (mSortPopWindow != null) {

@@ -29,6 +29,7 @@ public class Constant {
     public static final String STORE_FRAGMENT_FROM_PAGE_TYPE = "page_type";
     public static final int STORE_FRAGMENT_FROM_HOME = 0;
     public static final int STORE_FRAGMENT_FROM_SEARCH = 1;
+    public static final int STORE_FRAGMENT_FROM_RECOMMENDSHOP= 2;
     public static final String STORE_ID = "store_id";
     public static final int STROE_STATUS_NORMAL = 1;
     public static final int STROE_STATUS_BUSY = 2;

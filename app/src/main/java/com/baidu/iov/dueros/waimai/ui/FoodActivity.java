@@ -114,7 +114,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
                 if (lvFirstTypePos==0){
                     categoryType=getCategoryCode(secondCategoryType,categoryFilterList);
                 }
-                Intent itemIntent=new Intent(FoodActivity.this,BusinessActivity.class);
+                Intent itemIntent=new Intent(FoodActivity.this,RecommendShopActivity.class);
                 itemIntent.putExtra("title",  title);
                 itemIntent.putExtra("categoryType",  categoryType);
                 itemIntent.putExtra("secondCategoryType", secondCategoryType);

@@ -120,13 +120,13 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 				break;
 
 			case R.id.tv_flower:
-				Intent flowerIntent = new Intent(this, BusinessActivity.class);
+				Intent flowerIntent = new Intent(this, RecommendShopActivity.class);
 				flowerIntent.putExtra("title", mTvFlower.getText().toString());
 				startActivity(flowerIntent);
 				break;
 
 			case R.id.tv_cake:
-				Intent cakeIntent = new Intent(this, BusinessActivity.class);
+				Intent cakeIntent = new Intent(this, RecommendShopActivity.class);
 				cakeIntent.putExtra("title", mTvCake.getText().toString());
 				startActivity(cakeIntent);
 				break;

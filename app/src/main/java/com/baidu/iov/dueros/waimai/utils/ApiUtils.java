@@ -7,7 +7,6 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressAddBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.BusinessBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
@@ -147,12 +146,7 @@ public class ApiUtils {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getPoidetailinfo(requestMap).enqueue(callBack);
     }
-
-    public static <D extends RequestBase> void getBusinessByLocation(D request, ApiCallBack<BusinessBean> callBack) {
-        Map<String, String> requestMap = requestPrepare(request);
-        ApiInstance.getApi().getBusinessByLocation(requestMap).enqueue(callBack);
-    }
-
+    
     /**
      * prepare for each request
      *

@@ -34,7 +34,7 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name=".ui.BusinessActivity"></activity>
+        <activity android:name=".ui.RecommendShopActivity"></activity>
         <activity android:name=".ui.FoodActivity"></activity>
         <activity android:name=".ui.OrderListActivity" />
         <activity android:name=".ui.SubmitOrderActivity" />
