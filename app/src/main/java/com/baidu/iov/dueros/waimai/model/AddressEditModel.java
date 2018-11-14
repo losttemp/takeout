@@ -5,8 +5,10 @@ import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
+import com.baidu.iov.dueros.waimai.net.entity.request.AddressAddReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressDeleteReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressAddBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
@@ -36,14 +38,14 @@ public class AddressEditModel implements IAddressEditModel {
 
 
     @Override
-    public void addAddressData(AddressEditReq addressEditReq, final RequestCallback callback) {
+    public void addAddressData(AddressAddReq addressAddReq, final RequestCallback callback) {
         if (callback == null) {
             return;
         }
 
-        ApiUtils.addAddress(addressEditReq, new ApiCallBack<AddressEditBean>() {
+        ApiUtils.addAddress(addressAddReq, new ApiCallBack<AddressAddBean>() {
             @Override
-            public void onSuccess(AddressEditBean data) {
+            public void onSuccess(AddressAddBean data) {
                 callback.onSuccess(data);
             }
 

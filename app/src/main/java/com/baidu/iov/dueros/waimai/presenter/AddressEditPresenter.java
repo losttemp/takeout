@@ -6,10 +6,12 @@ import android.util.ArrayMap;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.AddressEditModel;
+import com.baidu.iov.dueros.waimai.net.entity.request.AddressAddReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressDeleteReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressAddBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 
 public class AddressEditPresenter extends Presenter<AddressEditPresenter.AddressEditUi> {
     private static final String TAG = AddressEditPresenter.class.getSimpleName();
@@ -32,17 +34,19 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
     }
 
     public AddressEditPresenter() {
-        this.addressEditModel = new AddressEditModel();
+        addressEditModel = new AddressEditModel();
     }
 
     @Override
     public void onUiReady(AddressEditUi ui) {
         super.onUiReady(ui);
+        addressEditModel.onReady();
     }
 
     @Override
     public void onUiUnready(AddressEditUi ui) {
         super.onUiUnready(ui);
+        addressEditModel.onDestroy();
     }
 
 
@@ -65,11 +69,11 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
         });
     }
 
-    public void requestAddAddressData(AddressEditReq addrEditreq) {
-        addressEditModel.updateAddressData(addrEditreq, new RequestCallback<AddressEditBean>() {
+    public void requestAddAddressData(AddressAddReq addrAddreq) {
+        addressEditModel.addAddressData(addrAddreq, new RequestCallback<AddressAddBean>() {
 
             @Override
-            public void onSuccess(AddressEditBean data) {
+            public void onSuccess(AddressAddBean data) {
                 if (null != getUi()){
                     getUi().addAddressSuccess(data);
                 }
@@ -105,8 +109,8 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
 
     public interface AddressEditUi extends Ui {
         void updateAddressSuccess(AddressEditBean data);
-        void updateAddressFail(String error);
-        void addAddressSuccess(AddressEditBean data);
+        void updateAddressFail(String msg);
+        void addAddressSuccess(AddressAddBean data);
         void addAddressFail(String error);
         void deleteAddressSuccess(AddressEditBean data);
         void deleteAddressFail(String msg);

@@ -15,13 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.net.entity.request.AddressAddReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressDeleteReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressAddBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressEditPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
 
@@ -37,9 +40,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private ImageView iv_del_button;
     private RadioGroup radioGroup;
     private EditText et_house_num;
-    private boolean isEditModle;
+    private boolean isEditMode;
+    private int address_id;
     private AddressDeleteReq mAddressDelReq;
     private AddressEditReq mAddrEditReq;
+    private AddressAddReq mAddrAddReq;
     AddressListBean.IovBean.DataBean dataBean;
 
     @Override
@@ -83,9 +88,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         tags.add(getResources().getString(R.string.address_tag_other));
         mTagListView.setTags(tags);
         Intent intent = getIntent();
-        isEditModle = intent.getBooleanExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
-        mAddrEditReq = new AddressEditReq();
-        if (isEditModle) {
+        isEditMode = intent.getBooleanExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
+        if (isEditMode) {
             address_title.setText(getResources().getString(R.string.edit_address));
             mAddressDelReq = new AddressDeleteReq();
             dataBean = (AddressListBean.IovBean.DataBean) intent.getSerializableExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS);
@@ -122,7 +126,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void updateAddressSuccess(AddressEditBean data) {
-
+        if (dataBean.getMt_address_id() != 0){
+            mAddressDelReq.setAddress_id(address_id);
+            getPresenter().requestDeleteAddressData(mAddressDelReq);
+        }
+        finish();
     }
 
     @Override
@@ -131,7 +139,15 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     }
 
     @Override
-    public void addAddressSuccess(AddressEditBean data) {
+    public void addAddressSuccess(AddressAddBean data) {
+        address_id = data.getIov().getData().getAddress_id();
+        if (isEditMode){
+            mAddrEditReq.setAddress_id(address_id);
+            mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
+            getPresenter().requestUpdateAddressData(mAddrEditReq);
+        } else {
+            finish();
+        }
 
     }
 
@@ -180,6 +196,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     }
 
     private void doSave() {
+        mAddrAddReq = new AddressAddReq();
         int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
         int sex;
         if (checkedRadioButtonId == R.id.address_edit_lady) {
@@ -187,6 +204,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         } else {
             sex = 0;
         }
+        String type = mTagListView.getmTagValue();
 
         if (TextUtils.isEmpty(et_name.getText())) {
             Toast.makeText(this, "please check name", Toast.LENGTH_SHORT).show();
@@ -194,28 +212,46 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             Toast.makeText(this, "please check phone", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(address_tv.getText())) {
             Toast.makeText(this, "please check address", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(type)) {
+            Toast.makeText(this, "please check type", Toast.LENGTH_SHORT).show();
         } else {
-            String s = mTagListView.getmTagValue();
             String house_num = et_house_num.getText().toString() + "";
-            String name = et_name.getText() + "";
-            String phone = et_phone.getText() + "";
-            long addressId = dataBean.getMt_address_id();
-            String address = address_tv.getText()+"";
-            mAddrEditReq.setUser_phone(Encryption.encrypt(phone));
-            mAddrEditReq.setUser_name(Encryption.encrypt(name));
-            mAddrEditReq.setAddress(Encryption.encrypt(address));
-            mAddrEditReq.setHouse(Encryption.encrypt(house_num));
-            mAddrEditReq.setType(s);
-            mAddrEditReq.setSex(sex);
-            if (isEditModle) {
-                mAddrEditReq.setAddress_id(addressId);
+            String name = Encryption.encrypt(et_name.getText() + "");
+            String phone = Encryption.encrypt(et_phone.getText() + "");
+            String address = Encryption.encrypt(address_tv.getText() + "");
+            if (isEditMode) {
+                mAddrEditReq = new AddressEditReq();
+                mAddrEditReq.setUser_phone(phone);
+                mAddrEditReq.setUser_name(name);
+                mAddrEditReq.setAddress(address);
+                mAddrEditReq.setType(type);
+                mAddrEditReq.setSex(sex);
                 mAddrEditReq.setLatitude(dataBean.getLatitude());
                 mAddrEditReq.setLongitude(dataBean.getLongitude());
-                getPresenter().requestUpdateAddressData(mAddrEditReq);
+
+                if (dataBean.getMt_address_id() == 0) {
+                    mAddrEditReq.setAddress_id(dataBean.getaddress_id());
+                    getPresenter().requestUpdateAddressData(mAddrEditReq);
+                } else {
+                    mAddrAddReq.setUser_phone(phone);
+                    mAddrAddReq.setUser_name(name);
+                    mAddrAddReq.setAddress(address);
+                    mAddrAddReq.setType(type);
+                    mAddrAddReq.setSex(sex);
+                    mAddrAddReq.setLatitude(dataBean.getLatitude());
+                    mAddrAddReq.setLongitude(dataBean.getLongitude());
+                    getPresenter().requestAddAddressData(mAddrAddReq);
+                }
             } else {
-                getPresenter().requestAddAddressData(mAddrEditReq);
+                mAddrAddReq.setUser_phone(phone);
+                mAddrAddReq.setUser_name(name);
+                mAddrAddReq.setAddress(address);
+                mAddrAddReq.setType(type);
+                mAddrAddReq.setSex(sex);
+                mAddrAddReq.setLatitude(Constant.LATITUDE);
+                mAddrAddReq.setLongitude(Constant.LONGITUDE);
+                getPresenter().requestAddAddressData(mAddrAddReq);
             }
-            finish();
         }
     }
 
@@ -226,7 +262,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 .setNegativeButton(R.string.delete_address_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mAddressDelReq.setAddress_id(dataBean.getMt_address_id());
+                        mAddressDelReq.setAddress_id(dataBean.getaddress_id());
                         getPresenter().requestDeleteAddressData(mAddressDelReq);
                         dialog.dismiss();
                     }

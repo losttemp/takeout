@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.utils;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.ApiInstance;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressAddBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
@@ -258,7 +259,7 @@ public class ApiUtils {
      * @param callBack
      * @param <D>
      */
-    public static <D extends RequestBase> void addAddress(D request, ApiCallBack<AddressEditBean> callBack) {
+    public static <D extends RequestBase> void addAddress(D request, ApiCallBack<AddressAddBean> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().addAddress(requestMap).enqueue(callBack);
     }
