@@ -13,7 +13,7 @@ android {
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.baidu.iov.dueros.waimai.waimaiapplication"
-        minSdkVersion 19
+        minSdkVersion 22
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -40,10 +40,10 @@ android {
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 if (variant.buildType.name.equals('release')) {
-                    def fileName = "DuerOS_Auto_Film_v${defaultConfig.versionName}_Release_" + new Date().format("yyyyMMddHHMMSS") + ".apk"
+                    def fileName = "DuerOS_Auto_WaiMai_v${defaultConfig.versionName}_Release_" + new Date().format("yyyyMMddHHMMSS") + ".apk"
                     output.outputFile = new File(outputFile.parent, fileName)
                 } else if (variant.buildType.name.equals('debug')) {
-                    def fileName = "DuerOS_Auto_Film_v${defaultConfig.versionName}_Debug" + ".apk"
+                    def fileName = "DuerOS_Auto_WaiMai_v${defaultConfig.versionName}_Debug" + ".apk"
                     output.outputFile = new File(outputFile.parent, fileName)
                 }
             }
@@ -76,4 +76,5 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     compile files('libs/sun.misc.BASE64Decoder.jar')
     compile 'com.google.zxing:core:3.3.3'
+    compile 'com.github.domain9065:MultiplTextView:1.1'
 }
