@@ -10,7 +10,6 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
@@ -78,7 +77,7 @@ public interface TakeawayApi {
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/getfilterconditions")
-    Call<ResponseBase<FilterConditionsResponse>> getFilterConditions(@FieldMap Map<String, String> map);
+    Call<ResponseBase<FilterConditionResponse>> getFilterConditions(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/orderlist")

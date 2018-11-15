@@ -12,7 +12,6 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
@@ -180,7 +179,7 @@ public class ApiUtils {
      * @param callBack
      * @param <D>
      */
-    public static <D extends RequestBase> void getFilterConditions(D request, ApiCallBack<FilterConditionsResponse> callBack) {
+    public static <D extends RequestBase> void getFilterConditions(D request, ApiCallBack<FilterConditionResponse> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getFilterConditions(requestMap).enqueue(callBack);
     }

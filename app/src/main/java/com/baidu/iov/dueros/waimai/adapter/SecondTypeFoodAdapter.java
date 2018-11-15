@@ -7,8 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -16,8 +16,8 @@ import java.util.List;
 public class SecondTypeFoodAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter.SubCategory> mData;
-    public void setData( List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter.SubCategory> data){
+    private List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean.SubCategoryListBean> mData;
+    public void setData( List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean.SubCategoryListBean> data){
         mData = data;
         notifyDataSetChanged();
     }
@@ -51,7 +51,7 @@ public class SecondTypeFoodAdapter extends BaseAdapter {
         }else{
             mViewHolder=(ViewHolder)convertView.getTag();
         }
-        FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter.SubCategory mSubCategory =mData.get(position);
+        FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean.SubCategoryListBean mSubCategory =mData.get(position);
         mViewHolder.tvName.setText(mSubCategory.getName());
         Glide.with(mContext).load(mSubCategory.getIcon_url()).into(mViewHolder.iv);
         return convertView;

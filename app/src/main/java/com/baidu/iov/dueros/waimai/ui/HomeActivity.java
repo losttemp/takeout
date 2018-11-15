@@ -15,6 +15,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
 import com.baidu.location.Poi;
@@ -24,6 +25,7 @@ import java.util.List;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
 
+	private static final String TAG = StoreListFragment.class.getSimpleName();
 	private AppCompatTextView mTvFood;
 	private AppCompatTextView mTvFlower;
 	private AppCompatTextView mTvCake;
@@ -146,7 +148,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	@Override
 	public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
 		super.locationCallBack(isSuccess, bdLocation);
-		mStoreListFragment.loadFirstPage(new StoreReq());
+		Lg.getInstance().e(TAG,"locationCallBack");
+		mStoreListFragment.locationLoadFirstPage();
 		mStoreListFragment.requestFilterList();
 
 		mBDLocation = bdLocation;

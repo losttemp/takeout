@@ -98,7 +98,7 @@ public class FilterConditionResponse {
 				private long code;
 				private String name;
 				private int quantity;
-				private List<?> sub_category_list;
+				private List<SubCategoryListBean> sub_category_list;
 
 				public long getCode() {
 					return code;
@@ -124,13 +124,74 @@ public class FilterConditionResponse {
 					this.quantity = quantity;
 				}
 
-				public List<?> getSub_category_list() {
+				public List<SubCategoryListBean> getSub_category_list() {
 					return sub_category_list;
 				}
 
-				public void setSub_category_list(List<?> sub_category_list) {
+				public void setSub_category_list(List<SubCategoryListBean> sub_category_list) {
 					this.sub_category_list = sub_category_list;
 				}
+
+				@Override
+				public String toString() {
+					return "CategoryFilterListBean{" +
+							"code=" + code +
+							", name='" + name + '\'' +
+							", quantity=" + quantity +
+							", sub_category_list=" + sub_category_list +
+							'}';
+				}
+
+				public static class SubCategoryListBean {
+					private long code;
+					private String name;
+					private int quantity;
+					private String icon_url;
+
+					public long getCode() {
+						return code;
+					}
+
+					public void setCode(long code) {
+						this.code = code;
+					}
+
+					public String getName() {
+						return name;
+					}
+
+					public void setName(String name) {
+						this.name = name;
+					}
+
+					public int getQuantity() {
+						return quantity;
+					}
+
+					public void setQuantity(int quantity) {
+						this.quantity = quantity;
+					}
+
+					public String getIcon_url() {
+						return icon_url;
+					}
+
+					public void setIcon_url(String icon_url) {
+						this.icon_url = icon_url;
+					}
+
+					@Override
+					public String toString() {
+						return "SubCategory{" +
+								"code=" + code +
+								", name='" + name + '\'' +
+								", quantity=" + quantity +
+								", icon_url='" + icon_url + '\'' +
+								'}';
+					}
+				}
+				
+				
 			}
 
 			public static class SortTypeListBean {
@@ -141,6 +202,9 @@ public class FilterConditionResponse {
 				private String icon_url;
 				private String icon_url_click;
 				private int position;
+
+				public  static final int TABPOS=0;
+				public  static final int LISTPOS=1;
 
 				public long getCode() {
 					return code;
@@ -188,6 +252,18 @@ public class FilterConditionResponse {
 
 				public void setPosition(int position) {
 					this.position = position;
+				}
+
+				@Override
+				public String toString() {
+					return "SortTypeListBean{" +
+							"code=" + code +
+							", name='" + name + '\'' +
+							", short_name='" + short_name + '\'' +
+							", icon_url='" + icon_url + '\'' +
+							", icon_url_click='" + icon_url_click + '\'' +
+							", position=" + position +
+							'}';
 				}
 			}
 
