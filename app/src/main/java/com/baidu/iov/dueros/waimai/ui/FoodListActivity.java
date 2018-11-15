@@ -487,6 +487,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.shopping_cart:
+                if (productList == null || productList.size() == 0) {
+                    return;
+                }
                 showOrHideShopCart();
                 break;
 
@@ -524,6 +527,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     setPrise();
                 }
                 mDiscount.setVisibility(View.GONE);
+                cardLayout.setVisibility(View.GONE);
+                bg_layout.setVisibility(View.GONE);
+                cardShopLayout.setVisibility(View.GONE);
+
                 break;
             case R.id.iv_finish:
                 finish();
