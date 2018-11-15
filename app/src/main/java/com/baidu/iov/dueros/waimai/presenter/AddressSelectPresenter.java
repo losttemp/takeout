@@ -84,7 +84,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
             @Override
             public void onFailure(String msg) {
                 if (null != getUi()) {
-                    getUi().onError(msg);
+                    getUi().onFailure(msg);
                 }
             }
         });
@@ -104,7 +104,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
 
         void onSuccess(List<AddressListBean.IovBean.DataBean> data);
 
-        void onError(String msg);
+        void onFailure(String msg);
     }
 
     public class MReceiver extends BroadcastReceiver {

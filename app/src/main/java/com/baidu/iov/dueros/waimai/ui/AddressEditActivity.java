@@ -233,6 +233,16 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             String name = Encryption.encrypt(et_name.getText() + "");
             String phone = Encryption.encrypt(et_phone.getText() + "");
             String address = Encryption.encrypt(address_tv.getText() + "");
+            Integer latitude;
+            Integer longitude;
+            if (mLocationBean == null) {
+                latitude = dataBean.getLatitude();
+                longitude = dataBean.getLongitude();
+            } else {
+                latitude = (int) mLocationBean.getPt().latitude;
+                longitude = (int) mLocationBean.getPt().longitude;
+            }
+
             if (isEditMode) {
                 mAddrEditReq = new AddressEditReq();
                 mAddrEditReq.setUser_phone(phone);
@@ -240,8 +250,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrEditReq.setAddress(address);
                 mAddrEditReq.setType(type);
                 mAddrEditReq.setSex(sex);
-                mAddrEditReq.setLatitude(dataBean.getLatitude());
-                mAddrEditReq.setLongitude(dataBean.getLongitude());
+                mAddrEditReq.setLatitude(latitude);
+                mAddrEditReq.setLongitude(longitude);
 
                 if (dataBean.getMt_address_id() == 0) {
                     mAddrEditReq.setAddress_id(dataBean.getAddress_id());
@@ -252,8 +262,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     mAddrAddReq.setAddress(address);
                     mAddrAddReq.setType(type);
                     mAddrAddReq.setSex(sex);
-                    mAddrAddReq.setLatitude(dataBean.getLatitude());
-                    mAddrAddReq.setLongitude(dataBean.getLongitude());
+                    mAddrAddReq.setLatitude(latitude);
+                    mAddrAddReq.setLongitude(longitude);
                     getPresenter().requestAddAddressData(mAddrAddReq);
                 }
             } else {

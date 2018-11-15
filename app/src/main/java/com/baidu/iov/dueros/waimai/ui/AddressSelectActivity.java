@@ -104,7 +104,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     }
 
     @Override
-    public void onError(String error) {
+    public void onFailure(String msg) {
 
     }
 
