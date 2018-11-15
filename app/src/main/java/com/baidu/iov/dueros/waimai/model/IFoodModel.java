@@ -1,7 +1,7 @@
 package com.baidu.iov.dueros.waimai.model;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
-import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
+import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 
 /**
  *
@@ -10,6 +10,6 @@ import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
  * @date 2018/10/22
  */
 public interface IFoodModel extends IModel {
-	void requestFilterConditions(FilterConditionsReq filterConditionsReq, final RequestCallback callback);
+	void requestFilterConditions(FilterConditionReq filterConditionReq, final RequestCallback callback);
 
 }

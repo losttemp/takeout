@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class TabSortTypeAdpater extends RecyclerView.Adapter<TabSortTypeAdpater.
     
     private int currentPos=-1;
     
-    private List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> mData;
+    private List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> mData;
 
     private OnItemClickListener mOnItemClickListener;
 
@@ -30,7 +30,7 @@ public class TabSortTypeAdpater extends RecyclerView.Adapter<TabSortTypeAdpater.
         mContext=context;
     }
 
-    public void setData(List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> data){
+    public void setData(List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> data){
         mData=data;
         notifyDataSetChanged();
     }
@@ -47,7 +47,7 @@ public class TabSortTypeAdpater extends RecyclerView.Adapter<TabSortTypeAdpater.
 
     @Override
     public void onBindViewHolder(@NonNull TabSortTypeViewHolder tabSortTypeViewHolder, int i) {
-        FilterConditionsResponse.MeituanBean.MeituanData.SortType sortType=mData.get(i);
+        FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean sortType=mData.get(i);
         tabSortTypeViewHolder.tvName.setText(sortType.getShort_name());
         tabSortTypeViewHolder.tvName.setTag(i);
         if (currentPos == i) {
@@ -104,6 +104,6 @@ public class TabSortTypeAdpater extends RecyclerView.Adapter<TabSortTypeAdpater.
 
    
     public interface OnItemClickListener {
-        void onItemClick(List<FilterConditionsResponse.MeituanBean.MeituanData.SortType> data, int position);
+        void onItemClick(List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> data, int position);
     }
 }

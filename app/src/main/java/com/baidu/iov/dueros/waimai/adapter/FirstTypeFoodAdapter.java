@@ -6,8 +6,8 @@ import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 
 import java.util.List;
 
@@ -15,12 +15,12 @@ public class FirstTypeFoodAdapter extends BaseAdapter {
     
     private Context mContext;
     private int currentPos;
-    private List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter> mData;
+    private List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean> mData;
     public FirstTypeFoodAdapter(Context context){
         mContext=context;
     }
     
-    public void setData( List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter> data){
+    public void setData( List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean> data){
         mData = data;
         notifyDataSetChanged();
     }
@@ -51,7 +51,7 @@ public class FirstTypeFoodAdapter extends BaseAdapter {
         }else{
             mViewHolder=(ViewHolder)convertView.getTag();
         }
-        FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter mCategoryFilter =mData.get(position);
+        FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean mCategoryFilter =mData.get(position);
         mViewHolder.tvName.setText(mCategoryFilter.getName());
         if (currentPos == position) {
             mViewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.white));

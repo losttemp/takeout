@@ -3,8 +3,7 @@ package com.baidu.iov.dueros.waimai.net.entity.request;
 import com.baidu.iov.dueros.waimai.net.entity.base.LatLongRequestBase;
 
 public class StoreReq extends LatLongRequestBase {
-	private Integer longitude;
-	private Integer latitude;
+	
 	private Integer sortType;
 	private Integer page_index;
 	private Integer page_size;
@@ -16,23 +15,7 @@ public class StoreReq extends LatLongRequestBase {
 	private String keyword;
 	private String priceCode;
 	private String migFilter;
-
-	public Integer getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(Integer longitude) {
-		this.longitude = longitude;
-	}
-
-	public Integer getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(Integer latitude) {
-		this.latitude = latitude;
-	}
-
+	
 	public Integer getSortType() {
 		return sortType;
 	}
@@ -124,9 +107,7 @@ public class StoreReq extends LatLongRequestBase {
 	@Override
 	public String toString() {
 		return "StoreReq{" +
-				"longitude=" + longitude +
-				", latitude=" + latitude +
-				", sortType=" + sortType +
+				"sortType=" + sortType +
 				", page_index=" + page_index +
 				", page_size=" + page_size +
 				", minPrice=" + minPrice +

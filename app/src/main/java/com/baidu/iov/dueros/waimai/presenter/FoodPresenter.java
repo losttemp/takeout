@@ -6,8 +6,8 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.FoodModel;
 import com.baidu.iov.dueros.waimai.model.IFoodModel;
-import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
+import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 /**
  *
@@ -46,10 +46,10 @@ public class FoodPresenter extends Presenter< FoodPresenter.FoodUi> {
         mFoodModel.onReady();
     }
 
-    public void requestFilterConditions(FilterConditionsReq filterConditionsReq) {
-        mFoodModel.requestFilterConditions(filterConditionsReq,new RequestCallback<FilterConditionsResponse>(){
+    public void requestFilterConditions(FilterConditionReq filterConditionReq) {
+        mFoodModel.requestFilterConditions(filterConditionReq,new RequestCallback<FilterConditionResponse>(){
             @Override
-            public void onSuccess(FilterConditionsResponse data) {
+            public void onSuccess(FilterConditionResponse data) {
                 if ( getUi()!=null) {
                     getUi().onSuccess(data);
                 }
@@ -73,7 +73,7 @@ public class FoodPresenter extends Presenter< FoodPresenter.FoodUi> {
     }
 
     public interface FoodUi extends Ui {
-        void onSuccess(FilterConditionsResponse data);
+        void onSuccess(FilterConditionResponse data);
         void onError(String error);
     }
 }

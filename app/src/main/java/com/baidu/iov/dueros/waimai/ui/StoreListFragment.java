@@ -23,10 +23,10 @@ import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.StoreListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -41,6 +41,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		.StoreListUi> implements
 		StoreListPresenter.StoreListUi, View.OnClickListener {
 
+	private static final String TAG = StoreListFragment.class.getSimpleName();
+	
 	private static final int COMPREHENSIVE = 0;
 	private static final int SALE_NUM_SORT_INDEX = 1;
 	private static final int DISTANCE_SORT_INDEX = 5;
@@ -144,6 +146,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mTvDistance.setOnClickListener(this);
 
 		mStoreReq = new StoreReq();
+		mStoreReq.setSortType(COMPREHENSIVE);
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME &&
 				Constant.LONGITUDE > 0 && Constant.LATITUDE > 0) {
 			loadFirstPage(mStoreReq);
@@ -246,7 +249,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 			case R.id.tv_distance:
 				int distanceSortType = mStoreReq.getSortType()==null?0:mStoreReq.getSortType();
+				Lg.getInstance().e(TAG,"distanceSortType:"+distanceSortType);
 				if (distanceSortType!=DISTANCE_SORT_INDEX) {
+					Lg.getInstance().e(TAG,"-----------------");
 					mTvSort.setText(getResources().getString(R.string.store_sort));
 					mStoreReq.setSortType(DISTANCE_SORT_INDEX);
 					mTvSales.setTextColor(mContext.getResources().getColor(
@@ -256,6 +261,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
 					loadFirstPage(mStoreReq);
 				}else {
+					Lg.getInstance().e(TAG,"++++++++++++");
 					mStoreReq.setSortType(COMPREHENSIVE);
 					mTvSales.setTextColor(mContext.getResources().getColor(
 							R.color.dark_gray));
@@ -327,7 +333,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			for (int i = 0; i < size; i++) {
 				FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean sortType = sortTypes.get(i);
 				//1:list 
-				if (sortType.getPosition() == FilterConditionsResponse.MeituanBean.MeituanData.SortType.LISTPOS) {
+				if (sortType.getPosition() == FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean.LISTPOS) {
 					sortTypeList.add(sortType);
 				}
 			}
@@ -342,7 +348,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			for (int i = 0; i < size; i++) {
 				FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean sortType = sortTypes.get(i);
 				//0:tab  
-				if (sortType.getPosition() ==FilterConditionsResponse.MeituanBean.MeituanData.SortType.TABPOS) {
+				if (sortType.getPosition() ==FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean.TABPOS) {
 					sortTypeTabs.add(sortType);
 				}
 			}
@@ -438,6 +444,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	}
 
 	public void loadFirstPage(StoreReq storeReq) {
+		Lg.getInstance().e(TAG,"storeReq:"+storeReq);
 		storeReq.setPage_index(1);
 		mPresenter.requestStoreList(storeReq);
 		mStoreReq = storeReq;
@@ -446,6 +453,12 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				mLlFilter.getVisibility() == View.GONE) {
 			mLlFilter.setVisibility(View.VISIBLE);
 		}
+	}
+
+	public void locationLoadFirstPage() {
+		Lg.getInstance().e(TAG,"mStoreReq:"+mStoreReq);
+		mStoreReq.setPage_index(1);
+		mPresenter.requestStoreList(mStoreReq);
 	}
 
 	/**

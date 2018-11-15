@@ -13,11 +13,9 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.FirstTypeFoodAdapter;
 import com.baidu.iov.dueros.waimai.adapter.SecondTypeFoodAdapter;
-import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionsReq;
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionsResponse;
+import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.presenter.FoodPresenter;
-import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +37,9 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
   
     private SecondTypeFoodAdapter mSecondTypeFoodAdapter;
 
-    private FilterConditionsReq filterConditionsReq;
+    private FilterConditionReq filterConditionReq;
    
-    private List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter> categoryFilterList;
+    private List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean> categoryFilterList;
     
     private int lvFirstTypePos;
 
@@ -67,8 +65,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
    }
 
     private void initData (){
-        filterConditionsReq =new FilterConditionsReq();
-        getPresenter().requestFilterConditions(filterConditionsReq);
+        filterConditionReq =new FilterConditionReq();
+        getPresenter().requestFilterConditions(filterConditionReq);
 
     }
 
@@ -103,8 +101,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         gvSecondType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter categoryFilter=categoryFilterList.get(lvFirstTypePos);
-                FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter.SubCategory subCategory=categoryFilter.getSub_category_list().get(position);
+                FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean categoryFilter=categoryFilterList.get(lvFirstTypePos);
+                FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean.SubCategoryListBean subCategory=categoryFilter.getSub_category_list().get(position);
                 String title = subCategory.getName();
                 long categoryType=categoryFilter.getCode();
                 long secondCategoryType=subCategory.getCode();
@@ -126,7 +124,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
 
     @Override
-    public void onSuccess(FilterConditionsResponse data) {
+    public void onSuccess(FilterConditionResponse data) {
         if (data==null||data.getMeituan()==null||data.getMeituan().getData().getCategory_filter_list().isEmpty()){
             return;
         }
@@ -140,7 +138,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         }
     }
 
-    private long getCategoryCode(long secondCategoryCode,List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter> categoryFilterList){
+    private long getCategoryCode(long secondCategoryCode,List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean> categoryFilterList){
         long categoryCode =0;
         if (categoryFilterList==null||categoryFilterList.isEmpty()||categoryFilterList.size()==1){
             return categoryCode;
@@ -160,8 +158,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         return  categoryCode;
     }
     
-    private List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter.SubCategory> getAllSubCategory(List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter> categoryFilterList){
-        List<FilterConditionsResponse.MeituanBean.MeituanData.CategoryFilter.SubCategory> subCategorys=new ArrayList<>();
+    private List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean.SubCategoryListBean> getAllSubCategory(List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean> categoryFilterList){
+        List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean.SubCategoryListBean> subCategorys=new ArrayList<>();
         if (categoryFilterList==null||categoryFilterList.isEmpty()||categoryFilterList.size()==1){
             return subCategorys;
         }
