@@ -87,7 +87,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
                 if (TextUtils.isEmpty(type)) {
                     des.setText(mContext.getResources().getString(R.string.address_tag_other));
                 } else {
-                    des.setText(Encryption.desEncrypt(type));
+                    des.setText(type);
                 }
                 num.setText((position+1)+"");
                 details.setText(Encryption.desEncrypt(dataBean.getAddress()));
