@@ -365,6 +365,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 }
                 Lg.getInstance().d(TAG, "shopProduct else");
                 productList.add(spusBeanNew);
+                settlement.setEnabled(true);
                 inList = false;
             }
         }
@@ -451,6 +452,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 }
             }
         }
+        if (productList == null || productList.size() == 0) {
+            mDiscount.setVisibility(View.GONE);
+        }
+        if (sum < mPoidetailinfoBean.getMeituan().getData().getMin_price()) {
+            settlement.setEnabled(false);
+        } else {
+            settlement.setEnabled(true);
+        }
     }
 
     public void showOrHideShopCart() {
@@ -483,7 +492,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
             case R.id.settlement:
                 if (productList == null || productList.size() == 0) {
-                    Toast.makeText(this, getString(R.string.please_add_to_the_shopping_cart_first), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, getString(R.string.please_add_to_the_shopping_cart_first), Toast.LENGTH_SHORT).show();
+                    settlement.setEnabled(false);
                     return;
                 }
                 Intent intent = new Intent(this, SubmitOrderActivity.class);
@@ -708,7 +718,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void onPoidetailinfoSuccess(PoidetailinfoBean data) {
         mPoidetailinfoBean = data;
         List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
-        mDiscounts.setText(data.getMeituan().getData().getDiscounts().get(0).getInfo());
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < data.getMeituan().getData().getDiscounts().size(); i++) {
+            String info = data.getMeituan().getData().getDiscounts().get(i).getInfo();
+            stringBuffer.append(info + "   ");
+        }
+        mDiscounts.setText(stringBuffer);
         for (int i = 0; i < discounts.size(); i++) {
             String info = discounts.get(i).getInfo();
             if (info.contains(getString(R.string.full)) && info.contains(getString(R.string.reduce))) {
