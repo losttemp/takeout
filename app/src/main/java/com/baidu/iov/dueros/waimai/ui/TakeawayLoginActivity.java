@@ -211,14 +211,13 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     public void getAddressListSuccess(List<AddressListBean.IovBean.DataBean> data) {
         Lg.getInstance().d(TAG, "get addresslist success");
-        Intent addressIntent = new Intent(this, HomeActivity.class);
-        //if (data.size()== 0) {
-            //addressIntent = new Intent(this, AddressEditActivity.class);
-            //startActivityForResult(addressIntent,3);
-        //} else {
-            //addressIntent = new Intent(this, AddressSelectActivity.class);
-            //startActivity(addressIntent);
-        //}
+        Intent addressIntent;
+        if (data.size() == 0) {
+            addressIntent = new Intent(this, AddressEditActivity.class);
+            addressIntent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, false);
+        } else {
+            addressIntent = new Intent(this, AddressSelectActivity.class);
+        }
         startActivity(addressIntent);
         finish();
     }
@@ -226,8 +225,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     public void getAddressListFail(String msg) {
         Lg.getInstance().d(TAG, "get addresslist fail");
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         finish();
     }
 

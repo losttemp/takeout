@@ -120,14 +120,6 @@ public class AddressListBean {
                 this.is_hint = is_hint;
             }
 
-            public int getaddress_id() {
-                return address_id;
-            }
-
-            public void setaddress_id(int address_id) {
-                this.address_id = address_id;
-            }
-
             public int getMt_address_id() {
                 return mt_address_id;
             }

@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +62,14 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 switch (v.getId()) {
                     case R.id.address_select_details_container:
                         MyApplicationAddressBean.SELECTED_ADDRESS_BEAN = dataBean;
+                        SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
+                                ("_cache", AddressSelectActivity.MODE_PRIVATE);
+                        String databeanStr = GsonUtil.toJson(dataBean);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString(Constant.ADDRESS_DATA, databeanStr);
+                        editor.commit();
+                        Intent homeintent = new Intent(AddressSelectActivity.this, HomeActivity.class);
+                        startActivity(homeintent);
                         finish();
                         break;
                     case R.id.address_select_edit:

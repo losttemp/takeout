@@ -54,5 +54,5 @@ public class Constant {
     public static String ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT = "address_add_or_edit_model";
     public static String ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS = "address_select_address_edit";
     public static String ADDRESS_SELECT_INTENT_EXTRE_LOCATION = "address_select_location_to_home";
-
+    public static String ADDRESS_DATA = "address_data";
 }
