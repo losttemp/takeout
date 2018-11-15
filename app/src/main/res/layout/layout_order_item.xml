@@ -18,15 +18,14 @@
             android:id="@+id/index"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
             android:textColor="#fff"
-            android:textSize="15sp"
+            android:textSize="@dimen/px80dp"
             tools:text="1" />
 
         <ImageView
             android:id="@+id/iv_store"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/px150dp"
+            android:layout_height="@dimen/px150dp"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher" />
@@ -40,21 +39,21 @@
                 android:id="@+id/ll_order_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="@dimen/px30dp"
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="180dp"
+                    android:layout_width="@dimen/px540dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_store_name"
-                        android:layout_width="160dp"
+                        android:layout_width="@dimen/px480dp"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:textColor="@color/white"
-                        android:textSize="14sp"/>
+                        android:textSize="@dimen/px60sp" />
 
                     <ImageView
                         android:id="@+id/iv_click"
@@ -73,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="12sp"/>
+                        android:textSize="@dimen/px40sp"/>
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_food_num"
@@ -81,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="5dp"
                         android:textColor="@color/white"
-                        android:textSize="12sp"/>
+                        android:textSize="@dimen/px40sp"/>
                 </LinearLayout>
 
                 <android.support.v7.widget.AppCompatTextView
@@ -89,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red"
-                    android:textSize="10sp"/>
+                    android:textSize="@dimen/px40sp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -102,7 +101,16 @@
                         android:layout_height="wrap_content"
                         android:background="@color/red"
                         android:textColor="@color/white"
-                        android:textSize="12sp"/>
+                        android:textSize="@dimen/px40sp"/>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/pay_order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/red"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/px40sp"
+                        android:visibility="gone"/>
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/cancel_order"
@@ -111,7 +119,7 @@
                         android:layout_marginLeft="10dp"
                         android:background="@color/red"
                         android:textColor="@color/white"
-                        android:textSize="12sp"/>
+                        android:textSize="@dimen/px40sp"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -128,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:textColor="@color/white"
-                    android:textSize="12sp"/>
+                    android:textSize="@dimen/px40sp"/>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_price"
@@ -136,15 +144,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:textColor="@color/white"
-                    android:textSize="12sp"/>
+                    android:textSize="@dimen/px40sp"/>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_order_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
+                    android:paddingLeft="@dimen/px10dp"
                     android:textColor="@color/white"
-                    android:textSize="12sp"/>
+                    android:textSize="@dimen/px40sp"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -154,7 +162,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/px10dp"
         android:background="@color/red" />
 
 </LinearLayout>
