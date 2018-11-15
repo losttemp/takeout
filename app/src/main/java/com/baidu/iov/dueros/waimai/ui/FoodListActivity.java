@@ -47,6 +47,7 @@ import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.PoifoodListPinnedHeaderListView;
+import com.domain.multipltextview.MultiplTextView;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -66,9 +67,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private PoifoodListPinnedHeaderListView mSpusList;
     private PoifoodSpusListAdapter mPoifoodSpusListAdapter;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList;
-    private TextView shoppingPrise;
-    private TextView shoppingNum;
-    private TextView settlement;
+    private MultiplTextView shoppingPrise;
+    private MultiplTextView shoppingNum;
+    private MultiplTextView settlement;
     private FrameLayout cardLayout;
     private LinearLayout cardShopLayout;
     private View bg_layout;
@@ -77,10 +78,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private int number = 0;
     private boolean isClean = false;
     private FrameLayout animation_viewGroup;
-    private TextView defaultText;
+    private MultiplTextView defaultText;
     private List<String> foodSpuTagsBeanName;
     private RelativeLayout parentLayout;
-    private TextView noData;
+    private MultiplTextView noData;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans = new ArrayList<>();
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList;
     private ListView shoppingListView;
@@ -105,24 +106,24 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     };
     private ArrayAdapter<String> mFoodSpuTagsListAdapter;
     private RelativeLayout mStoreDetails;
-    private TextView mClearshopCart;
+    private MultiplTextView mClearshopCart;
     private PoidetailinfoBean mPoidetailinfoBean;
     private PoifoodListBean.MeituanBean.DataBean.PoiInfoBean mPoiInfoBean;
     private ImageView mFinish;
-    private TextView mShopTitle;
-    private TextView mDelivery;
-    private TextView mBulletin;
-    private TextView mDiscounts;
+    private MultiplTextView mShopTitle;
+    private MultiplTextView mDelivery;
+    private MultiplTextView mBulletin;
+    private MultiplTextView mDiscounts;
     private ImageView mShopPicture;
     private List<Double> listFull;
     private List<Double> listReduce;
-    private TextView mDiscount;
+    private MultiplTextView mDiscount;
     private Integer discount;
     private double mDiscountNumber;
-    private TextView mDetailsNotice;
-    private TextView mDetailsDistribution;
-    private TextView mDetailsDiscount;
-    private TextView mDetailsShopName;
+    private MultiplTextView mDetailsNotice;
+    private MultiplTextView mDetailsDistribution;
+    private MultiplTextView mDetailsDiscount;
+    private MultiplTextView mDetailsShopName;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -145,28 +146,28 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     private void initView() {
         animation_viewGroup = createAnimLayout();
-        noData = (TextView) findViewById(R.id.noData);
+        noData = (MultiplTextView) findViewById(R.id.noData);
         parentLayout = (RelativeLayout) findViewById(R.id.parentLayout);
-        shoppingPrise = (TextView) findViewById(R.id.shoppingPrise);
-        shoppingNum = (TextView) findViewById(R.id.shoppingNum);
-        settlement = (TextView) findViewById(R.id.settlement);
+        shoppingPrise = (MultiplTextView) findViewById(R.id.shoppingPrise);
+        shoppingNum = (MultiplTextView) findViewById(R.id.shoppingNum);
+        settlement = (MultiplTextView) findViewById(R.id.settlement);
         mFoodSpuTagsList = (ListView) findViewById(R.id.classify_mainlist);
         mSpusList = (PoifoodListPinnedHeaderListView) findViewById(R.id.classify_morelist);
         shopping_cart = (ImageView) findViewById(R.id.shopping_cart);
-        defaultText = (TextView) findViewById(R.id.defaultText);
+        defaultText = (MultiplTextView) findViewById(R.id.defaultText);
         shoppingListView = (ListView) findViewById(R.id.shopproductListView);
         cardLayout = (FrameLayout) findViewById(R.id.cardLayout);
         cardShopLayout = (LinearLayout) findViewById(R.id.cardShopLayout);
         bg_layout = findViewById(R.id.bg_layout);
         mStoreDetails = (RelativeLayout) findViewById(R.id.rl_store_details);
-        mClearshopCart = (TextView) findViewById(R.id.tv_clear);
+        mClearshopCart = (MultiplTextView) findViewById(R.id.tv_clear);
         mFinish = (ImageView) findViewById(R.id.iv_finish);
-        mShopTitle = (TextView) findViewById(R.id.tv_shop_title);
-        mDelivery = (TextView) findViewById(R.id.tv_delivery);
-        mBulletin = (TextView) findViewById(R.id.tv_bulletin);
-        mDiscounts = (TextView) findViewById(R.id.tv_discounts);
+        mShopTitle = (MultiplTextView) findViewById(R.id.tv_shop_title);
+        mDelivery = (MultiplTextView) findViewById(R.id.tv_delivery);
+        mBulletin = (MultiplTextView) findViewById(R.id.tv_bulletin);
+        mDiscounts = (MultiplTextView) findViewById(R.id.tv_discounts);
         mShopPicture = (ImageView) findViewById(R.id.iv_shop);
-        mDiscount = (TextView) findViewById(R.id.tv_discount);
+        mDiscount = (MultiplTextView) findViewById(R.id.tv_discount);
     }
 
     @Override
@@ -537,10 +538,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
             case R.id.rl_store_details:
                 View popView = getPopView(R.layout.dialog_shop_details);
-                mDetailsNotice = (TextView) popView.findViewById(R.id.tv_notice);
-                mDetailsShopName = (TextView) popView.findViewById(R.id.tv_shop_name);
-                mDetailsDistribution = (TextView) popView.findViewById(R.id.tv_details_distribution);
-                mDetailsDiscount = (TextView) popView.findViewById(R.id.tv_discount);
+                mDetailsNotice = (MultiplTextView) popView.findViewById(R.id.tv_notice);
+                mDetailsShopName = (MultiplTextView) popView.findViewById(R.id.tv_shop_name);
+                mDetailsDistribution = (MultiplTextView) popView.findViewById(R.id.tv_details_distribution);
+                mDetailsDiscount = (MultiplTextView) popView.findViewById(R.id.tv_discount);
 
                 mDetailsDiscount.setText(mPoidetailinfoBean.getMeituan().getData().getDiscounts().get(0).getInfo());
                 mDetailsShopName.setText(mPoidetailinfoBean.getMeituan().getData().getName());

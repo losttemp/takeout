@@ -1,11 +1,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/base_color"
     android:orientation="vertical">
 
-    <TextView
+    <com.domain.multipltextview.MultiplTextView
         android:id="@+id/noData"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -14,7 +15,8 @@
         android:gravity="center"
         android:text="@string/no_more_data"
         android:textSize="14sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:removeDefaultPadding="true" />
 
     <RelativeLayout
         android:id="@+id/parentLayout"
@@ -29,18 +31,19 @@
 
             <ImageView
                 android:id="@+id/iv_finish"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/px96dp"
+                android:layout_height="@dimen/px96dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_marginLeft="@dimen/px54dp"
+                android:src="@drawable/icon_back" />
 
-            <TextView
+            <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/tv_shop_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                app:removeDefaultPadding="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -65,15 +68,16 @@
                 android:layout_marginLeft="80dp"
                 android:orientation="vertical">
 
-                <TextView
+                <com.domain.multipltextview.MultiplTextView
                     android:id="@+id/tv_delivery"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="@string/distribution_situation"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    app:removeDefaultPadding="true" />
 
-                <TextView
+                <com.domain.multipltextview.MultiplTextView
                     android:id="@+id/tv_bulletin"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -81,9 +85,10 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text="@string/notice"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    app:removeDefaultPadding="true" />
 
-                <TextView
+                <com.domain.multipltextview.MultiplTextView
                     android:id="@+id/tv_discounts"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -94,7 +99,8 @@
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
                     android:text="@string/discount"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    app:removeDefaultPadding="true" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -142,14 +148,15 @@
             android:layout_gravity="bottom"
             android:orientation="vertical">
 
-            <TextView
+            <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/tv_discount"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:removeDefaultPadding="true" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -174,7 +181,7 @@
                         android:paddingTop="5dp"
                         android:src="@drawable/shopping_cart" />
 
-                    <TextView
+                    <com.domain.multipltextview.MultiplTextView
                         android:id="@+id/shoppingNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -183,9 +190,10 @@
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:textSize="8sp"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:removeDefaultPadding="true" />
 
-                    <TextView
+                    <com.domain.multipltextview.MultiplTextView
                         android:id="@+id/shoppingPrise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -193,11 +201,12 @@
                         android:layout_marginLeft="30dp"
                         android:layout_toRightOf="@+id/shopping_cart"
                         android:textColor="@color/white"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        app:removeDefaultPadding="true" />
 
                 </RelativeLayout>
 
-                <TextView
+                <com.domain.multipltextview.MultiplTextView
                     android:id="@+id/settlement"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -206,7 +215,8 @@
                     android:gravity="center"
                     android:text="@string/confirmation_of_the_order"
                     android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    app:removeDefaultPadding="true" />
             </LinearLayout>
 
         </LinearLayout>
@@ -242,16 +252,17 @@
                     android:layout_height="wrap_content"
                     android:background="#DC5914">
 
-                    <TextView
+                    <com.domain.multipltextview.MultiplTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="6dp"
                         android:paddingLeft="20dp"
                         android:paddingTop="6dp"
                         android:text="@string/shop_cart"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        app:removeDefaultPadding="true" />
 
-                    <TextView
+                    <com.domain.multipltextview.MultiplTextView
                         android:id="@+id/tv_clear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -260,7 +271,8 @@
                         android:paddingRight="20dp"
                         android:paddingTop="6dp"
                         android:text="@string/empty_all"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        app:removeDefaultPadding="true" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -270,7 +282,7 @@
                     android:background="#f3f3f3"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.domain.multipltextview.MultiplTextView
                         android:id="@+id/defaultText"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
@@ -278,7 +290,8 @@
                         android:gravity="center"
                         android:text="@string/shopping_cart_is_empty"
                         android:textSize="12sp"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:removeDefaultPadding="true" />
 
                     <ListView
                         android:id="@+id/shopproductListView"
