@@ -503,10 +503,12 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
 
     private int getMinOrderCount(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
         int min_order_count = 1;
-        if (spusBean.getSkus().size() > 1) {
-            min_order_count = spusBean.getChoiceSkus().get(0).getMin_order_count();
-        } else {
-            min_order_count = spusBean.getSkus().get(0).getMin_order_count();
+        if (spusBean.getSkus() != null) {
+            if (spusBean.getSkus().size() > 1 && spusBean.getChoiceSkus() != null) {
+                min_order_count = spusBean.getChoiceSkus().get(0).getMin_order_count();
+            } else {
+                min_order_count = spusBean.getSkus().get(0).getMin_order_count();
+            }
         }
         return min_order_count;
     }
