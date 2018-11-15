@@ -1,5 +1,4 @@
 package com.baidu.iov.dueros.waimai.ui;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,18 +9,14 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
-
 import com.baidu.iov.dueros.waimai.R;
-import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
 import com.baidu.location.Poi;
-
 import java.util.List;
-
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
 
@@ -148,7 +143,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	@Override
 	public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
 		super.locationCallBack(isSuccess, bdLocation);
-		Lg.getInstance().e(TAG,"locationCallBack");
+		Lg.getInstance().d(TAG,"locationCallBack");
 		mStoreListFragment.locationLoadFirstPage();
 		mStoreListFragment.requestFilterList();
 

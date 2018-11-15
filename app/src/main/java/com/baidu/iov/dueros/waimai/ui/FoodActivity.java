@@ -16,6 +16,7 @@ import com.baidu.iov.dueros.waimai.adapter.SecondTypeFoodAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.presenter.FoodPresenter;
+import com.domain.multipltextview.MultiplTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
   
     private GridView gvSecondType;
 
-    private TextView tvFirstCategory;
+    private MultiplTextView tvFirstCategory;
 
     private Button btnBack;
     
@@ -43,7 +44,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     
     private int lvFirstTypePos;
 
-    private TextView tvNoResult;
+    private MultiplTextView tvNoResult;
 
     @Override
     FoodPresenter createPresenter() {

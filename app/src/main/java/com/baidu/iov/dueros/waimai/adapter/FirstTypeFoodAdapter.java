@@ -54,9 +54,9 @@ public class FirstTypeFoodAdapter extends BaseAdapter {
         FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean mCategoryFilter =mData.get(position);
         mViewHolder.tvName.setText(mCategoryFilter.getName());
         if (currentPos == position) {
-            mViewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+            mViewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.refresh_layout));
         } else {
-            mViewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.gray));
+            mViewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.pop_window_bg));
         }
         return convertView;
     }
