@@ -2,18 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:descendantFocusability="blocksDescendants"
-    android:layout_centerVertical="true">
+    android:layout_centerVertical="true"
+    android:descendantFocusability="blocksDescendants">
 
-    <ImageView
-        android:id="@+id/img_select"
+    <TextView
+        android:id="@+id/tv_num"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="20dp"
-        android:background="@drawable/select_address_icn"
-        android:scaleType="fitCenter"
-        android:visibility="visible" />
+        android:gravity="center"
+        android:textSize="25sp" />
+
 
     <RelativeLayout
         android:id="@+id/address_panel"
@@ -21,27 +21,7 @@
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/img_select">
-
-        <!--        <TextView
-                    android:id="@+id/tv_range"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="55dp"
-                    android:gravity="center"
-                    android:text="超出配送范围地址"
-                    android:textSize="25sp"
-                    android:visibility="gone" />-->
-
-        <!--        <TextView
-                    android:id="@+id/tv_num"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="55dp"
-                    android:background="@drawable/series_border_shape"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textSize="20sp" />-->
+        android:layout_toEndOf="@+id/tv_num">
 
         <TextView
             android:id="@+id/tv_address"
@@ -50,20 +30,18 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxEms="10"
-            android:text="深圳蛇口大厦"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_address_type"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_address"
             android:layout_marginStart="20dp"
             android:layout_toEndOf="@id/tv_address"
             android:background="@color/yellow_bg"
             android:gravity="center"
-            android:text="学校"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -71,7 +49,6 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/tv_address"
             android:layout_below="@+id/tv_address"
-            android:layout_marginTop="10dp"
             android:textSize="15sp" />
 
         <TextView
@@ -85,15 +62,14 @@
 
     </RelativeLayout>
 
-    <CheckBox
-        android:id="@+id/img_add"
-        style="@style/CustomCheckBoxTheme"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
+    <ImageView
+        android:id="@+id/img_select"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="20dp"
-        android:gravity="center" />
-
+        android:background="@drawable/select_address_icn"
+        android:scaleType="fitCenter" />
 
 </RelativeLayout>
