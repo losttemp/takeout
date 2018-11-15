@@ -2,6 +2,8 @@ package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.View;
@@ -23,12 +25,13 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import java.util.List;
 
 public class AddressListActivity extends BaseActivity<AddressListPresenter, AddressListPresenter.AddressListUi>
-        implements AddressListPresenter.AddressListUi, View.OnClickListener, AdapterView.OnItemClickListener{
+        implements AddressListPresenter.AddressListUi, View.OnClickListener {
     private final static String TAG = AddressListActivity.class.getSimpleName();
     private ArrayMap<String, String> map;
-    private TextView mCancel;
-    private CheckBox mAdd;
-    private ListView mAddressListView;
+    private ImageView mCancelImg;
+    private ImageView mAddImg;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
     private AddressListAdapter mAddressListAdapter;
     private List<AddressListBean.IovBean.DataBean> mDataListBean;
     public final static String ADDRESS_DATA = "address_data";
@@ -57,17 +60,44 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 
     public void initView() {
 
+        mCancelImg = findViewById(R.id.cancel_action);
+        mAddImg = findViewById(R.id.img_add);
+        mCancelImg.setOnClickListener(this);
+        mAddImg.setOnClickListener(this);
+
+        mRecyclerView = findViewById(R.id.address_list);
+        int orientation = RecyclerView.VERTICAL;
+        mLayoutManager = new LinearLayoutManager(this, orientation, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mAddressListAdapter = new AddressListAdapter(this);
-        mAddressListView = findViewById(R.id.list_address);
-        mAddressListView.setAdapter(mAddressListAdapter);
-        mAddressListView.setOnItemClickListener(this);
-        mCancel = findViewById(R.id.cancel_action);
-        //mAdd = findViewById(R.id.img_add);
-        //mAdd.setOnClickListener(this);
-        mCancel.setOnClickListener(this);
+        mRecyclerView.setAdapter(mAddressListAdapter);
+
+        mAddressListAdapter.setOnItemClickListener(new AddressListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                switch (view.getId()) {
+                    case R.id.img_select:
+                        Intent intent = new Intent(getApplicationContext(), AddressSelectActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        break;
+
+                    default:
+                        AddressListBean.IovBean.DataBean AddressData = mDataListBean.get(position);
+                        Intent data = new Intent();
+                        data.putExtra(ADDRESS_DATA, AddressData);
+                        setResult(RESULT_OK, data);
+                        finish();
+                        break;
+                }
+            }
+        });
+
+
         map = new ArrayMap<>();
         getPresenter().requestData(map);
     }
+
 
     @Override
     public void onResume() {
@@ -81,16 +111,6 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        AddressListBean.IovBean.DataBean AddressData = mDataListBean.get(position);
-        Intent intent = new Intent();
-        intent.putExtra(ADDRESS_DATA, AddressData);
-        setResult(RESULT_OK, intent);
-        finish();
-
-    }
-
-    @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -99,8 +119,11 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 finish();
                 break;
 
-         /*   case R.id.img_add:
-                break;*/
+            case R.id.img_add:
+                Intent intent = new Intent(this, AddressSuggestionActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
 
             default:
                 break;

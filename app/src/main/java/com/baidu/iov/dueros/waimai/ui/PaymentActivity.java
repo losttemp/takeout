@@ -100,7 +100,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                 mAmountTv.setText("0");
             }
 
-            mAmountTv.setText(String.valueOf(amount));
             mOrderIdTv.setText(String.valueOf(mOrderId));
             mShopNameTv.setText(shopName);
             createQRImage(payUrl, 200, 200, mPayUrlImg);
@@ -163,9 +162,8 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             mCount++;
             if (mCount == 5) {
 
-                String user_phone = "18201010600";
-                String phone = Encryption.encrypt(user_phone);
-                OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq(mOrderId, phone);
+                OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
+                mOrderDetailsReq.setId(mOrderId);
                 getPresenter().requestOrderDetails(mOrderDetailsReq);
                 mCount = 0;
             }

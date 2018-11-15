@@ -6,11 +6,6 @@ public class OrderDetailsReq extends RequestBase {
     private long order_id;
     private String user_phone;
 
-    public OrderDetailsReq(long id, String phone) {
-        this.order_id = id;
-        this.user_phone = phone;
-    }
-
     public long getId() {
         return order_id;
     }

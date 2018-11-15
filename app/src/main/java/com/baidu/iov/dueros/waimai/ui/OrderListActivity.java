@@ -110,7 +110,8 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
                         break;
                     case R.id.cancel_order:
-                        mOrderDetailsReq = new OrderDetailsReq(Long.parseLong(mOrderList.get(position).getOut_trade_no()), extraBean.getPayload().getUser_phone());
+                        mOrderDetailsReq = new OrderDetailsReq();
+                        mOrderDetailsReq.setId(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         ConfirmDialog dialog = new ConfirmDialog.Builder(OrderListActivity.this)
                                 .setTitle(R.string.order_cancel_title)
                                 .setMessage(R.string.order_cancel_message)

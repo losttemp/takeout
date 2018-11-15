@@ -14,7 +14,9 @@
         <ImageView
             android:id="@+id/store_photo_img"
             android:layout_width="@dimen/px300dp"
-            android:layout_height="@dimen/px300dp" />
+            android:layout_height="@dimen/px300dp"
+            android:background="@drawable/ic_packing_expense"
+            android:layout_marginStart="20dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -28,6 +30,9 @@
                 android:id="@+id/store_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxEms="8"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:textSize="@dimen/px60sp" />
 
             <TextView
@@ -36,6 +41,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/px20dp"
                 android:text="@string/product_info"
+                android:maxEms="8"
+                android:ellipsize="marquee"
+                android:singleLine="true"
                 android:textSize="@dimen/px60sp" />
         </LinearLayout>
 

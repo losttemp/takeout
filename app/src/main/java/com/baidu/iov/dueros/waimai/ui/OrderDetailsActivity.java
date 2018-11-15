@@ -165,7 +165,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         String phone = Encryption.encrypt(user_phone);
 //        order_id = getIntent().getLongExtra(Constant.ORDER_ID,-1);
 //        user_phone = getIntent().getStringExtra(Constant.USER_PHONE);
-        mOrderDetailsReq = new OrderDetailsReq(order_id, phone);
+        mOrderDetailsReq = new OrderDetailsReq();
+        mOrderDetailsReq.setId(order_id);
         loadData();
     }
 
