@@ -106,7 +106,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            iv_del_button.setVisibility(View.VISIBLE);
+            if (dataBean.getMt_address_id() == 0) {
+                iv_del_button.setVisibility(View.VISIBLE);
+            }
         } else {
             mLocationBean = intent.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
             address_title.setText(getResources().getString(R.string.add_address));
@@ -166,6 +168,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
             getPresenter().requestUpdateAddressData(mAddrEditReq);
         } else {
+            Intent intent = new Intent(this, AddressSelectActivity.class);
+            startActivity(intent);
             finish();
         }
 
@@ -240,7 +244,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrEditReq.setLongitude(dataBean.getLongitude());
 
                 if (dataBean.getMt_address_id() == 0) {
-                    mAddrEditReq.setAddress_id(dataBean.getaddress_id());
+                    mAddrEditReq.setAddress_id(dataBean.getAddress_id());
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
                     mAddrAddReq.setUser_phone(phone);
@@ -272,7 +276,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 .setNegativeButton(R.string.delete_address_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mAddressDelReq.setAddress_id(dataBean.getaddress_id());
+                        mAddressDelReq.setAddress_id(dataBean.getAddress_id());
                         getPresenter().requestDeleteAddressData(mAddressDelReq);
                         dialog.dismiss();
                     }

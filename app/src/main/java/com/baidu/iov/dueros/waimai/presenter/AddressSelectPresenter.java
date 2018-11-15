@@ -61,7 +61,9 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
             @Override
             public void onSuccess(AddressListBean data) {
                 mDataBeans = data.getIov().getData();
-                getUi().onSuccess(mDataBeans);
+                if (null != getUi()) {
+                    getUi().onSuccess(mDataBeans);
+                }
                 for (int i = 0; i < mDataBeans.size(); i++) {
                     try {
                         AddressListBean.IovBean.DataBean dataBean = mDataBeans.get(i);
@@ -81,7 +83,9 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
 
             @Override
             public void onFailure(String msg) {
-                getUi().onError(msg);
+                if (null != getUi()) {
+                    getUi().onError(msg);
+                }
             }
         });
     }
@@ -90,7 +94,9 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.baidu.naviauto.open.api");
         MReceiver mReceiver = new MReceiver();
-        getUi().onRegisterReceiver(mReceiver, intentFilter);
+        if (null != getUi()) {
+            getUi().onRegisterReceiver(mReceiver, intentFilter);
+        }
     }
 
     public interface AddressSelectUi extends Ui {
@@ -98,7 +104,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
 
         void onSuccess(List<AddressListBean.IovBean.DataBean> data);
 
-        void onError(String error);
+        void onError(String msg);
     }
 
     public class MReceiver extends BroadcastReceiver {
