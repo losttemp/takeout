@@ -19,6 +19,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.presenter.OrderListPresenter;
 
@@ -97,16 +98,19 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
         mOrderListAdaper.setOnItemClickListener(new OrderListAdaper.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, OrderListAdaper.ViewName viewname, int position) {
-                extraBean = GsonUtil.fromJson(mOrderList.get(position).getExtra(), OrderListExtraBean.class);
+            public void onItemClick(View view, int position, OrderListExtraPayloadBean payloadBean) {
                 switch (view.getId()) {
                     case R.id.tv_store_name:
                     case R.id.iv_click:
                         Intent storeintent = new Intent(getApplicationContext(), FoodListActivity.class);
-                        storeintent.putExtra(Constant.STORE_ID, extraBean.getPayload().getWm_ordering_list().getWm_poi_id());
+                        storeintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
+
                         startActivity(storeintent);
                         break;
                     case R.id.one_more_order:
+
+                        break;
+                    case R.id.pay_order:
 
                         break;
                     case R.id.cancel_order:
@@ -140,7 +144,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     default:
                         Intent intent = new Intent(getApplicationContext(), OrderDetailsActivity.class);
                         intent.putExtra(Constant.ORDER_ID, mOrderList.get(position).getOut_trade_no());
-                        intent.putExtra(Constant.USER_PHONE, extraBean.getPayload().getUser_phone());
+                        intent.putExtra(Constant.USER_PHONE, payloadBean.getUser_phone());
                         startActivity(intent);
                         break;
                 }
@@ -168,6 +172,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         if (mOrderList.size() == 0) {
             mTvNoOrder.setText(R.string.no_order);
             mTvNoOrder.setVisibility(View.VISIBLE);
+            mRvOrder.setVisibility(View.GONE);
         }
     }
 

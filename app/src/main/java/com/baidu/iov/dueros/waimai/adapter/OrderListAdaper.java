@@ -12,9 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.DeviceUtils;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.bumptech.glide.Glide;
@@ -22,7 +25,7 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHolder> implements View.OnClickListener {
+public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHolder> {
 
     private List<OrderListResponse.IovBean.DataBean> mOrderList;
     private Context mContext;
@@ -54,72 +57,8 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
-        OrderListResponse.IovBean.DataBean order = mOrderList.get
-                (position);
-
-        viewHolder.tvOneMore.setText(mContext.getResources().getString(R.string.one_more_order));
-        viewHolder.tvCancelOrder.setText(mContext.getResources().getString(R.string.order_cancel));
-        String pay_status = order.getOrder_status();
-        switch (pay_status) {
-            case STATUS_WAITING_PAY:
-                pay_status = mContext.getResources().getString(R.string.waiting_to_pay);
-                viewHolder.tvOneMore.setText(mContext.getResources().getString(R.string.pay_order));
-                break;
-            case STATUS_PAID_SUCCESS:
-                pay_status = mContext.getResources().getString(R.string.have_paid);
-                break;
-            case STATUS_PAID_FAIL:
-                pay_status = mContext.getResources().getString(R.string.pay_fail);
-                viewHolder.tvCancelOrder.setVisibility(View.GONE);
-                break;
-            case STATUS_PAY_EXPIRED:
-                pay_status = mContext.getResources().getString(R.string.pay_invalid);
-                viewHolder.tvCancelOrder.setVisibility(View.GONE);
-                break;
-            case STATUS_PAY_REFUNDING:
-                pay_status = mContext.getResources().getString(R.string.pay_refunding);
-                viewHolder.tvCancelOrder.setVisibility(View.GONE);
-                break;
-            case STATUS_PAY_REFUNDED:
-                pay_status = mContext.getResources().getString(R.string.pay_refunded);
-                viewHolder.tvCancelOrder.setVisibility(View.GONE);
-                break;
-            case STATUS_PAY_CANCEL:
-                pay_status = mContext.getResources().getString(R.string.pay_cancel);
-                viewHolder.tvCancelOrder.setVisibility(View.GONE);
-                break;
-            default:
-                break;
-        }
-        viewHolder.tvIndex.setText(((position + 1) + ""));
-        viewHolder.tvStoreName.setText(order.getOrder_name());
-        viewHolder.tvOrderStatus.setText(pay_status);
-        viewHolder.tvOrderTime.setText(order.getOrder_time());
-        String extra = order.getExtra();
-        OrderListExtraBean extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
-        String user_phone = extraBean.getPayload().getUser_phone();
-        int total_count = 0;
-        for (int i = 0; i < extraBean.getOrderInfos().getFood_list().size(); i++) {
-            total_count = total_count + extraBean.getOrderInfos().getFood_list().get(i).getCount();
-        }
-        mOrderInfosfood_list = extraBean.getOrderInfos().getFood_list().get(0);
-        String food_name = mOrderInfosfood_list.getName();
-        int food_num = mOrderInfosfood_list.getCount();
-        int total_price = extraBean.getOrderInfos().getGoods_total_price();
-        String wm_pic_url = extraBean.getOrderInfos().getWm_pic_url();
-
-        viewHolder.tvFood.setText(food_name);
-        viewHolder.tvFoodNum.setText("x" + String.valueOf(food_num));
-        viewHolder.tvPrice.setText(String.valueOf(total_price));
-        viewHolder.tvTotalCount.setText(String.format(mContext.getResources().getString(R.string
-                .goods_total_count), total_count));
-        Glide.with(mContext).load(wm_pic_url).into(viewHolder.ivStore);
-
-        viewHolder.itemView.setTag(position);
-        viewHolder.tvStoreName.setTag(position);
-        viewHolder.ivClick.setTag(position);
-        viewHolder.tvOneMore.setTag(position);
-        viewHolder.tvCancelOrder.setTag(position);
+        OrderListResponse.IovBean.DataBean order = mOrderList.get(position);
+        viewHolder.bindData(position,order);
     }
 
     @Override
@@ -127,7 +66,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         return mOrderList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private AppCompatTextView tvIndex;
         private ImageView ivStore;
         private ImageView ivClick;
@@ -141,6 +80,9 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         private AppCompatTextView tvOrderStatus;
         private AppCompatTextView tvOneMore;
         private AppCompatTextView tvCancelOrder;
+        private AppCompatTextView tvPayOrder;
+        private OrderListResponse.IovBean.DataBean mOrder;
+        private OrderListExtraPayloadBean payloadBean;
 
         private ViewHolder(View view) {
             super(view);
@@ -158,51 +100,131 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvCancelOrder = (AppCompatTextView) view.findViewById(R.id.cancel_order);
             tvOrderStatus = (AppCompatTextView) view.findViewById(R.id.tv_order_status);
             tvOneMore = (AppCompatTextView) view.findViewById(R.id.one_more_order);
-            view.setOnClickListener(OrderListAdaper.this);
-            tvStoreName.setOnClickListener(OrderListAdaper.this);
-            tvOneMore.setOnClickListener(OrderListAdaper.this);
-            ivClick.setOnClickListener(OrderListAdaper.this);
-            tvCancelOrder.setOnClickListener(OrderListAdaper.this);
+            tvPayOrder = (AppCompatTextView) view.findViewById(R.id.pay_order);
+            view.setOnClickListener(this);
+            tvStoreName.setOnClickListener(this);
+            tvOneMore.setOnClickListener(this);
+            ivClick.setOnClickListener(this);
+            tvCancelOrder.setOnClickListener(this);
+            tvPayOrder.setOnClickListener(this);
+        }
+
+        public void bindData(int position,OrderListResponse.IovBean.DataBean order) {
+            this.mOrder = order;
+            tvOneMore.setText(mContext.getResources().getString(R.string.one_more_order));
+            tvCancelOrder.setText(mContext.getResources().getString(R.string.order_cancel));
+            tvPayOrder.setText(mContext.getResources().getString(R.string.pay_order));
+            String pay_status = order.getOrder_status();
+            switch (pay_status) {
+                case STATUS_WAITING_PAY:
+                    pay_status = mContext.getResources().getString(R.string.waiting_to_pay);
+                    tvOneMore.setVisibility(View.GONE);
+                    tvPayOrder.setVisibility(View.VISIBLE);
+                    break;
+                case STATUS_PAID_SUCCESS:
+                    pay_status = mContext.getResources().getString(R.string.have_paid);
+                    break;
+                case STATUS_PAID_FAIL:
+                    pay_status = mContext.getResources().getString(R.string.pay_fail);
+                    tvCancelOrder.setVisibility(View.GONE);
+                    break;
+                case STATUS_PAY_EXPIRED:
+                    pay_status = mContext.getResources().getString(R.string.pay_invalid);
+                    tvCancelOrder.setVisibility(View.GONE);
+                    break;
+                case STATUS_PAY_REFUNDING:
+                    pay_status = mContext.getResources().getString(R.string.pay_refunding);
+                    tvCancelOrder.setVisibility(View.GONE);
+                    break;
+                case STATUS_PAY_REFUNDED:
+                    pay_status = mContext.getResources().getString(R.string.pay_refunded);
+                    tvCancelOrder.setVisibility(View.GONE);
+                    break;
+                case STATUS_PAY_CANCEL:
+                    pay_status = mContext.getResources().getString(R.string.pay_cancel);
+                    tvCancelOrder.setVisibility(View.GONE);
+                    break;
+                default:
+                    break;
+            }
+            tvIndex.setText(((position + 1) + ""));
+            tvStoreName.setText(order.getOrder_name());
+            tvOrderStatus.setText(pay_status);
+            tvOrderTime.setText(order.getOrder_time());
+            String extra = order.getExtra();
+
+            OrderListExtraBean extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
+            String payload = null;
+            try {
+                payload = Encryption.desEncrypt(extraBean.getPayload());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Lg.getInstance().d("wangfei", "wangfei = " + payload);
+            Lg.getInstance().d("wangfei", "wangfei xx= " + GsonUtil.toJson(extraBean.getOrderInfos()));
+            payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
+            String user_phone = payloadBean.getUser_phone();
+            int total_count = 0;
+            double total_price = 0;
+            for (int i = 0; i < extraBean.getOrderInfos().getFood_list().size(); i++) {
+                total_count = total_count + extraBean.getOrderInfos().getFood_list().get(i).getCount();
+                total_price = total_price + extraBean.getOrderInfos().getFood_list().get(i).getPrice() * extraBean.getOrderInfos().getFood_list().get(i).getCount();
+
+            }
+            mOrderInfosfood_list = extraBean.getOrderInfos().getFood_list().get(0);
+            String food_name = mOrderInfosfood_list.getName();
+            int food_num = mOrderInfosfood_list.getCount();
+            String wm_pic_url = extraBean.getOrderInfos().getWm_pic_url();
+
+            tvFood.setText(food_name);
+            tvFoodNum.setText("x" + String.valueOf(food_num));
+            tvPrice.setText(String.valueOf(total_price));
+            tvTotalCount.setText(String.format(mContext.getResources().getString(R.string
+                    .goods_total_count), total_count));
+            Glide.with(mContext).load(wm_pic_url).into(ivStore);
+
+            itemView.setTag(position);
+            tvStoreName.setTag(position);
+            ivClick.setTag(position);
+            tvOneMore.setTag(position);
+            tvCancelOrder.setTag(position);
+            tvOneMore.setTag(position);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag();
+            if (mOnItemClickListener != null) {
+                switch (v.getId()) {
+                    case R.id.tv_store_name:
+                    case R.id.iv_click:
+                        mOnItemClickListener.onItemClick(v, position, payloadBean);
+                        break;
+                    case R.id.one_more_order:
+                        mOnItemClickListener.onItemClick(v, position, payloadBean);
+                        break;
+                    case R.id.cancel_order:
+                        mOnItemClickListener.onItemClick(v, position, payloadBean);
+                        break;
+                    case R.id.pay_order:
+                        mOnItemClickListener.onItemClick(v, position, payloadBean);
+                        break;
+                    default:
+                        mOnItemClickListener.onItemClick(v, position, payloadBean);
+                        break;
+                }
+            }
         }
     }
 
-
-    public enum ViewName {
-        ITEM,
-        STORENAME,
-        ONEMORE,
-        ORDERCANCLE
-    }
-
     public interface OnItemClickListener {
-        void onItemClick(View view, ViewName viewname, int position);
+        void onItemClick(View view, int position, OrderListExtraPayloadBean payloadBean);
     }
 
     private OnItemClickListener mOnItemClickListener;
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.mOnItemClickListener = itemClickListener;
-    }
-
-    @Override
-    public void onClick(View v) {
-        int position = (int) v.getTag();
-        if (mOnItemClickListener != null) {
-            switch (v.getId()) {
-                case R.id.tv_store_name:
-                case R.id.iv_click:
-                    mOnItemClickListener.onItemClick(v, ViewName.STORENAME, position);
-                    break;
-                case R.id.one_more_order:
-                    mOnItemClickListener.onItemClick(v, ViewName.ONEMORE, position);
-                    break;
-                case R.id.cancel_order:
-                    mOnItemClickListener.onItemClick(v, ViewName.ORDERCANCLE, position);
-                    break;
-                default:
-                    mOnItemClickListener.onItemClick(v, ViewName.ITEM, position);
-                    break;
-            }
-        }
     }
 }
