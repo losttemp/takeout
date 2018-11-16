@@ -172,6 +172,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					changeStatus(Constant.SEARCH_STATUS_HISTORY);
 				} else {
 					mLvSuggest.setVisibility(View.VISIBLE);
+					mLlHistory.setVisibility(View.GONE);
 					mPresenter.requestSuggestList(mEtSearch.getText().toString());
 				}
 			}
