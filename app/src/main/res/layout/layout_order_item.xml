@@ -4,28 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray"
+    android:background="@color/gray_bg"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px26dp"
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/index"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:textSize="@dimen/px80dp"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/px48sp"
             tools:text="1" />
 
         <ImageView
             android:id="@+id/iv_store"
-            android:layout_width="@dimen/px150dp"
-            android:layout_height="@dimen/px150dp"
+            android:layout_width="@dimen/px120dp"
+            android:layout_height="@dimen/px126dp"
+            android:layout_marginLeft="@dimen/px50dp"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher" />
@@ -39,7 +41,7 @@
                 android:id="@+id/ll_order_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/px30dp"
+                android:layout_marginLeft="@dimen/px32dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -49,77 +51,84 @@
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_store_name"
-                        android:layout_width="@dimen/px480dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px60sp" />
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/px36sp" />
 
                     <ImageView
                         android:id="@+id/iv_click"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_click" />
+                        android:layout_width="@dimen/px48dp"
+                        android:layout_height="@dimen/px48dp"
+                        android:layout_marginLeft="@dimen/px14dp"
+                        android:src="@drawable/arrow_right" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px18dp"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_food"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px40sp"/>
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/px30sp"/>
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tv_food_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dp"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px40sp"/>
+                        android:paddingLeft="@dimen/px2dp"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/px30sp"/>
                 </LinearLayout>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_total_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/px40sp"/>
+                    android:layout_marginTop="@dimen/px18dp"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/px30sp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px36dp"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/one_more_order"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/red"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px40sp"/>
+                        android:layout_width="@dimen/px210dp"
+                        android:layout_height="@dimen/px72dp"
+                        android:background="@drawable/btn_blue"
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/px30sp"/>
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/pay_order"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/red"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px40sp"
+                        android:layout_width="@dimen/px210dp"
+                        android:layout_height="@dimen/px72dp"
+                        android:background="@drawable/btn_blue"
+                        android:textColor="#ffffff"
+                        android:gravity="center"
+                        android:textSize="@dimen/px30sp"
                         android:visibility="gone"/>
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/cancel_order"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:background="@color/red"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px40sp"/>
+                        android:layout_width="@dimen/px210dp"
+                        android:layout_height="@dimen/px72dp"
+                        android:layout_marginLeft="@dimen/px16dp"
+                        android:background="@drawable/btn2"
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/px30sp"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -135,24 +144,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/px40sp"/>
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/px30sp"/>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px70dp"
                     android:layout_gravity="right"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/px40sp"/>
+                    android:textColor="#ffc600"
+                    android:textSize="@dimen/px36sp"/>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_order_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/px10dp"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/px40sp"/>
+                    android:layout_gravity="right"
+                    android:layout_marginTop="@dimen/px58dp"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/px30sp"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -162,7 +173,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/px10dp"
-        android:background="@color/red" />
+        android:layout_marginTop="@dimen/px26dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
+        android:background="@color/dark_gray" />
 
 </LinearLayout>
