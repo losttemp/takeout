@@ -65,12 +65,17 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
             @Override
             public void onSuccess(PoidetailinfoBean data) {
-                getUi().onPoidetailinfoSuccess(data);
+                if (getUi() != null){
+                    getUi().onPoidetailinfoSuccess(data);
+                }
             }
 
             @Override
             public void onFailure(String msg) {
-                getUi().onPoidetailinfoError(msg);
+                if (getUi() != null){
+                    getUi().onPoidetailinfoError(msg);
+                }
+
             }
         });
     }

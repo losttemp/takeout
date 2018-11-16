@@ -12,7 +12,6 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.SubmitOrderPresenter;
-import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;

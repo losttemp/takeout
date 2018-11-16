@@ -8,11 +8,11 @@
     <TextView
         android:id="@+id/tv_num"
         android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_marginStart="20dp"
         android:gravity="center"
-        android:textSize="25sp" />
+        android:textSize="20sp" />
 
 
     <RelativeLayout
@@ -20,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
+        android:gravity="center_vertical"
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@+id/tv_num">
 
@@ -29,8 +30,9 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center"
-            android:maxEms="10"
-            android:textSize="20sp" />
+            android:singleLine="true"
+            android:maxEms="6"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/tv_address_type"
@@ -47,6 +49,9 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxEms="4"
+            android:ellipsize="end"
             android:layout_alignStart="@+id/tv_address"
             android:layout_below="@+id/tv_address"
             android:textSize="15sp" />

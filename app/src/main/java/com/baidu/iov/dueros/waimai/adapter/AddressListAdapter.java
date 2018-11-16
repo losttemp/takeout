@@ -16,11 +16,14 @@ import com.baidu.iov.dueros.waimai.utils.Encryption;
 
 import java.util.List;
 
-public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.ViewHolder> implements View.OnClickListener {
+public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
     private Context mContext;
     private List<AddressListBean.IovBean.DataBean> mData;
     private OnItemClickListener mOnItemClickListener;
+    public static final int TYPE_HEADER = 0;
+    public static final int TYPE_NORMAL = 1;
+    private View mHeaderView;
 
     public AddressListAdapter(Context mContext) {
         this.mContext = mContext;
@@ -31,6 +34,22 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
         notifyDataSetChanged();
     }
 
+    public void setHeaderView(View headerView) {
+        mHeaderView = headerView;
+        notifyItemInserted(0);
+    }
+
+    public View getHeaderView() {
+        return mHeaderView;
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mHeaderView == null) return TYPE_NORMAL;
+        if (position == 0) return TYPE_HEADER;
+        return TYPE_NORMAL;
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -43,6 +62,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
 
         public ViewHolder(View itemView) {
             super(itemView);
+            if (itemView == mHeaderView) return;
             tv_serial = itemView.findViewById(R.id.tv_num);
             tv_address = itemView.findViewById(R.id.tv_address);
             tv_address_type = itemView.findViewById(R.id.tv_address_type);
@@ -56,47 +76,65 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
     }
 
     @Override
-    public AddressListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        if(mHeaderView != null && viewType == TYPE_HEADER) return new ViewHolder(mHeaderView);
         View convertView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_address_item, parent, false);
         return new ViewHolder(convertView);
     }
 
     @Override
-    public void onBindViewHolder(AddressListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        try {
-            holder.tv_serial.setText(String.valueOf((position + 1)));
+        if (getItemViewType(position) == TYPE_HEADER) return;
+        final int realPosition = getRealPosition(holder);
+        if (holder instanceof ViewHolder) {
+            try {
+                ((ViewHolder) holder).tv_serial.setText(String.valueOf(realPosition + 1));
 
-            String address = Encryption.desEncrypt(mData.get(position).getAddress());
-            holder.tv_address.setText(address);
+                String address = Encryption.desEncrypt(mData.get(realPosition).getAddress());
+                ((ViewHolder) holder).tv_address.setText(address);
 
-            String address_type = mData.get(position).getType();
-            if (address_type != null) {
+                String address_type = mData.get(realPosition).getType();
+                if (address_type != null) {
 
-                holder.tv_address_type.setText(address_type);
-            } else {
-                holder.tv_address_type.setText(mContext.getString(R.string.address_tag_other));
+                    ((ViewHolder) holder).tv_address_type.setText(address_type);
+                } else {
+                    ((ViewHolder) holder).tv_address_type.setText(mContext.getString(R.string.address_tag_other));
+                }
+
+                String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
+                ((ViewHolder) holder).tv_name.setText(name);
+
+                String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
+                ((ViewHolder) holder).tv_phone.setText(phone);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            ((ViewHolder) holder).img_edit.setTag(realPosition);
 
-            String name = Encryption.desEncrypt(mData.get(position).getUser_name());
-            holder.tv_name.setText(name);
+            holder.itemView.setTag(realPosition);
 
-            String phone = Encryption.desEncrypt(mData.get(position).getUser_phone());
-            holder.tv_phone.setText(phone);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+    }
 
-        holder.itemView.setTag(position);
-        holder.img_edit.setTag(position);
-
+    public int getRealPosition(RecyclerView.ViewHolder holder) {
+        int position = holder.getLayoutPosition();
+        return mHeaderView == null ? position : position - 1;
     }
 
     @Override
     public int getItemCount() {
-        return mData == null ? 0 : mData.size();
+
+        if (mData != null) {
+            return mHeaderView == null ? mData.size() : mData.size() + 1;
+
+        } else {
+
+            return 0;
+        }
+
     }
 
 

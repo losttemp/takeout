@@ -1,26 +1,27 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.ArrayMap;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressListAdapter;
-import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     private AddressListAdapter mAddressListAdapter;
     private List<AddressListBean.IovBean.DataBean> mDataListBean;
     public final static String ADDRESS_DATA = "address_data";
+    private AddressListBean.IovBean.DataBean mAddressData;
 
 
     @Override
@@ -52,13 +54,19 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_list);
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 700);
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 1000);
         getWindow().setGravity(Gravity.TOP);
 
         initView();
     }
 
     public void initView() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences("_cache", MODE_PRIVATE);
+        String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
+        if (addressDataJson != null) {
+            mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
+        }
 
         mCancelImg = findViewById(R.id.cancel_action);
         mAddImg = findViewById(R.id.img_add);
@@ -71,6 +79,9 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAddressListAdapter = new AddressListAdapter(this);
         mRecyclerView.setAdapter(mAddressListAdapter);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        setHeader();
+
 
         mAddressListAdapter.setOnItemClickListener(new AddressListAdapter.OnItemClickListener() {
             @Override
@@ -83,9 +94,15 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                         break;
 
                     default:
-                        AddressListBean.IovBean.DataBean AddressData = mDataListBean.get(position);
+                        AddressListBean.IovBean.DataBean addressData = mDataListBean.get(position);
                         Intent data = new Intent();
-                        data.putExtra(ADDRESS_DATA, AddressData);
+                        data.putExtra(ADDRESS_DATA, addressData);
+                        SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
+                                ("_cache", AddressSelectActivity.MODE_PRIVATE);
+                        String databeanStr = GsonUtil.toJson(addressData);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString(Constant.ADDRESS_DATA, databeanStr);
+                        editor.commit();
                         setResult(RESULT_OK, data);
                         finish();
                         break;
@@ -96,6 +113,29 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 
         map = new ArrayMap<>();
         getPresenter().requestData(map);
+    }
+
+    private void setHeader() {
+        View header = LayoutInflater.from(this).inflate(R.layout.address_title_item, mRecyclerView, false);
+        TextView addressTv = header.findViewById(R.id.tv_address_title);
+        TextView typeTv = header.findViewById(R.id.tv_address_type_title);
+        TextView phoneTv = header.findViewById(R.id.tv_phone_title);
+        TextView nameTv = header.findViewById(R.id.tv_name_title);
+
+        try {
+            addressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
+            if (mAddressData.getType() != null) {
+                typeTv.setText(mAddressData.getType());
+            } else {
+                typeTv.setText(getString(R.string.address_tag_other));
+            }
+            phoneTv.setText(Encryption.desEncrypt(mAddressData.getUser_phone()));
+            nameTv.setText(Encryption.desEncrypt(mAddressData.getUser_name()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mAddressListAdapter.setHeaderView(header);
     }
 
 

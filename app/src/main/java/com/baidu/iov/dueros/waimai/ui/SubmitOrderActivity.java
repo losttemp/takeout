@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -28,21 +29,20 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitInfoPresenter;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.faceos.client.GsonUtil;
 import com.bumptech.glide.Glide;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.security.Timestamp;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import static com.baidu.iov.dueros.waimai.ui.AddressListActivity.ADDRESS_DATA;
 import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.POI_INFO;
@@ -102,7 +102,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private int mCurTimeItem = 0;
     private int mCurDateItem = 0;
     private int mPreDateItem = 0;
-    private int mPreAddressItem = -1;
     private NumberFormat mNumberFormat;
     private String mEstimateTime;
     private int mUnixtime = 0;
@@ -159,6 +158,20 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             String deliveryType = mPoiInfo.getDelivery_type() == 1 ? getString(R.string.delivery_type1_text)
                     : getString(R.string.delivery_type2_text);
             mDeliveryTypeTv.setText(deliveryType);
+        }
+
+        SharedPreferences sharedPreferences = getSharedPreferences("_cache", MODE_PRIVATE);
+        String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
+        if (addressDataJson != null) {
+            mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
+            try {
+                mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
+                mUserNameTv.setText(Encryption.desEncrypt(mAddressData.getUser_name()));
+                mUserPhoneTv.setText(Encryption.desEncrypt(mAddressData.getUser_phone()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
