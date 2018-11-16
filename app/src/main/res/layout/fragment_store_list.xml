@@ -9,20 +9,19 @@
 	<android.support.v7.widget.LinearLayoutCompat
 		android:id="@+id/ll_filter"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="5dp"
-		android:background="@color/white"
+		android:layout_height="@dimen/px48dp"
+		android:layout_marginTop="@dimen/px26dp"
 		android:orientation="horizontal"
-		android:paddingLeft="10dp"
-		android:paddingRight="10dp">
+		android:layout_marginLeft="@dimen/px84dp"
+		android:layout_marginBottom="@dimen/px26dp"
+		android:layout_marginRight="@dimen/px84dp">
 
 		<RelativeLayout
 			android:id="@+id/rl_sort"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="@dimen/px48dp"
 			android:layout_gravity="center_vertical"
-			android:layout_weight="1.5"
-			android:padding="5dp">
+			android:layout_weight="1.5">
 
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/tv_sort"
@@ -31,17 +30,17 @@
 				android:gravity="center"
 				android:maxLines="1"
 				android:text="@string/store_sort"
-				android:textColor="@color/dark_gray"
-				android:textSize="16sp" />
+				android:textColor="@color/white"
+				android:textSize="@dimen/px30sp" />
 
 			<android.support.v7.widget.AppCompatImageView
 				android:id="@+id/iv_sort"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_width="@dimen/px48dp"
+				android:layout_height="@dimen/px48dp"
 				android:layout_centerVertical="true"
-				android:layout_marginLeft="5dp"
+				android:layout_marginLeft="@dimen/px14dp"
 				android:layout_toRightOf="@+id/tv_sort"
-				android:src="@mipmap/arrow_down" />
+				android:src="@drawable/arrow_down" />
 
 		</RelativeLayout>
 
@@ -51,10 +50,9 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:gravity="center"
-			android:padding="5dp"
 			android:text="@string/store_sales"
-			android:textColor="@color/dark_gray"
-			android:textSize="16sp" />
+			android:textColor="@color/white"
+			android:textSize="@dimen/px30sp" />
 
 		<android.support.v7.widget.AppCompatTextView
 			android:id="@+id/tv_distance"
@@ -62,19 +60,17 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:gravity="center"
-			android:padding="5dp"
 			android:text="@string/store_distance"
-			android:textColor="@color/dark_gray"
-			android:textSize="16sp" />
+			android:textColor="@color/white"
+			android:textSize="@dimen/px30sp" />
 
 		<RelativeLayout
 			android:id="@+id/rl_filter"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_height="@dimen/px48dp"
 			android:layout_gravity="center_vertical"
 			android:layout_weight="1"
-			android:gravity="right"
-			android:padding="5dp">
+			android:gravity="right">
 
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/tv_filter"
@@ -82,27 +78,38 @@
 				android:layout_height="wrap_content"
 				android:gravity="center"
 				android:text="@string/store_filter"
-				android:textColor="@color/dark_gray"
-				android:textSize="16sp" />
+				android:textColor="@color/white"
+				android:textSize="@dimen/px30sp" />
 
 			<android.support.v7.widget.AppCompatImageView
 				android:id="@+id/iv_filter"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_width="@dimen/px48dp"
+				android:layout_height="@dimen/px48dp"
 				android:layout_centerVertical="true"
-				android:layout_marginLeft="5dp"
+				android:layout_marginLeft="@dimen/px14dp"
 				android:layout_toRightOf="@+id/tv_filter"
-				android:src="@mipmap/arrow_down" />
+				android:src="@drawable/arrow_down" />
 
 		</RelativeLayout>
 
 	</android.support.v7.widget.LinearLayoutCompat>
 
+	<View
+		android:id="@+id/view"
+		android:layout_below="@+id/ll_filter"
+		android:layout_width="@dimen/px912dp"
+        android:layout_centerHorizontal="true"
+		android:layout_marginBottom="@dimen/px34dp"
+		android:layout_height="@dimen/px2dp"
+		android:background="@color/gray"/>
+
 	<com.scwang.smartrefresh.layout.SmartRefreshLayout
 		android:id="@+id/refresh_layout"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_below="@+id/ll_filter"
+		android:layout_marginLeft="@dimen/px84dp"
+		android:layout_marginRight="@dimen/px84dp"
+		android:layout_below="@+id/view"
 		app:srlAccentColor="@color/refresh_layout"
 		app:srlEnablePreviewInEditMode="true"
 		app:srlPrimaryColor="@color/refresh_layout">
@@ -115,7 +122,6 @@
 			android:id="@+id/rv_store"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:background="@color/white"
 			tools:listitem="@layout/layout_store_item" />
 
 		<com.scwang.smartrefresh.layout.footer.ClassicsFooter

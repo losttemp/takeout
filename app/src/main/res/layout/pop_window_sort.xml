@@ -6,11 +6,13 @@
 
 	<ListView
 		android:id="@+id/lv_sort_class"
+		android:paddingLeft="@dimen/px84dp"
+		android:paddingRight="@dimen/px84dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@color/white"
-		android:divider="@null"
-		android:paddingBottom="15dp"
+		android:background="@drawable/app_bg"
+		android:divider="@color/white"
+		android:dividerHeight="@dimen/px2dp"
 		tools:listitem="@layout/layout_pop_sort_item" />
 
 </RelativeLayout>

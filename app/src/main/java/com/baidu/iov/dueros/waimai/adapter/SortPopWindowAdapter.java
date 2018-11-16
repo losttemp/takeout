@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
 		.DataBean.SortTypeListBean;
 import com.baidu.iov.dueros.waimai.R;
+import com.domain.multipltextview.MultiplTextView;
 
 import java.util.List;
 
@@ -48,25 +49,20 @@ public class SortPopWindowAdapter extends BaseAdapter {
 			convertView = mLayoutInflater.inflate(R.layout.layout_pop_sort_item, parent,
 					false);
 			viewHolder = new ViewHolder();
-			viewHolder.tvSortName = (TextView) convertView.findViewById(R.id.tv_sort_name);
+			viewHolder.tvSortName = (MultiplTextView) convertView.findViewById(R.id.tv_sort_name);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
 		viewHolder.tvSortName.setText(mSortList.get(position).getName());
-
-		/*if (mCurrentSelect == position) {
-			viewHolder.tvSortName.setTextColor(mContext.getResources().getColor(R.color.blue));
-		} else {
-			viewHolder.tvSortName.setTextColor(mContext.getResources().getColor(R.color.black));
-		}*/
+		
 
 		return convertView;
 	}
 
 	public static class ViewHolder {
-		private TextView tvSortName;
+		private MultiplTextView tvSortName;
 	}
 
 	public void updateSelected(int positon) {

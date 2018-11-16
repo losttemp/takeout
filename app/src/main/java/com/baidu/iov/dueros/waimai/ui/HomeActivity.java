@@ -9,6 +9,8 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
@@ -16,18 +18,19 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
 import com.baidu.location.Poi;
+import com.domain.multipltextview.MultiplTextView;
+
 import java.util.List;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
 
 	private static final String TAG = StoreListFragment.class.getSimpleName();
-	private AppCompatTextView mTvFood;
-	private AppCompatTextView mTvFlower;
-	private AppCompatTextView mTvCake;
-	private AppCompatTextView mTvOrder;
+	private TextView mTvFood;
+	private TextView mTvFlower;
+	private TextView mTvCake;
 	private AppCompatImageView mIvBack;
 	private AppCompatImageView mIvRight;
-	private AppCompatTextView mTvTitle;
+	private MultiplTextView mTvTitle;
 	private RelativeLayout mRlSearch;
 
 	private StoreListFragment mStoreListFragment;
@@ -53,14 +56,13 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	}
 
 	private void iniView() {
-		mTvFood = (AppCompatTextView) findViewById(R.id.tv_food);
-		mTvFlower = (AppCompatTextView) findViewById(R.id.tv_flower);
-		mTvCake = (AppCompatTextView) findViewById(R.id.tv_cake);
-		mTvOrder = (AppCompatTextView) findViewById(R.id.tv_order);
-		mIvBack = (AppCompatImageView) findViewById(R.id.iv_back);
-		mIvRight = (AppCompatImageView) findViewById(R.id.iv_right);
-		mTvTitle = (AppCompatTextView) findViewById(R.id.tv_title);
-		mRlSearch = (RelativeLayout) findViewById(R.id.rl_search);
+		mTvFood = findViewById(R.id.tv_food);
+		mTvFlower = findViewById(R.id.tv_flower);
+		mTvCake =  findViewById(R.id.tv_cake);
+		mIvBack =  findViewById(R.id.iv_back);
+		mIvRight =  findViewById(R.id.iv_right);
+		mTvTitle =  findViewById(R.id.tv_title);
+		mRlSearch = findViewById(R.id.rl_search);
 
 	}
 
@@ -68,10 +70,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		//address
 		mTvTitle.setText("地址");
 		initLocation();
-		Drawable drawable = getResources().getDrawable(R.mipmap.arrow_down_white);
-		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-		mTvTitle.setCompoundDrawables(null, null, drawable, null);
-
+		
 		//fragment
 		mStoreListFragment = new StoreListFragment();
 		Bundle bundle = new Bundle();
@@ -87,7 +86,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mTvFlower.setOnClickListener(this);
 		mTvCake.setOnClickListener(this);
 		mTvFood.setOnClickListener(this);
-		mTvOrder.setOnClickListener(this);
 		mTvTitle.setOnClickListener(this);
 		mRlSearch.setOnClickListener(this);
 
@@ -107,7 +105,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 			case R.id.iv_right:
 				Intent orderListIntent = new Intent(this, OrderListActivity.class);
-				orderListIntent.putExtra("title", mTvOrder.getText().toString());
 				startActivity(orderListIntent);
 				break;
 

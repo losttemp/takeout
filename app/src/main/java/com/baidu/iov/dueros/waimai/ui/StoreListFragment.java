@@ -29,6 +29,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
+import com.domain.multipltextview.MultiplTextView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -78,6 +79,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private SortPopWindow mSortPopWindow;
 	private FilterPopWindow mFilterPopWindow;
 	private int mFromPageType;
+	
+	private View mView;
 
 	@Override
 	StoreListPresenter createPresenter() {
@@ -105,14 +108,15 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mRlSort = (RelativeLayout) view.findViewById(R.id.rl_sort);
 		mTvSort = (AppCompatTextView) view.findViewById(R.id.tv_sort);
 		mIvSort = (AppCompatImageView) view.findViewById(R.id.iv_sort);
-		mTvSales = (AppCompatTextView) view.findViewById(R.id.tv_sales);
-		mTvDistance = (AppCompatTextView) view.findViewById(R.id.tv_distance);
+		mTvSales = view.findViewById(R.id.tv_sales);
+		mTvDistance =  view.findViewById(R.id.tv_distance);
 		mRlFilter = (RelativeLayout) view.findViewById(R.id.rl_filter);
 		mTvFilter = (AppCompatTextView) view.findViewById(R.id.tv_filter);
 		mIvFilter = (AppCompatImageView) view.findViewById(R.id.iv_filter);
 		mRefreshLayout = (SmartRefreshLayout) view.findViewById(R.id.refresh_layout);
 		mRvStore = (RecyclerView) view.findViewById(R.id.rv_store);
 		mViewBg = (View) view.findViewById(R.id.view_bg);
+		mView= (View) view.findViewById(R.id.view);
 		mTvTipNoResult = (AppCompatTextView) view.findViewById(R.id.tv_tip_no_result);
 
 	}
@@ -169,16 +173,16 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 							mTvSort.setText(type.getName());
 							loadFirstPage(mStoreReq);
 							mTvSales.setTextColor(mContext.getResources().getColor(
-									R.color.dark_gray));
+									R.color.white));
 							mTvDistance.setTextColor(mContext.getResources().getColor(
-									R.color.dark_gray));
+									R.color.white));
 						}
 					}));
 					mSortPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 						@Override
 						public void onDismiss() {
 							mTvSort.setTextColor(getResources().getColor(R.color.black));
-							mIvSort.setImageResource(R.mipmap.arrow_down);
+							mIvSort.setImageResource(R.drawable.arrow_down);
 							mViewBg.setVisibility(View.GONE);
 						}
 					});
@@ -187,8 +191,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					requestFilterList();
 				}
 				mTvSort.setTextColor(getResources().getColor(R.color.black));
-				mIvSort.setImageResource(R.mipmap.arrow_up);
-				mSortPopWindow.showAsDropDown(mTvSort);
+				mIvSort.setImageResource(R.drawable.arrow_up);
+				mSortPopWindow.showAsDropDown(mView);
 				mViewBg.setVisibility(View.VISIBLE);
 				break;
 
@@ -211,7 +215,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 						@Override
 						public void onDismiss() {
 							//mTvFilter.setTextColor(getResources().getColor(R.color.dark_gray));
-							mIvFilter.setImageResource(R.mipmap.arrow_down);
+							mIvFilter.setImageResource(R.drawable.arrow_down);
 							mViewBg.setVisibility(View.GONE);
 						}
 					});
@@ -220,8 +224,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					requestFilterList();
 				}
 				mTvFilter.setTextColor(getResources().getColor(R.color.black));
-				mIvFilter.setImageResource(R.mipmap.arrow_up);
-				mFilterPopWindow.showAsDropDown(mTvFilter);
+				mIvFilter.setImageResource(R.drawable.arrow_up);
+				mFilterPopWindow.showAsDropDown(mView);
 				mViewBg.setVisibility(View.VISIBLE);
 				break;
 
@@ -233,15 +237,15 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mTvSales.setTextColor(mContext.getResources().getColor(
 							R.color.black));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
-					mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
+							R.color.white));
+					mTvSort.setTextColor(getResources().getColor(R.color.white));
 					loadFirstPage(mStoreReq);
 				}else {
 					mStoreReq.setSortType(COMPREHENSIVE);
 					mTvSales.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
+							R.color.white));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
+							R.color.white));
 					mTvSort.setTextColor(getResources().getColor(R.color.black));
 					loadFirstPage(mStoreReq);
 				}
@@ -249,24 +253,21 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 			case R.id.tv_distance:
 				int distanceSortType = mStoreReq.getSortType()==null?0:mStoreReq.getSortType();
-				Lg.getInstance().e(TAG,"distanceSortType:"+distanceSortType);
 				if (distanceSortType!=DISTANCE_SORT_INDEX) {
-					Lg.getInstance().e(TAG,"-----------------");
 					mTvSort.setText(getResources().getString(R.string.store_sort));
 					mStoreReq.setSortType(DISTANCE_SORT_INDEX);
 					mTvSales.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
+							R.color.white));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
 							R.color.black));
-					mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
+					mTvSort.setTextColor(getResources().getColor(R.color.white));
 					loadFirstPage(mStoreReq);
 				}else {
-					Lg.getInstance().e(TAG,"++++++++++++");
 					mStoreReq.setSortType(COMPREHENSIVE);
 					mTvSales.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
+							R.color.white));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
+							R.color.white));
 					mTvSort.setTextColor(getResources().getColor(R.color.black));
 					loadFirstPage(mStoreReq);
 				}
