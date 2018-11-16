@@ -173,8 +173,8 @@
     <string name="order_details">订单详情</string>
     <string name="order_cancel">取消订单</string>
     <string name="order_cancel_title">取消订单并退款</string>
-    <string name="order_cancel_message">退款将原路退还你的支付账户，详情请查看退款进度</string>
-    <string name="order_cancel_positive">先等等</string>
+    <string name="order_cancel_message">现在取消订单吗？\n 退款将原路退还到您的支付账户</string>
+    <string name="order_cancel_positive">再想想</string>
     <string name="remind_title">温馨提醒</string>
     <string name="remind_message">该订单需要联系客服取消，确定拨打电话10109777取消吗？</string>
     <string name="remind_phone">10109777</string>
@@ -201,5 +201,6 @@
     <string name="address_title_select">我的收货地址</string>
     <string name="address_title_edit">编辑地址</string>
     <string name="address_title_search">收货地址</string>
+    <string name="order_cancel_toast">订单已取消</string>
 
 </resources>
