@@ -2,9 +2,13 @@ package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,13 +36,14 @@ import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.SHOP_NAME;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.TOTAL_COST;
 
 public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOrderPresenter.SubmitOrderUi>
-        implements SubmitOrderPresenter.SubmitOrderUi {
+        implements SubmitOrderPresenter.SubmitOrderUi, View.OnClickListener {
 
     private TextView mTimerTv;
     private TextView mAmountTv;
     private TextView mOrderIdTv;
     private TextView mShopNameTv;
     private ImageView mPayUrlImg;
+    private ImageView mBackBtn;
     private int mCount = 0;
     private Long mOrderId;
     private String mPicUrl;
@@ -82,6 +87,10 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         mShopNameTv = findViewById(R.id.shop_name);
         mPayUrlImg = findViewById(R.id.qr_code);
         mTimerTv = findViewById(R.id.tv_pay_time);
+        mBackBtn = findViewById(R.id.back);
+
+        mBackBtn.setOnClickListener(this);
+
 
         NumberFormat nf = new DecimalFormat("#.#");
         Intent intent = getIntent();
@@ -108,6 +117,10 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
     }
 
+    @Override
+    public void onClick(View v) {
+        onBackPressed();
+    }
 
     @Override
     protected void onResume() {
@@ -139,7 +152,11 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             }
             Bitmap bitmap = Bitmap.createBitmap(widthPix, heightPix, Bitmap.Config.ARGB_8888);
             bitmap.setPixels(pixels, 0, widthPix, 0, 0, widthPix, heightPix);
-            imageView.setImageBitmap(bitmap);
+
+            RoundedBitmapDrawable circularBitmapDrawable =
+                    RoundedBitmapDrawableFactory.create(Resources.getSystem(), bitmap);
+            circularBitmapDrawable.setCornerRadius(4);
+            imageView.setImageDrawable(circularBitmapDrawable);
 
         } catch (WriterException e) {
             e.printStackTrace();

@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,12 +25,13 @@ import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.PIC_URL;
 public class PaySuccessActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView mOrderDetailsTv;
-    private TextView mCountDownTv;
+    private Button mCountDownTv;
     private ImageView mStorePhotoImg;
     private TextView mStoreNameTv;
     private TextView mProductInfoTv;
     private TextView mUserInfoTv;
     private TextView mDeliveryAddressTv;
+    private ImageView mFinishImg;
 
 
     public static final int MSG_UPDATE_TIME = 1;
@@ -99,6 +101,8 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
         mCountDownTv = findViewById(R.id.complete_tv);
         mCountDownTv.setText(String.format(getString(R.string.complete), mCountDownTime));
         mCountDownTv.setOnClickListener(this);
+        mFinishImg = findViewById(R.id.finish_img);
+        mFinishImg.setOnClickListener(this);
     }
 
     @Override
@@ -130,6 +134,9 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
             case R.id.complete_tv:
 
                 startOtherActivity();
+                break;
+            case R.id.finish_img:
+                finish();
 
             default:
                 break;
