@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_bg">
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_layout_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px130dp"
         android:background="@color/gray_bg"
-        android:paddingLeft="@dimen/px30dp">
+        android:paddingLeft="@dimen/px60dp">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_back"
             android:layout_width="@dimen/px130dp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:src="@drawable/back" />
+            android:src="@drawable/icon_back" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_title"
@@ -38,19 +39,25 @@
         android:layout_centerHorizontal="true"
         android:background="@color/gray_bg"
         android:drawablePadding="@dimen/px20dp"
-        android:drawableTop="@mipmap/ic_no_result"
+        android:drawableTop="@drawable/icon_tishi"
         android:gravity="center_horizontal"
         android:lineSpacingMultiplier="1.2"
         android:paddingTop="@dimen/px50dp"
-        android:text="@string/no_search_result_keyword"
+        android:text="@string/no_order"
         android:visibility="gone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
+        android:background="@color/dark_gray" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_layout_header"
-        android:background="@color/white"
+        android:background="@color/gray_bg"
         tools:listitem="@layout/layout_order_item" />
 
-</RelativeLayout>
+</LinearLayout>

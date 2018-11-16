@@ -150,7 +150,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvIndex.setText(((position + 1) + ""));
             tvStoreName.setText(order.getOrder_name());
             tvOrderStatus.setText(pay_status);
-            tvOrderTime.setText(order.getOrder_time());
+            tvOrderTime.setText(order.getOrder_time().substring(0,order.getOrder_time().lastIndexOf(":")));
             String extra = order.getExtra();
 
             OrderListExtraBean extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
@@ -161,8 +161,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
                 e.printStackTrace();
             }
 
-            Lg.getInstance().d("wangfei", "wangfei = " + payload);
-            Lg.getInstance().d("wangfei", "wangfei xx= " + GsonUtil.toJson(extraBean.getOrderInfos()));
             payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
             String user_phone = payloadBean.getUser_phone();
             int total_count = 0;
