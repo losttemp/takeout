@@ -3,10 +3,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:background="@color/white"
-	android:paddingTop="10dp"
-	android:paddingBottom="5dp">
+	android:layout_height="wrap_content">
 
 	<android.support.v7.widget.LinearLayoutCompat
 		android:id="@+id/ll_info"
@@ -14,27 +11,30 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal">
 
-		<android.support.v7.widget.AppCompatTextView
+		<com.domain.multipltextview.MultiplTextView
+			app:removeDefaultPadding="true"
 			android:id="@+id/tv_store_index"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="5dp"
-			android:layout_marginRight="5dp"
 			android:text="1"
-			android:textSize="18sp" />
+			android:layout_marginRight="@dimen/px48sp"
+			android:textColor="@color/white"
+			android:textSize="@dimen/px36sp" />
 
 		<FrameLayout
 			android:id="@+id/fl_img"
-			android:layout_width="60dp"
-			android:layout_height="60dp">
+			android:layout_width="@dimen/px194dp"
+			android:layout_height="@dimen/px204dp">
 
 			<android.support.v7.widget.AppCompatImageView
 				android:id="@+id/iv_store"
-				android:layout_width="60dp"
-				android:layout_height="60dp"
+				android:layout_width="@dimen/px194dp"
+				android:layout_height="@dimen/px204dp"
+				android:scaleType="fitXY"
 				tools:src="@mipmap/ic_launcher" />
 
-			<android.support.v7.widget.AppCompatTextView
+			<com.domain.multipltextview.MultiplTextView
+				app:removeDefaultPadding="true"
 				android:id="@+id/tv_status_desc"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -51,22 +51,23 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_centerVertical="true"
-			android:layout_marginLeft="10dp"
+			android:layout_marginLeft="@dimen/px32dp"
 			android:layout_toRightOf="@+id/fl_img"
 			android:orientation="vertical">
 
-			<android.support.v7.widget.AppCompatTextView
+			<com.domain.multipltextview.MultiplTextView
+				app:removeDefaultPadding="true"
 				android:id="@+id/tv_store_name"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textColor="@color/black"
-				android:textSize="16sp"
+				android:textColor="@color/white"
+				android:textSize="@dimen/px36sp"
 				tools:text="@string/tools_text_store_name" />
 
 			<RelativeLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="5dp"
+				android:layout_marginTop="@dimen/px22dp"
 				android:gravity="center_vertical"
 				android:layout_gravity="center_vertical">
 
@@ -75,8 +76,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center_vertical"
-					android:layout_marginRight="5dp"
-					android:layout_marginTop="2dp"
+					android:layout_marginRight="@dimen/px10dp"
 					app:starCount="5"
 					app:starEmpty="@mipmap/rating_small_empty"
 					app:starFill="@mipmap/rating_small_full"
@@ -86,47 +86,55 @@
 					app:starStep="3.5"
 					app:stepSize="Half" />
 
-				<android.support.v7.widget.AppCompatTextView
+				<com.domain.multipltextview.MultiplTextView
+					app:removeDefaultPadding="true"
 					android:id="@+id/tv_score"
 					android:layout_toRightOf="@id/ratingBar"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginRight="5dp"
+					android:textColor="@color/white"
 					android:layout_centerVertical="true"
-					android:textSize="14sp"
+					android:textSize="@dimen/px30sp"
 					tools:text="5.0" />
 
-				<android.support.v7.widget.AppCompatTextView
+				<com.domain.multipltextview.MultiplTextView
+					app:removeDefaultPadding="true"
 					android:id="@+id/tv_sales"
 					android:layout_toRightOf="@id/tv_score"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_centerVertical="true"
 					android:layout_marginRight="5dp"
+					android:textColor="@color/white"
 					android:gravity="center"
 					android:textSize="14sp"
 					android:visibility="gone"
 					tools:text="@string/month_sale_num" />
 				
 
-				<android.support.v7.widget.AppCompatTextView
+				<com.domain.multipltextview.MultiplTextView
+					app:removeDefaultPadding="true"
 					android:id="@+id/tv_distance"
 					android:layout_alignParentRight="true"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_centerVertical="true"
 					android:layout_marginRight="3dp"
+					android:textColor="@color/white"
 					android:gravity="center"
-					android:textSize="14sp"
+					android:textSize="@dimen/px30sp"
 					tools:text="2.5km" />
-				<android.support.v7.widget.AppCompatTextView
+				<com.domain.multipltextview.MultiplTextView
+					app:removeDefaultPadding="true"
 					android:id="@+id/tv_time"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_centerVertical="true"
+					android:textColor="@color/white"
 					android:layout_marginRight="5dp"
 					android:gravity="center"
-					android:textSize="14sp"
+					android:textSize="@dimen/px30sp"
 					android:layout_toLeftOf="@id/tv_distance"
 					tools:text="@string/delivery_time" />
 
@@ -135,32 +143,38 @@
 			<LinearLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="5dp"
+				android:layout_marginTop="@dimen/px18dp"
 				android:layout_toRightOf="@+id/iv_store"
 				android:orientation="horizontal">
 
-				<android.support.v7.widget.AppCompatTextView
+				<com.domain.multipltextview.MultiplTextView
+					app:removeDefaultPadding="true"
 					android:id="@+id/tv_min_price"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginRight="5dp"
-					android:textSize="14sp"
+					android:textColor="@color/white"
+					android:textSize="@dimen/px30sp"
 					tools:text="@string/min_price_s" />
 
-				<android.support.v7.widget.AppCompatTextView
+				<com.domain.multipltextview.MultiplTextView
+					app:removeDefaultPadding="true"
 					android:id="@+id/tv_express_price"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginRight="5dp"
-					android:textSize="14sp"
+					android:textColor="@color/white"
+					android:textSize="@dimen/px30sp"
 					tools:text="@string/shipping_fee_s" />
 
-				<android.support.v7.widget.AppCompatTextView
+				<com.domain.multipltextview.MultiplTextView
+					app:removeDefaultPadding="true"
 					android:id="@+id/tv_average_price"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:textColor="@color/white"
 					android:layout_marginRight="5dp"
-					android:textSize="14sp"
+					android:textSize="@dimen/px30sp"
 					tools:text="@string/average_price" />
 
 			</LinearLayout>
@@ -168,7 +182,8 @@
 			<RelativeLayout
 				android:id="@+id/rl_discount"
 				android:layout_width="match_parent"
-				android:layout_marginTop="3dp"
+				android:layout_marginTop="@dimen/px18dp"
+				android:minHeight="@dimen/px48dp"
 				android:layout_height="wrap_content">
 
 				<android.support.v7.widget.RecyclerView
@@ -180,14 +195,10 @@
 
 				<android.support.v7.widget.AppCompatImageView
 					android:id="@+id/iv_store_discount"
-					android:layout_width="wrap_content"
-					android:paddingTop="5dp"
-					android:paddingBottom="10dp"
-					android:paddingLeft="10dp"
-					android:paddingRight="10dp"
+					android:layout_width="@dimen/px48dp"
 					android:layout_height="wrap_content"
 					android:layout_alignParentEnd="true"
-					android:src="@mipmap/arrow_down" />
+					android:src="@drawable/arrow_down" />
 
 			</RelativeLayout>
 

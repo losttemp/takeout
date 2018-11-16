@@ -22,6 +22,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.Glide;
+import com.domain.multipltextview.MultiplTextView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -141,11 +142,11 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 					}
 
 					if (store.isDiscountsDown()) {
-						viewHolder.ivStoreDiscount.setImageResource(R.mipmap.arrow_up);
+						viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_up);
 						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT *
 								lines);
 					} else {
-						viewHolder.ivStoreDiscount.setImageResource(R.mipmap.arrow_down);
+						viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
 						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
 					}
 
@@ -158,13 +159,13 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 				@Override
 				public void onClick(View v) {
 					if (store.isDiscountsDown()) {
-						viewHolder.ivStoreDiscount.setImageResource(R.mipmap.arrow_down);
+						viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
 						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
 						store.setDiscountsDown(false);
 					} else {
 						int lines = layoutManager.getLineRows();
 						if (lines > 1) {
-							viewHolder.ivStoreDiscount.setImageResource(R.mipmap.arrow_up);
+							viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_up);
 							store.setDiscountsDown(true);
 							setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT
 									* lines);
@@ -189,17 +190,17 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 	static class ViewHolder extends RecyclerView.ViewHolder {
 		private AppCompatImageView ivStore;
 		private LinearLayout llStoreInfo;
-		private AppCompatTextView tvStoreName;
-		private AppCompatTextView tvStatusDesc;
+		private MultiplTextView tvStoreName;
+		private MultiplTextView tvStatusDesc;
 		private RatingBar ratingBar;
-		private AppCompatTextView tvScore;
-		private AppCompatTextView tvSales;
-		private AppCompatTextView tvTime;
-		private AppCompatTextView tvDistance;
-		private AppCompatTextView tvMinPrice;
-		private AppCompatTextView tvExpressPrice;
-		private AppCompatTextView tvAveragePrice;
-		private AppCompatTextView tvStoreIndex;
+		private MultiplTextView tvScore;
+		private MultiplTextView tvSales;
+		private MultiplTextView tvTime;
+		private MultiplTextView tvDistance;
+		private MultiplTextView tvMinPrice;
+		private MultiplTextView tvExpressPrice;
+		private MultiplTextView tvAveragePrice;
+		private MultiplTextView tvStoreIndex;
 		private View viewMaskLayer;
 		private RelativeLayout rlDiscount;
 		private RecyclerView rvStoreDiscount;
@@ -208,23 +209,23 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		private ViewHolder(View view) {
 			super(view);
 
-			ivStore = (AppCompatImageView) view.findViewById(R.id.iv_store);
-			llStoreInfo = (LinearLayout) view.findViewById(R.id.ll_store_info);
-			tvStoreName = (AppCompatTextView) view.findViewById(R.id.tv_store_name);
-			tvStatusDesc = (AppCompatTextView) view.findViewById(R.id.tv_status_desc);
-			ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
-			tvScore = (AppCompatTextView) view.findViewById(R.id.tv_score);
-			tvSales = (AppCompatTextView) view.findViewById(R.id.tv_sales);
-			tvTime = (AppCompatTextView) view.findViewById(R.id.tv_time);
-			tvDistance = (AppCompatTextView) view.findViewById(R.id.tv_distance);
-			tvMinPrice = (AppCompatTextView) view.findViewById(R.id.tv_min_price);
-			tvExpressPrice = (AppCompatTextView) view.findViewById(R.id.tv_express_price);
-			tvAveragePrice = (AppCompatTextView) view.findViewById(R.id.tv_average_price);
-			tvStoreIndex = (AppCompatTextView) view.findViewById(R.id.tv_store_index);
-			viewMaskLayer = (View) view.findViewById(R.id.view_mask_layer);
-			rlDiscount = (RelativeLayout) view.findViewById(R.id.rl_discount);
-			rvStoreDiscount = (RecyclerView) view.findViewById(R.id.rv_store_discount);
-			ivStoreDiscount = (AppCompatImageView) view.findViewById(R.id.iv_store_discount);
+			ivStore =  view.findViewById(R.id.iv_store);
+			llStoreInfo = view.findViewById(R.id.ll_store_info);
+			tvStoreName =  view.findViewById(R.id.tv_store_name);
+			tvStatusDesc =view.findViewById(R.id.tv_status_desc);
+			ratingBar = view.findViewById(R.id.ratingBar);
+			tvScore =  view.findViewById(R.id.tv_score);
+			tvSales =  view.findViewById(R.id.tv_sales);
+			tvTime =  view.findViewById(R.id.tv_time);
+			tvDistance =  view.findViewById(R.id.tv_distance);
+			tvMinPrice = view.findViewById(R.id.tv_min_price);
+			tvExpressPrice =  view.findViewById(R.id.tv_express_price);
+			tvAveragePrice =  view.findViewById(R.id.tv_average_price);
+			tvStoreIndex =  view.findViewById(R.id.tv_store_index);
+			viewMaskLayer =  view.findViewById(R.id.view_mask_layer);
+			rlDiscount =  view.findViewById(R.id.rl_discount);
+			rvStoreDiscount = view.findViewById(R.id.rv_store_discount);
+			ivStoreDiscount =  view.findViewById(R.id.iv_store_discount);
 		}
 	}
 
