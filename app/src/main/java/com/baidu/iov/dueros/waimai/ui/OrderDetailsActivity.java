@@ -9,11 +9,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
 import android.util.ArrayMap;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +25,6 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 
 
@@ -104,13 +102,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void setTextView() {
-        //getPayStatus(3);
         getPayStatus(mOrderDetails.getPay_status());
         mBusinessName.setText(mOrderDetails.getPoi_name());
         mPackingFee.setText("¥" + mOrderDetails.getBox_total_price());
         mDistributionFee.setText("¥" + mOrderDetails.getShipping_fee());
         mDiscount.setText("-¥" + (mOrderDetails.getOriginal_price() - mOrderDetails.getTotal()));
-        mRealPay.setText("¥" + mOrderDetails.getTotal());
+        mRealPay.setText("实付：¥" + mOrderDetails.getTotal());
         mContact.setText(mOrderDetails.getRecipient_phone());
         mAddress.setText(mOrderDetails.getRecipient_address());
         mExpectedTime.setText("2018-10-19 （周五）18:30");
@@ -160,11 +157,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void initData() {
-        order_id = Long.parseLong("15053512850898388");
-        user_phone = "18201010600";
         String phone = Encryption.encrypt(user_phone);
-//        order_id = getIntent().getLongExtra(Constant.ORDER_ID,-1);
-//        user_phone = getIntent().getStringExtra(Constant.USER_PHONE);
+        order_id = getIntent().getLongExtra(Constant.ORDER_ID,-1);
         mOrderDetailsReq = new OrderDetailsReq();
         mOrderDetailsReq.setId(order_id);
         loadData();
@@ -304,9 +298,10 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
-        Toast.makeText(this,"订单已取消",Toast.LENGTH_LONG).show();
-        Lg.getInstance().d("OkHttp","update  " +data.getErrorInfo());
-
+        Toast toast = new Toast(this);
+        toast.makeText(this,R.string.order_cancel_toast,Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     @Override

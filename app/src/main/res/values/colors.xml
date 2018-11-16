@@ -49,4 +49,6 @@
     <color name="goods_item_btn_bg_border">@color/goods_item_btn_bg_selected</color>
 
     <color name="base_color">#262D37</color>
+    <color name="pay_status">#00df7b</color>
+    <color name="real_pay">#ffc600</color>
 </resources>
