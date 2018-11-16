@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressSelectAdapter;
@@ -24,6 +25,7 @@ import java.util.List;
 public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, AddressSelectPresenter.AddressSelectUi> implements AddressSelectPresenter.AddressSelectUi, View.OnClickListener {
     private List<AddressListBean.IovBean.DataBean> mDataList;
     private RecyclerView mRecyclerView;
+    private LinearLayout mNoAddress;
     private AddressSelectAdapter mAdapter;
 
     @Override
@@ -89,6 +91,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
 
     private void initView() {
         mRecyclerView = findViewById(R.id.address_select_lv);
+        mNoAddress = findViewById(R.id.address_none);
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layout);
         findViewById(R.id.address_back).setOnClickListener(this);
@@ -98,9 +101,16 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
 
     @Override
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
-        mDataList.addAll(data);
-        mAdapter.setAddressList(mDataList);
-        mAdapter.notifyDataSetChanged();
+        if (data.size() == 0) {
+            mNoAddress.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+        } else {
+            mNoAddress.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mDataList.addAll(data);
+            mAdapter.setAddressList(mDataList);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

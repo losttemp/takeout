@@ -15,6 +15,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
     @Override
     public void onBindViewHolder(@NonNull AddressViewHolder viewHolder, int position) {
         AddressListBean.IovBean.DataBean dataBean = mAddressList.get(position);
-        viewHolder.bindData(position,dataBean);
+        viewHolder.bindData(position, dataBean);
     }
 
     @Override
@@ -63,33 +64,36 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         private TextView details;
         private TextView name;
         private TextView phone;
-        private TextView des;
+        private ImageView ivType;
         private ImageView edit;
         private AddressListBean.IovBean.DataBean mDataBean;
 
         private AddressViewHolder(View view) {
             super(view);
             num = view.findViewById(R.id.address_select_num);
-            des = view.findViewById(R.id.address_select_des);
+            ivType = view.findViewById(R.id.address_type);
             details = view.findViewById(R.id.address_select_des_details);
             name = view.findViewById(R.id.address_select_name);
             phone = view.findViewById(R.id.address_select_phone);
             edit = view.findViewById(R.id.address_select_edit);
-            des.setOnClickListener(this);
             edit.setOnClickListener(this);
             view.findViewById(R.id.address_select_details_container).setOnClickListener(this);
         }
 
-        public void bindData(int position,AddressListBean.IovBean.DataBean dataBean) {
+        public void bindData(int position, AddressListBean.IovBean.DataBean dataBean) {
             this.mDataBean = dataBean;
+            String type = dataBean.getType();
+            if (TextUtils.isEmpty(type)) {
+                ivType.setImageResource(R.drawable.address_location);
+            } else if (type.equals(mContext.getString(R.string.address_company))) {
+                ivType.setImageResource(R.drawable.address_company);
+            } else if (type.equals(mContext.getString(R.string.address_home))) {
+                ivType.setImageResource(R.drawable.address_home);
+            } else {
+                ivType.setImageResource(R.drawable.address_location);
+            }
+            num.setText((position + 1) + "");
             try {
-                String type = dataBean.getType();
-                if (TextUtils.isEmpty(type)) {
-                    des.setText(mContext.getResources().getString(R.string.address_tag_other));
-                } else {
-                    des.setText(type);
-                }
-                num.setText((position+1)+"");
                 details.setText(Encryption.desEncrypt(dataBean.getAddress()));
                 name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
                 phone.setText(Encryption.desEncrypt(dataBean.getUser_phone()));

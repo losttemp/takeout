@@ -38,6 +38,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private ArrayMap<String, String> reqMap;
     private TextView address_title;
     private TextView address_tv;
+    private ImageView address_arrow;
     private TagListView mTagListView;
     private ClearEditText et_phone;
     private ClearEditText et_name;
@@ -73,6 +74,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private void initView() {
         address_title = (TextView) findViewById(R.id.address_title);
         address_tv = (TextView) findViewById(R.id.address_edit_address);
+        address_arrow = (ImageView) findViewById(R.id.address_edit_arrow);
         et_name = (ClearEditText) findViewById(R.id.address_edit_name);
         et_phone = (ClearEditText) findViewById(R.id.address_edit_phone);
         iv_del_button = (ImageView) findViewById(R.id.address_del);
@@ -83,6 +85,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         findViewById(R.id.address_back).setOnClickListener(this);
         iv_del_button.setOnClickListener(this);
         address_tv.setOnClickListener(this);
+        address_arrow.setOnClickListener(this);
     }
 
     private void initData() {
@@ -194,6 +197,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.address_edit_address:
+            case R.id.address_edit_arrow:
                 doSearchAddress(true);
                 break;
             case R.id.address_edit_save:
@@ -226,8 +230,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             Toast.makeText(this, "please check phone", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(address_tv.getText())) {
             Toast.makeText(this, "please check address", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(type)) {
-            Toast.makeText(this, "please check type", Toast.LENGTH_SHORT).show();
         } else {
             String house_num = et_house_num.getText().toString() + "";
             String name = Encryption.encrypt(et_name.getText() + "");
@@ -272,8 +274,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrAddReq.setAddress(address);
                 mAddrAddReq.setType(type);
                 mAddrAddReq.setSex(sex);
-                mAddrAddReq.setLatitude(Constant.LATITUDE);
-                mAddrAddReq.setLongitude(Constant.LONGITUDE);
+                mAddrAddReq.setLatitude(latitude);
+                mAddrAddReq.setLongitude(longitude);
                 getPresenter().requestAddAddressData(mAddrAddReq);
             }
         }

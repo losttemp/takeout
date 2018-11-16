@@ -2,23 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="@dimen/px84dp"
+    android:paddingRight="@dimen/px84dp"
     android:background="@color/gray_bg"
     android:orientation="vertical">
 
     <include layout="@layout/activity_address_header" />
 
+    <View style="@style/AddressEditDividerStyle" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/address_select_lv"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/address_none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px202dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_tips"
+            android:layout_width="@dimen/px146dp"
+            android:layout_height="@dimen/px146dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/px354dp"
+            android:src="@drawable/icon_tishi"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px48dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/px36sp"
+            android:textColor="@color/white"
+            android:text="@string/address_suggestion_erro" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/address_select_add"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/px540dp"
+        android:layout_height="@dimen/px108dp"
         android:layout_gravity="center_horizontal"
-        android:background="@color/cinema_blue"
+        android:background="@drawable/address_button"
         android:text="@string/address_select_add_address"
-        android:layout_marginBottom="@dimen/px720dp"/>
+        android:layout_marginTop="@dimen/px120dp"/>
 </LinearLayout>

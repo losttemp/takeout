@@ -4,36 +4,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/px84dp"
+    android:paddingRight="@dimen/px84dp">
 
     <include layout="@layout/activity_address_header" />
 
+    <View style="@style/AddressEditDividerStyle" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/location" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/address_search_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px58dp"
             android:clickable="true"
             android:text="@string/wuhan"
-            android:textColor="@color/white" />
-
-        <com.baidu.iov.dueros.waimai.view.ClearEditText
-            android:id="@+id/address_search_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/address_search_hint"
-            android:lines="1"
             android:textColor="@color/white"
-            android:textColorHint="@color/white_88" />
+            android:textSize="@dimen/px36sp" />
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_marginTop="@dimen/px64dp"
+            android:layout_marginLeft="@dimen/px4dp"
+            android:layout_width="@dimen/px30dp"
+            android:layout_height="@dimen/px30dp"
+            android:src="@drawable/arrow_down" />
+
+        <LinearLayout
+            android:layout_width="@dimen/px782dp"
+            android:layout_height="@dimen/px108dp"
+            android:background="@drawable/address_searchbg"
+            android:layout_marginTop="@dimen/px30dp"
+            android:layout_marginLeft="@dimen/px20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="@dimen/px96dp"
+                android:layout_height="@dimen/px96dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_search"/>
+
+            <EditText
+                android:id="@+id/address_search_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_gravity="center_vertical"
+                android:hint="@string/address_search_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp"/>
+        </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px2dp"
+        android:layout_marginTop="@dimen/px36dp"
+        android:background="@color/dark_gray" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -48,11 +85,24 @@
             android:id="@+id/address_search_error"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/px354dp"
+                android:src="@drawable/icon_tishi"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px48dp"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/px36sp"
+                android:textColor="@color/white"
                 android:text="@string/address_suggestion_erro" />
         </LinearLayout>
     </FrameLayout>

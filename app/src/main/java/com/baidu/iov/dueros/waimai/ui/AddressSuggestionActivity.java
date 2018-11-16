@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ import java.util.List;
 
 public class AddressSuggestionActivity extends AppCompatActivity implements TextWatcher ,View.OnClickListener {
     private RecyclerView mRecyclerView;
-    private AutoCompleteTextView mSearchEdit;
+    private EditText mSearchEdit;
     private AddressSuggestionAdapter mAdapter;
     private List<SuggestionResult.SuggestionInfo> mAllSuggestions;
     private TextView mCityTV;
@@ -57,7 +58,7 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
         tv_title =(TextView) findViewById(R.id.address_title);
         iv_back =(ImageView) findViewById(R.id.address_back);
         mRecyclerView = (RecyclerView) findViewById(R.id.address_search_rv);
-        mSearchEdit = (AutoCompleteTextView) findViewById(R.id.address_search_edit);
+        mSearchEdit = (EditText) findViewById(R.id.address_search_edit);
         mCityTV = (TextView) findViewById(R.id.address_search_city);
         mErrorLL = (LinearLayout) findViewById(R.id.address_search_error);
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

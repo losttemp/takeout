@@ -1,40 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
     android:background="@color/gray_bg"
-    android:padding="@dimen/px40dp"
-    android:orientation="horizontal">
-
-    <TextView
-        android:id="@+id/poi_item_num"
-        android:textSize="@dimen/px50sp"
-        android:layout_width="@dimen/px90dp"
-        android:layout_height="match_parent"
-        android:textColor="@color/white" />
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/poi_item_name"
+            android:id="@+id/poi_item_num"
             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/px36dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px48sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/white" />
+            android:layout_marginLeft="@dimen/px68dp"
+            android:layout_marginTop="@dimen/px36dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/poi_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp"/>
+
+            <TextView
+                android:id="@+id/poi_item_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px24dp"
+                android:textSize="@dimen/px30sp"
+                android:textColor="@color/white_88" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/poi_item_address"
+            android:id="@+id/poi_item_distance"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/px46dp"
             android:textColor="@color/white_88" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/poi_item_distance"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textColor="@color/white_88" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px2dp"
+        android:layout_marginTop="@dimen/px40dp"
+        android:background="@color/dark_gray" />
 </LinearLayout>
