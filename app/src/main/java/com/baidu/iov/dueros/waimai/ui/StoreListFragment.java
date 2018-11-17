@@ -292,6 +292,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		if (mStoreList.size() == 0) {
 			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
 				mLlFilter.setVisibility(View.GONE);
+				mView.setVisibility(View.GONE);
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
 						.no_search_result_keyword));
 				((SearchActivity)mContext).setmEtTipNoResult();
@@ -305,6 +306,11 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				}
 			}
 			mTvTipNoResult.setVisibility(View.VISIBLE);
+			mRefreshLayout.setVisibility(View.GONE);
+		}else{
+			mView.setVisibility(View.VISIBLE);
+			mTvTipNoResult.setVisibility(View.GONE);
+			mRefreshLayout.setVisibility(View.VISIBLE);
 		}
 
 		if (mRefreshLayout.isRefreshing()) {
