@@ -4,16 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
+import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-
-public class RecommendShopActivity extends AppCompatActivity implements View.OnClickListener {
+public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
+        HomePresenter.HomeUi, View.OnClickListener {
 
     private Button btnBack;
     
@@ -34,6 +34,16 @@ public class RecommendShopActivity extends AppCompatActivity implements View.OnC
     private StoreReq mStoreReq;
 
     @Override
+    HomePresenter createPresenter() {
+        return new HomePresenter();
+    }
+
+    @Override
+    HomePresenter.HomeUi getUi() {
+        return this;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
@@ -42,6 +52,7 @@ public class RecommendShopActivity extends AppCompatActivity implements View.OnC
         initData();
         setListener();
     }
+    
 
     public void getIntentData() {
         Intent intent=getIntent();
