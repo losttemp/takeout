@@ -25,6 +25,10 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		HomePresenter.HomeUi, View.OnClickListener {
 
 	private static final String TAG = StoreListFragment.class.getSimpleName();
+	private RelativeLayout mRlFood;
+	private RelativeLayout mRlFlower;
+	private RelativeLayout mRlCake;
+
 	private TextView mTvFood;
 	private TextView mTvFlower;
 	private TextView mTvCake;
@@ -56,6 +60,9 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	}
 
 	private void iniView() {
+		mRlFood = findViewById(R.id.rl_food);
+		mRlFlower = findViewById(R.id.rl_flower);
+		mRlCake =  findViewById(R.id.rl_cake);
 		mTvFood = findViewById(R.id.tv_food);
 		mTvFlower = findViewById(R.id.tv_flower);
 		mTvCake =  findViewById(R.id.tv_cake);
@@ -83,9 +90,9 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 		mIvBack.setOnClickListener(this);
 		mIvRight.setOnClickListener(this);
-		mTvFlower.setOnClickListener(this);
-		mTvCake.setOnClickListener(this);
-		mTvFood.setOnClickListener(this);
+		mRlFlower.setOnClickListener(this);
+		mRlFood.setOnClickListener(this);
+		mRlCake.setOnClickListener(this);
 		mTvTitle.setOnClickListener(this);
 		mRlSearch.setOnClickListener(this);
 
@@ -113,19 +120,19 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 				startActivity(searchIntent);
 				break;
 
-			case R.id.tv_flower:
+			case R.id.rl_flower:
 				Intent flowerIntent = new Intent(this, RecommendShopActivity.class);
 				flowerIntent.putExtra("title", mTvFlower.getText().toString());
 				startActivity(flowerIntent);
 				break;
 
-			case R.id.tv_cake:
+			case R.id.rl_cake:
 				Intent cakeIntent = new Intent(this, RecommendShopActivity.class);
 				cakeIntent.putExtra("title", mTvCake.getText().toString());
 				startActivity(cakeIntent);
 				break;
 
-			case R.id.tv_food:
+			case R.id.rl_food:
 				Intent foodIntent = new Intent(this, FoodActivity.class);
 				foodIntent.putExtra("title", mTvFlower.getText().toString());
 				startActivity(foodIntent);
