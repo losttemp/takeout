@@ -61,6 +61,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private RecyclerView mRvStore;
 	private View mViewBg;
 	private AppCompatTextView mTvTipNoResult;
+	
+	private  RelativeLayout mRlTipNoResult;
+	
 
 	private Context mContext;
 	private StoreListPresenter mPresenter;
@@ -118,6 +121,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mViewBg = (View) view.findViewById(R.id.view_bg);
 		mView= (View) view.findViewById(R.id.view);
 		mTvTipNoResult = (AppCompatTextView) view.findViewById(R.id.tv_tip_no_result);
+		mRlTipNoResult = (RelativeLayout) view.findViewById(R.id.rl_tip_no_result);
 
 	}
 
@@ -305,11 +309,11 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 							.no_search_result_position));
 				}
 			}
-			mTvTipNoResult.setVisibility(View.VISIBLE);
+			mRlTipNoResult.setVisibility(View.VISIBLE);
 			mRefreshLayout.setVisibility(View.GONE);
 		}else{
 			mView.setVisibility(View.VISIBLE);
-			mTvTipNoResult.setVisibility(View.GONE);
+			mRlTipNoResult.setVisibility(View.GONE);
 			mRefreshLayout.setVisibility(View.VISIBLE);
 		}
 
@@ -404,7 +408,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			return;
 		}
 
-		if (mTvTipNoResult.getVisibility() == View.GONE) {
+		if (mRlTipNoResult.getVisibility() == View.GONE) {
 			if (mRvStore != null) {
 				mRvStore.smoothScrollToPosition(mStoreAdaper.getItemCount() - 1);
 			}
@@ -455,7 +459,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		storeReq.setPage_index(1);
 		mPresenter.requestStoreList(storeReq);
 		mStoreReq = storeReq;
-		mTvTipNoResult.setVisibility(View.GONE);
+		mRlTipNoResult.setVisibility(View.GONE);
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH &&
 				mLlFilter.getVisibility() == View.GONE) {
 			mLlFilter.setVisibility(View.VISIBLE);

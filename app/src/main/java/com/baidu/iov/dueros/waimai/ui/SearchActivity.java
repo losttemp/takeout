@@ -28,6 +28,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.presenter.SearchPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
@@ -54,6 +55,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private StoreListFragment mStoreListFragment;
 	private List<SearchSuggestResponse.MeituanBean.DataBean.SuggestBean> mSuggests;
 	private int mCurrentStatus;
+
+	private static final int HEAD_NUM=1;
 
 
 	@Override
@@ -91,6 +94,11 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mIvClean = (AppCompatImageView) findViewById(R.id.iv_clean);
 		mTvCancel = (AppCompatTextView) findViewById(R.id.tv_cancel);
 		mLvSuggest = (ListView) findViewById(R.id.lv_suggest);
+		
+		mLvHistory.addHeaderView(new View(this));
+		mLvHistory.addFooterView(new View(this));
+		mLvSuggest.addHeaderView(new View(this));
+		mLvSuggest.addFooterView(new View(this));
 	}
 
 	private void iniData() {
@@ -126,7 +134,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				searchKeyword(mHistorys.get(position));
+				searchKeyword(mHistorys.get(position-HEAD_NUM));
 			}
 		});
 
@@ -134,7 +142,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				SearchSuggestResponse.MeituanBean.DataBean.SuggestBean suggest = mSuggests.get
-						(position);
+						(position-HEAD_NUM);
 				if (suggest.getType() == 0 && suggest.getPoi_addition_info() != null) {
 					Intent intent = new Intent(SearchActivity.this, FoodListActivity.class);
 					intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id
