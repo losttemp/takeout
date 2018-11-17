@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
@@ -200,7 +201,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		private MultiplTextView tvMinPrice;
 		private MultiplTextView tvExpressPrice;
 		private MultiplTextView tvAveragePrice;
-		private MultiplTextView tvStoreIndex;
+		private TextView tvStoreIndex;
 		private View viewMaskLayer;
 		private RelativeLayout rlDiscount;
 		private RecyclerView rvStoreDiscount;
