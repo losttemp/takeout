@@ -5,25 +5,19 @@
 	android:layout_width="match_parent"
 	android:layout_height="@dimen/px126dp">
 
-	<com.domain.multipltextview.MultiplTextView
-		app:removeDefaultPadding="true"
+	<TextView
 		android:id="@+id/tv_history_num"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
-		android:layout_marginTop="@dimen/px42dp"
-		android:layout_marginBottom="@dimen/px42dp"
 		android:textColor="@color/white"
 		android:textSize="@dimen/px40sp"
 		tools:text="1" />
 
-	<com.domain.multipltextview.MultiplTextView
-		app:removeDefaultPadding="true"
+	<TextView
 		android:id="@+id/tv_history_name"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/px44dp"
-		android:layout_marginBottom="@dimen/px44dp"
 		android:layout_marginLeft="@dimen/px70dp"
 		android:layout_centerVertical="true"
 		android:layout_toRightOf="@+id/tv_history_num"

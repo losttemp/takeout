@@ -72,8 +72,8 @@ public class SearchHistroyAdapter extends BaseAdapter {
 	}
 
 	public static class ViewHolder {
-		private MultiplTextView tvHistoryNum;
-		private MultiplTextView tvHistoryName;
+		private TextView tvHistoryNum;
+		private TextView tvHistoryName;
 		private AppCompatImageView ivDelete;
 
 	}
