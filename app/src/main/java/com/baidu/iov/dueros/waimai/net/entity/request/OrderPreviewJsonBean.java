@@ -84,7 +84,7 @@ public class OrderPreviewJsonBean {
 
             private int wm_food_sku_id;
             private int count;
-            private List<Integer> food_spu_attr_ids;
+            private List<Long> food_spu_attr_ids;
 
             public int getWm_food_sku_id() {
                 return wm_food_sku_id;
@@ -102,11 +102,11 @@ public class OrderPreviewJsonBean {
                 this.count = count;
             }
 
-            public List<Integer> getFood_spu_attr_ids() {
+            public List<Long> getFood_spu_attr_ids() {
                 return food_spu_attr_ids;
             }
 
-            public void setFood_spu_attr_ids(List<Integer> food_spu_attr_ids) {
+            public void setFood_spu_attr_ids(List<Long> food_spu_attr_ids) {
                 this.food_spu_attr_ids = food_spu_attr_ids;
             }
         }

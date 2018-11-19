@@ -134,6 +134,13 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             for (OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean previewDetailVoListBean : wmOrderingPreviewDetailVoListBean) {
 
                 OrderSubmitJsonBean.WmOrderingListBean.FoodListBean foodListBean = new OrderSubmitJsonBean.WmOrderingListBean.FoodListBean();
+
+                List<Long> food_spu_attr_ids = new ArrayList<>();
+                for (OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean.WmOrderingPreviewFoodSpuAttrListBean wmOrderingPreviewFoodSpuAttrListBean : previewDetailVoListBean.getWm_ordering_preview_food_spu_attr_list()){
+                    long id = wmOrderingPreviewFoodSpuAttrListBean.getId();
+                    food_spu_attr_ids.add(id);
+                }
+                foodListBean.setFood_spu_attr_ids(food_spu_attr_ids);
                 foodListBean.setCount(previewDetailVoListBean.getCount());
                 foodListBean.setWm_food_sku_id(previewDetailVoListBean.getWm_food_sku_id());
                 foodListBeans.add(foodListBean);
@@ -195,6 +202,13 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         List<OrderPreviewJsonBean.WmOrderingListBean.FoodListBean> foodListBeans = new ArrayList<>();
         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
             OrderPreviewJsonBean.WmOrderingListBean.FoodListBean foodListBean = new OrderPreviewJsonBean.WmOrderingListBean.FoodListBean();
+
+            List<Long> food_spu_attr_ids = new ArrayList<>();
+            for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : spusBean.getAttrs()){
+                long id = attrsBean.getChoiceAttrs().get(0).getId();
+                food_spu_attr_ids.add(id);
+            }
+            foodListBean.setFood_spu_attr_ids(food_spu_attr_ids);
             foodListBean.setCount(spusBean.getNumber());
             foodListBean.setWm_food_sku_id(spusBean.getSkus().get(0).getId());
             foodListBeans.add(foodListBean);

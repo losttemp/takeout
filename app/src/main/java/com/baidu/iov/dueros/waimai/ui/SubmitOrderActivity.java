@@ -157,7 +157,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         if (mProductList != null && mPoiInfo != null) {
 
-            showAllProduct(mProductList);
             String shopName = mPoiInfo.getName();
             mShopNameTv.setText(shopName);
             String deliveryType = mPoiInfo.getDelivery_type() == 1 ? getString(R.string.delivery_type1_text)
@@ -181,11 +180,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         }
     }
 
-
-    public void showAllProduct(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList) {
+    public void showAllProductItem(List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBeanList) {
 
         mProductInfoListview.removeAllViews();
-        for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : productList) {
+        for (OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean wmOrderingPreviewDetailVoListBean : wmOrderingPreviewDetailVoListBeanList) {
 
             LayoutInflater inflater = this.getLayoutInflater();
             final RelativeLayout viewItem = (RelativeLayout) inflater.inflate(R.layout.product_info_item, null);
@@ -199,19 +197,17 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             TextView tv_origin_price = viewItem.findViewById(R.id.origin_price);
             TextView tv_discounts = viewItem.findViewById(R.id.product_discount);
 
-            String pictureUrl = spusBean.getPicture();
-            String name = spusBean.getName();
+            String pictureUrl = wmOrderingPreviewDetailVoListBean.getPicture();
+            String name = wmOrderingPreviewDetailVoListBean.getFood_name();
 
-            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrsBeanList;
-            attrsBeanList = spusBean.getAttrs();
-            StringBuilder attrs = new StringBuilder();
+            if (wmOrderingPreviewDetailVoListBean.getWm_ordering_preview_food_spu_attr_list().size() > 0) {
+                for (OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean.WmOrderingPreviewFoodSpuAttrListBean wmOrderingPreviewFoodSpuAttrListBean : wmOrderingPreviewDetailVoListBean.getWm_ordering_preview_food_spu_attr_list()) {
+                    String value = wmOrderingPreviewFoodSpuAttrListBean.getValue();
+                    StringBuilder attrs = new StringBuilder();
+                    attrs.append(value + " ");
 
-            if (attrsBeanList.size() > 0) {
-                for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrsBeanList) {
-                    for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean valuesBean : attrsBean.getChoiceAttrs())
-                        attrs.append(valuesBean.getValue() + " ");
+                    tv_attrs.setText(attrs.toString());
                 }
-                tv_attrs.setText(attrs.toString());
                 tv_attrs.setVisibility(View.VISIBLE);
             } else {
                 tv_attrs.setVisibility(View.INVISIBLE);
@@ -219,10 +215,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
 
             NumberFormat nf = new DecimalFormat("#.#");
-            int count = spusBean.getNumber();
-            double price = spusBean.getSkus().get(0).getPrice();
-            double origin_price = spusBean.getSkus().get(0).getOrigin_price();
-
+            int count = wmOrderingPreviewDetailVoListBean.getCount();
+            double price = wmOrderingPreviewDetailVoListBean.getFood_price();
+            double origin_price = wmOrderingPreviewDetailVoListBean.getOrigin_food_price();
             if (price < origin_price) {
                 tv_origin_price.setText(String.format(getResources().getString(R.string.cost_text), nf.format(origin_price)));
                 tv_origin_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -465,6 +460,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         int code = mOrderPreviewData.getCode();
         if (code == ORDER_PREVIEW_SUCCESS) {
+            showAllProductItem(mOrderPreviewData.getWm_ordering_preview_detail_vo_list());
             showAllDiscountItem();
             double shippingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getShipping_fee();
             mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
