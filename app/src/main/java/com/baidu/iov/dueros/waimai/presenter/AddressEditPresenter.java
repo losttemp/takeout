@@ -111,7 +111,7 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
         void updateAddressSuccess(AddressEditBean data);
         void updateAddressFail(String msg);
         void addAddressSuccess(AddressAddBean data);
-        void addAddressFail(String error);
+        void addAddressFail(String msg);
         void deleteAddressSuccess(AddressEditBean data);
         void deleteAddressFail(String msg);
     }

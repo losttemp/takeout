@@ -13,10 +13,9 @@
         android:textColor="@color/white"
         android:textSize="@dimen/px30sp" />
 
-    <com.baidu.iov.dueros.waimai.view.GoodsViewGroup
-        android:id="@+id/rg_group"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rl_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

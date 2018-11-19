@@ -53,9 +53,7 @@ import com.domain.multipltextview.MultiplTextView;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.TO_SHOW_SHOP_CART;
 
@@ -302,18 +300,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     @Override
     public void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag, int selection) {
-//        for (int i = 0; i < foodSpuTagsBeanName.size(); i++) {
-//            if (foodSpuTagsChoiceNum.get(i).containsKey(selection)) {
-//                Integer choiceNum = foodSpuTagsChoiceNum.get(selection).get(selection);
-//
-//                if (i == selection) {
-//                    choiceNum++;
-//                    Map map = new HashMap();
-//                    map.put(i, choiceNum);
-//                    foodSpuTagsChoiceNum.add(map);
-//                }
-//            }
-//        }
         for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
             if (selection == poifoodSpusTagsBeans.get(i).getIndex()) {
                 Integer number = poifoodSpusTagsBeans.get(i).getNumber();
@@ -630,16 +616,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 startActivity(intent);
                 break;
 
-//            case R.id.bg_layout:
-//                cardLayout.setVisibility(View.GONE);
-//                bg_layout.setVisibility(View.GONE);
-//                cardShopLayout.setVisibility(View.GONE);
-//                break;
-
             case R.id.tv_clear:
                 if (productList != null && productList.size() > 0) {
                     productList.clear();
-                    defaultText.setVisibility(View.VISIBLE);
                     for (int i = 0; i < foodSpuTagsBeans.size(); i++) {
                         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spus = foodSpuTagsBeans.get(i).getSpus();
                         for (int j = 0; j < spus.size(); j++) {
