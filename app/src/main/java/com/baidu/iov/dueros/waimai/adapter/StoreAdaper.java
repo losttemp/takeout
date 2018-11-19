@@ -134,11 +134,8 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 				public void onGlobalLayout() {
 					int lines = layoutManager.getLineRows();
 					if (lines > 1) {
-						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT *
-								lines);
 						viewHolder.ivStoreDiscount.setVisibility(View.VISIBLE);
 					} else {
-						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
 						viewHolder.ivStoreDiscount.setVisibility(View.GONE);
 					}
 
