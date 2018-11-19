@@ -41,7 +41,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/px20dp"
         android:layout_marginTop="@dimen/px20dp"
-        android:background="@color/gray"/>
+        android:background="@color/dark_gray"/>
 
     <RelativeLayout
         android:id="@+id/rl_search"
@@ -119,7 +119,7 @@
             android:layout_marginBottom="@dimen/px36dp"
             android:layout_below="@id/tv_first_category"
             android:layout_toRightOf="@id/lv_first_type"
-            android:background="@color/gray"/>
+            android:background="@color/dark_gray"/>
         <GridView
             android:id="@+id/gv_second_type"
             android:scrollbars="none"

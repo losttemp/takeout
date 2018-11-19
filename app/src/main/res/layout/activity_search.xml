@@ -124,7 +124,7 @@
             android:layout_marginLeft="@dimen/px84dp"
             android:layout_marginRight="@dimen/px84dp"
 			android:layout_marginTop="@dimen/px36dp"
-			android:divider="@color/gray"
+			android:divider="@color/dark_gray"
 			android:scrollbars="none"
 			android:dividerHeight="@dimen/px2dp"
 			tools:listitem="@layout/layout_search_history_item" />
@@ -135,7 +135,7 @@
 		android:id="@+id/lv_suggest"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:divider="@color/gray"
+		android:divider="@color/dark_gray"
 		android:layout_marginLeft="@dimen/px84dp"
 		android:layout_marginRight="@dimen/px84dp"
 		android:layout_marginTop="@dimen/px36dp"
