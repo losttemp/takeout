@@ -77,33 +77,22 @@
                     android:textSize="@dimen/px36sp"
                     app:removeDefaultPadding="true" />
 
-                <com.domain.multipltextview.MultiplTextView
+                <TextView
                     android:id="@+id/tv_bulletin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/px28dp"
                     android:alpha="0.6"
-                    android:ellipsize="end"
                     android:singleLine="true"
                     android:text="@string/notice"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/px30sp"
-                    app:removeDefaultPadding="true" />
+                    android:textSize="@dimen/px30sp" />
 
-                <com.domain.multipltextview.MultiplTextView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/tv_discounts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/px46dp"
-                    android:ellipsize="marquee"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:singleLine="true"
-                    android:text="@string/discount"
-                    android:textColor="@color/full_subtraction_bg"
-                    android:textSize="@dimen/px26sp"
-                    app:removeDefaultPadding="true" />
+                    android:layout_marginTop="@dimen/px28dp" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -180,6 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignRight="@+id/shopping_cart"
                 android:layout_alignTop="@+id/shopping_cart"
+                android:background="@drawable/point"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px24sp"
@@ -245,6 +235,35 @@
                 android:text="@string/confirmation_of_the_order"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px36sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_shop_close"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px150dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/dayangle"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/dayang" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/shop_close"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/px30sp" />
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 </FrameLayout>

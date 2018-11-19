@@ -125,7 +125,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
 
         } else {
             if (skusBeans.size() > 1) {
-                viewHolder.attrsName.setText(context.getString(R.string.specifications));
+                viewHolder.attrsName.setText(context.getString(R.string.specification));
                 final SpecificationAdapter specificationAdapter = new SpecificationAdapter(null, skusBeans);
                 viewHolder.recyclerview.setAdapter(specificationAdapter);
                 specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {

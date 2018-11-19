@@ -5,11 +5,14 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.ArrayMap;
 import android.view.Display;
 import android.view.Gravity;
@@ -33,29 +36,36 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.adapter.DiscountAdaper;
 import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusListAdapter;
 import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusTagsAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ShoppingCartAdapter;
+import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
 import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.PoifoodListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.PoifoodListPinnedHeaderListView;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.TO_SHOW_SHOP_CART;
+import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
 
 public class FoodListActivity extends BaseActivity<PoifoodListPresenter, PoifoodListPresenter.PoifoodListUi> implements PoifoodListPresenter.PoifoodListUi, View.OnClickListener, PoifoodSpusListAdapter.onCallBackListener, IShoppingCartToDetailListener {
     private static final String TAG = FoodListActivity.class.getSimpleName();
@@ -111,17 +121,17 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private ImageView mFinish;
     private MultiplTextView mShopTitle;
     private MultiplTextView mDelivery;
-    private MultiplTextView mBulletin;
-    private MultiplTextView mDiscounts;
+    private TextView mBulletin;
+    private RecyclerView mDiscounts;
     private ImageView mShopPicture;
     private List<Double> listFull;
     private List<Double> listReduce;
     private MultiplTextView mDiscount;
     private Integer discount;
     private double mDiscountNumber;
-    private MultiplTextView mDetailsNotice;
+    private TextView mDetailsNotice;
     private MultiplTextView mDetailsDistribution;
-    private MultiplTextView mDetailsDiscount;
+    private TextView mDetailsDiscount;
     private MultiplTextView mDetailsShopName;
     private Dialog mBottomDialog;
     private MultiplTextView mShopCartNum;
@@ -136,6 +146,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private MultiplTextView mNoProduct;
     private RelativeLayout mLlPrice;
     private List<String> foodSpuTagsBeanName;
+    private RelativeLayout mShopClose;
+    private RelativeLayout mToolBar;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -170,14 +182,16 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mFinish = (ImageView) findViewById(R.id.iv_finish);
         mShopTitle = (MultiplTextView) findViewById(R.id.tv_shop_title);
         mDelivery = (MultiplTextView) findViewById(R.id.tv_delivery);
-        mBulletin = (MultiplTextView) findViewById(R.id.tv_bulletin);
-        mDiscounts = (MultiplTextView) findViewById(R.id.tv_discounts);
+        mBulletin = (TextView) findViewById(R.id.tv_bulletin);
+        mDiscounts = (RecyclerView) findViewById(R.id.tv_discounts);
         mShopPicture = (ImageView) findViewById(R.id.iv_shop);
         mDiscount = (MultiplTextView) findViewById(R.id.tv_discount);
         mDistributionFee = (MultiplTextView) findViewById(R.id.tv_distribution_fee);
         mRlDiscount = (RelativeLayout) findViewById(R.id.rl_discount);
         mNoProduct = (MultiplTextView) findViewById(R.id.tv_no_product);
         mLlPrice = (RelativeLayout) findViewById(R.id.ll_price);
+        mShopClose = (RelativeLayout) findViewById(R.id.rl_shop_close);
+        mToolBar = (RelativeLayout) findViewById(R.id.toolBar);
     }
 
     @Override
@@ -641,12 +655,16 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
             case R.id.rl_store_details:
                 View popView = getPopView(R.layout.dialog_shop_details);
-                mDetailsNotice = (MultiplTextView) popView.findViewById(R.id.tv_notice);
+                mDetailsNotice = (TextView) popView.findViewById(R.id.tv_notice);
                 mDetailsShopName = (MultiplTextView) popView.findViewById(R.id.tv_shop_name);
                 mDetailsDistribution = (MultiplTextView) popView.findViewById(R.id.tv_details_distribution);
-                mDetailsDiscount = (MultiplTextView) popView.findViewById(R.id.tv_discount);
-
-                mDetailsDiscount.setText(mPoidetailinfoBean.getMeituan().getData().getDiscounts().get(0).getInfo());
+                mDetailsDiscount = (TextView) popView.findViewById(R.id.tv_discount);
+                StringBuffer stringBuffer = new StringBuffer();
+                for (int i = 0; i < mPoidetailinfoBean.getMeituan().getData().getDiscounts().size(); i++) {
+                    String info = mPoidetailinfoBean.getMeituan().getData().getDiscounts().get(i).getInfo();
+                    stringBuffer.append(info + "   ");
+                }
+                mDetailsDiscount.setText(stringBuffer);
                 mDetailsShopName.setText(mPoidetailinfoBean.getMeituan().getData().getName());
                 mDetailsDistribution.setText(getString(R.string.distribution_situation, "" + mPoidetailinfoBean.getMeituan().getData().getMin_price(),
                         "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee(), "" + mPoidetailinfoBean.getMeituan().getData().getAvg_delivery_time()));
@@ -834,13 +852,22 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void onPoidetailinfoSuccess(PoidetailinfoBean data) {
         mPoidetailinfoBean = data;
-        List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
-        StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i < data.getMeituan().getData().getDiscounts().size(); i++) {
-            String info = data.getMeituan().getData().getDiscounts().get(i).getInfo();
-            stringBuffer.append(info + "   ");
+        if (mPoidetailinfoBean.getMeituan().getData().getStatus() == 3) {
+            mShopClose.setVisibility(View.VISIBLE);
+            mToolBar.setVisibility(View.GONE);
+        } else {
+            mShopClose.setVisibility(View.GONE);
+            mToolBar.setVisibility(View.VISIBLE);
         }
-        mDiscounts.setText(stringBuffer);
+        List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
+        List<String> discountList = getDiscountList(discounts);
+        if (mDiscounts.getItemDecorationCount() == 0) {
+            mDiscounts.addItemDecoration(new SpaceItemDecoration(dp2px(3)));
+        }
+        final FlowLayoutManager layoutManager = new FlowLayoutManager();
+        mDiscounts.setLayoutManager(layoutManager);
+        DiscountAdaper discountAdaper = new DiscountAdaper(discountList);
+        mDiscounts.setAdapter(discountAdaper);
         settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
         mDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
         for (int i = 0; i < discounts.size(); i++) {
@@ -877,4 +904,35 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void onPoidetailinfoError(String error) {
         Lg.getInstance().d(TAG, "onPoidetailinfoError = " + error);
     }
+
+    private List<String> getDiscountList(List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts) {
+        List<String> list = new ArrayList<>();
+        List<String> discountList = new ArrayList<>();
+        for (PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean bean : discounts) {
+            String[] name = bean.getInfo().split(";");
+            list.addAll(Arrays.asList(name));
+        }
+        discountList.add(list.get(0));
+        discountList.add(list.get(1));
+        discountList.add(list.get(2));
+        return discountList;
+    }
+
+    class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpaceItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull
+                RecyclerView parent, @NonNull RecyclerView.State state) {
+            outRect.top = 0;
+            outRect.left = 0;
+            outRect.right = space;
+            outRect.bottom = space;
+        }
+    }
+
 }
