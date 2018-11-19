@@ -27,6 +27,7 @@ import com.baidu.iov.dueros.waimai.presenter.AddressEditPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
@@ -46,6 +47,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private RadioGroup radioGroup;
     private ClearEditText et_house_num;
     private boolean isEditMode;
+    private boolean isUpdateAddr = false;
     private int address_id;
     private AddressDeleteReq mAddressDelReq;
     private AddressEditReq mAddrEditReq;
@@ -155,42 +157,57 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             mAddressDelReq.setAddress_id(address_id);
             getPresenter().requestDeleteAddressData(mAddressDelReq);
         }
+        Toast.makeText(this, R.string.address_update_success, Toast.LENGTH_SHORT).show();
         finish();
     }
 
     @Override
     public void updateAddressFail(String msg) {
-
+        Toast.makeText(this, R.string.address_update_fail, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void addAddressSuccess(AddressAddBean data) {
-        address_id = data.getIov().getData().getAddress_id();
         if (isEditMode) {
-            mAddrEditReq.setAddress_id(address_id);
-            mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
-            getPresenter().requestUpdateAddressData(mAddrEditReq);
+            if (data.getIov().getData() != null) {
+                address_id = data.getIov().getData().getAddress_id();
+                mAddrEditReq.setAddress_id(address_id);
+                mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
+                getPresenter().requestUpdateAddressData(mAddrEditReq);
+            } else {
+                Toast.makeText(this, R.string.address_update_fail, Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Intent intent = new Intent(this, AddressSelectActivity.class);
-            startActivity(intent);
-            finish();
+            if (data.getIov().getData() != null) {
+                Toast.makeText(this, R.string.address_save_success, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, AddressSelectActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, String.format(getString(R.string.address_save_fail), data.getIov().getErrmsg()), Toast.LENGTH_LONG).show();
+            }
         }
 
     }
 
     @Override
     public void addAddressFail(String msg) {
-
+        Toast.makeText(this, String.format(getString(R.string.address_save_fail), msg), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void deleteAddressSuccess(AddressEditBean data) {
-        finish();
+        if (dataBean.getMt_address_id() == 0) {
+            Toast.makeText(this, R.string.address_delete_success, Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     @Override
     public void deleteAddressFail(String msg) {
-
+        if (isUpdateAddr == false) {
+            Toast.makeText(this, R.string.address_delete_fail, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -225,11 +242,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         String type = mTagListView.getmTagValue();
 
         if (TextUtils.isEmpty(et_name.getText())) {
-            Toast.makeText(this, "please check name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.address_check_name, Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(et_phone.getText())) {
-            Toast.makeText(this, "please check phone", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.address_check_phone, Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(address_tv.getText())) {
-            Toast.makeText(this, "please check address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.address_check_address, Toast.LENGTH_SHORT).show();
         } else {
             String house_num = et_house_num.getText().toString() + "";
             String name = Encryption.encrypt(et_name.getText() + "");
@@ -241,8 +258,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 latitude = dataBean.getLatitude();
                 longitude = dataBean.getLongitude();
             } else {
-                latitude = (int) mLocationBean.getPt().latitude;
-                longitude = (int) mLocationBean.getPt().longitude;
+                latitude = (int) mLocationBean.getPt().latitude * LocationManager.SPAN;
+                longitude = (int) mLocationBean.getPt().longitude * LocationManager.SPAN;
             }
 
             if (isEditMode) {
@@ -266,6 +283,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     mAddrAddReq.setSex(sex);
                     mAddrAddReq.setLatitude(latitude);
                     mAddrAddReq.setLongitude(longitude);
+                    isUpdateAddr = true;
                     getPresenter().requestAddAddressData(mAddrAddReq);
                 }
             } else {
@@ -278,6 +296,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrAddReq.setLongitude(longitude);
                 getPresenter().requestAddAddressData(mAddrAddReq);
             }
+            Toast.makeText(this, R.string.address_saving, Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -210,6 +210,16 @@
     <string name="address_title_select">我的收货地址</string>
     <string name="address_title_edit">编辑地址</string>
     <string name="address_title_search">收货地址</string>
+    <string name="address_saving">正在保存</string>
+    <string name="address_save_success">地址保存成功</string>
+    <string name="address_save_fail">%s,地址保存失败</string>
+    <string name="address_update_success">地址更新成功</string>
+    <string name="address_update_fail">地址更新失败</string>
+    <string name="address_delete_success">删除地址成功</string>
+    <string name="address_delete_fail">删除地址失败</string>
+    <string name="address_check_phone">手机号不能为空， 请完整填写您的信息 ～</string>
+    <string name="address_check_name">名称不能为空， 请完整填写您的信息 ～</string>
+    <string name="address_check_address">地址不能为空， 请完整填写您的信息 ～</string>
     <string name="order_cancel_toast">订单已取消</string>
 
 </resources>
