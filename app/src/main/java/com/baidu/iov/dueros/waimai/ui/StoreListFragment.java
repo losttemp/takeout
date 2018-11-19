@@ -80,7 +80,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean> mFilterList
 			= new ArrayList<>();
 	private StoreReq mStoreReq;
-	private FilterConditionReq mFilterConditionReq;
 	private SortPopWindow mSortPopWindow;
 	private FilterPopWindow mFilterPopWindow;
 	private int mFromPageType;
@@ -180,15 +179,15 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 							mTvSort.setText(type.getName());
 							loadFirstPage(mStoreReq);
 							mTvSales.setTextColor(mContext.getResources().getColor(
-									R.color.white));
+									R.color.dark_gray));
 							mTvDistance.setTextColor(mContext.getResources().getColor(
-									R.color.white));
+									R.color.dark_gray));
 						}
 					}));
 					mSortPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 						@Override
 						public void onDismiss() {
-							mTvSort.setTextColor(getResources().getColor(R.color.black));
+							//mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
 							mIvSort.setImageResource(R.drawable.arrow_down);
 							mViewBg.setVisibility(View.GONE);
 						}
@@ -197,7 +196,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				if (mSortList.size() == 0) {
 					requestFilterList();
 				}
-				mTvSort.setTextColor(getResources().getColor(R.color.black));
+				mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
 				mIvSort.setImageResource(R.drawable.arrow_up);
 				mSortPopWindow.showAsDropDown(mView);
 				mViewBg.setVisibility(View.VISIBLE);
@@ -211,9 +210,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 								public void onClickOk(String migFilter) {
 									mStoreReq.setMigFilter(migFilter);
 									if (!migFilter.isEmpty()){
-										mTvFilter.setTextColor(getResources().getColor(R.color.black));
+										mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
 									}else{
-										mTvFilter.setTextColor(getResources().getColor(R.color.gray));
+										mTvFilter.setTextColor(getResources().getColor(R.color.dark_gray));
 									}
 									loadFirstPage(mStoreReq);
 								}
@@ -230,7 +229,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				if (mFilterList.size() == 0) {
 					requestFilterList();
 				}
-				mTvFilter.setTextColor(getResources().getColor(R.color.black));
+				mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
 				mIvFilter.setImageResource(R.drawable.arrow_up);
 				mFilterPopWindow.showAsDropDown(mView);
 				mViewBg.setVisibility(View.VISIBLE);
@@ -242,18 +241,18 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mTvSort.setText(getResources().getString(R.string.store_sort));
 					mStoreReq.setSortType(SALE_NUM_SORT_INDEX);
 					mTvSales.setTextColor(mContext.getResources().getColor(
-							R.color.black));
+							R.color.filter_selected));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
-							R.color.white));
-					mTvSort.setTextColor(getResources().getColor(R.color.white));
+							R.color.dark_gray));
+					mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
 					loadFirstPage(mStoreReq);
 				}else {
 					mStoreReq.setSortType(COMPREHENSIVE);
 					mTvSales.setTextColor(mContext.getResources().getColor(
-							R.color.white));
+							R.color.dark_gray));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
-							R.color.white));
-					mTvSort.setTextColor(getResources().getColor(R.color.black));
+							R.color.dark_gray));
+					mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
 					loadFirstPage(mStoreReq);
 				}
 				break;
@@ -264,18 +263,18 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mTvSort.setText(getResources().getString(R.string.store_sort));
 					mStoreReq.setSortType(DISTANCE_SORT_INDEX);
 					mTvSales.setTextColor(mContext.getResources().getColor(
-							R.color.white));
+							R.color.dark_gray));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
-							R.color.black));
-					mTvSort.setTextColor(getResources().getColor(R.color.white));
+							R.color.filter_selected));
+					mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
 					loadFirstPage(mStoreReq);
 				}else {
 					mStoreReq.setSortType(COMPREHENSIVE);
 					mTvSales.setTextColor(mContext.getResources().getColor(
-							R.color.white));
+							R.color.dark_gray));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
-							R.color.white));
-					mTvSort.setTextColor(getResources().getColor(R.color.black));
+							R.color.dark_gray));
+					mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
 					loadFirstPage(mStoreReq);
 				}
 				break;

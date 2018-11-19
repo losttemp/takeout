@@ -134,7 +134,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 			case R.id.rl_food:
 				Intent foodIntent = new Intent(this, FoodActivity.class);
-				foodIntent.putExtra("title", mTvFlower.getText().toString());
+				foodIntent.putExtra("title", mTvFood.getText().toString());
 				startActivity(foodIntent);
 				break;
 

@@ -11,7 +11,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="@dimen/px84dp"
 		android:layout_marginRight="@dimen/px84dp"
-		android:divider="@color/gray"
+		android:divider="@color/dark_gray"
 		android:dividerHeight="1dp"
 		android:scrollbars="none"
 		tools:listitem="@layout/layout_pop_filter_type_item" />

@@ -30,7 +30,7 @@
 				android:gravity="center"
 				android:maxLines="1"
 				android:text="@string/store_sort"
-				android:textColor="@color/white"
+				android:textColor="@color/dark_gray"
 				android:textSize="@dimen/px30sp" />
 
 			<android.support.v7.widget.AppCompatImageView
@@ -51,7 +51,7 @@
 			android:layout_weight="1"
 			android:gravity="center"
 			android:text="@string/store_sales"
-			android:textColor="@color/white"
+			android:textColor="@color/dark_gray"
 			android:textSize="@dimen/px30sp" />
 
 		<android.support.v7.widget.AppCompatTextView
@@ -61,7 +61,7 @@
 			android:layout_weight="1"
 			android:gravity="center"
 			android:text="@string/store_distance"
-			android:textColor="@color/white"
+			android:textColor="@color/dark_gray"
 			android:textSize="@dimen/px30sp" />
 
 		<RelativeLayout
@@ -78,7 +78,7 @@
 				android:layout_height="wrap_content"
 				android:gravity="center"
 				android:text="@string/store_filter"
-				android:textColor="@color/white"
+				android:textColor="@color/dark_gray"
 				android:textSize="@dimen/px30sp" />
 
 			<android.support.v7.widget.AppCompatImageView
