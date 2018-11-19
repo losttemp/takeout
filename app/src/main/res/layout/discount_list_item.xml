@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:background="@drawable/layout_border_shape"
-    android:gravity="center_vertical">
+    android:layout_height="@dimen/px126dp">
 
-    <TextView
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px2dp"
+        android:layout_marginEnd="@dimen/px84dp"
+        android:layout_marginStart="@dimen/px84dp"
+        android:layout_alignParentTop="true"
+        android:alpha="0.06"
+        android:background="@color/white" />
+
+    <com.domain.multipltextview.MultiplTextView
         android:id="@+id/discount_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp" />
+        android:layout_marginStart="@dimen/px84dp"
+        android:layout_centerVertical="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px36sp"
+        app:removeDefaultPadding="true" />
 
-    <TextView
+    <com.domain.multipltextview.MultiplTextView
         android:id="@+id/discount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="10dp" />
+        android:layout_marginEnd="@dimen/px84dp"
+        android:textColor="@color/white"
+        android:layout_centerVertical="true"
+        android:textSize="@dimen/px40sp"
+        app:removeDefaultPadding="true" />
 
 </RelativeLayout>

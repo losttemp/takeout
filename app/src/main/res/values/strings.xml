@@ -109,6 +109,8 @@
     <string name="order_cancelled">订单已取消</string>
     <string name="cancel">取消</string>
     <string name="select_address">选择收货地址</string>
+    <string name="select_arrive_time">选择到达目时间</string>
+    <string name="submit_order_title">提交订单</string>
     <string name="add_address">新增收货地址</string>
     <string name="network_anomaly">您的网络好像不太给力，请稍候再试</string>
     <string name="reload">重新加载</string>
@@ -136,7 +138,8 @@
     <string name="pay_order_id">订单编号</string>
     <string name="pay_shop_name">店铺名称</string>
     <string name="pay_hint">请使用微信或支付宝扫码支付</string>
-    <string name="submit_total">合计 \&#165;%2.2f</string>
+    <string name="total">合计：</string>
+    <string name="submit_total">%2.2f元</string>
     <string name="submit_discount">已优惠 \&#165;%s</string>
     <string name="pay_title">支付超时</string>
     <string name="pay_time_out">支付超时,请重新下单。</string>

@@ -190,8 +190,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginEnd="@dimen/px370dp"
         android:layout_marginStart="@dimen/px370dp"
-        android:layout_marginTop="@dimen/px164dp"
-        android:background="@drawable/tagbg2" />
+        android:layout_marginTop="@dimen/px164dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,44 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/delivery_bg"
+    android:background="@drawable/app_bg"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/arrival_time_title"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_height="@dimen/px120dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/cancel_action"
+            android:layout_width="@dimen/px96dp"
+            android:layout_height="@dimen/px96dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/px54dp"
+            android:background="@drawable/icon_close" />
+
+        <com.domain.multipltextview.MultiplTextView
+            android:id="@+id/select_shipping_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/px340dp"
+            android:layout_marginStart="@dimen/px210dp"
+            android:text="@string/select_arrive_time"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px40sp"
+            app:removeDefaultPadding="true" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px2dp"
+        android:layout_below="@+id/address_title"
+        android:layout_marginEnd="@dimen/px86dp"
+        android:layout_marginStart="@dimen/px84dp"
+        android:alpha="0.06"
+        android:background="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px630dp"
         android:orientation="horizontal">
 
         <ListView
             android:id="@+id/list_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:background="@color/white_bg"
-            android:divider="@null" />
+            android:layout_width="@dimen/px360dp"
+            android:layout_height="@dimen/px630dp"
+            android:background="@drawable/zuobianlan_bg"
+            android:divider="@null"
+            android:fastScrollEnabled="false"
+            android:listSelector="@android:color/transparent"
+            android:overScrollFooter="@android:color/transparent"
+            android:overScrollHeader="@android:color/transparent"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
 
         <ListView
             android:id="@+id/list_time"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/white_bg"
-            android:divider="@null" />
+            android:layout_height="@dimen/px630dp"
+            android:divider="@null"
+            android:fastScrollEnabled="false"
+            android:listSelector="@android:color/transparent"
+            android:overScrollFooter="@android:color/transparent"
+            android:overScrollHeader="@android:color/transparent"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider" />
-
-    <TextView
-        android:id="@+id/tv_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/white_bg"
-        android:gravity="center"
-        android:text="@string/cancel" />
 </LinearLayout>

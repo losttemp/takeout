@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     private final static String TAG = AddressListActivity.class.getSimpleName();
     private ArrayMap<String, String> map;
     private ImageView mCancelImg;
-    private ImageView mAddImg;
+    private Button mAddBtn;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private AddressListAdapter mAddressListAdapter;
@@ -54,7 +55,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_list);
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 1000);
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.px962dp));
         getWindow().setGravity(Gravity.TOP);
 
         initView();
@@ -69,9 +70,9 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         }
 
         mCancelImg = findViewById(R.id.cancel_action);
-        mAddImg = findViewById(R.id.img_add);
+        mAddBtn = findViewById(R.id.img_add);
         mCancelImg.setOnClickListener(this);
-        mAddImg.setOnClickListener(this);
+        mAddBtn.setOnClickListener(this);
 
         mRecyclerView = findViewById(R.id.address_list);
         int orientation = RecyclerView.VERTICAL;
@@ -119,18 +120,23 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         View header = LayoutInflater.from(this).inflate(R.layout.address_title_item, mRecyclerView, false);
         TextView addressTv = header.findViewById(R.id.tv_address_title);
         TextView typeTv = header.findViewById(R.id.tv_address_type_title);
-        TextView phoneTv = header.findViewById(R.id.tv_phone_title);
         TextView nameTv = header.findViewById(R.id.tv_name_title);
 
         try {
             addressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
             if (mAddressData.getType() != null) {
+                if (getString(R.string.address_tag_home).equals(mAddressData.getType())) {
+                    typeTv.setBackgroundResource(R.drawable.tag_bg_green);
+                } else {
+                    typeTv.setBackgroundResource(R.drawable.tag_bg_blue);
+                }
                 typeTv.setText(mAddressData.getType());
             } else {
                 typeTv.setText(getString(R.string.address_tag_other));
+                typeTv.setBackgroundResource(R.drawable.tag_bg);
             }
-            phoneTv.setText(Encryption.desEncrypt(mAddressData.getUser_phone()));
-            nameTv.setText(Encryption.desEncrypt(mAddressData.getUser_name()));
+
+            nameTv.setText(Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone()));
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -81,15 +81,11 @@ public class DeliveryTimeAdapter extends BaseAdapter {
             viewHolder.tv_time.setText(time);
         }
         viewHolder.tv_cost.setText(shipping_fee);
-        viewHolder.img_select.setImageResource(R.drawable.ic_select);
+        viewHolder.img_select.setImageResource(R.drawable.choose_64);
 
         if (mTimepos == position && mDatePos == mPreDatePos) {
-            viewHolder.tv_time.setSelected(true);
-            viewHolder.tv_cost.setSelected(true);
             viewHolder.img_select.setVisibility(View.VISIBLE);
         } else {
-            viewHolder.tv_time.setSelected(false);
-            viewHolder.tv_cost.setSelected(false);
             viewHolder.img_select.setVisibility(View.INVISIBLE);
         }
 

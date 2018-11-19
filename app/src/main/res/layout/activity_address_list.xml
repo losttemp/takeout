@@ -1,80 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_bg"
+    android:background="@drawable/app_bg"
     tools:context="com.baidu.iov.dueros.waimai.ui.AddressListActivity">
 
     <RelativeLayout
         android:id="@+id/address_title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/gray">
+        android:layout_height="@dimen/px120dp">
 
 
         <ImageView
             android:id="@+id/cancel_action"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/px96dp"
+            android:layout_height="@dimen/px96dp"
+            android:layout_marginBottom="@dimen/px14dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:background="@drawable/ic_close" />
+            android:layout_marginStart="@dimen/px54dp"
+            android:background="@drawable/icon_close" />
 
-        <TextView
+        <com.domain.multipltextview.MultiplTextView
             android:id="@+id/select_shipping_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/cancel_action"
+            android:layout_marginEnd="@dimen/px340dp"
+            android:layout_marginStart="@dimen/px210dp"
+            android:layout_centerVertical="true"
             android:text="@string/select_address"
-            android:textSize="20sp" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/px40sp"
+            app:removeDefaultPadding="true" />
 
     </RelativeLayout>
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="@dimen/px2dp"
         android:layout_below="@+id/address_title"
-        android:background="@color/divider" />
+        android:layout_marginEnd="@dimen/px86dp"
+        android:layout_marginStart="@dimen/px84dp"
+        android:alpha="0.06"
+        android:background="@color/white" />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/address_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/divider"
-        android:layout_above="@+id/divider1"/>
+        android:layout_above="@+id/divider1"
+        android:layout_below="@+id/divider" />
 
     <View
         android:id="@+id/divider1"
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_above="@+id/footview_bar"
-        android:background="@color/divider" />
+        android:layout_height="@dimen/px2dp"
+        android:layout_above="@+id/img_add"
+        android:layout_marginEnd="@dimen/px86dp"
+        android:layout_marginStart="@dimen/px84dp"
+        android:alpha="0.06"
+        android:background="@color/white" />
 
-    <LinearLayout
-        android:id="@+id/footview_bar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
+        <Button
             android:id="@+id/img_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/address__update_icn"
-            android:scaleType="fitCenter" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_width="@dimen/px540dp"
+            android:layout_height="@dimen/px108dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/px32dp"
+            android:layout_marginBottom="@dimen/px32dp"
             android:text="@string/add_address"
-            android:textSize="20sp" />
-    </LinearLayout>
-
+            android:gravity="center"
+            android:textSize="@dimen/px36sp"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_2" />
 
 </RelativeLayout>

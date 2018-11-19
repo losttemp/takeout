@@ -45,6 +45,11 @@
     <color name="payment_text_color">#00df7b</color>
     <color name="payment_amount_color">#ffc600</color>
     <color name="payment_orcer_color">#ffffff</color>
+    <color name="select_date_color">#00dbff</color>
+    <color name="delivery_type_color">#0adfff</color>
+    <color name="discount_WarnTip_color">#00a0b9</color>
+    <color name="to_pay_color">#3c4650</color>
+    <color name="money_color">#ffc600</color>
 
     <color name="goods_item_text_normal">#ff8000</color>
     <color name="goods_item_text_selected">#ffffff</color>

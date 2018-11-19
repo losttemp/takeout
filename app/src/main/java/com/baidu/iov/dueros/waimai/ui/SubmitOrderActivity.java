@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -75,7 +76,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private LinearLayout mProductInfoListview;
     private TextView mPackingFee;
     private TextView mShippingFeeTv;
-    private TextView mToPayTv;
+    private Button mToPayTv;
     private TextView mDiscountTv;
     private TextView mShopNameTv;
     private TextView mArriveTimeTv;
@@ -83,9 +84,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private TextView mDeliveryTypeTv;
     private TextView mAddressTv;
     private TextView mUserNameTv;
-    private TextView mUserPhoneTv;
     private TextView mTotalTv;
     private TextView mDiscountWarnTipTv;
+    private RelativeLayout mWarnTipParent;
+    private ImageView mBackImg;
 
     private List<ArriveTimeBean.MeituanBean.DataBean> mDataBean;
     private AddressListBean.IovBean.DataBean mAddressData;
@@ -130,7 +132,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         mAddressTv = findViewById(R.id.tv_address);
         mUserNameTv = findViewById(R.id.tv_name);
-        mUserPhoneTv = findViewById(R.id.tv_phone);
         mToPayTv = findViewById(R.id.to_pay);
         mToPayTv.setOnClickListener(this);
         mTypeTipTv = findViewById(R.id.type_tip);
@@ -145,14 +146,16 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mDiscountTv = findViewById(R.id.discount_exists);
         mTotalTv = findViewById(R.id.total);
         mDiscountWarnTipTv = findViewById(R.id.discount_WarnTip);
+        mWarnTipParent = findViewById(R.id.warntip_parent);
         mDiscountsLayout = findViewById(R.id.discounts_layout);
+        mBackImg = findViewById(R.id.back_action);
 
+        mBackImg.setOnClickListener(this);
         mArrivetimeLayout.setOnClickListener(this);
         mAddressUpdateLayout.setOnClickListener(this);
 
         if (mProductList != null && mPoiInfo != null) {
 
-            showAllProduct(mProductList);
             String shopName = mPoiInfo.getName();
             mShopNameTv.setText(shopName);
             String deliveryType = mPoiInfo.getDelivery_type() == 1 ? getString(R.string.delivery_type1_text)
@@ -166,8 +169,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
             try {
                 mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
-                mUserNameTv.setText(Encryption.desEncrypt(mAddressData.getUser_name()));
-                mUserPhoneTv.setText(Encryption.desEncrypt(mAddressData.getUser_phone()));
+                String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
+                        + Encryption.desEncrypt(mAddressData.getUser_phone());
+                mUserNameTv.setText(address);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -176,10 +180,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     }
 
 
-    public void showAllProduct(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList) {
+    public void showAllProductItem(List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBeanList) {
 
         mProductInfoListview.removeAllViews();
-        for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : productList) {
+        for (OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean wmOrderingPreviewDetailVoListBean : wmOrderingPreviewDetailVoListBeanList) {
 
             LayoutInflater inflater = this.getLayoutInflater();
             final RelativeLayout viewItem = (RelativeLayout) inflater.inflate(R.layout.product_info_item, null);
@@ -193,31 +197,34 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             TextView tv_origin_price = viewItem.findViewById(R.id.origin_price);
             TextView tv_discounts = viewItem.findViewById(R.id.product_discount);
 
-            String pictureUrl = spusBean.getPicture();
-            String name = spusBean.getName();
+            String pictureUrl = wmOrderingPreviewDetailVoListBean.getPicture();
+            String name = wmOrderingPreviewDetailVoListBean.getFood_name();
 
-            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrsBeanList;
-            attrsBeanList = spusBean.getAttrs();
-            StringBuilder attrs = new StringBuilder();
+            for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : mProductList) {
+                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrsBeanList;
+                if (wmOrderingPreviewDetailVoListBean.getWm_food_spu_id() == spusBean.getId()) {
+                    attrsBeanList = spusBean.getAttrs();
+                    StringBuilder attrs = new StringBuilder();
 
-            if (attrsBeanList.size() > 0) {
-                for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrsBeanList) {
-                    for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean valuesBean : attrsBean.getChoiceAttrs())
-                        attrs.append(valuesBean.getValue() + " ");
+                    if (attrsBeanList.size() > 0) {
+                        for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrsBeanList) {
+                            for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean valuesBean : attrsBean.getChoiceAttrs())
+                                attrs.append(valuesBean.getValue() + " ");
+                        }
+                        tv_attrs.setText(attrs.toString());
+                        tv_attrs.setVisibility(View.VISIBLE);
+                    } else {
+                        tv_attrs.setVisibility(View.INVISIBLE);
+                    }
+
                 }
-                tv_attrs.setText(attrs.toString());
-                tv_attrs.setVisibility(View.VISIBLE);
-            } else {
-                tv_attrs.setVisibility(View.INVISIBLE);
+
             }
-
-
             NumberFormat nf = new DecimalFormat("#.#");
-            int count = spusBean.getNumber();
-            double price = spusBean.getSkus().get(0).getPrice();
-            double origin_price = spusBean.getSkus().get(0).getOrigin_price();
-
-            if (price > origin_price) {
+            int count = wmOrderingPreviewDetailVoListBean.getCount();
+            double price = wmOrderingPreviewDetailVoListBean.getFood_price();
+            double origin_price = wmOrderingPreviewDetailVoListBean.getOrigin_food_price();
+            if (price < origin_price) {
                 tv_origin_price.setText(String.format(getResources().getString(R.string.cost_text), nf.format(origin_price)));
                 tv_origin_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 tv_origin_price.setVisibility(View.VISIBLE);
@@ -247,6 +254,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     public void onClick(View v) {
 
         switch (v.getId()) {
+
+            case R.id.back_action:
+                onBackPressed();
+                break;
             case R.id.address_info:
 
                 Intent intent = new Intent(this, AddressListActivity.class);
@@ -281,11 +292,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     private void showPopwindow() {
 
-        TextView tvCancel;
+        ImageView tvCancel;
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.arrive_time_layout, null);
 
-        final PopupWindow popWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, 500);
+        final PopupWindow popWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.px750dp));
         popWindow.setFocusable(true);
         ColorDrawable dw = new ColorDrawable(0xb0808080);
         popWindow.setBackgroundDrawable(dw);
@@ -294,7 +305,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         mListViewDate = view.findViewById(R.id.list_date);
         mListViewTime = view.findViewById(R.id.list_time);
-        tvCancel = view.findViewById(R.id.tv_cancel);
+        tvCancel = view.findViewById(R.id.cancel_action);
 
         mDateAdapter = new DeliveryDateAdapter(this);
         mListViewDate.setAdapter(mDateAdapter);
@@ -405,8 +416,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
                     try {
                         mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
-                        mUserNameTv.setText(Encryption.desEncrypt(mAddressData.getUser_name()));
-                        mUserPhoneTv.setText(Encryption.desEncrypt(mAddressData.getUser_phone()));
+                        String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
+                                + Encryption.desEncrypt(mAddressData.getUser_phone());
+                        mUserNameTv.setText(address);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -453,8 +466,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         int code = mOrderPreviewData.getCode();
         if (code == ORDER_PREVIEW_SUCCESS) {
+            showAllProductItem(mOrderPreviewData.getWm_ordering_preview_detail_vo_list());
+            showAllDiscountItem();
             double shippingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getShipping_fee();
             mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
+
 
             double packingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getBox_total_price();
             mPackingFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(packingFee)));
@@ -466,25 +482,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             double reduced = original_price - total;
             mDiscountTv.setText(String.format(getResources().getString(R.string.submit_discount), mNumberFormat.format(reduced)));
 
-            List<OrderPreviewBean.MeituanBean.DataBean.DiscountsBean> discountsBeanList = mOrderPreviewData.getDiscounts();
-            mDiscountsLayout.removeAllViews();
-            for (OrderPreviewBean.MeituanBean.DataBean.DiscountsBean discountsBean : discountsBeanList) {
-
-                LayoutInflater inflater = this.getLayoutInflater();
-                final LinearLayout discountItem = (LinearLayout) inflater.inflate(R.layout.discount_list_item, mDiscountsLayout);
-                TextView discount_name_tv = discountItem.findViewById(R.id.discount_name);
-                discount_name_tv.setText(discountsBean.getName());
-                TextView discount_info_tv = discountItem.findViewById(R.id.discount);
-                discount_info_tv.setText(String.format(getString(R.string.discount_money), mNumberFormat.format(discountsBean.getReduceFree())));
-
-            }
 
             String discount_WarnTip = mOrderPreviewData.getDiscountWarnTip();
             if (discount_WarnTip != null) {
                 mDiscountWarnTipTv.setText(discount_WarnTip);
-                mDiscountWarnTipTv.setVisibility(View.VISIBLE);
+                mWarnTipParent.setVisibility(View.VISIBLE);
             } else {
-                mDiscountWarnTipTv.setVisibility(View.GONE);
+                mWarnTipParent.setVisibility(View.GONE);
             }
 
             int estimate = mOrderPreviewData.getWm_ordering_preview_order_vo().getEstimate_arrival_time();
@@ -495,12 +499,27 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
             }
 
+
         } else {
             handlePreviewMsg(code);
         }
 
     }
 
+    public void showAllDiscountItem() {
+        List<OrderPreviewBean.MeituanBean.DataBean.DiscountsBean> discountsBeanList = mOrderPreviewData.getDiscounts();
+        mDiscountsLayout.removeAllViews();
+        for (OrderPreviewBean.MeituanBean.DataBean.DiscountsBean discountsBean : discountsBeanList) {
+            LayoutInflater inflater = this.getLayoutInflater();
+            final RelativeLayout discountItem = (RelativeLayout) inflater.inflate(R.layout.discount_list_item, mDiscountsLayout, false);
+            TextView discount_name_tv = discountItem.findViewById(R.id.discount_name);
+            discount_name_tv.setText(discountsBean.getName());
+            TextView discount_info_tv = discountItem.findViewById(R.id.discount);
+            discount_info_tv.setText(String.format(getString(R.string.discount_money), mNumberFormat.format(discountsBean.getReduceFree())));
+            mDiscountsLayout.addView(discountItem);
+        }
+
+    }
 
     private void handlePreviewMsg(int code) {
 
