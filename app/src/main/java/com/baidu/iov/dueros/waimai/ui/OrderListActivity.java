@@ -100,12 +100,12 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 switch (view.getId()) {
                     case R.id.tv_store_name:
                     case R.id.iv_click:
-                        Intent storeintent = new Intent(getApplicationContext(), FoodListActivity.class);
+                        Intent storeintent = new Intent(OrderListActivity.this, FoodListActivity.class);
                         storeintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         startActivity(storeintent);
                         break;
                     case R.id.one_more_order:
-                        Intent onemoreintent = new Intent(getApplicationContext(), FoodListActivity.class);
+                        Intent onemoreintent = new Intent(OrderListActivity.this, FoodListActivity.class);
                         onemoreintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         startActivity(onemoreintent);
                         break;
@@ -140,7 +140,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         dialog.show();
                         break;
                     default:
-                        Intent intent = new Intent(getApplicationContext(), OrderDetailsActivity.class);
+                        Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
                         intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         intent.putExtra(Constant.USER_PHONE, payloadBean.getUser_phone());
                         startActivity(intent);
