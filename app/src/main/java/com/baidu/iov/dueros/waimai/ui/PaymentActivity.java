@@ -29,6 +29,7 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.EXPECTED_TIME;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.ORDER_ID;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.PAY_URL;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.PIC_URL;
@@ -47,6 +48,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     private int mCount = 0;
     private Long mOrderId;
     private String mPicUrl;
+    private String mExpectedTime = null;
 
     public final static String USER_NAME = "user_name";
     public final static String USER_PHONE = "user_phone";
@@ -99,6 +101,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             double amount = intent.getDoubleExtra(TOTAL_COST, 0);
             mOrderId = intent.getLongExtra(ORDER_ID, 0);
             mPicUrl = intent.getStringExtra(PIC_URL);
+            mExpectedTime = intent.getStringExtra(EXPECTED_TIME);
             String shopName = intent.getStringExtra(SHOP_NAME);
             String payUrl = intent.getStringExtra(PAY_URL);
 
@@ -285,6 +288,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                 intent.putExtra(USER_PHONE, recipientPhone);
                 intent.putExtra(PRODUCT_NAME, foodNameOne);
                 intent.putExtra(PRODUCT_COUNT, count);
+                intent.putExtra(EXPECTED_TIME, mExpectedTime);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setClass(this, PaySuccessActivity.class);
                 startActivity(intent);
