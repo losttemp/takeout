@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="DropDownMenu">
-        <attr name="ddunderlineColor" format="color"/>
-        <attr name="ddtextSelectedColor" format="color"/>
-        <attr name="ddtextUnselectedColor" format="color"/>
-        <attr name="ddmenuBackgroundColor" format="color"/>
-        <attr name="ddmaskColor" format="color"/>
-        <attr name="ddmenuTextSize" format="dimension"/>
-        <attr name="ddmenuSelectedIcon" format="reference"/>
-        <attr name="ddmenuUnselectedIcon" format="reference"/>
-        <attr name="ddmenuMenuHeightPercent" format="float"/>
+        <attr name="ddunderlineColor" format="color" />
+        <attr name="ddtextSelectedColor" format="color" />
+        <attr name="ddtextUnselectedColor" format="color" />
+        <attr name="ddmenuBackgroundColor" format="color" />
+        <attr name="ddmaskColor" format="color" />
+        <attr name="ddmenuTextSize" format="dimension" />
+        <attr name="ddmenuSelectedIcon" format="reference" />
+        <attr name="ddmenuUnselectedIcon" format="reference" />
+        <attr name="ddmenuMenuHeightPercent" format="float" />
     </declare-styleable>
 
     <declare-styleable name="RatingBar">
@@ -34,16 +34,4 @@
         <attr name="dividerWidth" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="GoodsViewGroup">
-        <attr name="isSelector" format="boolean" />
-        <attr name="normal_drawable" format="reference" />
-        <attr name="selected_drawable" format="reference" />
-        <attr name="normal_textColor" format="color" />
-        <attr name="selected_textColor" format="color" />
-        <attr name="itemTextSize" format="dimension" />
-        <attr name="horInterval" format="dimension" />
-        <attr name="verInterval" format="dimension" />
-        <attr name="horPadding" format="dimension" />
-        <attr name="verPadding" format="dimension" />
-    </declare-styleable>
 </resources>
