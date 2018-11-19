@@ -1,55 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_bg"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="5dp">
+        android:layout_height="@dimen/px126dp">
 
         <ImageView
             android:id="@+id/iv_dismiss"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/px96dp"
+            android:layout_height="@dimen/px96dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_marginLeft="@dimen/px84dp"
+            android:src="@drawable/icon_close" />
 
-        <TextView
+        <com.domain.multipltextview.MultiplTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/shop_details" />
+            android:text="@string/shop_details"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px40sp"
+            app:removeDefaultPadding="true" />
     </RelativeLayout>
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px2dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
+        android:alpha="0.6"
+        android:background="@color/white" />
+
+    <com.domain.multipltextview.MultiplTextView
         android:id="@+id/tv_shop_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:text="@string/kfc" />
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px28dp"
+        android:text="@string/kfc"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px40sp"
+        app:removeDefaultPadding="true" />
 
-    <TextView
+    <com.domain.multipltextview.MultiplTextView
         android:id="@+id/tv_details_distribution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:text="@string/distribution_situation" />
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px20dp"
+        android:alpha="0.6"
+        android:text="@string/distribution_situation"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px30sp"
+        app:removeDefaultPadding="true" />
 
-    <TextView
+    <com.domain.multipltextview.MultiplTextView
         android:id="@id/tv_discount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:text="@string/discount" />
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px20dp"
+        android:text="@string/discount"
+        android:textColor="@color/full_subtraction_bg"
+        android:textSize="@dimen/px26sp"
+        app:removeDefaultPadding="true" />
 
-    <TextView
+    <com.domain.multipltextview.MultiplTextView
         android:id="@+id/tv_notice"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:text="@string/notice" />
-
-
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px28dp"
+        android:alpha="0.6"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px30sp"
+        app:removeDefaultPadding="true" />
 </LinearLayout>

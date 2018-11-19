@@ -55,4 +55,7 @@
     <color name="base_color">#262D37</color>
     <color name="pay_status">#00df7b</color>
     <color name="real_pay">#ffc600</color>
+    <color name="full_subtraction_bg">#ffc600</color>
+    <color name="preferential_information">#0adfff</color>
+    <color name="list_bg">#414A55</color>
 </resources>

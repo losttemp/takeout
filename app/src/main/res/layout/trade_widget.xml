@@ -1,117 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:gravity="center_vertical"
-    android:paddingBottom="6dp"
-    android:paddingTop="6dp">
+    android:layout_height="@dimen/px126dp">
 
 
     <LinearLayout
         android:id="@+id/ll_commodityName"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_centerVertical="true"
-        android:paddingLeft="20dp">
+        android:orientation="vertical">
 
-        <TextView
+        <com.domain.multipltextview.MultiplTextView
             android:id="@+id/commodityName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text=""
-            android:textColor="@color/black" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/px36sp"
+            app:removeDefaultPadding="true" />
 
-        <TextView
+        <com.domain.multipltextview.MultiplTextView
             android:id="@+id/tv_shop_specifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text=""
-            android:visibility="gone"/>
+            android:textColor="@color/white"
+            android:textSize="@dimen/px36sp"
+            android:visibility="gone"
+            app:removeDefaultPadding="true" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginRight="30dp"
-        android:layout_toLeftOf="@+id/choiceLayout"
-        android:layout_toRightOf="@+id/ll_commodityName"
-        android:gravity="center|right">
+        android:layout_marginRight="@dimen/px40dp"
+        android:layout_toLeftOf="@+id/choiceLayout">
 
-        <TextView
+        <com.domain.multipltextview.MultiplTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="¥"
-            android:textColor="#EB6100" />
+            android:textColor="@color/full_subtraction_bg"
+            android:textSize="@dimen/px40sp"
+            app:removeDefaultPadding="true" />
 
-        <TextView
+        <com.domain.multipltextview.MultiplTextView
             android:id="@+id/commodityPrise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:textColor="#EB6100" />
-
-        <TextView
-            android:id="@+id/commodityNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="件"
-            android:textColor="@color/black" />
+            android:textColor="@color/full_subtraction_bg"
+            android:textSize="@dimen/px40sp"
+            app:removeDefaultPadding="true" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/choiceLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/px164dp"
+        android:layout_height="@dimen/px52dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_gravity="center"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/shopping_choice"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_marginBottom="@dimen/px36dp"
+        android:layout_marginTop="@dimen/px36dp">
 
-        <TextView
+        <ImageView
             android:id="@+id/reduce"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="@dimen/px52dp"
+            android:layout_height="@dimen/px52dp"
+            android:layout_alignParentLeft="true"
             android:gravity="center"
-            android:text="—"
-            android:textColor="@color/black" />
+            android:src="@drawable/reduce"
+            android:visibility="visible" />
 
-        <TextView
+        <com.domain.multipltextview.MultiplTextView
             android:id="@+id/shoppingNum"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@null"
-            android:gravity="center"
-            android:maxLength="10"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px30sp"
+            android:visibility="visible"
+            app:removeDefaultPadding="true" />
 
-        <TextView
+        <ImageView
             android:id="@+id/increase"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="+"
-            android:textColor="@color/black" />
-    </LinearLayout>
+            android:layout_width="@dimen/px52dp"
+            android:layout_height="@dimen/px52dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/increase" />
+    </RelativeLayout>
 </RelativeLayout>

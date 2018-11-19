@@ -1,7 +1,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/sel_check" android:state_checked="true" />
-    <item android:drawable="@drawable/sel_nor" android:state_checked="false" />
-    <item android:drawable="@drawable/sel_nor" />
+    <item android:drawable="@drawable/btn_s_bg" android:state_checked="true" />
+    <item android:drawable="@drawable/biaoqian_bg" android:state_checked="false" />
+    <item android:drawable="@drawable/biaoqian_bg" />
 
 </selector>

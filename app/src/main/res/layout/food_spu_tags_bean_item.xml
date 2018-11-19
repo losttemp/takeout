@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,144 +8,158 @@
     <RelativeLayout
         android:id="@+id/mainitem_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/white"
+        android:layout_height="@dimen/px276dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatTextView
+        <com.domain.multipltextview.MultiplTextView
             android:id="@+id/tv_store_index"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/px36dp"
             android:text="1"
-            android:textSize="18sp" />
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:removeDefaultPadding="true" />
 
         <ImageView
             android:id="@+id/head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:scaleType="centerCrop" />
+            android:layout_marginLeft="@dimen/px50dp"
+            android:layout_marginTop="@dimen/px36dp"
+            android:layout_toRightOf="@+id/tv_store_index"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/px32dp"
             android:layout_toRightOf="@+id/head"
             android:orientation="vertical">
 
-            <TextView
+            <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px32dp"
                 android:singleLine="true"
-                android:textColor="@color/black" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp"
+                app:removeDefaultPadding="true" />
 
             <TextView
+                android:id="@+id/tv_describe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/explain" />
+                android:layout_marginTop="@dimen/px14dp"
+                android:alpha="0.6"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px30sp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px10dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
                     android:orientation="horizontal">
 
 
-                    <TextView
+                    <com.domain.multipltextview.MultiplTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:text="¥"
-                        android:textColor="#EB6100"
-                        android:textSize="13sp" />
+                        android:textColor="@color/full_subtraction_bg"
+                        android:textSize="@dimen/px36sp"
+                        app:removeDefaultPadding="true" />
 
-                    <TextView
+                    <com.domain.multipltextview.MultiplTextView
                         android:id="@+id/prise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:textColor="#EB6100"
-                        android:textSize="13sp" />
+                        android:gravity="center_vertical"
+                        android:textColor="@color/full_subtraction_bg"
+                        android:textSize="@dimen/px36sp"
+                        app:removeDefaultPadding="true" />
 
-                    <TextView
+                    <com.domain.multipltextview.MultiplTextView
                         android:id="@+id/tv_discount_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
                         android:text="¥%1$s"
-                        android:textColor="#EB6100"
-                        android:textSize="13sp"
-                        android:visibility="visible" />
+                        android:textColor="@color/full_subtraction_bg"
+                        android:textSize="@dimen/px36sp"
+                        android:visibility="gone"
+                        app:removeDefaultPadding="true" />
                 </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_add_number"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/px164dp"
+                    android:layout_height="@dimen/px52dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp">
+                    android:layout_centerVertical="true">
 
-                    <Button
+                    <ImageView
                         android:id="@+id/btn_add"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:text="+" />
+                        android:layout_width="@dimen/px52dp"
+                        android:layout_height="@dimen/px52dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/increase" />
 
                     <Button
                         android:id="@+id/btn_specifications"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/px118dp"
+                        android:layout_height="@dimen/px50dp"
+                        android:background="@drawable/btn_s_bg"
                         android:text="@string/specifications"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/px26sp"
                         android:visibility="gone" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/action"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shopping_choice"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
+                        android:layout_width="@dimen/px164dp"
+                        android:layout_height="@dimen/px52dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:visibility="visible">
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/reduce"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_width="@dimen/px52dp"
+                            android:layout_height="@dimen/px52dp"
+                            android:layout_alignParentLeft="true"
                             android:gravity="center"
-                            android:text="—"
-                            android:textColor="@color/black" />
+                            android:src="@drawable/reduce"
+                            android:visibility="visible" />
 
-                        <TextView
+                        <com.domain.multipltextview.MultiplTextView
                             android:id="@+id/shoppingNum"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:gravity="center"
-                            android:maxLength="10"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="23"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px30sp"
+                            android:visibility="visible"
+                            app:removeDefaultPadding="true" />
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/increase"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="+"
-                            android:textColor="@color/black" />
-                    </LinearLayout>
+                            android:layout_width="@dimen/px52dp"
+                            android:layout_height="@dimen/px52dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/increase" />
+                    </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
         </LinearLayout>
