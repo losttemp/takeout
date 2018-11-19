@@ -99,9 +99,8 @@
 		android:layout_below="@+id/ll_filter"
 		android:layout_width="@dimen/px912dp"
         android:layout_centerHorizontal="true"
-		android:layout_marginBottom="@dimen/px34dp"
 		android:layout_height="@dimen/px2dp"
-		android:background="@color/gray"/>
+		android:background="@color/dark_gray"/>
 
 	<com.scwang.smartrefresh.layout.SmartRefreshLayout
 		android:id="@+id/refresh_layout"

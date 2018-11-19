@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,7 +30,6 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
-import com.domain.multipltextview.MultiplTextView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -37,6 +37,8 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
 
 public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreListPresenter
 		.StoreListUi> implements
@@ -138,6 +140,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreAdaper = new StoreAdaper(mStoreList, mContext);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+		//mRvStore.addItemDecoration(new SpaceItemDecoration(dp2px(30)));
 		mRvStore.setLayoutManager(layoutManager);
 		mRvStore.setAdapter(mStoreAdaper);
 		mStoreAdaper.setItemClickListener(new StoreAdaper.OnItemClickListener() {
@@ -477,6 +480,23 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	 */
 	public void requestFilterList() {
 		mPresenter.requestFilterList(new FilterConditionReq());
+	}
+
+	class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+		private int space;
+
+		public SpaceItemDecoration(int space) {
+			this.space = space;
+		}
+
+		@Override
+		public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull
+				RecyclerView parent, @NonNull RecyclerView.State state) {
+			outRect.top = space;
+			outRect.left = 0;
+			outRect.right = 0;
+			outRect.bottom = space;
+		}
 	}
 
 }

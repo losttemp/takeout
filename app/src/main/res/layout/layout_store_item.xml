@@ -7,19 +7,19 @@
 
 	<android.support.v7.widget.LinearLayoutCompat
 		android:id="@+id/ll_info"
+		android:layout_marginTop="@dimen/px36dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal">
 
 		<TextView
 			android:id="@+id/tv_store_index"
-			android:layout_width="wrap_content"
+			android:layout_width="@dimen/px100dp"
 			android:layout_height="wrap_content"
 			android:text="1"
-			android:layout_marginTop="@dimen/px18dp"
-			android:layout_marginRight="@dimen/px50dp"
+			android:layout_marginTop="@dimen/px24dp"
 			android:textColor="@color/white"
-			android:textSize="@dimen/px60sp" />
+			android:textSize="@dimen/px48sp" />
 
 		<FrameLayout
 			android:id="@+id/fl_img"
@@ -198,7 +198,7 @@
 				<android.support.v7.widget.AppCompatImageView
 					android:id="@+id/iv_store_discount"
 					android:layout_width="@dimen/px48dp"
-					android:layout_height="wrap_content"
+					android:layout_height="@dimen/px48dp"
 					android:layout_alignParentEnd="true"
 					android:src="@drawable/arrow_down" />
 
@@ -207,6 +207,13 @@
 		</LinearLayout>
 
 	</android.support.v7.widget.LinearLayoutCompat>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/px2dp"
+		android:layout_marginTop="@dimen/px36dp"
+		android:layout_below="@+id/ll_info"
+		android:background="@color/dark_gray" />
 
     <View
         android:id="@+id/view_mask_layer"
