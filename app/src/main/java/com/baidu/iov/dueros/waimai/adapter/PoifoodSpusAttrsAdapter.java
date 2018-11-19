@@ -1,24 +1,16 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.view.Gravity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
-import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.view.GoodsViewGroup;
 
 import java.util.List;
 
@@ -87,35 +79,32 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.spus_attrs, null);
             viewHolder = new ViewHolder();
             viewHolder.attrsName = (TextView) convertView.findViewById(R.id.tv_attrs_name);
-            viewHolder.radioGroup = (GoodsViewGroup) convertView.findViewById(R.id.rg_group);
+            viewHolder.recyclerview = (RecyclerView) convertView.findViewById(R.id.rl_recyclerview);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.radioGroup.removeAllViews();
+
+
+        GridLayoutManager layoutManage = new GridLayoutManager(context, 3);
+        viewHolder.recyclerview.setLayoutManager(layoutManage);
 
         if (attrsBeans.size() > 0 && position != attrsBeans.size()) {
             viewHolder.attrsName.setText(attrsBeans.get(position).getName());
             final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> values = attrsBeans.get(position).getValues();
-            for (int i = 0; i < values.size(); i++) {
-                RadioButton radioButton = new RadioButton(context);
-                radioButton.setButtonDrawable(null);
-                radioButton.setGravity(Gravity.CENTER);
-                radioButton.setTextColor(context.getResources().getColorStateList(R.color.white));
-                radioButton.setBackground(context.getResources().getDrawable(R.drawable.selector_radiobtn_bg));
-                radioButton.setText(values.get(i).getValue());
-                radioButton.setTextSize(10);
-                radioButton.setId((int) values.get(i).getId());
-                viewHolder.radioGroup.addView(radioButton);
-            }
-            viewHolder.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            final SpecificationAdapter specificationAdapter = new SpecificationAdapter(values, null);
+            viewHolder.recyclerview.setAdapter(specificationAdapter);
+            specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {
                 @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int id) {
-                    for (int k = 0; k < values.size(); k++) {
-                        if (id == values.get(k).getId()) {
+                public void OnItemClick(View view, int p) {
+                    for (int i = 0; i < viewHolder.recyclerview.getChildCount(); i++) {
+                        if (i == p) {
+                            viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.tag_on);
                             choiceAttrs.clear();
-                            choiceAttrs.add(values.get(k));
+                            choiceAttrs.add(values.get(i));
                             spusBean.getAttrs().get(position).setChoiceAttrs(choiceAttrs);
+                        } else {
+                            viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.tag_bg_01);
                         }
                     }
                     if (spusBean.getSkus().size() >= 2) {
@@ -133,25 +122,18 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                     inProductList();
                 }
             });
+
         } else {
             if (skusBeans.size() > 1) {
                 viewHolder.attrsName.setText(context.getString(R.string.specifications));
-                for (int i = 0; i < skusBeans.size(); i++) {
-                    RadioButton radioButton = new RadioButton(context);
-                    radioButton.setButtonDrawable(null);
-                    radioButton.setGravity(Gravity.CENTER);
-                    radioButton.setTextColor(context.getResources().getColorStateList(R.color.white));
-                    radioButton.setBackground(context.getResources().getDrawable(R.drawable.selector_radiobtn_bg));
-                    radioButton.setText(skusBeans.get(i).getSpec());
-                    radioButton.setTextSize(10);
-                    radioButton.setId(skusBeans.get(i).getId());
-                    viewHolder.radioGroup.addView(radioButton);
-                }
-                viewHolder.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                final SpecificationAdapter specificationAdapter = new SpecificationAdapter(null, skusBeans);
+                viewHolder.recyclerview.setAdapter(specificationAdapter);
+                specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {
                     @Override
-                    public void onCheckedChanged(RadioGroup radioGroup, int id) {
-                        for (int i = 0; i < skusBeans.size(); i++) {
-                            if (id == skusBeans.get(i).getId()) {
+                    public void OnItemClick(View view, int p) {
+                        for (int i = 0; i < viewHolder.recyclerview.getChildCount(); i++) {
+                            if (i == p) {
+                                viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.tag_on);
                                 choiceSkus.clear();
                                 choiceSkus.add(skusBeans.get(i));
                                 spusBean.setChoiceSkus(choiceSkus);
@@ -159,6 +141,8 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                                 if (setPriceListener != null) {
                                     setPriceListener.setPrice("" + price);
                                 }
+                            } else {
+                                viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.tag_bg_01);
                             }
                         }
                         if (spusBean.getSkus().size() >= 2) {
@@ -249,7 +233,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
 
     class ViewHolder {
         public TextView attrsName;
-        public GoodsViewGroup radioGroup;
+        public RecyclerView recyclerview;
     }
 
     public void setPriceListener(SetPriceListener setPriceListener) {

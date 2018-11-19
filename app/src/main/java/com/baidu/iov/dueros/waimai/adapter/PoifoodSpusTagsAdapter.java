@@ -1,22 +1,15 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
-import com.baidu.iov.dueros.waimai.view.GoodsViewGroup;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by ubuntu on 18-11-3.
