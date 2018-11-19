@@ -166,9 +166,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 break;
 
             case R.id.img_add:
-                Intent intent = new Intent(this, AddressSuggestionActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                doSearchAddress(false);
                 break;
 
             default:

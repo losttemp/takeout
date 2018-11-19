@@ -19,6 +19,7 @@ import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.STORE_NAME;
 import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.USER_ADDRESS;
 import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.USER_NAME;
 import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.USER_PHONE;
+import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.EXPECTED_TIME;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.ORDER_ID;
 import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.PIC_URL;
 
@@ -38,6 +39,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
     public static final int INTERNAL_TIME = 1000;
     private int mCountDownTime = 5;
     private Long mOrderId;
+    private String mExpectedTime = null;
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -80,6 +82,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
             String recipientAddress = intent.getStringExtra(USER_ADDRESS);
             String recipient_name = intent.getStringExtra(USER_NAME);
             String foodNameOne = intent.getStringExtra(PRODUCT_NAME);
+            mExpectedTime = intent.getStringExtra(EXPECTED_TIME);
             int count = intent.getIntExtra(PRODUCT_COUNT, 0);
 
             mStorePhotoImg = findViewById(R.id.store_photo_img);
@@ -128,6 +131,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
                 Intent intent = new Intent(this, OrderDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(ORDER_ID, mOrderId);
+                intent.putExtra(EXPECTED_TIME, mExpectedTime);
                 startActivity(intent);
                 break;
 

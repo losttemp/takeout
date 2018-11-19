@@ -59,6 +59,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     public final static String SHOP_NAME = "shop_name";
     public final static String PAY_URL = "pay_url";
     public final static String PIC_URL = "pic_url";
+    public final static String EXPECTED_TIME = "expected_time";
 
     private final static int SELECT_DELIVERY_ADDRESS = 100;
     private final static int ORDER_PREVIEW_SUCCESS = 0;
@@ -156,6 +157,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         if (mProductList != null && mPoiInfo != null) {
 
+            showAllProduct(mProductList);
             String shopName = mPoiInfo.getName();
             mShopNameTv.setText(shopName);
             String deliveryType = mPoiInfo.getDelivery_type() == 1 ? getString(R.string.delivery_type1_text)
@@ -180,10 +182,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     }
 
 
-    public void showAllProductItem(List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBeanList) {
+    public void showAllProduct(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList) {
 
         mProductInfoListview.removeAllViews();
-        for (OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean wmOrderingPreviewDetailVoListBean : wmOrderingPreviewDetailVoListBeanList) {
+        for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : productList) {
 
             LayoutInflater inflater = this.getLayoutInflater();
             final RelativeLayout viewItem = (RelativeLayout) inflater.inflate(R.layout.product_info_item, null);
@@ -197,33 +199,30 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             TextView tv_origin_price = viewItem.findViewById(R.id.origin_price);
             TextView tv_discounts = viewItem.findViewById(R.id.product_discount);
 
-            String pictureUrl = wmOrderingPreviewDetailVoListBean.getPicture();
-            String name = wmOrderingPreviewDetailVoListBean.getFood_name();
+            String pictureUrl = spusBean.getPicture();
+            String name = spusBean.getName();
 
-            for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : mProductList) {
-                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrsBeanList;
-                if (wmOrderingPreviewDetailVoListBean.getWm_food_spu_id() == spusBean.getId()) {
-                    attrsBeanList = spusBean.getAttrs();
-                    StringBuilder attrs = new StringBuilder();
+            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrsBeanList;
+            attrsBeanList = spusBean.getAttrs();
+            StringBuilder attrs = new StringBuilder();
 
-                    if (attrsBeanList.size() > 0) {
-                        for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrsBeanList) {
-                            for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean valuesBean : attrsBean.getChoiceAttrs())
-                                attrs.append(valuesBean.getValue() + " ");
-                        }
-                        tv_attrs.setText(attrs.toString());
-                        tv_attrs.setVisibility(View.VISIBLE);
-                    } else {
-                        tv_attrs.setVisibility(View.INVISIBLE);
-                    }
-
+            if (attrsBeanList.size() > 0) {
+                for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrsBeanList) {
+                    for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean valuesBean : attrsBean.getChoiceAttrs())
+                        attrs.append(valuesBean.getValue() + " ");
                 }
-
+                tv_attrs.setText(attrs.toString());
+                tv_attrs.setVisibility(View.VISIBLE);
+            } else {
+                tv_attrs.setVisibility(View.INVISIBLE);
             }
+
+
             NumberFormat nf = new DecimalFormat("#.#");
-            int count = wmOrderingPreviewDetailVoListBean.getCount();
-            double price = wmOrderingPreviewDetailVoListBean.getFood_price();
-            double origin_price = wmOrderingPreviewDetailVoListBean.getOrigin_food_price();
+            int count = spusBean.getNumber();
+            double price = spusBean.getSkus().get(0).getPrice();
+            double origin_price = spusBean.getSkus().get(0).getOrigin_price();
+
             if (price < origin_price) {
                 tv_origin_price.setText(String.format(getResources().getString(R.string.cost_text), nf.format(origin_price)));
                 tv_origin_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -466,7 +465,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         int code = mOrderPreviewData.getCode();
         if (code == ORDER_PREVIEW_SUCCESS) {
-            showAllProductItem(mOrderPreviewData.getWm_ordering_preview_detail_vo_list());
             showAllDiscountItem();
             double shippingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getShipping_fee();
             mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
@@ -493,7 +491,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             int estimate = mOrderPreviewData.getWm_ordering_preview_order_vo().getEstimate_arrival_time();
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-            mEstimateTime = sdf.format(new Date(Long.valueOf(String.valueOf(estimate)) * 1000L + 8 * 60 * 60 * 1000L));
+            mEstimateTime = sdf.format(new Date(Long.valueOf(String.valueOf(estimate)) * 1000L/* + 8 * 60 * 60 * 1000L*/));
             if (mUnixtime == 0) {
                 mTypeTipTv.setText(getString(R.string.delivery_immediately));
                 mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
@@ -566,7 +564,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             long orderId = mOrderSubmitData.getOrder_id();
             String poiName = mOrderPreviewData.getWm_ordering_preview_order_vo().getPoi_name();
             String payUrl = mOrderSubmitData.getPayUrl();
+            String expectedTime = mArriveTimeTv.getText().toString();
             Intent intent = new Intent(this, PaymentActivity.class);
+            intent.putExtra(EXPECTED_TIME, expectedTime);
             intent.putExtra(TOTAL_COST, total);
             intent.putExtra(ORDER_ID, orderId);
             intent.putExtra(SHOP_NAME, poiName);

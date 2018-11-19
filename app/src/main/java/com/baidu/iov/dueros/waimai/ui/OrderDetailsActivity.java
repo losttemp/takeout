@@ -32,6 +32,8 @@ import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
 
+import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.EXPECTED_TIME;
+
 
 public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, OrderDetailsPresenter.OrderDetailsUi> implements OrderDetailsPresenter.OrderDetailsUi, View.OnClickListener {
     /**
@@ -44,7 +46,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private OrderDetailsReq mOrderDetailsReq;
     private OrderCancelReq mOrderCancelReq;
     private long order_id;
-    private String user_phone;
+    private String expectedTime;
     private ArrayMap<String, String> map;
     private OrderDetailsResponse.MeituanBean.DataBean mOrderDetails = new OrderDetailsResponse.MeituanBean.DataBean();
 
@@ -110,7 +112,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         mRealPay.setText("实付：¥" + mOrderDetails.getTotal());
         mContact.setText(mOrderDetails.getRecipient_phone());
         mAddress.setText(mOrderDetails.getRecipient_address());
-        mExpectedTime.setText("2018-10-19 （周五）18:30");
+        mExpectedTime.setText(expectedTime);
         mOrderId.setText(String.valueOf(mOrderDetails.getOrder_id()));
         mOrderTime.setText(String.valueOf(formatTime(mOrderDetails.getCtime())));
         if (mOrderDetails.getWm_order_pay_type() == 1) {
@@ -157,8 +159,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void initData() {
-        String phone = Encryption.encrypt(user_phone);
         order_id = getIntent().getLongExtra(Constant.ORDER_ID,-1);
+        expectedTime = getIntent().getStringExtra(EXPECTED_TIME);
         mOrderDetailsReq = new OrderDetailsReq();
         mOrderDetailsReq.setId(order_id);
         loadData();
