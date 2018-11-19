@@ -43,6 +43,7 @@
     <color name="black_text">#000000</color>
     <color name="filter_selected">#00dbff</color>
     <color name="white_60">#99ffffff</color>
+    
 
     <color name="payment_text_color">#00df7b</color>
     <color name="payment_amount_color">#ffc600</color>
