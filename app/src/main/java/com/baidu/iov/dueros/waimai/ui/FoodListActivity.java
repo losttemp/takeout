@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.ui;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.ArrayMap;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,26 +20,25 @@ import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusListAdapter;
+import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusTagsAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ShoppingCartAdapter;
+import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
@@ -52,7 +53,9 @@ import com.domain.multipltextview.MultiplTextView;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.TO_SHOW_SHOP_CART;
 
@@ -69,17 +72,15 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList;
     private MultiplTextView shoppingPrise;
     private MultiplTextView shoppingNum;
-    private MultiplTextView settlement;
-    private FrameLayout cardLayout;
+    private Button settlement;
     private LinearLayout cardShopLayout;
-    private View bg_layout;
     private ImageView shopping_cart;
     private int AnimationDuration = 500;
     private int number = 0;
     private boolean isClean = false;
     private FrameLayout animation_viewGroup;
     private MultiplTextView defaultText;
-    private List<String> foodSpuTagsBeanName;
+    private List<PoifoodSpusTagsBean> poifoodSpusTagsBeans;
     private RelativeLayout parentLayout;
     private MultiplTextView noData;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans = new ArrayList<>();
@@ -104,7 +105,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
     };
-    private ArrayAdapter<String> mFoodSpuTagsListAdapter;
+    private PoifoodSpusTagsAdapter mFoodSpuTagsListAdapter;
     private RelativeLayout mStoreDetails;
     private MultiplTextView mClearshopCart;
     private PoidetailinfoBean mPoidetailinfoBean;
@@ -124,6 +125,19 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private MultiplTextView mDetailsDistribution;
     private MultiplTextView mDetailsDiscount;
     private MultiplTextView mDetailsShopName;
+    private Dialog mBottomDialog;
+    private MultiplTextView mShopCartNum;
+    private MultiplTextView mCartDistributionFee;
+    private MultiplTextView mCartShoppingPrise;
+    private Button mCartSettlement;
+    private MultiplTextView mCartDiscount;
+    private MultiplTextView mCartClose;
+    private MultiplTextView mDistributionFee;
+    private RelativeLayout mRlDiscount;
+    private int rightSection;
+    private MultiplTextView mNoProduct;
+    private RelativeLayout mLlPrice;
+    private List<String> foodSpuTagsBeanName;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -150,17 +164,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         parentLayout = (RelativeLayout) findViewById(R.id.parentLayout);
         shoppingPrise = (MultiplTextView) findViewById(R.id.shoppingPrise);
         shoppingNum = (MultiplTextView) findViewById(R.id.shoppingNum);
-        settlement = (MultiplTextView) findViewById(R.id.settlement);
+        settlement = (Button) findViewById(R.id.settlement);
         mFoodSpuTagsList = (ListView) findViewById(R.id.classify_mainlist);
         mSpusList = (PoifoodListPinnedHeaderListView) findViewById(R.id.classify_morelist);
         shopping_cart = (ImageView) findViewById(R.id.shopping_cart);
-        defaultText = (MultiplTextView) findViewById(R.id.defaultText);
-        shoppingListView = (ListView) findViewById(R.id.shopproductListView);
-        cardLayout = (FrameLayout) findViewById(R.id.cardLayout);
-        cardShopLayout = (LinearLayout) findViewById(R.id.cardShopLayout);
-        bg_layout = findViewById(R.id.bg_layout);
         mStoreDetails = (RelativeLayout) findViewById(R.id.rl_store_details);
-        mClearshopCart = (MultiplTextView) findViewById(R.id.tv_clear);
         mFinish = (ImageView) findViewById(R.id.iv_finish);
         mShopTitle = (MultiplTextView) findViewById(R.id.tv_shop_title);
         mDelivery = (MultiplTextView) findViewById(R.id.tv_delivery);
@@ -168,6 +176,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mDiscounts = (MultiplTextView) findViewById(R.id.tv_discounts);
         mShopPicture = (ImageView) findViewById(R.id.iv_shop);
         mDiscount = (MultiplTextView) findViewById(R.id.tv_discount);
+        mDistributionFee = (MultiplTextView) findViewById(R.id.tv_distribution_fee);
+        mRlDiscount = (RelativeLayout) findViewById(R.id.rl_discount);
+        mNoProduct = (MultiplTextView) findViewById(R.id.tv_no_product);
+        mLlPrice = (RelativeLayout) findViewById(R.id.ll_price);
     }
 
     @Override
@@ -177,7 +189,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (getIntent() != null) {
             boolean IsShowShopCart = getIntent().getBooleanExtra(TO_SHOW_SHOP_CART, false);
             if (IsShowShopCart) {
-                showOrHideShopCart();
+                showShopCartDialog();
             }
         }
     }
@@ -185,6 +197,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void initData() {
         productList = new ArrayList<>();
         foodSpuTagsBeanName = new ArrayList<>();
+        poifoodSpusTagsBeans = new ArrayList<>();
         mPoifoodSpusListAdapter = new PoifoodSpusListAdapter(this, productList, foodSpuTagsBeans, FoodListActivity.this);
         mPoifoodSpusListAdapter.SetOnSetHolderClickListener(new PoifoodSpusListAdapter.HolderClickListener() {
             @Override
@@ -195,13 +208,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
         mSpusList.setAdapter(mPoifoodSpusListAdapter);
         mPoifoodSpusListAdapter.setCallBackListener(this);
-        mFoodSpuTagsListAdapter = new ArrayAdapter<>(this, R.layout.categorize_item, foodSpuTagsBeanName);
+        mFoodSpuTagsListAdapter = new PoifoodSpusTagsAdapter(this, poifoodSpusTagsBeans);
         mFoodSpuTagsList.setAdapter(mFoodSpuTagsListAdapter);
-
         shoppingCartAdapter = new ShoppingCartAdapter(this, productList);
-        shoppingListView.setAdapter(shoppingCartAdapter);
-        shoppingCartAdapter.setShopToDetailListener(this);
-
         mFoodSpuTagsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -211,14 +220,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 Lg.getInstance().d(TAG, "mFoodSpuTagsList.getChildCount() = " + mFoodSpuTagsList.getChildCount());
                 for (int i = 0; i < mFoodSpuTagsList.getChildCount(); i++) {
                     if (i == position) {
-                        mFoodSpuTagsList.getChildAt(i).setBackgroundColor(
-                                Color.rgb(255, 255, 255));
+                        mFoodSpuTagsList.getChildAt(i).setBackgroundResource(R.color.list_bg);
                     } else {
                         mFoodSpuTagsList.getChildAt(i).setBackgroundColor(
                                 Color.TRANSPARENT);
                     }
                 }
-                int rightSection = 0;
                 for (int i = 0; i < position; i++) {
                     rightSection += mPoifoodSpusListAdapter.getCountForSection(i) + 1;
                 }
@@ -238,10 +245,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (isScroll) {
                     for (int i = 0; i < mFoodSpuTagsList.getChildCount(); i++) {
-                        if (i == mPoifoodSpusListAdapter
-                                .getSectionForPosition(firstVisibleItem)) {
-                            mFoodSpuTagsList.getChildAt(i).setBackgroundColor(
-                                    Color.rgb(255, 255, 255));
+                        if (i == mPoifoodSpusListAdapter.getSectionForPosition(firstVisibleItem)) {
+                            mFoodSpuTagsList.getChildAt(i).setBackgroundResource(R.color.list_bg);
                         } else {
                             mFoodSpuTagsList.getChildAt(i).setBackgroundColor(
                                     Color.TRANSPARENT);
@@ -253,10 +258,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         });
 
-        bg_layout.setOnClickListener(this);
         settlement.setOnClickListener(this);
         shopping_cart.setOnClickListener(this);
-        mClearshopCart.setOnClickListener(this);
+
         mFinish.setOnClickListener(this);
         mStoreDetails.setOnClickListener(this);
 
@@ -297,7 +301,27 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     @Override
-    public void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag) {
+    public void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag, int selection) {
+//        for (int i = 0; i < foodSpuTagsBeanName.size(); i++) {
+//            if (foodSpuTagsChoiceNum.get(i).containsKey(selection)) {
+//                Integer choiceNum = foodSpuTagsChoiceNum.get(selection).get(selection);
+//
+//                if (i == selection) {
+//                    choiceNum++;
+//                    Map map = new HashMap();
+//                    map.put(i, choiceNum);
+//                    foodSpuTagsChoiceNum.add(map);
+//                }
+//            }
+//        }
+        for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
+            if (selection == poifoodSpusTagsBeans.get(i).getIndex()) {
+                Integer number = poifoodSpusTagsBeans.get(i).getNumber();
+                number++;
+                poifoodSpusTagsBeans.get(i).setNumber(number);
+            }
+        }
+        mFoodSpuTagsListAdapter.notifyDataSetChanged();
         String spusBeanTag = spusBean.getTag();
         boolean inList = false;
         Lg.getInstance().d(TAG, "updateProduct tag = " + tag + "; spusBeanTag = " + spusBeanTag);
@@ -366,11 +390,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 }
                 Lg.getInstance().d(TAG, "shopProduct else");
                 productList.add(spusBeanNew);
-                settlement.setEnabled(true);
                 inList = false;
             }
         }
         shoppingCartAdapter.notifyDataSetChanged();
+        if (mBottomDialog != null && mBottomDialog.isShowing()) {
+            setDialogHeight(mBottomDialog);
+        }
         setPrise();
     }
 
@@ -406,6 +432,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
         mPoifoodSpusListAdapter.notifyDataSetChanged();
         shoppingCartAdapter.notifyDataSetChanged();
+        if (mBottomDialog != null && mBottomDialog.isShowing()) {
+            setDialogHeight(mBottomDialog);
+        }
         setPrise();
     }
 
@@ -418,20 +447,45 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
         if (shopNum > 0) {
             shoppingNum.setVisibility(View.VISIBLE);
+            if (mShopCartNum != null) {
+                mShopCartNum.setVisibility(View.VISIBLE);
+            }
         } else {
             shoppingNum.setVisibility(View.GONE);
+            if (mShopCartNum != null) {
+                mShopCartNum.setVisibility(View.GONE);
+            }
         }
         if (sum > 0) {
+            mLlPrice.setVisibility(View.VISIBLE);
+            mNoProduct.setVisibility(View.GONE);
             shoppingPrise.setVisibility(View.VISIBLE);
+            if (mCartShoppingPrise != null) {
+                mCartShoppingPrise.setVisibility(View.VISIBLE);
+            }
         } else {
+            mLlPrice.setVisibility(View.GONE);
+            mNoProduct.setVisibility(View.VISIBLE);
             shoppingPrise.setVisibility(View.GONE);
+            if (mCartShoppingPrise != null) {
+                mCartShoppingPrise.setVisibility(View.GONE);
+            }
         }
         shoppingPrise.setText("¥" + " " + (new DecimalFormat("0.00")).format(sum));
+        if (mCartShoppingPrise != null) {
+            mCartShoppingPrise.setText("¥" + " " + (new DecimalFormat("0.00")).format(sum));
+        }
         shoppingNum.setText(String.valueOf(shopNum));
+        if (mShopCartNum != null) {
+            mShopCartNum.setText(String.valueOf(shopNum));
+        }
 
         if (listFull != null && listReduce != null) {
             if (listFull.size() > 0 && sum > listFull.get(listFull.size() - 1)) {
                 mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(listReduce.size() - 1) + getString(R.string.element));
+                if (mCartDiscount != null) {
+                    mCartDiscount.setText(getString(R.string.already_reduced) + listReduce.get(listReduce.size() - 1) + getString(R.string.element));
+                }
                 mDiscountNumber = listReduce.get(listReduce.size() - 1);
                 return;
             }
@@ -442,11 +496,19 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
                     String str = myformat.format(v);
                     mDiscount.setVisibility(View.VISIBLE);
+                    mRlDiscount.setVisibility(View.VISIBLE);
                     if (i == 0) {
                         mDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                        if (mCartDiscount != null) {
+                            mCartDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                        }
                     } else {
                         mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
                                 getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                        if (mCartDiscount != null) {
+                            mCartDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
+                                    getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                        }
                         mDiscountNumber = listReduce.get(i - 1);
                     }
                     break;
@@ -455,33 +517,94 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
         if (productList == null || productList.size() == 0) {
             mDiscount.setVisibility(View.GONE);
+            mRlDiscount.setVisibility(View.GONE);
         }
-        if (sum < mPoidetailinfoBean.getMeituan().getData().getMin_price()) {
-            settlement.setEnabled(false);
+        double min_price = mPoidetailinfoBean.getMeituan().getData().getMin_price();
+        if (sum > 0) {
+            if (sum < mPoidetailinfoBean.getMeituan().getData().getMin_price()) {
+                double v = min_price - sum;
+                java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
+                String str = myformat.format(v);
+                settlement.setText(String.format(getString(R.string.not_distribution), "" + str));
+                settlement.setBackgroundResource(R.drawable.btn_grey);
+                settlement.setEnabled(false);
+            } else {
+                settlement.setText(R.string.confirmation_of_the_order);
+                settlement.setBackgroundResource(R.drawable.btn_bg);
+                settlement.setEnabled(true);
+            }
+            if (mCartSettlement != null) {
+                if (sum < min_price) {
+                    double v = min_price - sum;
+                    java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
+                    String str = myformat.format(v);
+                    mCartSettlement.setText(String.format(getString(R.string.not_distribution), "" + str));
+                    mCartSettlement.setBackgroundResource(R.drawable.btn_grey);
+                    mCartSettlement.setEnabled(false);
+                } else {
+                    mCartSettlement.setText(R.string.confirmation_of_the_order);
+                    mCartSettlement.setBackgroundResource(R.drawable.btn_bg);
+                    mCartSettlement.setEnabled(true);
+                }
+            }
         } else {
-            settlement.setEnabled(true);
+            settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
+            settlement.setBackgroundResource(R.drawable.btn_grey);
+            settlement.setEnabled(false);
         }
     }
 
-    public void showOrHideShopCart() {
-        if (productList.isEmpty() || productList == null) {
-            defaultText.setVisibility(View.VISIBLE);
-        } else {
-            defaultText.setVisibility(View.GONE);
-        }
+    private void showShopCartDialog() {
+        mBottomDialog = new Dialog(this, R.style.DialogTheme);
+        View v = LayoutInflater.from(this).inflate(R.layout.dialog_shop_cart, null);
+        mBottomDialog.setContentView(v);
+        ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+        layoutParams.width = getResources().getDisplayMetrics().widthPixels;
+        v.setLayoutParams(layoutParams);
+        mBottomDialog.getWindow().setGravity(Gravity.BOTTOM);
+        mBottomDialog.show();
+        setDialogHeight(mBottomDialog);
+        cardShopLayout = (LinearLayout) v.findViewById(R.id.cardShopLayout);
+        mClearshopCart = (MultiplTextView) v.findViewById(R.id.tv_clear);
+        shoppingListView = (ListView) v.findViewById(R.id.shopproductListView);
+        mShopCartNum = (MultiplTextView) v.findViewById(R.id.shoppingNum);
+        mCartDistributionFee = (MultiplTextView) v.findViewById(R.id.distribution_fee);
+        mCartShoppingPrise = (MultiplTextView) v.findViewById(R.id.shoppingPrise);
+        mCartClose = (MultiplTextView) v.findViewById(R.id.tv_close_cart);
+        mCartDiscount = (MultiplTextView) v.findViewById(R.id.tv_discount);
+        mCartSettlement = (Button) v.findViewById(R.id.settlement);
+        mCartSettlement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBottomDialog.dismiss();
+                Intent intent = new Intent(FoodListActivity.this, SubmitOrderActivity.class);
+                intent.putExtra(POI_INFO, mPoiInfoBean);
+                intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
+                intent.putExtra(DISCOUNT, mDiscountNumber);
+                startActivity(intent);
+            }
+        });
+        mCartClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBottomDialog.dismiss();
+            }
+        });
+        shoppingListView.setAdapter(shoppingCartAdapter);
+        shoppingCartAdapter.setShopToDetailListener(this);
+        mClearshopCart.setOnClickListener(this);
+        mCartDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
+        setPrise();
+    }
 
-        if (cardLayout.getVisibility() == View.GONE) {
-            cardLayout.setVisibility(View.VISIBLE);
-            Animation animation = AnimationUtils.loadAnimation(this, R.anim.push_bottom_in);
-            cardShopLayout.setVisibility(View.VISIBLE);
-            cardShopLayout.startAnimation(animation);
-            bg_layout.setVisibility(View.VISIBLE);
-
-        } else {
-            cardLayout.setVisibility(View.GONE);
-            bg_layout.setVisibility(View.GONE);
-            cardShopLayout.setVisibility(View.GONE);
-        }
+    private void setDialogHeight(Dialog dialog) {
+        WindowManager m = getWindowManager();
+        Display display = m.getDefaultDisplay();
+        WindowManager.LayoutParams p = dialog.getWindow().getAttributes();
+        if (productList.size() > 4) p.height = (int) (display.getHeight() * 0.4);
+        if (productList.size() <= 4) p.height = ListView.LayoutParams.WRAP_CONTENT;
+        if (productList.size() == 0) dialog.dismiss();
+        dialog.getWindow().setAttributes(p);
     }
 
     @Override
@@ -491,7 +614,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 if (productList == null || productList.size() == 0) {
                     return;
                 }
-                showOrHideShopCart();
+                showShopCartDialog();
                 break;
 
             case R.id.settlement:
@@ -507,11 +630,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 startActivity(intent);
                 break;
 
-            case R.id.bg_layout:
-                cardLayout.setVisibility(View.GONE);
-                bg_layout.setVisibility(View.GONE);
-                cardShopLayout.setVisibility(View.GONE);
-                break;
+//            case R.id.bg_layout:
+//                cardLayout.setVisibility(View.GONE);
+//                bg_layout.setVisibility(View.GONE);
+//                cardShopLayout.setVisibility(View.GONE);
+//                break;
 
             case R.id.tv_clear:
                 if (productList != null && productList.size() > 0) {
@@ -525,13 +648,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     }
                     mPoifoodSpusListAdapter.notifyDataSetChanged();
                     shoppingCartAdapter.notifyDataSetChanged();
+                    if (mBottomDialog != null && mBottomDialog.isShowing()) {
+                        setDialogHeight(mBottomDialog);
+                    }
                     setPrise();
                 }
-                mDiscount.setVisibility(View.GONE);
-                cardLayout.setVisibility(View.GONE);
-                bg_layout.setVisibility(View.GONE);
-                cardShopLayout.setVisibility(View.GONE);
-
+                if (mBottomDialog != null && mBottomDialog.isShowing()) {
+                    mBottomDialog.dismiss();
+                }
                 break;
             case R.id.iv_finish:
                 finish();
@@ -697,6 +821,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         for (int i = 0; i < food_spu_tags.size(); i++) {
             PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean foodSpuTagsBean = food_spu_tags.get(i);
             String foodSpuTagsName = foodSpuTagsBean.getName();
+            PoifoodSpusTagsBean poifoodSpusTagsBean = new PoifoodSpusTagsBean();
+            poifoodSpusTagsBean.setFoodSpuTagsBeanName(foodSpuTagsName);
+            poifoodSpusTagsBean.setIndex(i);
+            poifoodSpusTagsBean.setNumber(0);
+            poifoodSpusTagsBeans.add(poifoodSpusTagsBean);
             foodSpuTagsBeanName.add(foodSpuTagsName);
             Lg.getInstance().d(TAG, "foodSpuTagsBeanName = " + foodSpuTagsName);
             spusBeanList = new ArrayList<>();
@@ -710,6 +839,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             Lg.getInstance().d(TAG, "spusBeanList = " + spusBeanList.size());
             foodSpuTagsBean.setSpus(spusBeanList);
             foodSpuTagsBeans.add(foodSpuTagsBean);
+
         }
         Lg.getInstance().d(TAG, "foodSpuTagsBeanName = " + foodSpuTagsBeanName.toString());
         Lg.getInstance().d(TAG, "spusBeanName = " + spusBeanList.toString());
@@ -732,6 +862,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             stringBuffer.append(info + "   ");
         }
         mDiscounts.setText(stringBuffer);
+        settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
+        mDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
         for (int i = 0; i < discounts.size(); i++) {
             String info = discounts.get(i).getInfo();
             if (info.contains(getString(R.string.full)) && info.contains(getString(R.string.reduce))) {

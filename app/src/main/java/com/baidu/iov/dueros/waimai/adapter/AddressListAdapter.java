@@ -57,7 +57,6 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView tv_address;
         TextView tv_address_type;
         TextView tv_name;
-        TextView tv_phone;
         ImageView img_edit;
 
         public ViewHolder(View itemView) {
@@ -67,7 +66,6 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             tv_address = itemView.findViewById(R.id.tv_address);
             tv_address_type = itemView.findViewById(R.id.tv_address_type);
             tv_name = itemView.findViewById(R.id.tv_name);
-            tv_phone = itemView.findViewById(R.id.tv_phone);
             img_edit = itemView.findViewById(R.id.img_select);
 
             itemView.setOnClickListener(AddressListAdapter.this);
@@ -78,7 +76,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        if(mHeaderView != null && viewType == TYPE_HEADER) return new ViewHolder(mHeaderView);
+        if (mHeaderView != null && viewType == TYPE_HEADER) return new ViewHolder(mHeaderView);
         View convertView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_address_item, parent, false);
         return new ViewHolder(convertView);
@@ -99,16 +97,21 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 String address_type = mData.get(realPosition).getType();
                 if (address_type != null) {
 
+                    if (mContext.getString(R.string.address_tag_home).equals(address_type)) {
+                        ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_green);
+                    } else {
+                        ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_blue);
+                    }
                     ((ViewHolder) holder).tv_address_type.setText(address_type);
                 } else {
                     ((ViewHolder) holder).tv_address_type.setText(mContext.getString(R.string.address_tag_other));
+                    ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg);
                 }
 
                 String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
-                ((ViewHolder) holder).tv_name.setText(name);
-
                 String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
-                ((ViewHolder) holder).tv_phone.setText(phone);
+                ((ViewHolder) holder).tv_name.setText(name + " " + phone);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

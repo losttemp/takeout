@@ -141,7 +141,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         break;
                     default:
                         Intent intent = new Intent(getApplicationContext(), OrderDetailsActivity.class);
-                        intent.putExtra(Constant.ORDER_ID, mOrderList.get(position).getOut_trade_no());
+                        intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         intent.putExtra(Constant.USER_PHONE, payloadBean.getUser_phone());
                         startActivity(intent);
                         break;

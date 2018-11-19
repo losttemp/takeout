@@ -60,8 +60,8 @@
     <string name="add_to_cart">加入购物车</string>
     <string name="chicken">推荐大鸡排</string>
     <string name="explain">大块鸡排，鲜嫩多汁，配上超多芝士和新鲜生菜</string>
-    <string name="shop_cart">购物车</string>
-    <string name="empty_all">清空全部</string>
+    <string name="shop_cart">收起购物车</string>
+    <string name="empty_all">清空购物车</string>
     <string name="please_add_to_the_shopping_cart_first">请先添加商品至购物车</string>
     <string name="please_select_the_specifications_first">请先选择规格</string>
     <string name="specifications">规格</string>
@@ -71,6 +71,10 @@
     <string name="reduce">减</string>
     <string name="buy_again">再买</string>
     <string name="commodity_description">商品描述</string>
+    <string name="distribution_fee">另需配送费¥%1$s</string>
+    <string name="not_distribution">差%1$s元起送</string>
+    <string name="no_product">未选购商品</string>
+    <string name="can_not_order">%1$s起送</string>
 
     <!--tools:text-->
     <string name="tools_text_location">送至：未来科技大厦</string>
@@ -105,6 +109,8 @@
     <string name="order_cancelled">订单已取消</string>
     <string name="cancel">取消</string>
     <string name="select_address">选择收货地址</string>
+    <string name="select_arrive_time">选择到达目时间</string>
+    <string name="submit_order_title">提交订单</string>
     <string name="add_address">新增收货地址</string>
     <string name="network_anomaly">您的网络好像不太给力，请稍候再试</string>
     <string name="reload">重新加载</string>
@@ -123,8 +129,8 @@
     <string name="delivery_type2_text">非美团配送</string>
     <string name="discount_prompt">满减优惠与折扣商品不能同时共享</string>
     <string name="count_char">\&#935;%1d</string>
-	<string name="discount_text">折</string>
-	<string name="to_pay_text">去支付</string>
+    <string name="discount_text">折</string>
+    <string name="to_pay_text">去支付</string>
     <string name="payment_header">支付订单</string>
     <string name="payment_success">支付成功</string>
     <string name="count_down_timer">支付剩余时间%6s</string>
@@ -132,7 +138,8 @@
     <string name="pay_order_id">订单编号</string>
     <string name="pay_shop_name">店铺名称</string>
     <string name="pay_hint">请使用微信或支付宝扫码支付</string>
-    <string name="submit_total">合计 \&#165;%2.2f</string>
+    <string name="total">合计：</string>
+    <string name="submit_total">%2.2f元</string>
     <string name="submit_discount">已优惠 \&#165;%s</string>
     <string name="pay_title">支付超时</string>
     <string name="pay_time_out">支付超时,请重新下单。</string>

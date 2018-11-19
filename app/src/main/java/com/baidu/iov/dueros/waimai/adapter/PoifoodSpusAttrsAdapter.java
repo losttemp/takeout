@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,9 +101,10 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                 RadioButton radioButton = new RadioButton(context);
                 radioButton.setButtonDrawable(null);
                 radioButton.setGravity(Gravity.CENTER);
-                radioButton.setTextColor(context.getResources().getColorStateList(R.color.checked_bg));
+                radioButton.setTextColor(context.getResources().getColorStateList(R.color.white));
                 radioButton.setBackground(context.getResources().getDrawable(R.drawable.selector_radiobtn_bg));
                 radioButton.setText(values.get(i).getValue());
+                radioButton.setTextSize(10);
                 radioButton.setId((int) values.get(i).getId());
                 viewHolder.radioGroup.addView(radioButton);
             }
@@ -138,9 +140,10 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                     RadioButton radioButton = new RadioButton(context);
                     radioButton.setButtonDrawable(null);
                     radioButton.setGravity(Gravity.CENTER);
-                    radioButton.setTextColor(context.getResources().getColorStateList(R.color.checked_bg));
+                    radioButton.setTextColor(context.getResources().getColorStateList(R.color.white));
                     radioButton.setBackground(context.getResources().getDrawable(R.drawable.selector_radiobtn_bg));
                     radioButton.setText(skusBeans.get(i).getSpec());
+                    radioButton.setTextSize(10);
                     radioButton.setId(skusBeans.get(i).getId());
                     viewHolder.radioGroup.addView(radioButton);
                 }

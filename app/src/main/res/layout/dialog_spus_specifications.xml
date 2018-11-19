@@ -1,93 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_bg"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="5dp">
+        android:layout_height="@dimen/px126dp">
 
         <ImageView
             android:id="@+id/iv_dismiss"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/px96dp"
+            android:layout_height="@dimen/px96dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_marginLeft="@dimen/px84dp"
+            android:src="@drawable/icon_close" />
 
-        <TextView
+        <com.domain.multipltextview.MultiplTextView
             android:id="@+id/tv_spus_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/chicken" />
+            android:text="@string/porridge"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px40sp"
+            app:removeDefaultPadding="true" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px2dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
+        android:alpha="0.06"
+        android:background="@color/white" />
 
     <ListView
         android:id="@+id/gv_specifications"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/px50dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px30dp"
+        android:scrollbars="none" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px2dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
+        android:alpha="0.06"
+        android:background="@color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/px168dp"
+        android:layout_marginRight="@dimen/px84dp">
 
-        <TextView
+        <com.domain.multipltextview.MultiplTextView
             android:id="@+id/tv_specifications_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="¥%1$s" />
+            android:layout_marginLeft="@dimen/px84dp"
+            android:layout_marginTop="@dimen/px70dp"
+            android:text="¥%1$s"
+            android:textColor="@color/full_subtraction_bg"
+            android:textSize="@dimen/px48sp"
+            app:removeDefaultPadding="true" />
 
         <Button
             android:id="@+id/btn_add_to_cart_specification"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/px330dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:text="@string/add_to_cart" />
+            android:layout_marginBottom="@dimen/px30dp"
+            android:layout_marginTop="@dimen/px30dp"
+            android:background="@drawable/btn_bg"
+            android:text="@string/add_to_cart"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px36sp" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/px164dp"
+            android:layout_height="@dimen/px52dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/shopping_choice"
-            android:gravity="center"
-            android:orientation="horizontal"
             android:visibility="gone">
 
-            <TextView
+            <ImageView
                 android:id="@+id/reduce"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="@dimen/px52dp"
+                android:layout_height="@dimen/px52dp"
+                android:layout_alignParentLeft="true"
                 android:gravity="center"
-                android:text="—"
-                android:textColor="@color/black" />
+                android:src="@drawable/reduce"
+                android:visibility="visible" />
 
-            <TextView
+            <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/shoppingNum"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="center"
-                android:maxLength="10"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="23"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px30sp"
+                android:visibility="visible"
+                app:removeDefaultPadding="true" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/increase"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="+"
-                android:textColor="@color/black" />
-        </LinearLayout>
+                android:layout_width="@dimen/px52dp"
+                android:layout_height="@dimen/px52dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/increase" />
+        </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

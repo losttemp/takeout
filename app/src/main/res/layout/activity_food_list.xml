@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/base_color"
     android:orientation="vertical">
 
     <com.domain.multipltextview.MultiplTextView
@@ -26,8 +25,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/base_color">
+            android:layout_height="@dimen/px126dp"
+            android:background="@drawable/bg_pay">
 
             <ImageView
                 android:id="@+id/iv_finish"
@@ -43,63 +42,67 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@color/white"
+                android:textSize="@dimen/px40sp"
                 app:removeDefaultPadding="true" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_store_details"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/px240dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="50dp"
-            android:background="@color/base_color">
+            android:layout_marginTop="@dimen/px126dp"
+            android:background="@drawable/card_bg">
 
             <ImageView
                 android:id="@+id/iv_shop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/px230dp"
+                android:layout_height="@dimen/px180dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_marginLeft="@dimen/px84dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="80dp"
+                android:layout_marginLeft="@dimen/px28dp"
+                android:layout_toRightOf="@+id/iv_shop"
                 android:orientation="vertical">
 
                 <com.domain.multipltextview.MultiplTextView
                     android:id="@+id/tv_delivery"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="@string/distribution_situation"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px28dp"
                     android:textColor="@color/white"
+                    android:textSize="@dimen/px36sp"
                     app:removeDefaultPadding="true" />
 
                 <com.domain.multipltextview.MultiplTextView
                     android:id="@+id/tv_bulletin"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px28dp"
+                    android:alpha="0.6"
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text="@string/notice"
                     android:textColor="@color/white"
+                    android:textSize="@dimen/px30sp"
                     app:removeDefaultPadding="true" />
 
                 <com.domain.multipltextview.MultiplTextView
                     android:id="@+id/tv_discounts"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px46dp"
                     android:ellipsize="marquee"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
                     android:text="@string/discount"
-                    android:textColor="@color/white"
+                    android:textColor="@color/full_subtraction_bg"
+                    android:textSize="@dimen/px26sp"
                     app:removeDefaultPadding="true" />
             </LinearLayout>
         </RelativeLayout>
@@ -110,209 +113,138 @@
             android:layout_above="@+id/toolBar"
             android:layout_below="@+id/rl_store_details"
             android:layout_weight="1"
-            android:background="@color/base_color"
+            android:background="@color/list_bg"
             android:orientation="horizontal">
 
             <ListView
                 android:id="@+id/classify_mainlist"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/px0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="#F4F4F5"
-                android:cacheColorHint="#00000000"
-                android:divider="#dcdcdc"
-                android:dividerHeight="1px"
-                android:fastScrollEnabled="false"
-                android:listSelector="#00000000"
+                android:background="@color/base_color"
                 android:scrollbars="none" />
 
             <com.baidu.iov.dueros.waimai.view.PoifoodListPinnedHeaderListView
                 android:id="@+id/classify_morelist"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/px0dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/px34dp"
+                android:layout_marginRight="@dimen/px84dp"
                 android:layout_weight="3"
-                android:background="#fff"
                 android:cacheColorHint="#00000000"
                 android:divider="#dcdcdc"
-                android:dividerHeight="0.5px"
-                android:listSelector="#00000000" />
+                android:dividerHeight="@dimen/px2dp"
+                android:listSelector="#00000000"
+                android:scrollbars="none" />
         </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/toolBar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/rl_discount"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px60dp"
+            android:layout_above="@+id/toolBar"
+            android:background="@drawable/youhuixinxi_bg"
+            android:visibility="gone">
 
             <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/tv_discount"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/preferential_information"
+                android:textSize="@dimen/px30sp"
+                android:visibility="visible"
+                app:removeDefaultPadding="true" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px150dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/card_bg">
+
+            <ImageView
+                android:id="@+id/shopping_cart"
+                android:layout_width="@dimen/px94dp"
+                android:layout_height="@dimen/px94dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/px84dp"
+                android:src="@drawable/icon_gouwuche" />
+
+            <com.domain.multipltextview.MultiplTextView
+                android:id="@+id/shoppingNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/shopping_cart"
+                android:layout_alignTop="@+id/shopping_cart"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/px24sp"
                 android:visibility="gone"
                 app:removeDefaultPadding="true" />
 
-            <LinearLayout
-                android:layout_width="fill_parent"
+            <FrameLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/px36dp"
+                android:layout_toRightOf="@+id/shopping_cart">
 
                 <RelativeLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/ll_price"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="#313131"
-                    android:padding="5dp">
-
-                    <ImageView
-                        android:id="@+id/shopping_cart"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:paddingBottom="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingTop="5dp"
-                        android:src="@drawable/shopping_cart" />
-
-                    <com.domain.multipltextview.MultiplTextView
-                        android:id="@+id/shoppingNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignRight="@+id/shopping_cart"
-                        android:layout_alignTop="@+id/shopping_cart"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="8sp"
-                        android:visibility="gone"
-                        app:removeDefaultPadding="true" />
+                    android:visibility="gone">
 
                     <com.domain.multipltextview.MultiplTextView
                         android:id="@+id/shoppingPrise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="30dp"
-                        android:layout_toRightOf="@+id/shopping_cart"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
+                        android:textColor="@color/full_subtraction_bg"
+                        android:textSize="@dimen/px40sp"
                         app:removeDefaultPadding="true" />
 
+                    <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/tv_distribution_fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/px28dp"
+                        android:layout_toRightOf="@+id/shoppingPrise"
+                        android:text="22222222"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/px30sp"
+                        app:removeDefaultPadding="true" />
                 </RelativeLayout>
 
                 <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/settlement"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#DC5914"
-                    android:gravity="center"
-                    android:text="@string/confirmation_of_the_order"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    app:removeDefaultPadding="true" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/cardLayout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_above="@+id/toolBar"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <View
-                android:id="@+id/bg_layout"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="2"
-                android:background="#a0000000"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:id="@+id/cardShopLayout"
-                android:layout_width="fill_parent"
-                android:layout_height="160dp"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <RelativeLayout
-                    android:layout_width="fill_parent"
+                    android:id="@+id/tv_no_product"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#DC5914">
-
-                    <com.domain.multipltextview.MultiplTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="6dp"
-                        android:paddingLeft="20dp"
-                        android:paddingTop="6dp"
-                        android:text="@string/shop_cart"
-                        android:textColor="@color/black"
-                        app:removeDefaultPadding="true" />
-
-                    <com.domain.multipltextview.MultiplTextView
-                        android:id="@+id/tv_clear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:paddingBottom="6dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="6dp"
-                        android:text="@string/empty_all"
-                        android:textColor="@color/black"
-                        app:removeDefaultPadding="true" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_gravity="center"
-                    android:background="#f3f3f3"
-                    android:orientation="vertical">
-
-                    <com.domain.multipltextview.MultiplTextView
-                        android:id="@+id/defaultText"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/shopping_cart_is_empty"
-                        android:textSize="12sp"
-                        android:visibility="gone"
-                        app:removeDefaultPadding="true" />
-
-                    <ListView
-                        android:id="@+id/shopproductListView"
-                        android:layout_width="fill_parent"
-                        android:layout_height="match_parent"
-                        android:cacheColorHint="#00000000"
-                        android:divider="#dcdcdc"
-                        android:dividerHeight="1px"
-                        android:listSelector="#00000000"
-                        android:orientation="vertical">
-
-                    </ListView>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </FrameLayout>
+                    android:layout_centerVertical="true"
+                    android:text="@string/no_product"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/px30sp"
+                    app:removeDefaultPadding="true" />
+            </FrameLayout>
 
 
+            <Button
+                android:id="@+id/settlement"
+                android:layout_width="@dimen/px330dp"
+                android:layout_height="@dimen/px106dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/px84dp"
+                android:background="@drawable/btn_grey"
+                android:enabled="false"
+                android:text="@string/confirmation_of_the_order"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp" />
+        </RelativeLayout>
     </RelativeLayout>
-
-
 </FrameLayout>

@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/layout_border_shape">
+    android:layout_height="@dimen/px218dp">
 
     <ImageView
         android:id="@+id/product_photo"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="5dp"
-        android:layout_centerVertical="true"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/ic_goods_image" />
+        android:layout_width="@dimen/px220dp"
+        android:layout_height="@dimen/px150dp"
+        android:layout_marginBottom="@dimen/px30dp"
+        android:layout_marginTop="@dimen/px32dp"
+        android:layout_marginStart="@dimen/px84dp"
+        android:scaleType="fitXY" />
 
-    <TextView
+    <com.domain.multipltextview.MultiplTextView
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:singleLine="true"
-        android:maxEms="7"
-        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/px38dp"
+        android:layout_marginTop="@dimen/px32dp"
         android:layout_toEndOf="@+id/product_photo"
-        android:textSize="15sp" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/px36sp"
+        app:removeDefaultPadding="true" />
 
     <TextView
         android:id="@+id/product_attrs"
@@ -31,40 +30,66 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/product_name"
         android:layout_below="@+id/product_name"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="@dimen/px42dp"
+        android:alpha="0.6"
+        android:visibility="invisible"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px30sp"/>
 
-    <TextView
+    <com.domain.multipltextview.MultiplTextView
         android:id="@+id/product_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/product_attrs"
         android:layout_below="@+id/product_attrs"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="@dimen/px12dp"
+        android:alpha="0.6"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px30sp"
+        app:removeDefaultPadding="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/px84dp"
+        android:layout_marginStart="@dimen/px84dp"
+        android:alpha="0.06"
+        android:background="@color/white" />
 
     <TextView
         android:id="@+id/product_discount"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_alignBaseline="@+id/product_name"
+        android:layout_width="@dimen/px40dp"
+        android:layout_height="@dimen/px40dp"
+        android:layout_marginStart="@dimen/px20dp"
+        android:layout_marginTop="@dimen/px30dp"
         android:layout_toEndOf="@+id/product_name"
-        android:background="@color/gray"
+        android:background="@drawable/tagbg2"
         android:gravity="center"
-        android:text="@string/discount_text" />
+        android:text="@string/discount_text"
+        android:textColor="@color/delivery_type_color"
+        android:textSize="@dimen/px30sp" />
 
-    <TextView
+    <com.domain.multipltextview.MultiplTextView
         android:id="@+id/origin_price"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginEnd="20dp"
-        android:layout_alignBaseline="@+id/product_name"
-        android:layout_toStartOf="@+id/product_price"/>
+        android:layout_marginEnd="@dimen/px28dp"
+        android:layout_marginTop="@dimen/px28dp"
+        android:layout_toStartOf="@id/product_price"
+        android:alpha="0.6"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px36sp"
+        app:removeDefaultPadding="true" />
 
-    <TextView
+    <com.domain.multipltextview.MultiplTextView
         android:id="@+id/product_price"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:layout_alignBaseline="@+id/product_name"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px28dp"
+        android:textColor="@color/money_color"
+        android:textSize="@dimen/px36sp"
+        app:removeDefaultPadding="true" />
 </RelativeLayout>

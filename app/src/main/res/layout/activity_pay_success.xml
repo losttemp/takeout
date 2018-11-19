@@ -158,9 +158,8 @@
         android:textSize="@dimen/px36sp" />
 
 
-    <com.domain.multipltextview.MultiplTextView
+    <TextView
         android:id="@+id/order_details_tv"
-        app:removeDefaultPadding="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/px162dp"

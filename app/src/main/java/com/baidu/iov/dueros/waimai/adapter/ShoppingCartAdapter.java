@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.R;
+import com.domain.multipltextview.MultiplTextView;
 
 import java.util.List;
 
@@ -50,20 +52,18 @@ public class ShoppingCartAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.trade_widget, null);
             viewHolder = new ViewHolder();
-            viewHolder.commodityName = (TextView) convertView.findViewById(R.id.commodityName);
-            viewHolder.commodityPrise = (TextView) convertView.findViewById(R.id.commodityPrise);
-            viewHolder.commodityNum = (TextView) convertView.findViewById(R.id.commodityNum);
-            viewHolder.increase = (TextView) convertView.findViewById(R.id.increase);
-            viewHolder.reduce = (TextView) convertView.findViewById(R.id.reduce);
-            viewHolder.shoppingNum = (TextView) convertView.findViewById(R.id.shoppingNum);
-            viewHolder.shopSpecifications = (TextView) convertView.findViewById(R.id.tv_shop_specifications);
+            viewHolder.commodityName = (MultiplTextView) convertView.findViewById(R.id.commodityName);
+            viewHolder.commodityPrise = (MultiplTextView) convertView.findViewById(R.id.commodityPrise);
+            viewHolder.increase = (ImageView) convertView.findViewById(R.id.increase);
+            viewHolder.reduce = (ImageView) convertView.findViewById(R.id.reduce);
+            viewHolder.shoppingNum = (MultiplTextView) convertView.findViewById(R.id.shoppingNum);
+            viewHolder.shopSpecifications = (MultiplTextView) convertView.findViewById(R.id.tv_shop_specifications);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.commodityName.setText(spusBeans.get(position).getName());
         viewHolder.commodityPrise.setText("" + spusBeans.get(position).getMin_price());
-        viewHolder.commodityNum.setText(1 + "");
         viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
 
         StringBuffer stringBuffer = new StringBuffer();
@@ -130,12 +130,11 @@ public class ShoppingCartAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        public TextView commodityName;
-        public TextView commodityPrise;
-        public TextView commodityNum;
-        public TextView increase;
-        public TextView reduce;
-        public TextView shoppingNum;
-        public TextView shopSpecifications;
+        public MultiplTextView commodityName;
+        public MultiplTextView commodityPrise;
+        public ImageView increase;
+        public ImageView reduce;
+        public MultiplTextView shoppingNum;
+        public MultiplTextView shopSpecifications;
     }
 }

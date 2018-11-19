@@ -64,9 +64,9 @@ public class DeliveryDateAdapter extends BaseAdapter {
         }
 
         if (mPreDatePos == position){
-            viewHolder.tv_date.setBackgroundColor(mContext.getResources().getColor(R.color.white_bg));
+            viewHolder.tv_date.setTextColor(mContext.getResources().getColor(R.color.select_date_color));
         }else{
-            viewHolder.tv_date.setBackground(mContext.getResources().getDrawable(R.drawable.item_border_shape));
+            viewHolder.tv_date.setTextColor(mContext.getResources().getColor(R.color.white));
         }
         String date = mData.get(position).getDate();
         viewHolder.tv_date.setText(date);
