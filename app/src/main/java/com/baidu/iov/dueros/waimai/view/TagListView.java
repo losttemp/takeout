@@ -51,6 +51,7 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
             textView.setTextColor(mTextColor);
             if (i == 0) {
                 textView.setBackgroundColor(Color.BLACK);
+                this.mTagValue = tags.get(0);
             } else {
                 textView.setBackgroundColor(Color.GRAY);
             }

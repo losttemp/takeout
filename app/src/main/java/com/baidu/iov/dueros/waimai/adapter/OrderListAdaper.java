@@ -177,7 +177,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
 
             tvFood.setText(food_name);
             tvFoodNum.setText("x" + String.valueOf(food_num));
-            tvPrice.setText(String.valueOf(total_price));
+            tvPrice.setText("￥" + String.valueOf(total_price));
             tvTotalCount.setText(String.format(mContext.getResources().getString(R.string
                     .goods_total_count), total_count));
             Glide.with(mContext).load(wm_pic_url).into(ivStore);

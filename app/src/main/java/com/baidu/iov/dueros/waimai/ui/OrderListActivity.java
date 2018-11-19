@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,7 +14,7 @@ import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.OrderListAdaper;
-import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
@@ -29,7 +28,6 @@ import java.util.List;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
-import com.baidu.iov.faceos.client.GsonUtil;
 
 public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderListPresenter.OrderListUi> implements
         OrderListPresenter.OrderListUi, View.OnClickListener {
@@ -45,7 +43,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private OrderListReq mOrderListReq;
     OrderListExtraBean extraBean;
     private OrderCancelResponse.ErrorInfoBean mOrderCancel= new OrderCancelResponse.ErrorInfoBean();
-    private OrderDetailsReq mOrderDetailsReq;
+    private OrderCancelReq mOrderCancelReq;
 
     @Override
     OrderListPresenter createPresenter() {
@@ -104,25 +102,25 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     case R.id.iv_click:
                         Intent storeintent = new Intent(getApplicationContext(), FoodListActivity.class);
                         storeintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
-
                         startActivity(storeintent);
                         break;
                     case R.id.one_more_order:
-
+                        Intent onemoreintent = new Intent(getApplicationContext(), FoodListActivity.class);
+                        onemoreintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
+                        startActivity(onemoreintent);
                         break;
                     case R.id.pay_order:
 
                         break;
                     case R.id.cancel_order:
-                        mOrderDetailsReq = new OrderDetailsReq();
-                        mOrderDetailsReq.setId(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
+                        mOrderCancelReq = new OrderCancelReq(Long.parseLong(mOrderList.get(position).getOut_trade_no()), payloadBean.getUser_phone());
                         ConfirmDialog dialog = new ConfirmDialog.Builder(OrderListActivity.this)
                                 .setTitle(R.string.order_cancel_title)
                                 .setMessage(R.string.order_cancel_message)
                                 .setNegativeButton(R.string.order_cancel, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        getPresenter().requestOrderCancel(mOrderDetailsReq);
+                                        getPresenter().requestOrderCancel(mOrderCancelReq);
                                         dialog.dismiss();
                                     }
                                 })
