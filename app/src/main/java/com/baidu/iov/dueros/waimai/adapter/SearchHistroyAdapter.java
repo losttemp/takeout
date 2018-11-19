@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
+import com.domain.multipltextview.MultiplTextView;
 
 import java.util.List;
 
@@ -47,8 +48,8 @@ public class SearchHistroyAdapter extends BaseAdapter {
 			convertView = mLayoutInflater.inflate(R.layout.layout_search_history_item, parent,
 					false);
 			viewHolder = new ViewHolder();
-			viewHolder.tvHistoryNum = (TextView) convertView.findViewById(R.id.tv_history_num);
-			viewHolder.tvHistoryName = (TextView) convertView.findViewById(R.id.tv_history_name);
+			viewHolder.tvHistoryNum = convertView.findViewById(R.id.tv_history_num);
+			viewHolder.tvHistoryName =  convertView.findViewById(R.id.tv_history_name);
 			viewHolder.ivDelete = (AppCompatImageView) convertView.findViewById(R.id.iv_delete);
 			convertView.setTag(viewHolder);
 		} else {
