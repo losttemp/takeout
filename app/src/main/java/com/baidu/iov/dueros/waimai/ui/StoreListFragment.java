@@ -1,8 +1,6 @@
 package com.baidu.iov.dueros.waimai.ui;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
@@ -27,19 +24,14 @@ import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.StoreListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
-
 public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreListPresenter
 		.StoreListUi> implements
 		StoreListPresenter.StoreListUi, View.OnClickListener {
@@ -139,7 +131,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreAdaper = new StoreAdaper(mStoreList, mContext);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-		//mRvStore.addItemDecoration(new SpaceItemDecoration(dp2px(30)));
 		mRvStore.setLayoutManager(layoutManager);
 		mRvStore.setAdapter(mStoreAdaper);
 		mStoreAdaper.setItemClickListener(new StoreAdaper.OnItemClickListener() {
@@ -179,9 +170,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 							mTvSort.setText(type.getName());
 							loadFirstPage(mStoreReq);
 							mTvSales.setTextColor(mContext.getResources().getColor(
-									R.color.dark_gray));
+									R.color.white_60));
 							mTvDistance.setTextColor(mContext.getResources().getColor(
-									R.color.dark_gray));
+									R.color.white_60));
 						}
 					}));
 					mSortPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -212,7 +203,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 									if (!migFilter.isEmpty()){
 										mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
 									}else{
-										mTvFilter.setTextColor(getResources().getColor(R.color.dark_gray));
+										mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
 									}
 									loadFirstPage(mStoreReq);
 								}
@@ -243,15 +234,15 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mTvSales.setTextColor(mContext.getResources().getColor(
 							R.color.filter_selected));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
-					mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
+							R.color.white_60));
+					mTvSort.setTextColor(getResources().getColor(R.color.white_60));
 					loadFirstPage(mStoreReq);
 				}else {
 					mStoreReq.setSortType(COMPREHENSIVE);
 					mTvSales.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
+							R.color.white_60));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
+							R.color.white_60));
 					mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
 					loadFirstPage(mStoreReq);
 				}
@@ -263,17 +254,17 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mTvSort.setText(getResources().getString(R.string.store_sort));
 					mStoreReq.setSortType(DISTANCE_SORT_INDEX);
 					mTvSales.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
+							R.color.white_60));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
 							R.color.filter_selected));
-					mTvSort.setTextColor(getResources().getColor(R.color.dark_gray));
+					mTvSort.setTextColor(getResources().getColor(R.color.white_60));
 					loadFirstPage(mStoreReq);
 				}else {
 					mStoreReq.setSortType(COMPREHENSIVE);
 					mTvSales.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
+							R.color.white_60));
 					mTvDistance.setTextColor(mContext.getResources().getColor(
-							R.color.dark_gray));
+							R.color.white_60));
 					mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
 					loadFirstPage(mStoreReq);
 				}
@@ -457,7 +448,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	}
 
 	public void loadFirstPage(StoreReq storeReq) {
-		Lg.getInstance().e(TAG,"storeReq:"+storeReq);
 		storeReq.setPage_index(1);
 		mPresenter.requestStoreList(storeReq);
 		mStoreReq = storeReq;
@@ -469,7 +459,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	}
 
 	public void locationLoadFirstPage() {
-		Lg.getInstance().e(TAG,"mStoreReq:"+mStoreReq);
 		mStoreReq.setPage_index(1);
 		mPresenter.requestStoreList(mStoreReq);
 	}
@@ -481,21 +470,5 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mPresenter.requestFilterList(new FilterConditionReq());
 	}
 
-	class SpaceItemDecoration extends RecyclerView.ItemDecoration {
-		private int space;
-
-		public SpaceItemDecoration(int space) {
-			this.space = space;
-		}
-
-		@Override
-		public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull
-				RecyclerView parent, @NonNull RecyclerView.State state) {
-			outRect.top = space;
-			outRect.left = 0;
-			outRect.right = 0;
-			outRect.bottom = space;
-		}
-	}
-
+	
 }

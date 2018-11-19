@@ -106,7 +106,7 @@
             android:layout_marginStart="@dimen/px36dp"
             android:layout_marginBottom="@dimen/px30dp"
             android:textSize="@dimen/px30sp"
-            android:textColor="@color/dark_gray"
+            android:textColor="@color/white_60"
             android:layout_toRightOf="@id/lv_first_type"
             android:text="@string/stroe_type_food"/>
 

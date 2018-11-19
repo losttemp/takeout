@@ -101,7 +101,7 @@
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
 				android:text="@string/search_history"
-				android:textColor="@color/white"
+				android:textColor="@color/white_60"
 				android:textSize="@dimen/px30sp" />
 
 			<android.support.v7.widget.AppCompatImageView
