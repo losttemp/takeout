@@ -43,10 +43,15 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_select);
         initView();
-        initData();
 /*        Intent i = new Intent();
         i.setData(Uri.parse("bdmapauto://map/navi_end_route"));
         startActivity(i);*/
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
     }
 
     private void initData() {
