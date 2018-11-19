@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.view.GoodsViewGroup;
 
@@ -24,18 +25,16 @@ import java.util.Map;
 public class PoifoodSpusTagsAdapter extends BaseAdapter {
 
     private final Context context;
-    private final List<String> foodSpuTagsBeanNames;
-    private final List<Map<Integer, Integer>> num;
+    private List<PoifoodSpusTagsBean> poifoodSpusTagsBeans;
 
-    public PoifoodSpusTagsAdapter(Context context, List<String> foodSpuTagsBeanNames, List<Map<Integer, Integer>> num) {
+    public PoifoodSpusTagsAdapter(Context context, List<PoifoodSpusTagsBean> poifoodSpusTagsBeans) {
         this.context = context;
-        this.foodSpuTagsBeanNames = foodSpuTagsBeanNames;
-        this.num = num;
+        this.poifoodSpusTagsBeans = poifoodSpusTagsBeans;
     }
 
     @Override
     public int getCount() {
-        return foodSpuTagsBeanNames == null ? 0 : foodSpuTagsBeanNames.size();
+        return poifoodSpusTagsBeans == null ? 0 : poifoodSpusTagsBeans.size();
     }
 
     @Override
@@ -59,10 +58,10 @@ public class PoifoodSpusTagsAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.foodSpuTagsBeanName.setText(foodSpuTagsBeanNames.get(position));
-       /* if (num.get(position).containsKey(position)) { TODO
-            viewHolder.number.setText(String.valueOf(num.get(position).get(position)));
-        }*/
+        viewHolder.foodSpuTagsBeanName.setText(poifoodSpusTagsBeans.get(position).getFoodSpuTagsBeanName());
+        if (poifoodSpusTagsBeans.get(position).getNumber() != 0) {
+            viewHolder.number.setText("" + poifoodSpusTagsBeans.get(position).getNumber());
+        }
         return convertView;
     }
 

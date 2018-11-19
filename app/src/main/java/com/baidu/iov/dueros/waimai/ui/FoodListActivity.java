@@ -38,6 +38,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusListAdapter;
 import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusTagsAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ShoppingCartAdapter;
+import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
@@ -52,6 +53,7 @@ import com.domain.multipltextview.MultiplTextView;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +80,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private boolean isClean = false;
     private FrameLayout animation_viewGroup;
     private MultiplTextView defaultText;
-    private List<String> foodSpuTagsBeanName;
+    private List<PoifoodSpusTagsBean> poifoodSpusTagsBeans;
     private RelativeLayout parentLayout;
     private MultiplTextView noData;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans = new ArrayList<>();
@@ -132,10 +134,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private MultiplTextView mCartClose;
     private MultiplTextView mDistributionFee;
     private RelativeLayout mRlDiscount;
-    private List<Map<Integer, Integer>> foodSpuTagsChoiceNum;
     private int rightSection;
     private MultiplTextView mNoProduct;
     private RelativeLayout mLlPrice;
+    private List<String> foodSpuTagsBeanName;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -195,7 +197,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void initData() {
         productList = new ArrayList<>();
         foodSpuTagsBeanName = new ArrayList<>();
-        foodSpuTagsChoiceNum = new ArrayList<>();
+        poifoodSpusTagsBeans = new ArrayList<>();
         mPoifoodSpusListAdapter = new PoifoodSpusListAdapter(this, productList, foodSpuTagsBeans, FoodListActivity.this);
         mPoifoodSpusListAdapter.SetOnSetHolderClickListener(new PoifoodSpusListAdapter.HolderClickListener() {
             @Override
@@ -206,7 +208,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
         mSpusList.setAdapter(mPoifoodSpusListAdapter);
         mPoifoodSpusListAdapter.setCallBackListener(this);
-        mFoodSpuTagsListAdapter = new PoifoodSpusTagsAdapter(this, foodSpuTagsBeanName, foodSpuTagsChoiceNum);
+        mFoodSpuTagsListAdapter = new PoifoodSpusTagsAdapter(this, poifoodSpusTagsBeans);
         mFoodSpuTagsList.setAdapter(mFoodSpuTagsListAdapter);
         shoppingCartAdapter = new ShoppingCartAdapter(this, productList);
         mFoodSpuTagsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -300,18 +302,26 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     @Override
     public void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag, int selection) {
-        /*for (int i = 0; i < foodSpuTagsBeanName.size(); i++) {TODO
-            if (foodSpuTagsChoiceNum.get(i).containsKey(selection)) {
-                Integer choiceNum = foodSpuTagsChoiceNum.get(selection).get(selection);
-                if (i == selection) {
-                    choiceNum++;
-                    Map map = new HashMap();
-                    map.put(i, choiceNum);
-                    foodSpuTagsChoiceNum.add(map);
-                }
+//        for (int i = 0; i < foodSpuTagsBeanName.size(); i++) {
+//            if (foodSpuTagsChoiceNum.get(i).containsKey(selection)) {
+//                Integer choiceNum = foodSpuTagsChoiceNum.get(selection).get(selection);
+//
+//                if (i == selection) {
+//                    choiceNum++;
+//                    Map map = new HashMap();
+//                    map.put(i, choiceNum);
+//                    foodSpuTagsChoiceNum.add(map);
+//                }
+//            }
+//        }
+        for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
+            if (selection == poifoodSpusTagsBeans.get(i).getIndex()) {
+                Integer number = poifoodSpusTagsBeans.get(i).getNumber();
+                number++;
+                poifoodSpusTagsBeans.get(i).setNumber(number);
             }
         }
-        mFoodSpuTagsListAdapter.notifyDataSetChanged();*/
+        mFoodSpuTagsListAdapter.notifyDataSetChanged();
         String spusBeanTag = spusBean.getTag();
         boolean inList = false;
         Lg.getInstance().d(TAG, "updateProduct tag = " + tag + "; spusBeanTag = " + spusBeanTag);
@@ -811,6 +821,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         for (int i = 0; i < food_spu_tags.size(); i++) {
             PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean foodSpuTagsBean = food_spu_tags.get(i);
             String foodSpuTagsName = foodSpuTagsBean.getName();
+            PoifoodSpusTagsBean poifoodSpusTagsBean = new PoifoodSpusTagsBean();
+            poifoodSpusTagsBean.setFoodSpuTagsBeanName(foodSpuTagsName);
+            poifoodSpusTagsBean.setIndex(i);
+            poifoodSpusTagsBean.setNumber(0);
+            poifoodSpusTagsBeans.add(poifoodSpusTagsBean);
             foodSpuTagsBeanName.add(foodSpuTagsName);
             Lg.getInstance().d(TAG, "foodSpuTagsBeanName = " + foodSpuTagsName);
             spusBeanList = new ArrayList<>();
@@ -824,6 +839,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             Lg.getInstance().d(TAG, "spusBeanList = " + spusBeanList.size());
             foodSpuTagsBean.setSpus(spusBeanList);
             foodSpuTagsBeans.add(foodSpuTagsBean);
+
         }
         Lg.getInstance().d(TAG, "foodSpuTagsBeanName = " + foodSpuTagsBeanName.toString());
         Lg.getInstance().d(TAG, "spusBeanName = " + spusBeanList.toString());
