@@ -80,7 +80,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	
 	
 	public void setmEtTipNoResult(){
-		mEtSearch.setText("这个关键词有点复杂");
+		mEtSearch.setText(getResources().getString(R.string.this_keyword_is_complicated));
 		mLlHistory.setVisibility(View.GONE);
 		mLvSuggest.setVisibility(View.GONE);
 	}

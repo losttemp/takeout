@@ -42,7 +42,7 @@
 				android:background="@color/pop_window_bg"
 				android:gravity="center_horizontal"
 				android:text="@string/store_status_break"
-				android:textColor="@color/white"
+				android:textColor="@color/white_60"
 				android:textSize="16sp" />
 		</FrameLayout>
 
@@ -107,7 +107,7 @@
 					android:layout_height="wrap_content"
 					android:layout_centerVertical="true"
 					android:layout_marginRight="5dp"
-					android:textColor="@color/white"
+					android:textColor="@color/white_60"
 					android:gravity="center"
 					android:textSize="14sp"
 					android:visibility="gone"
@@ -122,7 +122,7 @@
 					android:layout_height="wrap_content"
 					android:layout_centerVertical="true"
 					android:layout_marginRight="3dp"
-					android:textColor="@color/white"
+					android:textColor="@color/white_60"
 					android:gravity="center"
 					android:textSize="@dimen/px30sp"
 					tools:text="2.5km" />
@@ -132,7 +132,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_centerVertical="true"
-					android:textColor="@color/white"
+					android:textColor="@color/white_60"
 					android:layout_marginRight="5dp"
 					android:gravity="center"
 					android:textSize="@dimen/px30sp"
@@ -154,7 +154,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginRight="5dp"
-					android:textColor="@color/white"
+					android:textColor="@color/white_60"
 					android:textSize="@dimen/px30sp"
 					tools:text="@string/min_price_s" />
 
@@ -164,7 +164,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginRight="5dp"
-					android:textColor="@color/white"
+					android:textColor="@color/white_60"
 					android:textSize="@dimen/px30sp"
 					tools:text="@string/shipping_fee_s" />
 
@@ -173,7 +173,7 @@
 					android:id="@+id/tv_average_price"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textColor="@color/white"
+					android:textColor="@color/white_60"
 					android:layout_marginRight="5dp"
 					android:textSize="@dimen/px30sp"
 					tools:text="@string/average_price" />

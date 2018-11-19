@@ -34,7 +34,7 @@ import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
 
 public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
-	private static final int DISCOUNT_LINE_HEIGHT = 16;
+	private static final int DISCOUNT_LINE_HEIGHT = 17;
 
 	private List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean> mStoreList;
 	private Context mContext;
