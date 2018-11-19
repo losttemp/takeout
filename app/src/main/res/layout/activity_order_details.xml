@@ -74,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/arrival_time"
                 android:textColor="@color/pay_status"
+                android:visibility="gone"
                 android:textSize="@dimen/px36sp" />
         </LinearLayout>
     </LinearLayout>
@@ -86,21 +87,20 @@
 
         <Button
             android:id="@+id/repeat_order"
-            android:layout_width="@dimen/px0dp"
+            android:layout_width="@dimen/px410dp"
             android:layout_height="@dimen/px96dp"
             android:layout_marginLeft="@dimen/px84dp"
-            android:layout_weight="1"
             android:background="@drawable/btn_bg"
             android:text="@string/one_more_order"
             android:textColor="@color/white"
-            android:textSize="@dimen/px36sp" />
+            android:textSize="@dimen/px36sp"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/pay_order"
-            android:layout_width="@dimen/px0dp"
+            android:layout_width="@dimen/px410dp"
             android:layout_height="@dimen/px96dp"
             android:layout_marginLeft="@dimen/px84dp"
-            android:layout_weight="1"
             android:background="@drawable/btn_bg"
             android:text="@string/pay_order"
             android:textColor="@color/white"
@@ -109,15 +109,15 @@
 
         <Button
             android:id="@+id/cancel_order"
-            android:layout_width="@dimen/px0dp"
+            android:layout_width="@dimen/px410dp"
             android:layout_height="@dimen/px96dp"
             android:layout_marginLeft="@dimen/px92dp"
             android:layout_marginRight="@dimen/px84dp"
-            android:layout_weight="1"
             android:background="@drawable/btn_bg2"
             android:text="@string/order_cancel"
             android:textColor="@color/white"
-            android:textSize="@dimen/px36sp" />
+            android:textSize="@dimen/px36sp"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <View
@@ -359,6 +359,7 @@
                 android:background="@color/white"></View>
 
             <LinearLayout
+                android:id="@+id/ll_expected_time"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px126dp"
                 android:layout_marginLeft="@dimen/px84dp"

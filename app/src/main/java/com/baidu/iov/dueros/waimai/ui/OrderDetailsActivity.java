@@ -112,7 +112,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         mAddress.setText(mOrderDetails.getRecipient_address());
         mExpectedTime.setText("2018-10-19 （周五）18:30");
         mOrderId.setText(String.valueOf(mOrderDetails.getOrder_id()));
-        mOrderTime.setText(String.valueOf(mOrderDetails.getCtime()));
+        mOrderTime.setText(String.valueOf(formatTime(mOrderDetails.getCtime())));
         if (mOrderDetails.getWm_order_pay_type() == 1) {
             mPayMethod.setText(R.string.order_pay_type1);
         } else if (mOrderDetails.getWm_order_pay_type() == 2) {
