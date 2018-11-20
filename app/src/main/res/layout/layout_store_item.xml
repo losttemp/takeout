@@ -212,7 +212,6 @@
 	<View
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/px2dp"
-		
 		android:layout_below="@+id/ll_info"
 		android:background="@color/dark_gray" />
 
