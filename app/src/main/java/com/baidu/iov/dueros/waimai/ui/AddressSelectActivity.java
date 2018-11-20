@@ -17,6 +17,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.ArrayList;
@@ -76,6 +77,12 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                         editor.putString(Constant.ADDRESS_DATA, databeanStr);
                         editor.commit();
                         Intent homeintent = new Intent(AddressSelectActivity.this, HomeActivity.class);
+                        try {
+                            String address = Encryption.desEncrypt(dataBean.getAddress());
+                            homeintent.putExtra(Constant.ADDRESS_SELECTED, address);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         startActivity(homeintent);
                         finish();
                         break;

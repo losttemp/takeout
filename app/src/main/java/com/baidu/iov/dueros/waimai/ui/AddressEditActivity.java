@@ -47,7 +47,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private RadioGroup radioGroup;
     private ClearEditText et_house_num;
     private boolean isEditMode;
-    private boolean isUpdateAddr = false;
     private int address_id;
     private AddressDeleteReq mAddressDelReq;
     private AddressEditReq mAddrEditReq;
@@ -107,7 +106,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 address_tv.setText(Encryption.desEncrypt(dataBean.getAddress()));
                 et_name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
                 et_phone.setText(Encryption.desEncrypt(dataBean.getUser_phone()));
-                et_house_num.setText((dataBean.getHouse() == null)? "" : Encryption.desEncrypt(dataBean.getHouse()));
+                et_house_num.setText((dataBean.getHouse() == null) ? "" : Encryption.desEncrypt(dataBean.getHouse()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -150,13 +149,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         }
     }
 
-
     @Override
     public void updateAddressSuccess(AddressEditBean data) {
-        if (dataBean.getMt_address_id() != 0) {
-            mAddressDelReq.setAddress_id(address_id);
-            getPresenter().requestDeleteAddressData(mAddressDelReq);
-        }
         Toast.makeText(this, R.string.address_update_success, Toast.LENGTH_SHORT).show();
         finish();
     }
@@ -197,17 +191,13 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void deleteAddressSuccess(AddressEditBean data) {
-        if (dataBean.getMt_address_id() == 0) {
-            Toast.makeText(this, R.string.address_delete_success, Toast.LENGTH_SHORT).show();
-            finish();
-        }
+        Toast.makeText(this, R.string.address_delete_success, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override
     public void deleteAddressFail(String msg) {
-        if (isUpdateAddr == false) {
-            Toast.makeText(this, R.string.address_delete_fail, Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(this, R.string.address_delete_fail, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -283,7 +273,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     mAddrAddReq.setSex(sex);
                     mAddrAddReq.setLatitude(latitude);
                     mAddrAddReq.setLongitude(longitude);
-                    isUpdateAddr = true;
                     getPresenter().requestAddAddressData(mAddrAddReq);
                 }
             } else {

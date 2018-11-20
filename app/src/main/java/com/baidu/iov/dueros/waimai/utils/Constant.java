@@ -55,4 +55,5 @@ public class Constant {
     public static String ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS = "address_select_address_edit";
     public static String ADDRESS_SELECT_INTENT_EXTRE_LOCATION = "address_select_location_to_home";
     public static String ADDRESS_DATA = "address_data";
+    public static String ADDRESS_SELECTED = "ADDRESS_SELECTED";
 }
