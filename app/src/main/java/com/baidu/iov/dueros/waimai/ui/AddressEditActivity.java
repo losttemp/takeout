@@ -107,7 +107,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 address_tv.setText(Encryption.desEncrypt(dataBean.getAddress()));
                 et_name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
                 et_phone.setText(Encryption.desEncrypt(dataBean.getUser_phone()));
-                et_house_num.setText(Encryption.desEncrypt(dataBean.getHouse()));
+                et_house_num.setText((dataBean.getHouse() == null)? "" : Encryption.desEncrypt(dataBean.getHouse()));
             } catch (Exception e) {
                 e.printStackTrace();
             }

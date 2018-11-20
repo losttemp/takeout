@@ -15,12 +15,12 @@
         <TextView
             style="@style/AddressEditViewTextStyle"
             android:text="@string/address_contact"
-            android:textSize="@dimen/px36sp"/>
+            android:textSize="@dimen/px36sp" />
 
         <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_name"
             style="@style/AddressEditTextStyle"
-            android:maxLength="64" />
+            android:maxLength="11" />
 
     </LinearLayout>
 
@@ -81,8 +81,8 @@
 
             <TextView
                 android:id="@+id/address_edit_address"
-                android:layout_weight="1"
-                style="@style/AddressEditTextStyle" />
+                style="@style/AddressEditTextStyle"
+                android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/address_edit_arrow"
@@ -107,11 +107,11 @@
 
     <View style="@style/AddressEditDividerStyle" />
 
-<LinearLayout
-android:layout_width="wrap_content"
-android:layout_height="@dimen/px126dp"
-android:layout_marginLeft="@dimen/px84dp"
-android:layout_marginRight="@dimen/px84dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/px126dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp">
 
         <TextView
             style="@style/AddressEditViewTextStyle"
@@ -132,8 +132,8 @@ android:layout_marginRight="@dimen/px84dp">
         android:id="@+id/address_edit_save"
         android:layout_width="@dimen/px540dp"
         android:layout_height="@dimen/px108dp"
-        android:layout_marginTop="@dimen/px120dp"
         android:layout_gravity="center"
+        android:layout_marginTop="@dimen/px120dp"
         android:background="@drawable/address_button"
         android:text="@string/address_edit_save" />
 </LinearLayout>
