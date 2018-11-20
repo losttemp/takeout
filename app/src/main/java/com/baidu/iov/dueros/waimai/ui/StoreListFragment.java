@@ -293,7 +293,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
 						.no_search_result_keyword));
 				((SearchActivity)mContext).setmEtTipNoResult();
-			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
+			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME||mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
 				if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
 							.no_search_result_filter));
