@@ -2,8 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/px84dp"
-    android:paddingRight="@dimen/px84dp"
     android:background="@color/gray_bg"
     android:orientation="vertical">
 
@@ -14,12 +12,16 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/address_select_lv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/px84dp"
+        android:paddingRight="@dimen/px84dp"/>
 
     <LinearLayout
         android:id="@+id/address_none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/px84dp"
+        android:paddingRight="@dimen/px84dp"
         android:layout_marginTop="@dimen/px202dp"
         android:orientation="vertical"
         android:visibility="gone">

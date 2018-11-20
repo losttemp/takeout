@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_bg"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/px84dp"
-    android:paddingRight="@dimen/px84dp">
+    android:orientation="vertical">
 
     <include layout="@layout/activity_address_header" />
 
@@ -15,6 +13,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
         android:orientation="horizontal">
 
         <TextView
@@ -70,11 +70,15 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/px2dp"
         android:layout_marginTop="@dimen/px36dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
         android:background="@color/dark_gray" />
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/address_search_rv"

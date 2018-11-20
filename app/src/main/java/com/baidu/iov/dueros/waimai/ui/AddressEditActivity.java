@@ -184,7 +184,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 startActivity(intent);
                 finish();
             } else {
-                Toast.makeText(this, String.format(getString(R.string.address_save_fail), data.getIov().getErrmsg()), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.address_save_fail, Toast.LENGTH_LONG).show();
             }
         }
 
@@ -192,7 +192,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void addAddressFail(String msg) {
-        Toast.makeText(this, String.format(getString(R.string.address_save_fail), msg), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.address_save_fail, Toast.LENGTH_LONG).show();
     }
 
     @Override
