@@ -8,31 +8,28 @@
     android:orientation="vertical"
     tools:context="com.baidu.iov.dueros.waimai.ui.PaySuccessActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/submit_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px120dp"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/px120dp">
 
         <ImageView
             android:id="@+id/finish_img"
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
-            android:layout_marginBottom="@dimen/px14dp"
+            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/px54dp"
             android:background="@drawable/icon_close" />
 
         <com.domain.multipltextview.MultiplTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/px340dp"
-            android:layout_marginStart="@dimen/px210dp"
+            android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/payment_success"
             android:textColor="@color/white"
             android:textSize="@dimen/px40sp" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -64,24 +61,24 @@
 
             <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/store_name_tv"
-                app:removeDefaultPadding="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px48dp"
                 android:singleLine="true"
                 android:textColor="@color/white"
-                android:layout_marginTop="@dimen/px48dp"
-                android:textSize="@dimen/px36sp" />
+                android:textSize="@dimen/px36sp"
+                app:removeDefaultPadding="true" />
 
             <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/product_info_tv"
-                app:removeDefaultPadding="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/px24dp"
-                android:textColor="@color/white"
-                android:singleLine="true"
                 android:alpha="0.6"
-                android:textSize="@dimen/px30sp" />
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px30sp"
+                app:removeDefaultPadding="true" />
         </LinearLayout>
 
     </RelativeLayout>
@@ -162,8 +159,8 @@
         android:id="@+id/order_details_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/px162dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/px162dp"
         android:drawableEnd="@drawable/arrow_right"
         android:gravity="center"
         android:text="@string/check_order_details"

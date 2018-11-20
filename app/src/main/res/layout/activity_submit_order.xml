@@ -5,17 +5,16 @@
     android:layout_height="match_parent"
     android:background="@drawable/app_bg">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/submit_order_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px120dp"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/px120dp">
 
         <ImageView
             android:id="@+id/back_action"
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
-            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/px54dp"
             android:background="@drawable/icon_back" />
 
@@ -23,15 +22,13 @@
             android:id="@+id/select_shipping_address"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/px340dp"
-            android:layout_marginStart="@dimen/px210dp"
+            android:layout_centerInParent="true"
             android:text="@string/submit_order_title"
             android:textColor="@color/white"
             android:textSize="@dimen/px40sp"
             app:removeDefaultPadding="true" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <ScrollView
