@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/rl"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -214,14 +215,5 @@
 		android:layout_height="@dimen/px2dp"
 		android:layout_below="@+id/ll_info"
 		android:background="@color/dark_gray" />
-
-    <View
-        android:id="@+id/view_mask_layer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ll_info"
-        android:layout_alignBottom="@+id/ll_info"
-        android:background="@color/translucence_bg"
-        android:visibility="gone" />
-
+	
 </RelativeLayout>

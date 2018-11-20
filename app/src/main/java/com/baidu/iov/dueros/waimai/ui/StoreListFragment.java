@@ -439,7 +439,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private void jumpPage(int position) {
 		if (mStoreList.size() > position) {
 			if (mStoreList.get(position).getStatus()==Constant.STROE_STATUS_BREAK){
-				Toast.makeText(mContext,getResources().getString(R.string.tips_earliest_delivery_time),Toast.LENGTH_LONG).show();
+				//Toast.makeText(mContext,getResources().getString(R.string.tips_earliest_delivery_time),Toast.LENGTH_LONG).show();
+				return;
 			}
 			Intent intent = new Intent(mContext, FoodListActivity.class);
 			intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());
