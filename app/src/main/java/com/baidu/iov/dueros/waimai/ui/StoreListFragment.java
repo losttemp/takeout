@@ -293,7 +293,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
 						.no_search_result_keyword));
 				((SearchActivity)mContext).setmEtTipNoResult();
-			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
+			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME||mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
 				if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
 							.no_search_result_filter));
@@ -439,7 +439,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private void jumpPage(int position) {
 		if (mStoreList.size() > position) {
 			if (mStoreList.get(position).getStatus()==Constant.STROE_STATUS_BREAK){
-				Toast.makeText(mContext,getResources().getString(R.string.tips_earliest_delivery_time),Toast.LENGTH_LONG).show();
+				//Toast.makeText(mContext,getResources().getString(R.string.tips_earliest_delivery_time),Toast.LENGTH_LONG).show();
+				return;
 			}
 			Intent intent = new Intent(mContext, FoodListActivity.class);
 			intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());

@@ -102,15 +102,15 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string
 					.store_status_break));
 			viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
-			viewHolder.viewMaskLayer.setVisibility(View.VISIBLE);
+			viewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.gray_bg));
 		} else if (status == Constant.STROE_STATUS_BUSY) {
 			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string
 					.store_status_busy));
 			viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
-			viewHolder.viewMaskLayer.setVisibility(View.GONE);
+			viewHolder.rl.setBackground(null);
 		} else {
 			viewHolder.tvStatusDesc.setVisibility(View.GONE);
-			viewHolder.viewMaskLayer.setVisibility(View.GONE);
+			viewHolder.rl.setBackground(null);
 		}
 
 		//Discounts
@@ -187,9 +187,8 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
 	static class ViewHolder extends RecyclerView.ViewHolder {
 		private AppCompatImageView ivStore;
-		private LinearLayout llStoreInfo;
 		private MultiplTextView tvStoreName;
-		private MultiplTextView tvStatusDesc;
+		private TextView tvStatusDesc;
 		private RatingBar ratingBar;
 		private MultiplTextView tvScore;
 		private MultiplTextView tvSales;
@@ -199,16 +198,15 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		private MultiplTextView tvExpressPrice;
 		private MultiplTextView tvAveragePrice;
 		private TextView tvStoreIndex;
-		private View viewMaskLayer;
 		private RelativeLayout rlDiscount;
 		private RecyclerView rvStoreDiscount;
 		private AppCompatImageView ivStoreDiscount;
+		private RelativeLayout rl;
 
 		private ViewHolder(View view) {
 			super(view);
 
 			ivStore =  view.findViewById(R.id.iv_store);
-			llStoreInfo = view.findViewById(R.id.ll_store_info);
 			tvStoreName =  view.findViewById(R.id.tv_store_name);
 			tvStatusDesc =view.findViewById(R.id.tv_status_desc);
 			ratingBar = view.findViewById(R.id.ratingBar);
@@ -220,10 +218,10 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			tvExpressPrice =  view.findViewById(R.id.tv_express_price);
 			tvAveragePrice =  view.findViewById(R.id.tv_average_price);
 			tvStoreIndex =  view.findViewById(R.id.tv_store_index);
-			viewMaskLayer =  view.findViewById(R.id.view_mask_layer);
 			rlDiscount =  view.findViewById(R.id.rl_discount);
 			rvStoreDiscount = view.findViewById(R.id.rv_store_discount);
 			ivStoreDiscount =  view.findViewById(R.id.iv_store_discount);
+			rl=  view.findViewById(R.id.rl);
 		}
 	}
 
