@@ -142,7 +142,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private MultiplTextView mCartClose;
     private MultiplTextView mDistributionFee;
     private RelativeLayout mRlDiscount;
-    private int rightSection;
     private MultiplTextView mNoProduct;
     private RelativeLayout mLlPrice;
     private List<String> foodSpuTagsBeanName;
@@ -238,6 +237,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 Color.TRANSPARENT);
                     }
                 }
+                int rightSection = 0;
                 for (int i = 0; i < position; i++) {
                     rightSection += mPoifoodSpusListAdapter.getCountForSection(i) + 1;
                 }
