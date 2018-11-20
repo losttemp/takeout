@@ -30,6 +30,8 @@ public class FilterPopWindowAdapter extends BaseAdapter {
 		mFilterList = filterList;
 	}
 
+	
+
 	@Override
 	public int getCount() {
 		return mFilterList.size();
@@ -52,8 +54,7 @@ public class FilterPopWindowAdapter extends BaseAdapter {
 			convertView = mLayoutInflater.inflate(R.layout.layout_pop_filter_type_item, parent,
 					false);
 			viewHolder = new ViewHolder();
-			viewHolder.tvTypeName = (AppCompatTextView) convertView.findViewById(R.id
-					.tv_type_name);
+			viewHolder.tvTypeName = (AppCompatTextView) convertView.findViewById(R.id.tv_type_name);
 			viewHolder.gvSubType = (GridView) convertView.findViewById(R.id.gv_subType);
 			convertView.setTag(viewHolder);
 		} else {
@@ -63,7 +64,8 @@ public class FilterPopWindowAdapter extends BaseAdapter {
 		String name = mFilterList.get(position).getGroup_title();
 		if (!TextUtils.isEmpty(name)) {
 			viewHolder.tvTypeName.setText(mFilterList.get(position).getGroup_title());
-			viewHolder.tvTypeName.setVisibility(View.VISIBLE);
+			viewHolder.tvTypeName.setVisibility(View.GONE);
+			//viewHolder.tvTypeName.setVisibility(View.VISIBLE);
 		} else {
 			viewHolder.tvTypeName.setVisibility(View.GONE);
 		}
@@ -71,34 +73,42 @@ public class FilterPopWindowAdapter extends BaseAdapter {
 		final List<ActivityFilterListBean.ItemsBean> subTypeList = new ArrayList<>();
 		subTypeList.addAll(mFilterList.get(position).getItems());
 
-		final FilterSubTypeAdapter adapter = new FilterSubTypeAdapter(subTypeList,
-				mContext);
-		viewHolder.gvSubType.setAdapter(adapter);
-		viewHolder.gvSubType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-				ActivityFilterListBean.ItemsBean item = mFilterList.get(position).getItems().get
-						(pos);
+		
+		if (!TextUtils.isEmpty(name)&&name.contains("商家特色")){
+			viewHolder.gvSubType.setVisibility(View.VISIBLE);
+			final FilterSubTypeAdapter adapter = new FilterSubTypeAdapter(subTypeList,
+					mContext);
+			viewHolder.gvSubType.setAdapter(adapter);
+			viewHolder.gvSubType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+					ActivityFilterListBean.ItemsBean item = mFilterList.get(position).getItems().get
+							(pos);
 
-				if (item.isChcked()) {
-					item.setChcked(false);
-				} else {
-					if (mFilterList.get(position).getSupport_multi_choice() == 0) {
-						for (ActivityFilterListBean.ItemsBean data : mFilterList.get(position)
-								.getItems()) {
-							if (data.isChcked()) {
-								data.setChcked(false);
-								break;
+					if (item.isChcked()) {
+						item.setChcked(false);
+					} else {
+						if (mFilterList.get(position).getSupport_multi_choice() == 0) {
+							for (ActivityFilterListBean.ItemsBean data : mFilterList.get(position)
+									.getItems()) {
+								if (data.isChcked()) {
+									data.setChcked(false);
+									break;
+								}
 							}
 						}
+						item.setChcked(true);
 					}
-					item.setChcked(true);
+
+					adapter.notifyDataSetChanged();
 				}
+			});
 
-				adapter.notifyDataSetChanged();
-			}
-		});
-
+		}else{
+			viewHolder.gvSubType.setVisibility(View.GONE);
+		}
+			
+		
 		return convertView;
 	}
 

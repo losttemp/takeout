@@ -189,7 +189,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		private AppCompatImageView ivStore;
 		private LinearLayout llStoreInfo;
 		private MultiplTextView tvStoreName;
-		private MultiplTextView tvStatusDesc;
+		private TextView tvStatusDesc;
 		private RatingBar ratingBar;
 		private MultiplTextView tvScore;
 		private MultiplTextView tvSales;

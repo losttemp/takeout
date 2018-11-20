@@ -3,7 +3,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:background="@color/white">
+	android:background="#565f6a">
 
 	<ListView
 		android:id="@+id/lv_filter_type"
@@ -12,42 +12,32 @@
 		android:layout_marginLeft="@dimen/px84dp"
 		android:layout_marginRight="@dimen/px84dp"
 		android:divider="@color/dark_gray"
-		android:dividerHeight="1dp"
+		android:dividerHeight="@dimen/px2dp"
 		android:scrollbars="none"
 		tools:listitem="@layout/layout_pop_filter_type_item" />
 
 	<android.support.v7.widget.LinearLayoutCompat
 		android:id="@+id/l_confirm"
-		android:layout_width="match_parent"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginLeft="@dimen/px84dp"
-		android:layout_marginRight="@dimen/px84dp"
 		android:layout_below="@+id/lv_filter_type"
-		android:layout_marginTop="10dp"
+		android:layout_marginTop="@dimen/px30dp"
+		android:layout_marginBottom="@dimen/px30dp"
+		android:layout_centerHorizontal="true"
 		android:orientation="horizontal">
-
-		<android.support.v7.widget.AppCompatTextView
-			android:id="@+id/tv_reset"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:background="@drawable/shape_pop_filter_set_bg"
-			android:gravity="center"
-			android:padding="10dp"
-			android:text="@string/reset"
-			android:textSize="16sp" />
+		
 
 		<android.support.v7.widget.AppCompatTextView
 			android:id="@+id/tv_ok"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="10dp"
-			android:layout_weight="1"
-			android:background="@drawable/shape_pop_filter_set_bg"
+			android:layout_width="@dimen/px540dp"
+			android:layout_height="@dimen/px108dp"
+			android:background="@drawable/btn_bg"
 			android:gravity="center"
+			android:layout_gravity="center"
 			android:padding="10dp"
 			android:text="@string/ok"
-			android:textSize="16sp" />
+			android:textColor="@color/white"
+			android:textSize="@dimen/px36sp" />
 
 	</android.support.v7.widget.LinearLayoutCompat>
 

@@ -33,7 +33,7 @@ public class FilterPopWindow extends PopupWindow {
 		mContentView = inflater.inflate(R.layout.pop_window_filter, linearLayout);
 		setContentView(mContentView);
 		ListView lvFilterType = (ListView) mContentView.findViewById(R.id.lv_filter_type);
-		AppCompatTextView tvReset = (AppCompatTextView) mContentView.findViewById(R.id.tv_reset);
+		//AppCompatTextView tvReset = (AppCompatTextView) mContentView.findViewById(R.id.tv_reset);
 		AppCompatTextView tvOk = (AppCompatTextView) mContentView.findViewById(R.id.tv_ok);
 
 		setWidth(ActionBar.LayoutParams.MATCH_PARENT);
@@ -66,19 +66,19 @@ public class FilterPopWindow extends PopupWindow {
 			}
 		});
 
-		tvReset.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				for (ActivityFilterListBean type : mFilterList) {
-					for (ActivityFilterListBean.ItemsBean subtype : type.getItems()) {
-						if (subtype.isChcked()) {
-							subtype.setChcked(false);
-						}
-					}
-				}
-				mFilterAdapter.notifyDataSetChanged();
-			}
-		});
+//		tvReset.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				for (ActivityFilterListBean type : mFilterList) {
+//					for (ActivityFilterListBean.ItemsBean subtype : type.getItems()) {
+//						if (subtype.isChcked()) {
+//							subtype.setChcked(false);
+//						}
+//					}
+//				}
+//				mFilterAdapter.notifyDataSetChanged();
+//			}
+//		});
 	}
 
 	public void updateList() {
