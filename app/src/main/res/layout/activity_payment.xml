@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.baidu.iov.dueros.waimai.ui.PaymentActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/submit_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px120dp"
@@ -18,22 +18,20 @@
             android:id="@+id/back"
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
-            android:layout_marginBottom="@dimen/px14dp"
+            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/px54dp"
             android:background="@drawable/icon_back" />
 
         <com.domain.multipltextview.MultiplTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/px340dp"
-            android:layout_marginStart="@dimen/px210dp"
+            android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/payment_header"
             android:textColor="@color/white"
             android:textSize="@dimen/px40sp"
             app:removeDefaultPadding="true" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/time_panel"
