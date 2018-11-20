@@ -41,7 +41,7 @@
             android:layout_gravity="center_horizontal"
             android:textSize="@dimen/px36sp"
             android:textColor="@color/white"
-            android:text="@string/address_suggestion_erro" />
+            android:text="@string/address_to_add" />
     </LinearLayout>
 
     <Button
