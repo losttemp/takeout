@@ -269,7 +269,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                         viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
                         if (callBackListener != null) {
                             Lg.getInstance().d("FoodListActivity", "spusBean.getNumber() = " + spusBean.getNumber());
-                            callBackListener.updateProduct(spusBean, spusBean.getTag(), section);
+                            callBackListener.updateProduct(spusBean, spusBean.getTag(), section, true);
                         }
                         addToCart.setVisibility(View.GONE);
                         action.setVisibility(View.VISIBLE);
@@ -370,7 +370,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 num += min_order_count;
                 spusBean.setNumber(num);
                 if (callBackListener != null) {
-                    callBackListener.updateProduct(spusBean, spusBean.getTag(), section);
+                    callBackListener.updateProduct(spusBean, spusBean.getTag(), section, true);
                 }
                 addToCart.setVisibility(View.GONE);
                 action.setVisibility(View.VISIBLE);
@@ -476,7 +476,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 viewHolder.add.setVisibility(View.VISIBLE);
             }
             if (callBackListener != null) {
-                callBackListener.updateProduct(spusBean, spusBean.getTag(), section);
+                callBackListener.updateProduct(spusBean, spusBean.getTag(), section, false);
             } else {
             }
         }
@@ -493,7 +493,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
         spusBean.setNumber(num);
         viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
         if (callBackListener != null) {
-            callBackListener.updateProduct(spusBean, spusBean.getTag(), section);
+            callBackListener.updateProduct(spusBean, spusBean.getTag(), section, true);
         } else {
         }
         if (mHolderClickListener != null) {
@@ -556,6 +556,6 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
     }
 
     public interface onCallBackListener {
-        void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection);
+        void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection, boolean increase);
     }
 }

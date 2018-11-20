@@ -329,6 +329,7 @@ public class PoifoodListBean {
                 }
 
                 public static class SpusBean implements Serializable {
+                    private int section;
                     private int id;
                     private String name;
                     private double min_price;
@@ -370,6 +371,14 @@ public class PoifoodListBean {
                             return id == spusBean.getId() && attrs.equals(spusBean.getAttrs()) &&
                                     id == spusBean.getId() && choiceSkus.get(0).spec.equals(spusBean.getChoiceSkus().get(0).spec);
                         }
+                    }
+
+                    public int getSection() {
+                        return section;
+                    }
+
+                    public void setSection(int section) {
+                        this.section = section;
                     }
 
                     public List<SkusBean> getChoiceSkus() {

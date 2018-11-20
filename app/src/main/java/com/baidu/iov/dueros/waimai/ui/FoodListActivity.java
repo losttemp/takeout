@@ -313,15 +313,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     @Override
-    public void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag, int selection) {
-        for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
-            if (selection == poifoodSpusTagsBeans.get(i).getIndex()) {
-                Integer number = poifoodSpusTagsBeans.get(i).getNumber();
-                number++;
-                poifoodSpusTagsBeans.get(i).setNumber(number);
-            }
-        }
-        mFoodSpuTagsListAdapter.notifyDataSetChanged();
+    public void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag, int selection, boolean increase) {
         String spusBeanTag = spusBean.getTag();
         boolean inList = false;
         Lg.getInstance().d(TAG, "updateProduct tag = " + tag + "; spusBeanTag = " + spusBeanTag);
@@ -389,6 +381,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     e.printStackTrace();
                 }
                 Lg.getInstance().d(TAG, "shopProduct else");
+                spusBeanNew.setSection(selection);
                 productList.add(spusBeanNew);
                 inList = false;
             }
@@ -397,11 +390,27 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (mBottomDialog != null && mBottomDialog.isShowing()) {
             setDialogHeight(mBottomDialog);
         }
+        refreshSpusTagNum(selection, increase);
         setPrise();
     }
 
+    private void refreshSpusTagNum(int selection, boolean increase) {
+        for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
+            if (selection == poifoodSpusTagsBeans.get(i).getIndex()) {
+                Integer number = poifoodSpusTagsBeans.get(i).getNumber();
+                if (increase) {
+                    number++;
+                } else {
+                    number--;
+                }
+                poifoodSpusTagsBeans.get(i).setNumber(number);
+            }
+        }
+        mFoodSpuTagsListAdapter.notifyDataSetChanged();
+    }
+
     @Override
-    public void onUpdateDetailList(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag) {
+    public void onUpdateDetailList(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag, int section, boolean increase) {
         String spusBeanTag = spusBean.getTag();
         Lg.getInstance().d(TAG, "onUpdateDetailList tag = " + tag + "; spusBeanTag = " + spusBeanTag);
         if (tag.equals(spusBeanTag)) {
@@ -415,6 +424,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
         mPoifoodSpusListAdapter.notifyDataSetChanged();
+        refreshSpusTagNum(section, increase);
         setPrise();
     }
 
@@ -644,6 +654,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     if (mBottomDialog != null && mBottomDialog.isShowing()) {
                         setDialogHeight(mBottomDialog);
                     }
+                    for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
+                        poifoodSpusTagsBeans.get(i).setNumber(number);
+                    }
+                    mFoodSpuTagsListAdapter.notifyDataSetChanged();
                     setPrise();
                 }
                 if (mBottomDialog != null && mBottomDialog.isShowing()) {
@@ -912,10 +926,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             String[] name = bean.getInfo().split(";");
             list.addAll(Arrays.asList(name));
         }
-        discountList.add(list.get(0));
-        discountList.add(list.get(1));
-        discountList.add(list.get(2));
-        return discountList;
+        if (list.size() > 3) {
+            discountList.add(list.get(0));
+            discountList.add(list.get(1));
+            discountList.add(list.get(2));
+            return discountList;
+        } else {
+            return list;
+        }
     }
 
     class SpaceItemDecoration extends RecyclerView.ItemDecoration {

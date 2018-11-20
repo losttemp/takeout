@@ -53,7 +53,10 @@ public class PoifoodSpusTagsAdapter extends BaseAdapter {
         }
         viewHolder.foodSpuTagsBeanName.setText(poifoodSpusTagsBeans.get(position).getFoodSpuTagsBeanName());
         if (poifoodSpusTagsBeans.get(position).getNumber() != 0) {
+            viewHolder.number.setVisibility(View.VISIBLE);
             viewHolder.number.setText("" + poifoodSpusTagsBeans.get(position).getNumber());
+        } else {
+            viewHolder.number.setVisibility(View.GONE);
         }
         return convertView;
     }

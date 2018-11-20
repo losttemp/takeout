@@ -205,7 +205,6 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/px28dp"
                         android:layout_toRightOf="@+id/shoppingPrise"
-                        android:text="22222222"
                         android:textColor="@color/white"
                         android:textSize="@dimen/px30sp"
                         app:removeDefaultPadding="true" />

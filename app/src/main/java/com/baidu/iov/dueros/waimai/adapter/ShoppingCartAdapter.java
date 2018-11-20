@@ -101,7 +101,8 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 spusBeans.get(position).setNumber(num);
                 viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
                 if (shopToDetailListener != null) {
-                    shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag());
+                    shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag(),
+                            spusBeans.get(position).getSection(), true);
                 } else {
                 }
             }
@@ -116,7 +117,8 @@ public class ShoppingCartAdapter extends BaseAdapter {
                     spusBeans.get(position).setNumber(num);
                     viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
                     if (shopToDetailListener != null) {
-                        shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag());
+                        shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag(),
+                                spusBeans.get(position).getSection(), false);
                     } else {
                     }
                     if (num == 0) {
