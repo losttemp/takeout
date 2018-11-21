@@ -83,8 +83,8 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         public void bindData(int position, AddressListBean.IovBean.DataBean dataBean) {
             this.mDataBean = dataBean;
             String type = dataBean.getType();
-            if (TextUtils.isEmpty(type)) {
-                ivType.setImageResource(R.drawable.address_other);
+            if (type.equals(mContext.getString(R.string.address_destination))) {
+                ivType.setImageResource(R.drawable.address_location);
             } else if (type.equals(mContext.getString(R.string.address_company))) {
                 ivType.setImageResource(R.drawable.address_company);
             } else if (type.equals(mContext.getString(R.string.address_home))) {
@@ -95,8 +95,10 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             num.setText((position + 1) + "");
             try {
                 details.setText(Encryption.desEncrypt(dataBean.getAddress()));
-                name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
-                phone.setText(Encryption.desEncrypt(dataBean.getUser_phone()));
+                if (!TextUtils.isEmpty(dataBean.getUser_name()) && !TextUtils.isEmpty(dataBean.getUser_phone())) {
+                    name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
+                    phone.setText(Encryption.desEncrypt(dataBean.getUser_phone()));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
