@@ -41,7 +41,7 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(List<String> tags , String type) {
         this.mTags = tags;
         removeAllViews();
         for (int i = 0; i <tags.size(); i++) {
@@ -49,9 +49,8 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
             textView.setText(tags.get(i));
             textView.setTextSize(mTextSize);
             textView.setTextColor(mTextColor);
-            if (i == 0) {
+            if (type.equals(tags.get(i))) {
                 textView.setBackgroundColor(Color.BLACK);
-                this.mTagValue = tags.get(0);
             } else {
                 textView.setBackgroundColor(Color.GRAY);
             }

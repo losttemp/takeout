@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private ClearEditText et_name;
     private ImageView iv_del_button;
     private RadioGroup radioGroup;
+    private RadioButton sirButton;
+    private RadioButton ladyButton;
     private ClearEditText et_house_num;
     private boolean isEditMode;
     private int address_id;
@@ -81,6 +84,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         iv_del_button = (ImageView) findViewById(R.id.address_del);
         mTagListView = (TagListView) findViewById(R.id.address_edit_tags);
         radioGroup = (RadioGroup) findViewById(R.id.address_edit_gender);
+        sirButton = (RadioButton) findViewById(R.id.address_edit_sir);
+        ladyButton = (RadioButton) findViewById(R.id.address_edit_lady);
         et_house_num = (ClearEditText) findViewById(R.id.address_edit_house_num);
         findViewById(R.id.address_edit_save).setOnClickListener(this);
         findViewById(R.id.address_back).setOnClickListener(this);
@@ -95,13 +100,20 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         tags.add(getResources().getString(R.string.address_home));
         tags.add(getResources().getString(R.string.address_company));
         tags.add(getResources().getString(R.string.address_tag_other));
-        mTagListView.setTags(tags);
         Intent intent = getIntent();
         isEditMode = intent.getBooleanExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
         if (isEditMode) {
             address_title.setText(getResources().getString(R.string.edit_address));
             mAddressDelReq = new AddressDeleteReq();
             dataBean = (AddressListBean.IovBean.DataBean) intent.getSerializableExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS);
+            if (dataBean.getSex() == 0){
+                ladyButton.setChecked(true);
+                sirButton.setChecked(false);
+            } else {
+                ladyButton.setChecked(false);
+                sirButton.setChecked(true);
+            }
+            mTagListView.setTags(tags, dataBean.getType());
             try {
                 address_tv.setText(Encryption.desEncrypt(dataBean.getAddress()));
                 et_name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
@@ -110,9 +122,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (dataBean.getMt_address_id() == 0) {
-                iv_del_button.setVisibility(View.VISIBLE);
-            }
+            iv_del_button.setVisibility(View.VISIBLE);
         } else {
             mLocationBean = intent.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
             address_title.setText(getResources().getString(R.string.add_address));
@@ -225,9 +235,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
         int sex;
         if (checkedRadioButtonId == R.id.address_edit_lady) {
-            sex = 1;
-        } else {
             sex = 0;
+        } else {
+            sex = 1;
         }
         String type = mTagListView.getmTagValue();
 
@@ -285,7 +295,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrAddReq.setLongitude(longitude);
                 getPresenter().requestAddAddressData(mAddrAddReq);
             }
-            Toast.makeText(this, R.string.address_saving, Toast.LENGTH_SHORT).show();
         }
     }
 

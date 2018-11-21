@@ -16,6 +16,7 @@ import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -28,6 +29,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private RecyclerView mRecyclerView;
     private LinearLayout mNoAddress;
     private AddressSelectAdapter mAdapter;
+    private final long SIX_HOUR = 6 * 60 * 60 * 1000;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -70,16 +72,15 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 switch (v.getId()) {
                     case R.id.address_select_details_container:
                         MyApplicationAddressBean.SELECTED_ADDRESS_BEAN = dataBean;
-                        SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
-                                ("_cache", AddressSelectActivity.MODE_PRIVATE);
                         String databeanStr = GsonUtil.toJson(dataBean);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString(Constant.ADDRESS_DATA, databeanStr);
-                        editor.commit();
+                        CacheUtils.saveAddressBean(databeanStr);
+                        if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
+                            CacheUtils.saveAddrTime(System.currentTimeMillis());
+                        }
                         Intent homeintent = new Intent(AddressSelectActivity.this, HomeActivity.class);
                         try {
                             String address = Encryption.desEncrypt(dataBean.getAddress());
-                            homeintent.putExtra(Constant.ADDRESS_SELECTED, address);
+                            CacheUtils.saveAddress(address);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

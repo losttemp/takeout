@@ -84,13 +84,13 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             this.mDataBean = dataBean;
             String type = dataBean.getType();
             if (TextUtils.isEmpty(type)) {
-                ivType.setImageResource(R.drawable.address_location);
+                ivType.setImageResource(R.drawable.address_other);
             } else if (type.equals(mContext.getString(R.string.address_company))) {
                 ivType.setImageResource(R.drawable.address_company);
             } else if (type.equals(mContext.getString(R.string.address_home))) {
                 ivType.setImageResource(R.drawable.address_home);
             } else {
-                ivType.setImageResource(R.drawable.address_location);
+                ivType.setImageResource(R.drawable.address_other);
             }
             num.setText((position + 1) + "");
             try {

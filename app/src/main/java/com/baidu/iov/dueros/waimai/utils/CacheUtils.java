@@ -51,4 +51,26 @@ public class CacheUtils {
     public static void saveAuth(Boolean auth) {
         shared().edit().putBoolean(Key.SAVE_AUTH, auth).apply();
     }
+
+    public static void saveAddressBean(String addressbean) {
+        shared().edit().putString(Constant.ADDRESS_DATA, addressbean).apply();
+    }
+
+    public static void saveAddress(String address) {
+        shared().edit().putString(Constant.ADDRESS_SELECTED, address).apply();
+    }
+
+    public static String getAddress() {
+        String address = shared().getString(Constant.ADDRESS_SELECTED, "");
+        return address;
+    }
+
+    public static void saveAddrTime(long address) {
+        shared().edit().putLong(Constant.ADDRESS_SELECTED_TIME, address).apply();
+    }
+
+    public static long getAddrTime() {
+        long time = shared().getLong(Constant.ADDRESS_SELECTED_TIME, 0);
+        return time;
+    }
 }

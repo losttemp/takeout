@@ -24,7 +24,7 @@
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
             android:layout_marginLeft="@dimen/px24dp"
-            android:src="@drawable/address_location" />
+            android:src="@drawable/address_other" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                         android:id="@+id/address_select_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/px10dp"
+                        android:layout_marginLeft="@dimen/px20dp"
                         android:textColor="#ffffff"
                         android:textSize="@dimen/px30sp" />
                 </LinearLayout>

@@ -46,6 +46,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private MeituanAuthorizeReq mMeituanAuthReq;
     private AddressListReqBean mAddressListReq;
     private final String baiduUrl = "http://sandbox.codriverapi.baidu.com/";
+    private final long SIX_HOUR = 6 * 60 * 60 * 1000;
     Bundle savedInstanceState;
 
     @Override
@@ -150,7 +151,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     public void update(MeituanAuthorizeResponse data) {
         if (data.getIov().getAuthorizedState()) {
             if (CacheUtils.getAuth()) {
-                getPresenter().requestAddressListData(mAddressListReq);
+                //getPresenter().requestAddressListData(mAddressListReq);
+                startIntent();
             } else {
                 getPresenter().requestAuthInfo();
             }
@@ -164,6 +166,17 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
         cookieManager.setCookie(url, Config.COOKIE_VALUE);
+    }
+
+    private void startIntent() {
+        long time = CacheUtils.getAddrTime();
+        if (time == 0 || (System.currentTimeMillis() - time > SIX_HOUR)) {
+            getPresenter().requestAddressListData(mAddressListReq);
+        } else {
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
@@ -196,7 +209,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     public void authSuccess(String msg) {
         if (Constant.ACCOUNT_AUTH_SUCCESS.equals(msg)) {
             Lg.getInstance().d(TAG, "account auth success");
-            getPresenter().requestAddressListData(mAddressListReq);
+            //getPresenter().requestAddressListData(mAddressListReq);
+            startIntent();
         }
     }
 

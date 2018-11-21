@@ -26,7 +26,7 @@
 
     <View
         style="@style/AddressEditDividerStyle"
-        android:layout_marginLeft="@dimen/px240dp" />
+        android:layout_marginLeft="@dimen/px314dp" />
 
     <RadioGroup
         android:id="@+id/address_edit_gender"
@@ -36,9 +36,10 @@
             android:id="@+id/address_edit_sir"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/px240dp"
+            android:layout_marginLeft="@dimen/px230dp"
             android:checked="true"
             android:text="@string/address_sir"
+            android:textSize="@dimen/px36sp"
             android:textColor="@color/white" />
 
         <RadioButton
@@ -47,6 +48,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/px184dp"
             android:text="@string/address_lady"
+            android:textSize="@dimen/px36sp"
             android:textColor="@color/white" />
     </RadioGroup>
 
