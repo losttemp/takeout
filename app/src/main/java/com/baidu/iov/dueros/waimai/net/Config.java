@@ -37,7 +37,7 @@ public class Config {
 
     public static final int Coordinate_Type_BAIDU =3;
 
-    public static final String COOKIE_VALUE = "BDUSS="+ "3kwOTNhNjNYaERVUmkyck5YfnJEMVgxaXRJaUFKOVJtcmJ4UE9NOXl1OVIwQkJjQVFBQUFBJCQAAAAAAAAAAAEAAAAYtooIz6bR9M~CtcTH6cu8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFFD6VtRQ-lbQ";
+    public static final String COOKIE_VALUE = "BDUSS="+ CacheUtils.getBduss();
     
     public static final String COOKIE_KEY = "Cookie";
     public static final String CONTENT_TYPE_KEY = "Content-Type";
