@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -46,6 +47,9 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private AppCompatTextView mTvCancel;
 	private ListView mLvHistory;
 	private ListView mLvSuggest;
+	
+	private  View mDivision;
+	
 
 	private SearchPresenter mPresenter;
 	private StoreReq mStoreReq;
@@ -86,21 +90,29 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	}
 
 	private void iniView() {
-		mEtSearch = (AppCompatEditText) findViewById(R.id.et_search);
-		mFragmentStoreList = (FrameLayout) findViewById(R.id.fragment_store_list);
-		mLlHistory = (LinearLayout) findViewById(R.id.ll_history);
-		mIvDelete = (AppCompatImageView) findViewById(R.id.iv_delete);
-		mLvHistory = (ListView) findViewById(R.id.lv_history);
-		mIvClean = (AppCompatImageView) findViewById(R.id.iv_clean);
-		mTvCancel = (AppCompatTextView) findViewById(R.id.tv_cancel);
-		mLvSuggest = (ListView) findViewById(R.id.lv_suggest);
-		
-		mLvHistory.addHeaderView(new View(this));
-		mLvHistory.addFooterView(new View(this));
-		mLvSuggest.addHeaderView(new View(this));
-		mLvSuggest.addFooterView(new View(this));
+		mEtSearch =  findViewById(R.id.et_search);
+		mFragmentStoreList =  findViewById(R.id.fragment_store_list);
+		mLlHistory =  findViewById(R.id.ll_history);
+		mIvDelete =  findViewById(R.id.iv_delete);
+		mLvHistory =  findViewById(R.id.lv_history);
+		mIvClean =  findViewById(R.id.iv_clean);
+		mTvCancel =  findViewById(R.id.tv_cancel);
+		mLvSuggest =  findViewById(R.id.lv_suggest);
+
+		mDivision=new View(this);
+		mLvHistory.addHeaderView(mDivision);
+		mLvHistory.addFooterView(mDivision);
+		mLvSuggest.addHeaderView(mDivision);
 	}
 
+	
+	public void setmLlHistoryVisibility(){
+		if (mHistorys.isEmpty()){
+			mLlHistory.setVisibility(View.GONE);
+		}else{
+			mLlHistory.setVisibility(View.VISIBLE);
+		}
+	}
 	private void iniData() {
 		mPresenter = getPresenter();
 		mStoreReq = new StoreReq();
@@ -120,6 +132,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		SharedPreferencesUtils.getSearchHistory(mHistorys);
 		mSearchHistroyAdapter = new SearchHistroyAdapter(mHistorys, SearchActivity.this);
 		mLvHistory.setAdapter(mSearchHistroyAdapter);
+		setmLlHistoryVisibility();
 
 		//search suggest
 		mSuggests = new ArrayList<>();
@@ -268,6 +281,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		if (status == Constant.SEARCH_STATUS_SUGGEST) {
 			mLlHistory.setVisibility(View.GONE);
 			mLvSuggest.setVisibility(View.VISIBLE);
+			
 			mFragmentStoreList.setVisibility(View.GONE);
 		} else if (status == Constant.SEARCH_STATUS_FRAGMENT) {
 			mLlHistory.setVisibility(View.GONE);
@@ -278,7 +292,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				mSearchSuggestAdapter.notifyDataSetChanged();
 			}
 		} else {
-			mLlHistory.setVisibility(View.VISIBLE);
+			setmLlHistoryVisibility();
 			mLvSuggest.setVisibility(View.GONE);
 			mFragmentStoreList.setVisibility(View.GONE);
 			if (mSuggests.size() > 0) {

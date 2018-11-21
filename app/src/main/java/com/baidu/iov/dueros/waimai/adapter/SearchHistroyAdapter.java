@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.ui.SearchActivity;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
 import com.domain.multipltextview.MultiplTextView;
 
@@ -65,6 +66,9 @@ public class SearchHistroyAdapter extends BaseAdapter {
 				mHistorys.remove(position);
 				SharedPreferencesUtils.deleteSearchHistory(mHistorys);
 				notifyDataSetChanged();
+				if (mHistorys.isEmpty()){
+					((SearchActivity)mContext).setmLlHistoryVisibility();
+				}
 			}
 		});
 

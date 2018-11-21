@@ -1,20 +1,16 @@
 package com.baidu.iov.dueros.waimai.ui;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
 import com.baidu.location.Poi;
@@ -39,6 +35,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 	private StoreListFragment mStoreListFragment;
 	private BDLocation mBDLocation;
+	private String address="地址";
 
 	@Override
 	HomePresenter createPresenter() {
@@ -54,9 +51,17 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		getIntentData();
 		iniView();
 		iniData();
 
+	}
+
+	public void getIntentData() {
+		Intent intent=getIntent();
+		if (intent!=null&&intent.getStringExtra(Constant.ADDRESS_SELECTED)!=null) {
+			address = intent.getStringExtra(Constant.ADDRESS_SELECTED);
+		}
 	}
 
 	private void iniView() {
@@ -70,12 +75,15 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mIvRight =  findViewById(R.id.iv_right);
 		mTvTitle =  findViewById(R.id.tv_title);
 		mRlSearch = findViewById(R.id.rl_search);
-
+		
+		
 	}
+	
+	
 
 	private void iniData() {
 		//address
-		mTvTitle.setText("地址");
+		mTvTitle.setText(address);
 		initLocation();
 		
 		//fragment
@@ -145,20 +153,25 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+	}
+
+	@Override
 	public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
 		super.locationCallBack(isSuccess, bdLocation);
 		mStoreListFragment.locationLoadFirstPage();
 		mStoreListFragment.requestFilterList();
-
-		mBDLocation = bdLocation;
-		if (isSuccess && mBDLocation != null) {
-			List<Poi> addrList = mBDLocation.getPoiList();
-			if (addrList != null && addrList.size() > 0
-					&& (!TextUtils.isEmpty(addrList.get(0).getName()))) {
-				String addr = addrList.get(0).getName();
-				mTvTitle.setText(addr);
-			}
-		}
+//
+//		mBDLocation = bdLocation;
+//		if (isSuccess && mBDLocation != null) {
+//			List<Poi> addrList = mBDLocation.getPoiList();
+//			if (addrList != null && addrList.size() > 0
+//					&& (!TextUtils.isEmpty(addrList.get(0).getName()))) {
+//				String addr = addrList.get(0).getName();
+//				mTvTitle.setText(addr);
+//			}
+//		}
 
 	}
 
