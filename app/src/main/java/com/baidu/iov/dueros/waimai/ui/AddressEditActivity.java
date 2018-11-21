@@ -113,7 +113,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 ladyButton.setChecked(false);
                 sirButton.setChecked(true);
             }
-            mTagListView.setTags(tags, dataBean.getType());
+            String type = dataBean.getType() == null ? getResources().getString(R.string.address_tag_other) : dataBean.getType();
+            mTagListView.setTags(tags, type);
             try {
                 address_tv.setText(Encryption.desEncrypt(dataBean.getAddress()));
                 et_name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
