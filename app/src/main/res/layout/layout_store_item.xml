@@ -64,7 +64,7 @@
 				android:layout_height="wrap_content"
 				android:textColor="@color/white"
 				android:ellipsize="end"
-				android:singleLine="true"
+				android:maxLines="1"
 				android:textSize="@dimen/px36sp"
 				tools:text="@string/tools_text_store_name" />
 

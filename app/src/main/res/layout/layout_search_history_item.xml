@@ -21,6 +21,8 @@
 		android:layout_marginLeft="@dimen/px70dp"
 		android:layout_centerVertical="true"
 		android:layout_toRightOf="@+id/tv_history_num"
+		android:ellipsize="end"
+		android:maxLines="1"
 		android:textColor="@color/white"
 		android:textSize="@dimen/px40sp"
 		tools:text="@string/tools_text_history_name" />

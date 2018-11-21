@@ -35,8 +35,10 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="@dimen/px912dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/px2dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
         android:layout_below="@id/rl_top"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/px20dp"
@@ -46,8 +48,10 @@
     <RelativeLayout
         android:id="@+id/rl_search"
         android:layout_centerHorizontal="true"
-        android:layout_width="@dimen/px912dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/px108dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
         android:layout_below="@+id/view"
         android:layout_marginBottom="@dimen/px30dp"
         android:background="@drawable/secrch_bg">
