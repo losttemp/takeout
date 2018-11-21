@@ -48,7 +48,7 @@
     <RelativeLayout
         android:id="@+id/rl_search"
         android:layout_centerHorizontal="true"
-        android:layout_width="@dimen/px912dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/px108dp"
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginRight="@dimen/px84dp"

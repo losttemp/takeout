@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -282,9 +283,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		if (mStoreData.getCurrent_page_index() == 1) {
 			mStoreList.clear();
 		}
+		
 		mStoreList.addAll(data.getMeituan().getData().getOpenPoiBaseInfoList());
 		mStoreAdaper.notifyDataSetChanged();
-
+		Log.e(TAG, "mStoreList: "+mStoreList.size());
 		//set emptey view
 		if (mStoreList.size() == 0) {
 			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
@@ -321,6 +323,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	@Override
 	public void failure(String msg) {
+		Log.e(TAG, "msg: "+msg);
 		if (mRefreshLayout.isRefreshing()) {
 			mRefreshLayout.finishRefresh(false);
 		}
