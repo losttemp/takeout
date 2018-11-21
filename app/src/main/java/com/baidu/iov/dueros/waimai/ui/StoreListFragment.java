@@ -290,11 +290,15 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		//set emptey view
 		if (mStoreList.size() == 0) {
 			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
-				mLlFilter.setVisibility(View.GONE);
-				mView.setVisibility(View.GONE);
-				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
-						.no_search_result_keyword));
-				((SearchActivity)mContext).setmEtTipNoResult();
+				if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
+					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+							.no_search_result_filter));
+				} else {
+					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string.no_search_result_keyword));
+					mLlFilter.setVisibility(View.GONE);
+					mView.setVisibility(View.GONE);
+					((SearchActivity)mContext).setmEtTipNoResult();
+				}
 			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME||mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
 				if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
