@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_bg"
+    android:background="@drawable/app_bg"
     android:orientation="vertical">
 
     <include layout="@layout/activity_address_header" />
@@ -36,7 +36,7 @@
             android:src="@drawable/down" />
 
         <LinearLayout
-            android:layout_width="@dimen/px782dp"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/px108dp"
             android:background="@drawable/address_searchbg"
             android:layout_marginTop="@dimen/px30dp"
@@ -50,7 +50,7 @@
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/icon_search"/>
 
-            <EditText
+            <com.baidu.iov.dueros.waimai.view.ClearEditText
                 android:id="@+id/address_search_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
