@@ -14,8 +14,7 @@
 
         <TextView
             style="@style/AddressEditViewTextStyle"
-            android:text="@string/address_contact"
-             />
+            android:text="@string/address_contact" />
 
         <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_name"
@@ -35,21 +34,28 @@
         <RadioButton
             android:id="@+id/address_edit_sir"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/px230dp"
+            android:button="@null"
             android:checked="true"
+            android:drawableLeft="@drawable/address_radio_button"
+            android:drawablePadding="@dimen/px20dp"
             android:text="@string/address_sir"
-            android:textSize="@dimen/px36sp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/px36sp" />
 
         <RadioButton
             android:id="@+id/address_edit_lady"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/px184dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/px230dp"
+            android:button="@null"
+            android:checked="true"
+            android:drawableLeft="@drawable/address_radio_button"
+            android:drawablePadding="@dimen/px20dp"
             android:text="@string/address_lady"
-            android:textSize="@dimen/px36sp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/px36sp" />
     </RadioGroup>
 
     <View style="@style/AddressEditDividerStyle" />
@@ -124,7 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            app:dividerWidth="10dp"
+            app:dividerWidth="@dimen/px58dp"
             app:textColor="@color/white" />
     </LinearLayout>
 
@@ -138,6 +144,6 @@
         android:layout_marginTop="@dimen/px120dp"
         android:background="@drawable/address_button"
         android:text="@string/address_edit_save"
-        android:textSize="@dimen/px36sp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:textSize="@dimen/px36sp" />
 </LinearLayout>
