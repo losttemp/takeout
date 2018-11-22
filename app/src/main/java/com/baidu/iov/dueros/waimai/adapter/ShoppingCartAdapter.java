@@ -79,8 +79,10 @@ public class ShoppingCartAdapter extends BaseAdapter {
         }
         if (spusBeans.get(position).getSkus().size() <= 1) {
         } else {
-            String spec = spusBeans.get(position).getChoiceSkus().get(0).getSpec();
-            stringBuffer.append("+" + spec);
+            if (spusBeans.get(position).getChoiceSkus() != null) {
+                String spec = spusBeans.get(position).getChoiceSkus().get(0).getSpec();
+                stringBuffer.append("+" + spec);
+            }
         }
         if (stringBuffer.length() > 0) {
             viewHolder.shopSpecifications.setVisibility(View.VISIBLE);

@@ -118,6 +118,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
             viewHolder.specifications.setVisibility(View.GONE);
             viewHolder.add.setVisibility(View.GONE);
             viewHolder.action.setVisibility(View.VISIBLE);
+            viewHolder.shoppingNum.setText(""+spusBean.getNumber());
         }
         if (spusBean.getStatus() != 0) {
             viewHolder.addNumber.setVisibility(View.GONE);

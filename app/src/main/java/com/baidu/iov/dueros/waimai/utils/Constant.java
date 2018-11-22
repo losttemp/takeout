@@ -59,4 +59,7 @@ public class Constant {
 
     public static final int CITY_REQUEST_CODE_CHOOSE = 506;
     public static final int CITY_RESULT_CODE_CHOOSE = 606;
+
+    public static String ONE_MORE_ORDER = "one_more_order";
+    public static String ORDER_LSIT_EXTRA_STRING = "order_list_extra_string";
 }
