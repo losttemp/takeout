@@ -28,14 +28,16 @@
         </activity>
         <activity
             android:name=".ui.HomeActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.FoodListActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name=".ui.RecommendShopActivity"></activity>
-        <activity android:name=".ui.FoodActivity"></activity>
+        <activity android:name=".ui.RecommendShopActivity"
+                   android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".ui.FoodActivity"/>
         <activity android:name=".ui.OrderListActivity" />
         <activity android:name=".ui.SubmitOrderActivity" />
         <activity
@@ -44,7 +46,8 @@
         <activity android:name=".ui.PaymentActivity" />
         <activity android:name=".ui.PaySuccessActivity"/>
         <activity android:name=".ui.OrderDetailsActivity"/>
-        <activity android:name=".ui.SearchActivity" />
+        <activity android:name=".ui.SearchActivity"
+                   android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name=".ui.AddressSelectActivity" />
         <activity android:name=".ui.AddressEditActivity" />
         <activity android:name=".ui.AddressSuggestionActivity" />

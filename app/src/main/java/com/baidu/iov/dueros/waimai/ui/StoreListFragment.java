@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.StoreListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -38,10 +40,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		StoreListPresenter.StoreListUi, View.OnClickListener {
 
 	private static final String TAG = StoreListFragment.class.getSimpleName();
-	
-	private static final int COMPREHENSIVE = 0;
-	private static final int SALE_NUM_SORT_INDEX = 1;
-	private static final int DISTANCE_SORT_INDEX = 5;
+
+	public static final int COMPREHENSIVE = 0;
+	public static final int SALE_NUM_SORT_INDEX = 1;
+	public static final int DISTANCE_SORT_INDEX = 5;
 
 	private LinearLayoutCompat mLlFilter;
 	private RelativeLayout mRlSort;
@@ -201,6 +203,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 								@Override
 								public void onClickOk(String migFilter) {
 									mStoreReq.setMigFilter(migFilter);
+									Lg.getInstance().e(TAG,"migFilter:"+migFilter);
 									if (!migFilter.isEmpty()){
 										mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
 									}else{
