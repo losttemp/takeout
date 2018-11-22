@@ -10,8 +10,6 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 
-import com.baidu.iov.dueros.waimai.utils.Lg;
-
 public class SubmitInfoImpl implements ISubmitInfoModel {
 
     private static final String TAG = SubmitInfoImpl.class.getSimpleName();

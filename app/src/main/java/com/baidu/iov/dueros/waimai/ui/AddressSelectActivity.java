@@ -45,15 +45,14 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_select);
+        getPresenter().initDesBeans();
         initView();
-/*        Intent i = new Intent();
-        i.setData(Uri.parse("bdmapauto://map/navi_end_route"));
-        startActivity(i);*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        sendBroadcast(new Intent("com.baidu.iov.dueros.waimai.requestNaviDes"));
         initData();
     }
 
@@ -120,6 +119,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         } else {
             mNoAddress.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
+            mDataList.clear();
             mDataList.addAll(data);
             mAdapter.setAddressList(mDataList);
             mAdapter.notifyDataSetChanged();
@@ -134,6 +134,11 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     public void onRegisterReceiver(AddressSelectPresenter.MReceiver mReceiver, IntentFilter intentFilter) {
         this.registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    public void unRegisterReceiver(AddressSelectPresenter.MReceiver mReceiver) {
+        this.unRegisterReceiver(mReceiver);
     }
 
     @Override

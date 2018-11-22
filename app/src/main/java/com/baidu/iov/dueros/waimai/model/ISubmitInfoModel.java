@@ -1,6 +1,5 @@
 package com.baidu.iov.dueros.waimai.model;
 
-import android.util.ArrayMap;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
