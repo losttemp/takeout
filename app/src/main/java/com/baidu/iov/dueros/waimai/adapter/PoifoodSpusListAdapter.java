@@ -118,7 +118,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
             viewHolder.specifications.setVisibility(View.GONE);
             viewHolder.add.setVisibility(View.GONE);
             viewHolder.action.setVisibility(View.VISIBLE);
-            viewHolder.shoppingNum.setText(""+spusBean.getNumber());
+            viewHolder.shoppingNum.setText("" + spusBean.getNumber());
         }
         if (spusBean.getStatus() != 0) {
             viewHolder.addNumber.setVisibility(View.GONE);
@@ -131,7 +131,6 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 .placeholder(R.mipmap.ic_launcher)
                 .centerCrop()
                 .into(viewHolder.head);
-        viewHolder.prise.setText("" + spusBean.getMin_price());
 
         if (skusBeans.size() == 1) {
             double price = skusBeans.get(0).getPrice();
@@ -143,6 +142,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 viewHolder.discountPrice.setVisibility(View.VISIBLE);
                 viewHolder.discountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             }
+            viewHolder.prise.setText("" + price);
         } else {
             double minOriginPrice = 0;
             for (int i = 0; i < skusBeans.size(); i++) {
@@ -169,6 +169,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 viewHolder.discountPrice.setVisibility(View.VISIBLE);
                 viewHolder.discountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             }
+            viewHolder.prise.setText("" + spusBean.getMin_price());
         }
         viewHolder.shoppingNum.setText("" + spusBean.getNumber());
 
