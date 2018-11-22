@@ -458,18 +458,35 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 	}
 
+
 	public void loadFirstPage(StoreReq storeReq) {
 		storeReq.setPage_index(1);
 		mPresenter.requestStoreList(storeReq);
 		mStoreReq = storeReq;
 		mRlTipNoResult.setVisibility(View.GONE);
-		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH &&
-				mLlFilter.getVisibility() == View.GONE) {
-			mLlFilter.setVisibility(View.VISIBLE);
+	}
+
+	public void searchLoadFirstPage(StoreReq storeReq) {
+		storeReq.setPage_index(1);
+		mPresenter.requestStoreList(storeReq);
+		mStoreReq = storeReq;
+		mRlTipNoResult.setVisibility(View.GONE);
+		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
+			mTvSort.setText(getResources().getString(R.string.store_sort));
+			mStoreReq.setSortType(COMPREHENSIVE);
+			mTvSales.setTextColor(mContext.getResources().getColor(
+					R.color.white_60));
+			mTvDistance.setTextColor(mContext.getResources().getColor(
+					R.color.white_60));
+			mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
+			if (mLlFilter.getVisibility() == View.GONE){
+				mLlFilter.setVisibility(View.VISIBLE);
+			}
+			
 		}
 	}
 
-	public void locationLoadFirstPage() {
+	public void homeLoadFirstPage() {
 		mStoreReq.setPage_index(1);
 		mPresenter.requestStoreList(mStoreReq);
 	}

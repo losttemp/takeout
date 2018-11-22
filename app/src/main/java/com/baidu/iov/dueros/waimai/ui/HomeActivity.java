@@ -77,7 +77,10 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	
 
 	private void iniData() {
-		address=CacheUtils.getAddress();
+		if(!CacheUtils.getAddress().isEmpty()){
+			address=CacheUtils.getAddress();
+		}
+		
 		mTvTitle.setText(address);
 		initLocation();
 		
@@ -155,7 +158,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	@Override
 	public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
 		super.locationCallBack(isSuccess, bdLocation);
-		mStoreListFragment.locationLoadFirstPage();
+		mStoreListFragment.homeLoadFirstPage();
 		mStoreListFragment.requestFilterList();
 //
 //		mBDLocation = bdLocation;
