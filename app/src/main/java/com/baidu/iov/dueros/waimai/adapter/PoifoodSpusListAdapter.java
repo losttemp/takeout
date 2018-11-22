@@ -223,7 +223,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 ImageView spusPicture = (ImageView) popView.findViewById(R.id.iv_spus);
                 MultiplTextView spusPrice = (MultiplTextView) popView.findViewById(R.id.tv_spus_price);
                 MultiplTextView spusEvaluate = (MultiplTextView) popView.findViewById(R.id.tv_spus_evaluate);
-                MultiplTextView spusDescription = (MultiplTextView) popView.findViewById(R.id.tv_spus_description);
+                TextView spusDescription = (TextView) popView.findViewById(R.id.tv_spus_description);
                 ImageView increase = (ImageView) popView.findViewById(R.id.increase);
                 ImageView reduce = (ImageView) popView.findViewById(R.id.reduce);
                 final MultiplTextView shoppingNum = (MultiplTextView) popView.findViewById(R.id.shoppingNum);
@@ -316,7 +316,6 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
         specificationsPrice.setText("¥" + spusBean.getMin_price());
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
-        final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs = new ArrayList<>();
         final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus = new ArrayList<>();
 
         if (spusBean.getStatus() != 0) {
@@ -325,7 +324,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
         } else {
 
         }
-        PoifoodSpusAttrsAdapter poifoodSpusAttrsAdapter = new PoifoodSpusAttrsAdapter(context, attrs, skus, spusBean, choiceAttrs,
+        PoifoodSpusAttrsAdapter poifoodSpusAttrsAdapter = new PoifoodSpusAttrsAdapter(context, attrs, skus, spusBean,
                 choiceSkus, productList);
         specificationsList.setAdapter(poifoodSpusAttrsAdapter);
         poifoodSpusAttrsAdapter.setPriceListener(new PoifoodSpusAttrsAdapter.SetPriceListener() {
@@ -358,6 +357,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 }
                 if (spusBean.getAttrs().size() > 0) {
                     for (int i = 0; i < spusBean.getAttrs().size(); i++) {
+                        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs = spusBean.getAttrs().get(i).getChoiceAttrs();
                         if (choiceAttrs.size() == 0) {
                             Toast.makeText(context, context.getString(R.string.please_select_the_specifications_first), Toast.LENGTH_SHORT).show();
                             return;
