@@ -50,7 +50,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/px230dp"
             android:button="@null"
-            android:checked="true"
             android:drawableLeft="@drawable/address_radio_button"
             android:drawablePadding="@dimen/px20dp"
             android:text="@string/address_lady"
@@ -131,7 +130,9 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             app:dividerWidth="@dimen/px58dp"
-            app:textColor="@color/white" />
+            app:textColor="@color/white"
+            app:textSize="@dimen/px36sp"
+            />
     </LinearLayout>
 
     <View style="@style/AddressEditDividerStyle" />

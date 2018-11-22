@@ -18,9 +18,13 @@ import java.util.List;
 public class TagListView extends LinearLayout implements View.OnClickListener {
     private int mTextSize = 15;
     private int mTextColor = 0xFF43A7BC;
-    //    private int mItemBackgroundResource = R.drawable.item_cinema_tag_bg;
     private int mDividerWidth = 30;
     private List<String> mTags;
+
+    public void setmTagValue(String mTagValue) {
+        this.mTagValue = mTagValue;
+    }
+
     private String mTagValue;
 
     public TagListView(Context context) {
@@ -31,10 +35,8 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
         this(context, attrs, 0);
         setOrientation(HORIZONTAL);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagListView);
-
         mTextSize = a.getDimensionPixelSize(R.styleable.TagListView_textSize, mTextSize);
         mTextColor = a.getColor(R.styleable.TagListView_textColor, mTextColor);
-//        mItemBackgroundResource = a.getResourceId(R.styleable.CinemaTagView_itemBackgroundResource, mItemBackgroundResource);
         mDividerWidth = a.getDimensionPixelOffset(R.styleable.TagListView_dividerWidth, mDividerWidth);
     }
 
@@ -48,9 +50,10 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
         for (int i = 0; i < tags.size(); i++) {
             TextView textView = new TextView(getContext());
             textView.setText(tags.get(i));
-            textView.setTextSize(mTextSize);
+            textView.getPaint().setTextSize(mTextSize);
             textView.setTextColor(mTextColor);
             if (type.equals(tags.get(i))) {
+                setmTagValue(type);
                 textView.setBackgroundColor(Color.BLACK);
             } else {
                 textView.setBackgroundColor(Color.GRAY);

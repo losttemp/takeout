@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -107,25 +108,27 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
     }
 
     private void initSuggestionInfo(String city, final String key) {
-        mSuggestionSearch = SuggestionSearch.newInstance();
-        mGetSuggestionResultListener = new OnGetSuggestionResultListener() {
-            @Override
-            public void onGetSuggestionResult(SuggestionResult suggestionResult) {
-                List<SuggestionResult.SuggestionInfo> allSuggestions = suggestionResult.getAllSuggestions();
-                if (allSuggestions != null && allSuggestions.size() > 0) {
-                    mErrorLL.setVisibility(View.GONE);
-                    mRecyclerView.setVisibility(View.VISIBLE);
-                    mAllSuggestions = allSuggestions;
-                    mAdapter.setSuggestionInfos(mAllSuggestions);
-                    mAdapter.notifyDataSetChanged();
-                } else {
-                    mErrorLL.setVisibility(View.VISIBLE);
-                    mRecyclerView.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(city)) {
+            mSuggestionSearch = SuggestionSearch.newInstance();
+            mGetSuggestionResultListener = new OnGetSuggestionResultListener() {
+                @Override
+                public void onGetSuggestionResult(SuggestionResult suggestionResult) {
+                    List<SuggestionResult.SuggestionInfo> allSuggestions = suggestionResult.getAllSuggestions();
+                    if (allSuggestions != null && allSuggestions.size() > 0) {
+                        mErrorLL.setVisibility(View.GONE);
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                        mAllSuggestions = allSuggestions;
+                        mAdapter.setSuggestionInfos(mAllSuggestions);
+                        mAdapter.notifyDataSetChanged();
+                    } else {
+                        mErrorLL.setVisibility(View.VISIBLE);
+                        mRecyclerView.setVisibility(View.GONE);
+                    }
                 }
-            }
-        };
-        mSuggestionSearch.setOnGetSuggestionResultListener(mGetSuggestionResultListener);
-        mSuggestionSearch.requestSuggestion(new SuggestionSearchOption().city(city).keyword(key));
+            };
+            mSuggestionSearch.setOnGetSuggestionResultListener(mGetSuggestionResultListener);
+            mSuggestionSearch.requestSuggestion(new SuggestionSearchOption().city(city).keyword(key));
+        }
     }
 
     @Override
@@ -179,6 +182,9 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
         if (requestCode == Constant.CITY_REQUEST_CODE_CHOOSE && resultCode == Constant.CITY_RESULT_CODE_CHOOSE) {
             String cityName = data.getStringExtra(Constant.CITYCODE);
             mCityTV.setText(cityName);
+            mAllSuggestions.clear();
+            mAdapter.notifyDataSetChanged();
+            mSearchEdit.setText("");
         }
     }
 }
