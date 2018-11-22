@@ -97,8 +97,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private void initData() {
 
         ArrayList<String> tags = new ArrayList<>();
-        tags.add(getResources().getString(R.string.address_home));
         tags.add(getResources().getString(R.string.address_company));
+        tags.add(getResources().getString(R.string.address_home));
         tags.add(getResources().getString(R.string.address_tag_other));
         Intent intent = getIntent();
         isEditMode = intent.getBooleanExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);

@@ -20,6 +20,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressSuggestionAdapter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
@@ -32,7 +33,7 @@ import java.util.List;
 
 public class AddressSuggestionActivity extends AppCompatActivity implements TextWatcher ,View.OnClickListener {
     private RecyclerView mRecyclerView;
-    private EditText mSearchEdit;
+    private ClearEditText mSearchEdit;
     private AddressSuggestionAdapter mAdapter;
     private List<SuggestionResult.SuggestionInfo> mAllSuggestions;
     private TextView mCityTV;
@@ -58,7 +59,7 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
         tv_title =(TextView) findViewById(R.id.address_title);
         iv_back =(ImageView) findViewById(R.id.address_back);
         mRecyclerView = (RecyclerView) findViewById(R.id.address_search_rv);
-        mSearchEdit = (EditText) findViewById(R.id.address_search_edit);
+        mSearchEdit = (ClearEditText) findViewById(R.id.address_search_edit);
         mCityTV = (TextView) findViewById(R.id.address_search_city);
         mErrorLL = (LinearLayout) findViewById(R.id.address_search_error);
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_bg"
+    android:background="@drawable/app_bg"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_layout_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px120dp"
-        android:background="@color/gray_bg"
         android:paddingLeft="@dimen/px54dp">
 
         <android.support.v7.widget.AppCompatImageView
@@ -37,7 +36,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_layout_header"
         android:layout_centerHorizontal="true"
-        android:background="@color/gray_bg"
         android:drawablePadding="@dimen/px20dp"
         android:drawableTop="@drawable/icon_tishi"
         android:gravity="center_horizontal"
@@ -57,7 +55,6 @@
         android:id="@+id/rv_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray_bg"
         tools:listitem="@layout/layout_order_item" />
 
 </LinearLayout>
