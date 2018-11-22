@@ -29,7 +29,6 @@ import java.util.List;
 public class AddressListActivity extends BaseActivity<AddressListPresenter, AddressListPresenter.AddressListUi>
         implements AddressListPresenter.AddressListUi, View.OnClickListener {
     private final static String TAG = AddressListActivity.class.getSimpleName();
-    private ArrayMap<String, String> map;
     private ImageView mCancelImg;
     private Button mAddBtn;
     private RecyclerView mRecyclerView;
@@ -111,9 +110,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             }
         });
 
-
-        map = new ArrayMap<>();
-        getPresenter().requestData(map);
+        getPresenter().requestData();
     }
 
     private void setHeader() {
@@ -136,7 +133,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 typeTv.setBackgroundResource(R.drawable.tag_bg);
             }
 
-            nameTv.setText(Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone()));
+            String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
+            nameTv.setText(userInfo);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,7 +173,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     }
 
     @Override
-    public void onSuccess(AddressListBean data) {
+    public void onGetAddressListSuccess(AddressListBean data) {
 
         if (data != null) {
             mDataListBean = data.getIov().getData();
@@ -186,7 +184,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     }
 
     @Override
-    public void onError(String error) {
+    public void onGetAddressListFailure(String msg) {
 
     }
 }
