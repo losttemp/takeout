@@ -560,9 +560,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             long orderId = mOrderSubmitData.getOrder_id();
             String poiName = mOrderPreviewData.getWm_ordering_preview_order_vo().getPoi_name();
             String payUrl = mOrderSubmitData.getPayUrl();
-            String expectedTime = mArriveTimeTv.getText().toString();
             Intent intent = new Intent(this, PaymentActivity.class);
-            intent.putExtra(EXPECTED_TIME, expectedTime);
+            intent.putExtra(EXPECTED_TIME, mUnixtime);
             intent.putExtra(TOTAL_COST, total);
             intent.putExtra(ORDER_ID, orderId);
             intent.putExtra(SHOP_NAME, poiName);

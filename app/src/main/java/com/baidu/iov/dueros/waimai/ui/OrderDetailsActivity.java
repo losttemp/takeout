@@ -8,11 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,10 +25,12 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
+import com.baidu.iov.dueros.waimai.view.NoClikRecyclerView;
 
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
@@ -40,14 +43,14 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
      *
      */
     private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod, mPayStatus;
-    private ListView mFood;
+    private NoClikRecyclerView mFoodListView;
     private Button mRepeatOrder, mPayOrder, mCancelOrder;
     private FoodListAdaper mFoodListAdaper;
     private OrderDetailsReq mOrderDetailsReq;
     private OrderCancelReq mOrderCancelReq;
     private long order_id;
-    private String expectedTime;
-    private ArrayMap<String, String> map;
+    private long expectedTime;
+    private NumberFormat mNumberFormat;
     private OrderDetailsResponse.MeituanBean.DataBean mOrderDetails = new OrderDetailsResponse.MeituanBean.DataBean();
 
     @Override
@@ -84,46 +87,73 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void initView() {
-        mArrivalTime = (TextView) findViewById(R.id.arrival_time);
-        mBusinessName = (TextView) findViewById(R.id.business_name);
-        mPackingFee = (TextView) findViewById(R.id.packing_fee);
-        mDistributionFee = (TextView) findViewById(R.id.distribution_fee);
-        mDiscount = (TextView) findViewById(R.id.discount);
-        mRealPay = (TextView) findViewById(R.id.real_pay);
-        mContact = (TextView) findViewById(R.id.contact);
-        mAddress = (TextView) findViewById(R.id.address);
-        mExpectedTime = (TextView) findViewById(R.id.expected_time);
-        mOrderId = (TextView) findViewById(R.id.order_id);
-        mOrderTime = (TextView) findViewById(R.id.order_time);
-        mPayMethod = (TextView) findViewById(R.id.pay_method);
-        mFood = (ListView) findViewById(R.id.ll_food);
-        mPayStatus = (TextView) findViewById(R.id.pay_status);
-        mRepeatOrder = (Button) findViewById(R.id.repeat_order);
-        mPayOrder = (Button) findViewById(R.id.pay_order);
-        mCancelOrder = (Button) findViewById(R.id.cancel_order);
+        mArrivalTime = findViewById(R.id.arrival_time);
+        mBusinessName = findViewById(R.id.business_name);
+        mPackingFee = findViewById(R.id.packing_fee);
+        mDistributionFee = findViewById(R.id.distribution_fee);
+        mDiscount = findViewById(R.id.discount);
+        mRealPay = findViewById(R.id.real_pay);
+        mContact = findViewById(R.id.contact);
+        mAddress = findViewById(R.id.address);
+        mExpectedTime = findViewById(R.id.expected_time);
+        mOrderId = findViewById(R.id.order_id);
+        mOrderTime = findViewById(R.id.order_time);
+        mPayMethod = findViewById(R.id.pay_method);
+        mFoodListView = findViewById(R.id.ll_food);
+        mPayStatus = findViewById(R.id.pay_status);
+        mRepeatOrder = findViewById(R.id.repeat_order);
+        mPayOrder = findViewById(R.id.pay_order);
+        mCancelOrder = findViewById(R.id.cancel_order);
     }
 
     private void setTextView() {
+
         getPayStatus(mOrderDetails.getPay_status());
-        mBusinessName.setText(mOrderDetails.getPoi_name());
-        mPackingFee.setText("¥" + mOrderDetails.getBox_total_price());
-        mDistributionFee.setText("¥" + mOrderDetails.getShipping_fee());
-        mDiscount.setText("-¥" + (mOrderDetails.getOriginal_price() - mOrderDetails.getTotal()));
-        mRealPay.setText("实付：¥" + mOrderDetails.getTotal());
-        mContact.setText(mOrderDetails.getRecipient_phone());
-        mAddress.setText(mOrderDetails.getRecipient_address());
-        mExpectedTime.setText(expectedTime);
-        mOrderId.setText(String.valueOf(mOrderDetails.getOrder_id()));
-        mOrderTime.setText(String.valueOf(formatTime(mOrderDetails.getCtime())));
+
+        mNumberFormat = new DecimalFormat("#.#");
+
+        long orderTime = mOrderDetails.getOrder_time();
+        long orderId = mOrderDetails.getOrder_id();
+        double boxTotalPrice = mOrderDetails.getBox_total_price();
+        double totalCost = mOrderDetails.getTotal();
+        double shippingFee = mOrderDetails.getShipping_fee();
+        double discount = mOrderDetails.getOriginal_price() - mOrderDetails.getTotal();
+        String shopName = mOrderDetails.getPoi_name();
+        String address = mOrderDetails.getRecipient_address();
+        String phone = mOrderDetails.getRecipient_phone();
+
+        mContact.setText(phone);
+        mAddress.setText(address);
+        mBusinessName.setText(shopName);
+        mDistributionFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
+        mDiscount.setText(String.format(getString(R.string.discount_money), mNumberFormat.format(discount)));
+        mRealPay.setText(String.format(getString(R.string.actual_payment), mNumberFormat.format(totalCost)));
+        mPackingFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(boxTotalPrice)));
+        mOrderId.setText(String.valueOf(orderId));
+        mOrderTime.setText(String.valueOf(formatTime(orderTime, false)));
+
         if (mOrderDetails.getWm_order_pay_type() == 1) {
             mPayMethod.setText(R.string.order_pay_type1);
         } else if (mOrderDetails.getWm_order_pay_type() == 2) {
             mPayMethod.setText(R.string.order_pay_type2);
         }
+
+        if (expectedTime == 0) {
+
+            mExpectedTime.setText(getString(R.string.expected_delivery_immediately));
+        } else {
+
+            mExpectedTime.setText(formatTime(expectedTime, false));
+        }
+
         List<OrderDetailsResponse.MeituanBean.DataBean.FoodListBean> mfoodList = mOrderDetails.getFood_list();
+
+        int orientation = RecyclerView.VERTICAL;
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, orientation, false);
+        mFoodListView.setLayoutManager(mLayoutManager);
         mFoodListAdaper = new FoodListAdaper(this);
+        mFoodListView.setAdapter(mFoodListAdaper);
         mFoodListAdaper.setData(mfoodList);
-        mFood.setAdapter(mFoodListAdaper);
     }
 
     private void hidePayView() {
@@ -146,21 +176,29 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             mRepeatOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
             mArrivalTime.setVisibility(View.VISIBLE);
-            String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time());
+            String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
             mPayStatus.setText(R.string.have_paid);
             mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
         }
     }
 
-    public String formatTime(long time) {
+
+    public String formatTime(long time, boolean isArrivalTime) {
+        time = time * 1000L;
         Date date = new Date(time);
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat format;
+        if (isArrivalTime) {
+            format = new SimpleDateFormat("HH:mm");
+        } else {
+            format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        }
+
         return format.format(date);
     }
 
     private void initData() {
-        order_id = getIntent().getLongExtra(Constant.ORDER_ID,-1);
-        expectedTime = getIntent().getStringExtra(EXPECTED_TIME);
+        order_id = getIntent().getLongExtra(Constant.ORDER_ID, -1);
+        expectedTime = getIntent().getLongExtra(EXPECTED_TIME, 0);
         mOrderDetailsReq = new OrderDetailsReq();
         mOrderDetailsReq.setId(order_id);
         loadData();
@@ -301,7 +339,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
         Toast toast = new Toast(this);
-        toast.makeText(this,R.string.order_cancel_toast,Toast.LENGTH_LONG);
+        toast.makeText(this, R.string.order_cancel_toast, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }

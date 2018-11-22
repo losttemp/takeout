@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,12 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.R;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
-public class FoodListAdaper extends BaseAdapter {
+public class FoodListAdaper extends RecyclerView.Adapter<FoodListAdaper.ViewHolder> {
     private List<OrderDetailsResponse.MeituanBean.DataBean.FoodListBean> mData;
-    private LayoutInflater mInflater;
     private Context mContext;
 
     public FoodListAdaper(Context context) {
@@ -27,44 +29,37 @@ public class FoodListAdaper extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
+    public FoodListAdaper.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View convertView = View.inflate(mContext, R.layout.item_order_details, null);
+        return new ViewHolder(convertView);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+
+        holder.tvfoodname.setText(mData.get(position).getName());
+
+        NumberFormat numberFormat = new DecimalFormat("#.#");
+        double price = mData.get(position).getPrice();
+        holder.tvfoodprice.setText(String.format(mContext.getResources().getString(R.string.cost_text), numberFormat.format(price)));
+    }
+
+    @Override
+    public int getItemCount() {
         return mData == null ? 0 : mData.size();
     }
 
-    @Override
-    public Object getItem(int position) {
-        return mData == null ? null : mData.get(position);
-    }
 
-    @Override
-    public long getItemId(int position) {
-        return mData == null ? 0 : position;
-    }
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = new ViewHolder();
-        if (convertView == null) {
-            convertView = View.inflate(mContext,R.layout.item_order_details, null);
-            viewHolder.tvfoodname = (TextView) convertView.findViewById(R.id.tv_food_name);
-            viewHolder.tvfoodprice = (TextView) convertView.findViewById(R.id.tv_food_price);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+        private TextView tvfoodname;
+        private TextView tvfoodprice;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            tvfoodname = itemView.findViewById(R.id.tv_food_name);
+            tvfoodprice = itemView.findViewById(R.id.tv_food_price);
         }
-        viewHolder.tvfoodname.setText(mData.get(position).getName());
-        viewHolder.tvfoodprice.setText(String.valueOf(mData.get(position).getPrice()));
-        return convertView;
-    }
-
-    @Override
-    public boolean isEnabled(int position) {
-        return false;
-    }
-
-    private final class ViewHolder {
-        TextView tvfoodname;
-        TextView tvfoodprice;
     }
 
 }

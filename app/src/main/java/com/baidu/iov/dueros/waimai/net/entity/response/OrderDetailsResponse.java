@@ -62,8 +62,8 @@ public class OrderDetailsResponse {
             private double total;
             private double original_price;
             private double shipping_fee;
-            private int box_total_price;
-            private int night_shipping_fee;
+            private double box_total_price;
+            private double night_shipping_fee;
             private int status;
             private String remark;
             private int is_pre_order;
@@ -153,7 +153,7 @@ public class OrderDetailsResponse {
                 this.shipping_fee = shipping_fee;
             }
 
-            public int getBox_total_price() {
+            public double getBox_total_price() {
                 return box_total_price;
             }
 
@@ -161,7 +161,7 @@ public class OrderDetailsResponse {
                 this.box_total_price = box_total_price;
             }
 
-            public int getNight_shipping_fee() {
+            public double getNight_shipping_fee() {
                 return night_shipping_fee;
             }
 

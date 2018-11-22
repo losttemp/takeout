@@ -39,7 +39,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
     public static final int INTERNAL_TIME = 1000;
     private int mCountDownTime = 5;
     private Long mOrderId;
-    private String mExpectedTime = null;
+    private long mExpectedTime;
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -82,7 +82,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
             String recipientAddress = intent.getStringExtra(USER_ADDRESS);
             String recipient_name = intent.getStringExtra(USER_NAME);
             String foodNameOne = intent.getStringExtra(PRODUCT_NAME);
-            mExpectedTime = intent.getStringExtra(EXPECTED_TIME);
+            mExpectedTime = intent.getLongExtra(EXPECTED_TIME, 0);
             int count = intent.getIntExtra(PRODUCT_COUNT, 0);
 
             mStorePhotoImg = findViewById(R.id.store_photo_img);

@@ -120,6 +120,7 @@
     <string name="reload">重新加载</string>
     <string name="arrive_time">大约%s送达</string>
     <string name="delivery_immediately">立即送出</string>
+    <string name="expected_delivery_immediately">立即送达</string>
     <string name="cost">\&#165;%1.1f</string>
     <string name="cost_text">\&#165;%s</string>
     <string name="total_cost">去支付\&#165;%1d</string>
@@ -145,6 +146,7 @@
     <string name="total">合计：</string>
     <string name="submit_total">%2.2f元</string>
     <string name="submit_discount">已优惠 \&#165;%s</string>
+    <string name="actual_payment">实付：\&#165;%s</string>
     <string name="pay_title">支付超时</string>
     <string name="pay_time_out">支付超时,请重新下单。</string>
     <string name="back_store">返回店铺</string>
@@ -226,7 +228,9 @@
     <string name="order_cancel_toast">订单已取消</string>
     <string name="location_fail_toast">定位失败，请检查运营商网络或者WI-FI网络是否正常开启</string>
     <string name="location_error_toast">无法定位为您搜索地址，请检查运营商网络或者WI-FI网络是否正常开启</string>
-
+    <string name="take_away_service">外卖服务由美团外卖提供</string>
+    <string name="expect_time">期望时间</string>
+    <string name="order_time">下单时间</string>
     <string name="choose_city">城市选择</string>
     <string name="being_positioned">正在定位当前城市</string>
     <string name="hot">热门</string>

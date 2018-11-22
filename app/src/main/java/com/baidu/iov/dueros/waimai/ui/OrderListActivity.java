@@ -42,7 +42,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             ArrayList<>();
     private OrderListReq mOrderListReq;
     OrderListExtraBean extraBean;
-    private OrderCancelResponse.ErrorInfoBean mOrderCancel= new OrderCancelResponse.ErrorInfoBean();
+    private OrderCancelResponse.ErrorInfoBean mOrderCancel = new OrderCancelResponse.ErrorInfoBean();
     private OrderCancelReq mOrderCancelReq;
 
     @Override
@@ -142,7 +142,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     default:
                         Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
                         intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
-                        intent.putExtra(Constant.USER_PHONE, payloadBean.getUser_phone());
+                        intent.putExtra("expected_time", payloadBean.getWm_ordering_list().getDelivery_time());
                         startActivity(intent);
                         break;
                 }
@@ -177,7 +177,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
         mOrderCancel = data.getErrorInfo();
-        Toast.makeText(this,R.string.order_cancelled,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.order_cancelled, Toast.LENGTH_LONG).show();
 
     }
 
