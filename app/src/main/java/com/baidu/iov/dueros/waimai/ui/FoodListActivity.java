@@ -13,7 +13,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.ArrayMap;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,15 +47,19 @@ import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusTagsAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ShoppingCartAdapter;
 import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.PoifoodListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.PoifoodListPinnedHeaderListView;
+import com.baidu.iov.faceos.client.GsonUtil;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.io.Serializable;
@@ -146,6 +152,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private RelativeLayout mShopClose;
     private RelativeLayout mToolBar;
     private String mFirstDiscount;
+    private boolean mOneMoreOrder;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -499,36 +506,36 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     mCartShoppingPrise.setText("¥" + " " + str);
                 }
                 mDiscountNumber = listReduce.get(listReduce.size() - 1);
-                return;
-            }
-            for (int i = 0; i < listFull.size(); i++) {
-                Lg.getInstance().d(TAG, "listFull.get(0) = " + listFull.get(0));
-                if (listFull.get(i) > sum) {
-                    double v = listFull.get(i) - sum;
-                    java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
-                    String str = myformat.format(v);
-                    if (i == 0) {
-                        mDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
-                        if (mCartDiscount != null) {
-                            mCartDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
-                        }
-                    } else {
-                        mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
-                                getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
-                        if (mCartDiscount != null) {
-                            mCartDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
+            } else {
+                for (int i = 0; i < listFull.size(); i++) {
+                    Lg.getInstance().d(TAG, "listFull.get(0) = " + listFull.get(0));
+                    if (listFull.get(i) > sum) {
+                        double v = listFull.get(i) - sum;
+                        java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
+                        String str = myformat.format(v);
+                        if (i == 0) {
+                            mDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                            if (mCartDiscount != null) {
+                                mCartDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                            }
+                        } else {
+                            mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
                                     getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                            if (mCartDiscount != null) {
+                                mCartDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
+                                        getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                            }
+                            double newSum = sum - listReduce.get(i - 1);
+                            java.text.DecimalFormat newformat = new java.text.DecimalFormat("0.0");
+                            String newNum = newformat.format(newSum);
+                            shoppingPrise.setText("¥" + " " + newNum);
+                            if (mCartShoppingPrise != null) {
+                                mCartShoppingPrise.setText("¥" + " " + newNum);
+                            }
+                            mDiscountNumber = listReduce.get(i - 1);
                         }
-                        double newSum = sum - listReduce.get(i - 1);
-                        java.text.DecimalFormat newformat = new java.text.DecimalFormat("0.0");
-                        String newNum = newformat.format(newSum);
-                        shoppingPrise.setText("¥" + " " + newNum);
-                        if (mCartShoppingPrise != null) {
-                            mCartShoppingPrise.setText("¥" + " " + newNum);
-                        }
-                        mDiscountNumber = listReduce.get(i - 1);
+                        break;
                     }
-                    break;
                 }
             }
         } else {
@@ -861,12 +868,73 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             Lg.getInstance().d(TAG, "spusBeanList = " + spusBeanList.size());
             foodSpuTagsBean.setSpus(spusBeanList);
             foodSpuTagsBeans.add(foodSpuTagsBean);
-
+            oneMoreOrder(i);
         }
         Lg.getInstance().d(TAG, "foodSpuTagsBeanName = " + foodSpuTagsBeanName.toString());
         Lg.getInstance().d(TAG, "spusBeanName = " + spusBeanList.toString());
+        if (mOneMoreOrder) {
+            showShopCartDialog();
+        }
         mPoifoodSpusListAdapter.notifyDataSetChanged();
         mFoodSpuTagsListAdapter.notifyDataSetChanged();
+    }
+
+    private void oneMoreOrder(int section) {
+        Bundle extras = getIntent().getExtras();
+        if (extras.containsKey(Constant.ONE_MORE_ORDER)) {
+            mOneMoreOrder = (boolean) getIntent().getExtras().get(Constant.ONE_MORE_ORDER);
+            String orderListExtraPayLoadStr = (String) getIntent().getExtras().get(Constant.ORDER_LSIT_EXTRA_STRING);
+            if (mOneMoreOrder && orderListExtraPayLoadStr != null) {
+                String payload;
+                OrderListExtraPayloadBean payloadBean = null;
+                OrderListExtraBean.OrderInfos orderInfos = null;
+                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusList = null;
+                OrderListExtraBean extraBean = GsonUtil.fromJson(orderListExtraPayLoadStr, OrderListExtraBean.class);
+                try {
+                    payload = Encryption.desEncrypt(extraBean.getPayload());
+                    orderInfos = extraBean.getOrderInfos();
+                    payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                List<OrderListExtraBean.OrderInfos.Food_list> spusFoodList = orderInfos.getFood_list();
+                for (OrderListExtraBean.OrderInfos.Food_list spusFood : spusFoodList) {
+                    String name = spusFood.getName();
+                    for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
+                        if (spusBean.getName().equals(name)) {
+                            spusBean.setNumber(spusFood.getCount());
+                            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
+                            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
+                            List<String> attrIds = spusFood.getAttrIds();
+                            List<String> attrValues = spusFood.getAttrValues();
+                            String spec = spusFood.getSpec();
+                            for (int i = 0; i < attrIds.size(); i++) {
+                                for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrs) {
+                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrsList = attrsBean.getChoiceAttrs();
+                                    choiceAttrsList.get(0).setId(Long.parseLong(attrIds.get(i)));
+                                    choiceAttrsList.get(0).setValue(String.valueOf(attrValues.get(i)));
+                                }
+                            }
+                            for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean skusBean : skus) {
+                                if (!TextUtils.isEmpty(spec) && spec.equals(skusBean.getSpec())) {
+                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkusList = spusBean.getChoiceSkus();
+                                    if (choiceSkusList == null) {
+                                        skusList = new ArrayList<>();
+                                        skusList.add(skusBean);
+                                        spusBean.setChoiceSkus(skusList);
+                                    } else {
+                                        choiceSkusList.clear();
+                                        choiceSkusList.add(skusBean);
+                                    }
+                                }
+                            }
+                            updateProduct(spusBean, spusBean.getTag(), section, true);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override

@@ -368,9 +368,12 @@ public class PoifoodListBean {
                         if (choiceSkus == null) {
                             return id == spusBean.getId() && attrs.equals(spusBean.getAttrs());
                         } else {
-                            return id == spusBean.getId() && attrs.equals(spusBean.getAttrs()) &&
-                                    id == spusBean.getId() && choiceSkus.get(0).spec.equals(spusBean.getChoiceSkus().get(0).spec);
+                            if (spusBean.getChoiceSkus() != null) {
+                                return id == spusBean.getId() && attrs.equals(spusBean.getAttrs()) &&
+                                        id == spusBean.getId() && choiceSkus.get(0).spec.equals(spusBean.getChoiceSkus().get(0).spec);
+                            }
                         }
+                        return super.equals(obj);
                     }
 
                     public int getSection() {

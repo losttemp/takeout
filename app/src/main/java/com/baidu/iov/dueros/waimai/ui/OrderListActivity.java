@@ -107,6 +107,8 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     case R.id.one_more_order:
                         Intent onemoreintent = new Intent(OrderListActivity.this, FoodListActivity.class);
                         onemoreintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
+                        onemoreintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(position).getExtra());
+                        onemoreintent.putExtra(Constant.ONE_MORE_ORDER, true);
                         startActivity(onemoreintent);
                         break;
                     case R.id.pay_order:
