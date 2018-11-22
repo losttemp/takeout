@@ -77,7 +77,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             public void onFailure(String msg) {
 
                 if (null != getUi()) {
-                    getUi().onOrderPreviewFailure(msg);
+                    getUi().onFailure(msg);
                 }
             }
         });
@@ -108,7 +108,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             public void onFailure(String msg) {
 
                 if (null != getUi()) {
-                    getUi().onOrderPreviewFailure(msg);
+                    getUi().onFailure(msg);
                 }
             }
         });
@@ -183,7 +183,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             public void onFailure(String msg) {
 
                 if (getUi() != null) {
-                    getUi().onOrderPreviewFailure(msg);
+                    getUi().onFailure(msg);
                 }
             }
         });
@@ -229,6 +229,6 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
         void onOrderSubmitSuccess(OrderSubmitBean data);
 
-        void onOrderPreviewFailure(String error);
+        void onFailure(String msg);
     }
 }
