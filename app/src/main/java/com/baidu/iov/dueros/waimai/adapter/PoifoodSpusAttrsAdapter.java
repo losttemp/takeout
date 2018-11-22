@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,14 +33,12 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
     public PoifoodSpusAttrsAdapter(Context context, List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrsBeans,
                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusBeans,
                                    PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
-                                   List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs,
                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus,
                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList) {
         this.context = context;
         this.attrsBeans = attrsBeans;
         this.skusBeans = skusBeans;
         this.spusBean = spusBean;
-        this.choiceAttrs = choiceAttrs;
         this.choiceSkus = choiceSkus;
         this.productList = productList;
         mInflater = LayoutInflater.from(context);
@@ -97,11 +96,12 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
             specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {
                 @Override
                 public void OnItemClick(View view, int p) {
+                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> valuesBeans = attrsBeans.get(position).getValues();
                     for (int i = 0; i < viewHolder.recyclerview.getChildCount(); i++) {
                         if (i == p) {
                             viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.tag_on);
-                            choiceAttrs.clear();
-                            choiceAttrs.add(values.get(i));
+                            choiceAttrs = new ArrayList<>();
+                            choiceAttrs.add(valuesBeans.get(i));
                             spusBean.getAttrs().get(position).setChoiceAttrs(choiceAttrs);
                         } else {
                             viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.tag_bg_01);

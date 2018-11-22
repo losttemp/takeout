@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -97,7 +95,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 String address_type = mData.get(realPosition).getType();
                 if (address_type != null) {
 
-                    if (mContext.getString(R.string.address_tag_home).equals(address_type)) {
+                    if (mContext.getString(R.string.address_home).equals(address_type)) {
                         ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_green);
                     } else {
                         ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_blue);

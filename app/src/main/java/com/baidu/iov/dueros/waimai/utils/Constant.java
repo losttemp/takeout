@@ -49,12 +49,11 @@ public class Constant {
     public static final int ADDRESS_SEARCH_ACTIVITY_RESULT_CODE = 1;
     public static String ADDRESS_EDIT_INTENT_EXTRE_CITY = "address_edit_location_city";
     public static String ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR = "address_search_addStr";
-    public static String ADDRESS_SEARCCH_INTENT_EXTRE_LA = "address_search_lat";
-    public static String ADDRESS_SEARCCH_INTENT_EXTRE_LO = "address_search_lo";
     public static String ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT = "address_add_or_edit_model";
     public static String ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS = "address_select_address_edit";
-    public static String ADDRESS_SELECT_INTENT_EXTRE_LOCATION = "address_select_location_to_home";
     public static String ADDRESS_DATA = "address_data";
     public static String ADDRESS_SELECTED_TIME = "address_time";
     public static String ADDRESS_SELECTED = "ADDRESS_SELECTED";
+    public static String OPEN_API_EXIT_NAVI = "com.baidu.naviauto.open.api.exitnavi";
+    public static String OPEN_API_BAIDU_MAP = "com.baidu.naviauto.open.api";
 }

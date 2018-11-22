@@ -174,8 +174,6 @@
     <string name="address_addr">收货地址:</string>
     <string name="address_house_num">门牌号：</string>
     <string name="address_tag">标签</string>
-    <string name="address_tag_home">家里</string>
-    <string name="address_tag_company">公司</string>
     <string name="address_tag_other">其他</string>
     <string name="address_edit_save">保存地址</string>
     <string name="address_search_hint">请输入您的收货地址</string>

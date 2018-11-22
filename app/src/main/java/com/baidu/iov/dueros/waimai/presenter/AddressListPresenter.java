@@ -30,21 +30,21 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
         mAddressList.onDestroy();
     }
 
-    public void requestData(ArrayMap<String, String> map) {
-        mAddressList.requestAddressList(map, new RequestCallback<AddressListBean>() {
+    public void requestData() {
+        mAddressList.requestAddressList(new RequestCallback<AddressListBean>() {
 
             @Override
             public void onSuccess(AddressListBean data) {
-                if (null != getUi()){
-                    getUi().onSuccess(data);
+                if (null != getUi()) {
+                    getUi().onGetAddressListSuccess(data);
                 }
             }
 
             @Override
             public void onFailure(String msg) {
 
-                if (null != getUi()){
-                    getUi().onError(msg);
+                if (null != getUi()) {
+                    getUi().onGetAddressListFailure(msg);
                 }
             }
         });
@@ -66,11 +66,11 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
 
     }
 
-    public interface AddressListUi extends Ui{
+    public interface AddressListUi extends Ui {
 
-        void onSuccess(AddressListBean data);
+        void onGetAddressListSuccess(AddressListBean data);
 
-        void onError(String error);
+        void onGetAddressListFailure(String msg);
 
 
     }

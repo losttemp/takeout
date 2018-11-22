@@ -543,7 +543,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     }
 
     @Override
-    public void onOrderPreviewFailure(String msg) {
+    public void onFailure(String msg) {
 
     }
 
@@ -572,6 +572,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             startActivity(intent);
         } else if (submitCode == SERVICE_ERROR) {
 
+            Toast.makeText(this, getString(R.string.service_error), Toast.LENGTH_SHORT).show();
         } else if (submitCode == BEYOND_DELIVERY_RANGE) {
             Toast.makeText(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT).show();
         }
