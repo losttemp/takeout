@@ -2,7 +2,6 @@ package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +29,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private LinearLayout mNoAddress;
     private AddressSelectAdapter mAdapter;
     private final long SIX_HOUR = 6 * 60 * 60 * 1000;
+    private AddressSelectPresenter.MReceiver mReceiver;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -132,14 +132,11 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     }
 
     @Override
-    public void onRegisterReceiver(AddressSelectPresenter.MReceiver mReceiver, IntentFilter intentFilter) {
-        this.registerReceiver(mReceiver, intentFilter);
+    public void onRegisterReceiver(AddressSelectPresenter.MReceiver receiver, IntentFilter intentFilter) {
+        this.registerReceiver(receiver, intentFilter);
+        this.mReceiver = receiver;
     }
 
-    @Override
-    public void unRegisterReceiver(AddressSelectPresenter.MReceiver mReceiver) {
-        this.unRegisterReceiver(mReceiver);
-    }
 
     @Override
     public void onClick(View v) {
@@ -155,6 +152,9 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
 
     @Override
     protected void onDestroy() {
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+        }
         super.onDestroy();
     }
 }

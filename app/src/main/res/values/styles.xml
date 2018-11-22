@@ -48,7 +48,7 @@
         <item name="android:layout_width">@dimen/px230dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/white_88</item>
-        <item name="android:textSize">@dimen/px42sp</item>
+        <item name="android:textSize">@dimen/px36sp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 

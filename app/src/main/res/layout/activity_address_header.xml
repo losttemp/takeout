@@ -21,7 +21,7 @@
         android:gravity="center"
         android:text="@string/address_select_title"
         android:textColor="@color/white"
-        android:textSize="@dimen/px48sp" />
+        android:textSize="@dimen/px40sp" />
 
     <ImageView
         android:id="@+id/address_del"

@@ -15,7 +15,7 @@
         <TextView
             style="@style/AddressEditViewTextStyle"
             android:text="@string/address_contact"
-            android:textSize="@dimen/px36sp" />
+             />
 
         <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_name"
@@ -137,5 +137,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/px120dp"
         android:background="@drawable/address_button"
-        android:text="@string/address_edit_save" />
+        android:text="@string/address_edit_save"
+        android:textSize="@dimen/px36sp"
+        android:textColor="@color/white"/>
 </LinearLayout>

@@ -82,8 +82,10 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
         public void bindData(int position, AddressListBean.IovBean.DataBean dataBean) {
             this.mDataBean = dataBean;
-            String type = dataBean.getType() == null ? mContext.getString(R.string.address_tag_other) : dataBean.getType();
-            if (type.equals(mContext.getString(R.string.address_destination))) {
+            String type = dataBean.getType();
+            if (TextUtils.isEmpty(type)) {
+                ivType.setImageResource(R.drawable.address_other);
+            }else if (type.equals(mContext.getString(R.string.address_destination))) {
                 ivType.setImageResource(R.drawable.address_location);
             } else if (type.equals(mContext.getString(R.string.address_company))) {
                 ivType.setImageResource(R.drawable.address_company);

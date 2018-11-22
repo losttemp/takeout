@@ -51,5 +51,7 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/address_button"
         android:text="@string/address_select_add_address"
+        android:textSize="@dimen/px36sp"
+        android:textColor="@color/white"
         android:layout_marginTop="@dimen/px120dp"/>
 </LinearLayout>

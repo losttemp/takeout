@@ -60,9 +60,6 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
 
     @Override
     public void onUiUnready(AddressSelectUi ui) {
-        if (null != getUi()) {
-            getUi().unRegisterReceiver(mReceiver);
-        }
         super.onUiUnready(ui);
     }
 
@@ -72,6 +69,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
 
             @Override
             public void onSuccess(AddressListBean data) {
+
                 if (mDataBeans.contains(mDesBean)) {
                     mDataBeans.clear();
                     mDataBeans.add(mDesBean);
@@ -79,6 +77,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                     mDataBeans.clear();
                 }
                 mDataBeans.addAll(data.getIov().getData());
+                Lg.getInstance().d(TAG,"onSuccess:"+mDataBeans.toString());
                 if (null != getUi()) {
                     getUi().onSuccess(mDataBeans);
                 }
@@ -131,7 +130,6 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
 
         void onFailure(String msg);
 
-        void unRegisterReceiver(MReceiver mReceiver);
     }
 
     public class MReceiver extends BroadcastReceiver {
