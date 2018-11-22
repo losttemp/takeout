@@ -23,6 +23,14 @@ public class StoreResponse {
 		this.iov = iov;
 	}
 
+	@Override
+	public String toString() {
+		return "StoreResponse{" +
+				"meituan=" + meituan +
+				", iov=" + iov +
+				'}';
+	}
+
 	public static class MeituanBean {
 
 		private int code;
@@ -62,6 +70,16 @@ public class StoreResponse {
 			this.data = data;
 		}
 
+		@Override
+		public String toString() {
+			return "MeituanBean{" +
+					"code=" + code +
+					", msg='" + msg + '\'' +
+					", errorInfo=" + errorInfo +
+					", data=" + data +
+					'}';
+		}
+
 		public static class ErrorInfoBean {
 
 			private String failCode;
@@ -90,6 +108,15 @@ public class StoreResponse {
 
 			public void setDescription(String description) {
 				this.description = description;
+			}
+
+			@Override
+			public String toString() {
+				return "ErrorInfoBean{" +
+						"failCode='" + failCode + '\'' +
+						", name='" + name + '\'' +
+						", description='" + description + '\'' +
+						'}';
 			}
 		}
 
@@ -139,6 +166,17 @@ public class StoreResponse {
 
 			public void setOpenPoiBaseInfoList(List<OpenPoiBaseInfoListBean> openPoiBaseInfoList) {
 				this.openPoiBaseInfoList = openPoiBaseInfoList;
+			}
+
+			@Override
+			public String toString() {
+				return "DataBean{" +
+						"poi_total_num=" + poi_total_num +
+						", have_next_page=" + have_next_page +
+						", current_page_index=" + current_page_index +
+						", page_size=" + page_size +
+						", openPoiBaseInfoList=" + openPoiBaseInfoList +
+						'}';
 			}
 
 			public static class OpenPoiBaseInfoListBean {
@@ -342,6 +380,34 @@ public class StoreResponse {
 					isDiscountsDown = discountsDown;
 				}
 
+				@Override
+				public String toString() {
+					return "OpenPoiBaseInfoListBean{" +
+							"wm_poi_id=" + wm_poi_id +
+							", status=" + status +
+							", status_desc='" + status_desc + '\'' +
+							", name='" + name + '\'' +
+							", pic_url='" + pic_url + '\'' +
+							", shipping_fee=" + shipping_fee +
+							", min_price=" + min_price +
+							", wm_poi_score=" + wm_poi_score +
+							", avg_delivery_time=" + avg_delivery_time +
+							", poi_type_icon='" + poi_type_icon + '\'' +
+							", distance='" + distance + '\'' +
+							", latitude=" + latitude +
+							", longitude=" + longitude +
+							", address='" + address + '\'' +
+							", month_sale_num=" + month_sale_num +
+							", delivery_type=" + delivery_type +
+							", invoice_support=" + invoice_support +
+							", invoice_min_price=" + invoice_min_price +
+							", average_price_tip='" + average_price_tip + '\'' +
+							", product_list=" + product_list +
+							", discounts=" + discounts +
+							", isDiscountsDown=" + isDiscountsDown +
+							'}';
+				}
+
 				public static class ProductListBean {
 
 					private int id;
@@ -380,6 +446,16 @@ public class StoreResponse {
 					public void setPicture(String picture) {
 						this.picture = picture;
 					}
+
+					@Override
+					public String toString() {
+						return "ProductListBean{" +
+								"id=" + id +
+								", name='" + name + '\'' +
+								", price=" + price +
+								", picture='" + picture + '\'' +
+								'}';
+					}
 				}
 
 				public static class DiscountsBean {
@@ -401,6 +477,14 @@ public class StoreResponse {
 
 					public void setIcon_url(String icon_url) {
 						this.icon_url = icon_url;
+					}
+
+					@Override
+					public String toString() {
+						return "DiscountsBean{" +
+								"info='" + info + '\'' +
+								", icon_url='" + icon_url + '\'' +
+								'}';
 					}
 				}
 			}
