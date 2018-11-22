@@ -29,38 +29,41 @@
         <activity
             android:name=".ui.HomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.FoodListActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <activity android:name=".ui.RecommendShopActivity"
-                   android:configChanges="orientation|screenSize|keyboardHidden"/>
-        <activity android:name=".ui.FoodActivity"/>
+        <activity
+            android:name=".ui.RecommendShopActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity android:name=".ui.FoodActivity" />
         <activity android:name=".ui.OrderListActivity" />
         <activity android:name=".ui.SubmitOrderActivity" />
         <activity
             android:name=".ui.AddressListActivity"
             android:theme="@style/NoTitleDialog" />
         <activity android:name=".ui.PaymentActivity" />
-        <activity android:name=".ui.PaySuccessActivity"/>
-        <activity android:name=".ui.OrderDetailsActivity"/>
-        <activity android:name=".ui.SearchActivity"
-                   android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".ui.PaySuccessActivity" />
+        <activity android:name=".ui.OrderDetailsActivity" />
+        <activity
+            android:name=".ui.SearchActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity android:name=".ui.AddressSelectActivity" />
         <activity android:name=".ui.AddressEditActivity" />
         <activity android:name=".ui.AddressSuggestionActivity" />
 
-        <!--BaiDu SDK-->
+        <!-- BaiDu SDK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="wLtpOczEdREiDnlauVSdPSN15pMHGYir"></meta-data>
+            android:value="wLtpOczEdREiDnlauVSdPSN15pMHGYir" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+
+        <activity android:name=".ui.CityListActivity"/>
     </application>
 
 </manifest>

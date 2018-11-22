@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2f3841">
+
+        <com.domain.multipltextview.MultiplTextView
+            app:removeDefaultPadding="true"
+            android:id="@+id/city_alpha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/px84dp"
+            android:layout_marginRight="@dimen/px84dp"
+            android:gravity="left"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/px30sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <com.domain.multipltextview.MultiplTextView
+        app:removeDefaultPadding="true"
+        android:id="@+id/city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px44dp"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/px36sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px2dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px44dp"
+        android:background="#1Affffff" />
+
+</LinearLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2f3841">
+
+        <com.domain.multipltextview.MultiplTextView
+            android:id="@+id/recent_hot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/px4dp"
+            android:layout_marginLeft="@dimen/px84dp"
+            android:layout_marginTop="@dimen/px4dp"
+            android:text="@string/hot_city"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/px30sp"
+            app:removeDefaultPadding="true" />
+
+    </LinearLayout>
+
+    <com.baidu.iov.dueros.waimai.view.ScrollGridView
+        android:id="@+id/recent_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/px34dp"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px144dp"
+        android:layout_marginTop="@dimen/px34dp"
+        android:horizontalSpacing="@dimen/px56dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="4"
+        android:verticalSpacing="@dimen/px68dp" />
+
+
+</LinearLayout>

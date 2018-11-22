@@ -17,30 +17,37 @@
         android:layout_marginRight="@dimen/px84dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/address_search_city"
+        <RelativeLayout
+            android:id="@+id/address_search_city_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/px58dp"
-            android:clickable="true"
-            android:text="@string/wuhan"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px36sp" />
+            android:layout_marginTop="@dimen/px58dp">
 
-        <ImageView
-            android:id="@+id/arrow"
-            android:layout_marginTop="@dimen/px68dp"
-            android:layout_marginLeft="@dimen/px4dp"
-            android:layout_width="@dimen/px30dp"
-            android:layout_height="@dimen/px30dp"
-            android:src="@drawable/down" />
+            <TextView
+                android:id="@+id/address_search_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/wuhan"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp" />
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="@dimen/px30dp"
+                android:layout_height="@dimen/px30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/px4dp"
+                android:layout_toRightOf="@id/address_search_city"
+                android:src="@drawable/down" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/px108dp"
-            android:background="@drawable/address_searchbg"
-            android:layout_marginTop="@dimen/px30dp"
             android:layout_marginLeft="@dimen/px20dp"
+            android:layout_marginTop="@dimen/px30dp"
+            android:background="@drawable/address_searchbg"
             android:orientation="horizontal">
 
             <ImageView
@@ -48,29 +55,29 @@
                 android:layout_width="@dimen/px96dp"
                 android:layout_height="@dimen/px96dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/icon_search"/>
+                android:src="@drawable/icon_search" />
 
             <com.baidu.iov.dueros.waimai.view.ClearEditText
                 android:id="@+id/address_search_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 android:layout_gravity="center_vertical"
+                android:background="@null"
                 android:hint="@string/address_search_hint"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/white"
-                android:textSize="@dimen/px36sp"/>
+                android:textSize="@dimen/px36sp" />
         </LinearLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/px2dp"
-        android:layout_marginTop="@dimen/px36dp"
         android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px36dp"
         android:layout_marginRight="@dimen/px84dp"
         android:background="@color/dark_gray" />
 
@@ -98,16 +105,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/px354dp"
-                android:src="@drawable/icon_tishi"/>
+                android:src="@drawable/icon_tishi" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/px48dp"
                 android:layout_gravity="center_horizontal"
-                android:textSize="@dimen/px36sp"
+                android:layout_marginTop="@dimen/px48dp"
+                android:text="@string/address_suggestion_erro"
                 android:textColor="@color/white"
-                android:text="@string/address_suggestion_erro" />
+                android:textSize="@dimen/px36sp" />
         </LinearLayout>
     </FrameLayout>
 

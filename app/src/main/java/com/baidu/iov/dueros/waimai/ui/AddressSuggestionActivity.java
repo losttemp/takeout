@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -31,7 +32,7 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressSuggestionActivity extends AppCompatActivity implements TextWatcher ,View.OnClickListener {
+public class AddressSuggestionActivity extends AppCompatActivity implements TextWatcher, View.OnClickListener {
     private RecyclerView mRecyclerView;
     private ClearEditText mSearchEdit;
     private AddressSuggestionAdapter mAdapter;
@@ -45,6 +46,7 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
     private boolean isEditModle;
     private TextView tv_title;
     private ImageView iv_back;
+    private RelativeLayout selectCityView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,18 +58,19 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
     }
 
     private void initView() {
-        tv_title =(TextView) findViewById(R.id.address_title);
-        iv_back =(ImageView) findViewById(R.id.address_back);
+        tv_title = (TextView) findViewById(R.id.address_title);
+        iv_back = (ImageView) findViewById(R.id.address_back);
         mRecyclerView = (RecyclerView) findViewById(R.id.address_search_rv);
         mSearchEdit = (ClearEditText) findViewById(R.id.address_search_edit);
         mCityTV = (TextView) findViewById(R.id.address_search_city);
         mErrorLL = (LinearLayout) findViewById(R.id.address_search_error);
+        selectCityView = (RelativeLayout) findViewById(R.id.address_search_city_layout);
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layout);
     }
 
     private void initData() {
-        tv_title .setText(getResources().getString(R.string.address_title_search));
+        tv_title.setText(getResources().getString(R.string.address_title_search));
         mCity = getIntent().getStringExtra(Constant.ADDRESS_EDIT_INTENT_EXTRE_CITY);
         isEditModle = getIntent().getBooleanExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
         mCityTV.setText(mCity);
@@ -78,6 +81,7 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
 
     private void initListener() {
         iv_back.setOnClickListener(this);
+        selectCityView.setOnClickListener(this);
         mAdapter.setOnItemClickListener(new AddressSuggestionAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View v, SuggestionResult.SuggestionInfo dataBean) {
@@ -107,17 +111,17 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
         mGetSuggestionResultListener = new OnGetSuggestionResultListener() {
             @Override
             public void onGetSuggestionResult(SuggestionResult suggestionResult) {
-                    List<SuggestionResult.SuggestionInfo> allSuggestions = suggestionResult.getAllSuggestions();
-                    if (allSuggestions != null && allSuggestions.size() > 0) {
-                        mErrorLL.setVisibility(View.GONE);
-                        mRecyclerView.setVisibility(View.VISIBLE);
-                        mAllSuggestions = allSuggestions;
-                        mAdapter.setSuggestionInfos(mAllSuggestions);
-                        mAdapter.notifyDataSetChanged();
-                    } else {
-                        mErrorLL.setVisibility(View.VISIBLE);
-                        mRecyclerView.setVisibility(View.GONE);
-                    }
+                List<SuggestionResult.SuggestionInfo> allSuggestions = suggestionResult.getAllSuggestions();
+                if (allSuggestions != null && allSuggestions.size() > 0) {
+                    mErrorLL.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    mAllSuggestions = allSuggestions;
+                    mAdapter.setSuggestionInfos(mAllSuggestions);
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    mErrorLL.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                }
             }
         };
         mSuggestionSearch.setOnGetSuggestionResultListener(mGetSuggestionResultListener);
@@ -160,6 +164,21 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
             case R.id.address_back:
                 finish();
                 break;
+            case R.id.address_search_city_layout:
+                Intent intent = new Intent(AddressSuggestionActivity.this, CityListActivity.class);
+                startActivityForResult(intent, Constant.CITY_REQUEST_CODE_CHOOSE);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constant.CITY_REQUEST_CODE_CHOOSE && resultCode == Constant.CITY_RESULT_CODE_CHOOSE) {
+            String cityName = data.getStringExtra(Constant.CITYCODE);
+            mCityTV.setText(cityName);
         }
     }
 }

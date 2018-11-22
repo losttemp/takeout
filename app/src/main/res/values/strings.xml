@@ -227,4 +227,13 @@
     <string name="location_fail_toast">定位失败，请检查运营商网络或者WI-FI网络是否正常开启</string>
     <string name="location_error_toast">无法定位为您搜索地址，请检查运营商网络或者WI-FI网络是否正常开启</string>
 
+    <string name="choose_city">城市选择</string>
+    <string name="being_positioned">正在定位当前城市</string>
+    <string name="hot">热门</string>
+    <string name="positioned">定位</string>
+    <string name="location_of_the_city">定位城市</string>
+    <string name="location_faile">定位失败</string>
+    <string name="position_fail">定位失败</string>
+    <string name="position_try">定位失败,点击重试</string>
+    <string name="hot_city">热门城市</string>
 </resources>

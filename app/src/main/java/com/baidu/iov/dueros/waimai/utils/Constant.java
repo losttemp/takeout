@@ -29,7 +29,7 @@ public class Constant {
     public static final String STORE_FRAGMENT_FROM_PAGE_TYPE = "page_type";
     public static final int STORE_FRAGMENT_FROM_HOME = 0;
     public static final int STORE_FRAGMENT_FROM_SEARCH = 1;
-    public static final int STORE_FRAGMENT_FROM_RECOMMENDSHOP= 2;
+    public static final int STORE_FRAGMENT_FROM_RECOMMENDSHOP = 2;
     public static final String STORE_ID = "store_id";
     public static final int STROE_STATUS_NORMAL = 1;
     public static final int STROE_STATUS_BUSY = 2;
@@ -56,4 +56,7 @@ public class Constant {
     public static String ADDRESS_SELECTED = "ADDRESS_SELECTED";
     public static String OPEN_API_EXIT_NAVI = "com.baidu.naviauto.open.api.exitnavi";
     public static String OPEN_API_BAIDU_MAP = "com.baidu.naviauto.open.api";
+
+    public static final int CITY_REQUEST_CODE_CHOOSE = 506;
+    public static final int CITY_RESULT_CODE_CHOOSE = 606;
 }

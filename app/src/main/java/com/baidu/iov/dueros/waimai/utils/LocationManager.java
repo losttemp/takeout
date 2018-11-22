@@ -66,6 +66,15 @@ public class LocationManager {
         }
     }
 
+    public void getLcation(LocationClientOption.LocationMode locationMode, String coorType,
+                           int ScanSpan, boolean GPSFlag) {
+        mLocationClient = new LocationClient(context);
+        LocationClientOption option = initLocationClientOption(locationMode,
+                coorType, ScanSpan, GPSFlag);
+        // mLocationClient.registerLocationListener(myListener);
+        mLocationClient.setLocOption(option);
+    }
+
     public void initLocationClient(LocationClientOption.LocationMode locationMode, String coorType,
                                    int ScanSpan, boolean GPSFlag) {
         mLocationClient = new LocationClient(context);
@@ -79,6 +88,10 @@ public class LocationManager {
         if (mLocationClient != null && mLocationClient.isStarted()) {
             mLocationClient.requestLocation();
         }
+    }
+
+    public void setLocationListener(BDAbstractLocationListener listener) {
+        mLocationClient.registerLocationListener(listener);
     }
 
     private LocationClientOption initLocationClientOption(
