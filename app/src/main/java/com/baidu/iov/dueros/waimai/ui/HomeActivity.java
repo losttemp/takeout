@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
@@ -108,6 +109,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.iv_back:
+				MyApplicationAddressBean.USER_NAMES.clear();
+				MyApplicationAddressBean.USER_PHONES.clear();
 				finish();
 				break;
 

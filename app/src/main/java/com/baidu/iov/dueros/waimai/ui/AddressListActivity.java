@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressListAdapter;
+import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
@@ -178,6 +179,23 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         if (data != null) {
             mDataListBean = data.getIov().getData();
             mAddressListAdapter.setData(mDataListBean);
+            if (MyApplicationAddressBean.USER_PHONES.size() == 0) {
+                for (int i = 0; i < mDataListBean.size(); i++) {
+                    try {
+                        AddressListBean.IovBean.DataBean dataBean = mDataListBean.get(i);
+                        String user_phone = Encryption.desEncrypt(dataBean.getUser_phone());
+                        String user_name = Encryption.desEncrypt(dataBean.getUser_name());
+                        if (!MyApplicationAddressBean.USER_PHONES.contains(user_phone)) {
+                            MyApplicationAddressBean.USER_PHONES.add(0, user_phone);
+                        }
+                        if (!MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
+                            MyApplicationAddressBean.USER_NAMES.add(0, user_name);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         } else {
             Lg.getInstance().d(TAG, "not find data !");
         }

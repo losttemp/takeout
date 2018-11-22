@@ -224,5 +224,7 @@
     <string name="address_check_name">名称不能为空， 请完整填写您的信息 ～</string>
     <string name="address_check_address">地址不能为空， 请完整填写您的信息 ～</string>
     <string name="order_cancel_toast">订单已取消</string>
+    <string name="location_fail_toast">定位失败，请检查运营商网络或者WI-FI网络是否正常开启</string>
+    <string name="location_error_toast">无法定位为您搜索地址，请检查运营商网络或者WI-FI网络是否正常开启</string>
 
 </resources>

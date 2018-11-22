@@ -70,7 +70,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             public void OnItemClick(View v, AddressListBean.IovBean.DataBean dataBean) {
                 switch (v.getId()) {
                     case R.id.address_select_details_container:
-                        MyApplicationAddressBean.SELECTED_ADDRESS_BEAN = dataBean;
                         String databeanStr = GsonUtil.toJson(dataBean);
                         CacheUtils.saveAddressBean(databeanStr);
                         if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
