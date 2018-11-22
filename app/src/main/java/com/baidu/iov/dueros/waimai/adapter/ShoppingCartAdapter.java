@@ -70,9 +70,11 @@ public class ShoppingCartAdapter extends BaseAdapter {
         for (int i = 0; i < spusBeans.get(position).getAttrs().size(); i++) {
             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs =
                     spusBeans.get(position).getAttrs().get(i).getChoiceAttrs();
-            for (int j = 0; j < choiceAttrs.size(); j++) {
-                String value = choiceAttrs.get(j).getValue();
+            String value = choiceAttrs.get(0).getValue();
+            if (i == spusBeans.get(position).getAttrs().size() - 1) {
                 stringBuffer.append(value);
+            } else {
+                stringBuffer.append(value + "+");
             }
         }
         if (spusBeans.get(position).getSkus().size() <= 1) {

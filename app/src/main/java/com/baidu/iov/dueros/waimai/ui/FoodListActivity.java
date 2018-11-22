@@ -43,12 +43,10 @@ import com.baidu.iov.dueros.waimai.adapter.DiscountAdaper;
 import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusListAdapter;
 import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusTagsAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ShoppingCartAdapter;
-import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
 import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.PoifoodListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
@@ -147,6 +145,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private List<String> foodSpuTagsBeanName;
     private RelativeLayout mShopClose;
     private RelativeLayout mToolBar;
+    private String mFirstDiscount;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -481,10 +480,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 mCartShoppingPrise.setVisibility(View.GONE);
             }
         }
-        shoppingPrise.setText("¥" + " " + (new DecimalFormat("0.00")).format(sum));
-        if (mCartShoppingPrise != null) {
-            mCartShoppingPrise.setText("¥" + " " + (new DecimalFormat("0.00")).format(sum));
-        }
         shoppingNum.setText(String.valueOf(shopNum));
         if (mShopCartNum != null) {
             mShopCartNum.setText(String.valueOf(shopNum));
@@ -496,6 +491,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 if (mCartDiscount != null) {
                     mCartDiscount.setText(getString(R.string.already_reduced) + listReduce.get(listReduce.size() - 1) + getString(R.string.element));
                 }
+                double v = sum - listReduce.get(listReduce.size() - 1);
+                java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
+                String str = myformat.format(v);
+                shoppingPrise.setText("¥" + " " + str);
+                if (mCartShoppingPrise != null) {
+                    mCartShoppingPrise.setText("¥" + " " + str);
+                }
                 mDiscountNumber = listReduce.get(listReduce.size() - 1);
                 return;
             }
@@ -505,8 +507,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     double v = listFull.get(i) - sum;
                     java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
                     String str = myformat.format(v);
-                    mDiscount.setVisibility(View.VISIBLE);
-                    mRlDiscount.setVisibility(View.VISIBLE);
                     if (i == 0) {
                         mDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
                         if (mCartDiscount != null) {
@@ -519,15 +519,26 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                             mCartDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
                                     getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
                         }
+                        double newSum = sum - listReduce.get(i - 1);
+                        java.text.DecimalFormat newformat = new java.text.DecimalFormat("0.0");
+                        String newNum = newformat.format(newSum);
+                        shoppingPrise.setText("¥" + " " + newNum);
+                        if (mCartShoppingPrise != null) {
+                            mCartShoppingPrise.setText("¥" + " " + newNum);
+                        }
                         mDiscountNumber = listReduce.get(i - 1);
                     }
                     break;
                 }
             }
+        } else {
+            shoppingPrise.setText("¥" + " " + (new DecimalFormat("0.00")).format(sum));
+            if (mCartShoppingPrise != null) {
+                mCartShoppingPrise.setText("¥" + " " + (new DecimalFormat("0.00")).format(sum));
+            }
         }
         if (productList == null || productList.size() == 0) {
-            mDiscount.setVisibility(View.GONE);
-            mRlDiscount.setVisibility(View.GONE);
+            mDiscount.setText(mFirstDiscount);
         }
         double min_price = mPoidetailinfoBean.getMeituan().getData().getMin_price();
         if (sum > 0) {
@@ -884,29 +895,37 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mDiscounts.setAdapter(discountAdaper);
         settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
         mDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
-        for (int i = 0; i < discounts.size(); i++) {
-            String info = discounts.get(i).getInfo();
-            if (info.contains(getString(R.string.full)) && info.contains(getString(R.string.reduce))) {
-                if (info.startsWith(getString(R.string.full))) {
-                    String[] split = info.split(";");
-                    listFull = new ArrayList();
-                    listReduce = new ArrayList();
-                    Lg.getInstance().d(TAG, "split.length = " + split.length);
-                    for (int j = 0; j < split.length; j++) {
-                        String splitString = split[j];
-                        int y = 0;
-                        for (int k = 0; k < splitString.length(); k++) {
-                            String s = splitString.charAt(k) + "";
-                            if (s.equals(getString(R.string.reduce))) {
-                                y = k;
+        if (discounts.size() == 0) {
+            mRlDiscount.setVisibility(View.GONE);
+        } else {
+            for (int i = 0; i < discounts.size(); i++) {
+                String info = discounts.get(i).getInfo();
+                if (info.contains(getString(R.string.full)) && info.contains(getString(R.string.reduce))) {
+                    mRlDiscount.setVisibility(View.VISIBLE);
+                    if (info.startsWith(getString(R.string.full))) {
+                        String[] split = info.split(";");
+                        listFull = new ArrayList();
+                        listReduce = new ArrayList();
+                        Lg.getInstance().d(TAG, "split.length = " + split.length);
+                        for (int j = 0; j < split.length; j++) {
+                            String splitString = split[j];
+                            int y = 0;
+                            for (int k = 0; k < splitString.length(); k++) {
+                                String s = splitString.charAt(k) + "";
+                                if (s.equals(getString(R.string.reduce))) {
+                                    y = k;
+                                }
                             }
+                            String substring = splitString.substring(1, y);
+                            Lg.getInstance().d(TAG, "substring = " + substring);
+                            String lastString = splitString.substring(y + 1, splitString.length());
+                            Lg.getInstance().d(TAG, "lastString = " + lastString);
+                            listFull.add(Double.parseDouble(substring));
+                            listReduce.add(Double.parseDouble(lastString));
+                            mFirstDiscount = getString(R.string.full) + listFull.get(0) + getString(R.string.element) + getString(R.string.reduce)
+                                    + listReduce.get(0) + getString(R.string.element);
+                            mDiscount.setText(mFirstDiscount);
                         }
-                        String substring = splitString.substring(1, y);
-                        Lg.getInstance().d(TAG, "substring = " + substring);
-                        String lastString = splitString.substring(y + 1, splitString.length());
-                        Lg.getInstance().d(TAG, "lastString = " + lastString);
-                        listFull.add(Double.parseDouble(substring));
-                        listReduce.add(Double.parseDouble(lastString));
                     }
                 }
             }
