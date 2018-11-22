@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -41,10 +42,10 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setTags(List<String> tags , String type) {
+    public void setTags(List<String> tags, String type) {
         this.mTags = tags;
         removeAllViews();
-        for (int i = 0; i <tags.size(); i++) {
+        for (int i = 0; i < tags.size(); i++) {
             TextView textView = new TextView(getContext());
             textView.setText(tags.get(i));
             textView.setTextSize(mTextSize);
@@ -54,12 +55,11 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
             } else {
                 textView.setBackgroundColor(Color.GRAY);
             }
-//            textView.setBackgroundResource(mItemBackgroundResource);
-            int padding = 20;
-            textView.setPadding(30, 10, 30, 10);
-
-            LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            int width = getResources().getDimensionPixelSize(R.dimen.px170dp);
+            int height = getResources().getDimensionPixelSize(R.dimen.px58dp);
+            LayoutParams params = new LayoutParams(width, height);
             params.setMargins(0, 0, mDividerWidth, 0);
+            textView.setGravity(Gravity.CENTER);
             textView.setLayoutParams(params);
             textView.setOnClickListener(this);
             textView.setTag(tags.get(i));
