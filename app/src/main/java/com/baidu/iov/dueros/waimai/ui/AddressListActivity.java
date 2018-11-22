@@ -122,7 +122,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         try {
             addressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
             if (mAddressData.getType() != null) {
-                if (getString(R.string.address_tag_home).equals(mAddressData.getType())) {
+                if (getString(R.string.address_home).equals(mAddressData.getType())) {
                     typeTv.setBackgroundResource(R.drawable.tag_bg_green);
                 } else {
                     typeTv.setBackgroundResource(R.drawable.tag_bg_blue);
