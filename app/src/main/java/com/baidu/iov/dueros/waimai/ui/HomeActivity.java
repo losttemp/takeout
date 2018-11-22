@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
@@ -51,18 +52,12 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
-		getIntentData();
 		iniView();
 		iniData();
 
 	}
 
-	public void getIntentData() {
-		Intent intent=getIntent();
-		if (intent!=null&&intent.getStringExtra(Constant.ADDRESS_SELECTED)!=null) {
-			address = intent.getStringExtra(Constant.ADDRESS_SELECTED);
-		}
-	}
+	
 
 	private void iniView() {
 		mRlFood = findViewById(R.id.rl_food);
@@ -82,7 +77,10 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	
 
 	private void iniData() {
-		//address
+		if(!CacheUtils.getAddress().isEmpty()){
+			address=CacheUtils.getAddress();
+		}
+		
 		mTvTitle.setText(address);
 		initLocation();
 		
@@ -160,7 +158,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	@Override
 	public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
 		super.locationCallBack(isSuccess, bdLocation);
-		mStoreListFragment.locationLoadFirstPage();
+		mStoreListFragment.homeLoadFirstPage();
 		mStoreListFragment.requestFilterList();
 //
 //		mBDLocation = bdLocation;

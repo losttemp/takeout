@@ -78,6 +78,7 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
             keyword=getResources().getString(R.string.flower);
         }
         mStoreReq = new StoreReq();
+        mStoreReq.setSortType(StoreListFragment.COMPREHENSIVE);
         if (!keyword.isEmpty()){
             mStoreReq.setKeyword(keyword);
         }

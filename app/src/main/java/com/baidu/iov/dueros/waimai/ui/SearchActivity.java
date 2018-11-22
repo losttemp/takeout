@@ -267,7 +267,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			mStoreReq.setKeyword(null);
 		}
 		changeStatus(Constant.SEARCH_STATUS_FRAGMENT);
-		mStoreListFragment.loadFirstPage(mStoreReq);
+		mStoreListFragment.searchLoadFirstPage(mStoreReq);
 		hideSoftKeyboard();
 	}
 
