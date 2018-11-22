@@ -27,6 +27,7 @@ import com.baidu.location.BDLocation;
 public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends AppCompatActivity implements LocationManager.LocationCallBack {
 
     private T mPresenter;
+    private int mBDLocationLocType;
 
     abstract T createPresenter();
 
@@ -96,8 +97,10 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
         if (isSuccess) {
             mBDLocation = bdLocation;
+            Constant.LATITUDE = (int) mBDLocation.getLatitude() * LocationManager.SPAN;
+            Constant.LONGITUDE = (int) mBDLocation.getLongitude() * LocationManager.SPAN;
         } else {
-            Toast.makeText(this, "locationErrorTYPE:" + bdLocation.getLocType(), Toast.LENGTH_LONG).show();
+            mBDLocationLocType = bdLocation.getLocType();
             LocationManager.getInstance(this).requestLocation();
         }
     }
@@ -176,8 +179,8 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
             intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, isEditModle);
             startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
         } else {
-//                    TODO:
-            Toast.makeText(this, "please check netWork", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.location_error_toast), Toast.LENGTH_LONG).show();
+            LocationManager.getInstance(this).requestLocation();
         }
     }
 }
