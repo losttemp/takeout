@@ -23,6 +23,23 @@ public class RatingBar extends LinearLayout {
     private Drawable starFillDrawable;
     private Drawable starHalfDrawable;
     private StepSize stepSize;
+    private float starImageWidth;
+    private float starImageHeight;
+    private float starImagePadding;
+
+
+    public void setStarImageWidth(float starImageWidth) {
+        this.starImageWidth = starImageWidth;
+    }
+
+    public void setStarImageHeight(float starImageHeight) {
+        this.starImageHeight = starImageHeight;
+    }
+
+
+    public void setImagePadding(float starImagePadding) {
+        this.starImagePadding = starImagePadding;
+    }
 
     public void setStarHalfDrawable(Drawable starHalfDrawable) {
         this.starHalfDrawable = starHalfDrawable;
