@@ -53,26 +53,32 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
             @Override
             public void onSuccess(PoifoodListBean data) {
-                getUi().onPoifoodListSuccess(data);
+                if (getUi() != null) {
+
+                    getUi().onPoifoodListSuccess(data);
+                }
             }
 
             @Override
             public void onFailure(String msg) {
-                getUi().onPoifoodListError(msg);
+                if (getUi() != null) {
+
+                    getUi().onPoifoodListError(msg);
+                }
             }
         });
         mPoifoodListModel.requestPoidetailinfo(map, new RequestCallback<PoidetailinfoBean>() {
 
             @Override
             public void onSuccess(PoidetailinfoBean data) {
-                if (getUi() != null){
+                if (getUi() != null) {
                     getUi().onPoidetailinfoSuccess(data);
                 }
             }
 
             @Override
             public void onFailure(String msg) {
-                if (getUi() != null){
+                if (getUi() != null) {
                     getUi().onPoidetailinfoError(msg);
                 }
 
