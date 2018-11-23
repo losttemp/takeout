@@ -83,7 +83,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private PoifoodSpusListAdapter mPoifoodSpusListAdapter;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList;
     private MultiplTextView shoppingPrise;
-    private MultiplTextView shoppingNum;
+    private TextView shoppingNum;
     private Button settlement;
     private LinearLayout cardShopLayout;
     private ImageView shopping_cart;
@@ -138,7 +138,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private TextView mDetailsDiscount;
     private MultiplTextView mDetailsShopName;
     private Dialog mBottomDialog;
-    private MultiplTextView mShopCartNum;
+    private TextView mShopCartNum;
     private MultiplTextView mCartDistributionFee;
     private MultiplTextView mCartShoppingPrise;
     private Button mCartSettlement;
@@ -178,7 +178,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         noData = (MultiplTextView) findViewById(R.id.noData);
         parentLayout = (RelativeLayout) findViewById(R.id.parentLayout);
         shoppingPrise = (MultiplTextView) findViewById(R.id.shoppingPrise);
-        shoppingNum = (MultiplTextView) findViewById(R.id.shoppingNum);
+        shoppingNum = (TextView) findViewById(R.id.shoppingNum);
         settlement = (Button) findViewById(R.id.settlement);
         mFoodSpuTagsList = (ListView) findViewById(R.id.classify_mainlist);
         mSpusList = (PoifoodListPinnedHeaderListView) findViewById(R.id.classify_morelist);
@@ -595,7 +595,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         cardShopLayout = (LinearLayout) v.findViewById(R.id.cardShopLayout);
         mClearshopCart = (MultiplTextView) v.findViewById(R.id.tv_clear);
         shoppingListView = (ListView) v.findViewById(R.id.shopproductListView);
-        mShopCartNum = (MultiplTextView) v.findViewById(R.id.shoppingNum);
+        mShopCartNum = (TextView) v.findViewById(R.id.shoppingNum);
         mCartDistributionFee = (MultiplTextView) v.findViewById(R.id.distribution_fee);
         mCartShoppingPrise = (MultiplTextView) v.findViewById(R.id.shoppingPrise);
         mCartClose = (MultiplTextView) v.findViewById(R.id.tv_close_cart);
@@ -629,8 +629,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         WindowManager m = getWindowManager();
         Display display = m.getDefaultDisplay();
         WindowManager.LayoutParams p = dialog.getWindow().getAttributes();
-        if (productList.size() > 4) p.height = (int) (display.getHeight() * 0.4);
-        if (productList.size() <= 4) p.height = ListView.LayoutParams.WRAP_CONTENT;
+        if (productList.size() >= 4) p.height = 840;
+        if (productList.size() < 4) p.height = ListView.LayoutParams.WRAP_CONTENT;
         if (productList.size() == 0) dialog.dismiss();
         dialog.getWindow().setAttributes(p);
     }

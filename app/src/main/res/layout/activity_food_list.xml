@@ -163,18 +163,17 @@
                 android:layout_marginLeft="@dimen/px84dp"
                 android:src="@drawable/icon_gouwuche" />
 
-            <com.domain.multipltextview.MultiplTextView
+            <TextView
                 android:id="@+id/shoppingNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/px30dp"
+                android:layout_height="@dimen/px30dp"
                 android:layout_alignRight="@+id/shopping_cart"
                 android:layout_alignTop="@+id/shopping_cart"
                 android:background="@drawable/point"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px24sp"
-                android:visibility="gone"
-                app:removeDefaultPadding="true" />
+                android:visibility="gone" />
 
             <FrameLayout
                 android:layout_width="wrap_content"

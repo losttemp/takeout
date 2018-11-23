@@ -15,16 +15,15 @@
         android:textColor="@color/white"
         android:textSize="@dimen/px32sp" />
 
-    <com.domain.multipltextview.MultiplTextView
+    <TextView
         android:id="@+id/tv_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/px30dp"
+        android:layout_height="@dimen/px30dp"
         android:layout_alignRight="@+id/mainitem_txt"
         android:layout_alignTop="@+id/mainitem_txt"
         android:background="@drawable/point"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/px24sp"
-        android:visibility="visible"
-        app:removeDefaultPadding="true" />
+        android:visibility="visible" />
 </RelativeLayout>
