@@ -29,8 +29,9 @@
 
 		<android.support.v7.widget.AppCompatImageView
 			android:id="@+id/iv_search"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_width="@dimen/px96dp"
+			android:layout_height="@dimen/px96dp"
+			android:scaleType="centerInside"
 			android:layout_marginTop="@dimen/px6dp"
 			android:layout_marginBottom="@dimen/px6dp"
 			android:layout_marginLeft="@dimen/px34dp"
@@ -43,6 +44,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_centerVertical="true"
+			android:layout_marginLeft="@dimen/px34dp"
 			android:layout_toStartOf="@+id/iv_clean"
 			android:layout_toLeftOf="@+id/iv_clean"
 			android:layout_toEndOf="@+id/iv_search"
@@ -61,8 +63,8 @@
 
 		<android.support.v7.widget.AppCompatImageView
 			android:id="@+id/iv_clean"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_width="@dimen/px96dp"
+			android:layout_height="@dimen/px96dp"
 			android:layout_alignParentEnd="true"
 			android:layout_centerVertical="true"
 			android:layout_marginTop="@dimen/px6dp"
