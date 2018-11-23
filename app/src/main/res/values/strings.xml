@@ -37,11 +37,11 @@
     <string name="no_search_result_keyword">对不起，没有你想要的结果\n换个关键词试试看！</string>
     <string name="no_search_result_filter">抱歉，未能找到您搜索的商家或商店</string>
     <string name="no_search_result_position">抱歉，当前位置无外卖服务覆盖</string>
-    <string name="store_status_break">休息中</string>
-    <string name="store_status_busy">忙碌中</string>
+    <string name="store_status_break">门店休息中</string>
+    <string name="store_status_busy">门店忙碌中</string>
     <string name="tips_earliest_delivery_time">现在预订，最早10:30开始配送</string>
     <string name="free_distribution">免费配送 |</string>
-    <string name="this_keyword_is_complicated">这个关键词有点复杂！</string>
+    <string name="this_keyword_is_complicated">这个关键词有点复杂</string>
     
 
     <!--FilterPopWindow-->
