@@ -11,11 +11,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
 public class ClearEditText extends AppCompatAutoCompleteTextView implements View.OnFocusChangeListener, TextWatcher {
+
+    private int maxLength=-1;
 
     public ClearEditText(Context context) {
         this(context, null);
@@ -42,7 +45,7 @@ public class ClearEditText extends AppCompatAutoCompleteTextView implements View
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus&&getText().length()>1) {
+        if (hasFocus && getText().length() > 1) {
             showTextClearButton();
         } else {
             hideTextClearButton();
@@ -62,6 +65,13 @@ public class ClearEditText extends AppCompatAutoCompleteTextView implements View
             hideTextClearButton();
         } else {
             showTextClearButton();
+            if (maxLength>0&&s.length() > maxLength) {
+                this.setText(s.toString().substring(0, maxLength));
+                this.setSelection(this.getText().length());
+                Toast.makeText(getContext(),
+                        getContext().getResources().getString(R.string.edit_text_view_max_length_hint),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -110,5 +120,9 @@ public class ClearEditText extends AppCompatAutoCompleteTextView implements View
             }
             return false;
         }
+    }
+
+    public void setMaxLength(int maxLength){
+        this.maxLength=maxLength;
     }
 }

@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -52,7 +53,7 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
             textView.setText(tags.get(i));
             textView.getPaint().setTextSize(mTextSize);
             textView.setTextColor(mTextColor);
-            if (type.equals(tags.get(i))) {
+            if (!TextUtils.isEmpty(type)&&type.equals(tags.get(i))) {
                 setmTagValue(type);
                 textView.setBackgroundColor(Color.BLACK);
             } else {

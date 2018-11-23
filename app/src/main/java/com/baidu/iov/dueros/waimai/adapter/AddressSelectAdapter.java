@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,8 +20,10 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import java.util.List;
 
-public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdapter.AddressViewHolder> {
+public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdapter.BaseViewHolderHelper> {
 
+    public static final int TYPE_NORMAL = 0;
+    public static final int TYPE_FOOTER = 1;
     private final Context mContext;
     private List<AddressListBean.IovBean.DataBean> mAddressList;
     private OnItemClickListener mItemClickListerner;
@@ -40,26 +43,53 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
     @NonNull
     @Override
-    public AddressViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+    public BaseViewHolderHelper onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+        if( position == TYPE_FOOTER) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout
+                    .item_footer_view, viewGroup, false);
+            return new FooterViewHolder(view);
+        }
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout
                 .activity_address_select_item, viewGroup, false);
-        AddressViewHolder holder = new AddressViewHolder(view);
+        BaseViewHolderHelper holder = new AddressViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddressViewHolder viewHolder, int position) {
-        AddressListBean.IovBean.DataBean dataBean = mAddressList.get(position);
-        viewHolder.bindData(position, dataBean);
+    public void onBindViewHolder(@NonNull BaseViewHolderHelper viewHolder, int position) {
+        if (getItemViewType(position) == TYPE_NORMAL){
+            AddressViewHolder addressViewHolder = (AddressViewHolder) viewHolder;
+            AddressListBean.IovBean.DataBean dataBean = mAddressList.get(position);
+            addressViewHolder.bindData(position, dataBean);
+        } else if (getItemViewType(position) == TYPE_FOOTER){
+            FooterViewHolder footerViewHolder = (FooterViewHolder) viewHolder;
+            footerViewHolder.addressBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addAddress();
+                }
+            });
+        }
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(position == mAddressList.size()) return TYPE_FOOTER;
+        return TYPE_NORMAL;
     }
 
     @Override
     public int getItemCount() {
-        return mAddressList.size();
+        return mAddressList.size() + 1;
+    }
+
+    public void addAddress(){
+
     }
 
 
-    class AddressViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class AddressViewHolder extends BaseViewHolderHelper implements View.OnClickListener {
         private TextView num;
         private TextView details;
         private TextView name;
@@ -111,6 +141,19 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             if (mItemClickListerner != null) {
                 mItemClickListerner.OnItemClick(v, mDataBean);
             }
+        }
+    }
+
+    class BaseViewHolderHelper  extends RecyclerView.ViewHolder{
+        public BaseViewHolderHelper (@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+    class FooterViewHolder extends BaseViewHolderHelper{
+        Button addressBtn;
+        public FooterViewHolder(@NonNull View itemView) {
+            super(itemView);
+            addressBtn = (Button)itemView.findViewById(R.id.item_address_select_add);
         }
     }
 

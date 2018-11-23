@@ -3,9 +3,12 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -30,6 +33,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private AddressSelectAdapter mAdapter;
     private final long SIX_HOUR = 6 * 60 * 60 * 1000;
     private AddressSelectPresenter.MReceiver mReceiver;
+    private View addBtnView;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -59,7 +63,12 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private void initData() {
         mDataList = new ArrayList<>();
         getPresenter().requestData(new AddressListReqBean());
-        mAdapter = new AddressSelectAdapter(mDataList, this);
+        mAdapter = new AddressSelectAdapter(mDataList, this){
+            @Override
+            public void addAddress() {
+                doSearchAddress(false);
+            }
+        };
         mRecyclerView.setAdapter(mAdapter);
         initListener();
     }
@@ -91,6 +100,26 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 }
             }
         });
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();//获取LayoutManager
+                if (manager instanceof LinearLayoutManager) {
+                    int position =  ((LinearLayoutManager) manager).findLastCompletelyVisibleItemPosition();
+                    if (position==mDataList.size()){
+                        addBtnView.setVisibility(View.GONE);
+                    }else{
+                        addBtnView.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
     }
 
     private void startEditActivity(AddressListBean.IovBean.DataBean dataBean) {
@@ -107,6 +136,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         mRecyclerView.setLayoutManager(layout);
         findViewById(R.id.address_back).setOnClickListener(this);
         findViewById(R.id.address_select_add).setOnClickListener(this);
+        addBtnView = findViewById(R.id.address_select_btn_layout);
     }
 
 

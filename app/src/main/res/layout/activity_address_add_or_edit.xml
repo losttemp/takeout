@@ -18,8 +18,7 @@
 
         <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_name"
-            style="@style/AddressEditTextStyle"
-            android:maxLength="11" />
+            style="@style/AddressEditTextStyle" />
 
     </LinearLayout>
 

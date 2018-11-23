@@ -8,7 +8,9 @@
     <include layout="@layout/activity_address_header" />
 
     <View style="@style/AddressEditDividerStyle" />
-
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/address_select_lv"
         android:layout_width="match_parent"
@@ -43,9 +45,14 @@
             android:textColor="@color/white"
             android:text="@string/address_to_add" />
     </LinearLayout>
-
+    <RelativeLayout
+        android:id="@+id/address_select_btn_layout"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
     <Button
         android:id="@+id/address_select_add"
+        android:layout_centerHorizontal="true"
         android:layout_width="@dimen/px540dp"
         android:layout_height="@dimen/px108dp"
         android:layout_gravity="center_horizontal"
@@ -54,4 +61,6 @@
         android:textSize="@dimen/px36sp"
         android:textColor="@color/white"
         android:layout_marginTop="@dimen/px120dp"/>
+    </RelativeLayout>
+</RelativeLayout>
 </LinearLayout>

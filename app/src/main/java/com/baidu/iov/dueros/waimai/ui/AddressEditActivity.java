@@ -92,6 +92,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         iv_del_button.setOnClickListener(this);
         address_tv.setOnClickListener(this);
         address_arrow.setOnClickListener(this);
+        et_name.setMaxLength(11);
     }
 
     private void initData() {
@@ -113,13 +114,10 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 ladyButton.setChecked(false);
                 sirButton.setChecked(true);
             }
-            String type;
-            if (TextUtils.isEmpty(dataBean.getType())) {
-                type = getResources().getString(R.string.address_tag_other);
-            } else {
+            String type = null;
+            if (!TextUtils.isEmpty(dataBean.getType())) {
                 type = dataBean.getType();
             }
-
             mTagListView.setTags(tags, type);
             try {
                 address_tv.setText(Encryption.desEncrypt(dataBean.getAddress()));
@@ -137,8 +135,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             address_title.setText(getResources().getString(R.string.add_address));
             iv_del_button.setVisibility(View.INVISIBLE);
             address_tv.setText(mLocationBean.getKey());
-            String type = getResources().getString(R.string.address_tag_other);
-            mTagListView.setTags(tags, type);
+            mTagListView.setTags(tags, "");
             try {
                 et_name.setText(MyApplicationAddressBean.USER_NAMES.get(0));
                 et_phone.setText(MyApplicationAddressBean.USER_PHONES.get(0));
@@ -258,7 +255,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             Toast.makeText(this, R.string.address_check_phone, Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(address_tv.getText())) {
             Toast.makeText(this, R.string.address_check_address, Toast.LENGTH_SHORT).show();
-        } else {
+        }else if(TextUtils.isEmpty(type)){
+            Toast.makeText(this, R.string.address_check_tagvalue, Toast.LENGTH_SHORT).show();
+        } else{
             String house_num = Encryption.encrypt(et_house_num.getText().toString() + "");
             String name = Encryption.encrypt(et_name.getText() + "");
             String phone = Encryption.encrypt(et_phone.getText() + "");
