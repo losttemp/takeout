@@ -143,13 +143,13 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            ArrayAdapter<String> nameAdapter = new ArrayAdapter<>(this, R.layout.address_simple_list_item, MyApplicationAddressBean.USER_NAMES);
-            ArrayAdapter<String> phoneAdapter = new ArrayAdapter<>(this, R.layout.address_simple_list_item, MyApplicationAddressBean.USER_PHONES);
-            et_phone.setThreshold(1);
-            et_name.setThreshold(1);
-            et_name.setAdapter(nameAdapter);
-            et_phone.setAdapter(phoneAdapter);
         }
+        ArrayAdapter<String> nameAdapter = new ArrayAdapter<>(this, R.layout.address_simple_list_item, MyApplicationAddressBean.USER_NAMES);
+        ArrayAdapter<String> phoneAdapter = new ArrayAdapter<>(this, R.layout.address_simple_list_item, MyApplicationAddressBean.USER_PHONES);
+        et_phone.setThreshold(1);
+        et_name.setThreshold(1);
+        et_name.setAdapter(nameAdapter);
+        et_phone.setAdapter(phoneAdapter);
     }
 
 
@@ -257,7 +257,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         } else if (TextUtils.isEmpty(address_tv.getText())) {
             Toast.makeText(this, R.string.address_check_address, Toast.LENGTH_SHORT).show();
         } else {
-            String house_num = et_house_num.getText().toString() + "";
+            String house_num = Encryption.encrypt(et_house_num.getText().toString() + "");
             String name = Encryption.encrypt(et_name.getText() + "");
             String phone = Encryption.encrypt(et_phone.getText() + "");
             String address = Encryption.encrypt(address_tv.getText() + "");
@@ -278,6 +278,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrEditReq.setAddress(address);
                 mAddrEditReq.setType(type);
                 mAddrEditReq.setSex(sex);
+                mAddrEditReq.setHouse(house_num);
                 mAddrEditReq.setLatitude(latitude);
                 mAddrEditReq.setLongitude(longitude);
 
@@ -290,6 +291,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     mAddrAddReq.setAddress(address);
                     mAddrAddReq.setType(type);
                     mAddrAddReq.setSex(sex);
+                    mAddrAddReq.setHouse(house_num);
                     mAddrAddReq.setLatitude(latitude);
                     mAddrAddReq.setLongitude(longitude);
                     getPresenter().requestAddAddressData(mAddrAddReq);
@@ -300,6 +302,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrAddReq.setAddress(address);
                 mAddrAddReq.setType(type);
                 mAddrAddReq.setSex(sex);
+                mAddrAddReq.setHouse(house_num);
                 mAddrAddReq.setLatitude(latitude);
                 mAddrAddReq.setLongitude(longitude);
                 getPresenter().requestAddAddressData(mAddrAddReq);
