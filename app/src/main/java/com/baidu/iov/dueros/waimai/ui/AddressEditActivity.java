@@ -106,7 +106,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             address_title.setText(getResources().getString(R.string.edit_address));
             mAddressDelReq = new AddressDeleteReq();
             dataBean = (AddressListBean.IovBean.DataBean) intent.getSerializableExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS);
-            if (dataBean.getSex() == 0){
+            if (dataBean.getSex() == 0) {
                 ladyButton.setChecked(true);
                 sirButton.setChecked(false);
             } else {
@@ -117,9 +117,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             if (TextUtils.isEmpty(dataBean.getType())) {
                 type = getResources().getString(R.string.address_tag_other);
             } else {
-                type=dataBean.getType();
+                type = dataBean.getType();
             }
-            
+
             mTagListView.setTags(tags, type);
             try {
                 address_tv.setText(Encryption.desEncrypt(dataBean.getAddress()));
@@ -129,7 +129,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            iv_del_button.setVisibility(View.VISIBLE);
+            if (dataBean.getAddress_id() != 0) {
+                iv_del_button.setVisibility(View.VISIBLE);
+            }
         } else {
             mLocationBean = intent.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
             address_title.setText(getResources().getString(R.string.add_address));
@@ -267,8 +269,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 latitude = dataBean.getLatitude();
                 longitude = dataBean.getLongitude();
             } else {
-                latitude = (int) mLocationBean.getPt().latitude * LocationManager.SPAN;
-                longitude = (int) mLocationBean.getPt().longitude * LocationManager.SPAN;
+                latitude = (int) (mLocationBean.getPt().latitude * LocationManager.SPAN);
+                longitude = (int) (mLocationBean.getPt().longitude * LocationManager.SPAN);
             }
 
             if (isEditMode) {
@@ -282,8 +284,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrEditReq.setLatitude(latitude);
                 mAddrEditReq.setLongitude(longitude);
 
-                if (dataBean.getMt_address_id() == 0) {
+                if (dataBean.getAddress_id() != 0) {
                     mAddrEditReq.setAddress_id(dataBean.getAddress_id());
+                    if (dataBean.getMt_address_id() != 0) {
+                        mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
+                    }
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
                     mAddrAddReq.setUser_phone(phone);
