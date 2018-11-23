@@ -82,11 +82,13 @@
 					android:layout_gravity="center_vertical"
 					android:layout_marginRight="@dimen/px10dp"
 					app:starCount="5"
-					app:starEmpty="@mipmap/rating_small_empty"
-					app:starFill="@mipmap/rating_small_full"
-					app:starHalf="@mipmap/rating_small_half"
-					app:starImageSize="15dp"
-					app:starPadding="1dp"
+					app:starEmpty="@drawable/rating_small_empty"
+					app:starFill="@drawable/rating_small_full"
+					app:starHalf="@drawable/rating_small_half"
+                    android:layout_centerVertical="true"
+					app:starImageHeight="@dimen/px30dp"
+					app:starImagePadding="@dimen/px4dp"
+					app:starImageWidth="@dimen/px30dp"
 					app:starStep="3.5"
 					app:stepSize="Half" />
 
