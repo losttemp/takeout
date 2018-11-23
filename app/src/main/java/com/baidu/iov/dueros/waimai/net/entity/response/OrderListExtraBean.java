@@ -35,6 +35,7 @@ public class OrderListExtraBean {
         private long out_trade_time;
         private List<Food_list> food_list;
         private String wm_pic_url;
+        private String pay_url;
 
         public void setGoods_name(String goods_name) {
             this.goods_name = goods_name;
@@ -82,6 +83,14 @@ public class OrderListExtraBean {
 
         public String getWm_pic_url() {
             return wm_pic_url;
+        }
+
+        public void setPay_url(String pay_url) {
+            this.pay_url = pay_url;
+        }
+
+        public String getPay_url() {
+            return pay_url;
         }
 
         public class Food_list {
