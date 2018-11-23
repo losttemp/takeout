@@ -96,7 +96,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
         mOrderListAdaper.setOnItemClickListener(new OrderListAdaper.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position, OrderListExtraPayloadBean payloadBean) {
+            public void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean) {
                 switch (view.getId()) {
                     case R.id.tv_store_name:
                     case R.id.iv_click:
@@ -112,7 +112,18 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         startActivity(onemoreintent);
                         break;
                     case R.id.pay_order:
-
+                        Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
+                        double total_price = 0;
+                        for (int i = 0; i < extraBean.getOrderInfos().getFood_list().size(); i++) {
+                            total_price = total_price + extraBean.getOrderInfos().getFood_list().get(i).getPrice() * extraBean.getOrderInfos().getFood_list().get(i).getCount();
+                        }
+                        payintent.putExtra("total_cost", total_price);
+                        payintent.putExtra("order_id", Long.parseLong(mOrderList.get(position).getOut_trade_no()));
+                        payintent.putExtra("shop_name", mOrderList.get(position).getOrder_name());
+                        payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
+                        payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
+                        payintent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(payintent);
                         break;
                     case R.id.cancel_order:
                         mOrderCancelReq = new OrderCancelReq(Long.parseLong(mOrderList.get(position).getOut_trade_no()), payloadBean.getUser_phone());
