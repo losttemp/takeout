@@ -81,8 +81,8 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         BDLocation lastKnownLocation = instance.getLastKnownLocation();
         if (lastKnownLocation != null) {
             mBDLocation = lastKnownLocation;
-            Constant.LATITUDE = (int) mBDLocation.getLatitude() * LocationManager.SPAN;
-            Constant.LONGITUDE = (int) mBDLocation.getLongitude() * LocationManager.SPAN;
+            Constant.LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
+            Constant.LONGITUDE = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
         }
     }
 
@@ -97,8 +97,8 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
         if (isSuccess) {
             mBDLocation = bdLocation;
-            Constant.LATITUDE = (int) mBDLocation.getLatitude() * LocationManager.SPAN;
-            Constant.LONGITUDE = (int) mBDLocation.getLongitude() * LocationManager.SPAN;
+            Constant.LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
+            Constant.LONGITUDE = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
         } else {
             mBDLocationLocType = bdLocation.getLocType();
             LocationManager.getInstance(this).requestLocation();
