@@ -14,5 +14,5 @@
     android:textSize="@dimen/px26sp"
     tools:ignore="RtlHardcoded"
 	android:textColor="#ffc600"
-	android:background="@drawable/shape_pop_filter_set_bg"
+	android:background="@drawable/shape_discount_bg"
     tools:text="TextView" />

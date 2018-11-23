@@ -10,7 +10,7 @@
 		android:layout_height="match_parent"
 		android:layout_centerInParent="true"
 		android:gravity="center"
-		android:background="@drawable/shape_pop_filter_set_bg"
+		android:background="@drawable/shape_filter_unselected_bg"
 		android:textColor="@color/white"
 		android:textSize="@dimen/px30sp"
 		tools:text="@string/tools_text_filter_sub_type" />
