@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/search_hint_text_1"
-            android:textColor="@color/gray"
+            android:textColor="@color/white_60"
             android:padding="8dp"
             android:textSize="@dimen/px36sp" />
 
