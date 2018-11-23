@@ -23,6 +23,14 @@ public class FilterConditionResponse {
 		this.iov = iov;
 	}
 
+	@Override
+	public String toString() {
+		return "FilterConditionResponse{" +
+				"meituan=" + meituan +
+				", iov=" + iov +
+				'}';
+	}
+
 	public static class MeituanBean {
 
 		private long code;
@@ -62,6 +70,16 @@ public class FilterConditionResponse {
 			this.data = data;
 		}
 
+		@Override
+		public String toString() {
+			return "MeituanBean{" +
+					"code=" + code +
+					", msg='" + msg + '\'' +
+					", errorInfo=" + errorInfo +
+					", data=" + data +
+					'}';
+		}
+
 		public static class DataBean {
 			private List<CategoryFilterListBean> category_filter_list;
 			private List<SortTypeListBean> sort_type_list;
@@ -91,6 +109,15 @@ public class FilterConditionResponse {
 			public void setActivity_filter_list(List<ActivityFilterListBean>
 														activity_filter_list) {
 				this.activity_filter_list = activity_filter_list;
+			}
+
+			@Override
+			public String toString() {
+				return "DataBean{" +
+						"category_filter_list=" + category_filter_list +
+						", sort_type_list=" + sort_type_list +
+						", activity_filter_list=" + activity_filter_list +
+						'}';
 			}
 
 			public static class CategoryFilterListBean {
@@ -306,6 +333,16 @@ public class FilterConditionResponse {
 					this.items = items;
 				}
 
+				@Override
+				public String toString() {
+					return "ActivityFilterListBean{" +
+							"group_title='" + group_title + '\'' +
+							", support_multi_choice=" + support_multi_choice +
+							", display_style=" + display_style +
+							", items=" + items +
+							'}';
+				}
+
 				public static class ItemsBean {
 
 					private long code;
@@ -384,6 +421,14 @@ public class FilterConditionResponse {
 						public void setBubble_version(int bubble_version) {
 							this.bubble_version = bubble_version;
 						}
+
+						@Override
+						public String toString() {
+							return "BubbleInfoBean{" +
+									"is_show=" + is_show +
+									", bubble_version=" + bubble_version +
+									'}';
+						}
 					}
 
 					public boolean isChcked() {
@@ -392,6 +437,19 @@ public class FilterConditionResponse {
 
 					public void setChcked(boolean chcked) {
 						isChcked = chcked;
+					}
+
+					@Override
+					public String toString() {
+						return "ItemsBean{" +
+								"code=" + code +
+								", name='" + name + '\'' +
+								", icon='" + icon + '\'' +
+								", remarks='" + remarks + '\'' +
+								", bubble_info=" + bubble_info +
+								", aggregated_activity_codes=" + aggregated_activity_codes +
+								", isChcked=" + isChcked +
+								'}';
 					}
 				}
 			}
