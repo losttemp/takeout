@@ -118,6 +118,12 @@ public class StoreReq extends LatLongRequestBase {
 				", keyword='" + keyword + '\'' +
 				", priceCode='" + priceCode + '\'' +
 				", migFilter='" + migFilter + '\'' +
+				", av=" + av +
+				", ak='" + ak + '\'' +
+				", cn='" + cn + '\'' +
+				", uuid='" + uuid + '\'' +
+				", sign='" + sign + '\'' +
+				", c='" + c + '\'' +
 				'}';
 	}
 }
