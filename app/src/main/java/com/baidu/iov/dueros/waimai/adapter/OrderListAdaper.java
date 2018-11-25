@@ -58,7 +58,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
         OrderListResponse.IovBean.DataBean order = mOrderList.get(position);
-        viewHolder.bindData(position,order);
+        viewHolder.bindData(position, order);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         return mOrderList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private AppCompatTextView tvIndex;
         private ImageView ivStore;
         private ImageView ivClick;
@@ -110,7 +110,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvPayOrder.setOnClickListener(this);
         }
 
-        public void bindData(int position,OrderListResponse.IovBean.DataBean order) {
+        public void bindData(int position, OrderListResponse.IovBean.DataBean order) {
             this.mOrder = order;
             tvOneMore.setText(mContext.getResources().getString(R.string.one_more_order));
             tvCancelOrder.setText(mContext.getResources().getString(R.string.order_cancel));
@@ -151,7 +151,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvIndex.setText(((position + 1) + ""));
             tvStoreName.setText(order.getOrder_name());
             tvOrderStatus.setText(pay_status);
-            tvOrderTime.setText(order.getOrder_time().substring(0,order.getOrder_time().lastIndexOf(":")));
+            tvOrderTime.setText(order.getOrder_time().substring(0, order.getOrder_time().lastIndexOf(":")));
             String extra = order.getExtra();
 
             extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
@@ -168,7 +168,8 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             double total_price = 0;
             for (int i = 0; i < extraBean.getOrderInfos().getFood_list().size(); i++) {
                 total_count = total_count + extraBean.getOrderInfos().getFood_list().get(i).getCount();
-                total_price = total_price + extraBean.getOrderInfos().getFood_list().get(i).getPrice() * extraBean.getOrderInfos().getFood_list().get(i).getCount();
+                total_price = total_price + extraBean.getOrderInfos().getFood_list().get(i).getPrice() * extraBean.getOrderInfos().getFood_list().get(i).getCount() +
+                        extraBean.getOrderInfos().getFood_list().get(i).getBox_num() * extraBean.getOrderInfos().getFood_list().get(i).getBox_price();
 
             }
             mOrderInfosfood_list = extraBean.getOrderInfos().getFood_list().get(0);

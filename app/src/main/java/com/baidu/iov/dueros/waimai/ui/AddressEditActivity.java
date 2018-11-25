@@ -192,8 +192,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         } else {
             if (data.getIov().getData() != null) {
                 Toast.makeText(this, R.string.address_save_success, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, AddressSelectActivity.class);
-                startActivity(intent);
                 finish();
             } else {
                 Toast.makeText(this, R.string.address_save_fail, Toast.LENGTH_LONG).show();

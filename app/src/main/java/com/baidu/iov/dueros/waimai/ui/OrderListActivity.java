@@ -44,6 +44,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     OrderListExtraBean extraBean;
     private OrderCancelResponse.ErrorInfoBean mOrderCancel = new OrderCancelResponse.ErrorInfoBean();
     private OrderCancelReq mOrderCancelReq;
+    private final String STATUS_PAY_EXPIRED = "5";
 
     @Override
     OrderListPresenter createPresenter() {
@@ -153,10 +154,14 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         dialog.show();
                         break;
                     default:
-                        Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
-                        intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
-                        intent.putExtra("expected_time", payloadBean.getWm_ordering_list().getDelivery_time());
-                        startActivity(intent);
+                        if (mOrderList.get(position).getOrder_status().equals(STATUS_PAY_EXPIRED)) {
+                            Toast.makeText(OrderListActivity.this, R.string.order_expired, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
+                            intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
+                            intent.putExtra("expected_time", payloadBean.getWm_ordering_list().getDelivery_time());
+                            startActivity(intent);
+                        }
                         break;
                 }
             }

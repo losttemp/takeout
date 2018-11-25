@@ -57,8 +57,6 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         setContentView(R.layout.activity_address_list);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.px962dp));
         getWindow().setGravity(Gravity.TOP);
-
-        initView();
     }
 
     public void initView() {
@@ -147,6 +145,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     @Override
     public void onResume() {
         super.onResume();
+        initView();
     }
 
     @Override
