@@ -157,6 +157,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				SearchSuggestResponse.MeituanBean.DataBean.SuggestBean suggest = mSuggests.get
 						(position-HEAD_NUM);
 				if (suggest.getType() == 0 && suggest.getPoi_addition_info() != null) {
+					SharedPreferencesUtils.saveSearchHistory(suggest.getSuggest_query(), mHistorys);
+					mSearchHistroyAdapter.notifyDataSetChanged();
 					Intent intent = new Intent(SearchActivity.this, FoodListActivity.class);
 					intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id
 							());

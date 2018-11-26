@@ -282,6 +282,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	@Override
 	public void update(StoreResponse data) {
+		Lg.getInstance().e(TAG,"data:"+mStoreData);
 		mStoreData = data.getMeituan().getData();
 		if (mStoreData.getCurrent_page_index() <= 1) {
 			mStoreList.clear();
@@ -329,6 +330,28 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	@Override
 	public void failure(String msg) {
+		Lg.getInstance().e(TAG,"msg:"+msg);
+		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
+			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
+				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+						.no_search_result_filter));
+			} else {
+				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string.no_search_result_keyword));
+				mLlFilter.setVisibility(View.GONE);
+				mView.setVisibility(View.GONE);
+				((SearchActivity)mContext).setmEtTipNoResult();
+			}
+		} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME||mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
+			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
+				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+						.no_search_result_filter));
+			} else {
+				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+						.no_search_result_position));
+			}
+		}
+		mRlTipNoResult.setVisibility(View.VISIBLE);
+		mRefreshLayout.setVisibility(View.GONE);
 		if (mRefreshLayout.isRefreshing()) {
 			mRefreshLayout.finishRefresh(false);
 		}
