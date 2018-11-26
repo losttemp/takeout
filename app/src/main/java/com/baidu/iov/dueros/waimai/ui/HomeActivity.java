@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatImageView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,12 +12,8 @@ import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.LocationManager;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.location.BDLocation;
-import com.baidu.location.Poi;
-import com.domain.multipltextview.MultiplTextView;
-
-import java.util.List;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
 
@@ -37,7 +32,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	private AppCompatImageView mIvTitle;
 
 	private StoreListFragment mStoreListFragment;
-	private BDLocation mBDLocation;
+	
 	private String address="地址";
 
 	@Override
@@ -56,7 +51,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		setContentView(R.layout.activity_home);
 		iniView();
 		iniData();
-
 	}
 
 	
@@ -85,7 +79,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		}
 		
 		mTvTitle.setText(address);
-		initLocation();
+		
 		
 		//fragment
 		mStoreListFragment = new StoreListFragment();
@@ -160,37 +154,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	@Override
 	protected void onStart() {
 		super.onStart();
-	}
-
-	@Override
-	public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
-		super.locationCallBack(isSuccess, bdLocation);
 		mStoreListFragment.homeLoadFirstPage();
-		mStoreListFragment.requestFilterList();
-//
-//		mBDLocation = bdLocation;
-//		if (isSuccess && mBDLocation != null) {
-//			List<Poi> addrList = mBDLocation.getPoiList();
-//			if (addrList != null && addrList.size() > 0
-//					&& (!TextUtils.isEmpty(addrList.get(0).getName()))) {
-//				String addr = addrList.get(0).getName();
-//				mTvTitle.setText(addr);
-//			}
-//		}
-
 	}
-
-	private void initLocation() {
-		LocationManager instance = LocationManager.getInstance(getApplicationContext());
-		mBDLocation = instance.getLastKnownLocation();
-		if (mBDLocation != null) {
-			List<Poi> addrList = mBDLocation.getPoiList();
-			if (addrList != null && addrList.size() > 0
-					&& (!TextUtils.isEmpty(addrList.get(0).getName()))) {
-				String addr = addrList.get(0).getName();
-				mTvTitle.setText(addr);
-			}
-		}
-	}
-
 }

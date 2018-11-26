@@ -151,18 +151,13 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 		mStoreReq = new StoreReq();
 		mStoreReq.setSortType(COMPREHENSIVE);
-		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME &&
-				Constant.LONGITUDE > 0 && Constant.LATITUDE > 0) {
-			loadFirstPage(mStoreReq);
-		}
-
+		
 		requestFilterList();
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		Lg.getInstance().e(TAG,"Constant.LATITUDE:"+Constant.LATITUDE+"  Constant.LONGITUDE"+Constant.LONGITUDE);
 	}
 
 	@Override
