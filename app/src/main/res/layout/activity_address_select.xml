@@ -33,7 +33,6 @@
             android:layout_width="@dimen/px146dp"
             android:layout_height="@dimen/px146dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/px354dp"
             android:src="@drawable/icon_tishi"/>
 
         <TextView
@@ -44,6 +43,17 @@
             android:textSize="@dimen/px36sp"
             android:textColor="@color/white"
             android:text="@string/address_to_add" />
+        <Button
+            android:id="@+id/add_no_address"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/px540dp"
+            android:layout_height="@dimen/px108dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/address_button"
+            android:text="@string/address_select_add_address"
+            android:textSize="@dimen/px36sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/px118dp"/>
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/address_select_btn_layout"

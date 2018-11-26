@@ -29,13 +29,18 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
 
     private List<OrderListResponse.IovBean.DataBean> mOrderList;
     private Context mContext;
-    private final String STATUS_WAITING_PAY = "1";
-    private final String STATUS_PAID_SUCCESS = "3";
-    private final String STATUS_PAID_FAIL = "4";
-    private final String STATUS_PAY_EXPIRED = "5";
-    private final String STATUS_PAY_REFUNDING = "6";
-    private final String STATUS_PAY_REFUNDED = "7";
-    private final String STATUS_PAY_CANCEL = "8";
+    private final String IOV_STATUS_ZERO = "0"; //待支付
+    private final String IOV_STATUS_WAITING = "1"; //待支付
+    private final String IOV_STATUS_PAID = "2"; //已支付
+    private final String IOV_STATUS_NOTIFY_RESTAURANT = "3"; //待商家接单
+    private final String IOV_STATUS_RESTAURANT_CONFIRM = "4"; //商家已接单
+    private final String IOV_STATUS_DELIVERING = "5"; //派送中
+    private final String IOV_STATUS_FINISHED = "6"; //已完成
+    private final String IOV_STATUS_PAYMENT_FAILED = "7"; //支付失败
+    private final String IOV_STATUS_CANCELED = "8"; //已取消
+    private final String IOV_STATUS_REFUNDING = "9"; //退款中
+    private final String IOV_STATUS_REFUNDED = "10"; //已退款
+    private final String IOV_STATUS_REFUND_FAILED = "11"; //退款失败
 
     private OrderListExtraBean.OrderInfos.Food_list mOrderInfosfood_list;
 
@@ -115,34 +120,47 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvOneMore.setText(mContext.getResources().getString(R.string.one_more_order));
             tvCancelOrder.setText(mContext.getResources().getString(R.string.order_cancel));
             tvPayOrder.setText(mContext.getResources().getString(R.string.pay_order));
-            String pay_status = order.getOrder_status();
+            String pay_status = order.getOut_trade_status();
             switch (pay_status) {
-                case STATUS_WAITING_PAY:
+                case IOV_STATUS_ZERO:
+                case IOV_STATUS_WAITING:
                     pay_status = mContext.getResources().getString(R.string.waiting_to_pay);
                     tvOneMore.setVisibility(View.GONE);
                     tvPayOrder.setVisibility(View.VISIBLE);
                     break;
-                case STATUS_PAID_SUCCESS:
+                case IOV_STATUS_PAID:
                     pay_status = mContext.getResources().getString(R.string.have_paid);
                     break;
-                case STATUS_PAID_FAIL:
+                case IOV_STATUS_NOTIFY_RESTAURANT:
+                    pay_status = mContext.getResources().getString(R.string.notify_restaurant);
+                    break;
+                case IOV_STATUS_RESTAURANT_CONFIRM:
+                    pay_status = mContext.getResources().getString(R.string.restaurant_confirm);
+                    break;
+                case IOV_STATUS_DELIVERING:
+                    pay_status = mContext.getResources().getString(R.string.delivering);
+                    break;
+                case IOV_STATUS_FINISHED:
+                    pay_status = mContext.getResources().getString(R.string.pay_done);
+                    tvCancelOrder.setVisibility(View.GONE);
+                case IOV_STATUS_PAYMENT_FAILED:
                     pay_status = mContext.getResources().getString(R.string.pay_fail);
                     tvCancelOrder.setVisibility(View.GONE);
                     break;
-                case STATUS_PAY_EXPIRED:
-                    pay_status = mContext.getResources().getString(R.string.pay_invalid);
+                case IOV_STATUS_CANCELED:
+                    pay_status = mContext.getResources().getString(R.string.pay_cancel);
                     tvCancelOrder.setVisibility(View.GONE);
                     break;
-                case STATUS_PAY_REFUNDING:
+                case IOV_STATUS_REFUNDING:
                     pay_status = mContext.getResources().getString(R.string.pay_refunding);
                     tvCancelOrder.setVisibility(View.GONE);
                     break;
-                case STATUS_PAY_REFUNDED:
+                case IOV_STATUS_REFUNDED:
                     pay_status = mContext.getResources().getString(R.string.pay_refunded);
                     tvCancelOrder.setVisibility(View.GONE);
                     break;
-                case STATUS_PAY_CANCEL:
-                    pay_status = mContext.getResources().getString(R.string.pay_cancel);
+                case IOV_STATUS_REFUND_FAILED:
+                    pay_status = mContext.getResources().getString(R.string.refund_fail);
                     tvCancelOrder.setVisibility(View.GONE);
                     break;
                 default:
@@ -165,12 +183,9 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
             String user_phone = payloadBean.getUser_phone();
             int total_count = 0;
-            double total_price = 0;
+            double total_price = ((double)extraBean.getOrderInfos().getGoods_total_price())/100;
             for (int i = 0; i < extraBean.getOrderInfos().getFood_list().size(); i++) {
                 total_count = total_count + extraBean.getOrderInfos().getFood_list().get(i).getCount();
-                total_price = total_price + extraBean.getOrderInfos().getFood_list().get(i).getPrice() * extraBean.getOrderInfos().getFood_list().get(i).getCount() +
-                        extraBean.getOrderInfos().getFood_list().get(i).getBox_num() * extraBean.getOrderInfos().getFood_list().get(i).getBox_price();
-
             }
             mOrderInfosfood_list = extraBean.getOrderInfos().getFood_list().get(0);
             String food_name = mOrderInfosfood_list.getName();
@@ -190,6 +205,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvOneMore.setTag(position);
             tvCancelOrder.setTag(position);
             tvOneMore.setTag(position);
+            tvPayOrder.setTag(position);
         }
 
         @Override
