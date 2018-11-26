@@ -34,6 +34,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	private AppCompatImageView mIvRight;
 	private MultiplTextView mTvTitle;
 	private RelativeLayout mRlSearch;
+	private AppCompatImageView mIvTitle;
 
 	private StoreListFragment mStoreListFragment;
 	private BDLocation mBDLocation;
@@ -71,6 +72,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mIvRight =  findViewById(R.id.iv_right);
 		mTvTitle =  findViewById(R.id.tv_title);
 		mRlSearch = findViewById(R.id.rl_search);
+		mIvTitle = findViewById(R.id.iv_title);
 		
 		
 	}
@@ -102,6 +104,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mRlCake.setOnClickListener(this);
 		mTvTitle.setOnClickListener(this);
 		mRlSearch.setOnClickListener(this);
+		mIvTitle.setOnClickListener(this);
 
 	}
 
@@ -115,6 +118,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 				break;
 
 			case R.id.tv_title:
+			case R.id.iv_title:
 				Intent addressIntent = new Intent(HomeActivity.this, AddressSelectActivity.class);
 				startActivity(addressIntent);
 				break;
