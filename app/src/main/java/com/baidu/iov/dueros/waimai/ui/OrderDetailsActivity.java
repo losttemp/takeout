@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,6 +54,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private long expectedTime;
     private NumberFormat mNumberFormat;
     private OrderDetailsResponse.MeituanBean.DataBean mOrderDetails = new OrderDetailsResponse.MeituanBean.DataBean();
+    private static final int REQUEST_CODE_CALL_PHONE = 600;
 
     @Override
     OrderDetailsPresenter createPresenter() {
@@ -309,13 +312,16 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                         .setPositiveButton(R.string.remind_phone, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(Intent.ACTION_CALL);
-                                Uri data = Uri.parse("tel:" + "10109777");
-                                intent.setData(data);
-                                if (ActivityCompat.checkSelfPermission(OrderDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                    return;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    if (ActivityCompat.checkSelfPermission(OrderDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                        ActivityCompat.requestPermissions(OrderDetailsActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_CALL_PHONE);
+                                    } else {
+                                        Intent intent = new Intent(Intent.ACTION_CALL);
+                                        Uri data = Uri.parse("tel:" + "10109777");
+                                        intent.setData(data);
+                                        startActivity(intent);
+                                    }
                                 }
-                                startActivity(intent);
                                 dialog.dismiss();
                             }
                         })
@@ -352,5 +358,26 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     @Override
     public void close() {
         finish();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_CALL_PHONE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //permission was granted, yay! Do the contacts-related task you need to do.
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                Uri data = Uri.parse("tel:" + "10109777");
+                intent.setData(data);
+                startActivity(intent);
+            } else {
+                //permission denied, boo! Disable the functionality that depends on this permission.
+                Intent intent = new Intent();
+                intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                intent.setData(Uri.fromParts("package", getPackageName(), null));
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 }
