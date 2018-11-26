@@ -22,7 +22,7 @@ import java.util.List;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
 
-	private static final String TAG = StoreListFragment.class.getSimpleName();
+	private static final String TAG = HomeActivity.class.getSimpleName();
 	private RelativeLayout mRlFood;
 	private RelativeLayout mRlFlower;
 	private RelativeLayout mRlCake;

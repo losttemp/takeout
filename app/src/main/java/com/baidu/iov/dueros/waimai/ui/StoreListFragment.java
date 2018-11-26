@@ -160,6 +160,12 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		Lg.getInstance().e(TAG,"Constant.LATITUDE:"+Constant.LATITUDE+"  Constant.LONGITUDE"+Constant.LONGITUDE);
+	}
+
+	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.rl_sort:

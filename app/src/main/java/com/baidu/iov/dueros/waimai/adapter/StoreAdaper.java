@@ -34,7 +34,7 @@ import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
 
 public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
-	private static final int DISCOUNT_LINE_HEIGHT = 17;
+	private static final int DISCOUNT_LINE_HEIGHT =22;
 
 	private List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean> mStoreList;
 	private Context mContext;
@@ -120,7 +120,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			viewHolder.rlDiscount.setVisibility(View.GONE);
 		} else {
 			if (viewHolder.rvStoreDiscount.getItemDecorationCount() == 0) {
-				viewHolder.rvStoreDiscount.addItemDecoration(new SpaceItemDecoration(dp2px(3)));
+				viewHolder.rvStoreDiscount.addItemDecoration(new SpaceItemDecoration(dp2px(5)));
 			}
 			viewHolder.rvStoreDiscount.setLayoutManager(layoutManager);
 			DiscountAdaper discountAdaper = new DiscountAdaper(discounts);
