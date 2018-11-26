@@ -136,6 +136,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         mRecyclerView.setLayoutManager(layout);
         findViewById(R.id.address_back).setOnClickListener(this);
         findViewById(R.id.address_select_add).setOnClickListener(this);
+        findViewById(R.id.add_no_address).setOnClickListener(this);
         addBtnView = findViewById(R.id.address_select_btn_layout);
     }
 
@@ -173,6 +174,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             case R.id.address_back:
                 finish();
                 break;
+            case R.id.add_no_address:
             case R.id.address_select_add:
                 doSearchAddress(false);
                 break;

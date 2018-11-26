@@ -288,6 +288,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     }
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
+                    if (dataBean.getMt_address_id() != 0) {
+                        mAddrAddReq.setMt_address_id(dataBean.getMt_address_id());
+                    }
                     mAddrAddReq.setUser_phone(phone);
                     mAddrAddReq.setUser_name(name);
                     mAddrAddReq.setAddress(address);

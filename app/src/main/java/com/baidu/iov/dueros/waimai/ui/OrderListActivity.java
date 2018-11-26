@@ -1,9 +1,13 @@
 package com.baidu.iov.dueros.waimai.ui;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -44,7 +48,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     OrderListExtraBean extraBean;
     private OrderCancelResponse.ErrorInfoBean mOrderCancel = new OrderCancelResponse.ErrorInfoBean();
     private OrderCancelReq mOrderCancelReq;
-    private final String STATUS_PAY_EXPIRED = "5";
 
     @Override
     OrderListPresenter createPresenter() {
@@ -154,14 +157,10 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         dialog.show();
                         break;
                     default:
-                        if (mOrderList.get(position).getOrder_status().equals(STATUS_PAY_EXPIRED)) {
-                            Toast.makeText(OrderListActivity.this, R.string.order_expired, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
-                            intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
-                            intent.putExtra("expected_time", payloadBean.getWm_ordering_list().getDelivery_time());
-                            startActivity(intent);
-                        }
+                        Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
+                        intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
+                        intent.putExtra("expected_time", payloadBean.getWm_ordering_list().getDelivery_time());
+                        startActivity(intent);
                         break;
                 }
             }
@@ -201,6 +200,39 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void failure(String msg) {
+    }
+
+    @Override
+    public void orderCancelfail(String msg) {
+        ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
+                .setTitle(R.string.remind_title)
+                .setMessage(R.string.remind_message)
+                .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(R.string.remind_phone, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_CALL);
+                        Uri data = Uri.parse("tel:" + "10109777");
+                        intent.setData(data);
+                        if (ActivityCompat.checkSelfPermission(OrderListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                })
+                .setCloseButton(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog1.show();
     }
 
     @Override

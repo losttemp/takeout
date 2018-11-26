@@ -95,7 +95,7 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
             @Override
             public void onFailure(String msg) {
                 if (getUi() != null) {
-                    getUi().failure(msg);
+                    getUi().orderCancelfail(msg);
                 }
             }
         });
@@ -107,6 +107,8 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
         void update(OrderListResponse data);
 
         void failure(String msg);
+
+        void orderCancelfail(String msg);
 
         void close();
     }
