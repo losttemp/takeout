@@ -15,15 +15,27 @@
 		android:layout_alignParentLeft="true"
 		android:src="@mipmap/close" />
 
-	<com.domain.multipltextview.MultiplTextView
-		app:removeDefaultPadding="true"
+	<android.support.v7.widget.AppCompatImageView
+		android:id="@+id/iv_right"
+		android:layout_width="@dimen/px48dp"
+		android:layout_height="@dimen/px48dp"
+		android:layout_alignParentEnd="true"
+		android:layout_centerVertical="true"
+		android:layout_marginRight="@dimen/px78dp"
+		android:layout_marginBottom="@dimen/px22dp"
+		android:src="@drawable/icon_dingdan" />
+
+	<TextView
 		android:id="@+id/tv_title"
+		android:maxWidth="@dimen/px600dp"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_centerInParent="true"
 		android:layout_marginLeft="@dimen/px282dp"
 		android:layout_marginBottom="@dimen/px28dp"
 		android:text="@string/takeaway"
+		android:ellipsize="end"
+		android:maxLines="1"
 		android:textColor="@color/white"
 		android:textSize="@dimen/px40sp" />
 	
@@ -37,14 +49,6 @@
 		android:layout_marginRight="@dimen/px182dp"
 		android:src="@drawable/arrow_right" />
 
-	<android.support.v7.widget.AppCompatImageView
-		android:id="@+id/iv_right"
-		android:layout_width="@dimen/px48dp"
-		android:layout_height="@dimen/px48dp"
-		android:layout_alignParentEnd="true"
-		android:layout_centerVertical="true"
-		android:layout_marginRight="@dimen/px78dp"
-		android:layout_marginBottom="@dimen/px22dp"
-		android:src="@drawable/icon_dingdan" />
+	
 
 </RelativeLayout>

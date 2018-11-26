@@ -14,19 +14,6 @@
 		android:textSize="@dimen/px40sp"
 		tools:text="1" />
 
-	<TextView
-		android:id="@+id/tv_history_name"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="@dimen/px70dp"
-		android:layout_centerVertical="true"
-		android:layout_toRightOf="@+id/tv_history_num"
-		android:ellipsize="end"
-		android:maxLines="1"
-		android:textColor="@color/white"
-		android:textSize="@dimen/px40sp"
-		tools:text="@string/tools_text_history_name" />
-
 	<android.support.v7.widget.AppCompatImageView
 		android:id="@+id/iv_delete"
 		android:layout_width="@dimen/px96dp"
@@ -34,5 +21,22 @@
 		android:layout_alignParentEnd="true"
 		android:layout_centerVertical="true"
 		android:src="@drawable/icon_close" />
+
+	<TextView
+		android:id="@+id/tv_history_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="@dimen/px70dp"
+		android:layout_marginRight="@dimen/px20dp"
+		android:layout_centerVertical="true"
+		android:layout_toRightOf="@+id/tv_history_num"
+		android:layout_toLeftOf="@+id/iv_delete"
+		android:ellipsize="end"
+		android:maxLines="1"
+		android:textColor="@color/white"
+		android:textSize="@dimen/px40sp"
+		tools:text="@string/tools_text_history_name" />
+
+	
 
 </RelativeLayout>

@@ -32,7 +32,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	private TextView mTvCake;
 	private AppCompatImageView mIvBack;
 	private AppCompatImageView mIvRight;
-	private MultiplTextView mTvTitle;
+	private TextView mTvTitle;
 	private RelativeLayout mRlSearch;
 	private AppCompatImageView mIvTitle;
 

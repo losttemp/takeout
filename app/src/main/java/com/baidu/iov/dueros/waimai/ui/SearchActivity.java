@@ -217,6 +217,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				SharedPreferencesUtils.clearSearchHistory();
 				SharedPreferencesUtils.getSearchHistory(mHistorys);
 				mSearchHistroyAdapter.notifyDataSetChanged();
+				mLlHistory.setVisibility(View.GONE);
 				break;
 
 			case R.id.iv_clean:
