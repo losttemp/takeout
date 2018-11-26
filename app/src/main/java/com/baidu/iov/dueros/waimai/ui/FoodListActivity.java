@@ -39,6 +39,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.DiscountAdaper;
@@ -397,7 +398,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             setDialogHeight(mBottomDialog);
         }
         refreshSpusTagNum(selection, increase);
-        setPrise();
+        setPrise(increase);
     }
 
     private void refreshSpusTagNum(int selection, boolean increase) {
@@ -431,7 +432,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
         mPoifoodSpusListAdapter.notifyDataSetChanged();
         refreshSpusTagNum(section, increase);
-        setPrise();
+        setPrise(increase);
     }
 
     @Override
@@ -451,14 +452,32 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (mBottomDialog != null && mBottomDialog.isShowing()) {
             setDialogHeight(mBottomDialog);
         }
-        setPrise();
+        setPrise(false);
     }
 
-    public void setPrise() {
+    public void setPrise(boolean increase) {
         double sum = 0;
         int shopNum = 0;
+        boolean isDiscount = false;
         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean pro : productList) {
-            sum = DoubleUtil.sum(sum, DoubleUtil.mul((double) pro.getNumber(), Double.parseDouble("" + pro.getMin_price())));
+            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = pro.getSkus();
+            double price = 0;
+            if (skus != null) {
+                if (skus.size() == 0) {
+                    price = pro.getMin_price();
+                } else if (skus.size() == 1) {
+                    price = pro.getSkus().get(0).getPrice();
+                    if (pro.getSkus().get(0).getPrice() < pro.getSkus().get(0).getOrigin_price()) {
+                        isDiscount = true;
+                    }
+                } else if (skus.size() > 1) {
+                    price = pro.getChoiceSkus().get(0).getPrice();
+                }
+            } else {
+                price = pro.getMin_price();
+            }
+
+            sum = DoubleUtil.sum(sum, DoubleUtil.mul((double) pro.getNumber(), Double.parseDouble("" + price)));
             shopNum = shopNum + pro.getNumber();
         }
         if (shopNum > 0) {
@@ -492,58 +511,79 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             mShopCartNum.setText(String.valueOf(shopNum));
         }
 
-        if (listFull != null && listReduce != null) {
-            if (listFull.size() > 0 && sum > listFull.get(listFull.size() - 1)) {
-                mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(listReduce.size() - 1) + getString(R.string.element));
-                if (mCartDiscount != null) {
-                    mCartDiscount.setText(getString(R.string.already_reduced) + listReduce.get(listReduce.size() - 1) + getString(R.string.element));
-                }
-                double v = sum - listReduce.get(listReduce.size() - 1);
-                java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
-                String str = myformat.format(v);
-                shoppingPrise.setText("¥" + " " + str);
-                if (mCartShoppingPrise != null) {
-                    mCartShoppingPrise.setText("¥" + " " + str);
-                }
-                mDiscountNumber = listReduce.get(listReduce.size() - 1);
-            } else {
-                for (int i = 0; i < listFull.size(); i++) {
-                    Lg.getInstance().d(TAG, "listFull.get(0) = " + listFull.get(0));
-                    if (listFull.get(i) > sum) {
-                        double v = listFull.get(i) - sum;
-                        java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
-                        String str = myformat.format(v);
-                        if (i == 0) {
-                            mDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
-                            if (mCartDiscount != null) {
-                                mCartDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
-                            }
-                        } else {
-                            mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
-                                    getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
-                            if (mCartDiscount != null) {
-                                mCartDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
-                                        getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
-                            }
-                            double newSum = sum - listReduce.get(i - 1);
-                            java.text.DecimalFormat newformat = new java.text.DecimalFormat("0.0");
-                            String newNum = newformat.format(newSum);
-                            shoppingPrise.setText("¥" + " " + newNum);
-                            if (mCartShoppingPrise != null) {
-                                mCartShoppingPrise.setText("¥" + " " + newNum);
-                            }
-                            mDiscountNumber = listReduce.get(i - 1);
-                        }
-                        break;
-                    }
-                }
+        if (isDiscount) {
+            if (mRlDiscount.getVisibility() == View.VISIBLE) {
+                mRlDiscount.setVisibility(View.GONE);
+            }
+            shoppingPrise.setText("¥" + " " + sum);
+            if (mCartShoppingPrise != null) {
+                mCartShoppingPrise.setText("¥" + " " + sum);
+            }
+            if (increase) {
+                Toast.makeText(this, getString(R.string.discount_prompt), Toast.LENGTH_SHORT).show();
             }
         } else {
-            shoppingPrise.setText("¥" + " " + (new DecimalFormat("0.00")).format(sum));
-            if (mCartShoppingPrise != null) {
-                mCartShoppingPrise.setText("¥" + " " + (new DecimalFormat("0.00")).format(sum));
+            if (mRlDiscount.getVisibility() == View.GONE) {
+                mRlDiscount.setVisibility(View.VISIBLE);
+            }
+            if (listFull != null && listReduce != null) {
+                if (listFull.size() > 0 && sum > listFull.get(listFull.size() - 1)) {
+                    mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(listReduce.size() - 1) + getString(R.string.element));
+                    if (mCartDiscount != null) {
+                        mCartDiscount.setText(getString(R.string.already_reduced) + listReduce.get(listReduce.size() - 1) + getString(R.string.element));
+                    }
+                    double v = sum - listReduce.get(listReduce.size() - 1);
+                    java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
+                    String str = myformat.format(v);
+                    shoppingPrise.setText("¥" + " " + str);
+                    if (mCartShoppingPrise != null) {
+                        mCartShoppingPrise.setText("¥" + " " + str);
+                    }
+                    mDiscountNumber = listReduce.get(listReduce.size() - 1);
+                } else {
+                    for (int i = 0; i < listFull.size(); i++) {
+                        Lg.getInstance().d(TAG, "listFull.get(0) = " + listFull.get(0));
+                        if (listFull.get(i) >= sum) {
+                            double v = listFull.get(i) - sum;
+                            java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
+                            String str = myformat.format(v);
+                            if (i == 0) {
+                                mDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                                if (mCartDiscount != null) {
+                                    mCartDiscount.setText(getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                                }
+                                shoppingPrise.setText("¥" + " " + sum);
+                                if (mCartShoppingPrise != null) {
+                                    mCartShoppingPrise.setText("¥" + " " + sum);
+                                }
+                            } else {
+                                mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
+                                        getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                                if (mCartDiscount != null) {
+                                    mCartDiscount.setText(getString(R.string.already_reduced) + listReduce.get(i - 1) + getString(R.string.element) + "，" +
+                                            getString(R.string.buy_again) + str + getString(R.string.reduce) + listReduce.get(i) + getString(R.string.element));
+                                }
+                                double newSum = sum - listReduce.get(i - 1);
+                                java.text.DecimalFormat newformat = new java.text.DecimalFormat("0.0");
+                                String newNum = newformat.format(newSum);
+                                shoppingPrise.setText("¥" + " " + newNum);
+                                if (mCartShoppingPrise != null) {
+                                    mCartShoppingPrise.setText("¥" + " " + newNum);
+                                }
+                                mDiscountNumber = listReduce.get(i - 1);
+                            }
+                            break;
+                        }
+                    }
+                }
+            } else {
+                shoppingPrise.setText("¥" + " " + (new DecimalFormat("0.00")).format(sum));
+                if (mCartShoppingPrise != null) {
+                    mCartShoppingPrise.setText("¥" + " " + (new DecimalFormat("0.00")).format(sum));
+                }
             }
         }
+
         if (productList == null || productList.size() == 0) {
             mDiscount.setText(mFirstDiscount);
         }
@@ -622,7 +662,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         shoppingCartAdapter.setShopToDetailListener(this);
         mClearshopCart.setOnClickListener(this);
         mCartDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
-        setPrise();
+        setPrise(false);
     }
 
     private void setDialogHeight(Dialog dialog) {
@@ -676,7 +716,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         poifoodSpusTagsBeans.get(i).setNumber(number);
                     }
                     mFoodSpuTagsListAdapter.notifyDataSetChanged();
-                    setPrise();
+                    setPrise(false);
                 }
                 if (mBottomDialog != null && mBottomDialog.isShowing()) {
                     mBottomDialog.dismiss();

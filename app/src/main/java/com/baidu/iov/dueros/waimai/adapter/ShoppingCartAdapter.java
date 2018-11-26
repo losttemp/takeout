@@ -63,7 +63,20 @@ public class ShoppingCartAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.commodityName.setText(spusBeans.get(position).getName());
-        viewHolder.commodityPrise.setText("" + spusBeans.get(position).getMin_price());
+
+        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBeans.get(position).getSkus();
+        if (skus != null) {
+            if (skus.size() == 0) {
+                viewHolder.commodityPrise.setText("" + spusBeans.get(position).getMin_price());
+            } else if (skus.size() == 1) {
+                viewHolder.commodityPrise.setText("" + spusBeans.get(position).getSkus().get(0).getPrice());
+            } else if (skus.size() > 1) {
+                viewHolder.commodityPrise.setText("" + spusBeans.get(position).getChoiceSkus().get(0).getPrice());
+            }
+        } else {
+            viewHolder.commodityPrise.setText("" + spusBeans.get(position).getMin_price());
+        }
+
         viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
 
         StringBuffer stringBuffer = new StringBuffer();

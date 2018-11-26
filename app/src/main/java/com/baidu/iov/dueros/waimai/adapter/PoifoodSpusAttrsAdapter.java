@@ -29,18 +29,21 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs;
     private SetPriceListener setPriceListener;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList;
+    private boolean[] choiseAttrs;
 
     public PoifoodSpusAttrsAdapter(Context context, List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrsBeans,
                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusBeans,
                                    PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus,
-                                   List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList) {
+                                   List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList,
+                                   boolean[] choiseAttrs) {
         this.context = context;
         this.attrsBeans = attrsBeans;
         this.skusBeans = skusBeans;
         this.spusBean = spusBean;
         this.choiceSkus = choiceSkus;
         this.productList = productList;
+        this.choiseAttrs = choiseAttrs;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -103,6 +106,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                             choiceAttrs = new ArrayList<>();
                             choiceAttrs.add(valuesBeans.get(i));
                             spusBean.getAttrs().get(position).setChoiceAttrs(choiceAttrs);
+                            choiseAttrs[position] = true;
                         } else {
                             viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.tag_bg_01);
                         }
@@ -114,7 +118,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                     }
                     if (spusBean.getAttrs().size() > 0) {
                         for (int i = 0; i < spusBean.getAttrs().size(); i++) {
-                            if (choiceAttrs.size() == 0) {
+                            if (choiseAttrs[i] == false) {
                                 return;
                             }
                         }
@@ -152,7 +156,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                         }
                         if (spusBean.getAttrs().size() > 0) {
                             for (int i = 0; i < spusBean.getAttrs().size(); i++) {
-                                if (choiceAttrs.size() == 0) {
+                                if (choiseAttrs[i] == false) {
                                     return;
                                 }
                             }

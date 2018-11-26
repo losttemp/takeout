@@ -319,6 +319,10 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
         final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus = new ArrayList<>();
+        final boolean[] choiseAttrs = new boolean[attrs.size()];
+        for (int i = 0; i < attrs.size(); i++) {
+            choiseAttrs[i] = false;
+        }
 
         if (spusBean.getStatus() != 0) {
             addToCart.setVisibility(View.GONE);
@@ -327,7 +331,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
 
         }
         PoifoodSpusAttrsAdapter poifoodSpusAttrsAdapter = new PoifoodSpusAttrsAdapter(context, attrs, skus, spusBean,
-                choiceSkus, productList);
+                choiceSkus, productList, choiseAttrs);
         specificationsList.setAdapter(poifoodSpusAttrsAdapter);
         poifoodSpusAttrsAdapter.setPriceListener(new PoifoodSpusAttrsAdapter.SetPriceListener() {
             @Override
@@ -359,8 +363,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 }
                 if (spusBean.getAttrs().size() > 0) {
                     for (int i = 0; i < spusBean.getAttrs().size(); i++) {
-                        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs = spusBean.getAttrs().get(i).getChoiceAttrs();
-                        if (choiceAttrs.size() == 0) {
+                        if (choiseAttrs[i] == false) {
                             Toast.makeText(context, context.getString(R.string.please_select_the_specifications_first), Toast.LENGTH_SHORT).show();
                             return;
                         }
