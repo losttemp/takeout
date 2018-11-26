@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
@@ -45,9 +47,11 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private List<OrderListResponse.IovBean.DataBean> mOrderList = new
             ArrayList<>();
     private OrderListReq mOrderListReq;
-    OrderListExtraBean extraBean;
     private OrderCancelResponse.ErrorInfoBean mOrderCancel = new OrderCancelResponse.ErrorInfoBean();
     private OrderCancelReq mOrderCancelReq;
+    private int pos;
+    private final String IOV_STATUS_CANCELED = "8";
+    private static final int REQUEST_CODE_CALL_PHONE = 500;
 
     @Override
     OrderListPresenter createPresenter() {
@@ -81,7 +85,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     }
 
     private void initView() {
-
         mIvBack = (AppCompatImageView) findViewById(R.id.iv_back);
         mRvOrder = (RecyclerView) findViewById(R.id.rv_order);
         mTvNoOrder = (AppCompatTextView) findViewById(R.id.tv_tip_no_order);
@@ -130,6 +133,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         startActivity(payintent);
                         break;
                     case R.id.cancel_order:
+                        pos = position;
                         mOrderCancelReq = new OrderCancelReq(Long.parseLong(mOrderList.get(position).getOut_trade_no()), payloadBean.getUser_phone());
                         ConfirmDialog dialog = new ConfirmDialog.Builder(OrderListActivity.this)
                                 .setTitle(R.string.order_cancel_title)
@@ -193,9 +197,9 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
-        mOrderCancel = data.getErrorInfo();
         Toast.makeText(this, R.string.order_cancelled, Toast.LENGTH_LONG).show();
-
+        mOrderList.get(pos).setOut_trade_status(IOV_STATUS_CANCELED);
+        mOrderListAdaper.notifyItemChanged(pos);
     }
 
     @Override
@@ -216,13 +220,16 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 .setPositiveButton(R.string.remind_phone, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Intent.ACTION_CALL);
-                        Uri data = Uri.parse("tel:" + "10109777");
-                        intent.setData(data);
-                        if (ActivityCompat.checkSelfPermission(OrderListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            return;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (ActivityCompat.checkSelfPermission(OrderListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(OrderListActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_CALL_PHONE);
+                            } else {
+                                Intent intent = new Intent(Intent.ACTION_CALL);
+                                Uri data = Uri.parse("tel:" + "10109777");
+                                intent.setData(data);
+                                startActivity(intent);
+                            }
                         }
-                        startActivity(intent);
                         dialog.dismiss();
                     }
                 })
@@ -243,5 +250,26 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_CALL_PHONE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //permission was granted, yay! Do the contacts-related task you need to do.
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                Uri data = Uri.parse("tel:" + "10109777");
+                intent.setData(data);
+                startActivity(intent);
+            } else {
+                //permission denied, boo! Disable the functionality that depends on this permission.
+                Intent intent = new Intent();
+                intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                intent.setData(Uri.fromParts("package", getPackageName(), null));
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 }
