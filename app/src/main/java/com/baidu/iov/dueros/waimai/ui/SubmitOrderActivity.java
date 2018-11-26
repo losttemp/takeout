@@ -256,6 +256,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
                 Intent intent = new Intent(this, AddressListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(Constant.WM_POI_ID, mPoiInfo.getWm_poi_id());
                 startActivityForResult(intent, SELECT_DELIVERY_ADDRESS);
                 break;
 

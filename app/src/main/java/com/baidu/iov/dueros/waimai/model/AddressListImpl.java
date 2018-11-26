@@ -12,12 +12,13 @@ public class AddressListImpl implements IAddressList {
     private static final String TAG = AddressListImpl.class.getSimpleName();
 
     @Override
-    public void requestAddressList(final RequestCallback callback) {
+    public void requestAddressList(long wm_poi_id, final RequestCallback callback) {
         if (callback == null) {
             return;
         }
 
         AddressListReqBean addressListReqBean = new AddressListReqBean();
+        addressListReqBean.setWmPoiId(wm_poi_id);
 
         ApiUtils.getAddressList(addressListReqBean, new ApiCallBack<AddressListBean>() {
             @Override

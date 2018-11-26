@@ -4,5 +4,5 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 
 public interface IAddressList extends IModel {
 
-    void requestAddressList(final RequestCallback callback);
+    void requestAddressList(long wm_poi_id, final RequestCallback callback);
 }

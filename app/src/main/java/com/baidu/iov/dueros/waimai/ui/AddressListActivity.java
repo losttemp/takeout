@@ -109,7 +109,10 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             }
         });
 
-        getPresenter().requestData();
+        if (getIntent() != null) {
+            long wmPoiId = getIntent().getLongExtra(Constant.WM_POI_ID, 0);
+            getPresenter().requestData(wmPoiId);
+        }
     }
 
     private void setHeader() {

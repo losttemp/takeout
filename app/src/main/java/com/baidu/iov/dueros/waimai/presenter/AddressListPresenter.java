@@ -30,8 +30,8 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
         mAddressList.onDestroy();
     }
 
-    public void requestData() {
-        mAddressList.requestAddressList(new RequestCallback<AddressListBean>() {
+    public void requestData(long wm_poi_id) {
+        mAddressList.requestAddressList(wm_poi_id, new RequestCallback<AddressListBean>() {
 
             @Override
             public void onSuccess(AddressListBean data) {

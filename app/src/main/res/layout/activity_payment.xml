@@ -190,27 +190,26 @@
         android:layout_marginStart="@dimen/px370dp"
         android:layout_marginTop="@dimen/px164dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/px36dp"
-        android:orientation="horizontal">
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/px36dp">
 
         <ImageView
             android:id="@+id/pay_type_img1"
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
-            android:layout_marginStart="@dimen/px412dp"
             android:background="@drawable/wechat" />
 
         <ImageView
             android:id="@+id/pay_type_img2"
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
+            android:layout_toEndOf="@+id/pay_type_img1"
             android:layout_marginStart="@dimen/px64dp"
-            android:layout_marginEnd="@dimen/px412dp"
             android:background="@drawable/zhifubao" />
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <com.domain.multipltextview.MultiplTextView
