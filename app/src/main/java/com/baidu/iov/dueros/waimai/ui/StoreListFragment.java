@@ -489,6 +489,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	}
 
 	public void searchLoadFirstPage(StoreReq storeReq) {
+		mStoreList.clear();
+		mStoreAdaper.notifyDataSetChanged();
 		storeReq.setPage_index(1);
 		mPresenter.requestStoreList(storeReq);
 		mStoreReq = storeReq;

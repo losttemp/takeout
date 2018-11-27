@@ -154,12 +154,14 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mLvSuggest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				SearchSuggestResponse.MeituanBean.DataBean.SuggestBean suggest = mSuggests.get
-						(position-HEAD_NUM);
+				SearchSuggestResponse.MeituanBean.DataBean.SuggestBean suggest = mSuggests.get(position-HEAD_NUM);
 				if (suggest.getType() == 0 && suggest.getPoi_addition_info() != null) {
+					SharedPreferencesUtils.saveSearchHistory(suggest.getSuggest_query(), mHistorys);
+					mSearchHistroyAdapter.notifyDataSetChanged();
+					mEtSearch.setText(suggest.getSuggest_query());
+					changeStatus(Constant.SEARCH_STATUS_HISTORY);
 					Intent intent = new Intent(SearchActivity.this, FoodListActivity.class);
-					intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id
-							());
+					intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id());
 					startActivity(intent);
 				} else {
 					String name = suggest.getSuggest_query();
@@ -261,14 +263,13 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mStoreReq.setSortType(null);
 		if (!TextUtils.isEmpty(keyword)) {
 			mStoreReq.setKeyword(keyword);
-			SharedPreferencesUtils.saveSearchHistory(keyword,
-					mHistorys);
+			SharedPreferencesUtils.saveSearchHistory(keyword, mHistorys);
 			mSearchHistroyAdapter.notifyDataSetChanged();
 		} else {
 			mStoreReq.setKeyword(null);
 		}
-		changeStatus(Constant.SEARCH_STATUS_FRAGMENT);
 		mStoreListFragment.searchLoadFirstPage(mStoreReq);
+		changeStatus(Constant.SEARCH_STATUS_FRAGMENT);
 		hideSoftKeyboard();
 	}
 
@@ -281,9 +282,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private void changeStatus(int status) {
 		if (status == Constant.SEARCH_STATUS_SUGGEST) {
 			mLlHistory.setVisibility(View.GONE);
-			mLvSuggest.setVisibility(View.VISIBLE);
-			
 			mFragmentStoreList.setVisibility(View.GONE);
+			mLvSuggest.setVisibility(View.VISIBLE);
 		} else if (status == Constant.SEARCH_STATUS_FRAGMENT) {
 			mLlHistory.setVisibility(View.GONE);
 			mLvSuggest.setVisibility(View.GONE);

@@ -23,6 +23,14 @@ public class SearchSuggestResponse {
 		this.iov = iov;
 	}
 
+	@Override
+	public String toString() {
+		return "SearchSuggestResponse{" +
+				"meituan=" + meituan +
+				", iov=" + iov +
+				'}';
+	}
+
 	public static class MeituanBean {
 
 		private int code;
@@ -62,6 +70,16 @@ public class SearchSuggestResponse {
 			this.data = data;
 		}
 
+		@Override
+		public String toString() {
+			return "MeituanBean{" +
+					"code=" + code +
+					", msg='" + msg + '\'' +
+					", errorInfo=" + errorInfo +
+					", data=" + data +
+					'}';
+		}
+
 		public static class DataBean {
 			private List<String> terms;
 			private List<SuggestBean> suggest;
@@ -80,6 +98,14 @@ public class SearchSuggestResponse {
 
 			public void setSuggest(List<SuggestBean> suggest) {
 				this.suggest = suggest;
+			}
+
+			@Override
+			public String toString() {
+				return "DataBean{" +
+						"terms=" + terms +
+						", suggest=" + suggest +
+						'}';
 			}
 
 			public static class SuggestBean {
@@ -110,6 +136,15 @@ public class SearchSuggestResponse {
 
 				public void setPoi_addition_info(PoiAdditionInfoBean poi_addition_info) {
 					this.poi_addition_info = poi_addition_info;
+				}
+
+				@Override
+				public String toString() {
+					return "SuggestBean{" +
+							"suggest_query='" + suggest_query + '\'' +
+							", type=" + type +
+							", poi_addition_info=" + poi_addition_info +
+							'}';
 				}
 
 				public static class PoiAdditionInfoBean {
@@ -337,6 +372,8 @@ public class SearchSuggestResponse {
 						public void setLevel(int level) {
 							this.level = level;
 						}
+						
+						
 					}
 				}
 			}
