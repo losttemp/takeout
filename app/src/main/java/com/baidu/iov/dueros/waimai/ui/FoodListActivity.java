@@ -150,10 +150,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private MultiplTextView mNoProduct;
     private RelativeLayout mLlPrice;
     private List<String> foodSpuTagsBeanName;
-    private RelativeLayout mShopClose;
     private RelativeLayout mToolBar;
     private String mFirstDiscount;
     private boolean mOneMoreOrder;
+    private MultiplTextView mMtDistributionFee;
+    private RelativeLayout mRlNoProduct;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -196,8 +197,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mRlDiscount = (RelativeLayout) findViewById(R.id.rl_discount);
         mNoProduct = (MultiplTextView) findViewById(R.id.tv_no_product);
         mLlPrice = (RelativeLayout) findViewById(R.id.ll_price);
-        mShopClose = (RelativeLayout) findViewById(R.id.rl_shop_close);
         mToolBar = (RelativeLayout) findViewById(R.id.toolBar);
+        mMtDistributionFee = (MultiplTextView) findViewById(R.id.mt_distribution_fee);
+        mRlNoProduct = (RelativeLayout) findViewById(R.id.rl_no_product);
     }
 
     @Override
@@ -494,6 +496,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (sum > 0) {
             mLlPrice.setVisibility(View.VISIBLE);
             mNoProduct.setVisibility(View.GONE);
+            mRlNoProduct.setVisibility(View.GONE);
             shoppingPrise.setVisibility(View.VISIBLE);
             if (mCartShoppingPrise != null) {
                 mCartShoppingPrise.setVisibility(View.VISIBLE);
@@ -501,6 +504,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         } else {
             mLlPrice.setVisibility(View.GONE);
             mNoProduct.setVisibility(View.VISIBLE);
+            mRlNoProduct.setVisibility(View.VISIBLE);
             shoppingPrise.setVisibility(View.GONE);
             if (mCartShoppingPrise != null) {
                 mCartShoppingPrise.setVisibility(View.GONE);
@@ -985,13 +989,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void onPoidetailinfoSuccess(PoidetailinfoBean data) {
         mPoidetailinfoBean = data;
-        if (mPoidetailinfoBean.getMeituan().getData().getStatus() == 3) {
-            mShopClose.setVisibility(View.VISIBLE);
-            mToolBar.setVisibility(View.GONE);
-        } else {
-            mShopClose.setVisibility(View.GONE);
-            mToolBar.setVisibility(View.VISIBLE);
-        }
         List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
         List<String> discountList = getDiscountList(discounts);
         if (mDiscounts.getItemDecorationCount() == 0) {
@@ -1003,6 +1000,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mDiscounts.setAdapter(discountAdaper);
         settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
         mDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
+        mMtDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
         if (discounts.size() == 0) {
             mRlDiscount.setVisibility(View.GONE);
         } else {

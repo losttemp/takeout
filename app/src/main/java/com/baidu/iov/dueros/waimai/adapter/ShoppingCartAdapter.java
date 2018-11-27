@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,20 +59,39 @@ public class ShoppingCartAdapter extends BaseAdapter {
             viewHolder.reduce = (ImageView) convertView.findViewById(R.id.reduce);
             viewHolder.shoppingNum = (MultiplTextView) convertView.findViewById(R.id.shoppingNum);
             viewHolder.shopSpecifications = (MultiplTextView) convertView.findViewById(R.id.tv_shop_specifications);
+            viewHolder.shopDiscountPrice = (MultiplTextView) convertView.findViewById(R.id.tv_discount_price);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.commodityName.setText(spusBeans.get(position).getName());
-
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBeans.get(position).getSkus();
         if (skus != null) {
             if (skus.size() == 0) {
                 viewHolder.commodityPrise.setText("" + spusBeans.get(position).getMin_price());
+                viewHolder.shopDiscountPrice.setVisibility(View.GONE);
             } else if (skus.size() == 1) {
                 viewHolder.commodityPrise.setText("" + spusBeans.get(position).getSkus().get(0).getPrice());
+                double origin_price = spusBeans.get(position).getSkus().get(0).getOrigin_price();
+                double price = spusBeans.get(position).getSkus().get(0).getPrice();
+                if (origin_price > price) {
+                    viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
+                    viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", "" + spusBeans.get(position).getSkus().get(0).getOrigin_price()));
+                    viewHolder.shopDiscountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    viewHolder.shopDiscountPrice.setVisibility(View.GONE);
+                }
             } else if (skus.size() > 1) {
                 viewHolder.commodityPrise.setText("" + spusBeans.get(position).getChoiceSkus().get(0).getPrice());
+                double origin_price = spusBeans.get(position).getSkus().get(0).getOrigin_price();
+                double price = spusBeans.get(position).getSkus().get(0).getPrice();
+                if (origin_price > price) {
+                    viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
+                    viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", "" + spusBeans.get(position).getChoiceSkus().get(0).getOrigin_price()));
+                    viewHolder.shopDiscountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    viewHolder.shopDiscountPrice.setVisibility(View.GONE);
+                }
             }
         } else {
             viewHolder.commodityPrise.setText("" + spusBeans.get(position).getMin_price());
@@ -155,5 +175,6 @@ public class ShoppingCartAdapter extends BaseAdapter {
         public ImageView reduce;
         public MultiplTextView shoppingNum;
         public MultiplTextView shopSpecifications;
+        public MultiplTextView shopDiscountPrice;
     }
 }
