@@ -39,7 +39,7 @@ public class FoodListAdaper extends RecyclerView.Adapter<FoodListAdaper.ViewHold
 
         holder.tvfoodname.setText(mData.get(position).getName());
 
-        NumberFormat numberFormat = new DecimalFormat("#.#");
+        NumberFormat numberFormat = new DecimalFormat("##.##");
         double price = mData.get(position).getPrice();
         holder.tvfoodprice.setText(String.format(mContext.getResources().getString(R.string.cost_text), numberFormat.format(price)));
     }

@@ -113,7 +113,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
         getPayStatus(mOrderDetails.getPay_status());
 
-        mNumberFormat = new DecimalFormat("#.#");
+        mNumberFormat = new DecimalFormat("##.##");
 
         long orderTime = mOrderDetails.getOrder_time();
         long orderId = mOrderDetails.getOrder_id();

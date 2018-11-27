@@ -67,7 +67,7 @@
 
                     <com.domain.multipltextview.MultiplTextView
                         android:id="@+id/tv_address"
-                        android:layout_width="@dimen/px826dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/px36dp"
                         android:layout_marginStart="@dimen/px84dp"
                         android:layout_marginTop="@dimen/px34dp"
@@ -77,7 +77,7 @@
 
                     <com.domain.multipltextview.MultiplTextView
                         android:id="@+id/tv_name"
-                        android:layout_width="@dimen/px826dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/px36dp"
                         android:layout_below="@+id/tv_address"
                         android:layout_marginBottom="@dimen/px40dp"

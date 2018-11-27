@@ -114,7 +114,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_order);
 
-        mNumberFormat = new DecimalFormat("#.#");
+        mNumberFormat = new DecimalFormat("##.##");
         Intent intent = getIntent();
         if (intent != null) {
             mProductList = (List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean>) intent.getSerializableExtra(PRODUCT_LIST_BEAN);
@@ -214,7 +214,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             }
 
 
-            NumberFormat nf = new DecimalFormat("#.#");
+            NumberFormat nf = new DecimalFormat("##.##");
             int count = wmOrderingPreviewDetailVoListBean.getCount();
             double price = wmOrderingPreviewDetailVoListBean.getFood_price();
             double origin_price = wmOrderingPreviewDetailVoListBean.getOrigin_food_price();

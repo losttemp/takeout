@@ -94,7 +94,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         mBackBtn.setOnClickListener(this);
 
 
-        NumberFormat nf = new DecimalFormat("#.#");
+        NumberFormat nf = new DecimalFormat("##.##");
         Intent intent = getIntent();
         if (intent != null) {
 
