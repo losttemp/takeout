@@ -209,15 +209,33 @@
                         app:removeDefaultPadding="true" />
                 </RelativeLayout>
 
-                <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/tv_no_product"
+                <RelativeLayout
+                    android:id="@+id/rl_no_product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/no_product"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/px30sp"
-                    app:removeDefaultPadding="true" />
+                    android:layout_centerVertical="true">
+
+                    <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/tv_no_product"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/no_product"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/px30sp"
+                        app:removeDefaultPadding="true" />
+
+                    <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/mt_distribution_fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/px28dp"
+                        android:layout_toRightOf="@+id/tv_no_product"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/px30sp"
+                        app:removeDefaultPadding="true" />
+                </RelativeLayout>
             </FrameLayout>
 
 
@@ -235,33 +253,5 @@
                 android:textSize="@dimen/px36sp" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rl_shop_close"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/px150dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/dayangle"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/dayang" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/shop_close"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/px30sp" />
-            </LinearLayout>
-        </RelativeLayout>
     </RelativeLayout>
 </FrameLayout>

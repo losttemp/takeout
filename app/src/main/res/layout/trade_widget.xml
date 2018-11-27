@@ -53,6 +53,19 @@
             android:textSize="@dimen/px40sp"
             app:removeDefaultPadding="true" />
 
+        <com.domain.multipltextview.MultiplTextView
+            android:id="@+id/tv_discount_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/px28dp"
+            android:alpha="0.6"
+            android:gravity="center_vertical"
+            android:text="¥%1$s"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px36sp"
+            android:visibility="gone"
+            app:removeDefaultPadding="true" />
+
     </LinearLayout>
 
     <RelativeLayout
