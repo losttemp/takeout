@@ -93,6 +93,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         address_tv.setOnClickListener(this);
         address_arrow.setOnClickListener(this);
         et_name.setMaxLength(11);
+        et_house_num.setMaxLength(30);
     }
 
     private void initData() {

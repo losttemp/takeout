@@ -129,24 +129,16 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
                     tvPayOrder.setVisibility(View.VISIBLE);
                     break;
                 case IOV_STATUS_PAID:
-                    pay_status = mContext.getResources().getString(R.string.have_paid);
-                    break;
                 case IOV_STATUS_NOTIFY_RESTAURANT:
-                    pay_status = mContext.getResources().getString(R.string.notify_restaurant);
-                    break;
                 case IOV_STATUS_RESTAURANT_CONFIRM:
-                    pay_status = mContext.getResources().getString(R.string.restaurant_confirm);
-                    break;
                 case IOV_STATUS_DELIVERING:
-                    pay_status = mContext.getResources().getString(R.string.delivering);
+                    pay_status = mContext.getResources().getString(R.string.have_paid);
                     break;
                 case IOV_STATUS_FINISHED:
                     pay_status = mContext.getResources().getString(R.string.pay_done);
                     tvCancelOrder.setVisibility(View.GONE);
-                case IOV_STATUS_PAYMENT_FAILED:
-                    pay_status = mContext.getResources().getString(R.string.pay_fail);
-                    tvCancelOrder.setVisibility(View.GONE);
                     break;
+                case IOV_STATUS_PAYMENT_FAILED:
                 case IOV_STATUS_CANCELED:
                     pay_status = mContext.getResources().getString(R.string.pay_cancel);
                     tvCancelOrder.setVisibility(View.GONE);

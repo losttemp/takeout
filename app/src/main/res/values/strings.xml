@@ -197,14 +197,9 @@
     <string name="have_paid">已支付</string>
     <string name="pay_order">去支付</string>
     <string name="pay_done">已完成</string>
-    <string name="pay_fail">支付失败</string>
-    <string name="pay_invalid">已失效</string>
     <string name="pay_refunding">退款中</string>
     <string name="pay_refunded">已退款</string>
     <string name="pay_cancel">已取消</string>
-    <string name="notify_restaurant">待商家接单</string>
-    <string name="restaurant_confirm">商家已接单</string>
-    <string name="delivering">派送中</string>
     <string name="refund_fail">退款失败</string>
     <string name="arrival_time">预计%s到达</string>
 
