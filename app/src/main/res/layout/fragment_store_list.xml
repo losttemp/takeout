@@ -6,7 +6,7 @@
 	android:layout_height="match_parent">
 
 	<!--filter-->
-	<android.support.v7.widget.LinearLayoutCompat
+	<RelativeLayout
 		android:id="@+id/ll_filter"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/px48dp"
@@ -18,10 +18,11 @@
 
 		<RelativeLayout
 			android:id="@+id/rl_sort"
-			android:layout_width="0dp"
+			android:layout_width="wrap_content"
 			android:layout_height="@dimen/px48dp"
-			android:layout_gravity="center_vertical"
-			android:layout_weight="1.5">
+			android:layout_alignParentLeft="true"
+			android:layout_marginRight="@dimen/px158dp"
+			android:layout_centerInParent="true">
 
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/tv_sort"
@@ -44,33 +45,18 @@
 
 		</RelativeLayout>
 
-		<android.support.v7.widget.AppCompatTextView
-			android:id="@+id/tv_sales"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:gravity="center"
-			android:text="@string/store_sales"
-			android:textColor="@color/white_60"
-			android:textSize="@dimen/px30sp" />
-
-		<android.support.v7.widget.AppCompatTextView
-			android:id="@+id/tv_distance"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:gravity="center"
-			android:text="@string/store_distance"
-			android:textColor="@color/white_60"
-			android:textSize="@dimen/px30sp" />
-
+		<com.baidu.iov.dueros.waimai.view.SortTypeTagListView
+			android:id="@+id/tag_lv"
+			android:layout_toRightOf="@+id/rl_sort"
+			android:layout_width="wrap_content"
+			android:layout_height="@dimen/px48dp" />
+		
 		<RelativeLayout
 			android:id="@+id/rl_filter"
-			android:layout_width="0dp"
+			android:layout_width="wrap_content"
 			android:layout_height="@dimen/px48dp"
 			android:layout_gravity="center_vertical"
-			android:layout_weight="1"
-			android:gravity="right">
+			android:layout_alignParentRight="true">
 
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/tv_filter"
@@ -92,7 +78,7 @@
 
 		</RelativeLayout>
 
-	</android.support.v7.widget.LinearLayoutCompat>
+	</RelativeLayout>
 
 	<View
 		android:id="@+id/view"

@@ -1,5 +1,4 @@
 package com.baidu.iov.dueros.waimai.ui;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,9 +18,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.SearchHistroyAdapter;
 import com.baidu.iov.dueros.waimai.adapter.SearchSuggestAdapter;
@@ -29,12 +26,9 @@ import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.presenter.SearchPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresenter.SearchUi>
 		implements
 		SearchPresenter.SearchUi, View.OnClickListener {
