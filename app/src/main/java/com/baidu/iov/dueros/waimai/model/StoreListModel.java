@@ -29,12 +29,9 @@ public class StoreListModel implements IStoreListModel {
 		if (callback == null) {
 			return;
 		}
-
 		storeReq.setLatitude(Constant.LATITUDE);
 		storeReq.setLongitude(Constant.LONGITUDE);
-
-		Lg.getInstance().e(TAG,"Constant.LATITUDE:"+Constant.LATITUDE+"  Constant.LONGITUDE"+Constant.LONGITUDE);
-
+		
 		ApiUtils.getStoreList(storeReq, new ApiCallBack<StoreResponse>() {
 			@Override
 			public void onSuccess(StoreResponse data) {

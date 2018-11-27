@@ -232,7 +232,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	@Override
 	public void update(StoreResponse data) {
-		Lg.getInstance().e(TAG,"data:"+mStoreData);
 		mStoreData = data.getMeituan().getData();
 		if (mStoreData.getCurrent_page_index() <= 1) {
 			mStoreList.clear();
@@ -280,7 +279,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	@Override
 	public void failure(String msg) {
-		Lg.getInstance().e(TAG,"msg:"+msg);
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
 			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string

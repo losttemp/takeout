@@ -149,16 +149,21 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				SearchSuggestResponse.MeituanBean.DataBean.SuggestBean suggest = mSuggests.get(position-HEAD_NUM);
-				if (suggest.getType() == 0 && suggest.getPoi_addition_info() != null) {
-					SharedPreferencesUtils.saveSearchHistory(suggest.getSuggest_query(), mHistorys);
-					mSearchHistroyAdapter.notifyDataSetChanged();
-					mEtSearch.setText(suggest.getSuggest_query());
-					changeStatus(Constant.SEARCH_STATUS_HISTORY);
-					Intent intent = new Intent(SearchActivity.this, FoodListActivity.class);
-					intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id());
-					startActivity(intent);
+				String name = suggest.getSuggest_query();
+				if (suggest.getType() == 0&&suggest.getPoi_addition_info() != null ) {
+					 if (suggest.getPoi_addition_info().getStatus()==Constant.STROE_STATUS_BREAK){
+						 searchKeyword(name);
+					 }else{
+						 SharedPreferencesUtils.saveSearchHistory(suggest.getSuggest_query(), mHistorys);
+						 mSearchHistroyAdapter.notifyDataSetChanged();
+						 mEtSearch.setText(name);
+						 changeStatus(Constant.SEARCH_STATUS_HISTORY);
+						 Intent intent = new Intent(SearchActivity.this, FoodListActivity.class);
+						 intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id());
+						 startActivity(intent);
+					 }
+					 
 				} else {
-					String name = suggest.getSuggest_query();
 					searchKeyword(name);
 				}
 			}
