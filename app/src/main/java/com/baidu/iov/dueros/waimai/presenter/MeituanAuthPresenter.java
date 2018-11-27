@@ -16,7 +16,6 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
 /**
  * Created by ubuntu on 18-10-27.
  */
@@ -29,28 +28,14 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
 
     @Override
     public void onCommandCallback(String cmd, String extra) {
-        if (CMD_NO.equals(cmd) && null != getUi()) {
-            getUi().close();
-        }
     }
 
     @Override
     public void registerCmd(Context context) {
-        Lg.getInstance().d(TAG, "registerCmd");
-        if (null != mVoiceManager) {
-            ArrayList<String> cmdList = new ArrayList<String>();
-            cmdList.add(CMD_NO);
-            //mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
-            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
-        }
     }
 
     @Override
     public void unregisterCmd(Context context) {
-        Lg.getInstance().d(TAG, "registerCmd");
-        if (null != mVoiceManager) {
-            mVoiceManager.unregisterCmd(context, mVoiceCallback);
-        }
     }
 
     public MeituanAuthPresenter() {
@@ -87,7 +72,7 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
         });
     }
 
-    public void requestAuthInfo(){
+    public void requestAuthInfo() {
         mModel.requestAuthInfo(new AccountCallback() {
             @Override
             public void onSuccess(String msg) {
@@ -151,8 +136,6 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
         void update(MeituanAuthorizeResponse data);
 
         void failure(String msg);
-
-        void close();
 
         void accountSuccess(String msg);
 

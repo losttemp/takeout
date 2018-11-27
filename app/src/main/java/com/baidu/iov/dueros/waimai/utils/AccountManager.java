@@ -3,12 +3,9 @@ package com.baidu.iov.dueros.waimai.utils;
 import com.baidu.iov.dueros.waimai.ui.WaiMaiApplication;
 import com.baidu.iov.faceos.client.FaceOSClient;
 import com.baidu.iov.faceos.client.FaceOSClientStateListener;
-import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.iov.faceos.client.account.AbsAccountReceiver;
 import com.baidu.iov.faceos.client.account.ExAccountData;
 import com.baidu.iov.faceos.client.account.ExAuthData;
-import com.baidu.iov.faceos.client.payment.AbsPaymentReceiver;
-import com.baidu.iov.faceos.client.payment.ExPaymentBean;
 
 /**
  * Created by ubuntu on 18-10-24.
@@ -23,10 +20,12 @@ public class AccountManager {
     public static AccountManager getInstance() {
         return AccountManager.SingletonHandler.accountManager;
     }
+
     private static class SingletonHandler {
         private static final AccountManager accountManager = new AccountManager();
     }
-    private AccountManager(){
+
+    private AccountManager() {
         init();
     }
 
@@ -37,7 +36,6 @@ public class AccountManager {
         mClient.bindAccountService();
         mClient.setStateListener(mClientListener);
         mClient.registerAccountReceiver(mAbsAccountReceiver);
-        mClient.registerPaymentReceiver(mAbsPaymentReceiver);
     }
 
 
@@ -53,17 +51,9 @@ public class AccountManager {
         mClient.getAccountSender().sendRequestUnifyAuthBotService();
     }
 
-    public void getOrderInfo(String orderId, AccountCallBack callBack){
-        Lg.getInstance().d(TAG, "getOrderInfo");
-        this.callback = callBack;
-        ExPaymentBean exPaymentBean = new ExPaymentBean();
-        exPaymentBean.setOrderId(orderId);
-        mClient.getPaymentSender().sendToGetPaymentInfo(GsonUtil.toJson(exPaymentBean));
-    }
-
-
     public interface AccountCallBack {
         void onAccountSuccess(String msg);
+
         void onAccountFailed(String msg);
     }
 
@@ -87,7 +77,7 @@ public class AccountManager {
         @Override
         public void receiveGetAuthData(ExAuthData exAuthData) {
             Lg.getInstance().d(TAG, "receiveGetAuthData : " + exAuthData);
-            if (exAuthData != null && exAuthData.isAuthed("food_delivery")) {
+            if (exAuthData != null && exAuthData.isAuthedOutOrder()) {
                 CacheUtils.saveAuth(true);
                 callback.onAccountSuccess(Constant.ACCOUNT_AUTH_SUCCESS);
             } else {
@@ -117,7 +107,7 @@ public class AccountManager {
         @Override
         public void receiveResponseAuthService(ExAuthData exAuthData) {
             Lg.getInstance().d(TAG, "receiveResponseAuthService : " + exAuthData);
-            if (exAuthData != null && exAuthData.isAuthed("food_delivery")) {
+            if (exAuthData != null && exAuthData.isAuthedOutOrder()) {
                 CacheUtils.saveAuth(true);
                 callback.onAccountSuccess(Constant.ACCOUNT_AUTH_SUCCESS);
             } else {
@@ -132,29 +122,6 @@ public class AccountManager {
             Lg.getInstance().d(TAG, "receiveResponseAccountLogout : " + exAccountData);
             CacheUtils.saveBduss("");
             callback.onAccountFailed(Constant.ACCOUNT_LOGIN_FAIL);
-        }
-    };
-
-    private AbsPaymentReceiver mAbsPaymentReceiver = new AbsPaymentReceiver() {
-        @Override
-        protected void dealPaymentData(ExPaymentBean exPaymentBean) {
-            if(true){//if (exPaymentBean.isPaid()) {
-                Lg.getInstance().d(TAG, "account paid success");
-                callback.onAccountSuccess(Constant.ACCOUNT_PAID_SUCCESS);
-            } else {
-                Lg.getInstance().d(TAG, "account paid fail");
-                callback.onAccountSuccess(Constant.ACCOUNT_PAID_FAIL);
-            }
-        }
-
-        @Override
-        protected void dealOrderDetailData(ExPaymentBean exPaymentBean) {
-
-        }
-
-        @Override
-        protected void dealOrderListData(ExPaymentBean exPaymentBean) {
-
         }
     };
 
