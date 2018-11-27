@@ -120,10 +120,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         break;
                     case R.id.pay_order:
                         Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
-                        double total_price = 0;
-                        for (int i = 0; i < extraBean.getOrderInfos().getFood_list().size(); i++) {
-                            total_price = total_price + extraBean.getOrderInfos().getFood_list().get(i).getPrice() * extraBean.getOrderInfos().getFood_list().get(i).getCount();
-                        }
+                        double total_price = ((double)extraBean.getOrderInfos().getGoods_total_price())/100;
                         payintent.putExtra("total_cost", total_price);
                         payintent.putExtra("order_id", Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         payintent.putExtra("shop_name", mOrderList.get(position).getOrder_name());
