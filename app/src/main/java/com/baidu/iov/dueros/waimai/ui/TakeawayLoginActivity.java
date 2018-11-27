@@ -185,11 +185,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     }
 
     @Override
-    public void close() {
-        finish();
-    }
-
-    @Override
     public void accountSuccess(String msg) {
         if (Constant.ACCOUNT_LOGIN_SUCCESS.equals(msg)) {
             Lg.getInstance().d(TAG, "account login success");

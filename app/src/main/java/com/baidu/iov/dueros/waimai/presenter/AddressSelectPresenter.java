@@ -88,10 +88,18 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                             String user_phone = Encryption.desEncrypt(dataBean.getUser_phone());
                             String user_name = Encryption.desEncrypt(dataBean.getUser_name());
                             if (!MyApplicationAddressBean.USER_PHONES.contains(user_phone)) {
-                                MyApplicationAddressBean.USER_PHONES.add(0, user_phone);
+                                if (mDataBeans.get(i).getMt_address_id() != 0) {
+                                    MyApplicationAddressBean.USER_PHONES.add(0, user_phone);
+                                } else {
+                                    MyApplicationAddressBean.USER_PHONES.add(i, user_phone);
+                                }
                             }
                             if (!MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
-                                MyApplicationAddressBean.USER_NAMES.add(0, user_name);
+                                if (mDataBeans.get(i).getMt_address_id() != 0) {
+                                    MyApplicationAddressBean.USER_NAMES.add(0, user_name);
+                                } else {
+                                    MyApplicationAddressBean.USER_NAMES.add(i, user_name);
+                                }
                             }
                         }
 //TODO set desBeanDada: username userphone
