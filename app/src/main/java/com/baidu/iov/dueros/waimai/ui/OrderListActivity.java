@@ -47,7 +47,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private List<OrderListResponse.IovBean.DataBean> mOrderList = new
             ArrayList<>();
     private OrderListReq mOrderListReq;
-    private OrderCancelResponse.ErrorInfoBean mOrderCancel = new OrderCancelResponse.ErrorInfoBean();
     private OrderCancelReq mOrderCancelReq;
     private int pos;
     private final String IOV_STATUS_CANCELED = "8";
@@ -194,9 +193,14 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
-        Toast.makeText(this, R.string.order_cancelled, Toast.LENGTH_LONG).show();
-        mOrderList.get(pos).setOut_trade_status(IOV_STATUS_CANCELED);
-        mOrderListAdaper.notifyItemChanged(pos);
+        if (data.getMeituan().getCode() == 0) {
+            Toast.makeText(this, R.string.order_cancelled, Toast.LENGTH_LONG).show();
+            mOrderList.get(pos).setOut_trade_status(IOV_STATUS_CANCELED);
+            mOrderListAdaper.notifyItemChanged(pos);
+        } else {
+            String msg = data.getMeituan().getErrorInfo().getName();
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

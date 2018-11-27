@@ -141,6 +141,8 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
                 case IOV_STATUS_PAYMENT_FAILED:
                 case IOV_STATUS_CANCELED:
                     pay_status = mContext.getResources().getString(R.string.pay_cancel);
+                    tvOneMore.setVisibility(View.VISIBLE);
+                    tvPayOrder.setVisibility(View.GONE);
                     tvCancelOrder.setVisibility(View.GONE);
                     break;
                 case IOV_STATUS_REFUNDING:

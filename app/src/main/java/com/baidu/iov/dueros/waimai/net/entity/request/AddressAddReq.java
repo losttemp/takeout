@@ -8,7 +8,7 @@ import com.baidu.iov.dueros.waimai.net.entity.base.LatLongRequestBase;
 
 public class AddressAddReq extends LatLongRequestBase {
     private String type;
-    private long mt_address_id;
+    private Long mt_address_id;
     private String user_name;
     private int sex;
     private String user_phone;
@@ -23,11 +23,11 @@ public class AddressAddReq extends LatLongRequestBase {
         this.type = type;
     }
 
-    public long getMt_address_id() {
+    public Long getMt_address_id() {
         return mt_address_id;
     }
 
-    public void setMt_address_id(long mt_address_id) {
+    public void setMt_address_id(Long mt_address_id) {
         this.mt_address_id = mt_address_id;
     }
 

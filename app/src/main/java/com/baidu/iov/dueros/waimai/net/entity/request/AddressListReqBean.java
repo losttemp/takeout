@@ -4,13 +4,13 @@ import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 
 public class AddressListReqBean extends RequestBase {
 
-    private long wmPoiId;
+    private Long wmPoiId;
 
-    public long getWmPoiId() {
+    public Long getWmPoiId() {
         return wmPoiId;
     }
 
-    public void setWmPoiId(long wmPoiId) {
+    public void setWmPoiId(Long wmPoiId) {
         this.wmPoiId = wmPoiId;
     }
 }
