@@ -69,6 +69,7 @@ public class DeliveryDateAdapter extends BaseAdapter {
             viewHolder.tv_date.setTextColor(mContext.getResources().getColor(R.color.white));
         }
         String date = mData.get(position).getDate();
+        viewHolder.tv_date.setMinWidth(214);
         viewHolder.tv_date.setText(date);
 
         return convertView;
