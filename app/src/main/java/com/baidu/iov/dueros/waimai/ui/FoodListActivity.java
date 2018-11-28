@@ -158,6 +158,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private boolean mOneMoreOrder;
     private MultiplTextView mMtDistributionFee;
     private RelativeLayout mRlNoProduct;
+    private List<Boolean> mIsDiscountList;
+    private boolean alreadyToast;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -327,6 +329,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag, int selection, boolean increase) {
         String spusBeanTag = spusBean.getTag();
+        boolean firstAdd = false;
         boolean inList = false;
         Lg.getInstance().d(TAG, "updateProduct tag = " + tag + "; spusBeanTag = " + spusBeanTag);
         if (tag.equals(spusBeanTag)) {
@@ -349,11 +352,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                             int skusId = shopProduct.getChoiceSkus().get(0).getId();
                                             if (skusId == spusBean.getChoiceSkus().get(0).getId()) {
                                                 shopProduct.setNumber(spusBean.getNumber());
+                                                firstAdd = false;
                                                 inList = true;
                                                 break;
                                             }
                                         } else {
                                             shopProduct.setNumber(spusBean.getNumber());
+                                            firstAdd = false;
                                             inList = true;
                                             break;
                                         }
@@ -371,6 +376,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                         if (id == spusBean.getChoiceSkus().get(i).getId()) {
                                             int num = spusBean.getNumber();
                                             shopProduct.setNumber(num);
+                                            firstAdd = false;
                                             inList = true;
                                             break;
                                         }
@@ -378,6 +384,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 } else {
                                     int num = spusBean.getNumber();
                                     shopProduct.setNumber(num);
+                                    firstAdd = false;
                                     inList = true;
                                     break;
                                 }
@@ -396,22 +403,30 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 spusBeanNew.setSection(selection);
                 productList.add(spusBeanNew);
                 inList = false;
+                firstAdd = true;
             }
         }
         shoppingCartAdapter.notifyDataSetChanged();
         if (mBottomDialog != null && mBottomDialog.isShowing()) {
             setDialogHeight(mBottomDialog);
         }
-        refreshSpusTagNum(selection, increase);
+        refreshSpusTagNum(selection, increase, spusBean, firstAdd);
         setPrise(increase);
     }
 
-    private void refreshSpusTagNum(int selection, boolean increase) {
+    private void refreshSpusTagNum(int selection, boolean increase,
+                                   PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
+                                   boolean firstAdd) {
         for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
             if (selection == poifoodSpusTagsBeans.get(i).getIndex()) {
                 Integer number = poifoodSpusTagsBeans.get(i).getNumber();
+                int minOrderCount = getMinOrderCount(spusBean);
                 if (increase) {
-                    number++;
+                    if (firstAdd) {
+                        number += minOrderCount;
+                    } else {
+                        number++;
+                    }
                 } else {
                     number--;
                 }
@@ -419,6 +434,18 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
         mFoodSpuTagsListAdapter.notifyDataSetChanged();
+    }
+
+    private int getMinOrderCount(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
+        int min_order_count = 1;
+        if (spusBean.getSkus() != null) {
+            if (spusBean.getSkus().size() > 1 && spusBean.getChoiceSkus() != null) {
+                min_order_count = spusBean.getChoiceSkus().get(0).getMin_order_count();
+            } else {
+                min_order_count = spusBean.getSkus().get(0).getMin_order_count();
+            }
+        }
+        return min_order_count;
     }
 
     @Override
@@ -436,7 +463,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
         mPoifoodSpusListAdapter.notifyDataSetChanged();
-        refreshSpusTagNum(section, increase);
+        refreshSpusTagNum(section, increase, spusBean, false);
         setPrise(increase);
     }
 
@@ -464,6 +491,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         double sum = 0;
         int shopNum = 0;
         boolean isDiscount = false;
+        mIsDiscountList = new ArrayList<>();
         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean pro : productList) {
             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = pro.getSkus();
             double price = 0;
@@ -474,9 +502,18 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     price = pro.getSkus().get(0).getPrice();
                     if (pro.getSkus().get(0).getPrice() < pro.getSkus().get(0).getOrigin_price()) {
                         isDiscount = true;
+                        for (int i = 0; i < pro.getNumber(); i++) {
+                            mIsDiscountList.add(isDiscount);
+                        }
                     }
                 } else if (skus.size() > 1) {
                     price = pro.getChoiceSkus().get(0).getPrice();
+                    if (pro.getChoiceSkus().get(0).getPrice() < pro.getChoiceSkus().get(0).getOrigin_price()) {
+                        isDiscount = true;
+                        for (int i = 0; i < pro.getNumber(); i++) {
+                            mIsDiscountList.add(isDiscount);
+                        }
+                    }
                 }
             } else {
                 price = pro.getMin_price();
@@ -526,8 +563,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             if (mCartShoppingPrise != null) {
                 mCartShoppingPrise.setText("¥" + " " + sum);
             }
-            if (increase) {
+            if (increase && mIsDiscountList.size() == 1 && !alreadyToast) {
                 Toast.makeText(this, getString(R.string.discount_prompt), Toast.LENGTH_SHORT).show();
+                alreadyToast = true;
             }
         } else {
             if (mRlDiscount.getVisibility() == View.GONE) {
@@ -694,11 +732,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
             case R.id.settlement:
                 if (productList == null || productList.size() == 0) {
-//                    Toast.makeText(this, getString(R.string.please_add_to_the_shopping_cart_first), Toast.LENGTH_SHORT).show();
                     settlement.setEnabled(false);
                     return;
                 }
-                //TODO 调用预览接口,成功了再跳
                 getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
                 break;
 
@@ -912,7 +948,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     @Override
     public void onOrderPreviewFailure(String msg) {
-
+        Lg.getInstance().d(TAG, "msg = " + msg);
     }
 
     @Override

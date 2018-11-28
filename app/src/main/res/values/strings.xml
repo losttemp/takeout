@@ -42,7 +42,7 @@
     <string name="tips_earliest_delivery_time">现在预订，最早10:30开始配送</string>
     <string name="free_distribution">免费配送 |</string>
     <string name="this_keyword_is_complicated">这个关键词有点复杂</string>
-    
+
     <!--FilterPopWindow-->
     <string name="ok">确定</string>
     <string name="reset">重置</string>
@@ -202,6 +202,8 @@
     <string name="pay_cancel">已取消</string>
     <string name="refund_fail">退款失败</string>
     <string name="arrival_time">预计%s到达</string>
+    <string name="must_buy">至少购</string>
+    <string name="share_buy">份</string>
 
     <string name="address_suggestion_erro">抱歉，未能找到您搜索的地址，换个地址试试</string>
     <string name="edit_address">编辑地址</string>
