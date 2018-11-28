@@ -22,6 +22,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.AddressAddReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressDeleteReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressAddBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressDeleteBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressEditPresenter;
@@ -170,8 +171,13 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void updateAddressSuccess(AddressEditBean data) {
-        Toast.makeText(this, R.string.address_update_success, Toast.LENGTH_SHORT).show();
-        finish();
+        if (data.getData().getMeituan().getCode() == 0) {
+            Toast.makeText(this, R.string.address_update_success, Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            String msg = data.getData().getMeituan().getMsg();
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -207,9 +213,14 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     }
 
     @Override
-    public void deleteAddressSuccess(AddressEditBean data) {
-        Toast.makeText(this, R.string.address_delete_success, Toast.LENGTH_SHORT).show();
-        finish();
+    public void deleteAddressSuccess(AddressDeleteBean data) {
+        if (data.getData().getIov().getErrno() == 0) {
+            Toast.makeText(this, R.string.address_delete_success, Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            String msg = data.getData().getIov().getErrmsg();
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

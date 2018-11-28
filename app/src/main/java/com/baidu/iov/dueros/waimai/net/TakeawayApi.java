@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.net;
 
 import com.baidu.iov.dueros.waimai.net.entity.base.ResponseBase;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressAddBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressDeleteBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
@@ -123,7 +124,7 @@ public interface TakeawayApi {
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/addressdelete")
-    Call<ResponseBase<AddressEditBean>> deleteAddress(@FieldMap Map<String, String> map);
+    Call<ResponseBase<AddressDeleteBean>> deleteAddress(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/authorize")
