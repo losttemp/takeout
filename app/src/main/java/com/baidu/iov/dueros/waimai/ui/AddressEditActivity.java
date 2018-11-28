@@ -50,7 +50,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private RadioButton ladyButton;
     private ClearEditText et_house_num;
     private boolean isEditMode;
-    private int address_id;
+    private long address_id;
     private AddressDeleteReq mAddressDelReq;
     private AddressEditReq mAddrEditReq;
     private AddressAddReq mAddrAddReq;
