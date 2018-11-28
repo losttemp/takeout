@@ -9,6 +9,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.AddressAddReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressDeleteReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressAddBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressDeleteBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
@@ -62,9 +63,9 @@ public class AddressEditModel implements IAddressEditModel {
             return;
         }
 
-        ApiUtils.deleteAddress(addressDeleteReq, new ApiCallBack<AddressEditBean>() {
+        ApiUtils.deleteAddress(addressDeleteReq, new ApiCallBack<AddressDeleteBean>() {
             @Override
-            public void onSuccess(AddressEditBean data) {
+            public void onSuccess(AddressDeleteBean data) {
                 callback.onSuccess(data);
             }
 
