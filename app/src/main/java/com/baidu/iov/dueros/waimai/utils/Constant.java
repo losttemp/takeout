@@ -64,4 +64,29 @@ public class Constant {
 
     public static String ONE_MORE_ORDER = "one_more_order";
     public static String ORDER_LSIT_EXTRA_STRING = "order_list_extra_string";
+
+    public final static String TOTAL_COST = "total_cost";
+    public final static String SHOP_NAME = "shop_name";
+    public final static String PAY_URL = "pay_url";
+    public final static String PIC_URL = "pic_url";
+    public final static String EXPECTED_TIME = "expected_time";
+
+    public final static String USER_NAME = "user_name";
+    public final static String USER_ADDRESS = "user_address";
+    public final static String STORE_NAME = "store_name";
+    public final static String PRODUCT_COUNT = "product_count";
+    public final static String PRODUCT_NAME = "product_name";
+    public final static String TO_SHOW_SHOP_CART = "show_shop_card";
+    public final static int PAY_STATUS_SUCCESS = 3;
+
+    public final static int SELECT_DELIVERY_ADDRESS = 100;
+    public final static int ORDER_PREVIEW_SUCCESS = 0;
+    public final static int SUBMIT_ORDER_SUCCESS = 0;
+    public final static int STORE_CANT_NOT_BUY = 2;
+    public final static int FOOD_CANT_NOT_BUY = 3;
+    public final static int FOOD_COST_NOT_BUY = 5;
+    public final static int FOOD_COUNT_NOT_BUY = 15;
+    public final static int FOOD_LACK_NOT_BUY = 20;
+    public final static int BEYOND_DELIVERY_RANGE = 9;
+    public final static int SERVICE_ERROR = 26;
 }

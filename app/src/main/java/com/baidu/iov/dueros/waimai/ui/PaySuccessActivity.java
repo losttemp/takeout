@@ -11,17 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.bumptech.glide.Glide;
-
-import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.PRODUCT_COUNT;
-import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.PRODUCT_NAME;
-import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.STORE_NAME;
-import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.USER_ADDRESS;
-import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.USER_NAME;
-import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.USER_PHONE;
-import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.EXPECTED_TIME;
-import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.ORDER_ID;
-import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.PIC_URL;
 
 public class PaySuccessActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -75,15 +66,15 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
 
         Intent intent = getIntent();
         if (intent != null) {
-            mOrderId = intent.getLongExtra(ORDER_ID, 0);
-            String picUrl = intent.getStringExtra(PIC_URL);
-            String storeName = intent.getStringExtra(STORE_NAME);
-            String recipientPhone = intent.getStringExtra(USER_PHONE);
-            String recipientAddress = intent.getStringExtra(USER_ADDRESS);
-            String recipient_name = intent.getStringExtra(USER_NAME);
-            String foodNameOne = intent.getStringExtra(PRODUCT_NAME);
-            mExpectedTime = intent.getLongExtra(EXPECTED_TIME, 0);
-            int count = intent.getIntExtra(PRODUCT_COUNT, 0);
+            mOrderId = intent.getLongExtra(Constant.ORDER_ID, 0);
+            String picUrl = intent.getStringExtra(Constant.PIC_URL);
+            String storeName = intent.getStringExtra(Constant.STORE_NAME);
+            String recipientPhone = intent.getStringExtra(Constant.USER_PHONE);
+            String recipientAddress = intent.getStringExtra(Constant.USER_ADDRESS);
+            String recipient_name = intent.getStringExtra(Constant.USER_NAME);
+            String foodNameOne = intent.getStringExtra(Constant.PRODUCT_NAME);
+            mExpectedTime = intent.getLongExtra(Constant.EXPECTED_TIME, 0);
+            int count = intent.getIntExtra(Constant.PRODUCT_COUNT, 0);
 
             mStorePhotoImg = findViewById(R.id.store_photo_img);
             mStoreNameTv = findViewById(R.id.store_name_tv);
@@ -130,8 +121,8 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
 
                 Intent intent = new Intent(this, OrderDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra(ORDER_ID, mOrderId);
-                intent.putExtra(EXPECTED_TIME, mExpectedTime);
+                intent.putExtra(Constant.ORDER_ID, mOrderId);
+                intent.putExtra(Constant.EXPECTED_TIME, mExpectedTime);
                 startActivity(intent);
                 break;
 

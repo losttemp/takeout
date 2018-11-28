@@ -15,7 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.ArrayMap;
-import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -50,6 +49,7 @@ import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.PoifoodListPresenter;
@@ -69,7 +69,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.baidu.iov.dueros.waimai.ui.PaymentActivity.TO_SHOW_SHOP_CART;
+
 import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
 
 public class FoodListActivity extends BaseActivity<PoifoodListPresenter, PoifoodListPresenter.PoifoodListUi> implements PoifoodListPresenter.PoifoodListUi, View.OnClickListener, PoifoodSpusListAdapter.onCallBackListener, IShoppingCartToDetailListener {
@@ -101,8 +101,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private ListView shoppingListView;
     private ShoppingCartAdapter shoppingCartAdapter;
     private ArrayMap<String, String> map;
-    private Handler myHandler = new Handler() {
-        public void handleMessage(Message msg) {
+
+    private Handler myHandler = new Handler(new Handler.Callback() {
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
                     try {
@@ -116,8 +117,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 default:
                     break;
             }
+            return true;
         }
-    };
+    });
+
     private PoifoodSpusTagsAdapter mFoodSpuTagsListAdapter;
     private RelativeLayout mStoreDetails;
     private MultiplTextView mClearshopCart;
@@ -207,7 +210,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         super.onNewIntent(intent);
         setIntent(intent);
         if (getIntent() != null) {
-            boolean IsShowShopCart = getIntent().getBooleanExtra(TO_SHOW_SHOP_CART, false);
+            boolean IsShowShopCart = getIntent().getBooleanExtra(Constant.TO_SHOW_SHOP_CART, false);
             if (IsShowShopCart) {
                 showShopCartDialog();
             }
@@ -695,11 +698,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     settlement.setEnabled(false);
                     return;
                 }
-                Intent intent = new Intent(this, SubmitOrderActivity.class);
-                intent.putExtra(POI_INFO, mPoiInfoBean);
-                intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
-                intent.putExtra(DISCOUNT, mDiscountNumber);
-                startActivity(intent);
+                //TODO 调用预览接口,成功了再跳
+                getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
                 break;
 
             case R.id.tv_clear:
@@ -874,6 +874,45 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
         isClean = false;
         super.onLowMemory();
+    }
+
+    @Override
+    public void onOrderPreviewSuccess(OrderPreviewBean data) {
+        switch (data.getMeituan().getCode()) {
+            case Constant.SUBMIT_ORDER_SUCCESS:
+                Intent intent = new Intent(this, SubmitOrderActivity.class);
+                intent.putExtra(POI_INFO, mPoiInfoBean);
+                intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
+                intent.putExtra(DISCOUNT, mDiscountNumber);
+                startActivity(intent);
+                break;
+            case Constant.STORE_CANT_NOT_BUY:
+                Toast.makeText(this, getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT).show();
+                break;
+
+            case Constant.FOOD_CANT_NOT_BUY:
+                Toast.makeText(this, getString(R.string.order_preview_msg3), Toast.LENGTH_SHORT).show();
+                break;
+            case Constant.FOOD_COST_NOT_BUY:
+                Toast.makeText(this, getString(R.string.order_preview_msg5), Toast.LENGTH_SHORT).show();
+                break;
+            case Constant.FOOD_COUNT_NOT_BUY:
+                Toast.makeText(this, getString(R.string.order_preview_msg15), Toast.LENGTH_SHORT).show();
+                break;
+
+            case Constant.FOOD_LACK_NOT_BUY:
+//                Toast.makeText(this, getString(R.string.order_preview_msg20), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, data.getMeituan().getMsg(), Toast.LENGTH_SHORT).show();
+                break;
+            case Constant.SERVICE_ERROR:
+                Toast.makeText(this, getString(R.string.service_error), Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    @Override
+    public void onOrderPreviewFailure(String msg) {
+
     }
 
     @Override

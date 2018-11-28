@@ -4,7 +4,9 @@ import android.util.ArrayMap;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.PoifoodListReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
@@ -71,6 +73,25 @@ public class PoifoodListModel implements IPoifoodListModel {
         ApiUtils.getPoidetailinfo(poidetailinfoReq, new ApiCallBack<PoidetailinfoBean>() {
             @Override
             public void onSuccess(PoidetailinfoBean data) {
+                callback.onSuccess(data);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                callback.onFailure(msg);
+            }
+        });
+    }
+
+    @Override
+    public void requestOrderPreview(OrderPreviewReqBean orderPreviewReqBean, final RequestCallback<OrderPreviewBean> callback) {
+        if (callback == null) {
+            return;
+        }
+
+        ApiUtils.getOrderPreview(orderPreviewReqBean, new ApiCallBack<OrderPreviewBean>() {
+            @Override
+            public void onSuccess(OrderPreviewBean data) {
                 callback.onSuccess(data);
             }
 

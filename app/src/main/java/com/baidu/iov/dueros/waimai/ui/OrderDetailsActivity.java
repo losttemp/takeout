@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -36,9 +35,6 @@ import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
-
-import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.EXPECTED_TIME;
-
 
 public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, OrderDetailsPresenter.OrderDetailsUi> implements OrderDetailsPresenter.OrderDetailsUi, View.OnClickListener {
     /**
@@ -201,7 +197,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     private void initData() {
         order_id = getIntent().getLongExtra(Constant.ORDER_ID, -1);
-        expectedTime = getIntent().getLongExtra(EXPECTED_TIME, 0);
+        expectedTime = getIntent().getLongExtra(Constant.EXPECTED_TIME, 0);
         mOrderDetailsReq = new OrderDetailsReq();
         mOrderDetailsReq.setId(order_id);
         loadData();

@@ -16,6 +16,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.SubmitOrderPresenter;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -28,13 +29,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.EXPECTED_TIME;
-import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.ORDER_ID;
-import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.PAY_URL;
-import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.PIC_URL;
-import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.SHOP_NAME;
-import static com.baidu.iov.dueros.waimai.ui.SubmitOrderActivity.TOTAL_COST;
 
 public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOrderPresenter.SubmitOrderUi>
         implements SubmitOrderPresenter.SubmitOrderUi, View.OnClickListener {
@@ -49,18 +43,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     private Long mOrderId;
     private String mPicUrl;
     private long mExpectedTime;
-
-    public final static String USER_NAME = "user_name";
-    public final static String USER_PHONE = "user_phone";
-    public final static String USER_ADDRESS = "user_address";
-    public final static String STORE_NAME = "store_name";
-    public final static String PRODUCT_COUNT = "product_count";
-    public final static String PRODUCT_NAME = "product_name";
-
     private int mPayStatus;
-
-    public final static String TO_SHOW_SHOP_CART = "show_shop_card";
-    private final static int PAY_STATUS_SUCCESS = 3;
 
 
     @Override
@@ -98,12 +81,12 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         Intent intent = getIntent();
         if (intent != null) {
 
-            double amount = intent.getDoubleExtra(TOTAL_COST, 0);
-            mOrderId = intent.getLongExtra(ORDER_ID, 0);
-            mPicUrl = intent.getStringExtra(PIC_URL);
-            mExpectedTime = intent.getLongExtra(EXPECTED_TIME, 0);
-            String shopName = intent.getStringExtra(SHOP_NAME);
-            String payUrl = intent.getStringExtra(PAY_URL);
+            double amount = intent.getDoubleExtra(Constant.TOTAL_COST, 0);
+            mOrderId = intent.getLongExtra(Constant.ORDER_ID, 0);
+            mPicUrl = intent.getStringExtra(Constant.PIC_URL);
+            mExpectedTime = intent.getLongExtra(Constant.EXPECTED_TIME, 0);
+            String shopName = intent.getStringExtra(Constant.SHOP_NAME);
+            String payUrl = intent.getStringExtra(Constant.PAY_URL);
 
             if (amount != 0) {
                 mAmountTv.setText(String.format(getResources().getString(R.string.cost_text), nf.format(amount)));
@@ -192,7 +175,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         public void onFinish() {
 
             mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
-            if (mPayStatus != PAY_STATUS_SUCCESS) {
+            if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
 
                 ConfirmDialog dialog = new ConfirmDialog.Builder(PaymentActivity.this)
                         .setTitle(R.string.pay_title)
@@ -203,7 +186,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
                                 Intent intent = new Intent();
                                 intent.setClass(PaymentActivity.this, FoodListActivity.class);
-                                intent.putExtra(TO_SHOW_SHOP_CART, true);
+                                intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
                                 startActivity(intent);
 
                                 dialog.dismiss();
@@ -269,7 +252,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             OrderDetailsResponse.MeituanBean.DataBean dataBean = data.getMeituan().getData();
             mPayStatus = dataBean.getPay_status();
 
-            if (mPayStatus == PAY_STATUS_SUCCESS) {
+            if (mPayStatus == Constant.PAY_STATUS_SUCCESS) {
                 timerCancel();
 
                 String storeName = dataBean.getPoi_name();
@@ -280,15 +263,15 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                 int count = dataBean.getFood_list().size();
 
                 Intent intent = new Intent();
-                intent.putExtra(PIC_URL, mPicUrl);
-                intent.putExtra(ORDER_ID, mOrderId);
-                intent.putExtra(STORE_NAME, storeName);
-                intent.putExtra(USER_NAME, recipient_name);
-                intent.putExtra(USER_ADDRESS, recipientAddress);
-                intent.putExtra(USER_PHONE, recipientPhone);
-                intent.putExtra(PRODUCT_NAME, foodNameOne);
-                intent.putExtra(PRODUCT_COUNT, count);
-                intent.putExtra(EXPECTED_TIME, mExpectedTime);
+                intent.putExtra(Constant.PIC_URL, mPicUrl);
+                intent.putExtra(Constant.ORDER_ID, mOrderId);
+                intent.putExtra(Constant.STORE_NAME, storeName);
+                intent.putExtra(Constant.USER_NAME, recipient_name);
+                intent.putExtra(Constant.USER_ADDRESS, recipientAddress);
+                intent.putExtra(Constant.USER_PHONE, recipientPhone);
+                intent.putExtra(Constant.PRODUCT_NAME, foodNameOne);
+                intent.putExtra(Constant.PRODUCT_COUNT, count);
+                intent.putExtra(Constant.EXPECTED_TIME, mExpectedTime);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setClass(this, PaySuccessActivity.class);
                 startActivity(intent);

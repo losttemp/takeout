@@ -54,23 +54,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     private static final String TAG = SubmitOrderActivity.class.getSimpleName();
 
-    public final static String TOTAL_COST = "total_cost";
-    public final static String ORDER_ID = "order_id";
-    public final static String SHOP_NAME = "shop_name";
-    public final static String PAY_URL = "pay_url";
-    public final static String PIC_URL = "pic_url";
-    public final static String EXPECTED_TIME = "expected_time";
-
-    private final static int SELECT_DELIVERY_ADDRESS = 100;
-    private final static int ORDER_PREVIEW_SUCCESS = 0;
-    private final static int SUBMIT_ORDER_SUCCESS = 0;
-    private final static int STORE_CANT_NOT_BUY = 2;
-    private final static int FOOD_CANT_NOT_BUY = 3;
-    private final static int FOOD_COST_NOT_BUY = 5;
-    private final static int FOOD_COUNT_NOT_BUY = 15;
-    private final static int FOOD_LACK_NOT_BUY = 20;
-    private final static int BEYOND_DELIVERY_RANGE = 9;
-    private final static int SERVICE_ERROR = 26;
     private RelativeLayout mArrivetimeLayout;
     private RelativeLayout mAddressUpdateLayout;
     private LinearLayout mDiscountsLayout;
@@ -257,7 +240,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 Intent intent = new Intent(this, AddressListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Constant.WM_POI_ID, mPoiInfo.getWm_poi_id());
-                startActivityForResult(intent, SELECT_DELIVERY_ADDRESS);
+                startActivityForResult(intent, Constant.SELECT_DELIVERY_ADDRESS);
                 break;
 
             case R.id.delivery_info:
@@ -272,7 +255,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     Toast.makeText(this, getString(R.string.please_select_address), Toast.LENGTH_SHORT).show();
                 }
 
-                if (mOrderPreviewData != null && mOrderPreviewData.getCode() == ORDER_PREVIEW_SUCCESS && mAddressData != null) {
+                if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
                     List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
                     wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
                     getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime);
@@ -405,7 +388,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         switch (requestCode) {
 
-            case SELECT_DELIVERY_ADDRESS:
+            case Constant.SELECT_DELIVERY_ADDRESS:
                 if (data != null) {
                     mAddressData = (AddressListBean.IovBean.DataBean) data.getSerializableExtra(ADDRESS_DATA);
 
@@ -460,7 +443,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
 
         int code = mOrderPreviewData.getCode();
-        if (code == ORDER_PREVIEW_SUCCESS) {
+        if (code == Constant.ORDER_PREVIEW_SUCCESS) {
             showAllProductItem(mOrderPreviewData.getWm_ordering_preview_detail_vo_list());
             showAllDiscountItem();
             double shippingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getShipping_fee();
@@ -519,24 +502,24 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private void handlePreviewMsg(int code) {
 
         switch (code) {
-            case STORE_CANT_NOT_BUY:
+            case Constant.STORE_CANT_NOT_BUY:
                 Toast.makeText(this, getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT).show();
                 break;
 
-            case FOOD_CANT_NOT_BUY:
+            case Constant.FOOD_CANT_NOT_BUY:
                 Toast.makeText(this, getString(R.string.order_preview_msg3), Toast.LENGTH_SHORT).show();
                 break;
-            case FOOD_COST_NOT_BUY:
+            case Constant.FOOD_COST_NOT_BUY:
                 Toast.makeText(this, getString(R.string.order_preview_msg5), Toast.LENGTH_SHORT).show();
                 break;
-            case FOOD_COUNT_NOT_BUY:
+            case Constant.FOOD_COUNT_NOT_BUY:
                 Toast.makeText(this, getString(R.string.order_preview_msg15), Toast.LENGTH_SHORT).show();
                 break;
 
-            case FOOD_LACK_NOT_BUY:
+            case Constant.FOOD_LACK_NOT_BUY:
                 Toast.makeText(this, getString(R.string.order_preview_msg20), Toast.LENGTH_SHORT).show();
                 break;
-            case SERVICE_ERROR:
+            case Constant.SERVICE_ERROR:
                 Toast.makeText(this, getString(R.string.service_error), Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -556,24 +539,24 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
 
         int submitCode = mOrderSubmitData.getCode();
-        if (submitCode == SUBMIT_ORDER_SUCCESS) {
+        if (submitCode == Constant.SUBMIT_ORDER_SUCCESS) {
             double total = mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal();
             long orderId = mOrderSubmitData.getOrder_id();
             String poiName = mOrderPreviewData.getWm_ordering_preview_order_vo().getPoi_name();
             String payUrl = mOrderSubmitData.getPayUrl();
             Intent intent = new Intent(this, PaymentActivity.class);
-            intent.putExtra(EXPECTED_TIME, mUnixtime);
-            intent.putExtra(TOTAL_COST, total);
-            intent.putExtra(ORDER_ID, orderId);
-            intent.putExtra(SHOP_NAME, poiName);
-            intent.putExtra(PAY_URL, payUrl);
-            intent.putExtra(PIC_URL, mPoiInfo.getPic_url());
+            intent.putExtra(Constant.EXPECTED_TIME, mUnixtime);
+            intent.putExtra(Constant.TOTAL_COST, total);
+            intent.putExtra(Constant.ORDER_ID, orderId);
+            intent.putExtra(Constant.SHOP_NAME, poiName);
+            intent.putExtra(Constant.PAY_URL, payUrl);
+            intent.putExtra(Constant.PIC_URL, mPoiInfo.getPic_url());
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        } else if (submitCode == SERVICE_ERROR) {
+        } else if (submitCode == Constant.SERVICE_ERROR) {
 
             Toast.makeText(this, getString(R.string.service_error), Toast.LENGTH_SHORT).show();
-        } else if (submitCode == BEYOND_DELIVERY_RANGE) {
+        } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
             Toast.makeText(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT).show();
         }
 
