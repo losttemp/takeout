@@ -79,13 +79,13 @@ public class AddressAddBean {
              * address_id : 18
              */
 
-            private int address_id;
+            private long address_id;
 
-            public int getAddress_id() {
+            public long getAddress_id() {
                 return address_id;
             }
 
-            public void setAddress_id(int address_id) {
+            public void setAddress_id(long address_id) {
                 this.address_id = address_id;
             }
         }

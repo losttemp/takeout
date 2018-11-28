@@ -43,13 +43,10 @@ public class OrderDetailsModel implements IOrderDetailsModel {
 
     @Override
     public void requestOrderCancel(OrderCancelReq orderCancelReq, final RequestCallback callback) {
-        Lg.getInstance().d("OkHttp","OrderCancelModel");
         ApiUtils.getOrderCancel(orderCancelReq, new ApiCallBack<OrderCancelResponse>() {
             @Override
             public void onSuccess(OrderCancelResponse data) {
-                Lg.getInstance().d("OkHttp","OrderCancelModel  Success");
                 if (callback!=null) {
-                    Lg.getInstance().d("OkHttp","OrderCancelModel  no null + info" + data.getErrorInfo());
                     callback.onSuccess(data);
                 }
             }

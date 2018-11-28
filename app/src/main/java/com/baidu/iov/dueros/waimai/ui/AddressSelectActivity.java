@@ -34,6 +34,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private final long SIX_HOUR = 6 * 60 * 60 * 1000;
     private AddressSelectPresenter.MReceiver mReceiver;
     private View addBtnView;
+    private boolean init = false;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -50,6 +51,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_select);
         getPresenter().initDesBeans();
+        init = false;
         initView();
     }
 
@@ -57,13 +59,16 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     protected void onResume() {
         super.onResume();
         sendBroadcast(new Intent("com.baidu.iov.dueros.waimai.requestNaviDes"));
+        if (init) {
+            addBtnView.setVisibility(View.GONE);
+        }
         initData();
     }
 
     private void initData() {
         mDataList = new ArrayList<>();
         getPresenter().requestData(new AddressListReqBean());
-        mAdapter = new AddressSelectAdapter(mDataList, this){
+        mAdapter = new AddressSelectAdapter(mDataList, this) {
             @Override
             public void addAddress() {
                 doSearchAddress(false);
@@ -111,10 +116,10 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 super.onScrolled(recyclerView, dx, dy);
                 RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();//获取LayoutManager
                 if (manager instanceof LinearLayoutManager) {
-                    int position =  ((LinearLayoutManager) manager).findLastCompletelyVisibleItemPosition();
-                    if (position==mDataList.size()){
+                    int position = ((LinearLayoutManager) manager).findLastCompletelyVisibleItemPosition();
+                    if (position == mDataList.size()) {
                         addBtnView.setVisibility(View.GONE);
-                    }else{
+                    } else {
                         addBtnView.setVisibility(View.VISIBLE);
                     }
                 }
@@ -147,6 +152,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             mNoAddress.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
         } else {
+            init = true;
             mNoAddress.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
             mDataList.clear();

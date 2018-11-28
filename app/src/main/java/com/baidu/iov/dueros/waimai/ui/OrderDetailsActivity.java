@@ -344,10 +344,15 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
-        Toast toast = new Toast(this);
-        toast.makeText(this, R.string.order_cancel_toast, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+        if (data.getMeituan().getCode() == 0) {
+            Toast toast = new Toast(this);
+            toast.makeText(this, R.string.order_cancel_toast, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else {
+            String msg = data.getMeituan().getErrorInfo().getName();
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

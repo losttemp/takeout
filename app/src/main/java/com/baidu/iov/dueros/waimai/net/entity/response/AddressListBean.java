@@ -45,8 +45,8 @@ public class AddressListBean {
             private int latitude;
             private int longitude;
             private boolean is_hint;
-            private int address_id;
-            private int mt_address_id;
+            private long address_id;
+            private long mt_address_id;
             private String house;
             private String user_phone;
             private String user_name;
@@ -54,11 +54,11 @@ public class AddressListBean {
             private String addressRangeTip;
             private int sex;
 
-            public int getAddress_id() {
+            public long getAddress_id() {
                 return address_id;
             }
 
-            public void setAddress_id(int address_id) {
+            public void setAddress_id(long address_id) {
                 this.address_id = address_id;
             }
 
@@ -120,11 +120,11 @@ public class AddressListBean {
                 this.is_hint = is_hint;
             }
 
-            public int getMt_address_id() {
+            public long getMt_address_id() {
                 return mt_address_id;
             }
 
-            public void setMt_address_id(int mt_address_id) {
+            public void setMt_address_id(long mt_address_id) {
                 this.mt_address_id = mt_address_id;
             }
 

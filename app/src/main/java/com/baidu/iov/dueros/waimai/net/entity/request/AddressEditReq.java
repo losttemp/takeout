@@ -3,8 +3,8 @@ package com.baidu.iov.dueros.waimai.net.entity.request;
 import com.baidu.iov.dueros.waimai.net.entity.base.LatLongRequestBase;
 
 public class AddressEditReq extends LatLongRequestBase {
-    private long address_id;
-    private long mt_address_id;
+    private Long address_id;
+    private Long mt_address_id;
     private String type;
     private String user_name;
     private int sex;
@@ -12,19 +12,19 @@ public class AddressEditReq extends LatLongRequestBase {
     private String address;
     private String house;
 
-    public long getAddress_id() {
+    public Long getAddress_id() {
         return address_id;
     }
 
-    public void setAddress_id(long address_id) {
+    public void setAddress_id(Long address_id) {
         this.address_id = address_id;
     }
 
-    public long getMt_address_id() {
+    public Long getMt_address_id() {
         return mt_address_id;
     }
 
-    public void setMt_address_id(long mt_address_id) {
+    public void setMt_address_id(Long mt_address_id) {
         this.mt_address_id = mt_address_id;
     }
 
