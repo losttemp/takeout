@@ -61,6 +61,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setNoRequestForPermissions(true);
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
         init();

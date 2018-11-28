@@ -106,6 +106,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     }
 
     private void requestPermission() {
+        if (isNoRequest)return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -182,5 +183,11 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
             Toast.makeText(this, getResources().getString(R.string.location_error_toast), Toast.LENGTH_LONG).show();
             LocationManager.getInstance(this).requestLocation();
         }
+    }
+
+    private boolean isNoRequest = false;
+
+    public void setNoRequestForPermissions(boolean isNoRequest){
+        this.isNoRequest=isNoRequest;
     }
 }
