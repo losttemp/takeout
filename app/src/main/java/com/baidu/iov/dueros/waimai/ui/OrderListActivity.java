@@ -106,6 +106,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
         mOrderListReq = new OrderListReq();
         mOrderListReq.setPage_num(EVERY_TIME_PULL_COUNT);
+        mOrderListReq.setPage(START_PAGE);
         getPresenter().requestOrderList(mOrderListReq);
         mRefreshLayout.setEnableLoadmore(false);
         mRefreshLayout.setEnableRefresh(false);
@@ -228,7 +229,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         }
 
         List<OrderListResponse.IovBean.DataBean> beanList = data.getIov().getData();
-        if (beanList.size() != 0) {
+        if (null != beanList && beanList.size() != 0) {
             mOrderList.addAll(beanList);
             mOrderListAdaper.notifyDataSetChanged();
         } else {
