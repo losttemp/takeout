@@ -4,7 +4,17 @@ import java.util.List;
 
 public class OrderDetailsResponse {
 
+    private double spend_time;
     private MeituanBean meituan;
+    private IovBean iov;
+
+    public double getSpend_time() {
+        return spend_time;
+    }
+
+    public void setSpend_time(double spend_time) {
+        this.spend_time = spend_time;
+    }
 
     public MeituanBean getMeituan() {
         return meituan;
@@ -14,12 +24,24 @@ public class OrderDetailsResponse {
         this.meituan = meituan;
     }
 
+    public IovBean getIov() {
+        return iov;
+    }
+
+    public void setIov(IovBean iov) {
+        this.iov = iov;
+    }
+
     public static class MeituanBean {
 
         private int code;
         private String msg;
         private Object errorInfo;
         private DataBean data;
+        private String user_phone;
+        private String recipient_phone;
+        private String recipient_address;
+        private String recipient_name;
 
         public int getCode() {
             return code;
@@ -51,6 +73,38 @@ public class OrderDetailsResponse {
 
         public void setData(DataBean data) {
             this.data = data;
+        }
+
+        public String getUser_phone() {
+            return user_phone;
+        }
+
+        public void setUser_phone(String user_phone) {
+            this.user_phone = user_phone;
+        }
+
+        public String getRecipient_phone() {
+            return recipient_phone;
+        }
+
+        public void setRecipient_phone(String recipient_phone) {
+            this.recipient_phone = recipient_phone;
+        }
+
+        public String getRecipient_address() {
+            return recipient_address;
+        }
+
+        public void setRecipient_address(String recipient_address) {
+            this.recipient_address = recipient_address;
+        }
+
+        public String getRecipient_name() {
+            return recipient_name;
+        }
+
+        public void setRecipient_name(String recipient_name) {
+            this.recipient_name = recipient_name;
         }
 
         public static class DataBean {
@@ -94,6 +148,9 @@ public class OrderDetailsResponse {
             private int logistics_status;
             private Object channel;
             private int delivery_type;
+            private int out_trade_status;
+            private String out_trade_status_text;
+            private boolean is_open;
             private List<FoodListBean> food_list;
             private List<?> discounts;
 
@@ -409,6 +466,30 @@ public class OrderDetailsResponse {
                 this.delivery_type = delivery_type;
             }
 
+            public int getOut_trade_status() {
+                return out_trade_status;
+            }
+
+            public void setOut_trade_status(int out_trade_status) {
+                this.out_trade_status = out_trade_status;
+            }
+
+            public String getOut_trade_status_text() {
+                return out_trade_status_text;
+            }
+
+            public void setOut_trade_status_text(String out_trade_status_text) {
+                this.out_trade_status_text = out_trade_status_text;
+            }
+
+            public boolean isIs_open() {
+                return is_open;
+            }
+
+            public void setIs_open(boolean is_open) {
+                this.is_open = is_open;
+            }
+
             public List<FoodListBean> getFood_list() {
                 return food_list;
             }
@@ -426,19 +507,6 @@ public class OrderDetailsResponse {
             }
 
             public static class FoodListBean {
-                /**
-                 * food_id : 1239556963
-                 * spu_id : 1122027842
-                 * name : Hdh
-                 * price : 0.01
-                 * original_price : 0.01
-                 * count : 1
-                 * spec :
-                 * box_num : 1
-                 * box_price : 0
-                 * attrIds : []
-                 * attrValues : []
-                 */
 
                 private int food_id;
                 private int spu_id;
@@ -540,6 +608,37 @@ public class OrderDetailsResponse {
                     this.attrValues = attrValues;
                 }
             }
+        }
+    }
+
+    public static class IovBean {
+
+        private int errno;
+        private String errmsg;
+        private List<?> data;
+
+        public int getErrno() {
+            return errno;
+        }
+
+        public void setErrno(int errno) {
+            this.errno = errno;
+        }
+
+        public String getErrmsg() {
+            return errmsg;
+        }
+
+        public void setErrmsg(String errmsg) {
+            this.errmsg = errmsg;
+        }
+
+        public List<?> getData() {
+            return data;
+        }
+
+        public void setData(List<?> data) {
+            this.data = data;
         }
     }
 }
