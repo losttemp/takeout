@@ -51,6 +51,18 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private NumberFormat mNumberFormat;
     private OrderDetailsResponse.MeituanBean.DataBean mOrderDetails = new OrderDetailsResponse.MeituanBean.DataBean();
     private static final int REQUEST_CODE_CALL_PHONE = 600;
+    private final int IOV_STATUS_ZERO = 0; //待支付
+    private final int IOV_STATUS_WAITING = 1; //待支付
+    private final int IOV_STATUS_PAID = 2; //已支付
+    private final int IOV_STATUS_NOTIFY_RESTAURANT = 3; //待商家接单
+    private final int IOV_STATUS_RESTAURANT_CONFIRM = 4; //商家已接单
+    private final int IOV_STATUS_DELIVERING = 5; //派送中
+    private final int IOV_STATUS_FINISHED = 6; //已完成
+    private final int IOV_STATUS_PAYMENT_FAILED = 7; //支付失败
+    private final int IOV_STATUS_CANCELED = 8; //已取消
+    private final int IOV_STATUS_REFUNDING = 9; //退款中
+    private final int IOV_STATUS_REFUNDED = 10; //已退款
+    private final int IOV_STATUS_REFUND_FAILED = 11; //退款失败
 
     @Override
     OrderDetailsPresenter createPresenter() {
@@ -107,7 +119,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     private void setTextView() {
 
-        getPayStatus(mOrderDetails.getPay_status());
+        getPayStatus(mOrderDetails.getOut_trade_status());
 
         mNumberFormat = new DecimalFormat("##.##");
 
@@ -164,20 +176,48 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     private void getPayStatus(int status) {
         hidePayView();
-        if (status == 1) {
-            mRepeatOrder.setVisibility(View.VISIBLE);
-            mPayStatus.setText(R.string.pay_done);
-        } else if (status == 2) {
+        if (status == IOV_STATUS_ZERO ||status == IOV_STATUS_WAITING) {
             mPayOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.waiting_to_pay);
             timerStart();
-        } else if (status == 3) {
+        } else if (status == IOV_STATUS_PAID) {
             mRepeatOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
             mArrivalTime.setVisibility(View.VISIBLE);
             String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
             mPayStatus.setText(R.string.have_paid);
             mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
+        } else if (status == IOV_STATUS_NOTIFY_RESTAURANT ) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mCancelOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.notify_restaurant);
+        } else if (status == IOV_STATUS_RESTAURANT_CONFIRM) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mCancelOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.restaurant_confirm);
+        } else if (status == IOV_STATUS_DELIVERING) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mCancelOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.delivering);
+        } else if (status == IOV_STATUS_FINISHED) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.pay_done);
+        } else if (status == IOV_STATUS_PAYMENT_FAILED) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.pay_fail);
+        } else if (status == IOV_STATUS_CANCELED) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.pay_cancel);
+        } else if (status == IOV_STATUS_REFUNDING) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.pay_refunding);
+        } else if (status == IOV_STATUS_REFUNDED) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.pay_refunded);
+        } else if (status == IOV_STATUS_REFUND_FAILED) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.refund_fail);
         }
     }
 
