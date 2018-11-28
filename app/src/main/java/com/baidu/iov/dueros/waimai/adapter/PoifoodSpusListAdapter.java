@@ -184,13 +184,13 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
             public void onClick(View view) {
                 viewHolder.add.setVisibility(View.GONE);
                 viewHolder.action.setVisibility(View.VISIBLE);
-                increaseOnClick(spusBean, viewHolder, section);
+                increaseOnClick(spusBean, viewHolder, section, false);
             }
         });
         viewHolder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                increaseOnClick(spusBean, viewHolder, section);
+                increaseOnClick(spusBean, viewHolder, section, true);
             }
         });
         viewHolder.reduce.setOnClickListener(new View.OnClickListener() {
@@ -284,7 +284,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 increase.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        increaseOnClick(spusBean, viewHolder, section);
+                        increaseOnClick(spusBean, viewHolder, section, true);
                         shoppingNum.setText(spusBean.getNumber() + "");
                     }
                 });
@@ -299,6 +299,11 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                         }
                     }
                 });
+                if (detailSpecifications.getVisibility() == View.GONE && spusBean.getNumber() > 0) {
+                    addToCart.setVisibility(View.GONE);
+                    action.setVisibility(View.VISIBLE);
+                    shoppingNum.setText(spusBean.getNumber() + "");
+                }
             }
         });
         return convertView;
@@ -387,7 +392,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
             @Override
             public void onClick(View view) {
                 inProductList(spusBean);
-                increaseOnClick(spusBean, viewHolder, section);
+                increaseOnClick(spusBean, viewHolder, section, true);
                 shoppingNum.setText(spusBean.getNumber() + "");
             }
         });
@@ -472,8 +477,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
     private void reduceOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, ViewHolder viewHolder, int section) {
         int num = spusBean.getNumber();
         if (num > 0) {
-            int min_order_count = getMinOrderCount(spusBean);
-            num -= min_order_count;
+            num--;
             spusBean.setNumber(num);
             viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
             if (spusBean.getNumber() == 0) {
@@ -487,14 +491,19 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
         }
     }
 
-    private void increaseOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, ViewHolder viewHolder, int section) {
+    private void increaseOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
+                                 ViewHolder viewHolder, int section, boolean alreadyToast) {
         int min_order_count = getMinOrderCount(spusBean);
-        if (min_order_count > 1) {
-//            Toast.makeText(context, "至少购" + min_order_count + "份", Toast.LENGTH_SHORT).show();
+        if (min_order_count > 1 && !alreadyToast) {
+            Toast.makeText(context, context.getString(R.string.must_buy) +
+                    min_order_count + context.getString(R.string.share_buy), Toast.LENGTH_SHORT).show();
         }
         int num = spusBean.getNumber();
-
-        num += min_order_count;
+        if (alreadyToast) {
+            num++;
+        } else {
+            num += min_order_count;
+        }
         spusBean.setNumber(num);
         viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
         if (callBackListener != null) {
