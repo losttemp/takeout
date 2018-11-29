@@ -96,6 +96,8 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
             viewHolder.addNumber = (RelativeLayout) convertView.findViewById(R.id.rl_add_number);
             viewHolder.discountPrice = (MultiplTextView) convertView.findViewById(R.id.tv_discount_price);
             viewHolder.describe = (TextView) convertView.findViewById(R.id.tv_describe);
+            viewHolder.soldOut = (TextView) convertView.findViewById(R.id.tv_sold_out);
+            viewHolder.canNotBuy = (LinearLayout) convertView.findViewById(R.id.ll_not_buy_time);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -121,11 +123,37 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
             viewHolder.action.setVisibility(View.VISIBLE);
             viewHolder.shoppingNum.setText("" + spusBean.getNumber());
         }
-        if (spusBean.getStatus() != 0) {
-            viewHolder.addNumber.setVisibility(View.GONE);
-        } else {
+        if (spusBean.getStatus() == 0) {
+            viewHolder.soldOut.setVisibility(View.GONE);
+            convertView.setEnabled(true);
+            convertView.setAlpha(1.0f);
             viewHolder.addNumber.setVisibility(View.VISIBLE);
+            int minOrderCount = getMinOrderCount(spusBean);
+            if (minOrderCount > 1) {
+                viewHolder.soldOut.setVisibility(View.VISIBLE);
+                viewHolder.soldOut.setText(String.format(context.getString(R.string.min_buy), "" + minOrderCount));
+            } else {
+                viewHolder.soldOut.setVisibility(View.GONE);
+            }
+        } else if (spusBean.getStatus() == 1) {
+            viewHolder.addNumber.setVisibility(View.GONE);
+            viewHolder.soldOut.setVisibility(View.VISIBLE);
+            convertView.setEnabled(false);
+            convertView.setAlpha(0.6f);
+        } else if (spusBean.getStatus() == 2) {
+            viewHolder.addNumber.setVisibility(View.GONE);
+            viewHolder.soldOut.setVisibility(View.VISIBLE);
+            viewHolder.soldOut.setText(context.getString(R.string.looting));
+            convertView.setEnabled(false);
+            convertView.setAlpha(0.6f);
+        } else if (spusBean.getStatus() == 3) {
+            viewHolder.addNumber.setVisibility(View.GONE);
+            viewHolder.canNotBuy.setVisibility(View.VISIBLE);
+            convertView.setEnabled(false);
+            convertView.setAlpha(0.6f);
         }
+
+
         final String pictureUrl = spusBean.getPicture();
         GlideApp.with(context)
                 .load(pictureUrl)
@@ -539,10 +567,12 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
         public MultiplTextView storeIndex;
         public MultiplTextView discountPrice;
         public TextView describe;
+        public TextView soldOut;
         public ImageView add;
         public Button specifications;
         public RelativeLayout action;
         public RelativeLayout addNumber;
+        public LinearLayout canNotBuy;
     }
 
     public void SetOnSetHolderClickListener(HolderClickListener holderClickListener) {

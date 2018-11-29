@@ -69,7 +69,7 @@
     <string name="shop_cart">收起购物车</string>
     <string name="empty_all">清空购物车</string>
     <string name="please_add_to_the_shopping_cart_first">请先添加商品至购物车</string>
-    <string name="please_select_the_specifications_first">请先选择规格</string>
+    <string name="please_select_the_specifications_first">您还未选择[规格类型],请选择后添加哦</string>
     <string name="specifications">选规格</string>
     <string name="specification">规格</string>
     <string name="already_reduced">已减</string>
@@ -83,6 +83,10 @@
     <string name="no_product">未选购商品</string>
     <string name="can_not_order">%1$s起送</string>
     <string name="shop_close">本店打烊了</string>
+    <string name="min_buy">%1$s份起购</string>
+    <string name="looting">已抢光</string>
+    <string name="not_buy_time">非可售时间</string>
+    <string name="sold_out">已售完</string>
 
     <!--tools:text-->
     <string name="tools_text_location">送至：未来科技大厦</string>
