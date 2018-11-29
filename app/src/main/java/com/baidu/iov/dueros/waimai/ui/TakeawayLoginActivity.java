@@ -32,6 +32,7 @@ import com.baidu.iov.dueros.waimai.presenter.MeituanAuthPresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 
 import java.util.List;
 
@@ -235,7 +236,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     public void getAddressListFail(String msg) {
         Lg.getInstance().d(TAG, "get addresslist fail");
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        ToastUtils.show(this, msg,Toast.LENGTH_LONG);
         finish();
     }
 

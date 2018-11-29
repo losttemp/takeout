@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 
 public class ClearEditText extends AppCompatAutoCompleteTextView implements View.OnFocusChangeListener, TextWatcher {
 
@@ -68,9 +69,7 @@ public class ClearEditText extends AppCompatAutoCompleteTextView implements View
             if (maxLength>0&&s.length() > maxLength) {
                 this.setText(s.toString().substring(0, maxLength));
                 this.setSelection(this.getText().length());
-                Toast.makeText(getContext(),
-                        getContext().getResources().getString(R.string.edit_text_view_max_length_hint),
-                        Toast.LENGTH_SHORT).show();
+                ToastUtils.show(getContext(), getContext().getResources().getString(R.string.edit_text_view_max_length_hint),Toast.LENGTH_SHORT);
             }
         }
     }

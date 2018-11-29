@@ -22,6 +22,7 @@ import com.baidu.iov.dueros.waimai.presenter.Presenter;
 import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.location.BDLocation;
 
 public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends AppCompatActivity implements LocationManager.LocationCallBack {
@@ -180,7 +181,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
             intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, isEditModle);
             startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
         } else {
-            Toast.makeText(this, getResources().getString(R.string.location_error_toast), Toast.LENGTH_LONG).show();
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.location_error_toast),Toast.LENGTH_SHORT);
             LocationManager.getInstance(this).requestLocation();
         }
     }
