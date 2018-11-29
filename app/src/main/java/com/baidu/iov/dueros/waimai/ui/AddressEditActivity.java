@@ -171,11 +171,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void updateAddressSuccess(AddressEditBean data) {
-        if (data.getData().getMeituan().getCode() == 0) {
+        if (data.getMeituan().getCode() == 0) {
             Toast.makeText(this, R.string.address_update_success, Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            String msg = data.getData().getMeituan().getMsg();
+            String msg = data.getMeituan().getMsg();
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         }
     }
@@ -214,11 +214,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void deleteAddressSuccess(AddressDeleteBean data) {
-        if (data.getData().getIov().getErrno() == 0) {
+        if (data.getIov().getErrno() == 0) {
             Toast.makeText(this, R.string.address_delete_success, Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            String msg = data.getData().getIov().getErrmsg();
+            String msg = data.getIov().getErrmsg();
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         }
     }

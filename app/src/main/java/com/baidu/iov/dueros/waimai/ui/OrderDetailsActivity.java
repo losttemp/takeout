@@ -337,15 +337,15 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.phone:
                 ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
-                        .setTitle(R.string.remind_title)
-                        .setMessage(R.string.remind_message)
+                        .setTitle(R.string.contact_meituan_title)
+                        .setMessage(R.string.contact_meituan_message)
                         .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         })
-                        .setPositiveButton(R.string.remind_phone, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
