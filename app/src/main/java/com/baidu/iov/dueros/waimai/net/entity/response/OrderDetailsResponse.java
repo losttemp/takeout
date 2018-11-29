@@ -132,7 +132,7 @@ public class OrderDetailsResponse {
             private int address_latitude;
             private int city_id;
             private String user_phone;
-            private int user_id;
+            private long user_id;
             private int estimate_arrival_time;
             private String poi_name;
             private long wm_poi_id;
@@ -338,11 +338,11 @@ public class OrderDetailsResponse {
                 this.user_phone = user_phone;
             }
 
-            public int getUser_id() {
+            public long getUser_id() {
                 return user_id;
             }
 
-            public void setUser_id(int user_id) {
+            public void setUser_id(long user_id) {
                 this.user_id = user_id;
             }
 

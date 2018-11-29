@@ -388,8 +388,38 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         } else {
-            String msg = data.getMeituan().getErrorInfo().getName();
-            ToastUtils.show(this, msg,Toast.LENGTH_SHORT);
+            ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
+                    .setTitle(R.string.remind_title)
+                    .setMessage(R.string.remind_message)
+                    .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setPositiveButton(R.string.remind_phone, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                if (ActivityCompat.checkSelfPermission(OrderDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                    ActivityCompat.requestPermissions(OrderDetailsActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_CALL_PHONE);
+                                } else {
+                                    Intent intent = new Intent(Intent.ACTION_CALL);
+                                    Uri data = Uri.parse("tel:" + "10109777");
+                                    intent.setData(data);
+                                    startActivity(intent);
+                                }
+                            }
+                            dialog.dismiss();
+                        }
+                    })
+                    .setCloseButton(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create();
+            dialog1.show();
         }
     }
 

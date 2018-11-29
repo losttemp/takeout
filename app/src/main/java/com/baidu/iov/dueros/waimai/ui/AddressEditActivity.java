@@ -120,6 +120,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             String type = null;
             if (!TextUtils.isEmpty(dataBean.getType())) {
                 type = dataBean.getType();
+            } else {
+                type = getResources().getString(R.string.address_tag_other);
             }
             mTagListView.setTags(tags, type);
             try {
@@ -189,16 +191,21 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     @Override
     public void addAddressSuccess(AddressAddBean data) {
         if (isEditMode) {
-            if (data.getIov().getData() != null) {
-                address_id = data.getIov().getData().getAddress_id();
-                mAddrEditReq.setAddress_id(address_id);
-                mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
-                getPresenter().requestUpdateAddressData(mAddrEditReq);
+            if (data.getMeituan().getCode() == 0) {
+                if (data.getIov().getErrno() == 0) {
+                    address_id = data.getIov().getData().getAddress_id();
+                    mAddrEditReq.setAddress_id(address_id);
+                    mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
+                    getPresenter().requestUpdateAddressData(mAddrEditReq);
+                } else {
+                    String msg = data.getIov().getErrmsg();
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                }
             } else {
                 ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_update_fail),Toast.LENGTH_SHORT);
             }
         } else {
-            if (data.getIov().getData() != null) {
+            if (data.getMeituan().getCode() == 0) {
                 ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_success),Toast.LENGTH_SHORT);
                 finish();
             } else {

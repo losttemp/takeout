@@ -173,7 +173,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     default:
                         Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
                         intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
-                        intent.putExtra("expected_time", payloadBean.getWm_ordering_list().getDelivery_time());
+                        intent.putExtra(Constant.EXPECTED_TIME, payloadBean.getWm_ordering_list().getDelivery_time());
                         startActivity(intent);
                         break;
                 }
@@ -300,7 +300,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void orderCancelfail(String msg) {
-        showCancelDialog();
     }
 
     @Override
