@@ -120,6 +120,9 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvOneMore.setText(mContext.getResources().getString(R.string.one_more_order));
             tvCancelOrder.setText(mContext.getResources().getString(R.string.order_cancel));
             tvPayOrder.setText(mContext.getResources().getString(R.string.pay_order));
+            tvOneMore.setVisibility(View.VISIBLE);
+            tvPayOrder.setVisibility(View.GONE);
+            tvCancelOrder.setVisibility(View.VISIBLE);
             String pay_status = order.getOut_trade_status();
             switch (pay_status) {
                 case IOV_STATUS_ZERO:
@@ -127,12 +130,14 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
                     pay_status = mContext.getResources().getString(R.string.waiting_to_pay);
                     tvOneMore.setVisibility(View.GONE);
                     tvPayOrder.setVisibility(View.VISIBLE);
+                    tvCancelOrder.setVisibility(View.VISIBLE);
                     break;
                 case IOV_STATUS_PAID:
                 case IOV_STATUS_NOTIFY_RESTAURANT:
                 case IOV_STATUS_RESTAURANT_CONFIRM:
                 case IOV_STATUS_DELIVERING:
                     pay_status = mContext.getResources().getString(R.string.have_paid);
+                    tvCancelOrder.setVisibility(View.VISIBLE);
                     break;
                 case IOV_STATUS_FINISHED:
                     pay_status = mContext.getResources().getString(R.string.pay_done);
@@ -141,8 +146,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
                 case IOV_STATUS_PAYMENT_FAILED:
                 case IOV_STATUS_CANCELED:
                     pay_status = mContext.getResources().getString(R.string.pay_cancel);
-                    tvOneMore.setVisibility(View.VISIBLE);
-                    tvPayOrder.setVisibility(View.GONE);
                     tvCancelOrder.setVisibility(View.GONE);
                     break;
                 case IOV_STATUS_REFUNDING:

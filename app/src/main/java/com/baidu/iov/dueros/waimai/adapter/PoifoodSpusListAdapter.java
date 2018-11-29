@@ -21,6 +21,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.text.Format;
@@ -184,13 +185,13 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
             public void onClick(View view) {
                 viewHolder.add.setVisibility(View.GONE);
                 viewHolder.action.setVisibility(View.VISIBLE);
-                increaseOnClick(spusBean, viewHolder, section);
+                increaseOnClick(spusBean, viewHolder, section, false);
             }
         });
         viewHolder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                increaseOnClick(spusBean, viewHolder, section);
+                increaseOnClick(spusBean, viewHolder, section, true);
             }
         });
         viewHolder.reduce.setOnClickListener(new View.OnClickListener() {
@@ -224,7 +225,6 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 MultiplTextView spusName = (MultiplTextView) popView.findViewById(R.id.tv_spus_name);
                 ImageView spusPicture = (ImageView) popView.findViewById(R.id.iv_spus);
                 MultiplTextView spusPrice = (MultiplTextView) popView.findViewById(R.id.tv_spus_price);
-                MultiplTextView spusEvaluate = (MultiplTextView) popView.findViewById(R.id.tv_spus_evaluate);
                 TextView spusDescription = (TextView) popView.findViewById(R.id.tv_spus_description);
                 ImageView increase = (ImageView) popView.findViewById(R.id.increase);
                 ImageView reduce = (ImageView) popView.findViewById(R.id.reduce);
@@ -253,7 +253,6 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 });
 
                 spusDescription.setText(spusBean.getDescription());
-                spusEvaluate.setText(String.format(context.getString(R.string.evaluate), "" + spusBean.getMonth_saled()));
                 spusPrice.setText(String.format("¥%1$s", "" + spusBean.getMin_price()));
                 spusName.setText(spusBean.getName());
                 GlideApp.with(context)
@@ -284,7 +283,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 increase.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        increaseOnClick(spusBean, viewHolder, section);
+                        increaseOnClick(spusBean, viewHolder, section, true);
                         shoppingNum.setText(spusBean.getNumber() + "");
                     }
                 });
@@ -299,6 +298,11 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                         }
                     }
                 });
+                if (detailSpecifications.getVisibility() == View.GONE && spusBean.getNumber() > 0) {
+                    addToCart.setVisibility(View.GONE);
+                    action.setVisibility(View.VISIBLE);
+                    shoppingNum.setText(spusBean.getNumber() + "");
+                }
             }
         });
         return convertView;
@@ -357,14 +361,14 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
             public void onClick(View view) {
                 if (spusBean.getSkus().size() >= 2) {
                     if (choiceSkus.size() == 0) {
-                        Toast.makeText(context, context.getString(R.string.please_select_the_specifications_first), Toast.LENGTH_SHORT).show();
+                        ToastUtils.show(context, context.getString(R.string.please_select_the_specifications_first),Toast.LENGTH_SHORT);
                         return;
                     }
                 }
                 if (spusBean.getAttrs().size() > 0) {
                     for (int i = 0; i < spusBean.getAttrs().size(); i++) {
                         if (choiseAttrs[i] == false) {
-                            Toast.makeText(context, context.getString(R.string.please_select_the_specifications_first), Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(context, context.getResources().getString(R.string.please_select_the_specifications_first),Toast.LENGTH_SHORT);
                             return;
                         }
                     }
@@ -387,7 +391,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
             @Override
             public void onClick(View view) {
                 inProductList(spusBean);
-                increaseOnClick(spusBean, viewHolder, section);
+                increaseOnClick(spusBean, viewHolder, section, true);
                 shoppingNum.setText(spusBean.getNumber() + "");
             }
         });
@@ -472,8 +476,7 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
     private void reduceOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, ViewHolder viewHolder, int section) {
         int num = spusBean.getNumber();
         if (num > 0) {
-            int min_order_count = getMinOrderCount(spusBean);
-            num -= min_order_count;
+            num--;
             spusBean.setNumber(num);
             viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
             if (spusBean.getNumber() == 0) {
@@ -487,14 +490,19 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
         }
     }
 
-    private void increaseOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, ViewHolder viewHolder, int section) {
+    private void increaseOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
+                                 ViewHolder viewHolder, int section, boolean alreadyToast) {
         int min_order_count = getMinOrderCount(spusBean);
-        if (min_order_count > 1) {
-//            Toast.makeText(context, "至少购" + min_order_count + "份", Toast.LENGTH_SHORT).show();
+        if (min_order_count > 1 && !alreadyToast) {
+            ToastUtils.show(context, context.getString(R.string.must_buy)+
+                    min_order_count + context.getString(R.string.share_buy),Toast.LENGTH_SHORT);
         }
         int num = spusBean.getNumber();
-
-        num += min_order_count;
+        if (alreadyToast) {
+            num++;
+        } else {
+            num += min_order_count;
+        }
         spusBean.setNumber(num);
         viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
         if (callBackListener != null) {

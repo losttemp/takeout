@@ -26,6 +26,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.NoClikRecyclerView;
 
@@ -47,10 +48,22 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private OrderDetailsReq mOrderDetailsReq;
     private OrderCancelReq mOrderCancelReq;
     private long order_id;
-    private long expectedTime;
+    private int expectedTime;
     private NumberFormat mNumberFormat;
     private OrderDetailsResponse.MeituanBean.DataBean mOrderDetails = new OrderDetailsResponse.MeituanBean.DataBean();
     private static final int REQUEST_CODE_CALL_PHONE = 600;
+    private final int IOV_STATUS_ZERO = 0; //待支付
+    private final int IOV_STATUS_WAITING = 1; //待支付
+    private final int IOV_STATUS_PAID = 2; //已支付
+    private final int IOV_STATUS_NOTIFY_RESTAURANT = 3; //待商家接单
+    private final int IOV_STATUS_RESTAURANT_CONFIRM = 4; //商家已接单
+    private final int IOV_STATUS_DELIVERING = 5; //派送中
+    private final int IOV_STATUS_FINISHED = 6; //已完成
+    private final int IOV_STATUS_PAYMENT_FAILED = 7; //支付失败
+    private final int IOV_STATUS_CANCELED = 8; //已取消
+    private final int IOV_STATUS_REFUNDING = 9; //退款中
+    private final int IOV_STATUS_REFUNDED = 10; //已退款
+    private final int IOV_STATUS_REFUND_FAILED = 11; //退款失败
 
     @Override
     OrderDetailsPresenter createPresenter() {
@@ -107,7 +120,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     private void setTextView() {
 
-        getPayStatus(mOrderDetails.getPay_status());
+        getPayStatus(mOrderDetails.getOut_trade_status());
 
         mNumberFormat = new DecimalFormat("##.##");
 
@@ -120,8 +133,9 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         String shopName = mOrderDetails.getPoi_name();
         String address = mOrderDetails.getRecipient_address();
         String phone = mOrderDetails.getRecipient_phone();
+        String name = mOrderDetails.getRecipient_name();
 
-        mContact.setText(phone);
+        mContact.setText(name + " " + phone);
         mAddress.setText(address);
         mBusinessName.setText(shopName);
         mDistributionFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
@@ -164,20 +178,48 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     private void getPayStatus(int status) {
         hidePayView();
-        if (status == 1) {
-            mRepeatOrder.setVisibility(View.VISIBLE);
-            mPayStatus.setText(R.string.pay_done);
-        } else if (status == 2) {
+        if (status == IOV_STATUS_ZERO ||status == IOV_STATUS_WAITING) {
             mPayOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.waiting_to_pay);
             timerStart();
-        } else if (status == 3) {
+        } else if (status == IOV_STATUS_PAID) {
             mRepeatOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
             mArrivalTime.setVisibility(View.VISIBLE);
             String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
             mPayStatus.setText(R.string.have_paid);
             mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
+        } else if (status == IOV_STATUS_NOTIFY_RESTAURANT ) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mCancelOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.notify_restaurant);
+        } else if (status == IOV_STATUS_RESTAURANT_CONFIRM) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mCancelOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.restaurant_confirm);
+        } else if (status == IOV_STATUS_DELIVERING) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mCancelOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.delivering);
+        } else if (status == IOV_STATUS_FINISHED) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.pay_done);
+        } else if (status == IOV_STATUS_PAYMENT_FAILED) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.pay_fail);
+        } else if (status == IOV_STATUS_CANCELED) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.pay_cancel);
+        } else if (status == IOV_STATUS_REFUNDING) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.pay_refunding);
+        } else if (status == IOV_STATUS_REFUNDED) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.pay_refunded);
+        } else if (status == IOV_STATUS_REFUND_FAILED) {
+            mRepeatOrder.setVisibility(View.VISIBLE);
+            mPayStatus.setText(R.string.refund_fail);
         }
     }
 
@@ -197,7 +239,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     private void initData() {
         order_id = getIntent().getLongExtra(Constant.ORDER_ID, -1);
-        expectedTime = getIntent().getLongExtra(Constant.EXPECTED_TIME, 0);
+        expectedTime = getIntent().getIntExtra(Constant.EXPECTED_TIME, 0);
         mOrderDetailsReq = new OrderDetailsReq();
         mOrderDetailsReq.setId(order_id);
         loadData();
@@ -297,15 +339,15 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.phone:
                 ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
-                        .setTitle(R.string.remind_title)
-                        .setMessage(R.string.remind_message)
+                        .setTitle(R.string.contact_meituan_title)
+                        .setMessage(R.string.contact_meituan_message)
                         .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         })
-                        .setPositiveButton(R.string.remind_phone, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -342,12 +384,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     public void updateOrderCancel(OrderCancelResponse data) {
         if (data.getMeituan().getCode() == 0) {
             Toast toast = new Toast(this);
-            toast.makeText(this, R.string.order_cancel_toast, Toast.LENGTH_LONG);
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancel_toast),Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         } else {
             String msg = data.getMeituan().getErrorInfo().getName();
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+            ToastUtils.show(this, msg,Toast.LENGTH_SHORT);
         }
     }
 

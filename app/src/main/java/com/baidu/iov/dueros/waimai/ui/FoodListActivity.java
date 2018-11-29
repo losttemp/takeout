@@ -58,6 +58,7 @@ import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.PoifoodListPinnedHeaderListView;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -158,6 +159,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private boolean mOneMoreOrder;
     private MultiplTextView mMtDistributionFee;
     private RelativeLayout mRlNoProduct;
+    private List<Boolean> mIsDiscountList;
+    private boolean alreadyToast;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -327,6 +330,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag, int selection, boolean increase) {
         String spusBeanTag = spusBean.getTag();
+        boolean firstAdd = false;
         boolean inList = false;
         Lg.getInstance().d(TAG, "updateProduct tag = " + tag + "; spusBeanTag = " + spusBeanTag);
         if (tag.equals(spusBeanTag)) {
@@ -349,11 +353,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                             int skusId = shopProduct.getChoiceSkus().get(0).getId();
                                             if (skusId == spusBean.getChoiceSkus().get(0).getId()) {
                                                 shopProduct.setNumber(spusBean.getNumber());
+                                                firstAdd = false;
                                                 inList = true;
                                                 break;
                                             }
                                         } else {
                                             shopProduct.setNumber(spusBean.getNumber());
+                                            firstAdd = false;
                                             inList = true;
                                             break;
                                         }
@@ -371,6 +377,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                         if (id == spusBean.getChoiceSkus().get(i).getId()) {
                                             int num = spusBean.getNumber();
                                             shopProduct.setNumber(num);
+                                            firstAdd = false;
                                             inList = true;
                                             break;
                                         }
@@ -378,6 +385,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 } else {
                                     int num = spusBean.getNumber();
                                     shopProduct.setNumber(num);
+                                    firstAdd = false;
                                     inList = true;
                                     break;
                                 }
@@ -396,22 +404,30 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 spusBeanNew.setSection(selection);
                 productList.add(spusBeanNew);
                 inList = false;
+                firstAdd = true;
             }
         }
         shoppingCartAdapter.notifyDataSetChanged();
         if (mBottomDialog != null && mBottomDialog.isShowing()) {
             setDialogHeight(mBottomDialog);
         }
-        refreshSpusTagNum(selection, increase);
+        refreshSpusTagNum(selection, increase, spusBean, firstAdd);
         setPrise(increase);
     }
 
-    private void refreshSpusTagNum(int selection, boolean increase) {
+    private void refreshSpusTagNum(int selection, boolean increase,
+                                   PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
+                                   boolean firstAdd) {
         for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
             if (selection == poifoodSpusTagsBeans.get(i).getIndex()) {
                 Integer number = poifoodSpusTagsBeans.get(i).getNumber();
+                int minOrderCount = getMinOrderCount(spusBean);
                 if (increase) {
-                    number++;
+                    if (firstAdd) {
+                        number += minOrderCount;
+                    } else {
+                        number++;
+                    }
                 } else {
                     number--;
                 }
@@ -419,6 +435,18 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
         mFoodSpuTagsListAdapter.notifyDataSetChanged();
+    }
+
+    private int getMinOrderCount(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
+        int min_order_count = 1;
+        if (spusBean.getSkus() != null) {
+            if (spusBean.getSkus().size() > 1 && spusBean.getChoiceSkus() != null) {
+                min_order_count = spusBean.getChoiceSkus().get(0).getMin_order_count();
+            } else {
+                min_order_count = spusBean.getSkus().get(0).getMin_order_count();
+            }
+        }
+        return min_order_count;
     }
 
     @Override
@@ -436,7 +464,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
         mPoifoodSpusListAdapter.notifyDataSetChanged();
-        refreshSpusTagNum(section, increase);
+        refreshSpusTagNum(section, increase, spusBean, false);
         setPrise(increase);
     }
 
@@ -464,6 +492,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         double sum = 0;
         int shopNum = 0;
         boolean isDiscount = false;
+        mIsDiscountList = new ArrayList<>();
         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean pro : productList) {
             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = pro.getSkus();
             double price = 0;
@@ -474,9 +503,18 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     price = pro.getSkus().get(0).getPrice();
                     if (pro.getSkus().get(0).getPrice() < pro.getSkus().get(0).getOrigin_price()) {
                         isDiscount = true;
+                        for (int i = 0; i < pro.getNumber(); i++) {
+                            mIsDiscountList.add(isDiscount);
+                        }
                     }
                 } else if (skus.size() > 1) {
                     price = pro.getChoiceSkus().get(0).getPrice();
+                    if (pro.getChoiceSkus().get(0).getPrice() < pro.getChoiceSkus().get(0).getOrigin_price()) {
+                        isDiscount = true;
+                        for (int i = 0; i < pro.getNumber(); i++) {
+                            mIsDiscountList.add(isDiscount);
+                        }
+                    }
                 }
             } else {
                 price = pro.getMin_price();
@@ -526,8 +564,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             if (mCartShoppingPrise != null) {
                 mCartShoppingPrise.setText("¥" + " " + sum);
             }
-            if (increase) {
-                Toast.makeText(this, getString(R.string.discount_prompt), Toast.LENGTH_SHORT).show();
+            if (increase && mIsDiscountList.size() == 1 && !alreadyToast) {
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.discount_prompt),Toast.LENGTH_SHORT);
+                alreadyToast = true;
             }
         } else {
             if (mRlDiscount.getVisibility() == View.GONE) {
@@ -594,38 +633,40 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (productList == null || productList.size() == 0) {
             mDiscount.setText(mFirstDiscount);
         }
-        double min_price = mPoidetailinfoBean.getMeituan().getData().getMin_price();
-        if (sum > 0) {
-            if (sum < mPoidetailinfoBean.getMeituan().getData().getMin_price()) {
-                double v = min_price - sum;
-                java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
-                String str = myformat.format(v);
-                settlement.setText(String.format(getString(R.string.not_distribution), "" + str));
-                settlement.setBackgroundResource(R.drawable.btn_grey);
-                settlement.setEnabled(false);
-            } else {
-                settlement.setText(R.string.confirmation_of_the_order);
-                settlement.setBackgroundResource(R.drawable.btn_bg);
-                settlement.setEnabled(true);
-            }
-            if (mCartSettlement != null) {
-                if (sum < min_price) {
+        if (mPoidetailinfoBean != null) {
+            double min_price = mPoidetailinfoBean.getMeituan().getData().getMin_price();
+            if (sum > 0) {
+                if (sum < mPoidetailinfoBean.getMeituan().getData().getMin_price()) {
                     double v = min_price - sum;
                     java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
                     String str = myformat.format(v);
-                    mCartSettlement.setText(String.format(getString(R.string.not_distribution), "" + str));
-                    mCartSettlement.setBackgroundResource(R.drawable.btn_grey);
-                    mCartSettlement.setEnabled(false);
+                    settlement.setText(String.format(getString(R.string.not_distribution), "" + str));
+                    settlement.setBackgroundResource(R.drawable.btn_grey);
+                    settlement.setEnabled(false);
                 } else {
-                    mCartSettlement.setText(R.string.confirmation_of_the_order);
-                    mCartSettlement.setBackgroundResource(R.drawable.btn_bg);
-                    mCartSettlement.setEnabled(true);
+                    settlement.setText(R.string.confirmation_of_the_order);
+                    settlement.setBackgroundResource(R.drawable.btn_bg);
+                    settlement.setEnabled(true);
                 }
+                if (mCartSettlement != null) {
+                    if (sum < min_price) {
+                        double v = min_price - sum;
+                        java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
+                        String str = myformat.format(v);
+                        mCartSettlement.setText(String.format(getString(R.string.not_distribution), "" + str));
+                        mCartSettlement.setBackgroundResource(R.drawable.btn_grey);
+                        mCartSettlement.setEnabled(false);
+                    } else {
+                        mCartSettlement.setText(R.string.confirmation_of_the_order);
+                        mCartSettlement.setBackgroundResource(R.drawable.btn_bg);
+                        mCartSettlement.setEnabled(true);
+                    }
+                }
+            } else {
+                settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
+                settlement.setBackgroundResource(R.drawable.btn_grey);
+                settlement.setEnabled(false);
             }
-        } else {
-            settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
-            settlement.setBackgroundResource(R.drawable.btn_grey);
-            settlement.setEnabled(false);
         }
     }
 
@@ -668,7 +709,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         shoppingListView.setAdapter(shoppingCartAdapter);
         shoppingCartAdapter.setShopToDetailListener(this);
         mClearshopCart.setOnClickListener(this);
-        mCartDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
+        if (mPoidetailinfoBean != null) {
+            mCartDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
+        }
         setPrise(false);
     }
 
@@ -694,11 +737,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
             case R.id.settlement:
                 if (productList == null || productList.size() == 0) {
-//                    Toast.makeText(this, getString(R.string.please_add_to_the_shopping_cart_first), Toast.LENGTH_SHORT).show();
                     settlement.setEnabled(false);
                     return;
                 }
-                //TODO 调用预览接口,成功了再跳
                 getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
                 break;
 
@@ -736,14 +777,16 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 mDetailsDistribution = (MultiplTextView) popView.findViewById(R.id.tv_details_distribution);
                 mDetailsDiscount = (TextView) popView.findViewById(R.id.tv_discount);
                 StringBuffer stringBuffer = new StringBuffer();
-                for (int i = 0; i < mPoidetailinfoBean.getMeituan().getData().getDiscounts().size(); i++) {
-                    String info = mPoidetailinfoBean.getMeituan().getData().getDiscounts().get(i).getInfo();
-                    stringBuffer.append(info + "   ");
+                if (mPoidetailinfoBean != null) {
+                    for (int i = 0; i < mPoidetailinfoBean.getMeituan().getData().getDiscounts().size(); i++) {
+                        String info = mPoidetailinfoBean.getMeituan().getData().getDiscounts().get(i).getInfo();
+                        stringBuffer.append(info + "   ");
+                    }
+                    mDetailsDiscount.setText(stringBuffer);
+                    mDetailsShopName.setText(mPoidetailinfoBean.getMeituan().getData().getName());
+                    mDetailsDistribution.setText(getString(R.string.distribution_situation, "" + mPoidetailinfoBean.getMeituan().getData().getMin_price(),
+                            "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee(), "" + mPoidetailinfoBean.getMeituan().getData().getAvg_delivery_time()));
                 }
-                mDetailsDiscount.setText(stringBuffer);
-                mDetailsShopName.setText(mPoidetailinfoBean.getMeituan().getData().getName());
-                mDetailsDistribution.setText(getString(R.string.distribution_situation, "" + mPoidetailinfoBean.getMeituan().getData().getMin_price(),
-                        "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee(), "" + mPoidetailinfoBean.getMeituan().getData().getAvg_delivery_time()));
                 mDetailsNotice.setText(getString(R.string.notice, mPoiInfoBean.getBulletin()));
 
                 final PopupWindow window = new PopupWindow(popView,
@@ -887,32 +930,31 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 startActivity(intent);
                 break;
             case Constant.STORE_CANT_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg2),Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_CANT_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg3), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg3),Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COST_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg5), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg5),Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COUNT_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg15), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg15),Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_LACK_NOT_BUY:
-//                Toast.makeText(this, getString(R.string.order_preview_msg20), Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, data.getMeituan().getMsg(), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this,data.getMeituan().getMsg(),Toast.LENGTH_SHORT);
                 break;
             case Constant.SERVICE_ERROR:
-                Toast.makeText(this, getString(R.string.service_error), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.service_error),Toast.LENGTH_SHORT);
                 break;
         }
     }
 
     @Override
     public void onOrderPreviewFailure(String msg) {
-
+        Lg.getInstance().d(TAG, "msg = " + msg);
     }
 
     @Override
@@ -1028,48 +1070,50 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void onPoidetailinfoSuccess(PoidetailinfoBean data) {
         mPoidetailinfoBean = data;
-        List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
-        List<String> discountList = getDiscountList(discounts);
-        if (mDiscounts.getItemDecorationCount() == 0) {
-            mDiscounts.addItemDecoration(new SpaceItemDecoration(dp2px(3)));
-        }
-        final FlowLayoutManager layoutManager = new FlowLayoutManager();
-        mDiscounts.setLayoutManager(layoutManager);
-        DiscountAdaper discountAdaper = new DiscountAdaper(discountList);
-        mDiscounts.setAdapter(discountAdaper);
-        settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
-        mDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
-        mMtDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
-        if (discounts.size() == 0) {
-            mRlDiscount.setVisibility(View.GONE);
-        } else {
-            for (int i = 0; i < discounts.size(); i++) {
-                String info = discounts.get(i).getInfo();
-                if (info.contains(getString(R.string.full)) && info.contains(getString(R.string.reduce))) {
-                    mRlDiscount.setVisibility(View.VISIBLE);
-                    if (info.startsWith(getString(R.string.full))) {
-                        String[] split = info.split(";");
-                        listFull = new ArrayList();
-                        listReduce = new ArrayList();
-                        Lg.getInstance().d(TAG, "split.length = " + split.length);
-                        for (int j = 0; j < split.length; j++) {
-                            String splitString = split[j];
-                            int y = 0;
-                            for (int k = 0; k < splitString.length(); k++) {
-                                String s = splitString.charAt(k) + "";
-                                if (s.equals(getString(R.string.reduce))) {
-                                    y = k;
+        if (mPoidetailinfoBean != null) {
+            List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
+            List<String> discountList = getDiscountList(discounts);
+            if (mDiscounts.getItemDecorationCount() == 0) {
+                mDiscounts.addItemDecoration(new SpaceItemDecoration(dp2px(3)));
+            }
+            final FlowLayoutManager layoutManager = new FlowLayoutManager();
+            mDiscounts.setLayoutManager(layoutManager);
+            DiscountAdaper discountAdaper = new DiscountAdaper(discountList);
+            mDiscounts.setAdapter(discountAdaper);
+            settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
+            mDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
+            mMtDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
+            if (discounts.size() == 0) {
+                mRlDiscount.setVisibility(View.GONE);
+            } else {
+                for (int i = 0; i < discounts.size(); i++) {
+                    String info = discounts.get(i).getInfo();
+                    if (info.contains(getString(R.string.full)) && info.contains(getString(R.string.reduce))) {
+                        mRlDiscount.setVisibility(View.VISIBLE);
+                        if (info.startsWith(getString(R.string.full))) {
+                            String[] split = info.split(";");
+                            listFull = new ArrayList();
+                            listReduce = new ArrayList();
+                            Lg.getInstance().d(TAG, "split.length = " + split.length);
+                            for (int j = 0; j < split.length; j++) {
+                                String splitString = split[j];
+                                int y = 0;
+                                for (int k = 0; k < splitString.length(); k++) {
+                                    String s = splitString.charAt(k) + "";
+                                    if (s.equals(getString(R.string.reduce))) {
+                                        y = k;
+                                    }
                                 }
+                                String substring = splitString.substring(1, y);
+                                Lg.getInstance().d(TAG, "substring = " + substring);
+                                String lastString = splitString.substring(y + 1, splitString.length());
+                                Lg.getInstance().d(TAG, "lastString = " + lastString);
+                                listFull.add(Double.parseDouble(substring));
+                                listReduce.add(Double.parseDouble(lastString));
+                                mFirstDiscount = getString(R.string.full) + listFull.get(0) + getString(R.string.element) + getString(R.string.reduce)
+                                        + listReduce.get(0) + getString(R.string.element);
+                                mDiscount.setText(mFirstDiscount);
                             }
-                            String substring = splitString.substring(1, y);
-                            Lg.getInstance().d(TAG, "substring = " + substring);
-                            String lastString = splitString.substring(y + 1, splitString.length());
-                            Lg.getInstance().d(TAG, "lastString = " + lastString);
-                            listFull.add(Double.parseDouble(substring));
-                            listReduce.add(Double.parseDouble(lastString));
-                            mFirstDiscount = getString(R.string.full) + listFull.get(0) + getString(R.string.element) + getString(R.string.reduce)
-                                    + listReduce.get(0) + getString(R.string.element);
-                            mDiscount.setText(mFirstDiscount);
                         }
                     }
                 }

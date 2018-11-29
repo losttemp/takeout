@@ -10,6 +10,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.AddressAddReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressDeleteReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressAddBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressDeleteBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
@@ -89,10 +90,10 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
     }
 
     public void requestDeleteAddressData(AddressDeleteReq addressDeleteReq) {
-        addressEditModel.deleteAddressData(addressDeleteReq, new RequestCallback<AddressEditBean>() {
+        addressEditModel.deleteAddressData(addressDeleteReq, new RequestCallback<AddressDeleteBean>() {
 
             @Override
-            public void onSuccess(AddressEditBean data) {
+            public void onSuccess(AddressDeleteBean data) {
                 if (null != getUi()){
                     getUi().deleteAddressSuccess(data);
                 }
@@ -112,7 +113,7 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
         void updateAddressFail(String msg);
         void addAddressSuccess(AddressAddBean data);
         void addAddressFail(String msg);
-        void deleteAddressSuccess(AddressEditBean data);
+        void deleteAddressSuccess(AddressDeleteBean data);
         void deleteAddressFail(String msg);
     }
 }

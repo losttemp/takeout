@@ -420,9 +420,8 @@ public class CityListActivity extends Activity {
             }
             br.close();
             isr.close();
-            JSONObject testjson = new JSONObject(builder.toString());//builder读取了JSON中的数据。
-            //直接传入JSONObject来构造一个实例
-            String array = testjson.getString("data");         //从JSONObject中取出数组对象
+            JSONObject testjson = new JSONObject(builder.toString());
+            String array = testjson.getString("data");
             CityListBean cityListBean = GsonUtil.fromJson(array, CityListBean.class);
             return cityListBean;
         } catch (Exception e) {

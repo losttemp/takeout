@@ -167,8 +167,9 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
 
     public void requestOrderPreview(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,
-                                    PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean, int delivery_time) {
-        String payload = onCreatePayLoadJson(spusBeanList, poiInfoBean, delivery_time);
+                                    PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean, int delivery_time,
+                                    AddressListBean.IovBean.DataBean addressData) {
+        String payload = onCreatePayLoadJson(spusBeanList, poiInfoBean, delivery_time, addressData);
         OrderPreviewReqBean orderPreviewReqBean = new OrderPreviewReqBean();
         orderPreviewReqBean.setPayload(Encryption.encrypt(payload));
         mSubmitInfo.requestOrderPreview(orderPreviewReqBean, new RequestCallback<OrderPreviewBean>() {
@@ -190,7 +191,8 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
     }
 
     private String onCreatePayLoadJson(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,
-                                       PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean, int delivery_time) {
+                                       PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean, int delivery_time,
+                                       AddressListBean.IovBean.DataBean addressData) {
 
 
         OrderPreviewJsonBean orderPreviewJsonBean = new OrderPreviewJsonBean();
@@ -217,7 +219,22 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         orderPreviewJsonBean.setWm_ordering_list(wmOrderingListBean);
 
         OrderPreviewJsonBean.WmOrderingUserBean wmOrderingUserBean = new OrderPreviewJsonBean.WmOrderingUserBean();
+
+        try {
+            wmOrderingUserBean.setUser_phone(Encryption.desEncrypt(addressData.getUser_phone()));
+            wmOrderingUserBean.setUser_name(Encryption.desEncrypt(addressData.getUser_name()));
+            wmOrderingUserBean.setUser_address(Encryption.desEncrypt(addressData.getAddress()));
+            wmOrderingUserBean.setAddr_longitu_longitude(addressData.getLongitude());
+            wmOrderingUserBean.setAddr_latitude(addressData.getLatitude());
+            wmOrderingUserBean.setUser_latitude(Constant.LATITUDE);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         orderPreviewJsonBean.setWm_ordering_user(wmOrderingUserBean);
+        orderPreviewJsonBean.setAddress_id(addressData.getMt_address_id());
         return GsonUtil.toJson(orderPreviewJsonBean);
     }
 

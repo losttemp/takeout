@@ -33,7 +33,12 @@ import java.util.List;
 
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderListPresenter.OrderListUi> implements
         OrderListPresenter.OrderListUi, View.OnClickListener {
@@ -51,6 +56,10 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private int pos;
     private final String IOV_STATUS_CANCELED = "8";
     private static final int REQUEST_CODE_CALL_PHONE = 500;
+    private static final int EVERY_TIME_PULL_COUNT = 20;
+    private static final int START_PAGE = 0;
+
+    private SmartRefreshLayout mRefreshLayout;
 
     @Override
     OrderListPresenter createPresenter() {
@@ -69,8 +78,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         setContentView(R.layout.activity_order_list);
         initView();
         initData();
-
-        getPresenter().requestOrderList(mOrderListReq);
     }
 
     @Override
@@ -87,6 +94,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mIvBack = (AppCompatImageView) findViewById(R.id.iv_back);
         mRvOrder = (RecyclerView) findViewById(R.id.rv_order);
         mTvNoOrder = (AppCompatTextView) findViewById(R.id.tv_tip_no_order);
+        mRefreshLayout = (SmartRefreshLayout) findViewById(R.id.refresh_layout);
         mTvNoOrder.setVisibility(View.GONE);
     }
 
@@ -98,6 +106,12 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mRvOrder.setAdapter(mOrderListAdaper);
 
         mOrderListReq = new OrderListReq();
+        mOrderListReq.setPage_num(EVERY_TIME_PULL_COUNT);
+        mOrderListReq.setPage(START_PAGE);
+        getPresenter().requestOrderList(mOrderListReq);
+        mRefreshLayout.setEnableLoadmore(false);
+        mRefreshLayout.setEnableRefresh(false);
+        setRefreshView();
         mIvBack.setOnClickListener(this);
 
         mOrderListAdaper.setOnItemClickListener(new OrderListAdaper.OnItemClickListener() {
@@ -119,7 +133,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         break;
                     case R.id.pay_order:
                         Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
-                        double total_price = ((double)extraBean.getOrderInfos().getGoods_total_price())/100;
+                        double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
                         payintent.putExtra("total_cost", total_price);
                         payintent.putExtra("order_id", Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         payintent.putExtra("shop_name", mOrderList.get(position).getOrder_name());
@@ -167,48 +181,29 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         });
     }
 
+    private void setRefreshView() {
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_back:
-                onBackPressed();
-                break;
-            default:
-                break;
-        }
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                mRefreshLayout.setEnableLoadmore(false);
+                mOrderListReq.setPage(START_PAGE);
+                getPresenter().requestOrderList(mOrderListReq);
+            }
+        });
+
+        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshLayout) {
+                mRefreshLayout.setEnableRefresh(false);
+                mOrderListReq.setPage(mOrderListReq.getPage() + 1);
+                getPresenter().requestOrderList(mOrderListReq);
+            }
+        });
+
     }
 
-    @Override
-    public void update(OrderListResponse data) {
-        mOrderList.clear();
-        mOrderList.addAll(data.getIov().getData());
-        mOrderListAdaper.notifyDataSetChanged();
-        if (mOrderList.size() == 0) {
-            mTvNoOrder.setText(R.string.no_order);
-            mTvNoOrder.setVisibility(View.VISIBLE);
-            mRvOrder.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void updateOrderCancel(OrderCancelResponse data) {
-        if (data.getMeituan().getCode() == 0) {
-            Toast.makeText(this, R.string.order_cancelled, Toast.LENGTH_LONG).show();
-            mOrderList.get(pos).setOut_trade_status(IOV_STATUS_CANCELED);
-            mOrderListAdaper.notifyItemChanged(pos);
-        } else {
-            String msg = data.getMeituan().getErrorInfo().getName();
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void failure(String msg) {
-    }
-
-    @Override
-    public void orderCancelfail(String msg) {
+    private void showCancelDialog() {
         ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
                 .setTitle(R.string.remind_title)
                 .setMessage(R.string.remind_message)
@@ -241,6 +236,71 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     }
                 }).create();
         dialog1.show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_back:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void update(OrderListResponse data) {
+
+        mRefreshLayout.setEnableLoadmore(true);
+        mRefreshLayout.setEnableRefresh(true);
+
+        if (mRefreshLayout.isRefreshing()) {
+            mOrderList.clear();
+            mRefreshLayout.finishRefresh();
+        }
+        if (mRefreshLayout.isLoading()) {
+            mRefreshLayout.finishLoadmore();
+        }
+
+
+        if (null != data.getIov() && null != data.getIov().getData() && data.getIov().getData().size() != 0) {
+            mOrderList.addAll(data.getIov().getData());
+            mOrderListAdaper.notifyDataSetChanged();
+        } else {
+            mRefreshLayout.setEnableLoadmore(false);
+        }
+        if (mOrderList.size() == 0) {
+            mTvNoOrder.setText(R.string.no_order);
+            mTvNoOrder.setVisibility(View.VISIBLE);
+            mRvOrder.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void updateOrderCancel(OrderCancelResponse data) {
+        if (data.getMeituan().getCode() == 0) {
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancelled),Toast.LENGTH_LONG);
+            mOrderList.get(pos).setOut_trade_status(IOV_STATUS_CANCELED);
+            mOrderListAdaper.notifyItemChanged(pos);
+        } else {
+            showCancelDialog();
+        }
+    }
+
+    @Override
+    public void failure(String msg) {
+        if (mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.finishRefresh(false);
+        }
+        if (mRefreshLayout.isLoading()) {
+            mRefreshLayout.finishLoadmore(1000, false);
+        }
+    }
+
+    @Override
+    public void orderCancelfail(String msg) {
+        showCancelDialog();
     }
 
     @Override

@@ -42,12 +42,13 @@
     <string name="tips_earliest_delivery_time">现在预订，最早10:30开始配送</string>
     <string name="free_distribution">免费配送 |</string>
     <string name="this_keyword_is_complicated">这个关键词有点复杂</string>
-
+    
     <string name="delete_history_title">删除搜索历史</string>
     <string name="delete_history_message">确定要删除所有搜索历史吗？</string>
     <string name="delete_history_cancel">取消</string>
     <string name="delete_history_ok">确定</string>
     
+
     <!--FilterPopWindow-->
     <string name="ok">确定</string>
     <string name="reset">重置</string>
@@ -62,7 +63,6 @@
     <string name="shop_details">店铺详情</string>
     <string name="kfc">肯德基</string>
     <string name="porridge">皮蛋瘦肉粥</string>
-    <string name="evaluate">月售%1$s</string>
     <string name="add_to_cart">加入购物车</string>
     <string name="chicken">推荐大鸡排</string>
     <string name="explain">大块鸡排，鲜嫩多汁，配上超多芝士和新鲜生菜</string>
@@ -166,7 +166,7 @@
     <string name="order_preview_msg5">菜品未达起送金额</string>
     <string name="order_preview_msg15">未达到最小菜品起送份数</string>
     <string name="order_preview_msg20">缺少必选菜品</string>
-    <string name="order_submit_msg8">超出配送范围</string>
+    <string name="order_submit_msg8">该地址不在配送范围内，请重新选择</string>
     <string name="service_error">服务器异常</string>
     <string name="please_select_address">请选择配送地址</string>
     <string name="address_select_title">我的收货地址</string>
@@ -196,6 +196,8 @@
     <string name="remind_title">温馨提醒</string>
     <string name="remind_message">该订单需要联系美团客服咨询取消方式，确认拨打电话10109777取消订单吗？</string>
     <string name="remind_phone">10109777</string>
+    <string name="contact_meituan_title">联系美团客服</string>
+    <string name="contact_meituan_message">是否拨打美团客服电话：10109777</string>
     <string name="order_pay_type1">货到付款</string>
     <string name="order_pay_type2">在线支付</string>
     <string name="waiting_to_pay">待支付</string>
@@ -206,7 +208,13 @@
     <string name="pay_refunded">已退款</string>
     <string name="pay_cancel">已取消</string>
     <string name="refund_fail">退款失败</string>
+    <string name="pay_fail">支付失败</string>
+    <string name="notify_restaurant">待商家接单</string>
+    <string name="restaurant_confirm">商家已接单</string>
+    <string name="delivering">派送中</string>
     <string name="arrival_time">预计%s到达</string>
+    <string name="must_buy">至少购</string>
+    <string name="share_buy">份</string>
 
     <string name="address_suggestion_erro">抱歉，未能找到您搜索的地址，换个地址试试</string>
     <string name="edit_address">编辑地址</string>
