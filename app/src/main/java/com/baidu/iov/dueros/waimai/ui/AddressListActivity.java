@@ -87,9 +87,12 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             public void onItemClick(View view, int position) {
                 switch (view.getId()) {
                     case R.id.img_select:
-                        Intent intent = new Intent(getApplicationContext(), AddressSelectActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), AddressEditActivity.class);
+                        intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
+                        intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS, mDataListBean.get(position));
                         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+
                         break;
 
                     default:
