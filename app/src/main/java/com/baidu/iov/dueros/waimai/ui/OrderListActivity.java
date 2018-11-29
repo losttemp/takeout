@@ -263,9 +263,9 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             mRefreshLayout.finishLoadmore();
         }
 
-        List<OrderListResponse.IovBean.DataBean> beanList = data.getIov().getData();
-        if (null != beanList && beanList.size() != 0) {
-            mOrderList.addAll(beanList);
+
+        if (null != data.getIov() && null != data.getIov().getData() && data.getIov().getData().size() != 0) {
+            mOrderList.addAll(data.getIov().getData());
             mOrderListAdaper.notifyDataSetChanged();
         } else {
             mRefreshLayout.setEnableLoadmore(false);

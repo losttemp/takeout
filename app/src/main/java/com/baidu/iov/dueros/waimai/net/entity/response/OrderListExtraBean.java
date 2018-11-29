@@ -103,7 +103,7 @@ public class OrderListExtraBean {
             private int count;
             private String spec;
             private int box_num;
-            private int box_price;
+            private double box_price;
             private List<String> attrIds;
             private List<String> attrValues;
 
@@ -171,12 +171,12 @@ public class OrderListExtraBean {
                 return box_num;
             }
 
-            public void setBox_price(int box_price) {
-                this.box_price = box_price;
+            public double getBox_price() {
+                return box_price;
             }
 
-            public int getBox_price() {
-                return box_price;
+            public void setBox_price(double box_price) {
+                this.box_price = box_price;
             }
 
             public void setAttrIds(List<String> attrIds) {
