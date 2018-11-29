@@ -132,7 +132,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         break;
                     case R.id.pay_order:
                         Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
-                        double total_price = ((double)extraBean.getOrderInfos().getGoods_total_price())/100;
+                        double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
                         payintent.putExtra("total_cost", total_price);
                         payintent.putExtra("order_id", Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         payintent.putExtra("shop_name", mOrderList.get(position).getOrder_name());
@@ -202,6 +202,40 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     }
 
+    private void showCancelDialog() {
+        ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
+                .setTitle(R.string.remind_title)
+                .setMessage(R.string.remind_message)
+                .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(R.string.remind_phone, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (ActivityCompat.checkSelfPermission(OrderListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(OrderListActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_CALL_PHONE);
+                            } else {
+                                Intent intent = new Intent(Intent.ACTION_CALL);
+                                Uri data = Uri.parse("tel:" + "10109777");
+                                intent.setData(data);
+                                startActivity(intent);
+                            }
+                        }
+                        dialog.dismiss();
+                    }
+                })
+                .setCloseButton(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog1.show();
+    }
 
     @Override
     public void onClick(View v) {
@@ -249,8 +283,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             mOrderList.get(pos).setOut_trade_status(IOV_STATUS_CANCELED);
             mOrderListAdaper.notifyItemChanged(pos);
         } else {
-            String msg = data.getMeituan().getErrorInfo().getName();
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+            showCancelDialog();
         }
     }
 
@@ -266,38 +299,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void orderCancelfail(String msg) {
-        ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
-                .setTitle(R.string.remind_title)
-                .setMessage(R.string.remind_message)
-                .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .setPositiveButton(R.string.remind_phone, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (ActivityCompat.checkSelfPermission(OrderListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions(OrderListActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_CALL_PHONE);
-                            } else {
-                                Intent intent = new Intent(Intent.ACTION_CALL);
-                                Uri data = Uri.parse("tel:" + "10109777");
-                                intent.setData(data);
-                                startActivity(intent);
-                            }
-                        }
-                        dialog.dismiss();
-                    }
-                })
-                .setCloseButton(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create();
-        dialog1.show();
+        showCancelDialog();
     }
 
     @Override
