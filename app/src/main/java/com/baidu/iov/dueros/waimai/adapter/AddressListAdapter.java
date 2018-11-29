@@ -93,14 +93,19 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ((ViewHolder) holder).tv_address.setText(address);
 
                 String address_type = mData.get(realPosition).getType();
-                if (address_type != null) {
 
-                    if (mContext.getString(R.string.address_home).equals(address_type)) {
-                        ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_green);
-                    } else {
-                        ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_blue);
-                    }
+                if (mContext.getString(R.string.address_home).equals(address_type)) {
+                    ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_green);
                     ((ViewHolder) holder).tv_address_type.setText(address_type);
+
+                } else if (mContext.getString(R.string.address_company).equals(address_type)) {
+                    ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_blue);
+                    ((ViewHolder) holder).tv_address_type.setText(address_type);
+
+                } else if (mContext.getString(R.string.address_tag_other).equals(address_type)) {
+                    ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg);
+                    ((ViewHolder) holder).tv_address_type.setText(address_type);
+
                 } else {
                     ((ViewHolder) holder).tv_address_type.setText(mContext.getString(R.string.address_tag_other));
                     ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg);

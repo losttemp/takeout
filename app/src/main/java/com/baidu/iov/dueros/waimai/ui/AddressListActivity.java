@@ -123,17 +123,25 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 
         try {
             addressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
-            if (mAddressData.getType() != null) {
-                if (getString(R.string.address_home).equals(mAddressData.getType())) {
-                    typeTv.setBackgroundResource(R.drawable.tag_bg_green);
-                } else {
-                    typeTv.setBackgroundResource(R.drawable.tag_bg_blue);
-                }
+
+            if (getString(R.string.address_home).equals(mAddressData.getType())) {
+                typeTv.setBackgroundResource(R.drawable.tag_bg_green);
                 typeTv.setText(mAddressData.getType());
-            } else {
-                typeTv.setText(getString(R.string.address_tag_other));
+
+            } else if (getString(R.string.address_company).equals(mAddressData.getType())) {
+                typeTv.setBackgroundResource(R.drawable.tag_bg_blue);
+                typeTv.setText(mAddressData.getType());
+
+            } else if (getString(R.string.address_tag_other).equals(mAddressData.getType())) {
                 typeTv.setBackgroundResource(R.drawable.tag_bg);
+                typeTv.setText(mAddressData.getType());
+
+            } else {
+                typeTv.setBackgroundResource(R.drawable.tag_bg);
+                typeTv.setText(getString(R.string.address_tag_other));
+
             }
+
 
             String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
             nameTv.setText(userInfo);
