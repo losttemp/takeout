@@ -47,7 +47,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private OrderDetailsReq mOrderDetailsReq;
     private OrderCancelReq mOrderCancelReq;
     private long order_id;
-    private long expectedTime;
+    private int expectedTime;
     private NumberFormat mNumberFormat;
     private OrderDetailsResponse.MeituanBean.DataBean mOrderDetails = new OrderDetailsResponse.MeituanBean.DataBean();
     private static final int REQUEST_CODE_CALL_PHONE = 600;
@@ -237,7 +237,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     private void initData() {
         order_id = getIntent().getLongExtra(Constant.ORDER_ID, -1);
-        expectedTime = getIntent().getLongExtra(Constant.EXPECTED_TIME, 0);
+        expectedTime = getIntent().getIntExtra(Constant.EXPECTED_TIME, 0);
         mOrderDetailsReq = new OrderDetailsReq();
         mOrderDetailsReq.setId(order_id);
         loadData();

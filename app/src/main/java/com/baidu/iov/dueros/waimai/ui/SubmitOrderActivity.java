@@ -98,6 +98,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         setContentView(R.layout.activity_submit_order);
 
         mNumberFormat = new DecimalFormat("##.##");
+        SharedPreferences sharedPreferences = getSharedPreferences("_cache", MODE_PRIVATE);
+        String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
+        if (addressDataJson != null) {
+            mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
+        }
+
         Intent intent = getIntent();
         if (intent != null) {
             mProductList = (List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean>) intent.getSerializableExtra(PRODUCT_LIST_BEAN);
@@ -105,7 +111,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             if (mProductList != null && mPoiInfo != null) {
                 getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime);
+                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData);
             }
         }
 
@@ -147,10 +153,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mDeliveryTypeTv.setText(deliveryType);
         }
 
-        SharedPreferences sharedPreferences = getSharedPreferences("_cache", MODE_PRIVATE);
-        String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
-        if (addressDataJson != null) {
-            mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
+        if (mAddressData != null) {
             try {
                 mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
                 String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
@@ -335,7 +338,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     }
 
                 }
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime);
+                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData);
                 mCurTimeItem = position;
                 mPreDateItem = mCurDateItem;
                 mTimeAdapter.setCurrentItem(mCurTimeItem, mPreDateItem);
@@ -391,6 +394,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             case Constant.SELECT_DELIVERY_ADDRESS:
                 if (data != null) {
                     mAddressData = (AddressListBean.IovBean.DataBean) data.getSerializableExtra(ADDRESS_DATA);
+                    getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData);
 
                     try {
                         mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));

@@ -42,23 +42,23 @@ public class AddressListBean {
         public static class DataBean implements Serializable{
 
             private String address;
-            private int latitude;
-            private int longitude;
+            private Integer latitude;
+            private Integer longitude;
             private boolean is_hint;
-            private long address_id;
-            private long mt_address_id;
+            private Long address_id;
+            private Long mt_address_id;
             private String house;
             private String user_phone;
             private String user_name;
-            private int canShipping;
+            private Integer canShipping;
             private String addressRangeTip;
-            private int sex;
+            private Integer sex;
 
-            public long getAddress_id() {
+            public Long getAddress_id() {
                 return address_id;
             }
 
-            public void setAddress_id(long address_id) {
+            public void setAddress_id(Long address_id) {
                 this.address_id = address_id;
             }
 
@@ -72,11 +72,11 @@ public class AddressListBean {
 
             private String type;
 
-            public int getCanShipping() {
+            public Integer getCanShipping() {
                 return canShipping;
             }
 
-            public void setCanShipping(int canShipping) {
+            public void setCanShipping(Integer canShipping) {
                 this.canShipping = canShipping;
             }
 
@@ -96,19 +96,19 @@ public class AddressListBean {
                 this.address = address;
             }
 
-            public int getLatitude() {
+            public Integer getLatitude() {
                 return latitude;
             }
 
-            public void setLatitude(int latitude) {
+            public void setLatitude(Integer latitude) {
                 this.latitude = latitude;
             }
 
-            public int getLongitude() {
+            public Integer getLongitude() {
                 return longitude;
             }
 
-            public void setLongitude(int longitude) {
+            public void setLongitude(Integer longitude) {
                 this.longitude = longitude;
             }
 
@@ -120,11 +120,11 @@ public class AddressListBean {
                 this.is_hint = is_hint;
             }
 
-            public long getMt_address_id() {
+            public Long getMt_address_id() {
                 return mt_address_id;
             }
 
-            public void setMt_address_id(long mt_address_id) {
+            public void setMt_address_id(Long mt_address_id) {
                 this.mt_address_id = mt_address_id;
             }
 
@@ -152,11 +152,11 @@ public class AddressListBean {
                 this.user_name = user_name;
             }
 
-            public int getSex() {
+            public Integer getSex() {
                 return sex;
             }
 
-            public void setSex(int sex) {
+            public void setSex(Integer sex) {
                 this.sex = sex;
             }
         }
