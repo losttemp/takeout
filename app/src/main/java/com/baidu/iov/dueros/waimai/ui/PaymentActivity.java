@@ -42,7 +42,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     private int mCount = 0;
     private Long mOrderId;
     private String mPicUrl;
-    private long mExpectedTime;
+    private int mExpectedTime;
     private int mPayStatus;
 
 
@@ -84,7 +84,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             double amount = intent.getDoubleExtra(Constant.TOTAL_COST, 0);
             mOrderId = intent.getLongExtra(Constant.ORDER_ID, 0);
             mPicUrl = intent.getStringExtra(Constant.PIC_URL);
-            mExpectedTime = intent.getLongExtra(Constant.EXPECTED_TIME, 0);
+            mExpectedTime = intent.getIntExtra(Constant.EXPECTED_TIME, 0);
             String shopName = intent.getStringExtra(Constant.SHOP_NAME);
             String payUrl = intent.getStringExtra(Constant.PAY_URL);
 

@@ -7,7 +7,7 @@ public class OrderPreviewJsonBean {
     private String user_phone;
     private WmOrderingListBean wm_ordering_list;
     private WmOrderingUserBean wm_ordering_user;
-    private int address_id;
+    private Long address_id;
 
     public String getUser_phone() {
         return user_phone;
@@ -33,11 +33,11 @@ public class OrderPreviewJsonBean {
         this.wm_ordering_user = wm_ordering_user;
     }
 
-    public int getAddress_id() {
+    public Long getAddress_id() {
         return address_id;
     }
 
-    public void setAddress_id(int address_id) {
+    public void setAddress_id(Long address_id) {
         this.address_id = address_id;
     }
 
@@ -119,9 +119,9 @@ public class OrderPreviewJsonBean {
         private String user_address;
         private String user_caution;
         private String house_number;
-        private int addr_latitude;
-        private int addr_longitu_longitude;
-        private int user_latitude;
+        private Integer addr_latitude;
+        private Integer addr_longitu_longitude;
+        private Integer user_latitude;
 
         public String getUser_phone() {
             return user_phone;
@@ -163,27 +163,27 @@ public class OrderPreviewJsonBean {
             this.house_number = house_number;
         }
 
-        public int getAddr_latitude() {
+        public Integer getAddr_latitude() {
             return addr_latitude;
         }
 
-        public void setAddr_latitude(int addr_latitude) {
+        public void setAddr_latitude(Integer addr_latitude) {
             this.addr_latitude = addr_latitude;
         }
 
-        public int getAddr_longitu_longitude() {
+        public Integer getAddr_longitu_longitude() {
             return addr_longitu_longitude;
         }
 
-        public void setAddr_longitu_longitude(int addr_longitu_longitude) {
+        public void setAddr_longitu_longitude(Integer addr_longitu_longitude) {
             this.addr_longitu_longitude = addr_longitu_longitude;
         }
 
-        public int getUser_latitude() {
+        public Integer getUser_latitude() {
             return user_latitude;
         }
 
-        public void setUser_latitude(int user_latitude) {
+        public void setUser_latitude(Integer user_latitude) {
             this.user_latitude = user_latitude;
         }
     }
