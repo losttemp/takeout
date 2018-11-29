@@ -133,8 +133,9 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         String shopName = mOrderDetails.getPoi_name();
         String address = mOrderDetails.getRecipient_address();
         String phone = mOrderDetails.getRecipient_phone();
+        String name = mOrderDetails.getRecipient_name();
 
-        mContact.setText(phone);
+        mContact.setText(name + " " + phone);
         mAddress.setText(address);
         mBusinessName.setText(shopName);
         mDistributionFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
