@@ -632,38 +632,40 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (productList == null || productList.size() == 0) {
             mDiscount.setText(mFirstDiscount);
         }
-        double min_price = mPoidetailinfoBean.getMeituan().getData().getMin_price();
-        if (sum > 0) {
-            if (sum < mPoidetailinfoBean.getMeituan().getData().getMin_price()) {
-                double v = min_price - sum;
-                java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
-                String str = myformat.format(v);
-                settlement.setText(String.format(getString(R.string.not_distribution), "" + str));
-                settlement.setBackgroundResource(R.drawable.btn_grey);
-                settlement.setEnabled(false);
-            } else {
-                settlement.setText(R.string.confirmation_of_the_order);
-                settlement.setBackgroundResource(R.drawable.btn_bg);
-                settlement.setEnabled(true);
-            }
-            if (mCartSettlement != null) {
-                if (sum < min_price) {
+        if (mPoidetailinfoBean != null) {
+            double min_price = mPoidetailinfoBean.getMeituan().getData().getMin_price();
+            if (sum > 0) {
+                if (sum < mPoidetailinfoBean.getMeituan().getData().getMin_price()) {
                     double v = min_price - sum;
                     java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
                     String str = myformat.format(v);
-                    mCartSettlement.setText(String.format(getString(R.string.not_distribution), "" + str));
-                    mCartSettlement.setBackgroundResource(R.drawable.btn_grey);
-                    mCartSettlement.setEnabled(false);
+                    settlement.setText(String.format(getString(R.string.not_distribution), "" + str));
+                    settlement.setBackgroundResource(R.drawable.btn_grey);
+                    settlement.setEnabled(false);
                 } else {
-                    mCartSettlement.setText(R.string.confirmation_of_the_order);
-                    mCartSettlement.setBackgroundResource(R.drawable.btn_bg);
-                    mCartSettlement.setEnabled(true);
+                    settlement.setText(R.string.confirmation_of_the_order);
+                    settlement.setBackgroundResource(R.drawable.btn_bg);
+                    settlement.setEnabled(true);
                 }
+                if (mCartSettlement != null) {
+                    if (sum < min_price) {
+                        double v = min_price - sum;
+                        java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
+                        String str = myformat.format(v);
+                        mCartSettlement.setText(String.format(getString(R.string.not_distribution), "" + str));
+                        mCartSettlement.setBackgroundResource(R.drawable.btn_grey);
+                        mCartSettlement.setEnabled(false);
+                    } else {
+                        mCartSettlement.setText(R.string.confirmation_of_the_order);
+                        mCartSettlement.setBackgroundResource(R.drawable.btn_bg);
+                        mCartSettlement.setEnabled(true);
+                    }
+                }
+            } else {
+                settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
+                settlement.setBackgroundResource(R.drawable.btn_grey);
+                settlement.setEnabled(false);
             }
-        } else {
-            settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
-            settlement.setBackgroundResource(R.drawable.btn_grey);
-            settlement.setEnabled(false);
         }
     }
 
@@ -706,7 +708,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         shoppingListView.setAdapter(shoppingCartAdapter);
         shoppingCartAdapter.setShopToDetailListener(this);
         mClearshopCart.setOnClickListener(this);
-        mCartDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
+        if (mPoidetailinfoBean != null) {
+            mCartDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
+        }
         setPrise(false);
     }
 
@@ -772,14 +776,16 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 mDetailsDistribution = (MultiplTextView) popView.findViewById(R.id.tv_details_distribution);
                 mDetailsDiscount = (TextView) popView.findViewById(R.id.tv_discount);
                 StringBuffer stringBuffer = new StringBuffer();
-                for (int i = 0; i < mPoidetailinfoBean.getMeituan().getData().getDiscounts().size(); i++) {
-                    String info = mPoidetailinfoBean.getMeituan().getData().getDiscounts().get(i).getInfo();
-                    stringBuffer.append(info + "   ");
+                if (mPoidetailinfoBean != null) {
+                    for (int i = 0; i < mPoidetailinfoBean.getMeituan().getData().getDiscounts().size(); i++) {
+                        String info = mPoidetailinfoBean.getMeituan().getData().getDiscounts().get(i).getInfo();
+                        stringBuffer.append(info + "   ");
+                    }
+                    mDetailsDiscount.setText(stringBuffer);
+                    mDetailsShopName.setText(mPoidetailinfoBean.getMeituan().getData().getName());
+                    mDetailsDistribution.setText(getString(R.string.distribution_situation, "" + mPoidetailinfoBean.getMeituan().getData().getMin_price(),
+                            "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee(), "" + mPoidetailinfoBean.getMeituan().getData().getAvg_delivery_time()));
                 }
-                mDetailsDiscount.setText(stringBuffer);
-                mDetailsShopName.setText(mPoidetailinfoBean.getMeituan().getData().getName());
-                mDetailsDistribution.setText(getString(R.string.distribution_situation, "" + mPoidetailinfoBean.getMeituan().getData().getMin_price(),
-                        "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee(), "" + mPoidetailinfoBean.getMeituan().getData().getAvg_delivery_time()));
                 mDetailsNotice.setText(getString(R.string.notice, mPoiInfoBean.getBulletin()));
 
                 final PopupWindow window = new PopupWindow(popView,
@@ -1064,48 +1070,50 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void onPoidetailinfoSuccess(PoidetailinfoBean data) {
         mPoidetailinfoBean = data;
-        List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
-        List<String> discountList = getDiscountList(discounts);
-        if (mDiscounts.getItemDecorationCount() == 0) {
-            mDiscounts.addItemDecoration(new SpaceItemDecoration(dp2px(3)));
-        }
-        final FlowLayoutManager layoutManager = new FlowLayoutManager();
-        mDiscounts.setLayoutManager(layoutManager);
-        DiscountAdaper discountAdaper = new DiscountAdaper(discountList);
-        mDiscounts.setAdapter(discountAdaper);
-        settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
-        mDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
-        mMtDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
-        if (discounts.size() == 0) {
-            mRlDiscount.setVisibility(View.GONE);
-        } else {
-            for (int i = 0; i < discounts.size(); i++) {
-                String info = discounts.get(i).getInfo();
-                if (info.contains(getString(R.string.full)) && info.contains(getString(R.string.reduce))) {
-                    mRlDiscount.setVisibility(View.VISIBLE);
-                    if (info.startsWith(getString(R.string.full))) {
-                        String[] split = info.split(";");
-                        listFull = new ArrayList();
-                        listReduce = new ArrayList();
-                        Lg.getInstance().d(TAG, "split.length = " + split.length);
-                        for (int j = 0; j < split.length; j++) {
-                            String splitString = split[j];
-                            int y = 0;
-                            for (int k = 0; k < splitString.length(); k++) {
-                                String s = splitString.charAt(k) + "";
-                                if (s.equals(getString(R.string.reduce))) {
-                                    y = k;
+        if (mPoidetailinfoBean != null) {
+            List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
+            List<String> discountList = getDiscountList(discounts);
+            if (mDiscounts.getItemDecorationCount() == 0) {
+                mDiscounts.addItemDecoration(new SpaceItemDecoration(dp2px(3)));
+            }
+            final FlowLayoutManager layoutManager = new FlowLayoutManager();
+            mDiscounts.setLayoutManager(layoutManager);
+            DiscountAdaper discountAdaper = new DiscountAdaper(discountList);
+            mDiscounts.setAdapter(discountAdaper);
+            settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
+            mDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
+            mMtDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));
+            if (discounts.size() == 0) {
+                mRlDiscount.setVisibility(View.GONE);
+            } else {
+                for (int i = 0; i < discounts.size(); i++) {
+                    String info = discounts.get(i).getInfo();
+                    if (info.contains(getString(R.string.full)) && info.contains(getString(R.string.reduce))) {
+                        mRlDiscount.setVisibility(View.VISIBLE);
+                        if (info.startsWith(getString(R.string.full))) {
+                            String[] split = info.split(";");
+                            listFull = new ArrayList();
+                            listReduce = new ArrayList();
+                            Lg.getInstance().d(TAG, "split.length = " + split.length);
+                            for (int j = 0; j < split.length; j++) {
+                                String splitString = split[j];
+                                int y = 0;
+                                for (int k = 0; k < splitString.length(); k++) {
+                                    String s = splitString.charAt(k) + "";
+                                    if (s.equals(getString(R.string.reduce))) {
+                                        y = k;
+                                    }
                                 }
+                                String substring = splitString.substring(1, y);
+                                Lg.getInstance().d(TAG, "substring = " + substring);
+                                String lastString = splitString.substring(y + 1, splitString.length());
+                                Lg.getInstance().d(TAG, "lastString = " + lastString);
+                                listFull.add(Double.parseDouble(substring));
+                                listReduce.add(Double.parseDouble(lastString));
+                                mFirstDiscount = getString(R.string.full) + listFull.get(0) + getString(R.string.element) + getString(R.string.reduce)
+                                        + listReduce.get(0) + getString(R.string.element);
+                                mDiscount.setText(mFirstDiscount);
                             }
-                            String substring = splitString.substring(1, y);
-                            Lg.getInstance().d(TAG, "substring = " + substring);
-                            String lastString = splitString.substring(y + 1, splitString.length());
-                            Lg.getInstance().d(TAG, "lastString = " + lastString);
-                            listFull.add(Double.parseDouble(substring));
-                            listReduce.add(Double.parseDouble(lastString));
-                            mFirstDiscount = getString(R.string.full) + listFull.get(0) + getString(R.string.element) + getString(R.string.reduce)
-                                    + listReduce.get(0) + getString(R.string.element);
-                            mDiscount.setText(mFirstDiscount);
                         }
                     }
                 }

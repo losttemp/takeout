@@ -224,7 +224,6 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 MultiplTextView spusName = (MultiplTextView) popView.findViewById(R.id.tv_spus_name);
                 ImageView spusPicture = (ImageView) popView.findViewById(R.id.iv_spus);
                 MultiplTextView spusPrice = (MultiplTextView) popView.findViewById(R.id.tv_spus_price);
-                MultiplTextView spusEvaluate = (MultiplTextView) popView.findViewById(R.id.tv_spus_evaluate);
                 TextView spusDescription = (TextView) popView.findViewById(R.id.tv_spus_description);
                 ImageView increase = (ImageView) popView.findViewById(R.id.increase);
                 ImageView reduce = (ImageView) popView.findViewById(R.id.reduce);
@@ -253,7 +252,6 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                 });
 
                 spusDescription.setText(spusBean.getDescription());
-                spusEvaluate.setText(String.format(context.getString(R.string.evaluate), "" + spusBean.getMonth_saled()));
                 spusPrice.setText(String.format("¥%1$s", "" + spusBean.getMin_price()));
                 spusName.setText(spusBean.getName());
                 GlideApp.with(context)
