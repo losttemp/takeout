@@ -13,6 +13,7 @@ import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
@@ -152,8 +153,11 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-		mStoreListFragment.homeLoadFirstPage();
+	public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
+		if (isSuccess) {
+			mStoreListFragment.homeLoadFirstPage();
+		} 
 	}
+
+	
 }
