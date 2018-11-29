@@ -84,16 +84,16 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         mWVMeituan.getSettings().setSupportZoom(true);
         mWVMeituan.getSettings().setBuiltInZoomControls(true);
 
-        if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
-            getPresenter().requestAccountInfo();
-        } else {
-            getPresenter().requestMeituanAuth(mMeituanAuthReq);
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
+            getPresenter().requestAccountInfo();
+        } else {
+            getPresenter().requestMeituanAuth(mMeituanAuthReq);
+        }
     }
 
     @Override
