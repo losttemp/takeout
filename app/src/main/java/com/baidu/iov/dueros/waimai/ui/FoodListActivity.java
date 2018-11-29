@@ -58,6 +58,7 @@ import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.PoifoodListPinnedHeaderListView;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -564,7 +565,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 mCartShoppingPrise.setText("¥" + " " + sum);
             }
             if (increase && mIsDiscountList.size() == 1 && !alreadyToast) {
-                Toast.makeText(this, getString(R.string.discount_prompt), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.discount_prompt),Toast.LENGTH_SHORT);
                 alreadyToast = true;
             }
         } else {
@@ -929,25 +930,24 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 startActivity(intent);
                 break;
             case Constant.STORE_CANT_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg2),Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_CANT_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg3), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg3),Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COST_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg5), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg5),Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COUNT_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg15), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg15),Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_LACK_NOT_BUY:
-//                Toast.makeText(this, getString(R.string.order_preview_msg20), Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, data.getMeituan().getMsg(), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this,data.getMeituan().getMsg(),Toast.LENGTH_SHORT);
                 break;
             case Constant.SERVICE_ERROR:
-                Toast.makeText(this, getString(R.string.service_error), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.service_error),Toast.LENGTH_SHORT);
                 break;
         }
     }

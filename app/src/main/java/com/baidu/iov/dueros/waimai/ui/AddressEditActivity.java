@@ -30,6 +30,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
@@ -172,17 +173,17 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     @Override
     public void updateAddressSuccess(AddressEditBean data) {
         if (data.getMeituan().getCode() == 0) {
-            Toast.makeText(this, R.string.address_update_success, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_update_success),Toast.LENGTH_SHORT);
             finish();
         } else {
             String msg = data.getMeituan().getMsg();
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, msg,Toast.LENGTH_SHORT);
         }
     }
 
     @Override
     public void updateAddressFail(String msg) {
-        Toast.makeText(this, R.string.address_update_fail, Toast.LENGTH_SHORT).show();
+        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_update_fail),Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -194,14 +195,14 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
                 getPresenter().requestUpdateAddressData(mAddrEditReq);
             } else {
-                Toast.makeText(this, R.string.address_update_fail, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_update_fail),Toast.LENGTH_SHORT);
             }
         } else {
             if (data.getIov().getData() != null) {
-                Toast.makeText(this, R.string.address_save_success, Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_success),Toast.LENGTH_SHORT);
                 finish();
             } else {
-                Toast.makeText(this, R.string.address_save_fail, Toast.LENGTH_LONG).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_fail),Toast.LENGTH_LONG);
             }
         }
 
@@ -209,23 +210,23 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void addAddressFail(String msg) {
-        Toast.makeText(this, R.string.address_save_fail, Toast.LENGTH_LONG).show();
+        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_fail),Toast.LENGTH_LONG);
     }
 
     @Override
     public void deleteAddressSuccess(AddressDeleteBean data) {
         if (data.getIov().getErrno() == 0) {
-            Toast.makeText(this, R.string.address_delete_success, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_delete_success),Toast.LENGTH_SHORT);
             finish();
         } else {
             String msg = data.getIov().getErrmsg();
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, msg,Toast.LENGTH_SHORT);
         }
     }
 
     @Override
     public void deleteAddressFail(String msg) {
-        Toast.makeText(this, R.string.address_delete_fail, Toast.LENGTH_SHORT).show();
+        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_delete_fail),Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -260,13 +261,13 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         String type = mTagListView.getmTagValue();
 
         if (TextUtils.isEmpty(et_name.getText())) {
-            Toast.makeText(this, R.string.address_check_name, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_name),Toast.LENGTH_SHORT);
         } else if (TextUtils.isEmpty(et_phone.getText())) {
-            Toast.makeText(this, R.string.address_check_phone, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_phone),Toast.LENGTH_SHORT);
         } else if (TextUtils.isEmpty(address_tv.getText())) {
-            Toast.makeText(this, R.string.address_check_address, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_address),Toast.LENGTH_SHORT);
         }else if(TextUtils.isEmpty(type)){
-            Toast.makeText(this, R.string.address_check_tagvalue, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_tagvalue),Toast.LENGTH_SHORT);
         } else{
             String house_num = Encryption.encrypt(et_house_num.getText().toString() + "");
             String name = Encryption.encrypt(et_name.getText() + "");

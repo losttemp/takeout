@@ -34,6 +34,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.bumptech.glide.Glide;
 
@@ -255,7 +256,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             case R.id.to_pay:
 
                 if (mAddressData == null) {
-                    Toast.makeText(this, getString(R.string.please_select_address), Toast.LENGTH_SHORT).show();
+                    ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address),Toast.LENGTH_SHORT);
                 }
 
                 if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
@@ -507,24 +508,24 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         switch (code) {
             case Constant.STORE_CANT_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg2),Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_CANT_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg3), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg3),Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COST_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg5), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg5),Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COUNT_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg15), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg15),Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_LACK_NOT_BUY:
-                Toast.makeText(this, getString(R.string.order_preview_msg20), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg20),Toast.LENGTH_SHORT);
                 break;
             case Constant.SERVICE_ERROR:
-                Toast.makeText(this, getString(R.string.service_error), Toast.LENGTH_SHORT).show();
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.service_error),Toast.LENGTH_SHORT);
                 break;
         }
 

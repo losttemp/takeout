@@ -26,6 +26,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.NoClikRecyclerView;
 
@@ -382,12 +383,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     public void updateOrderCancel(OrderCancelResponse data) {
         if (data.getMeituan().getCode() == 0) {
             Toast toast = new Toast(this);
-            toast.makeText(this, R.string.order_cancel_toast, Toast.LENGTH_LONG);
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancel_toast),Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         } else {
             String msg = data.getMeituan().getErrorInfo().getName();
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+            ToastUtils.show(this, msg,Toast.LENGTH_SHORT);
         }
     }
 
