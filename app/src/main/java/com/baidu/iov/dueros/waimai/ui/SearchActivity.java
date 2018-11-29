@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.ui;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -27,6 +28,8 @@ import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.presenter.SearchPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
+import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresenter.SearchUi>
@@ -215,10 +218,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				break;
 
 			case R.id.iv_delete:
-				SharedPreferencesUtils.clearSearchHistory();
-				SharedPreferencesUtils.getSearchHistory(mHistorys);
-				mSearchHistroyAdapter.notifyDataSetChanged();
-				mLlHistory.setVisibility(View.GONE);
+				deleteAll();
 				break;
 
 			case R.id.iv_clean:
@@ -229,6 +229,30 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				break;
 		}
 
+	}
+
+	private void deleteAll() {
+		ConfirmDialog dialog = new ConfirmDialog.Builder(this)
+				.setTitle(R.string.delete_history_title)
+				.setMessage(R.string.delete_history_message)
+				.setNegativeButton(R.string.delete_history_ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						SharedPreferencesUtils.clearSearchHistory();
+						SharedPreferencesUtils.getSearchHistory(mHistorys);
+						mSearchHistroyAdapter.notifyDataSetChanged();
+						mLlHistory.setVisibility(View.GONE);
+						dialog.dismiss();
+					}
+				})
+				.setPositiveButton(R.string.delete_history_cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				})
+				.create();
+		dialog.show();
 	}
 
 	@Override
