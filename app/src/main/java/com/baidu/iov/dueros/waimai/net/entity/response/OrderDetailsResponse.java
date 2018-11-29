@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.net.entity.response;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class OrderDetailsResponse {
@@ -107,7 +108,7 @@ public class OrderDetailsResponse {
             this.recipient_name = recipient_name;
         }
 
-        public static class DataBean {
+        public static class DataBean implements Serializable {
 
             private long order_id;
             private int order_time;
@@ -517,8 +518,8 @@ public class OrderDetailsResponse {
                 private String spec;
                 private int box_num;
                 private double box_price;
-                private List<?> attrIds;
-                private List<?> attrValues;
+                private List<String> attrIds;
+                private List<String> attrValues;
 
                 public int getFood_id() {
                     return food_id;
@@ -592,19 +593,19 @@ public class OrderDetailsResponse {
                     this.box_price = box_price;
                 }
 
-                public List<?> getAttrIds() {
+                public List<String> getAttrIds() {
                     return attrIds;
                 }
 
-                public void setAttrIds(List<?> attrIds) {
+                public void setAttrIds(List<String> attrIds) {
                     this.attrIds = attrIds;
                 }
 
-                public List<?> getAttrValues() {
+                public List<String> getAttrValues() {
                     return attrValues;
                 }
 
-                public void setAttrValues(List<?> attrValues) {
+                public void setAttrValues(List<String> attrValues) {
                     this.attrValues = attrValues;
                 }
             }

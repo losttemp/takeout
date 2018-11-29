@@ -47,6 +47,7 @@ import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusTagsAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ShoppingCartAdapter;
 import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
@@ -1008,55 +1009,81 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         Bundle extras = getIntent().getExtras();
         if (extras.containsKey(Constant.ONE_MORE_ORDER)) {
             mOneMoreOrder = (boolean) getIntent().getExtras().get(Constant.ONE_MORE_ORDER);
-            String orderListExtraPayLoadStr = (String) getIntent().getExtras().get(Constant.ORDER_LSIT_EXTRA_STRING);
-            if (mOneMoreOrder && orderListExtraPayLoadStr != null) {
-                String payload;
-                OrderListExtraPayloadBean payloadBean = null;
-                OrderListExtraBean.OrderInfos orderInfos = null;
-                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusList = null;
-                OrderListExtraBean extraBean = GsonUtil.fromJson(orderListExtraPayLoadStr, OrderListExtraBean.class);
-                try {
-                    payload = Encryption.desEncrypt(extraBean.getPayload());
-                    orderInfos = extraBean.getOrderInfos();
-                    payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                List<OrderListExtraBean.OrderInfos.Food_list> spusFoodList = orderInfos.getFood_list();
-                for (OrderListExtraBean.OrderInfos.Food_list spusFood : spusFoodList) {
-                    String name = spusFood.getName();
-                    for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
-                        if (spusBean.getName().equals(name)) {
-                            spusBean.setNumber(spusFood.getCount());
-                            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
-                            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
-                            List<String> attrIds = spusFood.getAttrIds();
-                            List<String> attrValues = spusFood.getAttrValues();
-                            String spec = spusFood.getSpec();
-                            for (int i = 0; i < attrIds.size(); i++) {
-                                for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrs) {
-                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrsList = attrsBean.getChoiceAttrs();
-                                    choiceAttrsList.get(0).setId(Long.parseLong(attrIds.get(i)));
-                                    choiceAttrsList.get(0).setValue(String.valueOf(attrValues.get(i)));
-                                }
+            if (mOneMoreOrder) {
+                if (extras.containsKey(Constant.ORDER_LSIT_EXTRA_STRING)) {
+                    String orderListExtraPayLoadStr = (String) getIntent().getExtras().get(Constant.ORDER_LSIT_EXTRA_STRING);
+                    String payload;
+                    OrderListExtraPayloadBean payloadBean = null;
+                    OrderListExtraBean.OrderInfos orderInfos = null;
+                    OrderListExtraBean extraBean = GsonUtil.fromJson(orderListExtraPayLoadStr, OrderListExtraBean.class);
+                    try {
+                        payload = Encryption.desEncrypt(extraBean.getPayload());
+                        orderInfos = extraBean.getOrderInfos();
+                        payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    List<OrderListExtraBean.OrderInfos.Food_list> spusFoodList = orderInfos.getFood_list();
+                    for (OrderListExtraBean.OrderInfos.Food_list spusFood : spusFoodList) {
+                        String name = spusFood.getName();
+                        for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
+                            if (spusBean.getName().equals(name)) {
+                                spusBean.setNumber(spusFood.getCount());
+                                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
+                                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
+                                List<String> attrIds = spusFood.getAttrIds();
+                                List<String> attrValues = spusFood.getAttrValues();
+                                String spec = spusFood.getSpec();
+                                SetAttrsAndSkus(spusBean, attrs, skus, attrIds, attrValues, spec);
+                                updateProduct(spusBean, spusBean.getTag(), section, true);
                             }
-                            for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean skusBean : skus) {
-                                if (!TextUtils.isEmpty(spec) && spec.equals(skusBean.getSpec())) {
-                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkusList = spusBean.getChoiceSkus();
-                                    if (choiceSkusList == null) {
-                                        skusList = new ArrayList<>();
-                                        skusList.add(skusBean);
-                                        spusBean.setChoiceSkus(skusList);
-                                    } else {
-                                        choiceSkusList.clear();
-                                        choiceSkusList.add(skusBean);
-                                    }
-                                }
-                            }
-                            updateProduct(spusBean, spusBean.getTag(), section, true);
                         }
                     }
+                } else {
+                    OrderDetailsResponse.MeituanBean.DataBean orderLsitBean = (OrderDetailsResponse.MeituanBean.DataBean) getIntent().getExtras().getSerializable(Constant.ORDER_LSIT_BEAN);
+                    List<OrderDetailsResponse.MeituanBean.DataBean.FoodListBean> food_list = orderLsitBean.getFood_list();
+                    for (OrderDetailsResponse.MeituanBean.DataBean.FoodListBean spusFood : food_list) {
+                        String name = spusFood.getName();
+                        for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
+                            if (spusBean.getName().equals(name)) {
+                                spusBean.setNumber(spusFood.getCount());
+                                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
+                                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
+                                List<String> attrIds = spusFood.getAttrIds();
+                                List<String> attrValues = spusFood.getAttrValues();
+                                String spec = spusFood.getSpec();
+                                SetAttrsAndSkus(spusBean, attrs, skus, attrIds, attrValues, spec);
+                                updateProduct(spusBean, spusBean.getTag(), section, true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void SetAttrsAndSkus(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
+                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs,
+                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus,
+                                 List<String> attrIds, List<String> attrValues, String spec) {
+        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusList;
+        for (int i = 0; i < attrIds.size(); i++) {
+            for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrs) {
+                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrsList = attrsBean.getChoiceAttrs();
+                choiceAttrsList.get(0).setId(Long.parseLong(attrIds.get(i)));
+                choiceAttrsList.get(0).setValue(String.valueOf(attrValues.get(i)));
+            }
+        }
+        for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean skusBean : skus) {
+            if (!TextUtils.isEmpty(spec) && spec.equals(skusBean.getSpec())) {
+                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkusList = spusBean.getChoiceSkus();
+                if (choiceSkusList == null) {
+                    skusList = new ArrayList<>();
+                    skusList.add(skusBean);
+                    spusBean.setChoiceSkus(skusList);
+                } else {
+                    choiceSkusList.clear();
+                    choiceSkusList.add(skusBean);
                 }
             }
         }

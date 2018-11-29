@@ -69,14 +69,13 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_gravity="center"
             android:orientation="vertical">
 
             <ListView
                 android:id="@+id/shopproductListView"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginLeft="@dimen/px84dp"
                 android:layout_marginRight="@dimen/px84dp"
                 android:layout_weight="1"
@@ -165,8 +164,8 @@
             android:layout_height="@dimen/px30dp"
             android:layout_alignRight="@+id/shopping_cart"
             android:layout_alignTop="@+id/shopping_cart"
-            android:gravity="center"
             android:background="@drawable/point"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/px24sp"
             android:visibility="visible" />

@@ -64,6 +64,7 @@ public class Constant {
 
     public static String ONE_MORE_ORDER = "one_more_order";
     public static String ORDER_LSIT_EXTRA_STRING = "order_list_extra_string";
+    public static String ORDER_LSIT_BEAN = "order_lsit_bean";
 
     public final static String TOTAL_COST = "total_cost";
     public final static String SHOP_NAME = "shop_name";

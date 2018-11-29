@@ -178,7 +178,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     private void getPayStatus(int status) {
         hidePayView();
-        if (status == IOV_STATUS_ZERO ||status == IOV_STATUS_WAITING) {
+        if (status == IOV_STATUS_ZERO || status == IOV_STATUS_WAITING) {
             mPayOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
             mPayStatus.setText(R.string.waiting_to_pay);
@@ -190,7 +190,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
             mPayStatus.setText(R.string.have_paid);
             mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
-        } else if (status == IOV_STATUS_NOTIFY_RESTAURANT ) {
+        } else if (status == IOV_STATUS_NOTIFY_RESTAURANT) {
             mRepeatOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
             mPayStatus.setText(R.string.notify_restaurant);
@@ -302,6 +302,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             case R.id.repeat_order:
                 Intent intentFoodList = new Intent(OrderDetailsActivity.this, FoodListActivity.class);
                 intentFoodList.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id());
+                intentFoodList.putExtra(Constant.ORDER_LSIT_BEAN, mOrderDetails);
+                intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
                 startActivity(intentFoodList);
                 finish();
                 break;
