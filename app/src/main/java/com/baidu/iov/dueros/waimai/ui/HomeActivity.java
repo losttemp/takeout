@@ -155,9 +155,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	@Override
 	public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
 		if (isSuccess) {
-		    Lg.getInstance().e(TAG,"*****************");
 			mStoreListFragment.homeLoadFirstPage();
-			
 		} 
 	}
 
