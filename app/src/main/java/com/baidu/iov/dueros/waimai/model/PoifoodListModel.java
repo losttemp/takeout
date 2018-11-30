@@ -4,8 +4,10 @@ import android.util.ArrayMap;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
+import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.PoifoodListReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
@@ -93,6 +95,26 @@ public class PoifoodListModel implements IPoifoodListModel {
             @Override
             public void onSuccess(OrderPreviewBean data) {
                 callback.onSuccess(data);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                callback.onFailure(msg);
+            }
+        });
+    }
+
+    @Override
+    public void requestArriveTimeList(ArriveTimeReqBean arriveTimeReqBean, final RequestCallback<ArriveTimeBean> callback) {
+        if (callback == null) {
+            return;
+        }
+
+        ApiUtils.getArriveTimeList(arriveTimeReqBean, new ApiCallBack<ArriveTimeBean>() {
+            @Override
+            public void onSuccess(ArriveTimeBean data) {
+                callback.onSuccess(data);
+
             }
 
             @Override

@@ -507,7 +507,7 @@ public class OrderDetailsResponse {
                 this.discounts = discounts;
             }
 
-            public static class FoodListBean {
+            public static class FoodListBean implements Serializable{
 
                 private int food_id;
                 private int spu_id;

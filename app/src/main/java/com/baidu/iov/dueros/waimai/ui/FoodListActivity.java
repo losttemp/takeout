@@ -47,6 +47,7 @@ import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusTagsAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ShoppingCartAdapter;
 import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
+import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
@@ -295,6 +296,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         long wmPoiId = (long) getIntent().getExtras().get(Constant.STORE_ID);
         map.put(Constant.STORE_ID, String.valueOf(wmPoiId));
         getPresenter().requestData(map);
+        getPresenter().requestArriveTimeData(wmPoiId);
     }
 
     public void showFoodListActivityDialog(View view, View contentView, final PopupWindow window) {
@@ -566,7 +568,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 mCartShoppingPrise.setText("¥" + " " + sum);
             }
             if (increase && mIsDiscountList.size() == 1 && !alreadyToast) {
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.discount_prompt),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.discount_prompt), Toast.LENGTH_SHORT);
                 alreadyToast = true;
             }
         } else {
@@ -931,26 +933,32 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 startActivity(intent);
                 break;
             case Constant.STORE_CANT_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg2),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_CANT_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg3),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg3), Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COST_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg5),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg5), Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COUNT_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg15),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg15), Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_LACK_NOT_BUY:
-                ToastUtils.show(this,data.getMeituan().getMsg(),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, data.getMeituan().getMsg(), Toast.LENGTH_SHORT);
                 break;
             case Constant.SERVICE_ERROR:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.service_error),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.service_error), Toast.LENGTH_SHORT);
                 break;
         }
+    }
+
+    @Override
+    public void onArriveTimeSuccess(ArriveTimeBean data) {
+        String view_time = data.getMeituan().getData().get(0).getTimelist().get(1).getView_time();
+        Toast.makeText(this, String.format(getString(R.string.first_arrive_time), view_time), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -1152,6 +1160,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void onPoidetailinfoError(String error) {
         Lg.getInstance().d(TAG, "onPoidetailinfoError = " + error);
+    }
+
+    @Override
+    public void onArriveTimeError(String error) {
+
     }
 
     private List<String> getDiscountList(List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts) {

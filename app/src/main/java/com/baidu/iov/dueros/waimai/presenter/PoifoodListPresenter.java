@@ -7,11 +7,14 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.IPoifoodListModel;
 import com.baidu.iov.dueros.waimai.model.PoifoodListModel;
+import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewJsonBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.faceos.client.GsonUtil;
 
@@ -166,6 +169,32 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         return GsonUtil.toJson(orderPreviewJsonBean);
     }
 
+    public void requestArriveTimeData(Long wm_poi_id) {
+
+        ArriveTimeReqBean arriveTimeReqBean = new ArriveTimeReqBean();
+        arriveTimeReqBean.setLatitude(Constant.LATITUDE);
+        arriveTimeReqBean.setLongitude(Constant.LONGITUDE);
+        arriveTimeReqBean.setWm_poi_id(wm_poi_id);
+        mPoifoodListModel.requestArriveTimeList(arriveTimeReqBean, new RequestCallback<ArriveTimeBean>() {
+
+            @Override
+            public void onSuccess(ArriveTimeBean data) {
+                if (null != getUi()) {
+                    getUi().onArriveTimeSuccess(data);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+                if (null != getUi()) {
+                    getUi().onArriveTimeError(msg);
+                }
+            }
+        });
+
+    }
+
 
     public interface PoifoodListUi extends Ui {
         void onPoifoodListSuccess(PoifoodListBean data);
@@ -174,10 +203,14 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
         void onOrderPreviewSuccess(OrderPreviewBean data);
 
+        void onArriveTimeSuccess(ArriveTimeBean data);
+
         void onOrderPreviewFailure(String msg);
 
         void onPoifoodListError(String error);
 
         void onPoidetailinfoError(String error);
+
+        void onArriveTimeError(String error);
     }
 }

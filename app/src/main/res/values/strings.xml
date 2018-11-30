@@ -42,12 +42,12 @@
     <string name="tips_earliest_delivery_time">现在预订，最早10:30开始配送</string>
     <string name="free_distribution">免费配送 |</string>
     <string name="this_keyword_is_complicated">这个关键词有点复杂</string>
-    
+
     <string name="delete_history_title">删除搜索历史</string>
     <string name="delete_history_message">确定要删除所有搜索历史吗？</string>
     <string name="delete_history_cancel">取消</string>
     <string name="delete_history_ok">确定</string>
-    
+
 
     <!--FilterPopWindow-->
     <string name="ok">确定</string>
@@ -87,6 +87,7 @@
     <string name="looting">已抢光</string>
     <string name="not_buy_time">非可售时间</string>
     <string name="sold_out">已售完</string>
+    <string name="first_arrive_time">商家现在接受预定,最早%1$s开始配送哦</string>
 
     <!--tools:text-->
     <string name="tools_text_location">送至：未来科技大厦</string>
