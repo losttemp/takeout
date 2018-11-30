@@ -34,6 +34,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.bumptech.glide.Glide;
@@ -92,6 +93,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private NumberFormat mNumberFormat;
     private String mEstimateTime;
     private int mUnixtime = 0;
+    private boolean isNeedVoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +166,27 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 e.printStackTrace();
             }
 
+        }
+    }
+
+    private void playVoice() {
+        boolean isNeedVoice = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
+        if (isNeedVoice && mOrderPreviewData.getWm_ordering_preview_detail_vo_list().size() > 0) {
+            String oneFood = mOrderPreviewData.getWm_ordering_preview_detail_vo_list().get(0).getFood_name();
+            String allPrice = String.format(getResources().getString(R.string.submit_total), mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal());
+            String deliveryTime = mEstimateTime;
+            String address = "";
+            String phone = "";
+            try {
+                address = Encryption.desEncrypt(mAddressData.getAddress());
+                phone = Encryption.desEncrypt(mAddressData.getUser_phone());
+                if (phone.length() > 3) phone = phone.substring(phone.length() - 4, phone.length());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String str = String.format(getString(R.string.submit_order), oneFood, allPrice, deliveryTime, address, phone);
+            VoiceManager.getInstance().playTTS(SubmitOrderActivity.this, str);
         }
     }
 
@@ -264,7 +287,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
                     getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime);
                 }
-
                 break;
 
             default:
@@ -397,11 +419,17 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     mAddressData = (AddressListBean.IovBean.DataBean) data.getSerializableExtra(ADDRESS_DATA);
                     getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData);
 
+                    boolean isNeedVoice = data.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
                     try {
-                        mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
-                        String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
+                        String address = Encryption.desEncrypt(mAddressData.getAddress());
+                        mAddressTv.setText(address);
+                        if (isNeedVoice) {
+                            VoiceManager.getInstance().playTTS(SubmitOrderActivity.this,
+                                    String.format(getString(R.string.commodity_address), address));
+                        }
+                        String name = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
                                 + Encryption.desEncrypt(mAddressData.getUser_phone());
-                        mUserNameTv.setText(address);
+                        mUserNameTv.setText(name);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -486,7 +514,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         } else {
             handlePreviewMsg(code);
         }
-
+        playVoice();
     }
 
     public void showAllDiscountItem() {
@@ -533,7 +561,18 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     @Override
     public void onFailure(String msg) {
+        isNeedVoice = false;
+    }
 
+    @Override
+    public void toPay() {
+        isNeedVoice = true;
+        mToPayTv.performClick();
+    }
+
+    @Override
+    public void close() {
+        finish();
     }
 
     @Override
@@ -556,6 +595,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             intent.putExtra(Constant.SHOP_NAME, poiName);
             intent.putExtra(Constant.PAY_URL, payUrl);
             intent.putExtra(Constant.PIC_URL, mPoiInfo.getPic_url());
+            intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else if (submitCode == Constant.SERVICE_ERROR) {
@@ -564,6 +604,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
             Toast.makeText(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT).show();
         }
+
+        isNeedVoice = false;
 
     }
 

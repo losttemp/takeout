@@ -8,9 +8,13 @@ import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.AddressListImpl;
 import com.baidu.iov.dueros.waimai.model.IAddressList;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
+import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+
+import java.util.ArrayList;
 
 public class AddressListPresenter extends Presenter<AddressListPresenter.AddressListUi> {
-
+    private static final String TAG = AddressListPresenter.class.getSimpleName();
 
     private IAddressList mAddressList;
 
@@ -53,17 +57,35 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
 
     @Override
     public void onCommandCallback(String cmd, String extra) {
+        if (getUi() == null) {
+            return;
+        }
 
+        switch (cmd) {
+            case VoiceManager.CMD_SELECT:
+                getUi().selectListItem(Integer.parseInt(extra));
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void registerCmd(Context context) {
-
+        Lg.getInstance().d(TAG, "registerCmd");
+        if (null != mVoiceManager) {
+            ArrayList<String> cmdList = new ArrayList<String>();
+            cmdList.add(VoiceManager.CMD_SELECT);
+            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+        }
     }
 
     @Override
     public void unregisterCmd(Context context) {
-
+        Lg.getInstance().d(TAG, "unregisterCmd");
+        if (null != mVoiceManager) {
+            mVoiceManager.unregisterCmd(context, mVoiceCallback);
+        }
     }
 
     public interface AddressListUi extends Ui {
@@ -72,7 +94,7 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
 
         void onGetAddressListFailure(String msg);
 
-
+        void selectListItem(int i);
     }
 
 }

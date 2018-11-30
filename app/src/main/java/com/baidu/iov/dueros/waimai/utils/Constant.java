@@ -90,4 +90,6 @@ public class Constant {
     public final static int FOOD_LACK_NOT_BUY = 20;
     public final static int BEYOND_DELIVERY_RANGE = 9;
     public final static int SERVICE_ERROR = 26;
+
+    public static final String IS_NEED_VOICE_FEEDBACK = "isNeedVoiceFeedback";
 }

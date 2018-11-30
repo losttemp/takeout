@@ -61,6 +61,7 @@ import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.PoifoodListPinnedHeaderListView;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -163,6 +164,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private RelativeLayout mRlNoProduct;
     private List<Boolean> mIsDiscountList;
     private boolean alreadyToast;
+    private boolean isNeedVoice;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -700,6 +702,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 intent.putExtra(POI_INFO, mPoiInfoBean);
                 intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
                 intent.putExtra(DISCOUNT, mDiscountNumber);
+                intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                 startActivity(intent);
             }
         });
@@ -1011,6 +1014,15 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
         mPoifoodSpusListAdapter.notifyDataSetChanged();
         mFoodSpuTagsListAdapter.notifyDataSetChanged();
+
+        boolean isNeedVoiceFeedback = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
+        if (isNeedVoiceFeedback) {
+            if (mOneMoreOrder) {
+                VoiceManager.getInstance().playTTS(FoodListActivity.this, String.format( getString(R.string.sure_order), mPoiInfoBean.getName()));
+            } else {
+                VoiceManager.getInstance().playTTS(FoodListActivity.this, getString(R.string.choose_you_commodity));
+            }
+        }
     }
 
     private void oneMoreOrder(int section) {
@@ -1164,6 +1176,15 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     @Override
     public void onArriveTimeError(String error) {
+
+    }
+
+    @Override
+    public void sureOrder() {
+        if (null != mCartSettlement) {
+            isNeedVoice = true;
+            mCartSettlement.performClick();
+        }
 
     }
 

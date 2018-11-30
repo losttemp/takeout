@@ -32,7 +32,10 @@ public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi
 				getUi().selectListItem(Integer.parseInt(extra));
 				break;
 			case VoiceManager.CMD_NEXT:
-				getUi().nextPage();
+				getUi().nextPage(true);
+				break;
+			case VoiceManager.CMD_PRE:
+				getUi().nextPage(false);
 				break;
 			default:
 				break;
@@ -47,6 +50,7 @@ public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi
 			cmdList.add(VoiceManager.CMD_NO);
 			cmdList.add(VoiceManager.CMD_SELECT);
 			cmdList.add(VoiceManager.CMD_NEXT);
+			cmdList.add(VoiceManager.CMD_PRE);
 			mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
 		}
 	}
@@ -125,7 +129,7 @@ public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi
 
 		void selectListItem(int index);
 
-		void nextPage();
+		void nextPage(boolean isNextPage);
 	}
 
 }

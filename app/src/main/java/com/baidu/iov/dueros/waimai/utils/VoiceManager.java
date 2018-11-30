@@ -16,9 +16,11 @@ public class VoiceManager {
     private static final String ACTION_REGISTER = "com.baidu.duerosauto.app_controler.register";
     private static final String ACTION_UNREGISTER = "com.baidu.duerosauto.app_controler.unregister";
     private static final String ACTION_CALLBACK = "com.baidu.duerosauto.app_controler.callback";
+    private static final String ACTION_TTS = "com.baidu.duerosauto.app_controler.tts";
     private static final String KEY_CMD = "cmd";
     private static final String KEY_PKG_NAME = "pkg_name";
     public static final String KEY_EXTRA = "extra";
+    private static final String KEY_TTS_TEXT = "tts_text";
 
     public static final String CMD_NEXT = "next";
     public static final String CMD_PRE = "pre";
@@ -98,5 +100,19 @@ public class VoiceManager {
         }
 
         public abstract void onCmdCallback(String cmd, String extra);
+    }
+
+    public void playTTS(Context context, String text) {
+        if (context == null || TextUtils.isEmpty(text)) {
+            Lg.getInstance().d(TAG, "playTTS() context == null");
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setAction(ACTION_TTS);
+        intent.putExtra(KEY_PKG_NAME, context.getPackageName());
+        intent.putExtra(KEY_TTS_TEXT, text);
+        intent.setPackage(PACKAGE_NAME);
+        context.sendBroadcast(intent);
+        Lg.getInstance().d(TAG, "playTTS() text = " + text);
     }
 }

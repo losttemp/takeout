@@ -89,6 +89,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         private OrderListResponse.IovBean.DataBean mOrder;
         private OrderListExtraPayloadBean payloadBean;
         private OrderListExtraBean extraBean;
+        private boolean isNeedVoice;
 
         private ViewHolder(View view) {
             super(view);
@@ -212,27 +213,39 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
                 switch (v.getId()) {
                     case R.id.tv_store_name:
                     case R.id.iv_click:
-                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean);
+                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean, isNeedVoice);
                         break;
                     case R.id.one_more_order:
-                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean);
+                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean, isNeedVoice);
                         break;
                     case R.id.cancel_order:
-                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean);
+                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean, isNeedVoice);
                         break;
                     case R.id.pay_order:
-                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean);
+                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean, isNeedVoice);
                         break;
                     default:
-                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean);
+                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean, isNeedVoice);
                         break;
                 }
+                isNeedVoice = false;
+            }
+        }
+
+        public void autoClick() {
+            if (tvPayOrder.getVisibility() == View.VISIBLE) {
+                isNeedVoice = true;
+                tvPayOrder.performClick();
+            }
+            if (tvOneMore.getVisibility() == View.VISIBLE) {
+                isNeedVoice = true;
+                tvOneMore.performClick();
             }
         }
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean);
+        void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean, boolean isNeedVoice);
     }
 
     private OnItemClickListener mOnItemClickListener;

@@ -69,7 +69,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private SortPopWindow mSortPopWindow;
 	private FilterPopWindow mFilterPopWindow;
 	private int mFromPageType;
-	
+	private static final int VOICE_STEP = 5;//语音选择下一页时跳动的item数目
 	private View mView;
 
 	@Override
@@ -141,7 +141,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreAdaper.setItemClickListener(new StoreAdaper.OnItemClickListener() {
 			@Override
 			public void onItemClick(int position) {
-				jumpPage(position);
+				jumpPage(position, false);
 			}
 		});
 
@@ -374,22 +374,27 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			return;
 		}
 
-		jumpPage(index);
+		jumpPage(index, true);
 	}
 
 	@Override
-	public void nextPage() {
+	public void nextPage(boolean isNextPage) {
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH && ((SearchActivity) mContext)
 				.getStatus() != Constant.SEARCH_STATUS_FRAGMENT) {
 			return;
 		}
 
 		if (mRlTipNoResult.getVisibility() == View.GONE) {
-			if (mRvStore != null) {
-				mRvStore.smoothScrollToPosition(mStoreAdaper.getItemCount() - 1);
-			}
-			if (mRefreshLayout != null) {
-				mRefreshLayout.autoLoadmore(100);
+			LinearLayoutManager manager = (LinearLayoutManager) mRvStore.getLayoutManager();
+			assert manager != null;
+			int currentItemPosition  = manager.findFirstVisibleItemPosition();
+			if (isNextPage) {
+				if (currentItemPosition + VOICE_STEP * 2 > mStoreList.size() && mRefreshLayout != null) {
+					mRefreshLayout.autoLoadmore(100);
+				}
+				manager.scrollToPositionWithOffset(currentItemPosition + VOICE_STEP, 0);
+			} else {
+				manager.scrollToPositionWithOffset(currentItemPosition - VOICE_STEP > 0 ? currentItemPosition - VOICE_STEP : 0, 0);
 			}
 		}
 
@@ -419,13 +424,14 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	}
 
-	private void jumpPage(int position) {
+	private void jumpPage(int position, boolean isNeedVoice) {
 		if (mStoreList.size() > position) {
 			if (mStoreList.get(position).getStatus()==Constant.STROE_STATUS_BREAK){
 				return;
 			}
 			Intent intent = new Intent(mContext, FoodListActivity.class);
 			intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());
+			intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
 			startActivity(intent);
 		}
 	}

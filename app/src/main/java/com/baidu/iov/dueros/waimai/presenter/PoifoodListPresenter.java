@@ -21,6 +21,10 @@ import com.baidu.iov.faceos.client.GsonUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_SELECT;
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_YES;
+
 /**
  * Created by ubuntu on 18-10-18.
  */
@@ -31,16 +35,35 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
     @Override
     public void onCommandCallback(String cmd, String extra) {
+        if (getUi() == null) {
+            return;
+        }
+
+        switch (cmd) {
+            case CMD_YES:
+                getUi().sureOrder();
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void registerCmd(Context context) {
-
+        if (null != mVoiceManager) {
+            ArrayList<String> cmdList = new ArrayList<String>();
+            cmdList.add(CMD_NO);
+            cmdList.add(CMD_SELECT);
+            cmdList.add(CMD_YES);
+            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+        }
     }
 
     @Override
     public void unregisterCmd(Context context) {
-
+        if (null != mVoiceManager) {
+            mVoiceManager.unregisterCmd(context, mVoiceCallback);
+        }
     }
 
     public PoifoodListPresenter() {
@@ -212,5 +235,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         void onPoidetailinfoError(String error);
 
         void onArriveTimeError(String error);
+
+        void sureOrder();
     }
 }

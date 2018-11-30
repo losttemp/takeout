@@ -15,6 +15,7 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import java.util.ArrayList;
 
 import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_SELECT;
 
 public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi> {
 
@@ -24,8 +25,19 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
 
     @Override
     public void onCommandCallback(String cmd, String extra) {
-        if (CMD_NO.equals(cmd) && null != getUi()) {
-            getUi().close();
+        if (getUi() == null) {
+            return;
+        }
+
+        switch (cmd) {
+            case CMD_SELECT:
+                getUi().selectListItem(Integer.parseInt(extra));
+                break;
+            case CMD_NO:
+                getUi().close();
+                break;
+            default:
+                break;
         }
     }
 
@@ -35,6 +47,7 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
         if (null != mVoiceManager) {
             ArrayList<String> cmdList = new ArrayList<String>();
             cmdList.add(CMD_NO);
+            cmdList.add(CMD_SELECT);
             //mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
             mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
         }
@@ -111,6 +124,8 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
         void orderCancelfail(String msg);
 
         void close();
+
+        void selectListItem(int i);
     }
 
 }

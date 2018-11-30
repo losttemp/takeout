@@ -33,6 +33,7 @@ import java.util.List;
 
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -116,7 +117,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
         mOrderListAdaper.setOnItemClickListener(new OrderListAdaper.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean) {
+            public void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean, boolean isNeedVoice) {
                 switch (view.getId()) {
                     case R.id.tv_store_name:
                     case R.id.iv_click:
@@ -129,6 +130,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         onemoreintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         onemoreintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(position).getExtra());
                         onemoreintent.putExtra(Constant.ONE_MORE_ORDER, true);
+                        onemoreintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                         startActivity(onemoreintent);
                         break;
                     case R.id.pay_order:
@@ -139,6 +141,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         payintent.putExtra("shop_name", mOrderList.get(position).getOrder_name());
                         payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
                         payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
+                        payintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                         payintent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(payintent);
                         break;
@@ -304,6 +307,25 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     public void close() {
         finish();
+    }
+
+    @Override
+    public void selectListItem(int i) {
+        if (mOrderList == null || mOrderList.size() == 0) {
+            VoiceManager.getInstance().playTTS(OrderListActivity.this, getString(R.string.have_no_order));
+        }
+        LinearLayoutManager manager = (LinearLayoutManager) mRvOrder.getLayoutManager();
+        assert manager != null;
+        int firstItemPosition = manager.findFirstVisibleItemPosition();
+        int lastItemPosition = manager.findLastVisibleItemPosition();
+
+        if (firstItemPosition <= i && lastItemPosition >= i) {
+            View view = mRvOrder.getChildAt(i - firstItemPosition);
+            if (null != mRvOrder.getChildViewHolder(view)) {
+                OrderListAdaper.ViewHolder viewHolder = (OrderListAdaper.ViewHolder) mRvOrder.getChildViewHolder(view);
+                viewHolder.autoClick();
+            }
+        }
     }
 
     @Override

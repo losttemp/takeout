@@ -218,4 +218,22 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     public void onGetAddressListFailure(String msg) {
 
     }
+
+    @Override
+    public void selectListItem(int i) {
+        if (null != mDataListBean && mDataListBean.size() > i) {
+            AddressListBean.IovBean.DataBean addressData = mDataListBean.get(i);
+            Intent data = new Intent();
+            data.putExtra(ADDRESS_DATA, addressData);
+            data.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, true);
+            SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
+                    ("_cache", AddressSelectActivity.MODE_PRIVATE);
+            String databeanStr = GsonUtil.toJson(addressData);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString(Constant.ADDRESS_DATA, databeanStr);
+            editor.commit();
+            setResult(RESULT_OK, data);
+            finish();
+        }
+    }
 }

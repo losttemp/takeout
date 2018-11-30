@@ -17,6 +17,8 @@ import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.SubmitOrderPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -87,7 +89,10 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             mExpectedTime = intent.getIntExtra(Constant.EXPECTED_TIME, 0);
             String shopName = intent.getStringExtra(Constant.SHOP_NAME);
             String payUrl = intent.getStringExtra(Constant.PAY_URL);
-
+            boolean isNeedVoice = intent.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
+            if (isNeedVoice) {
+                VoiceManager.getInstance().playTTS(PaymentActivity.this, getString(R.string.pay));
+            }
             if (amount != 0) {
                 mAmountTv.setText(String.format(getResources().getString(R.string.cost_text), nf.format(amount)));
             } else {

@@ -18,6 +18,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.ArrayList;
@@ -45,17 +46,37 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
     @Override
     public void onCommandCallback(String cmd, String extra) {
+        if (getUi() == null) {
+            return;
+        }
 
+        switch (cmd) {
+            case VoiceManager.CMD_YES:
+                getUi().toPay();
+                break;
+            case VoiceManager.CMD_NO:
+                getUi().close();
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void registerCmd(Context context) {
-
+        if (null != mVoiceManager) {
+            ArrayList<String> cmdList = new ArrayList<String>();
+            cmdList.add(VoiceManager.CMD_YES);
+            cmdList.add(VoiceManager.CMD_NO);
+            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+        }
     }
 
     @Override
     public void unregisterCmd(Context context) {
-
+        if (null != mVoiceManager) {
+            mVoiceManager.unregisterCmd(context, mVoiceCallback);
+        }
     }
 
     public void requestArriveTimeData(Long wm_poi_id) {
@@ -247,5 +268,9 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         void onOrderSubmitSuccess(OrderSubmitBean data);
 
         void onFailure(String msg);
+
+        void toPay();
+
+        void close();
     }
 }

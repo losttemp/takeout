@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.presenter.Presenter;
+import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
@@ -49,6 +50,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AtyContainer.getInstance().addActivity(this);
         setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
         mPresenter.onUiReady(getUi());
         initLocationCity();
@@ -70,6 +72,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        AtyContainer.getInstance().removeActivity(this);
         LocationManager.getInstance(this).stopLocation();
         mPresenter.onUiDestroy(getUi());
     }
