@@ -720,8 +720,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         WindowManager m = getWindowManager();
         Display display = m.getDefaultDisplay();
         WindowManager.LayoutParams p = dialog.getWindow().getAttributes();
-        if (productList.size() >= 4) p.height = 840;
-        if (productList.size() < 4) p.height = ListView.LayoutParams.WRAP_CONTENT;
+//        if (productList.size() >= 4) p.height = 840;
+//        if (productList.size() < 4) p.height = ListView.LayoutParams.WRAP_CONTENT;
         if (productList.size() == 0) dialog.dismiss();
         dialog.getWindow().setAttributes(p);
     }
