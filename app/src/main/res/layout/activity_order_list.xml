@@ -31,27 +31,29 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_tip_no_order"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rl_layout_header"
-        android:layout_centerHorizontal="true"
-        android:drawablePadding="@dimen/px20dp"
-        android:drawableTop="@drawable/icon_tishi"
-        android:gravity="center_horizontal"
-        android:lineSpacingMultiplier="1.2"
-        android:paddingTop="@dimen/px50dp"
-        android:text="@string/no_order"
-        android:visibility="gone" />
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginRight="@dimen/px84dp"
         android:background="@color/dark_gray" />
-
+    <RelativeLayout
+        android:id="@+id/order_list_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_tip_no_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawablePadding="@dimen/px20dp"
+        android:drawableTop="@drawable/icon_tishi"
+        android:gravity="center_horizontal"
+        android:lineSpacingMultiplier="1.2"
+        android:paddingTop="@dimen/px50dp"
+        android:text="@string/no_order"
+        />
+    </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"

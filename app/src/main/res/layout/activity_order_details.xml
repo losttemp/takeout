@@ -55,7 +55,6 @@
             android:layout_width="@dimen/px0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/payment_success"
             android:textColor="@color/pay_status"
             android:textSize="@dimen/px36sp" />
 

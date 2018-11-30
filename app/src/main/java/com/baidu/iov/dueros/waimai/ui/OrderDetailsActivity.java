@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -385,10 +386,9 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
         if (data.getMeituan().getCode() == 0) {
-            Toast toast = new Toast(this);
             ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancel_toast),Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            timerCancel();
+            loadData();
         } else {
             ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
                     .setTitle(R.string.remind_title)
@@ -404,7 +404,17 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                         public void onClick(DialogInterface dialog, int which) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 if (ActivityCompat.checkSelfPermission(OrderDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                    ActivityCompat.requestPermissions(OrderDetailsActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_CALL_PHONE);
+                                    if (ActivityCompat.shouldShowRequestPermissionRationale(OrderDetailsActivity.this,
+                                            Manifest.permission.CALL_PHONE)) {
+                                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                        intent.setData(uri);
+                                        startActivity(intent);
+                                    }else{
+                                        ActivityCompat.requestPermissions(OrderDetailsActivity.this,
+                                                new String[]{Manifest.permission.CALL_PHONE},
+                                                REQUEST_CODE_CALL_PHONE);
+                                    }
                                 } else {
                                     Intent intent = new Intent(Intent.ACTION_CALL);
                                     Uri data = Uri.parse("tel:" + "10109777");
