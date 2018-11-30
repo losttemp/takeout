@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".ui.WaiMaiApplication"
@@ -63,7 +64,16 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".ui.CityListActivity"/>
+        <activity android:name=".ui.CityListActivity" />
+
+        <receiver android:name=".receiver.BootBroadcastReceiver"
+            >
+            <intent-filter >
+                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

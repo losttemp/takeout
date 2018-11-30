@@ -102,7 +102,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         super.onPause();
     }
 
-
     private void init() {
         mMeituanAuthReq = new MeituanAuthorizeReq();
         mMeituanAuthReq.setBduss(CacheUtils.getBduss());

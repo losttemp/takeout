@@ -43,7 +43,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderListPresenter.OrderListUi> implements
         OrderListPresenter.OrderListUi, View.OnClickListener {
 
-    private AppCompatTextView mTvNoOrder;
+    private View mTvNoOrder;
 
     private RecyclerView mRvOrder;
     private AppCompatImageView mIvBack;
@@ -93,7 +93,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private void initView() {
         mIvBack = (AppCompatImageView) findViewById(R.id.iv_back);
         mRvOrder = (RecyclerView) findViewById(R.id.rv_order);
-        mTvNoOrder = (AppCompatTextView) findViewById(R.id.tv_tip_no_order);
+        mTvNoOrder = findViewById(R.id.order_list_empty_view);
         mRefreshLayout = (SmartRefreshLayout) findViewById(R.id.refresh_layout);
         mTvNoOrder.setVisibility(View.GONE);
     }
@@ -271,7 +271,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             mRefreshLayout.setEnableLoadmore(false);
         }
         if (mOrderList.size() == 0) {
-            mTvNoOrder.setText(R.string.no_order);
             mTvNoOrder.setVisibility(View.VISIBLE);
             mRvOrder.setVisibility(View.GONE);
         }
