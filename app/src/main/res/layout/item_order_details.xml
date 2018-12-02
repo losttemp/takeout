@@ -14,12 +14,24 @@
         app:removeDefaultPadding="true" />
 
     <com.domain.multipltextview.MultiplTextView
+        android:id="@+id/tv_food_origin_price"
+        style="@style/OrderDetailsText"
+        android:layout_width="@dimen/px182dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_food_name"
+        android:layout_marginEnd="@dimen/px28dp"
+        android:layout_toLeftOf="@+id/tv_food_price"
+        android:alpha="0.6"
+        app:removeDefaultPadding="true" />
+
+    <com.domain.multipltextview.MultiplTextView
         android:id="@+id/tv_food_price"
         style="@style/OrderDetailsText"
         android:layout_width="@dimen/px182dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/tv_food_name"
         android:layout_alignParentEnd="true"
+        android:textColor="@color/money_color"
         app:removeDefaultPadding="true" />
 
 
