@@ -110,7 +110,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             address_title.setText(getResources().getString(R.string.edit_address));
             mAddressDelReq = new AddressDeleteReq();
             dataBean = (AddressListBean.IovBean.DataBean) intent.getSerializableExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS);
-            if (dataBean.getSex() == 0) {
+            if (null!=dataBean.getSex()&&dataBean.getSex() == 0) {
                 ladyButton.setChecked(true);
                 sirButton.setChecked(false);
             } else {
@@ -132,7 +132,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (dataBean.getAddress_id() != 0) {
+            if (dataBean.getAddress_id()!=null&&dataBean.getAddress_id() != 0) {
                 iv_del_button.setVisibility(View.VISIBLE);
             }
         } else {
@@ -195,7 +195,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 if (data.getIov().getErrno() == 0) {
                     address_id = data.getIov().getData().getAddress_id();
                     mAddrEditReq.setAddress_id(address_id);
-                    mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
+                    mAddrEditReq.setMt_address_id(dataBean.getMt_address_id()==null?
+                    0:dataBean.getMt_address_id());
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
                     String msg = data.getIov().getErrmsg();
@@ -301,14 +302,14 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrEditReq.setLatitude(latitude);
                 mAddrEditReq.setLongitude(longitude);
 
-                if (dataBean.getAddress_id() != 0) {
+                if (null!=dataBean.getAddress_id()&&dataBean.getAddress_id() != 0) {
                     mAddrEditReq.setAddress_id(dataBean.getAddress_id());
-                    if (dataBean.getMt_address_id() != 0) {
+                    if (null!=dataBean.getMt_address_id()&&dataBean.getMt_address_id() != 0) {
                         mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
                     }
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
-                    if (dataBean.getMt_address_id() != 0) {
+                    if (null!=dataBean.getMt_address_id()&&dataBean.getMt_address_id() != 0) {
                         mAddrAddReq.setMt_address_id(dataBean.getMt_address_id());
                     }
                     mAddrAddReq.setUser_phone(phone);

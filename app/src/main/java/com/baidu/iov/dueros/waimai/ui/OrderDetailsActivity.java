@@ -310,6 +310,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.pay_order:
                 Intent intentPayment = new Intent(OrderDetailsActivity.this, PaymentActivity.class);
+                intentPayment.putExtra("total_cost", mOrderDetails.getTotal());
+                intentPayment.putExtra("order_id", mOrderDetails.getOrder_id());
+                intentPayment.putExtra("shop_name", mOrderDetails.getPoi_name());
+                intentPayment.putExtra("pay_url", getIntent().getStringExtra("pay_url"));
+                intentPayment.putExtra("pic_url", getIntent().getStringExtra("pic_url"));
+                intentPayment.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentPayment);
                 finish();
                 break;

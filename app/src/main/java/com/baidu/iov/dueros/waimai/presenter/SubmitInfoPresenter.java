@@ -176,7 +176,9 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             wmOrderingUserBean.setUser_address(Encryption.desEncrypt(addressData.getAddress()));
             wmOrderingUserBean.setAddr_longitude(addressData.getLongitude());
             wmOrderingUserBean.setAddr_latitude(addressData.getLatitude());
-            wmOrderingUserBean.setAddress_id(addressData.getMt_address_id());
+            if (null != addressData.getMt_address_id()) {
+                wmOrderingUserBean.setAddress_id(addressData.getMt_address_id());
+            }
             orderSubmitJsonBean.setWm_ordering_user(wmOrderingUserBean);
         } catch (Exception e) {
             e.printStackTrace();
@@ -255,7 +257,9 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         }
 
         orderPreviewJsonBean.setWm_ordering_user(wmOrderingUserBean);
-        orderPreviewJsonBean.setAddress_id(addressData.getMt_address_id());
+        if (null != addressData.getMt_address_id()) {
+            orderPreviewJsonBean.setAddress_id(addressData.getMt_address_id());
+        }
         return GsonUtil.toJson(orderPreviewJsonBean);
     }
 

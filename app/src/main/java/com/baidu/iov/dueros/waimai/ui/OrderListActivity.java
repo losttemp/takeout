@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatEditText;
@@ -43,7 +44,8 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderListPresenter.OrderListUi> implements
         OrderListPresenter.OrderListUi, View.OnClickListener {
-
+    private final String IOV_STATUS_ZERO = "0"; //待支付
+    private final String IOV_STATUS_WAITING = "1"; //待支付
     private View mTvNoOrder;
 
     private RecyclerView mRvOrder;
@@ -177,6 +179,11 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
                         intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         intent.putExtra(Constant.EXPECTED_TIME, payloadBean.getWm_ordering_list().getDelivery_time());
+                        String status=  mOrderList.get(position).getOut_trade_status();
+                        if (IOV_STATUS_ZERO.equals(status) || IOV_STATUS_WAITING.equals(status)){
+                            intent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
+                            intent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
+                        }
                         startActivity(intent);
                         break;
                 }
@@ -221,7 +228,17 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     public void onClick(DialogInterface dialog, int which) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (ActivityCompat.checkSelfPermission(OrderListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions(OrderListActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_CALL_PHONE);
+                                if (ActivityCompat.shouldShowRequestPermissionRationale(OrderListActivity.this,
+                                        Manifest.permission.CALL_PHONE)) {
+                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                    intent.setData(uri);
+                                    startActivity(intent);
+                                }else{
+                                    ActivityCompat.requestPermissions(OrderListActivity.this,
+                                            new String[]{Manifest.permission.CALL_PHONE},
+                                            REQUEST_CODE_CALL_PHONE);
+                                }
                             } else {
                                 Intent intent = new Intent(Intent.ACTION_CALL);
                                 Uri data = Uri.parse("tel:" + "10109777");
