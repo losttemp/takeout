@@ -20,8 +20,10 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressSuggestionAdapter;
+import com.baidu.iov.dueros.waimai.presenter.AddressSuggestionPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;
@@ -33,7 +35,8 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressSuggestionActivity extends AppCompatActivity implements TextWatcher, View.OnClickListener {
+public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPresenter, AddressSuggestionPresenter.AddressSuggestionUi>
+        implements TextWatcher, View.OnClickListener, AddressSuggestionPresenter.AddressSuggestionUi{
     private RecyclerView mRecyclerView;
     private ClearEditText mSearchEdit;
     private AddressSuggestionAdapter mAdapter;
@@ -48,6 +51,16 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
     private TextView tv_title;
     private ImageView iv_back;
     private RelativeLayout selectCityView;
+
+    @Override
+    AddressSuggestionPresenter createPresenter() {
+        return new AddressSuggestionPresenter();
+    }
+
+    @Override
+    AddressSuggestionPresenter.AddressSuggestionUi getUi() {
+        return this;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -185,6 +198,22 @@ public class AddressSuggestionActivity extends AppCompatActivity implements Text
             mAllSuggestions.clear();
             mAdapter.notifyDataSetChanged();
             mSearchEdit.setText("");
+        }
+    }
+
+    @Override
+    public void selectListItem(int i) {
+        if (null != mAllSuggestions && mAllSuggestions.size() >= i) {
+            Intent intent = new Intent(AddressSuggestionActivity.this, AddressEditActivity.class);
+            intent.putExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR, mAllSuggestions.get(i));
+            VoiceManager.getInstance().playTTS(AddressSuggestionActivity.this, String.format(getString(R.string.address_harvest), mAllSuggestions.get(i).getKey()));
+            if (isEditModle) {
+                setResult(Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE, intent);
+            } else {
+                intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, false);
+                startActivity(intent);
+            }
+            finish();
         }
     }
 }

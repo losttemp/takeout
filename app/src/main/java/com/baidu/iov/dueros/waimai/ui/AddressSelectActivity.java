@@ -21,6 +21,7 @@ import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.ArrayList;
@@ -165,6 +166,27 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     public void onFailure(String msg) {
 
+    }
+
+    @Override
+    public void selectListItem(int i) {
+        if (null != mDataList && mDataList.size() >= i) {
+            String databeanStr = GsonUtil.toJson(mDataList.get(i));
+            CacheUtils.saveAddressBean(databeanStr);
+            if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
+                CacheUtils.saveAddrTime(System.currentTimeMillis());
+            }
+            Intent homeintent = new Intent(AddressSelectActivity.this, HomeActivity.class);
+            try {
+                String address = Encryption.desEncrypt(mDataList.get(i).getAddress());
+                CacheUtils.saveAddress(address);
+                VoiceManager.getInstance().playTTS(AddressSelectActivity.this, String.format(getString(R.string.harvest_address), address));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            startActivity(homeintent);
+            finish();
+        }
     }
 
     @Override

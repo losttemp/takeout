@@ -261,10 +261,13 @@
     <string name="edit_text_view_max_length_hint">您输入的信息已超出最大限制长度,请重新编辑</string>
     
     <!--tts-->
+    <string name="yes">好的</string>
     <string name="choose_you_commodity">好的，请依次选择你想要的商品，点完后对我说确认下单</string>
     <string name="commodity_address">好的，你的外卖将送到%s</string>
     <string name="sure_order">好的，%s的订单已为你重新加入购物车，点完后对我说确认下单</string>
     <string name="have_no_order">你还没有历史订单记录，快来选购吧</string>
     <string name="pay">请用微信或支付宝扫描二维码进行付款</string>
     <string name="submit_order">你购买的%1s等商品，共计%2s，预计将于%3s，送达%4s，收货人手机尾号为%5s，现在支付吗？</string>
+    <string name="harvest_address">好的，收货地址选择为%s</string>
+    <string name="address_harvest">好的，已为你选择%s为收货地址</string>
 </resources>

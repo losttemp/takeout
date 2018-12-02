@@ -28,6 +28,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.presenter.SearchPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 
 import java.util.ArrayList;
@@ -263,6 +264,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	@Override
 	public void selectListItem(int index) {
 		if (mCurrentStatus == Constant.SEARCH_STATUS_HISTORY && mHistorys.size() > index) {
+			VoiceManager.getInstance().playTTS(SearchActivity.this, getString(R.string.yes));
 			searchKeyword(mHistorys.get(index));
 		}
 	}

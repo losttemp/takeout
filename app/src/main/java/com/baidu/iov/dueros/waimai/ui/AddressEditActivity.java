@@ -132,7 +132,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (dataBean.getAddress_id()!=null&&dataBean.getAddress_id() != 0) {
+            if (null != dataBean.getAddress_id() && dataBean.getAddress_id() != 0) {
                 iv_del_button.setVisibility(View.VISIBLE);
             }
         } else {

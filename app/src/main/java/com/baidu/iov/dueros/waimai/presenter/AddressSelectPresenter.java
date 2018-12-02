@@ -25,6 +25,8 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_SELECT;
+
 public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.AddressSelectUi> {
     private static final String TAG = AddressSelectPresenter.class.getSimpleName();
 
@@ -40,17 +42,33 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
 
     @Override
     public void onCommandCallback(String cmd, String extra) {
+        if (getUi() == null) {
+            return;
+        }
 
+        switch (cmd) {
+            case CMD_SELECT:
+                getUi().selectListItem(Integer.parseInt(extra));
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void registerCmd(Context context) {
-
+        if (null != mVoiceManager) {
+            ArrayList<String> cmdList = new ArrayList<String>();
+            cmdList.add(CMD_SELECT);
+            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+        }
     }
 
     @Override
     public void unregisterCmd(Context context) {
-
+        if (null != mVoiceManager) {
+            mVoiceManager.unregisterCmd(context, mVoiceCallback);
+        }
     }
 
     @Override
@@ -144,6 +162,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
 
         void onFailure(String msg);
 
+        void selectListItem(int i);
     }
 
     public class MReceiver extends BroadcastReceiver {
