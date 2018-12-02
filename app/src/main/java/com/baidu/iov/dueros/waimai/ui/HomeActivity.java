@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatImageView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -12,8 +13,6 @@ import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.location.BDLocation;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
@@ -33,8 +32,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	private AppCompatImageView mIvTitle;
 
 	private StoreListFragment mStoreListFragment;
-	
-	private String address="地址";
+
+	public static String address;
 
 	@Override
 	HomePresenter createPresenter() {
@@ -54,7 +53,18 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		iniData();
 	}
 
-	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (TextUtils.isEmpty(address)) {
+			if (!CacheUtils.getAddress().isEmpty()) {
+				address = CacheUtils.getAddress();
+			} else {
+				address = "地址";
+			}
+		}
+		mTvTitle.setText(address);
+	}
 
 	private void iniView() {
 		mRlFood = findViewById(R.id.rl_food);
@@ -68,20 +78,9 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mTvTitle =  findViewById(R.id.tv_title);
 		mRlSearch = findViewById(R.id.rl_search);
 		mIvTitle = findViewById(R.id.iv_title);
-		
-		
 	}
-	
-	
 
 	private void iniData() {
-		if(!CacheUtils.getAddress().isEmpty()){
-			address=CacheUtils.getAddress();
-		}
-		
-		mTvTitle.setText(address);
-		
-		
 		//fragment
 		mStoreListFragment = new StoreListFragment();
 		Bundle bundle = new Bundle();
@@ -100,7 +99,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mTvTitle.setOnClickListener(this);
 		mRlSearch.setOnClickListener(this);
 		mIvTitle.setOnClickListener(this);
-
 	}
 
 	@Override
