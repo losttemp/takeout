@@ -106,7 +106,15 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusBeans = spusBean.getSkus();
         Lg.getInstance().d(TAG, "spusBean.getName() = " + spusBean.getName());
         viewHolder.name.setText(spusBean.getName());
-        viewHolder.storeIndex.setText(String.valueOf(position + 1));
+        if (section == 0) {
+            viewHolder.storeIndex.setText(String.valueOf(position + 1));
+        } else {
+            int index = 0;
+            for (int i = 1; i <= section; i++) {
+                index += foodSpuTagsBeans.get(i - 1).getSpus().size();
+            }
+            viewHolder.storeIndex.setText(String.valueOf(index + position + 1));
+        }
         viewHolder.describe.setText(spusBean.getDescription());
         if ((spusBean.getAttrs() != null && spusBean.getAttrs().size() > 0) ||
                 (spusBean.getSkus() != null && spusBean.getSkus().size() > 1)) {
@@ -389,14 +397,14 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
             public void onClick(View view) {
                 if (spusBean.getSkus().size() >= 2) {
                     if (choiceSkus.size() == 0) {
-                        ToastUtils.show(context, context.getString(R.string.please_select_the_specifications_first),Toast.LENGTH_SHORT);
+                        ToastUtils.show(context, context.getString(R.string.please_select_the_specifications_first), Toast.LENGTH_SHORT);
                         return;
                     }
                 }
                 if (spusBean.getAttrs().size() > 0) {
                     for (int i = 0; i < spusBean.getAttrs().size(); i++) {
                         if (choiseAttrs[i] == false) {
-                            ToastUtils.show(context, context.getResources().getString(R.string.please_select_the_specifications_first),Toast.LENGTH_SHORT);
+                            ToastUtils.show(context, context.getResources().getString(R.string.please_select_the_specifications_first), Toast.LENGTH_SHORT);
                             return;
                         }
                     }
@@ -522,8 +530,8 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
                                  ViewHolder viewHolder, int section, boolean alreadyToast) {
         int min_order_count = getMinOrderCount(spusBean);
         if (min_order_count > 1 && !alreadyToast) {
-            ToastUtils.show(context, context.getString(R.string.must_buy)+
-                    min_order_count + context.getString(R.string.share_buy),Toast.LENGTH_SHORT);
+            ToastUtils.show(context, context.getString(R.string.must_buy) +
+                    min_order_count + context.getString(R.string.share_buy), Toast.LENGTH_SHORT);
         }
         int num = spusBean.getNumber();
         if (alreadyToast) {
