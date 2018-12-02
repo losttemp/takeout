@@ -143,15 +143,18 @@ public class PoifoodSpusListAdapter extends PoifoodSpusListSectionedBaseAdapter 
             } else {
                 viewHolder.soldOut.setVisibility(View.GONE);
             }
+            viewHolder.canNotBuy.setVisibility(View.GONE);
         } else if (spusBean.getStatus() == 1) {
             viewHolder.addNumber.setVisibility(View.GONE);
             viewHolder.soldOut.setVisibility(View.VISIBLE);
+            viewHolder.canNotBuy.setVisibility(View.GONE);
             convertView.setEnabled(false);
             convertView.setAlpha(0.6f);
         } else if (spusBean.getStatus() == 2) {
             viewHolder.addNumber.setVisibility(View.GONE);
             viewHolder.soldOut.setVisibility(View.VISIBLE);
             viewHolder.soldOut.setText(context.getString(R.string.looting));
+            viewHolder.canNotBuy.setVisibility(View.GONE);
             convertView.setEnabled(false);
             convertView.setAlpha(0.6f);
         } else if (spusBean.getStatus() == 3) {

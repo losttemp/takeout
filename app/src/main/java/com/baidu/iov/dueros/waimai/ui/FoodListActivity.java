@@ -698,12 +698,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             @Override
             public void onClick(View view) {
                 mBottomDialog.dismiss();
-                Intent intent = new Intent(FoodListActivity.this, SubmitOrderActivity.class);
-                intent.putExtra(POI_INFO, mPoiInfoBean);
-                intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
-                intent.putExtra(DISCOUNT, mDiscountNumber);
-                intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-                startActivity(intent);
+                getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
             }
         });
         mCartClose.setOnClickListener(new View.OnClickListener() {
@@ -933,6 +928,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 intent.putExtra(POI_INFO, mPoiInfoBean);
                 intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
                 intent.putExtra(DISCOUNT, mDiscountNumber);
+                intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                 startActivity(intent);
                 break;
             case Constant.STORE_CANT_NOT_BUY:
