@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,16 @@ public class FoodListAdaper extends RecyclerView.Adapter<FoodListAdaper.ViewHold
 
         NumberFormat numberFormat = new DecimalFormat("##.##");
         double price = mData.get(position).getPrice();
+        double originPrice = mData.get(position).getOriginal_price();
         holder.tvfoodprice.setText(String.format(mContext.getResources().getString(R.string.cost_text), numberFormat.format(price)));
+        if (price < originPrice) {
+            holder.tvfoodOriginPrice.setText(String.format(mContext.getResources().getString(R.string.cost_text), numberFormat.format(originPrice)));
+            holder.tvfoodOriginPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tvfoodOriginPrice.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvfoodOriginPrice.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @Override
@@ -54,11 +64,13 @@ public class FoodListAdaper extends RecyclerView.Adapter<FoodListAdaper.ViewHold
 
         private TextView tvfoodname;
         private TextView tvfoodprice;
+        private TextView tvfoodOriginPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvfoodname = itemView.findViewById(R.id.tv_food_name);
             tvfoodprice = itemView.findViewById(R.id.tv_food_price);
+            tvfoodOriginPrice = itemView.findViewById(R.id.tv_food_origin_price);
         }
     }
 
