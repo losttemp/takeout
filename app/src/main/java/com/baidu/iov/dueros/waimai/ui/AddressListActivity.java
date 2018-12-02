@@ -20,6 +20,7 @@ import com.baidu.iov.dueros.waimai.adapter.AddressListAdapter;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressListPresenter;
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
@@ -105,6 +106,13 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString(Constant.ADDRESS_DATA, databeanStr);
                         editor.commit();
+                        try {
+                            String address = Encryption.desEncrypt(addressData.getAddress());
+                            CacheUtils.saveAddress(address);
+                            HomeActivity.address=address;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         setResult(RESULT_OK, data);
                         finish();
                         break;
