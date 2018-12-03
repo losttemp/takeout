@@ -199,6 +199,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				} else {
 					mLvSuggest.setVisibility(View.VISIBLE);
 					mLlHistory.setVisibility(View.GONE);
+					mFragmentStoreList.setVisibility(View.GONE);
 					mPresenter.requestSuggestList(mEtSearch.getText().toString());
 				}
 			}
