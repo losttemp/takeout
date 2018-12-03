@@ -1,9 +1,12 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -15,42 +18,29 @@ import java.util.List;
  * Created by ubuntu on 18-11-3.
  */
 
-public class PoifoodSpusTagsAdapter extends BaseAdapter {
+public class PoifoodSpusTagsAdapter extends RecyclerView.Adapter<PoifoodSpusTagsAdapter.ViewHolder> {
 
     private final Context context;
     private List<PoifoodSpusTagsBean> poifoodSpusTagsBeans;
+    private OnItemClickListener mItemClickListener;
+    private int selectedPosition;
 
     public PoifoodSpusTagsAdapter(Context context, List<PoifoodSpusTagsBean> poifoodSpusTagsBeans) {
         this.context = context;
         this.poifoodSpusTagsBeans = poifoodSpusTagsBeans;
     }
 
+    @NonNull
     @Override
-    public int getCount() {
-        return poifoodSpusTagsBeans == null ? 0 : poifoodSpusTagsBeans.size();
+    public PoifoodSpusTagsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.categorize_item, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
-        ViewHolder viewHolder = new ViewHolder();
-        if (convertView == null) {
-            convertView = View.inflate(context, R.layout.categorize_item, null);
-            viewHolder.foodSpuTagsBeanName = (TextView) convertView.findViewById(R.id.mainitem_txt);
-            viewHolder.number = (TextView) convertView.findViewById(R.id.tv_num);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
+    public void onBindViewHolder(@NonNull PoifoodSpusTagsAdapter.ViewHolder viewHolder, final int position) {
         viewHolder.foodSpuTagsBeanName.setText(poifoodSpusTagsBeans.get(position).getFoodSpuTagsBeanName());
         if (poifoodSpusTagsBeans.get(position).getNumber() != 0) {
             viewHolder.number.setVisibility(View.VISIBLE);
@@ -58,11 +48,55 @@ public class PoifoodSpusTagsAdapter extends BaseAdapter {
         } else {
             viewHolder.number.setVisibility(View.GONE);
         }
-        return convertView;
+        viewHolder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.OnItemClick(view, position);
+                }
+            }
+        });
+
+        if (position == selectedPosition) {
+            viewHolder.view.setBackgroundResource(R.color.list_bg);
+        } else {
+            viewHolder.view.setBackgroundColor(Color.TRANSPARENT);
+        }
+        viewHolder.itemView.setTag(position);
     }
 
-    private final class ViewHolder {
-        TextView foodSpuTagsBeanName;
-        TextView number;
+    @Override
+    public int getItemCount() {
+        return poifoodSpusTagsBeans == null ? 0 : poifoodSpusTagsBeans.size();
     }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        View view;
+        TextView number;
+        TextView foodSpuTagsBeanName;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            view = itemView;
+            foodSpuTagsBeanName = (TextView) itemView.findViewById(R.id.mainitem_txt);
+            number = (TextView) itemView.findViewById(R.id.tv_num);
+        }
+    }
+
+    public interface OnItemClickListener {
+        void OnItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
+    }
+
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
 }

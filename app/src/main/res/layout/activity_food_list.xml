@@ -105,7 +105,7 @@
             android:background="@color/list_bg"
             android:orientation="horizontal">
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/classify_mainlist"
                 android:layout_width="@dimen/px0dp"
                 android:layout_height="match_parent"
@@ -113,7 +113,7 @@
                 android:background="@color/base_color"
                 android:scrollbars="none" />
 
-            <com.baidu.iov.dueros.waimai.view.PoifoodListPinnedHeaderListView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/classify_morelist"
                 android:layout_width="@dimen/px0dp"
                 android:layout_height="match_parent"

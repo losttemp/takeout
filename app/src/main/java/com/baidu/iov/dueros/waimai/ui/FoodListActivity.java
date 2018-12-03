@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.ArrayMap;
@@ -28,8 +29,6 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -63,7 +62,6 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
-import com.baidu.iov.dueros.waimai.view.PoifoodListPinnedHeaderListView;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.domain.multipltextview.MultiplTextView;
 
@@ -72,7 +70,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 
 import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
 
@@ -83,8 +80,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public static final String DISCOUNT = "discount";
 
     private boolean isScroll = true;
-    private ListView mFoodSpuTagsList;
-    private PoifoodListPinnedHeaderListView mSpusList;
+    private RecyclerView mFoodSpuTagsList;
+    private RecyclerView mSpusList;
     private PoifoodSpusListAdapter mPoifoodSpusListAdapter;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList;
     private MultiplTextView shoppingPrise;
@@ -192,8 +189,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         shoppingPrise = (MultiplTextView) findViewById(R.id.shoppingPrise);
         shoppingNum = (TextView) findViewById(R.id.shoppingNum);
         settlement = (Button) findViewById(R.id.settlement);
-        mFoodSpuTagsList = (ListView) findViewById(R.id.classify_mainlist);
-        mSpusList = (PoifoodListPinnedHeaderListView) findViewById(R.id.classify_morelist);
+        mFoodSpuTagsList = (RecyclerView) findViewById(R.id.classify_mainlist);
+        mSpusList = (RecyclerView) findViewById(R.id.classify_morelist);
         shopping_cart = (ImageView) findViewById(R.id.shopping_cart);
         mStoreDetails = (RelativeLayout) findViewById(R.id.rl_store_details);
         mFinish = (ImageView) findViewById(R.id.iv_finish);
@@ -236,56 +233,51 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         });
 
+        final LinearLayoutManager layoutManagerRight = new LinearLayoutManager(this);
+        mSpusList.setLayoutManager(layoutManagerRight);
         mSpusList.setAdapter(mPoifoodSpusListAdapter);
         mPoifoodSpusListAdapter.setCallBackListener(this);
+
+
         mFoodSpuTagsListAdapter = new PoifoodSpusTagsAdapter(this, poifoodSpusTagsBeans);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+        mFoodSpuTagsList.setLayoutManager(mLinearLayoutManager);
         mFoodSpuTagsList.setAdapter(mFoodSpuTagsListAdapter);
+
         shoppingCartAdapter = new ShoppingCartAdapter(this, productList);
-        mFoodSpuTagsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+        mSpusList.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View view,
-                                    int position, long arg3) {
-                isScroll = false;
-                Lg.getInstance().d(TAG, "mFoodSpuTagsList.getChildCount() = " + mFoodSpuTagsList.getChildCount());
-                for (int i = 0; i < mFoodSpuTagsList.getChildCount(); i++) {
-                    if (i == position) {
-                        mFoodSpuTagsList.getChildAt(i).setBackgroundResource(R.color.list_bg);
-                    } else {
-                        mFoodSpuTagsList.getChildAt(i).setBackgroundColor(
-                                Color.TRANSPARENT);
-                    }
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                int lastItemPosition = 0;
+                int firstItemPosition = 0;
+                if (layoutManager instanceof LinearLayoutManager) {
+                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
+                    lastItemPosition = linearManager.findLastVisibleItemPosition();
+                    firstItemPosition = linearManager.findFirstVisibleItemPosition();
                 }
-                int rightSection = 0;
-                for (int i = 0; i < position; i++) {
-                    rightSection += mPoifoodSpusListAdapter.getCountForSection(i) + 1;
-                }
-                mSpusList.setSelection(rightSection);
-            }
-
-        });
-
-
-        mSpusList.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView arg0, int arg1) {
-
+                mFoodSpuTagsListAdapter.setSelectedPosition(firstItemPosition);
+                mFoodSpuTagsListAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (isScroll) {
-                    for (int i = 0; i < mFoodSpuTagsList.getChildCount(); i++) {
-                        if (i == mPoifoodSpusListAdapter.getSectionForPosition(firstVisibleItem)) {
-                            mFoodSpuTagsList.getChildAt(i).setBackgroundResource(R.color.list_bg);
-                        } else {
-                            mFoodSpuTagsList.getChildAt(i).setBackgroundColor(
-                                    Color.TRANSPARENT);
-                        }
-                    }
-                } else {
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                     isScroll = true;
+                } else {
+                    isScroll = false;
                 }
+            }
+        });
+        mFoodSpuTagsListAdapter.setOnItemClickListener(new PoifoodSpusTagsAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                ((LinearLayoutManager) mSpusList.getLayoutManager()).scrollToPositionWithOffset(position, 0);
+                mFoodSpuTagsListAdapter.setSelectedPosition(position);
+                mFoodSpuTagsListAdapter.notifyDataSetChanged();
             }
         });
 
