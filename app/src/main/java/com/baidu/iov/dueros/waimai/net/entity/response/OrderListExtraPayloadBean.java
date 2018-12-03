@@ -58,6 +58,7 @@ public class OrderListExtraPayloadBean {
 
         private long wm_poi_id;
         private int delivery_time;
+        private int estimate_arrival_time;
         private int pay_type;
         private List<FoodListBean> food_list;
 
@@ -75,6 +76,14 @@ public class OrderListExtraPayloadBean {
 
         public int getDelivery_time() {
             return delivery_time;
+        }
+
+        public int getEstimate_arrival_time() {
+            return estimate_arrival_time;
+        }
+
+        public void setEstimate_arrival_time(int estimate_arrival_time) {
+            this.estimate_arrival_time = estimate_arrival_time;
         }
 
         public void setPay_type(int pay_type) {

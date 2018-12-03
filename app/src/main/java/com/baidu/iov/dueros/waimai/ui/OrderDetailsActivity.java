@@ -34,6 +34,7 @@ import com.baidu.iov.dueros.waimai.view.NoClikRecyclerView;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
@@ -387,6 +388,55 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     public void update(OrderDetailsResponse data) {
         mOrderDetails = data.getMeituan().getData();
         setTextView();
+        if (null != mOrderDetails && mOrderDetails.getEstimate_arrival_time() != 0) {
+            long time = mOrderDetails.getEstimate_arrival_time();
+            time = time * 1000L;
+            Date date = new Date(time);
+            SimpleDateFormat format1, format2;
+            format1 = new SimpleDateFormat("yyyy-MM-dd");
+            format2 = new SimpleDateFormat("HH:mm");
+            mExpectedTime.setText(format1.format(date) + " (" + getWeek(time) + ") " + format2.format(date));
+        }
+
+    }
+
+    public static String getWeek(long time) {
+
+        Calendar cd = Calendar.getInstance();
+        cd.setTime(new Date(time));
+
+        int year  = cd.get(Calendar.YEAR); //获取年份
+        int month = cd.get(Calendar.MONTH); //获取月份
+        int day   = cd.get(Calendar.DAY_OF_MONTH); //获取日期
+        int week  = cd.get(Calendar.DAY_OF_WEEK); //获取星期
+
+        String weekString;
+        switch (week) {
+            case Calendar.SUNDAY:
+                weekString = "周日";
+                break;
+            case Calendar.MONDAY:
+                weekString = "周一";
+                break;
+            case Calendar.TUESDAY:
+                weekString = "周二";
+                break;
+            case Calendar.WEDNESDAY:
+                weekString = "周三";
+                break;
+            case Calendar.THURSDAY:
+                weekString = "周四";
+                break;
+            case Calendar.FRIDAY:
+                weekString = "周五";
+                break;
+            default:
+                weekString = "周六";
+                break;
+
+        }
+
+        return weekString;
     }
 
     @Override
