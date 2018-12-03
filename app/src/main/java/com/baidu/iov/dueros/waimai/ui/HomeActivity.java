@@ -141,6 +141,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 			case R.id.rl_food:
 				Intent foodIntent = new Intent(this, FoodActivity.class);
 				foodIntent.putExtra("title", mTvFood.getText().toString());
+				foodIntent.putExtra("latitude", mStoreListFragment.getLatitude());
+				foodIntent.putExtra("longitude", mStoreListFragment.getLongitude());
 				startActivity(foodIntent);
 				break;
 
@@ -150,12 +152,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 	}
 
-	@Override
-	public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
-		if (isSuccess) {
-			mStoreListFragment.homeLoadFirstPage();
-		} 
-	}
+
 
 	
 }

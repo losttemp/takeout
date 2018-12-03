@@ -16,6 +16,7 @@ import com.baidu.iov.dueros.waimai.adapter.SecondTypeFoodAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.presenter.FoodPresenter;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.util.ArrayList;
@@ -46,6 +47,10 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     private MultiplTextView tvNoResult;
 
+    private int latitude;
+    
+    private int longitude;
+
     @Override
     FoodPresenter createPresenter() {
         return new FoodPresenter();
@@ -60,13 +65,24 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_type);
+        getIntentData();
         initView();
         initData();
       
    }
 
+    public void getIntentData() {
+        Intent intent=getIntent();
+        if (intent!=null) {
+            latitude=intent.getIntExtra("latitude",-1);
+            longitude=intent.getIntExtra("longitude",-1);
+        }
+    }
+
     private void initData (){
         filterConditionReq =new FilterConditionReq();
+        filterConditionReq.setLatitude(latitude);
+        filterConditionReq.setLongitude(longitude);
         getPresenter().requestFilterConditions(filterConditionReq);
 
     }
