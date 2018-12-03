@@ -73,10 +73,12 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private int mFromPageType;
 	private static final int VOICE_STEP = 5;//语音选择下一页时跳动的item数目
 	private View mView;
-	private int latitude;
-	private int longitude;
+	private Integer latitude;
+	private Integer longitude;
 
 	private FilterConditionReq filterConditionReq;
+	
+	
 
 	@Override
 	StoreListPresenter createPresenter() {
@@ -115,8 +117,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
 		if (addressDataJson != null) {
 			AddressListBean.IovBean.DataBean mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
-			latitude=mAddressData.getLatitude();
-			longitude=mAddressData.getLongitude();
+			latitude=mAddressData.getLatitude()!=null?mAddressData.getLatitude():-1;
+			longitude=mAddressData.getLongitude()!=null?mAddressData.getLongitude():-1;
 			Lg.getInstance().d(TAG,"latitude:"+latitude+" longitude:"+longitude);
 		}
 	}
