@@ -270,4 +270,5 @@
     <string name="submit_order">你购买的%1s等商品，共计%2s，预计将于%3s，送达%4s，收货人手机尾号为%5s，现在支付吗？</string>
     <string name="harvest_address">好的，收货地址选择为%s</string>
     <string name="address_harvest">好的，已为你选择%s为收货地址</string>
+    <string name="is_network_connected">当前网络不在状态,请稍后重试</string>
 </resources>

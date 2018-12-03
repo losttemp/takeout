@@ -1,7 +1,6 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,9 +10,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -33,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
@@ -86,6 +82,9 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     protected void onResume() {
         super.onResume();
+        mRefreshLayout.setEnableLoadmore(false);
+        mOrderListReq.setPage(START_PAGE);
+        mRefreshLayout.autoRefresh();
     }
 
     @Override
@@ -111,9 +110,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mOrderListReq = new OrderListReq();
         mOrderListReq.setPage_num(EVERY_TIME_PULL_COUNT);
         mOrderListReq.setPage(START_PAGE);
-        getPresenter().requestOrderList(mOrderListReq);
-        mRefreshLayout.setEnableLoadmore(false);
-        mRefreshLayout.setEnableRefresh(false);
         setRefreshView();
         mIvBack.setOnClickListener(this);
 

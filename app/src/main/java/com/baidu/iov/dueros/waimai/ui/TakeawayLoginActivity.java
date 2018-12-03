@@ -4,17 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.CookieManager;
-import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -32,11 +27,10 @@ import com.baidu.iov.dueros.waimai.presenter.MeituanAuthPresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 
 import java.util.List;
-
-//import com.baidu.iov.dueros.waimai.waimaiapplication.R;
 
 public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, MeituanAuthPresenter.MeituanLoginUi> implements
         MeituanAuthPresenter.MeituanLoginUi {
@@ -90,11 +84,16 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onResume() {
         super.onResume();
-        if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
-            getPresenter().requestAccountInfo();
-        } else {
-            getPresenter().requestMeituanAuth(mMeituanAuthReq);
+        if (NetUtil.getNetWorkState(this)){
+            if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
+                getPresenter().requestAccountInfo();
+            } else {
+                getPresenter().requestMeituanAuth(mMeituanAuthReq);
+            }
+        }else{
+            ToastUtils.show(this,getResources().getString(R.string.is_network_connected),Toast.LENGTH_SHORT);
         }
+
     }
 
     @Override
@@ -254,4 +253,5 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         mWVMeituan.destroy();
         mWVMeituan = null;
     }
+
 }

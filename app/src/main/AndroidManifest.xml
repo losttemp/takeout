@@ -50,8 +50,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.AddressListActivity"
-            android:theme="@style/NoTitleDialog"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/NoTitleDialog"/>
         <activity android:name=".ui.PaymentActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.PaySuccessActivity"
