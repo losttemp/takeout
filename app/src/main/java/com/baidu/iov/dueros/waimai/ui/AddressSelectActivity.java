@@ -94,6 +94,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                         try {
                             String address = Encryption.desEncrypt(dataBean.getAddress());
                             CacheUtils.saveAddress(address);
+                            HomeActivity.address=address;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
