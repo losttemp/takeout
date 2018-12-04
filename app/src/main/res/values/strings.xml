@@ -259,7 +259,9 @@
     <string name="position_try">定位失败,点击重试</string>
     <string name="hot_city">热门城市</string>
     <string name="edit_text_view_max_length_hint">您输入的信息已超出最大限制长度,请重新编辑</string>
-    
+    <string name="no_internet">您的网络好像不太给力,请稍后再试</string>
+    <string name="no_internet_reload">重新加载</string>
+
     <!--tts-->
     <string name="yes">好的</string>
     <string name="choose_you_commodity">好的，请依次选择你想要的商品，点完后对我说确认下单</string>
