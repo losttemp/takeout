@@ -212,7 +212,7 @@
 
 	</android.support.v7.widget.LinearLayoutCompat>
 
-    <com.baidu.iov.dueros.waimai.view.NoClikRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_store_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

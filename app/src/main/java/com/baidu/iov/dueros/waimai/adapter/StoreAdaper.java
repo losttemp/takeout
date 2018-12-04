@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -12,22 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean.DataBean
-		.OpenPoiBaseInfoListBean.DiscountsBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean.DiscountsBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
-import com.baidu.iov.dueros.waimai.view.NoClikRecyclerView;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.Glide;
 import com.domain.multipltextview.MultiplTextView;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -227,7 +220,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		private RecyclerView rvStoreDiscount;
 		private AppCompatImageView ivStoreDiscount;
 		private RelativeLayout rl;
-		private NoClikRecyclerView rvStoreProduct;
+		private RecyclerView rvStoreProduct;
 
 		private ViewHolder(View view) {
 			super(view);
