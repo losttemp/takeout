@@ -23,6 +23,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
+import com.baidu.iov.dueros.waimai.view.NoClikRecyclerView;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.Glide;
 import com.domain.multipltextview.MultiplTextView;
@@ -226,7 +227,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		private RecyclerView rvStoreDiscount;
 		private AppCompatImageView ivStoreDiscount;
 		private RelativeLayout rl;
-		private RecyclerView rvStoreProduct;
+		private NoClikRecyclerView rvStoreProduct;
 
 		private ViewHolder(View view) {
 			super(view);

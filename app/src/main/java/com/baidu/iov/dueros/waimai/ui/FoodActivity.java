@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import com.baidu.iov.dueros.waimai.R;
@@ -13,6 +14,8 @@ import com.baidu.iov.dueros.waimai.adapter.SecondTypeFoodAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.presenter.FoodPresenter;
+import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.domain.multipltextview.MultiplTextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,13 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     private Button btnBack;
     
     private RelativeLayout mRlSearch;
+
+    private  RelativeLayout rlCenter;
+
+    private LinearLayout mWarnNoInternet;
+    
+    private Button mNoInternetBtn;
+
     private FirstTypeFoodAdapter mFirstTypeFoodAdapter;
   
     private SecondTypeFoodAdapter mSecondTypeFoodAdapter;
@@ -84,9 +94,10 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         gvSecondType=findViewById(R.id.gv_second_type);
         tvFirstCategory=findViewById(R.id.tv_first_category);
         btnBack=findViewById(R.id.btn_back);
-        mRlSearch = (RelativeLayout) findViewById(R.id.rl_search);
-      
-        
+        mRlSearch =  findViewById(R.id.rl_search);
+        mWarnNoInternet= findViewById(R.id.warn_no_internet);
+        mNoInternetBtn= findViewById(R.id.no_internet_btn);
+        rlCenter= findViewById(R.id.rl_center);
         
         mFirstTypeFoodAdapter=new FirstTypeFoodAdapter(this);
         lvFirstType.setAdapter(mFirstTypeFoodAdapter);
@@ -96,6 +107,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
         btnBack.setOnClickListener(this);
         mRlSearch.setOnClickListener(this);
+        mNoInternetBtn.setOnClickListener(this);
         
         lvFirstType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -134,6 +146,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     @Override
     public void onSuccess(FilterConditionResponse data) {
+        mWarnNoInternet.setVisibility(View.GONE);
+        rlCenter.setVisibility(View.VISIBLE);
         if (data==null||data.getMeituan()==null||data.getMeituan().getData().getCategory_filter_list().isEmpty()){
             return;
         }
@@ -185,7 +199,12 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     @Override
     public void onError(String error) {
-        
+        Lg.getInstance().d(TAG,"msg:"+error);
+        if (!NetUtil.getNetWorkState(this)){
+            mWarnNoInternet.setVisibility(View.VISIBLE);
+            rlCenter.setVisibility(View.GONE);
+            return;
+        }
     }
 
     @Override
@@ -197,6 +216,9 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
             case R.id.rl_search:
                 Intent intent = new Intent(FoodActivity.this, SearchActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.no_internet_btn:
+               getPresenter().requestFilterConditions(filterConditionReq);
                 break;
         }
     }

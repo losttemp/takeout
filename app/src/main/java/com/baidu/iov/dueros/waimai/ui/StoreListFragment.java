@@ -228,7 +228,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					});
 				}
 				if (mSortList.size() == 0) {
-					requestFilterList();
+					mPresenter.requestFilterList(filterConditionReq);
 				}
 				mTagLv.setTextViewDefaultColor();
 				mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
@@ -261,7 +261,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					});
 				}
 				if (mFilterList.size() == 0) {
-					requestFilterList();
+					mPresenter.requestFilterList(filterConditionReq);
 				}
 				mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
 				mIvFilter.setImageResource(R.drawable.arrow_up);
@@ -271,8 +271,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 			case R.id.no_internet_btn:
 				if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
+					mPresenter.requestFilterList(filterConditionReq);
 					homeLoadFirstPage();
 				}else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP){
+					mPresenter.requestFilterList(filterConditionReq);
 					recommendShopLoadFirstPage(mStoreReq);
 				}
 				break;
@@ -541,13 +543,5 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreReq.setPage_index(1);
 		mPresenter.requestStoreList(mStoreReq);
 	}
-
-	/**
-	 * request filter condition list
-	 */
-	public void requestFilterList() {
-		mPresenter.requestFilterList(filterConditionReq);
-	}
-
 	
 }
