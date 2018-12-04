@@ -116,6 +116,13 @@
 			android:layout_height="wrap_content" />
 
 	</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+	<include layout="@layout/warn_no_internet"
+		android:id="@+id/warn_no_internet"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/ll_filter"
+		android:visibility="gone"/>
 	
 
 	<RelativeLayout

@@ -27,6 +27,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.presenter.SearchPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
@@ -36,7 +37,7 @@ import java.util.List;
 public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresenter.SearchUi>
 		implements
 		SearchPresenter.SearchUi, View.OnClickListener {
-
+	private static final String TAG = "SearchActivity";
 	private AppCompatEditText mEtSearch;
 	private FrameLayout mFragmentStoreList;
 	private LinearLayout mLlHistory;
@@ -279,6 +280,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mSuggests.clear();
 		mSuggests.addAll(data.getMeituan().getData().getSuggest());
 		mSearchSuggestAdapter.notifyDataSetChanged();
+		Lg.getInstance().d(TAG,"mSuggests:"+mSuggests);
 	}
 
 	@Override
