@@ -65,15 +65,16 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true">
 
-                    <com.domain.multipltextview.MultiplTextView
+                    <TextView
                         android:id="@+id/tv_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/px36dp"
+                        android:layout_width="@dimen/px826dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/px84dp"
-                        android:layout_marginTop="@dimen/px34dp"
+                        android:layout_marginTop="@dimen/px30dp"
                         android:textColor="@color/white"
                         android:textSize="@dimen/px40sp"
-                        app:removeDefaultPadding="true" />
+                        android:ellipsize="end"
+                        android:maxLines="1"/>
 
                     <com.domain.multipltextview.MultiplTextView
                         android:id="@+id/tv_name"
