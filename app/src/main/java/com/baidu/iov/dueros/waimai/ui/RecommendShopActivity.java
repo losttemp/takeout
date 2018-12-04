@@ -77,6 +77,17 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
         }else if (getResources().getString(R.string.stroe_type_flower).equals(title)){
             keyword=getResources().getString(R.string.flower);
         }
+      
+        //fragment
+        mStoreListFragment = new StoreListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP);
+        mStoreListFragment.setArguments(bundle);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.fragment_store_list, mStoreListFragment);
+        transaction.commit();
+        
         mStoreReq = new StoreReq();
         mStoreReq.setSortType(Constant.COMPREHENSIVE);
         if (!keyword.isEmpty()){
@@ -88,23 +99,13 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
         if (secondCategoryType!=0) {
             mStoreReq.setSecondCategoryType(secondCategoryType);
         }
-        //fragment
-        mStoreListFragment = new StoreListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP);
-        mStoreListFragment.setArguments(bundle);
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.fragment_store_list, mStoreListFragment);
-        transaction.commit();
-
        
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mStoreListFragment.loadFirstPage(mStoreReq);
+        mStoreListFragment.recommendShopLoadFirstPage(mStoreReq);
     }
 
     @Override

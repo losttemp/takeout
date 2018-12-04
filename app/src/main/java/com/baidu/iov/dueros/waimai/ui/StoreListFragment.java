@@ -1,12 +1,12 @@
 package com.baidu.iov.dueros.waimai.ui;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,6 +19,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.StoreListPresenter;
@@ -27,6 +28,7 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortTypeTagListView;
+import com.baidu.iov.faceos.client.GsonUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -71,6 +73,12 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private int mFromPageType;
 	private static final int VOICE_STEP = 5;//语音选择下一页时跳动的item数目
 	private View mView;
+	private Integer latitude;
+	private Integer longitude;
+
+	private FilterConditionReq filterConditionReq;
+	
+	
 
 	@Override
 	StoreListPresenter createPresenter() {
@@ -82,15 +90,37 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		return this;
 	}
 
+	public int getLatitude() {
+		return latitude;
+	}
+
+	public int getLongitude() {
+		return longitude;
+	}
+
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
 							 @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_store_list, container, false);
+		mContext = getActivity();
+		getLocation();
 		iniView(view);
 		iniData();
 
 		return view;
+	}
+	
+	
+	private void getLocation(){
+		SharedPreferences sharedPreferences = mContext.getSharedPreferences("_cache", Context.MODE_PRIVATE);
+		String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
+		if (addressDataJson != null) {
+			AddressListBean.IovBean.DataBean mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
+			latitude=mAddressData.getLatitude()!=null?mAddressData.getLatitude():-1;
+			longitude=mAddressData.getLongitude()!=null?mAddressData.getLongitude():-1;
+			Lg.getInstance().d(TAG,"latitude:"+latitude+" longitude:"+longitude);
+		}
 	}
 
 	private void iniView(View view) {
@@ -124,7 +154,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	}
 
 	private void iniData() {
-		mContext = getActivity();
 		mPresenter = getPresenter();
 
 		Bundle bundle = getArguments();
@@ -150,8 +179,17 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mRlFilter.setOnClickListener(this);
 
 		mStoreReq = new StoreReq();
+		mStoreReq.setLatitude(latitude);
+		mStoreReq.setLongitude(longitude);
 		mStoreReq.setSortType(Constant.COMPREHENSIVE);
-		requestFilterList();
+		if (mFromPageType==Constant.STORE_FRAGMENT_FROM_HOME){
+			homeLoadFirstPage();
+		}
+
+		filterConditionReq =new FilterConditionReq();
+		filterConditionReq.setLatitude(latitude);
+		filterConditionReq.setLongitude(longitude);
+		getPresenter().requestFilterList(filterConditionReq);
 	}
 
 	@Override
@@ -279,6 +317,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	@Override
 	public void failure(String msg) {
+		Lg.getInstance().d(TAG,"msg:"+msg);
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
 			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
@@ -432,15 +471,16 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			Intent intent = new Intent(mContext, FoodListActivity.class);
 			intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());
 			intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+			intent.putExtra("latitude", latitude);
+			intent.putExtra("longitude", longitude);
 			startActivity(intent);
 		}
 	}
 
 
 	public void loadFirstPage(StoreReq storeReq) {
-		storeReq.setPage_index(1);
+		storeReq.setPage_index(1);;
 		mPresenter.requestStoreList(storeReq);
-		mStoreReq = storeReq;
 		mRlTipNoResult.setVisibility(View.GONE);
 	}
 
@@ -448,6 +488,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreList.clear();
 		mStoreAdaper.notifyDataSetChanged();
 		storeReq.setPage_index(1);
+		storeReq.setLatitude(latitude);
+		storeReq.setLongitude(longitude);
 		mPresenter.requestStoreList(storeReq);
 		mStoreReq = storeReq;
 		mRlTipNoResult.setVisibility(View.GONE);
@@ -463,6 +505,15 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 	}
 
+	public void recommendShopLoadFirstPage(StoreReq storeReq) {
+		storeReq.setPage_index(1);
+		storeReq.setLatitude(latitude);
+		storeReq.setLongitude(longitude);
+		mPresenter.requestStoreList(storeReq);
+		mStoreReq = storeReq;
+		mRlTipNoResult.setVisibility(View.GONE);
+	}
+
 	public void homeLoadFirstPage() {
 		mStoreReq.setPage_index(1);
 		mPresenter.requestStoreList(mStoreReq);
@@ -472,7 +523,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	 * request filter condition list
 	 */
 	public void requestFilterList() {
-		mPresenter.requestFilterList(new FilterConditionReq());
+		mPresenter.requestFilterList(filterConditionReq);
 	}
 
 	
