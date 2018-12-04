@@ -1176,6 +1176,55 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     }
 
+    @Override
+    public void selectListItem(int i) {
+        int flag = i + 1;
+        int section = 0;
+        int position = 0;
+        boolean ok = true;
+        while (ok) {
+            int oldFlag = flag;
+            flag -= foodSpuTagsBeans.get(section).getSpus().size();
+            if (flag <= 0 && section == 0) {
+                position = i;
+                ok = false;
+                continue;
+            }
+            if (flag <= 0) {
+                position = oldFlag - 1;
+                ok = false;
+                continue;
+            }
+            section ++;
+        }
+
+        LinearLayoutManager manager = (LinearLayoutManager) mSpusList.getLayoutManager();
+        if (null != manager){
+            int firstItemPosition = manager.findFirstVisibleItemPosition();
+            int lastItemPosition = manager.findLastVisibleItemPosition();
+
+            if (firstItemPosition <= section && lastItemPosition >= section) {
+                View view = mSpusList.getChildAt(section - firstItemPosition);
+                if (null != mSpusList.getChildViewHolder(view)) {
+                    PoifoodSpusListAdapter.MyViewHolder viewHolder = (PoifoodSpusListAdapter.MyViewHolder) mSpusList.getChildViewHolder(view);
+                    RecyclerView recyclerView = viewHolder.getRecyclerView();
+                    LinearLayoutManager m = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    if (null != m) {
+                        int f = m.findFirstVisibleItemPosition();
+                        int l = m.findLastVisibleItemPosition();
+                        if (f <= position && l >= position) {
+                            View v = recyclerView.getChildAt(position - f);
+                            if (null != recyclerView.getChildViewHolder(v)) {
+                                PoifoodSpusListAdapter.MyViewHolder.GridViewAdapter.ViewHolder holder = (PoifoodSpusListAdapter.MyViewHolder.GridViewAdapter.ViewHolder) recyclerView.getChildViewHolder(v);
+                                holder.autoClick(position);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private List<String> getDiscountList(List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts) {
         List<String> list = new ArrayList<>();
         List<String> discountList = new ArrayList<>();

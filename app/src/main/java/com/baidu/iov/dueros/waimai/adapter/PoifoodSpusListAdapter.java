@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.util.ArrayList;
@@ -73,7 +75,8 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
         viewHolder.my_gridview.setAdapter(new MyViewHolder.GridViewAdapter(
                 foodSpuTagsBeans.get(position).getSpus(), position, context, activity, productList,
                 callBackListener, mHolderClickListener, foodSpuTagsBeans));
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        LinearLayoutManager staggeredGridLayoutManager = new LinearLayoutManager(context);
+        staggeredGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         viewHolder.my_gridview.setLayoutManager(staggeredGridLayoutManager);
     }
 
@@ -98,13 +101,18 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
         RecyclerView my_gridview;
         TextView textUI;
 
+        public RecyclerView getRecyclerView() {
+            return this.my_gridview;
+        }
+
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             my_gridview = (RecyclerView) itemView.findViewById(R.id.my_gridview);
             textUI = (TextView) itemView.findViewById(R.id.textItem);
         }
 
-        static class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHolder> {
+        public static class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHolder> {
             private static List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList;
             private static FoodListActivity activity;
             private static Context context;
@@ -428,7 +436,32 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     soldOut = (TextView) itemView.findViewById(R.id.tv_sold_out);
                     canNotBuy = (LinearLayout) itemView.findViewById(R.id.ll_not_buy_time);
                 }
+
+                public void autoClick(int position) {
+                    if (increase.getVisibility() == View.VISIBLE && add.getVisibility() == View.GONE
+                            && specifications.getVisibility() == View.GONE) {
+                        increase.performClick();
+                        int count = getMinOrderCount(spusBeans.get(position));
+                        String n = spusBeans.get(position).getName();
+                        VoiceManager.getInstance().playTTS(context, String.format(context.getString(R.string.add_commodity), count,n));
+                    }
+
+                    if (add.getVisibility() == View.VISIBLE
+                            && specifications.getVisibility() == View.GONE) {
+                        add.performClick();
+                        int count = getMinOrderCount(spusBeans.get(position));
+                        String n = spusBeans.get(position).getName();
+                        VoiceManager.getInstance().playTTS(context, String.format(context.getString(R.string.add_commodity), count,n));
+                    }
+
+                    if (specifications.getVisibility() == View.VISIBLE) {
+                        specifications.performClick();
+                        String n = spusBeans.get(position).getName();
+                        VoiceManager.getInstance().playTTS(context, String.format(context.getString(R.string.choice_specifications), n));
+                    }
+                }
             }
+
 
             private static void spcificationsOnclick(View view, final PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                                      final MyViewHolder.GridViewAdapter.ViewHolder viewHolder, final int section) {

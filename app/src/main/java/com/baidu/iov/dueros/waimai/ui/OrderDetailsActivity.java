@@ -248,7 +248,10 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     public void timerCancel() {
-        mTimer.cancel();
+        if (null!=mTimer){
+            mTimer.cancel();
+            mTimer=null;
+        }
     }
 
     public void timerStart() {
@@ -263,7 +266,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
         @Override
         public void onFinish() {
-
             mPayStatus.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
         }
     };

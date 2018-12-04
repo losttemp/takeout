@@ -273,4 +273,6 @@
     <string name="harvest_address">好的，收货地址选择为%s</string>
     <string name="address_harvest">好的，已为你选择%s为收货地址</string>
     <string name="is_network_connected">当前网络不在状态,请稍后重试</string>
+    <string name="add_commodity">%d份%s已为你加入购物车</string>
+    <string name="choice_specifications">好的，请选择%s的规格</string>
 </resources>

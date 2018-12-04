@@ -43,6 +43,9 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
             case CMD_YES:
                 getUi().sureOrder();
                 break;
+            case CMD_SELECT:
+                getUi().selectListItem(Integer.parseInt(extra));
+                break;
             default:
                 break;
         }
@@ -237,5 +240,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         void onArriveTimeError(String error);
 
         void sureOrder();
+
+        void selectListItem(int i);
     }
 }
