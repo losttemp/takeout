@@ -219,7 +219,7 @@
         android:layout_below="@+id/ll_info"
 		android:layout_marginLeft="@dimen/px100dp"
 		android:layout_marginBottom="@dimen/px30dp"
-        tools:listitem="@layout/item_store_discount" />
+        tools:listitem="@layout/item_store_product" />
 
 	<View
 		android:layout_width="match_parent"

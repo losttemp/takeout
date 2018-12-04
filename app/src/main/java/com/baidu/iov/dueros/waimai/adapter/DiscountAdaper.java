@@ -25,7 +25,14 @@ public class DiscountAdaper extends RecyclerView.Adapter<DiscountAdaper.ViewHold
 		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout
 				.item_store_discount, viewGroup, false);
 		final ViewHolder holder = new ViewHolder(view);
-
+		view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mItemClickListener != null) {
+					mItemClickListener.onItemClick();
+				}
+			}
+		});
 		return holder;
 	}
 
@@ -48,5 +55,12 @@ public class DiscountAdaper extends RecyclerView.Adapter<DiscountAdaper.ViewHold
 			tvText = (TextView) view.findViewById(R.id.tv_text);
 		}
 	}
+	public interface OnItemClickListener {
+		void onItemClick();
+	}
 
+	public void setItemClickListener(OnItemClickListener itemClickListener) {
+		mItemClickListener = itemClickListener;
+	}
+	private OnItemClickListener mItemClickListener;
 }
