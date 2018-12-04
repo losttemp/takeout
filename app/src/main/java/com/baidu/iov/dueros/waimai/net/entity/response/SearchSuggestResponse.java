@@ -348,6 +348,34 @@ public class SearchSuggestResponse {
 						this.categoryInfoList = categoryInfoList;
 					}
 
+					@Override
+					public String toString() {
+						return "PoiAdditionInfoBean{" +
+								"wm_poi_id=" + wm_poi_id +
+								", status=" + status +
+								", status_desc='" + status_desc + '\'' +
+								", name='" + name + '\'' +
+								", pic_url='" + pic_url + '\'' +
+								", shipping_fee=" + shipping_fee +
+								", min_price=" + min_price +
+								", wm_poi_score=" + wm_poi_score +
+								", avg_delivery_time=" + avg_delivery_time +
+								", poi_type_icon='" + poi_type_icon + '\'' +
+								", distance='" + distance + '\'' +
+								", latitude=" + latitude +
+								", longitude=" + longitude +
+								", address='" + address + '\'' +
+								", month_sale_num=" + month_sale_num +
+								", delivery_type=" + delivery_type +
+								", invoice_support=" + invoice_support +
+								", invoice_min_price=" + invoice_min_price +
+								", average_price_tip='" + average_price_tip + '\'' +
+								", product_list=" + product_list +
+								", discounts=" + discounts +
+								", categoryInfoList=" + categoryInfoList +
+								'}';
+					}
+
 					public static class CategoryInfoListBean {
 						/**
 						 * name : 甜品
@@ -372,8 +400,14 @@ public class SearchSuggestResponse {
 						public void setLevel(int level) {
 							this.level = level;
 						}
-						
-						
+
+						@Override
+						public String toString() {
+							return "CategoryInfoListBean{" +
+									"name='" + name + '\'' +
+									", level=" + level +
+									'}';
+						}
 					}
 				}
 			}

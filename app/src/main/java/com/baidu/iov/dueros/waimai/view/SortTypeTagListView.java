@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.model.IFoodModel;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import java.util.List;
@@ -64,6 +65,9 @@ public class SortTypeTagListView extends LinearLayout implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        if(mTags==null){
+            return;
+        }
         for (int i = 0; i < mTags.size(); i++) {
             if (v.getTag().equals(mTags.get(i))) {
                 if (((TextView)v).getCurrentTextColor()==mTextColor){
@@ -85,6 +89,9 @@ public class SortTypeTagListView extends LinearLayout implements View.OnClickLis
     }
     
     public  void setTextViewDefaultColor(){
+        if(mTags==null){
+            return;
+        }
         for (int i = 0; i < mTags.size(); i++) {
                 View childAt = this.getChildAt(i);
                 ((TextView)childAt).setTextColor(mTextColor);
