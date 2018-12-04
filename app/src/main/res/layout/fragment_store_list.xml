@@ -129,9 +129,9 @@
 		<ImageView
 			android:id="@+id/iv_tip_no_result"
 			android:layout_centerHorizontal="true"
-			android:layout_width="@dimen/px146dp"
-			android:layout_height="@dimen/px146dp"
-			android:src="@drawable/warning" />
+			android:layout_width="@dimen/px48dp"
+			android:layout_height="@dimen/px48dp"
+			android:src="@drawable/tishi" />
 
 		<android.support.v7.widget.AppCompatTextView
 			android:id="@+id/tv_tip_no_result"

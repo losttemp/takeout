@@ -34,7 +34,9 @@ import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
 
 public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
-	private static final int DISCOUNT_LINE_HEIGHT =22;
+	private  int DISCOUNT_LINE_HEIGHT =22;
+
+	private int space =5;
 
 	private List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean> mStoreList;
 	private Context mContext;
@@ -44,6 +46,8 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 					   Context context) {
 		mStoreList = storeList;
 		mContext = context;
+		DISCOUNT_LINE_HEIGHT =mContext.getResources().getDimensionPixelSize(R.dimen.px60dp);
+		space=mContext.getResources().getDimensionPixelSize(R.dimen.px6dp);
 	}
 
 	@NonNull
@@ -120,7 +124,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			viewHolder.rlDiscount.setVisibility(View.GONE);
 		} else {
 			if (viewHolder.rvStoreDiscount.getItemDecorationCount() == 0) {
-				viewHolder.rvStoreDiscount.addItemDecoration(new SpaceItemDecoration(dp2px(5)));
+				viewHolder.rvStoreDiscount.addItemDecoration(new SpaceItemDecoration(space));
 			}
 			viewHolder.rvStoreDiscount.setLayoutManager(layoutManager);
 			DiscountAdaper discountAdaper = new DiscountAdaper(discounts);
@@ -252,11 +256,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
 	private void setRecyclerViewHight(RecyclerView rvStoreDiscount, int height) {
 		ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) rvStoreDiscount.getLayoutParams();
-		if (height > 0) {
-			params.height = dp2px(height);
-		} else {
-			params.height = height;
-		}
+		params.height = height;
 		rvStoreDiscount.setLayoutParams(params);
 
 	}
