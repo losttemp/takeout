@@ -85,6 +85,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mEtSearch.setText(getResources().getString(R.string.this_keyword_is_complicated));
 		mLlHistory.setVisibility(View.GONE);
 		mLvSuggest.setVisibility(View.GONE);
+		mFragmentStoreList.setVisibility(View.VISIBLE);
 	}
 
 	private void iniView() {

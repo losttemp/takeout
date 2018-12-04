@@ -274,9 +274,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		if (mStoreData.getCurrent_page_index() <= 1) {
 			mStoreList.clear();
 		}
-		
+	
 		mStoreList.addAll(data.getMeituan().getData().getOpenPoiBaseInfoList());
 		mStoreAdaper.notifyDataSetChanged();
+		Lg.getInstance().d(TAG,"mStoreList:"+mStoreList);
 		//set emptey view
 		if (mStoreList.size() == 0) {
 			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
@@ -312,7 +313,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		if (mRefreshLayout.isLoading()) {
 			mRefreshLayout.finishLoadmore();
 		}
-
 	}
 
 	@Override
@@ -345,7 +345,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		if (mRefreshLayout.isLoading()) {
 			mRefreshLayout.finishLoadmore(1000, false);
 		}
-
 	}
 
 	private List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> getSortTypeList(List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> sortTypes) {
