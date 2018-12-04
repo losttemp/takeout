@@ -1,5 +1,4 @@
 package com.baidu.iov.dueros.waimai.ui;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,20 +7,15 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.FirstTypeFoodAdapter;
 import com.baidu.iov.dueros.waimai.adapter.SecondTypeFoodAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.presenter.FoodPresenter;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.domain.multipltextview.MultiplTextView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodUi> implements FoodPresenter.FoodUi,View.OnClickListener{
 
     private static final String TAG = FoodActivity.class.getSimpleName();
@@ -44,9 +38,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     private List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean> categoryFilterList;
     
     private int lvFirstTypePos;
-
-    private MultiplTextView tvNoResult;
-
+    
     private int latitude;
     
     private int longitude;
@@ -93,8 +85,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         tvFirstCategory=findViewById(R.id.tv_first_category);
         btnBack=findViewById(R.id.btn_back);
         mRlSearch = (RelativeLayout) findViewById(R.id.rl_search);
-        tvNoResult=findViewById(R.id.tv_tip_no_result);
-        tvNoResult.setVisibility(View.GONE);
+      
+        
         
         mFirstTypeFoodAdapter=new FirstTypeFoodAdapter(this);
         lvFirstType.setAdapter(mFirstTypeFoodAdapter);
@@ -150,9 +142,6 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         mFirstTypeFoodAdapter.setData(categoryFilterList);
         tvFirstCategory.setText(categoryFilterList.get(0).getName());
         mSecondTypeFoodAdapter.setData(categoryFilterList.get(0).getSub_category_list());
-        if (categoryFilterList.size() == 0) {
-            tvNoResult.setVisibility(View.VISIBLE);
-        }
     }
 
     private long getCategoryCode(long secondCategoryCode,List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean> categoryFilterList){

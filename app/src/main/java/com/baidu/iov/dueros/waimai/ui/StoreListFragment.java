@@ -13,6 +13,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import com.baidu.iov.dueros.waimai.R;
@@ -25,6 +27,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.StoreListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortTypeTagListView;
@@ -52,7 +55,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private AppCompatTextView mTvTipNoResult;
 	private  RelativeLayout mRlTipNoResult;
 	private SortTypeTagListView mTagLv;
-	
+	private LinearLayout mWarnNoInternet;
+	private Button mNoInternetBtn;
 
 	private Context mContext;
 	private StoreListPresenter mPresenter;
@@ -137,6 +141,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mView= view.findViewById(R.id.view);
 		mTvTipNoResult = view.findViewById(R.id.tv_tip_no_result);
 		mRlTipNoResult = view.findViewById(R.id.rl_tip_no_result);
+		mWarnNoInternet= view.findViewById(R.id.warn_no_internet);
+		mNoInternetBtn= view.findViewById(R.id.no_internet_btn);
 		mTagLv = view.findViewById(R.id.tag_lv);
 		mTagLv.setItemClickListener(new SortTypeTagListView.OnItemClickListener() {
 			@Override
@@ -162,7 +168,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 		mFromPageType = bundle.getInt(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE);
 
-		mStoreAdaper = new StoreAdaper(mStoreList, mContext);
+		mStoreAdaper = new StoreAdaper(mStoreList, mContext,mFromPageType);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mRvStore.setLayoutManager(layoutManager);
@@ -177,6 +183,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		setRefreshView();
 		mRlSort.setOnClickListener(this);
 		mRlFilter.setOnClickListener(this);
+		mNoInternetBtn.setOnClickListener(this);
 
 		mStoreReq = new StoreReq();
 		mStoreReq.setLatitude(latitude);
@@ -261,6 +268,14 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				mFilterPopWindow.showAsDropDown(mView);
 				mViewBg.setVisibility(View.VISIBLE);
 				break;
+
+			case R.id.no_internet_btn:
+				if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
+					homeLoadFirstPage();
+				}else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP){
+					recommendShopLoadFirstPage(mStoreReq);
+				}
+				break;
 				
 			default:
 				break;
@@ -277,7 +292,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	
 		mStoreList.addAll(data.getMeituan().getData().getOpenPoiBaseInfoList());
 		mStoreAdaper.notifyDataSetChanged();
-		Lg.getInstance().d(TAG,"mStoreList:"+mStoreList);
+		Lg.getInstance().d(TAG,"mStoreList:"+mStoreList.get(0));
 		//set emptey view
 		if (mStoreList.size() == 0) {
 			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
@@ -305,6 +320,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mView.setVisibility(View.VISIBLE);
 			mRlTipNoResult.setVisibility(View.GONE);
 			mRefreshLayout.setVisibility(View.VISIBLE);
+			mWarnNoInternet.setVisibility(View.GONE);
+			mLlFilter.setVisibility(View.VISIBLE);
 		}
 
 		if (mRefreshLayout.isRefreshing()) {
@@ -318,6 +335,13 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	@Override
 	public void failure(String msg) {
 		Lg.getInstance().d(TAG,"msg:"+msg);
+		if (!NetUtil.getNetWorkState(mContext)){
+			mLlFilter.setVisibility(View.GONE);
+			mView.setVisibility(View.GONE);
+			mRefreshLayout.setVisibility(View.GONE);
+			mWarnNoInternet.setVisibility(View.VISIBLE);
+			return;
+		}
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
 			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string

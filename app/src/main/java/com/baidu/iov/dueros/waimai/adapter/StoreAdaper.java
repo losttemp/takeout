@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean.DataBean
 		.OpenPoiBaseInfoListBean.DiscountsBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.Glide;
@@ -38,16 +40,19 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
 	private int space =5;
 
+	private int mFromPageType;
+
 	private List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean> mStoreList;
 	private Context mContext;
 	private OnItemClickListener mItemClickListener;
 
 	public StoreAdaper(List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean> storeList,
-					   Context context) {
+					   Context context,int mFromPageType) {
 		mStoreList = storeList;
 		mContext = context;
 		DISCOUNT_LINE_HEIGHT =mContext.getResources().getDimensionPixelSize(R.dimen.px60dp);
 		space=mContext.getResources().getDimensionPixelSize(R.dimen.px6dp);
+		this.mFromPageType=mFromPageType;
 	}
 
 	@NonNull
@@ -91,7 +96,8 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
 		viewHolder.ratingBar.setClickable(false);
 		viewHolder.ratingBar.setStar((float) store.getWm_poi_score());
-
+		
+		
 		String averagePrice = store.getAverage_price_tip();
 		if (!TextUtils.isEmpty(averagePrice)) {
 			viewHolder.tvAveragePrice.setText(String.format(mContext.getResources().
@@ -116,17 +122,31 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			viewHolder.tvStatusDesc.setVisibility(View.GONE);
 			viewHolder.rl.setBackground(null);
 		}
+		
+        if (mFromPageType==Constant.STORE_FRAGMENT_FROM_SEARCH){
+			LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
+			mLinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+			viewHolder.rvStoreProduct.setLayoutManager(mLinearLayoutManager);
+			final  ProductAdaper mProductAdaper = new ProductAdaper(mContext,store.getProduct_list());
+			viewHolder.rvStoreProduct.setAdapter(mProductAdaper);
+			viewHolder.rvStoreProduct.setVisibility(View.VISIBLE);
+		}else{
+			viewHolder.rvStoreProduct.setVisibility(View.GONE);
+		}
+			
+        
+	
 
 		//Discounts
 		List<String> discounts = getDiscountList(store.getDiscounts());
-		final FlowLayoutManager layoutManager = new FlowLayoutManager();
+		final FlowLayoutManager mFlowLayoutManager = new FlowLayoutManager();
 		if (discounts == null || discounts.size() == 0) {
 			viewHolder.rlDiscount.setVisibility(View.GONE);
 		} else {
 			if (viewHolder.rvStoreDiscount.getItemDecorationCount() == 0) {
 				viewHolder.rvStoreDiscount.addItemDecoration(new SpaceItemDecoration(space));
 			}
-			viewHolder.rvStoreDiscount.setLayoutManager(layoutManager);
+			viewHolder.rvStoreDiscount.setLayoutManager(mFlowLayoutManager);
 			DiscountAdaper discountAdaper = new DiscountAdaper(discounts);
 			viewHolder.rvStoreDiscount.setAdapter(discountAdaper);
 			viewHolder.rlDiscount.setVisibility(View.VISIBLE);
@@ -136,7 +156,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 					.OnGlobalLayoutListener() {
 				@Override
 				public void onGlobalLayout() {
-					int lines = layoutManager.getLineRows();
+					int lines = mFlowLayoutManager.getLineRows();
 					if (lines > 1) {
 						viewHolder.ivStoreDiscount.setVisibility(View.VISIBLE);
 					} else {
@@ -165,7 +185,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
 						store.setDiscountsDown(false);
 					} else {
-						int lines = layoutManager.getLineRows();
+						int lines = mFlowLayoutManager.getLineRows();
 						if (lines > 1) {
 							viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_up);
 							store.setDiscountsDown(true);
@@ -206,6 +226,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		private RecyclerView rvStoreDiscount;
 		private AppCompatImageView ivStoreDiscount;
 		private RelativeLayout rl;
+		private RecyclerView rvStoreProduct;
 
 		private ViewHolder(View view) {
 			super(view);
@@ -226,6 +247,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			rvStoreDiscount = view.findViewById(R.id.rv_store_discount);
 			ivStoreDiscount =  view.findViewById(R.id.iv_store_discount);
 			rl=  view.findViewById(R.id.rl);
+			rvStoreProduct=  view.findViewById(R.id.rv_store_product);
 		}
 	}
 

@@ -138,24 +138,5 @@
             android:numColumns="3"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
-
-
-    <com.domain.multipltextview.MultiplTextView
-        app:removeDefaultPadding="true"
-        android:id="@+id/tv_tip_no_result"
-        android:layout_below="@+id/rl_top"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:drawableTop="@mipmap/ic_no_result"
-        android:drawablePadding="16dp"
-        android:gravity="center_horizontal"
-        android:lineSpacingMultiplier="1.2"
-        android:paddingTop="50dp"
-        android:text="@string/no_search_result_keyword"
-        android:background="@color/gray_bg"
-        android:visibility="gone" />
-
-   
-
+    
 </RelativeLayout>
