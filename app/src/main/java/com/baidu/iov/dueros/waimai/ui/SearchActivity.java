@@ -181,8 +181,10 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					String keyWord = mEtSearch.getText().toString();
-					searchKeyword(keyWord);
+					mLvSuggest.setVisibility(View.VISIBLE);
+					mLlHistory.setVisibility(View.GONE);
+					mFragmentStoreList.setVisibility(View.GONE);
+					mPresenter.requestSuggestList(mEtSearch.getText().toString());
 					return true;
 				}
 				return false;

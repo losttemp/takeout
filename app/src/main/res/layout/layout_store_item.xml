@@ -212,10 +212,19 @@
 
 	</android.support.v7.widget.LinearLayoutCompat>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_store_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_info"
+		android:layout_marginLeft="@dimen/px100dp"
+		android:layout_marginBottom="@dimen/px30dp"
+        tools:listitem="@layout/item_store_discount" />
+
 	<View
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/px2dp"
-		android:layout_below="@+id/ll_info"
+		android:layout_below="@+id/rv_store_product"
 		android:background="@color/dark_gray" />
 	
 </RelativeLayout>
