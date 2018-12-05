@@ -139,11 +139,21 @@
             android:layout_height="wrap_content"/>
     </RelativeLayout>
 
+    <include
+        android:id="@+id/ll_loading"
+        layout="@layout/dialog_loading_toast"
+        android:layout_width="@dimen/px500dp"
+        android:layout_centerInParent="true"
+        android:layout_height="@dimen/px140dp"
+        android:visibility="gone" />
+
     <include layout="@layout/warn_no_internet"
         android:id="@+id/warn_no_internet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_search"
         android:visibility="gone"/>
+
+    
     
 </RelativeLayout>

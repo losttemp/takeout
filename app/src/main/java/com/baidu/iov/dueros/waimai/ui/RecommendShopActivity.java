@@ -33,6 +33,8 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
 
     private StoreReq mStoreReq;
 
+    private boolean isload =false;
+
     @Override
     HomePresenter createPresenter() {
         return new HomePresenter();
@@ -105,7 +107,11 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
     @Override
     protected void onStart() {
         super.onStart();
-        mStoreListFragment.recommendShopLoadFirstPage(mStoreReq);
+        if (!isload){
+            isload=true;
+            mStoreListFragment.recommendShopLoadFirstPage(mStoreReq);
+        }
+      
     }
 
     @Override

@@ -84,6 +84,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private Integer longitude;
 
 	private FilterConditionReq filterConditionReq;
+
+	private LinearLayout mLoading;
 	
 	
 
@@ -146,6 +148,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mRlTipNoResult = view.findViewById(R.id.rl_tip_no_result);
 		mWarnNoInternet= view.findViewById(R.id.warn_no_internet);
 		mNoInternetBtn= view.findViewById(R.id.no_internet_btn);
+		mLoading = view.findViewById(R.id.ll_loading);
 		mTagLv = view.findViewById(R.id.tag_lv);
 		mTagLv.setItemClickListener(new SortTypeTagListView.OnItemClickListener() {
 			@Override
@@ -302,6 +305,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mStoreList.clear();
 		}
 		mWarnNoInternet.setVisibility(View.GONE);
+		mLoading.setVisibility(View.GONE);
 		mStoreList.addAll(data.getMeituan().getData().getOpenPoiBaseInfoList());
 		mStoreAdaper.notifyDataSetChanged();
 		Lg.getInstance().d(TAG,"mStoreList:"+mStoreList.get(0));
@@ -347,6 +351,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	@Override
 	public void failure(String msg) {
 		Lg.getInstance().d(TAG,"msg:"+msg);
+		mLoading.setVisibility(View.GONE);
+		mWarnNoInternet.setVisibility(View.GONE);
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
 			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
@@ -519,9 +525,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	public void loadFirstPage(StoreReq storeReq) {
 		if(!netDataReque()) {
+			mLoading.setVisibility(View.VISIBLE);
+			mRlTipNoResult.setVisibility(View.GONE);
 			storeReq.setPage_index(1);
 			mPresenter.requestStoreList(storeReq);
-			mRlTipNoResult.setVisibility(View.GONE);
 		}
 	}
 
@@ -529,32 +536,37 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			if(!netDataReque()) {
 				mStoreList.clear();
 				mStoreAdaper.notifyDataSetChanged();
+				mRlTipNoResult.setVisibility(View.GONE);
+				mLoading.setVisibility(View.VISIBLE);
+				mTvSort.setText(getResources().getString(R.string.store_sort));
+				mStoreReq.setSortType(Constant.COMPREHENSIVE);
+				mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
+				mTagLv.setTextViewDefaultColor();
+				
 				storeReq.setPage_index(1);
 				storeReq.setLatitude(latitude);
 				storeReq.setLongitude(longitude);
 				mPresenter.requestStoreList(storeReq);
 				mStoreReq = storeReq;
-				mRlTipNoResult.setVisibility(View.GONE);
-				mTvSort.setText(getResources().getString(R.string.store_sort));
-				mStoreReq.setSortType(Constant.COMPREHENSIVE);
-				mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
-				mTagLv.setTextViewDefaultColor();
+				
 			}
 	}
 
 	public void recommendShopLoadFirstPage(StoreReq storeReq) {
 			if(!netDataReque()) {
+				mLoading.setVisibility(View.VISIBLE);
+				mRlTipNoResult.setVisibility(View.GONE);
 				storeReq.setPage_index(1);
 				storeReq.setLatitude(latitude);
 				storeReq.setLongitude(longitude);
 				mPresenter.requestStoreList(storeReq);
 				mStoreReq = storeReq;
-				mRlTipNoResult.setVisibility(View.GONE);
 			}
 	}
 
 	public void homeLoadFirstPage() {
 		if(!netDataReque()) {
+			mLoading.setVisibility(View.VISIBLE);
 			mStoreReq.setPage_index(1);
 			mPresenter.requestStoreList(mStoreReq);
 		}
