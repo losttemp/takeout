@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/tv_food_name"
         android:layout_alignParentEnd="true"
-        android:textColor="@color/money_color"
+        android:textColor="@color/white"
         app:removeDefaultPadding="true" />
 
 
