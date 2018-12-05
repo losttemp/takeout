@@ -46,7 +46,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     /**
      *
      */
-    private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod, mPayStatus;
+    private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod, mPayStatus, mDeliveryType;
     private NoClikRecyclerView mFoodListView;
     private Button mRepeatOrder, mPayOrder, mCancelOrder;
     private FoodListAdaper mFoodListAdaper;
@@ -123,6 +123,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void initView() {
+        mDeliveryType = findViewById(R.id.delivery_type);
         mArrivalTime = findViewById(R.id.arrival_time);
         mBusinessName = findViewById(R.id.business_name);
         mPackingFee = findViewById(R.id.packing_fee);
@@ -196,6 +197,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         } else {
 
             mExpectedTime.setText(formatTime(expectedTime, false));
+        }
+
+        if (mOrderDetails.getDelivery_type() == 1){
+            mDeliveryType.setText(getString(R.string.order_meituan));
+        } else {
+            mDeliveryType.setText(getString(R.string.order_not_meituan));
         }
 
         List<OrderDetailsResponse.MeituanBean.DataBean.FoodListBean> mfoodList = mOrderDetails.getFood_list();
