@@ -61,6 +61,7 @@
 
         <RelativeLayout
             android:id="@+id/address_select_btn_layout"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
@@ -82,5 +83,14 @@
             android:id="@+id/network_view"
             layout="@layout/warn_no_internet"
             android:visibility="gone" />
+        <LinearLayout
+            android:id="@+id/loading_view"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+        <include
+            layout="@layout/dialog_loading_toast"/>
+        </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
