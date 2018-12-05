@@ -349,6 +349,15 @@ public class PoifoodListBean {
                     private List<SkusBean> skus;
                     private List<SkusBean> choiceSkus;
                     private int number;
+                    private Integer restrict;
+
+                    public Integer getRestrict() {
+                        return restrict;
+                    }
+
+                    public void setRestrict(Integer restrict) {
+                        this.restrict = restrict;
+                    }
 
                     public Object deepClone() throws Exception {
                         ByteArrayOutputStream bos = new ByteArrayOutputStream();

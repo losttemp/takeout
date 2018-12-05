@@ -220,10 +220,15 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     double originPrice = skusBeans.get(0).getOrigin_price();
                     if (price == originPrice) {
                         viewHolder.discountPrice.setVisibility(View.GONE);
+                        viewHolder.limitBuy.setVisibility(View.GONE);
                     } else {
                         viewHolder.discountPrice.setText(String.format("¥%1$s", "" + originPrice));
                         viewHolder.discountPrice.setVisibility(View.VISIBLE);
                         viewHolder.discountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        if (skusBeans.get(0).getRestrict() != 0) {
+                            viewHolder.limitBuy.setVisibility(View.VISIBLE);
+                            viewHolder.limitBuy.setText(String.format(context.getString(R.string.limit_buy), "" + skusBeans.get(0).getRestrict()));
+                        }
                     }
                     viewHolder.prise.setText("" + price);
                 } else {
@@ -413,6 +418,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 RelativeLayout action;
                 RelativeLayout addNumber;
                 MultiplTextView discountPrice;
+                MultiplTextView limitBuy;
                 TextView describe;
                 TextView soldOut;
                 LinearLayout canNotBuy;
@@ -432,6 +438,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     action = (RelativeLayout) itemView.findViewById(R.id.action);
                     addNumber = (RelativeLayout) itemView.findViewById(R.id.rl_add_number);
                     discountPrice = (MultiplTextView) itemView.findViewById(R.id.tv_discount_price);
+                    limitBuy = (MultiplTextView) itemView.findViewById(R.id.mt_limit_buy);
                     describe = (TextView) itemView.findViewById(R.id.tv_describe);
                     soldOut = (TextView) itemView.findViewById(R.id.tv_sold_out);
                     canNotBuy = (LinearLayout) itemView.findViewById(R.id.ll_not_buy_time);
@@ -624,8 +631,13 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
 
             private static void reduceOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, MyViewHolder.GridViewAdapter.ViewHolder viewHolder, int section) {
                 int num = spusBean.getNumber();
+                int minOrderCount = getMinOrderCount(spusBean);
                 if (num > 0) {
-                    num--;
+                    if (minOrderCount == spusBean.getNumber()) {
+                        num -= minOrderCount;
+                    } else {
+                        num--;
+                    }
                     spusBean.setNumber(num);
                     viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
                     if (spusBean.getNumber() == 0) {

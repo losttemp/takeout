@@ -472,7 +472,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         number++;
                     }
                 } else {
-                    number--;
+                    if (minOrderCount == spusBean.getNumber()) {
+                        number -= minOrderCount;
+                    } else {
+                        number--;
+                    }
                 }
                 poifoodSpusTagsBeans.get(i).setNumber(number);
             }
@@ -534,7 +538,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void setPrise(boolean increase) {
         double sum = 0;
         int shopNum = 0;
+        int restrict = 0;
+        double priceRestrict = 0;
         boolean isDiscount = false;
+        boolean exceedingTheLimit = false;
         mIsDiscountList = new ArrayList<>();
         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean pro : productList) {
             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = pro.getSkus();
@@ -543,11 +550,31 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 if (skus.size() == 0) {
                     price = pro.getMin_price();
                 } else if (skus.size() == 1) {
-                    price = pro.getSkus().get(0).getPrice();
+                    if (exceedingTheLimit) {
+                        price = pro.getSkus().get(0).getOrigin_price();
+                    } else {
+                        price = pro.getSkus().get(0).getPrice();
+                    }
                     if (pro.getSkus().get(0).getPrice() < pro.getSkus().get(0).getOrigin_price()) {
                         isDiscount = true;
+
+                        restrict = pro.getSkus().get(0).getRestrict();
+
+                        if (restrict < pro.getNumber() && !exceedingTheLimit) {//折扣、超过限购弹
+                            Toast.makeText(this, getString(R.string.limit_buy_toast, "" + restrict,
+                                    "" + restrict), Toast.LENGTH_SHORT).show();
+                            exceedingTheLimit = true;
+                        } else {
+                            exceedingTheLimit = false;
+                        }
                         for (int i = 0; i < pro.getNumber(); i++) {
                             mIsDiscountList.add(isDiscount);
+
+                            if (i < restrict) {
+                                priceRestrict = pro.getSkus().get(0).getPrice();
+                            } else {
+                                price = pro.getSkus().get(0).getOrigin_price();
+                            }
                         }
                     }
                 } else if (skus.size() > 1) {
@@ -563,7 +590,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 price = pro.getMin_price();
             }
 
-            sum = DoubleUtil.sum(sum, DoubleUtil.mul((double) pro.getNumber(), Double.parseDouble("" + price)));
+            if (exceedingTheLimit) {
+                double sumRestrict = DoubleUtil.sum(sum, DoubleUtil.mul((double) restrict, Double.parseDouble("" + priceRestrict)));
+                sum = DoubleUtil.sum(sumRestrict, DoubleUtil.mul((double) (pro.getNumber() - restrict), Double.parseDouble("" + price)));
+                exceedingTheLimit = false;
+            } else {
+                sum = DoubleUtil.sum(sum, DoubleUtil.mul((double) pro.getNumber(), Double.parseDouble("" + price)));
+            }
             shopNum = shopNum + pro.getNumber();
         }
         if (shopNum > 0) {
@@ -607,7 +640,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             if (mCartShoppingPrise != null) {
                 mCartShoppingPrise.setText("¥" + " " + sum);
             }
-            if (increase && mIsDiscountList.size() == 1 && !alreadyToast) {
+            if (increase && mIsDiscountList.size() == 1 && !alreadyToast) {//折扣、第一次折扣、未弹toast
                 ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.discount_prompt), Toast.LENGTH_SHORT);
                 alreadyToast = true;
             }

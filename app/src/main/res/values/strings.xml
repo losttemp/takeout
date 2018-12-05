@@ -88,6 +88,8 @@
     <string name="not_buy_time">非可售时间</string>
     <string name="sold_out">已售完</string>
     <string name="first_arrive_time">商家现在接受预定,最早%1$s开始配送哦</string>
+    <string name="limit_buy">限购%1$s份</string>
+    <string name="limit_buy_toast">"折扣菜品限购%1$s份，超过%2$s份恢复原价"</string>
 
     <!--tools:text-->
     <string name="tools_text_location">送至：未来科技大厦</string>
