@@ -20,6 +20,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.SubmitOrderPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.google.zxing.BarcodeFormat;
@@ -87,7 +88,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         if (intent != null) {
 
             double amount = intent.getDoubleExtra(Constant.TOTAL_COST, 0);
-            mStoreId = intent.getLongExtra(Constant.STORE_ID,0);
+            mStoreId = intent.getLongExtra(Constant.STORE_ID, 0);
             mOrderId = intent.getLongExtra(Constant.ORDER_ID, 0);
             mPicUrl = intent.getStringExtra(Constant.PIC_URL);
             mExpectedTime = intent.getIntExtra(Constant.EXPECTED_TIME, 0);
@@ -106,6 +107,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             mOrderIdTv.setText(String.valueOf(mOrderId));
             mShopNameTv.setText(shopName);
             createQRImage(payUrl, 200, 200, mPayUrlImg);
+            Lg.getInstance().d("PaymentActivity", "payUrl = " + payUrl);
 
         }
 
@@ -195,7 +197,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                                 Intent intent = new Intent();
                                 intent.setClass(PaymentActivity.this, FoodListActivity.class);
                                 intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
-                                intent.putExtra(Constant.STORE_ID,mStoreId);
+                                intent.putExtra(Constant.STORE_ID, mStoreId);
                                 startActivity(intent);
                                 dialog.dismiss();
                                 finish();
@@ -206,7 +208,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent();
                                 intent.setClass(PaymentActivity.this, FoodListActivity.class);
-                                intent.putExtra(Constant.STORE_ID,mStoreId);
+                                intent.putExtra(Constant.STORE_ID, mStoreId);
                                 startActivity(intent);
                                 dialog.dismiss();
                                 finish();
