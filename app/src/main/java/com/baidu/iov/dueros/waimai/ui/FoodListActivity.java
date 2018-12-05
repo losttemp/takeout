@@ -859,7 +859,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     mDetailsDistribution.setText(getString(R.string.distribution_situation, "" + mPoidetailinfoBean.getMeituan().getData().getMin_price(),
                             "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee(), "" + mPoidetailinfoBean.getMeituan().getData().getAvg_delivery_time()));
                 }
-                mDetailsNotice.setText(getString(R.string.notice, mPoiInfoBean.getBulletin()));
+                if (mPoiInfoBean != null) {
+                    mDetailsNotice.setText(getString(R.string.notice, mPoiInfoBean.getBulletin()));
+                }
 
                 final PopupWindow window = new PopupWindow(popView,
                         WindowManager.LayoutParams.MATCH_PARENT,
