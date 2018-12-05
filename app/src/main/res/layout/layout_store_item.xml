@@ -3,6 +3,8 @@
 	android:id="@+id/rl"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:focusableInTouchMode="true"    
+	android:focusable="true"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
 
@@ -214,12 +216,12 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_store_product"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_info"
 		android:layout_marginLeft="@dimen/px100dp"
 		android:layout_marginBottom="@dimen/px30dp"
-        tools:listitem="@layout/item_store_discount" />
+        tools:listitem="@layout/item_store_product" />
 
 	<View
 		android:layout_width="match_parent"

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -12,21 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean.DataBean
-		.OpenPoiBaseInfoListBean.DiscountsBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean.DiscountsBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.bumptech.glide.Glide;
 import com.domain.multipltextview.MultiplTextView;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -130,6 +124,12 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			final  ProductAdaper mProductAdaper = new ProductAdaper(mContext,store.getProduct_list());
 			viewHolder.rvStoreProduct.setAdapter(mProductAdaper);
 			viewHolder.rvStoreProduct.setVisibility(View.VISIBLE);
+			mProductAdaper.setItemClickListener(new ProductAdaper.OnItemClickListener() {
+				@Override
+				public void onItemClick() {
+					mItemClickListener.onItemClick((Integer) viewHolder.itemView.getTag());
+				}
+			});
 		}else{
 			viewHolder.rvStoreProduct.setVisibility(View.GONE);
 		}
@@ -177,24 +177,17 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 				}
 			});
 
+            discountAdaper.setItemClickListener(new DiscountAdaper.OnItemClickListener() {
+                @Override
+                public void onItemClick() {
+                    unFold(store,viewHolder,mFlowLayoutManager);
+                }
+            });
+
 			viewHolder.ivStoreDiscount.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (store.isDiscountsDown()) {
-						viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
-						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
-						store.setDiscountsDown(false);
-					} else {
-						int lines = mFlowLayoutManager.getLineRows();
-						if (lines > 1) {
-							viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_up);
-							store.setDiscountsDown(true);
-							setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT
-									* lines);
-						} else {
-							setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
-						}
-					}
+                    unFold(store,viewHolder,mFlowLayoutManager);
 				}
 			});
 
@@ -203,6 +196,24 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		viewHolder.itemView.setTag(position);
 
 	}
+	
+	private void unFold(StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean store,ViewHolder viewHolder,FlowLayoutManager mFlowLayoutManager){
+        if (store.isDiscountsDown()) {
+            viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
+            setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
+            store.setDiscountsDown(false);
+        } else {
+            int lines = mFlowLayoutManager.getLineRows();
+            if (lines > 1) {
+                viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_up);
+                store.setDiscountsDown(true);
+                setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT
+                        * lines);
+            } else {
+                setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
+            }
+        }
+    }
 
 	@Override
 	public int getItemCount() {

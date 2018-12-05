@@ -181,10 +181,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					mLvSuggest.setVisibility(View.VISIBLE);
-					mLlHistory.setVisibility(View.GONE);
-					mFragmentStoreList.setVisibility(View.GONE);
-					mPresenter.requestSuggestList(mEtSearch.getText().toString());
+					searchKeyword(mEtSearch.getText().toString());
 					return true;
 				}
 				return false;
@@ -203,6 +200,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					mIvClean.setVisibility(View.GONE);
 					changeStatus(Constant.SEARCH_STATUS_HISTORY);
 				} else {
+					mIvClean.setVisibility(View.VISIBLE);
 					mLvSuggest.setVisibility(View.VISIBLE);
 					mLlHistory.setVisibility(View.GONE);
 					mFragmentStoreList.setVisibility(View.GONE);
@@ -278,7 +276,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	@Override
 	public void onSuggestSuccess(SearchSuggestResponse data) {
-		mIvClean.setVisibility(View.VISIBLE);
 		mSuggests.clear();
 		mSuggests.addAll(data.getMeituan().getData().getSuggest());
 		mSearchSuggestAdapter.notifyDataSetChanged();
@@ -290,7 +287,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	}
 
-	private void searchKeyword(String keyword) {
+	public void searchKeyword(String keyword) {
 		mEtSearch.setText(keyword);
 		mEtSearch.setSelection(keyword.length());
 		mStoreReq.setSortType(null);

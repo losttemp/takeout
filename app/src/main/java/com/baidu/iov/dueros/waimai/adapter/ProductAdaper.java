@@ -20,6 +20,8 @@ public class ProductAdaper extends RecyclerView.Adapter<ProductAdaper.ViewHolder
 
 	private Context mContext;
 
+	private OnItemClickListener mItemClickListener;
+
 	private List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean.ProductListBean> mData;
 
 	public ProductAdaper(Context context,List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean.ProductListBean> list) {
@@ -33,7 +35,14 @@ public class ProductAdaper extends RecyclerView.Adapter<ProductAdaper.ViewHolder
 		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout
 				.item_store_product, viewGroup, false);
 		final ViewHolder holder = new ViewHolder(view);
-
+		view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mItemClickListener != null) {
+					mItemClickListener.onItemClick();
+				}
+			}
+		});
 		return holder;
 	}
 
@@ -60,6 +69,14 @@ public class ProductAdaper extends RecyclerView.Adapter<ProductAdaper.ViewHolder
 			tvProductPrice =  view.findViewById(R.id.tv_product_price);
 			ivProduct =  view.findViewById(R.id.iv_product);
 		}
+	}
+
+	public interface OnItemClickListener {
+		void onItemClick();
+	}
+
+	public void setItemClickListener(OnItemClickListener itemClickListener) {
+		mItemClickListener = itemClickListener;
 	}
 
 }

@@ -18,8 +18,9 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_below="@+id/iv_product"
-		android:layout_centerHorizontal="true"
+		android:layout_alignParentLeft="true"
 		android:textColor="@color/white_60"
+		android:layout_marginTop="@dimen/px16dp"
 		android:ellipsize="end"
 		android:maxLines="1"
 		android:textSize="@dimen/px30sp" />
@@ -27,6 +28,7 @@
 	<TextView
 		android:id="@+id/tv_product_price"
 		android:layout_below="@+id/tv_product_name"
+		android:layout_marginTop="@dimen/px16dp"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textColor="@color/white_60"
