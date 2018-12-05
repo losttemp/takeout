@@ -5,13 +5,14 @@
     android:layout_height="match_parent">
 
 
-    <com.domain.multipltextview.MultiplTextView
+    <TextView
         android:id="@+id/tv_food_name"
         style="@style/OrderDetailsText"
         android:layout_width="@dimen/px690dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/px36dp"
-        app:removeDefaultPadding="true" />
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
     <com.domain.multipltextview.MultiplTextView
         android:id="@+id/tv_food_origin_price"
