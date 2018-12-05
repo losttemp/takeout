@@ -56,15 +56,15 @@
             android:layout_toRightOf="@+id/fl_head"
             android:orientation="vertical">
 
-            <com.domain.multipltextview.MultiplTextView
+            <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/px32dp"
+                android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@color/white"
-                android:textSize="@dimen/px36sp"
-                app:removeDefaultPadding="true" />
+                android:textSize="@dimen/px36sp" />
 
             <TextView
                 android:id="@+id/tv_describe"

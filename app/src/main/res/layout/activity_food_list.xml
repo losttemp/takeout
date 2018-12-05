@@ -5,23 +5,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.domain.multipltextview.MultiplTextView
-        android:id="@+id/noData"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:background="#EB6100"
-        android:gravity="center"
-        android:text="@string/no_more_data"
-        android:textSize="14sp"
-        android:visibility="gone"
-        app:removeDefaultPadding="true" />
+    <include
+        android:id="@+id/no_net"
+        layout="@layout/warn_no_internet"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/parentLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"

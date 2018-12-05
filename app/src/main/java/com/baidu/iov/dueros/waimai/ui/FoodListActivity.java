@@ -3,7 +3,9 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -46,7 +48,9 @@ import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusTagsAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ShoppingCartAdapter;
 import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
@@ -59,6 +63,7 @@ import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
@@ -96,7 +101,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private MultiplTextView defaultText;
     private List<PoifoodSpusTagsBean> poifoodSpusTagsBeans;
     private RelativeLayout parentLayout;
-    private MultiplTextView noData;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans = new ArrayList<>();
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList;
     private ListView shoppingListView;
@@ -162,6 +166,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private List<Boolean> mIsDiscountList;
     private boolean alreadyToast;
     private boolean isNeedVoice;
+    private long mWmPoiId;
+    private LinearLayout mNoNet;
+    private Button mNoInternetButton;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -184,7 +191,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     private void initView() {
         animation_viewGroup = createAnimLayout();
-        noData = (MultiplTextView) findViewById(R.id.noData);
         parentLayout = (RelativeLayout) findViewById(R.id.parentLayout);
         shoppingPrise = (MultiplTextView) findViewById(R.id.shoppingPrise);
         shoppingNum = (TextView) findViewById(R.id.shoppingNum);
@@ -207,6 +213,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mToolBar = (RelativeLayout) findViewById(R.id.toolBar);
         mMtDistributionFee = (MultiplTextView) findViewById(R.id.mt_distribution_fee);
         mRlNoProduct = (RelativeLayout) findViewById(R.id.rl_no_product);
+        mNoNet = (LinearLayout) findViewById(R.id.no_net);
+        mNoInternetButton = (Button) findViewById(R.id.no_internet_btn);
     }
 
     @Override
@@ -222,6 +230,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     public void initData() {
+        Integer latitude = 0;
+        Integer longitude = 0;
         productList = new ArrayList<>();
         foodSpuTagsBeanName = new ArrayList<>();
         poifoodSpusTagsBeans = new ArrayList<>();
@@ -237,7 +247,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mSpusList.setLayoutManager(layoutManagerRight);
         mSpusList.setAdapter(mPoifoodSpusListAdapter);
         mPoifoodSpusListAdapter.setCallBackListener(this);
-
 
         mFoodSpuTagsListAdapter = new PoifoodSpusTagsAdapter(this, poifoodSpusTagsBeans);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
@@ -287,10 +296,47 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mFinish.setOnClickListener(this);
         mStoreDetails.setOnClickListener(this);
 
-        long wmPoiId = (long) getIntent().getExtras().get(Constant.STORE_ID);
-        map.put(Constant.STORE_ID, String.valueOf(wmPoiId));
-        getPresenter().requestData(map);
-        getPresenter().requestArriveTimeData(wmPoiId);
+        mNoInternetButton.setOnClickListener(this);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras.containsKey(Constant.STORE_ID)) {
+            mWmPoiId = (long) getIntent().getExtras().get(Constant.STORE_ID);
+        }
+        if (extras.containsKey("latitude")) {
+            latitude = (Integer) getIntent().getExtras().get("latitude");
+            longitude = (Integer) getIntent().getExtras().get("longitude");
+        } else {
+            AddressListBean.IovBean.DataBean mAddressData = getLocation();
+            if (mAddressData != null) {
+                latitude = mAddressData.getLatitude() != null ? mAddressData.getLatitude() : -1;
+                longitude = mAddressData.getLongitude() != null ? mAddressData.getLongitude() : -1;
+            }
+        }
+        map.put(Constant.STORE_ID, String.valueOf(mWmPoiId));
+        map.put("latitude", String.valueOf(latitude));
+        map.put("longitude", String.valueOf(longitude));
+        netDataReque();
+    }
+
+    private void netDataReque() {
+        if (NetUtil.getNetWorkState(this)) {
+            mNoNet.setVisibility(View.GONE);
+            parentLayout.setVisibility(View.VISIBLE);
+            getPresenter().requestData(map);
+        } else {
+            mNoNet.setVisibility(View.VISIBLE);
+            parentLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private AddressListBean.IovBean.DataBean getLocation() {
+        AddressListBean.IovBean.DataBean mAddressData = null;
+        SharedPreferences sharedPreferences = getSharedPreferences("_cache", Context.MODE_PRIVATE);
+        String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
+        if (addressDataJson != null) {
+            mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
+        }
+        return mAddressData;
     }
 
     public void showFoodListActivityDialog(View view, View contentView, final PopupWindow window) {
@@ -787,6 +833,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         WindowManager.LayoutParams.WRAP_CONTENT, true);
                 showFoodListActivityDialog(v, popView, window);
                 break;
+            case R.id.no_internet_btn:
+                netDataReque();
+                break;
         }
     }
 
@@ -962,6 +1011,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         foodSpuTagsBeans.clear();
         foodSpuTagsBeanName.clear();
         mPoiInfoBean = data.getMeituan().getData().getPoi_info();
+        int status = mPoiInfoBean.getStatus();
+        if (status == 1) {
+            getPresenter().requestArriveTimeData(mWmPoiId);
+        }
         mShopTitle.setText(mPoiInfoBean.getName());
         mDelivery.setText(getString(R.string.distribution_situation, "" + mPoiInfoBean.getMin_price(),
                 "" + mPoiInfoBean.getShipping_fee(), "" + mPoiInfoBean.getAvg_delivery_time()));
@@ -1006,7 +1059,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         boolean isNeedVoiceFeedback = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
         if (isNeedVoiceFeedback) {
             if (mOneMoreOrder) {
-                VoiceManager.getInstance().playTTS(FoodListActivity.this, String.format( getString(R.string.sure_order), mPoiInfoBean.getName()));
+                VoiceManager.getInstance().playTTS(FoodListActivity.this, String.format(getString(R.string.sure_order), mPoiInfoBean.getName()));
             } else {
                 VoiceManager.getInstance().playTTS(FoodListActivity.this, getString(R.string.choose_you_commodity));
             }
@@ -1043,7 +1096,25 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 List<String> attrValues = spusFood.getAttrValues();
                                 String spec = spusFood.getSpec();
                                 SetAttrsAndSkus(spusBean, attrs, skus, attrIds, attrValues, spec);
-                                updateProduct(spusBean, spusBean.getTag(), section, true);
+                                int number = spusBean.getNumber();
+                                int minOrderCount = getMinOrderCount(spusBean);
+                                if (number > 1) {
+                                    if (minOrderCount > 1) {
+                                        spusBean.setNumber(minOrderCount);
+                                        updateProduct(spusBean, spusBean.getTag(), section, true);
+                                        for (int i = minOrderCount; i <= number; i++) {
+                                            spusBean.setNumber(i + 1);
+                                            updateProduct(spusBean, spusBean.getTag(), section, true);
+                                        }
+                                    } else {
+                                        for (int i = minOrderCount; i <= number; i++) {
+                                            spusBean.setNumber(i);
+                                            updateProduct(spusBean, spusBean.getTag(), section, true);
+                                        }
+                                    }
+                                } else {
+                                    updateProduct(spusBean, spusBean.getTag(), section, true);
+                                }
                             }
                         }
                     }
@@ -1061,7 +1132,25 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 List<String> attrValues = spusFood.getAttrValues();
                                 String spec = spusFood.getSpec();
                                 SetAttrsAndSkus(spusBean, attrs, skus, attrIds, attrValues, spec);
-                                updateProduct(spusBean, spusBean.getTag(), section, true);
+                                int number = spusBean.getNumber();
+                                int minOrderCount = getMinOrderCount(spusBean);
+                                if (number > 1) {
+                                    if (minOrderCount > 1) {
+                                        spusBean.setNumber(minOrderCount);
+                                        updateProduct(spusBean, spusBean.getTag(), section, true);
+                                        for (int i = minOrderCount; i <= number; i++) {
+                                            spusBean.setNumber(i + 1);
+                                            updateProduct(spusBean, spusBean.getTag(), section, true);
+                                        }
+                                    } else {
+                                        for (int i = minOrderCount; i <= number; i++) {
+                                            spusBean.setNumber(i);
+                                            updateProduct(spusBean, spusBean.getTag(), section, true);
+                                        }
+                                    }
+                                } else {
+                                    updateProduct(spusBean, spusBean.getTag(), section, true);
+                                }
                             }
                         }
                     }
@@ -1195,11 +1284,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 ok = false;
                 continue;
             }
-            section ++;
+            section++;
         }
 
         LinearLayoutManager manager = (LinearLayoutManager) mSpusList.getLayoutManager();
-        if (null != manager){
+        if (null != manager) {
             int firstItemPosition = manager.findFirstVisibleItemPosition();
             int lastItemPosition = manager.findLastVisibleItemPosition();
 
