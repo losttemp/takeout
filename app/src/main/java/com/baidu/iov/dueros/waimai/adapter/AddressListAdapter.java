@@ -121,10 +121,8 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             if (mData.get(realPosition).getCanShipping() == 1) {
                 holder.itemView.setBackground(null);
-                holder.itemView.setClickable(true);
             } else {
                 holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.gray_bg));
-                holder.itemView.setClickable(false);
             }
 
             ((ViewHolder) holder).img_edit.setTag(realPosition);

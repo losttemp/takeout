@@ -13,16 +13,18 @@
         android:layout_marginStart="@dimen/px84dp"
         android:scaleType="fitXY" />
 
-    <com.domain.multipltextview.MultiplTextView
+    <TextView
         android:id="@+id/product_name"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/px432dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/px38dp"
         android:layout_marginTop="@dimen/px32dp"
         android:layout_toEndOf="@+id/product_photo"
         android:textColor="@color/white"
         android:textSize="@dimen/px36sp"
-        app:removeDefaultPadding="true" />
+        android:ellipsize="end"
+        android:singleLine="true"
+        />
 
     <TextView
         android:id="@+id/product_attrs"

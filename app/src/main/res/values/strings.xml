@@ -129,6 +129,7 @@
     <string name="network_anomaly">您的网络好像不太给力，请稍候再试</string>
     <string name="reload">重新加载</string>
     <string name="arrive_time">大约%s送达</string>
+    <string name="net_unconnect">您的网络好像不太给力，请稍后再试</string>
     <string name="delivery_immediately">立即送出</string>
     <string name="expected_delivery_immediately">立即送达</string>
     <string name="cost">\&#165;%1.1f</string>

@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +19,7 @@ public class ToastUtils {
         }
         TextView tv = result.getView().findViewById(Resources.getSystem().getIdentifier("message", "id", "android"));
         tv.setText(text);
-
+        tv.setBackground(context.getDrawable(R.drawable.toast_bg));
         tv.setTextSize(12);
         result.setDuration(duration);
         result.show();

@@ -148,6 +148,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
                         payintent.putExtra("total_cost", total_price);
                         payintent.putExtra("order_id", Long.parseLong(mOrderList.get(position).getOut_trade_no()));
+                        payintent.putExtra(Constant.STORE_ID,payloadBean.getWm_ordering_list().getWm_poi_id());
                         payintent.putExtra("shop_name", mOrderList.get(position).getOrder_name());
                         payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
                         payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
