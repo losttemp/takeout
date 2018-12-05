@@ -284,8 +284,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 }
                 if (NetUtil.getNetWorkState(this)) {
                     if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
-                        mAddressData.setLongitude(95369826);
-                        mAddressData.setLatitude(29735952);
                         List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
                         wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
                         getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime);
@@ -516,7 +514,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 mTypeTipTv.setText(getString(R.string.delivery_immediately));
                 mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
             }
-
 
         } else {
             handlePreviewMsg(code);

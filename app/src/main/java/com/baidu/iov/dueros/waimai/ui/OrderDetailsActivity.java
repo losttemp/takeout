@@ -174,7 +174,11 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         mAddress.setText(address);
         mBusinessName.setText(shopName);
         mDistributionFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
-        mDiscount.setText(String.format(getString(R.string.discount_money), mNumberFormat.format(discount)));
+        if (discount != 0){
+            mDiscount.setText(String.format(getString(R.string.discount_money), mNumberFormat.format(discount)));
+        }else {
+            mDiscountsLayout.setVisibility(View.GONE);
+        }
         mRealPay.setText(String.format(getString(R.string.actual_payment), mNumberFormat.format(totalCost)));
         mPackingFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(boxTotalPrice)));
         mOrderId.setText(String.valueOf(orderId));

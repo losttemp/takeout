@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.bumptech.glide.Glide;
 
 public class PaySuccessActivity extends AppCompatActivity implements View.OnClickListener {
@@ -84,9 +85,16 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
             Glide.with(this).load(picUrl).into(mStorePhotoImg);
             mStoreNameTv.setText(storeName);
             mProductInfoTv.setText(String.format(getString(R.string.product_info), foodNameOne, count));
+
+            try {
+                recipientAddress = Encryption.desEncrypt(recipientAddress);
+                recipientPhone = Encryption.desEncrypt(recipientPhone);
+                recipient_name = Encryption.desEncrypt(recipient_name);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             mUserInfoTv.setText(recipient_name + " " + recipientPhone);
             mDeliveryAddressTv.setText(recipientAddress);
-
 
         }
 
