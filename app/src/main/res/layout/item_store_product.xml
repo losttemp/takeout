@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="@dimen/px164dp"
+	android:layout_width="@dimen/px200dp"
 	android:layout_height="wrap_content"
-	android:layout_marginRight="@dimen/px30dp"
+	android:layout_marginRight="@dimen/px40dp"
 	android:orientation="vertical">
 
 	<ImageView
 		android:id="@+id/iv_product"
-		android:layout_width="@dimen/px164dp"
-		android:layout_height="@dimen/px174dp"
+		android:layout_width="@dimen/px200dp"
+		android:layout_height="@dimen/px160dp"
 		android:layout_centerHorizontal="true"
 		android:scaleType="fitXY"
 		android:src="@mipmap/ic_launcher" />
@@ -28,7 +28,7 @@
 	<TextView
 		android:id="@+id/tv_product_price"
 		android:layout_below="@+id/tv_product_name"
-		android:layout_marginTop="@dimen/px16dp"
+		android:layout_marginTop="@dimen/px8dp"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textColor="@color/white_60"
