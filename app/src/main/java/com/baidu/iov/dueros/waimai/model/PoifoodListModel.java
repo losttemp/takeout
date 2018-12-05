@@ -15,6 +15,8 @@ import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
+import java.util.Map;
+
 /**
  * Created by ubuntu on 18-10-18.
  */
@@ -43,8 +45,8 @@ public class PoifoodListModel implements IPoifoodListModel {
                     + " brandId:" + params.get(Constant.BRAND_ID));
         }
         PoifoodListReq poifoodListReq = new PoifoodListReq();
-        poifoodListReq.setLongitude(Integer.valueOf(Constant.LONGITUDE));
-        poifoodListReq.setLatitude(Integer.valueOf(Constant.LATITUDE));
+        poifoodListReq.setLongitude(Integer.valueOf(params.get("longitude")));
+        poifoodListReq.setLatitude(Integer.valueOf(params.get("latitude")));
         poifoodListReq.setWm_poi_id(Long.parseLong(params.get(Constant.STORE_ID)));
         ApiUtils.getPoifoodList(poifoodListReq, new ApiCallBack<PoifoodListBean>() {
             @Override
