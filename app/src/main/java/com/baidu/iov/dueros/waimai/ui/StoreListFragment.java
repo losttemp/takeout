@@ -478,7 +478,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
 			@Override
 			public void onRefresh(RefreshLayout refreshLayout) {
-				mRefreshLayout.setEnableLoadmore(false);
 				loadFirstPage(mStoreReq);
 			}
 		});
@@ -486,7 +485,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
 			@Override
 			public void onLoadmore(RefreshLayout refreshLayout) {
-				mRefreshLayout.setEnableRefresh(false);
 				if (mStoreData.getHave_next_page() == 1) {
 					mStoreReq.setPage_index(mStoreData.getCurrent_page_index() + 1);
 					mPresenter.requestStoreList(mStoreReq);
@@ -531,7 +529,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mRlTipNoResult.setVisibility(View.GONE);
 			storeReq.setPage_index(1);
 			mPresenter.requestStoreList(storeReq);
-		
 		}
 	}
 
