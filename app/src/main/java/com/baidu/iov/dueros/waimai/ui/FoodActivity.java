@@ -56,6 +56,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     
     private int longitude;
 
+    private LinearLayout mLoading;
+
     @Override
     FoodPresenter createPresenter() {
         return new FoodPresenter();
@@ -95,9 +97,10 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         if (!NetUtil.getNetWorkState(this)){
             mWarnNoInternet.setVisibility(View.VISIBLE);
             rlCenter.setVisibility(View.GONE);
+            mLoading.setVisibility(View.GONE);
         }else{
-            mWarnNoInternet.setVisibility(View.GONE);
-            rlCenter.setVisibility(View.VISIBLE);
+            mLoading.setVisibility(View.VISIBLE);
+            rlCenter.setVisibility(View.GONE);
             getPresenter().requestFilterConditions(filterConditionReq);
         }
     }
@@ -111,6 +114,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         mWarnNoInternet= findViewById(R.id.warn_no_internet);
         mNoInternetBtn= findViewById(R.id.no_internet_btn);
         rlCenter= findViewById(R.id.rl_center);
+        mLoading = (LinearLayout) findViewById(R.id.ll_loading);
         
         mFirstTypeFoodAdapter=new FirstTypeFoodAdapter(this);
         lvFirstType.setAdapter(mFirstTypeFoodAdapter);
@@ -159,6 +163,9 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     @Override
     public void onSuccess(FilterConditionResponse data) {
+        mWarnNoInternet.setVisibility(View.GONE);
+        rlCenter.setVisibility(View.VISIBLE);
+        mLoading.setVisibility(View.GONE);
         if (data==null||data.getMeituan()==null||data.getMeituan().getData().getCategory_filter_list().isEmpty()){
             return;
         }
@@ -167,6 +174,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         mFirstTypeFoodAdapter.setData(categoryFilterList);
         tvFirstCategory.setText(categoryFilterList.get(0).getName());
         mSecondTypeFoodAdapter.setData(categoryFilterList.get(0).getSub_category_list());
+        
     }
 
     private long getCategoryCode(long secondCategoryCode,List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean> categoryFilterList){
@@ -213,6 +221,9 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     @Override
     public void onError(String error) {
         Lg.getInstance().d(TAG,"msg:"+error);
+        mWarnNoInternet.setVisibility(View.GONE);
+        rlCenter.setVisibility(View.VISIBLE);
+        mLoading.setVisibility(View.GONE);
        
     }
 
