@@ -560,7 +560,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
                         restrict = pro.getSkus().get(0).getRestrict();
 
-                        if (restrict < pro.getNumber() && !exceedingTheLimit) {//折扣、超过限购弹
+                        if (restrict > 0 && restrict < pro.getNumber() && !exceedingTheLimit) {//折扣、超过限购弹
                             Toast.makeText(this, getString(R.string.limit_buy_toast, "" + restrict,
                                     "" + restrict), Toast.LENGTH_SHORT).show();
                             exceedingTheLimit = true;
@@ -570,10 +570,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         for (int i = 0; i < pro.getNumber(); i++) {
                             mIsDiscountList.add(isDiscount);
 
-                            if (i < restrict) {
-                                priceRestrict = pro.getSkus().get(0).getPrice();
-                            } else {
-                                price = pro.getSkus().get(0).getOrigin_price();
+                            if (restrict > 0) {
+                                if (i < restrict) {
+                                    priceRestrict = pro.getSkus().get(0).getPrice();
+                                } else {
+                                    price = pro.getSkus().get(0).getOrigin_price();
+                                }
                             }
                         }
                     }

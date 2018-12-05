@@ -225,7 +225,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         viewHolder.discountPrice.setText(String.format("¥%1$s", "" + originPrice));
                         viewHolder.discountPrice.setVisibility(View.VISIBLE);
                         viewHolder.discountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                        if (skusBeans.get(0).getRestrict() != 0) {
+                        if (skusBeans.get(0).getRestrict() != 0 && skusBeans.get(0).getRestrict() > 0) {
                             viewHolder.limitBuy.setVisibility(View.VISIBLE);
                             viewHolder.limitBuy.setText(String.format(context.getString(R.string.limit_buy), "" + skusBeans.get(0).getRestrict()));
                         }
