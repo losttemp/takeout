@@ -1244,6 +1244,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void onPoifoodListError(String error) {
         Lg.getInstance().d(TAG, "error = " + error);
+        mLoading.setVisibility(View.GONE);
+        mNoNet.setVisibility(View.VISIBLE);
+        parentLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -1320,7 +1323,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             return;
         }
 
-        if (null == mBottomDialog || (null != mBottomDialog &&!mBottomDialog.isShowing() && null != settlement)) {
+        if (null == mBottomDialog || (null != mBottomDialog && !mBottomDialog.isShowing() && null != settlement)) {
             isNeedVoice = true;
             settlement.performClick();
         }
