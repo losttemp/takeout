@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressListAdapter;
@@ -24,6 +25,7 @@ import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.List;
@@ -114,6 +116,9 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                             e.printStackTrace();
                         }
                         setResult(RESULT_OK, data);
+                        if (mDataListBean.get(position).getCanShipping() != 1){
+                            ToastUtils.show(getApplicationContext(),getResources().getString(R.string.order_submit_msg8),Toast.LENGTH_LONG);
+                        }
                         finish();
                         break;
                 }

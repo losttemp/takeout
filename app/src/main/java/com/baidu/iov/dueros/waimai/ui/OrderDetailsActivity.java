@@ -28,6 +28,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.NoClikRecyclerView;
@@ -157,6 +158,14 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         String address = mOrderDetails.getRecipient_address();
         String phone = mOrderDetails.getRecipient_phone();
         String name = mOrderDetails.getRecipient_name();
+
+        try {
+            address = Encryption.desEncrypt(mOrderDetails.getRecipient_address());
+            phone = Encryption.desEncrypt(mOrderDetails.getRecipient_phone());
+            name = Encryption.desEncrypt(mOrderDetails.getRecipient_name());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         mContact.setText(name + " " + phone);
         mAddress.setText(address);
@@ -333,6 +342,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.pay_order:
                 Intent intentPayment = new Intent(OrderDetailsActivity.this, PaymentActivity.class);
+                intentPayment.putExtra(Constant.STORE_ID,mOrderDetails.getWm_poi_id());
                 intentPayment.putExtra("total_cost", mOrderDetails.getTotal());
                 intentPayment.putExtra("order_id", mOrderDetails.getOrder_id());
                 intentPayment.putExtra("shop_name", mOrderDetails.getPoi_name());

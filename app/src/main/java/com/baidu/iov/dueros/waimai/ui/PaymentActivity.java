@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.ui;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -8,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,6 +44,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     private ImageView mPayUrlImg;
     private ImageView mBackBtn;
     private int mCount = 0;
+    private Long mStoreId;
     private Long mOrderId;
     private String mPicUrl;
     private int mExpectedTime;
@@ -84,6 +87,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         if (intent != null) {
 
             double amount = intent.getDoubleExtra(Constant.TOTAL_COST, 0);
+            mStoreId = intent.getLongExtra(Constant.STORE_ID,0);
             mOrderId = intent.getLongExtra(Constant.ORDER_ID, 0);
             mPicUrl = intent.getStringExtra(Constant.PIC_URL);
             mExpectedTime = intent.getIntExtra(Constant.EXPECTED_TIME, 0);
@@ -168,7 +172,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), formatTime(millisUntilFinished)));
             mCount++;
             if (mCount == 5) {
-
                 OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
                 mOrderDetailsReq.setId(mOrderId);
                 getPresenter().requestOrderDetails(mOrderDetailsReq);
@@ -192,9 +195,10 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                                 Intent intent = new Intent();
                                 intent.setClass(PaymentActivity.this, FoodListActivity.class);
                                 intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
+                                intent.putExtra(Constant.STORE_ID,mStoreId);
                                 startActivity(intent);
-
                                 dialog.dismiss();
+                                finish();
                             }
                         })
                         .setPositiveButton(R.string.back_store, new DialogInterface.OnClickListener() {
@@ -202,8 +206,10 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent();
                                 intent.setClass(PaymentActivity.this, FoodListActivity.class);
+                                intent.putExtra(Constant.STORE_ID,mStoreId);
                                 startActivity(intent);
                                 dialog.dismiss();
+                                finish();
                             }
                         })
                         .setCloseButton(new DialogInterface.OnClickListener() {
@@ -213,6 +219,8 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                             }
                         })
                         .create();
+                dialog.setCanceledOnTouchOutside(false);
+//                dialog.setCancelable(false);
                 dialog.show();
             }
         }

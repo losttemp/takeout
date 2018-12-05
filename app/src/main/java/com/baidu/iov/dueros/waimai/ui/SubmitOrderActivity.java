@@ -34,6 +34,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -279,13 +280,17 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             case R.id.to_pay:
 
                 if (mAddressData == null) {
-                    ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address),Toast.LENGTH_SHORT);
+                    ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT);
                 }
+                if (NetUtil.getNetWorkState(this)) {
+                    if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
 
-                if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
-                    List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
-                    wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
-                    getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime);
+                        List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
+                        wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
+                        getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime);
+                    }
+                } else {
+                    ToastUtils.show(this, getResources().getString(R.string.net_unconnect), Toast.LENGTH_LONG);
                 }
                 break;
 
@@ -536,24 +541,24 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         switch (code) {
             case Constant.STORE_CANT_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg2),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_CANT_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg3),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg3), Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COST_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg5),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg5), Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COUNT_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg15),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg15), Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_LACK_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg20),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg20), Toast.LENGTH_SHORT);
                 break;
             case Constant.SERVICE_ERROR:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.service_error),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.service_error), Toast.LENGTH_SHORT);
                 break;
         }
 
@@ -581,14 +586,15 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mOrderSubmitData = data.getMeituan().getData();
         }
 
-
         int submitCode = mOrderSubmitData.getCode();
         if (submitCode == Constant.SUBMIT_ORDER_SUCCESS) {
             double total = mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal();
             long orderId = mOrderSubmitData.getOrder_id();
             String poiName = mOrderPreviewData.getWm_ordering_preview_order_vo().getPoi_name();
+            Long poiId = mOrderPreviewData.getWm_ordering_preview_order_vo().getWm_poi_id();
             String payUrl = mOrderSubmitData.getPayUrl();
             Intent intent = new Intent(this, PaymentActivity.class);
+            intent.putExtra(Constant.STORE_ID, poiId);
             intent.putExtra(Constant.EXPECTED_TIME, mUnixtime);
             intent.putExtra(Constant.TOTAL_COST, total);
             intent.putExtra(Constant.ORDER_ID, orderId);
