@@ -8,6 +8,8 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.FirstTypeFoodAdapter;
 import com.baidu.iov.dueros.waimai.adapter.SecondTypeFoodAdapter;
@@ -16,6 +18,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.presenter.FoodPresenter;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.domain.multipltextview.MultiplTextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,8 +88,18 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         filterConditionReq =new FilterConditionReq();
         filterConditionReq.setLatitude(latitude);
         filterConditionReq.setLongitude(longitude);
-        getPresenter().requestFilterConditions(filterConditionReq);
+        netDataReque();
 
+    }
+    private void netDataReque() {
+        if (!NetUtil.getNetWorkState(this)){
+            mWarnNoInternet.setVisibility(View.VISIBLE);
+            rlCenter.setVisibility(View.GONE);
+        }else{
+            mWarnNoInternet.setVisibility(View.GONE);
+            rlCenter.setVisibility(View.VISIBLE);
+            getPresenter().requestFilterConditions(filterConditionReq);
+        }
     }
 
     private void initView (){
@@ -146,8 +159,6 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     @Override
     public void onSuccess(FilterConditionResponse data) {
-        mWarnNoInternet.setVisibility(View.GONE);
-        rlCenter.setVisibility(View.VISIBLE);
         if (data==null||data.getMeituan()==null||data.getMeituan().getData().getCategory_filter_list().isEmpty()){
             return;
         }
@@ -197,14 +208,12 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         return  subCategorys;
     }
 
+  
+
     @Override
     public void onError(String error) {
         Lg.getInstance().d(TAG,"msg:"+error);
-        if (!NetUtil.getNetWorkState(this)){
-            mWarnNoInternet.setVisibility(View.VISIBLE);
-            rlCenter.setVisibility(View.GONE);
-            return;
-        }
+       
     }
 
     @Override
@@ -218,7 +227,13 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
                 startActivity(intent);
                 break;
             case R.id.no_internet_btn:
-               getPresenter().requestFilterConditions(filterConditionReq);
+                if (NetUtil.getNetWorkState(this)) {
+                    mWarnNoInternet.setVisibility(View.GONE);
+                    rlCenter.setVisibility(View.VISIBLE);
+                    getPresenter().requestFilterConditions(filterConditionReq);
+                }else{
+                    ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
+                }
                 break;
         }
     }
