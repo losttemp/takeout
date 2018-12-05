@@ -3,7 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
     android:orientation="vertical">
+
+    <include
+        android:id="@+id/ll_loading"
+        layout="@layout/dialog_loading_toast"
+        android:visibility="visible" />
 
     <include
         android:id="@+id/no_net"
@@ -15,7 +21,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"

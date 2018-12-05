@@ -169,6 +169,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private long mWmPoiId;
     private LinearLayout mNoNet;
     private Button mNoInternetButton;
+    private LinearLayout mLoading;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -215,6 +216,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mRlNoProduct = (RelativeLayout) findViewById(R.id.rl_no_product);
         mNoNet = (LinearLayout) findViewById(R.id.no_net);
         mNoInternetButton = (Button) findViewById(R.id.no_internet_btn);
+        mLoading = (LinearLayout) findViewById(R.id.ll_loading);
     }
 
     @Override
@@ -321,11 +323,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private void netDataReque() {
         if (NetUtil.getNetWorkState(this)) {
             mNoNet.setVisibility(View.GONE);
-            parentLayout.setVisibility(View.VISIBLE);
+            mLoading.setVisibility(View.VISIBLE);
+//            parentLayout.setVisibility(View.VISIBLE);
             getPresenter().requestData(map);
         } else {
             mNoNet.setVisibility(View.VISIBLE);
             parentLayout.setVisibility(View.GONE);
+            mLoading.setVisibility(View.GONE);
         }
     }
 
@@ -771,7 +775,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             @Override
             public void onClick(View view) {
                 mBottomDialog.dismiss();
-                getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
+                if (NetUtil.getNetWorkState(FoodListActivity.this)) {
+                    getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
+                } else {
+                    ToastUtils.show(FoodListActivity.this, getString(R.string.net_error), Toast.LENGTH_LONG);
+                }
             }
         });
         mCartClose.setOnClickListener(new View.OnClickListener() {
@@ -814,7 +822,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     settlement.setEnabled(false);
                     return;
                 }
-                getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
+                if (NetUtil.getNetWorkState(this)) {
+                    getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
+                } else {
+                    ToastUtils.show(this, getString(R.string.net_error), Toast.LENGTH_LONG);
+                }
                 break;
 
             case R.id.tv_clear:
@@ -1101,6 +1113,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 VoiceManager.getInstance().playTTS(FoodListActivity.this, getString(R.string.choose_you_commodity));
             }
         }
+
+        if (mLoading.getVisibility() == View.VISIBLE) {
+            mLoading.setVisibility(View.GONE);
+            mNoNet.setVisibility(View.GONE);
+            parentLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private void oneMoreOrder(int section) {
@@ -1280,6 +1298,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 }
             }
         }
+
         Lg.getInstance().d(TAG, "onPoidetailinfoSuccess data = " + data);
     }
 
