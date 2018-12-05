@@ -1295,9 +1295,15 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     @Override
     public void sureOrder() {
-        if (null != mCartSettlement) {
+        if (null != mBottomDialog && mBottomDialog.isShowing() && null != mCartSettlement) {
             isNeedVoice = true;
             mCartSettlement.performClick();
+            return;
+        }
+
+        if (null == mBottomDialog || (null != mBottomDialog &&!mBottomDialog.isShowing() && null != settlement)) {
+            isNeedVoice = true;
+            settlement.performClick();
         }
 
     }

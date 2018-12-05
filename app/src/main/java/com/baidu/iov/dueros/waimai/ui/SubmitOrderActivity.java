@@ -94,7 +94,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private NumberFormat mNumberFormat;
     private String mEstimateTime;
     private int mUnixtime = 0;
-    private boolean isNeedVoice;
+    private boolean isChoiceAddressBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +172,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     private void playVoice() {
         boolean isNeedVoice = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
-        if (isNeedVoice && mOrderPreviewData.getWm_ordering_preview_detail_vo_list().size() > 0) {
+        if (isNeedVoice && !isChoiceAddressBack && mOrderPreviewData.getWm_ordering_preview_detail_vo_list().size() > 0) {
             String oneFood = mOrderPreviewData.getWm_ordering_preview_detail_vo_list().get(0).getFood_name();
             String allPrice = String.format(getResources().getString(R.string.submit_total), mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal());
             String deliveryTime = mEstimateTime;
@@ -431,6 +431,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         if (isNeedVoice) {
                             VoiceManager.getInstance().playTTS(SubmitOrderActivity.this,
                                     String.format(getString(R.string.commodity_address), address));
+                            isChoiceAddressBack = true;
                         }
                         String name = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
                                 + Encryption.desEncrypt(mAddressData.getUser_phone());
@@ -566,12 +567,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     @Override
     public void onFailure(String msg) {
-        isNeedVoice = false;
     }
 
     @Override
     public void toPay() {
-        isNeedVoice = true;
         mToPayTv.performClick();
     }
 
@@ -601,7 +600,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             intent.putExtra(Constant.SHOP_NAME, poiName);
             intent.putExtra(Constant.PAY_URL, payUrl);
             intent.putExtra(Constant.PIC_URL, mPoiInfo.getPic_url());
-            intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else if (submitCode == Constant.SERVICE_ERROR) {
@@ -610,8 +608,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
             Toast.makeText(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT).show();
         }
-
-        isNeedVoice = false;
 
     }
 
