@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
@@ -28,6 +30,7 @@ import com.baidu.iov.dueros.waimai.presenter.StoreListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortTypeTagListView;
@@ -270,15 +273,19 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				break;
 
 			case R.id.no_internet_btn:
-				if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
-					mPresenter.requestFilterList(filterConditionReq);
-					homeLoadFirstPage();
-				}else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP){
-					mPresenter.requestFilterList(filterConditionReq);
-					recommendShopLoadFirstPage(mStoreReq);
+				if (NetUtil.getNetWorkState(mContext)) {
+					if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
+						mPresenter.requestFilterList(filterConditionReq);
+						homeLoadFirstPage();
+					} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
+						mPresenter.requestFilterList(filterConditionReq);
+						recommendShopLoadFirstPage(mStoreReq);
+					} else {
+						mPresenter.requestFilterList(filterConditionReq);
+						searchLoadFirstPage(mStoreReq);
+					}
 				}else{
-					mPresenter.requestFilterList(filterConditionReq);
-					searchLoadFirstPage(mStoreReq);
+					ToastUtils.show(mContext, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
 				}
 				break;
 				
@@ -340,13 +347,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	@Override
 	public void failure(String msg) {
 		Lg.getInstance().d(TAG,"msg:"+msg);
-		if (!NetUtil.getNetWorkState(mContext)){
-			mLlFilter.setVisibility(View.GONE);
-			mView.setVisibility(View.GONE);
-			mRefreshLayout.setVisibility(View.GONE);
-			mWarnNoInternet.setVisibility(View.VISIBLE);
-			return;
-		}
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
 			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
@@ -505,40 +505,59 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 	}
 
-
-	public void loadFirstPage(StoreReq storeReq) {
-		storeReq.setPage_index(1);;
-		mPresenter.requestStoreList(storeReq);
-		mRlTipNoResult.setVisibility(View.GONE);
+	private boolean netDataReque() {
+		if (!NetUtil.getNetWorkState(mContext)) {
+			mLlFilter.setVisibility(View.GONE);
+			mView.setVisibility(View.GONE);
+			mRefreshLayout.setVisibility(View.GONE);
+			mWarnNoInternet.setVisibility(View.VISIBLE);
+			mRlTipNoResult.setVisibility(View.GONE);
+			return true;
+		}
+		return  false;
 	}
 
-	public void searchLoadFirstPage(StoreReq storeReq) {
-		mStoreList.clear();
-		mStoreAdaper.notifyDataSetChanged();
-		storeReq.setPage_index(1);
-		storeReq.setLatitude(latitude);
-		storeReq.setLongitude(longitude);
-		mPresenter.requestStoreList(storeReq);
-		mStoreReq = storeReq;
-		mRlTipNoResult.setVisibility(View.GONE);
-			mTvSort.setText(getResources().getString(R.string.store_sort));
-			mStoreReq.setSortType(Constant.COMPREHENSIVE);
-			mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
-			mTagLv.setTextViewDefaultColor();
+	public void loadFirstPage(StoreReq storeReq) {
+		if(!netDataReque()) {
+			storeReq.setPage_index(1);
+			mPresenter.requestStoreList(storeReq);
+			mRlTipNoResult.setVisibility(View.GONE);
+		}
+	}
+
+	public void searchLoadFirstPage(StoreReq storeReq) { 
+			if(!netDataReque()) {
+				mStoreList.clear();
+				mStoreAdaper.notifyDataSetChanged();
+				storeReq.setPage_index(1);
+				storeReq.setLatitude(latitude);
+				storeReq.setLongitude(longitude);
+				mPresenter.requestStoreList(storeReq);
+				mStoreReq = storeReq;
+				mRlTipNoResult.setVisibility(View.GONE);
+				mTvSort.setText(getResources().getString(R.string.store_sort));
+				mStoreReq.setSortType(Constant.COMPREHENSIVE);
+				mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
+				mTagLv.setTextViewDefaultColor();
+			}
 	}
 
 	public void recommendShopLoadFirstPage(StoreReq storeReq) {
-		storeReq.setPage_index(1);
-		storeReq.setLatitude(latitude);
-		storeReq.setLongitude(longitude);
-		mPresenter.requestStoreList(storeReq);
-		mStoreReq = storeReq;
-		mRlTipNoResult.setVisibility(View.GONE);
+			if(!netDataReque()) {
+				storeReq.setPage_index(1);
+				storeReq.setLatitude(latitude);
+				storeReq.setLongitude(longitude);
+				mPresenter.requestStoreList(storeReq);
+				mStoreReq = storeReq;
+				mRlTipNoResult.setVisibility(View.GONE);
+			}
 	}
 
 	public void homeLoadFirstPage() {
-		mStoreReq.setPage_index(1);
-		mPresenter.requestStoreList(mStoreReq);
+		if(!netDataReque()) {
+			mStoreReq.setPage_index(1);
+			mPresenter.requestStoreList(mStoreReq);
+		}
 	}
 	
 }
