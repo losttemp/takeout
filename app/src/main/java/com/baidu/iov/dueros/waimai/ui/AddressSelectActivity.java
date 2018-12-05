@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressSelectAdapter;
@@ -21,6 +22,8 @@ import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.NetUtil;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.faceos.client.GsonUtil;
 
@@ -36,6 +39,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private AddressSelectPresenter.MReceiver mReceiver;
     private View addBtnView;
     private boolean init = false;
+    private View networkView;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -59,11 +63,19 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     protected void onResume() {
         super.onResume();
-        sendBroadcast(new Intent("com.baidu.iov.dueros.waimai.requestNaviDes"));
-        if (init) {
-            addBtnView.setVisibility(View.GONE);
+        if (NetUtil.getNetWorkState(this)) {
+            sendBroadcast(new Intent("com.baidu.iov.dueros.waimai.requestNaviDes"));
+            if (init) {
+                addBtnView.setVisibility(View.GONE);
+            }
+            networkView.setVisibility(View.GONE);
+            initData();
+        } else {
+            if (null != networkView) {
+                networkView.setVisibility(View.VISIBLE);
+            }
         }
-        initData();
+
     }
 
     private void initData() {
@@ -94,7 +106,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                         try {
                             String address = Encryption.desEncrypt(dataBean.getAddress());
                             CacheUtils.saveAddress(address);
-                            HomeActivity.address=address;
+                            HomeActivity.address = address;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -145,6 +157,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         findViewById(R.id.address_select_add).setOnClickListener(this);
         findViewById(R.id.add_no_address).setOnClickListener(this);
         addBtnView = findViewById(R.id.address_select_btn_layout);
+        networkView = findViewById(R.id.network_view);
+        findViewById(R.id.no_internet_btn).setOnClickListener(this);
     }
 
 
@@ -206,6 +220,20 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             case R.id.add_no_address:
             case R.id.address_select_add:
                 doSearchAddress(false);
+                break;
+            case R.id.no_internet_btn:
+                if (NetUtil.getNetWorkState(this)) {
+                    sendBroadcast(new Intent("com.baidu.iov.dueros.waimai.requestNaviDes"));
+                    if (init) {
+                        addBtnView.setVisibility(View.GONE);
+                    }
+                    networkView.setVisibility(View.GONE);
+                    initData();
+                } else {
+                    ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
+                }
+                break;
+            default:
                 break;
         }
     }

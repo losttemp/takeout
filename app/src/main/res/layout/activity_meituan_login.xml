@@ -19,5 +19,7 @@
         android:max="100"
         android:progress="0"
         android:visibility="gone" />
-
+    <include layout="@layout/warn_no_internet"
+        android:id="@+id/network_view"
+        android:visibility="gone"/>
 </FrameLayout>

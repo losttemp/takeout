@@ -100,7 +100,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                     getUi().onSuccess(mDataBeans);
                 }
                 String baiduName = null;
-                String baiduPhone= null;
+                String baiduPhone = null;
                 for (int i = 0; i < mDataBeans.size(); i++) {
                     try {
                         AddressListBean.IovBean.DataBean dataBean = mDataBeans.get(i);
@@ -108,28 +108,28 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                             String user_phone = Encryption.desEncrypt(dataBean.getUser_phone());
                             String user_name = Encryption.desEncrypt(dataBean.getUser_name());
                             if (!MyApplicationAddressBean.USER_PHONES.contains(user_phone)) {
-                                if (null!=mDataBeans.get(i).getMt_address_id()&&
-                                        null==mDataBeans.get(i).getAddress_id()) {
+                                if (null != mDataBeans.get(i).getMt_address_id() &&
+                                        null == mDataBeans.get(i).getAddress_id()) {
                                     //mt
                                     MyApplicationAddressBean.USER_PHONES.add(0, user_phone);
-                                } else if (null==mDataBeans.get(i).getMt_address_id()&&
-                                        null!=mDataBeans.get(i).getAddress_id()){
+                                } else if (null == mDataBeans.get(i).getMt_address_id() &&
+                                        null != mDataBeans.get(i).getAddress_id()) {
                                     //baidu
-                                    baiduPhone =user_phone;
-                                }else {
+                                    baiduPhone = user_phone;
+                                } else {
                                     //app
                                     MyApplicationAddressBean.USER_PHONES.add(user_phone);
                                 }
                             }
                             if (!MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
-                                if (null==mDataBeans.get(i).getMt_address_id()&&
-                                        null!=mDataBeans.get(i).getAddress_id()) {
+                                if (null != mDataBeans.get(i).getMt_address_id() &&
+                                        null == mDataBeans.get(i).getAddress_id()) {
                                     //mt
                                     MyApplicationAddressBean.USER_NAMES.add(0, user_name);
-                                } else if (null==mDataBeans.get(i).getMt_address_id()&&
-                                        null!=mDataBeans.get(i).getAddress_id()){
+                                } else if (null == mDataBeans.get(i).getMt_address_id() &&
+                                        null != mDataBeans.get(i).getAddress_id()) {
                                     //baidu
-                                    baiduName =user_name;
+                                    baiduName = user_name;
                                 } else {
                                     //app
                                     MyApplicationAddressBean.USER_NAMES.add(user_name);
@@ -142,9 +142,13 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                     }
                 }
                 //baidu>mt>app
-                if (!TextUtils.isEmpty(baiduName)&&!TextUtils.isEmpty(baiduPhone)){
+                if (!TextUtils.isEmpty(baiduName) && !TextUtils.isEmpty(baiduPhone)) {
                     MyApplicationAddressBean.USER_NAMES.add(0, baiduName);
                     MyApplicationAddressBean.USER_PHONES.add(0, baiduPhone);
+                }
+                if (mDataBeans.contains(mDesBean)) {
+                    mDataBeans.get(0).setUser_phone(MyApplicationAddressBean.USER_PHONES.get(0));
+                    mDataBeans.get(0).setUser_name(MyApplicationAddressBean.USER_NAMES.get(0));
                 }
             }
 
@@ -185,9 +189,17 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
             if (intent.getAction() == Constant.OPEN_API_BAIDU_MAP) {
                 String s = intent.getStringExtra("dest_json");
                 Lg.getInstance().d(TAG, "onReceive open baidu map mDataBeans:" + mDataBeans);
-                if (!TextUtils.isEmpty(s) && !mDataBeans.contains(mDesBean)) {
+                if (mDataBeans.contains(mDesBean)) {
+                    mDataBeans.remove(mDesBean);
+                }
+                if (!TextUtils.isEmpty(s)) {
                     AddressEndBean addressEndBean = parseJSON(s);
                     mDesBean.setAddress(Encryption.encrypt(addressEndBean.getName()));
+                    if (MyApplicationAddressBean.USER_PHONES.size() > 0
+                            && MyApplicationAddressBean.USER_NAMES.size() > 0) {
+                        mDesBean.setUser_phone(MyApplicationAddressBean.USER_PHONES.get(0));
+                        mDesBean.setUser_name(MyApplicationAddressBean.USER_NAMES.get(0));
+                    }
                     mDesBean.setLatitude((int) (Double.parseDouble(addressEndBean.getLat()) * LocationManager.SPAN));
                     mDesBean.setLongitude((int) (Double.parseDouble(addressEndBean.getLng()) * LocationManager.SPAN));
                     mDesBean.setType(context.getResources().getString(R.string.address_destination));

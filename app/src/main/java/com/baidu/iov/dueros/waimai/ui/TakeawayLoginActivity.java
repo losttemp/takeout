@@ -33,7 +33,7 @@ import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import java.util.List;
 
 public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, MeituanAuthPresenter.MeituanLoginUi> implements
-        MeituanAuthPresenter.MeituanLoginUi {
+        MeituanAuthPresenter.MeituanLoginUi, View.OnClickListener {
 
     private static final String TAG = TakeawayLoginActivity.class.getSimpleName();
     private WebView mWVMeituan;
@@ -43,6 +43,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private final String baiduUrl = "http://sandbox.codriverapi.baidu.com/";
     private final long SIX_HOUR = 6 * 60 * 60 * 1000;
     Bundle savedInstanceState;
+    private View networkView;
 
     @Override
     MeituanAuthPresenter createPresenter() {
@@ -67,7 +68,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         mWVMeituan.addJavascriptInterface(this, "android");
         mWVMeituan.setWebViewClient(webViewClient);
         mWVMeituan.setWebChromeClient(webChromeClient);
-
+        networkView = findViewById(R.id.network_view);
+        findViewById(R.id.no_internet_btn).setOnClickListener(this);
         WebSettings webSettings = mWVMeituan.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
@@ -84,14 +86,15 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onResume() {
         super.onResume();
-        if (NetUtil.getNetWorkState(this)){
+        if (NetUtil.getNetWorkState(this)) {
             if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
                 getPresenter().requestAccountInfo();
             } else {
                 getPresenter().requestMeituanAuth(mMeituanAuthReq);
             }
-        }else{
-            ToastUtils.show(this,getResources().getString(R.string.is_network_connected),Toast.LENGTH_SHORT);
+            networkView.setVisibility(View.GONE);
+        } else {
+            networkView.setVisibility(View.VISIBLE);
         }
 
     }
@@ -222,10 +225,10 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         Lg.getInstance().d(TAG, "get addresslist success");
         Intent addressIntent = new Intent(this, AddressSelectActivity.class);
         //if (data.size() == 0) {
-            //addressIntent = new Intent(this, AddressEditActivity.class);
-            //addressIntent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, false);
+        //addressIntent = new Intent(this, AddressEditActivity.class);
+        //addressIntent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, false);
         //} else {
-            //addressIntent = new Intent(this, AddressSelectActivity.class);
+        //addressIntent = new Intent(this, AddressSelectActivity.class);
         //}
         startActivity(addressIntent);
         finish();
@@ -234,7 +237,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     public void getAddressListFail(String msg) {
         Lg.getInstance().d(TAG, "get addresslist fail");
-        ToastUtils.show(this, msg,Toast.LENGTH_LONG);
+        ToastUtils.show(this, msg, Toast.LENGTH_LONG);
         finish();
     }
 
@@ -254,4 +257,22 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         mWVMeituan = null;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.no_internet_btn:
+                if (NetUtil.getNetWorkState(this)) {
+                    if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
+                        getPresenter().requestAccountInfo();
+                    } else {
+                        getPresenter().requestMeituanAuth(mMeituanAuthReq);
+                    }
+                } else {
+                    ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

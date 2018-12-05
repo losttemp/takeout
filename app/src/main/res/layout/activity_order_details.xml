@@ -36,450 +36,460 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/order_details_content_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px126dp"
-        android:background="@drawable/pay_status_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/img1"
-            android:layout_width="@dimen/px100dp"
-            android:layout_height="@dimen/px100dp"
-            android:layout_marginStart="@dimen/px60dp"
-            android:background="@drawable/icon_yizhifu" />
-
-        <com.domain.multipltextview.MultiplTextView
-            android:id="@+id/pay_status"
-            removeDefaultPadding="true"
-            android:layout_width="@dimen/px0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/pay_status"
-            android:textSize="@dimen/px36sp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:layout_marginEnd="@dimen/px84dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/arrival_time"
-                removeDefaultPadding="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/arrival_time"
-                android:textColor="@color/pay_status"
-                android:visibility="gone"
-                android:textSize="@dimen/px36sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px158dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/repeat_order"
-            android:layout_width="@dimen/px410dp"
-            android:layout_height="@dimen/px96dp"
-            android:layout_marginStart="@dimen/px84dp"
-            android:background="@drawable/btn_bg"
-            android:text="@string/one_more_order"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px36sp"
-            android:visibility="gone"/>
-
-        <Button
-            android:id="@+id/pay_order"
-            android:layout_width="@dimen/px410dp"
-            android:layout_height="@dimen/px96dp"
-            android:layout_marginStart="@dimen/px84dp"
-            android:background="@drawable/btn_bg"
-            android:text="@string/pay_order"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px36sp"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/cancel_order"
-            android:layout_width="@dimen/px410dp"
-            android:layout_height="@dimen/px96dp"
-            android:layout_marginStart="@dimen/px92dp"
-            android:layout_marginEnd="@dimen/px84dp"
-            android:background="@drawable/btn_bg2"
-            android:text="@string/order_cancel"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px36sp"
-            android:visibility="gone"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px2dp"
-        android:layout_marginLeft="@dimen/px84dp"
-        android:layout_marginRight="@dimen/px84dp"
-        android:alpha="0.06"
-        android:background="@color/white"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/px36dp"
-            android:orientation="vertical">
+            android:layout_height="@dimen/px126dp"
+            android:background="@drawable/pay_status_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px126dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <com.domain.multipltextview.MultiplTextView
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/px84dp"
-                    android:layout_weight="1"
-                    android:text="@string/take_away_service"
-                    android:textSize="@dimen/px36sp" />
-
-                <Button
-                    android:id="@+id/phone"
-                    android:layout_width="@dimen/px64dp"
-                    android:layout_height="@dimen/px64dp"
-                    android:layout_marginStart="@dimen/px40dp"
-                    android:layout_marginEnd="@dimen/px84dp"
-                    android:background="@drawable/phone" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px2dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:alpha="0.06"
-                android:background="@color/white"/>
+            <ImageView
+                android:id="@+id/img1"
+                android:layout_width="@dimen/px100dp"
+                android:layout_height="@dimen/px100dp"
+                android:layout_marginStart="@dimen/px60dp"
+                android:background="@drawable/icon_yizhifu" />
 
             <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/business_name"
-                style="@style/OrderDetailsText"
+                android:id="@+id/pay_status"
                 removeDefaultPadding="true"
+                android:layout_width="@dimen/px0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/pay_status"
+                android:textSize="@dimen/px36sp" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_marginEnd="@dimen/px84dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.domain.multipltextview.MultiplTextView
+                    android:id="@+id/arrival_time"
+                    removeDefaultPadding="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/arrival_time"
+                    android:textColor="@color/pay_status"
+                    android:textSize="@dimen/px36sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px158dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/repeat_order"
+                android:layout_width="@dimen/px410dp"
+                android:layout_height="@dimen/px96dp"
                 android:layout_marginStart="@dimen/px84dp"
-                android:layout_marginTop="@dimen/px36dp" />
+                android:background="@drawable/btn_bg"
+                android:text="@string/one_more_order"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp"
+                android:visibility="gone" />
 
-            <com.baidu.iov.dueros.waimai.view.NoClikRecyclerView
-                android:id="@+id/ll_food"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:clickable="false"
-                android:divider="@null"
-                android:scrollbars="none"/>
+            <Button
+                android:id="@+id/pay_order"
+                android:layout_width="@dimen/px410dp"
+                android:layout_height="@dimen/px96dp"
+                android:layout_marginStart="@dimen/px84dp"
+                android:background="@drawable/btn_bg"
+                android:text="@string/pay_order"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp"
+                android:visibility="gone" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/px36dp"
-                android:orientation="horizontal">
+            <Button
+                android:id="@+id/cancel_order"
+                android:layout_width="@dimen/px410dp"
+                android:layout_height="@dimen/px96dp"
+                android:layout_marginStart="@dimen/px92dp"
+                android:layout_marginEnd="@dimen/px84dp"
+                android:background="@drawable/btn_bg2"
+                android:text="@string/order_cancel"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp"
+                android:visibility="gone" />
+        </LinearLayout>
 
-                <com.domain.multipltextview.MultiplTextView
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/px84dp"
-                    android:layout_weight="1"
-                    android:text="@string/packing_fee" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2dp"
+            android:layout_marginLeft="@dimen/px84dp"
+            android:layout_marginRight="@dimen/px84dp"
+            android:alpha="0.06"
+            android:background="@color/white" />
 
-                <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/packing_fee"
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/px40dp"
-                    android:layout_marginEnd="@dimen/px84dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/px36dp"
-                android:orientation="horizontal">
-
-                <com.domain.multipltextview.MultiplTextView
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/px84dp"
-                    android:layout_weight="1"
-                    android:text="@string/shipping_fee_text" />
-
-                <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/distribution_fee"
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/px40dp"
-                    android:layout_marginEnd="@dimen/px84dp" />
-            </LinearLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/px36dp"
-                android:orientation="horizontal">
+                android:layout_marginBottom="@dimen/px36dp"
+                android:orientation="vertical">
 
-                <com.domain.multipltextview.MultiplTextView
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/px84dp"
-                    android:layout_weight="1"
-                    android:text="满减优惠" />
-
-                <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/discount"
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/px40dp"
-                    android:layout_marginEnd="@dimen/px84dp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px2dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:layout_marginTop="@dimen/px36dp"
-                android:alpha="0.06"
-                android:background="@color/white"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px126dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:gravity="right|center_vertical"
-                android:orientation="horizontal">
-
-                <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/real_pay"
-                    removeDefaultPadding="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/real_pay"
-                    android:textSize="@dimen/px40sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px2dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:alpha="0.06"
-                android:background="@color/white"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px168dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <com.domain.multipltextview.MultiplTextView
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:alpha="0.6"
-                    android:text="@string/pay_succuess_address" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="right|center_vertical"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px126dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <com.domain.multipltextview.MultiplTextView
-                        android:id="@+id/contact"
                         style="@style/OrderDetailsText"
                         removeDefaultPadding="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/px84dp"
+                        android:layout_weight="1"
+                        android:text="@string/take_away_service"
+                        android:textSize="@dimen/px36sp" />
+
+                    <Button
+                        android:id="@+id/phone"
+                        android:layout_width="@dimen/px64dp"
+                        android:layout_height="@dimen/px64dp"
+                        android:layout_marginStart="@dimen/px40dp"
+                        android:layout_marginEnd="@dimen/px84dp"
+                        android:background="@drawable/phone" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px2dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:alpha="0.06"
+                    android:background="@color/white" />
+
+                <com.domain.multipltextview.MultiplTextView
+                    android:id="@+id/business_name"
+                    style="@style/OrderDetailsText"
+                    removeDefaultPadding="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/px84dp"
+                    android:layout_marginTop="@dimen/px36dp" />
+
+                <com.baidu.iov.dueros.waimai.view.NoClikRecyclerView
+                    android:id="@+id/ll_food"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:clickable="false"
+                    android:divider="@null"
+                    android:scrollbars="none" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px36dp"
+                    android:orientation="horizontal">
 
                     <com.domain.multipltextview.MultiplTextView
-                        android:id="@+id/address"
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/px84dp"
+                        android:layout_weight="1"
+                        android:text="@string/packing_fee" />
+
+                    <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/packing_fee"
                         style="@style/OrderDetailsText"
                         removeDefaultPadding="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/px26dp"
-                        android:alpha="0.6"
-                        android:textSize="@dimen/px30sp" />
-
+                        android:layout_marginStart="@dimen/px40dp"
+                        android:layout_marginEnd="@dimen/px84dp" />
                 </LinearLayout>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px2dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:alpha="0.06"
-                android:background="@color/white"/>
-
-            <LinearLayout
-                android:id="@+id/ll_expected_time"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px126dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <com.domain.multipltextview.MultiplTextView
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/expect_time" />
+                    android:layout_marginTop="@dimen/px36dp"
+                    android:orientation="horizontal">
 
-                <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/expected_time"
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    <com.domain.multipltextview.MultiplTextView
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/px84dp"
+                        android:layout_weight="1"
+                        android:text="@string/shipping_fee_text" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px2dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:alpha="0.06"
-                android:background="@color/white"/>
+                    <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/distribution_fee"
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/px40dp"
+                        android:layout_marginEnd="@dimen/px84dp" />
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px126dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <com.domain.multipltextview.MultiplTextView
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/pay_order_id" />
+                    android:layout_marginTop="@dimen/px36dp"
+                    android:orientation="horizontal">
 
-                <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/order_id"
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <com.domain.multipltextview.MultiplTextView
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/px84dp"
+                        android:layout_weight="1"
+                        android:text="满减优惠" />
+
+                    <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/discount"
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/px40dp"
+                        android:layout_marginEnd="@dimen/px84dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px2dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginTop="@dimen/px36dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:alpha="0.06"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px126dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:gravity="right|center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/real_pay"
+                        removeDefaultPadding="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/real_pay"
+                        android:textSize="@dimen/px40sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px2dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:alpha="0.06"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px168dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.domain.multipltextview.MultiplTextView
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.6"
+                        android:text="@string/pay_succuess_address" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="right|center_vertical"
+                        android:orientation="vertical">
+
+                        <com.domain.multipltextview.MultiplTextView
+                            android:id="@+id/contact"
+                            style="@style/OrderDetailsText"
+                            removeDefaultPadding="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <com.domain.multipltextview.MultiplTextView
+                            android:id="@+id/address"
+                            style="@style/OrderDetailsText"
+                            removeDefaultPadding="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/px26dp"
+                            android:alpha="0.6"
+                            android:textSize="@dimen/px30sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px2dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:alpha="0.06"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/ll_expected_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px126dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.domain.multipltextview.MultiplTextView
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/expect_time" />
+
+                    <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/expected_time"
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px2dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:alpha="0.06"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px126dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.domain.multipltextview.MultiplTextView
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/pay_order_id" />
+
+                    <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/order_id"
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px2dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:alpha="0.06"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px126dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.domain.multipltextview.MultiplTextView
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/order_time" />
+
+                    <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/order_time"
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px2dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:alpha="0.06"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px126dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.domain.multipltextview.MultiplTextView
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/payment_summary" />
+
+                    <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/pay_method"
+                        style="@style/OrderDetailsText"
+                        removeDefaultPadding="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/payment" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px2dp"
+                    android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginRight="@dimen/px84dp"
+                    android:alpha="0.06"
+                    android:background="@color/white" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px2dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:alpha="0.06"
-                android:background="@color/white"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px126dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <com.domain.multipltextview.MultiplTextView
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/order_time" />
-
-                <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/order_time"
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px2dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:alpha="0.06"
-                android:background="@color/white"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px126dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <com.domain.multipltextview.MultiplTextView
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/payment_summary" />
-
-                <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/pay_method"
-                    style="@style/OrderDetailsText"
-                    removeDefaultPadding="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/payment" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px2dp"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginRight="@dimen/px84dp"
-                android:alpha="0.06"
-                android:background="@color/white"/>
-        </LinearLayout>
-    </ScrollView>
-
+        </ScrollView>
+    </LinearLayout>
+    <include
+        android:id="@+id/network_view"
+        layout="@layout/warn_no_internet"
+        android:visibility="gone" />
 </LinearLayout>

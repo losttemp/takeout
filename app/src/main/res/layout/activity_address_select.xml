@@ -8,69 +8,79 @@
     <include layout="@layout/activity_address_header" />
 
     <View style="@style/AddressEditDividerStyle" />
+
     <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/address_select_lv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/px84dp"
-        android:paddingRight="@dimen/px84dp"/>
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/address_none"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/px84dp"
-        android:paddingRight="@dimen/px84dp"
-        android:layout_marginTop="@dimen/px202dp"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/iv_tips"
-            android:layout_width="@dimen/px146dp"
-            android:layout_height="@dimen/px146dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/icon_tishi"/>
-
-        <TextView
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/address_select_lv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/px48dp"
-            android:layout_gravity="center_horizontal"
-            android:textSize="@dimen/px36sp"
-            android:textColor="@color/white"
-            android:text="@string/address_to_add" />
-        <Button
-            android:id="@+id/add_no_address"
-            android:layout_centerHorizontal="true"
-            android:layout_width="@dimen/px540dp"
-            android:layout_height="@dimen/px108dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/address_button"
-            android:text="@string/address_select_add_address"
-            android:textSize="@dimen/px36sp"
-            android:textColor="@color/white"
-            android:layout_marginTop="@dimen/px118dp"/>
-    </LinearLayout>
-    <RelativeLayout
-        android:id="@+id/address_select_btn_layout"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/address_select_add"
-        android:layout_centerHorizontal="true"
-        android:layout_width="@dimen/px540dp"
-        android:layout_height="@dimen/px108dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/address_button"
-        android:text="@string/address_select_add_address"
-        android:textSize="@dimen/px36sp"
-        android:textColor="@color/white"
-        android:layout_marginTop="@dimen/px120dp"/>
+            android:paddingLeft="@dimen/px84dp"
+            android:paddingRight="@dimen/px84dp" />
+
+        <LinearLayout
+            android:id="@+id/address_none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px202dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/px84dp"
+            android:paddingRight="@dimen/px84dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_tips"
+                android:layout_width="@dimen/px146dp"
+                android:layout_height="@dimen/px146dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/icon_tishi" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/px48dp"
+                android:text="@string/address_to_add"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp" />
+
+            <Button
+                android:id="@+id/add_no_address"
+                android:layout_width="@dimen/px540dp"
+                android:layout_height="@dimen/px108dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/px118dp"
+                android:background="@drawable/address_button"
+                android:text="@string/address_select_add_address"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/address_select_btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/address_select_add"
+                android:layout_width="@dimen/px540dp"
+                android:layout_height="@dimen/px108dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/px120dp"
+                android:background="@drawable/address_button"
+                android:text="@string/address_select_add_address"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp" />
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/network_view"
+            layout="@layout/warn_no_internet"
+            android:visibility="gone" />
     </RelativeLayout>
-</RelativeLayout>
 </LinearLayout>

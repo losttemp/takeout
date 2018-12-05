@@ -27,6 +27,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.NoClikRecyclerView;
@@ -66,6 +67,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private final int IOV_STATUS_REFUNDING = 9; //退款中
     private final int IOV_STATUS_REFUNDED = 10; //已退款
     private final int IOV_STATUS_REFUND_FAILED = 11; //退款失败
+    private View networkView;
+    private View contentView;
 
     @Override
     OrderDetailsPresenter createPresenter() {
@@ -92,12 +95,28 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         timerCancel();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (NetUtil.getNetWorkState(this)) {
+            contentView.setVisibility(View.VISIBLE);
+            networkView.setVisibility(View.GONE);
+            loadData();
+        } else {
+            if (null != networkView) {
+                contentView.setVisibility(View.GONE);
+                networkView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     private void setListener() {
         findViewById(R.id.repeat_order).setOnClickListener(this);
         findViewById(R.id.cancel_order).setOnClickListener(this);
         findViewById(R.id.pay_order).setOnClickListener(this);
         findViewById(R.id.phone).setOnClickListener(this);
         findViewById(R.id.back).setOnClickListener(this);
+        findViewById(R.id.no_internet_btn).setOnClickListener(this);
     }
 
     private void initView() {
@@ -118,6 +137,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         mRepeatOrder = findViewById(R.id.repeat_order);
         mPayOrder = findViewById(R.id.pay_order);
         mCancelOrder = findViewById(R.id.cancel_order);
+        networkView = findViewById(R.id.network_view);
+        contentView = findViewById(R.id.order_details_content_layout);
     }
 
     private void setTextView() {
@@ -244,13 +265,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         expectedTime = getIntent().getIntExtra(Constant.EXPECTED_TIME, 0);
         mOrderDetailsReq = new OrderDetailsReq();
         mOrderDetailsReq.setId(order_id);
-        loadData();
     }
 
     public void timerCancel() {
-        if (null!=mTimer){
+        if (null != mTimer) {
             mTimer.cancel();
-            mTimer=null;
+            mTimer = null;
         }
     }
 
@@ -383,6 +403,17 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                         }).create();
                 dialog1.show();
                 break;
+            case R.id.no_internet_btn:
+                if (NetUtil.getNetWorkState(this)) {
+                    contentView.setVisibility(View.VISIBLE);
+                    networkView.setVisibility(View.GONE);
+                    loadData();
+                } else {
+                    ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -407,10 +438,10 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         Calendar cd = Calendar.getInstance();
         cd.setTime(new Date(time));
 
-        int year  = cd.get(Calendar.YEAR); //获取年份
+        int year = cd.get(Calendar.YEAR); //获取年份
         int month = cd.get(Calendar.MONTH); //获取月份
-        int day   = cd.get(Calendar.DAY_OF_MONTH); //获取日期
-        int week  = cd.get(Calendar.DAY_OF_WEEK); //获取星期
+        int day = cd.get(Calendar.DAY_OF_MONTH); //获取日期
+        int week = cd.get(Calendar.DAY_OF_WEEK); //获取星期
 
         String weekString;
         switch (week) {
@@ -444,7 +475,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
         if (data.getMeituan().getCode() == 0) {
-            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancel_toast),Toast.LENGTH_SHORT);
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancel_toast), Toast.LENGTH_SHORT);
             timerCancel();
             loadData();
         } else {
@@ -468,7 +499,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                                         Uri uri = Uri.fromParts("package", getPackageName(), null);
                                         intent.setData(uri);
                                         startActivity(intent);
-                                    }else{
+                                    } else {
                                         ActivityCompat.requestPermissions(OrderDetailsActivity.this,
                                                 new String[]{Manifest.permission.CALL_PHONE},
                                                 REQUEST_CODE_CALL_PHONE);

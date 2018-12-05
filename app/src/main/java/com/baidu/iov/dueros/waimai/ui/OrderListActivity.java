@@ -29,7 +29,9 @@ import com.baidu.iov.dueros.waimai.presenter.OrderListPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
@@ -59,6 +61,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private static final int START_PAGE = 0;
 
     private SmartRefreshLayout mRefreshLayout;
+    private View networkView;
 
     @Override
     OrderListPresenter createPresenter() {
@@ -82,9 +85,16 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     protected void onResume() {
         super.onResume();
-        mRefreshLayout.setEnableLoadmore(false);
-        mOrderListReq.setPage(START_PAGE);
-        mRefreshLayout.autoRefresh();
+        if (NetUtil.getNetWorkState(this)) {
+            mRefreshLayout.setEnableLoadmore(false);
+            mOrderListReq.setPage(START_PAGE);
+            mRefreshLayout.autoRefresh();
+            networkView.setVisibility(View.GONE);
+        } else {
+            if (null!=networkView){
+                networkView.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
@@ -97,6 +107,8 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mRvOrder = (RecyclerView) findViewById(R.id.rv_order);
         mTvNoOrder = findViewById(R.id.order_list_empty_view);
         mRefreshLayout = (SmartRefreshLayout) findViewById(R.id.refresh_layout);
+        networkView = findViewById(R.id.network_view);
+        findViewById(R.id.no_internet_btn).setOnClickListener(this);
         mTvNoOrder.setVisibility(View.GONE);
     }
 
@@ -259,6 +271,16 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         switch (v.getId()) {
             case R.id.iv_back:
                 onBackPressed();
+                break;
+            case R.id.no_internet_btn:
+                if (NetUtil.getNetWorkState(this)) {
+                    mRefreshLayout.setEnableLoadmore(false);
+                    mOrderListReq.setPage(START_PAGE);
+                    mRefreshLayout.autoRefresh();
+                    networkView.setVisibility(View.GONE);
+                } else {
+                    ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
+                }
                 break;
             default:
                 break;
