@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private NoClikRecyclerView mFoodListView;
     private Button mRepeatOrder, mPayOrder, mCancelOrder;
     private FoodListAdaper mFoodListAdaper;
+    private LinearLayout mDiscountsLayout;
     private OrderDetailsReq mOrderDetailsReq;
     private OrderCancelReq mOrderCancelReq;
     private long order_id;
@@ -140,6 +142,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         mCancelOrder = findViewById(R.id.cancel_order);
         networkView = findViewById(R.id.network_view);
         contentView = findViewById(R.id.order_details_content_layout);
+        mDiscountsLayout = findViewById(R.id.discounts_layout);
     }
 
     private void setTextView() {
