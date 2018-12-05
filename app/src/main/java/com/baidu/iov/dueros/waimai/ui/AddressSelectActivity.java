@@ -40,6 +40,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private View addBtnView;
     private boolean init = false;
     private View networkView;
+    private View loadingView;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -69,6 +70,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 addBtnView.setVisibility(View.GONE);
             }
             networkView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
+            loadingView.setVisibility(View.VISIBLE);
             initData();
         } else {
             if (null != networkView) {
@@ -158,12 +161,15 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         findViewById(R.id.add_no_address).setOnClickListener(this);
         addBtnView = findViewById(R.id.address_select_btn_layout);
         networkView = findViewById(R.id.network_view);
+        loadingView = findViewById(R.id.loading_view);
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
     }
 
 
     @Override
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
+        loadingView.setVisibility(View.GONE);
+        addBtnView.setVisibility(View.VISIBLE);
         if (data.size() == 0) {
             mNoAddress.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
@@ -180,7 +186,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
 
     @Override
     public void onFailure(String msg) {
-
+        loadingView.setVisibility(View.GONE);
     }
 
     @Override
