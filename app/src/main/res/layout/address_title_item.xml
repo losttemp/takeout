@@ -4,16 +4,17 @@
     android:layout_height="@dimen/px168dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.domain.multipltextview.MultiplTextView
-        app:removeDefaultPadding="true"
+    <TextView
         android:id="@+id/tv_address_title"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/px670dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/px84dp"
         android:layout_marginTop="@dimen/px34dp"
-        android:gravity="center"
+        android:gravity="start"
         android:textColor="@color/white"
-        android:textSize="@dimen/px36sp" />
+        android:textSize="@dimen/px36sp"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
     <TextView
         android:id="@+id/tv_address_type_title"
