@@ -14,9 +14,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
@@ -148,9 +151,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private void setTextView() {
 
         getPayStatus(mOrderDetails.getOut_trade_status());
-
         mNumberFormat = new DecimalFormat("##.##");
-
         long orderTime = mOrderDetails.getOrder_time();
         long orderId = mOrderDetails.getOrder_id();
         double boxTotalPrice = mOrderDetails.getBox_total_price();
@@ -208,6 +209,21 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         mFoodListAdaper.setData(mfoodList);
     }
 
+    public void showAllDiscountItem() {
+        List<OrderDetailsResponse.MeituanBean.DataBean.DiscountsBean> discountsBeanList = mOrderDetails.getDiscounts();
+        mDiscountsLayout.removeAllViews();
+        for (OrderDetailsResponse.MeituanBean.DataBean.DiscountsBean discountsBean : discountsBeanList) {
+            LayoutInflater inflater = this.getLayoutInflater();
+            final RelativeLayout discountItem = (RelativeLayout) inflater.inflate(R.layout.discount_list_item, mDiscountsLayout, false);
+            TextView discount_name_tv = discountItem.findViewById(R.id.discount_name);
+            discount_name_tv.setText(discountsBean.getName());
+            TextView discount_info_tv = discountItem.findViewById(R.id.discount);
+            discount_info_tv.setText(String.format(getString(R.string.discount_money), mNumberFormat.format(discountsBean.getReduceFree())));
+            mDiscountsLayout.addView(discountItem);
+        }
+
+    }
+
     private void hidePayView() {
         mCancelOrder.setVisibility(View.GONE);
         mPayOrder.setVisibility(View.GONE);
@@ -232,10 +248,18 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         } else if (status == IOV_STATUS_NOTIFY_RESTAURANT) {
             mRepeatOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
+            mArrivalTime.setVisibility(View.VISIBLE);
+            String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
+            mPayStatus.setText(R.string.have_paid);
+            mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
             mPayStatus.setText(R.string.notify_restaurant);
         } else if (status == IOV_STATUS_RESTAURANT_CONFIRM) {
             mRepeatOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
+            mArrivalTime.setVisibility(View.VISIBLE);
+            String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
+            mPayStatus.setText(R.string.have_paid);
+            mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
             mPayStatus.setText(R.string.restaurant_confirm);
         } else if (status == IOV_STATUS_DELIVERING) {
             mRepeatOrder.setVisibility(View.VISIBLE);
