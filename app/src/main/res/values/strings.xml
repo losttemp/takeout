@@ -156,6 +156,9 @@
     <string name="count_down_timer">支付剩余时间%6s</string>
     <string name="pay_amount">金额</string>
     <string name="pay_order_id">订单编号</string>
+    <string name="pay_order_type">配送服务</string>
+    <string name="order_meituan">美团专送</string>
+    <string name="order_not_meituan">非美团专送</string>
     <string name="pay_shop_name">店铺名称</string>
     <string name="pay_hint">请使用微信或支付宝扫码支付</string>
     <string name="total">合计：</string>

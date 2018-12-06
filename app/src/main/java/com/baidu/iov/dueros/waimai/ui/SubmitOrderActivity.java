@@ -284,8 +284,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 }
                 if (NetUtil.getNetWorkState(this)) {
                     if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
-                        mAddressData.setLongitude(95369826);
-                        mAddressData.setLatitude(29735952);
                         List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
                         wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
                         getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime);
@@ -517,7 +515,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
             }
 
-
         } else {
             handlePreviewMsg(code);
         }
@@ -605,9 +602,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             startActivity(intent);
         } else if (submitCode == Constant.SERVICE_ERROR) {
 
-            Toast.makeText(this, getString(R.string.service_error), Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, getString(R.string.service_error), Toast.LENGTH_SHORT);
         } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
-            Toast.makeText(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
         }
 
     }
