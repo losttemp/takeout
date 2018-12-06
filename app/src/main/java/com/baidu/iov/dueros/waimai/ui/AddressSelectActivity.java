@@ -170,7 +170,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
         loadingView.setVisibility(View.GONE);
-        addBtnView.setVisibility(View.VISIBLE);
         if (data.size() == 0) {
             mNoAddress.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
@@ -178,6 +177,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             init = true;
             mNoAddress.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
+            addBtnView.setVisibility(View.VISIBLE);
             mDataList.clear();
             mDataList.addAll(data);
             mAdapter.setAddressList(mDataList);
