@@ -26,6 +26,7 @@ public class VoiceManager {
     public static final String CMD_PRE = "pre";
     public static final String CMD_YES = "yes";
     public static final String CMD_NO = "no";
+    public static final String NEED_TTS = "needTts";
     public static final String CMD_SELECT = "select";
     public static final String CMD_VIDEO_NEXT = "video_next";
     public static final String CMD_VIDEO_PRE = "video_pre";

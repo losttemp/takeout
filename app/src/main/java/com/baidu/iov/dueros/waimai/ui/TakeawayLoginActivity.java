@@ -24,11 +24,13 @@ import com.baidu.iov.dueros.waimai.net.entity.request.MeituanAuthorizeReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.presenter.MeituanAuthPresenter;
+import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 
 import java.util.List;
 
@@ -44,6 +46,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private final long SIX_HOUR = 6 * 60 * 60 * 1000;
     Bundle savedInstanceState;
     private View networkView;
+    private boolean isNeedVoice;
 
     @Override
     MeituanAuthPresenter createPresenter() {
@@ -58,6 +61,10 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setNoRequestForPermissions(true);
+        isNeedVoice = getIntent().getBooleanExtra(VoiceManager.NEED_TTS, false);
+        if (isNeedVoice) {
+            AtyContainer.getInstance().finishAllActivity();
+        }
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
         init();
@@ -177,6 +184,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             getPresenter().requestAddressListData(mAddressListReq);
         } else {
             Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
             startActivity(intent);
             finish();
         }
@@ -230,6 +238,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         //} else {
         //addressIntent = new Intent(this, AddressSelectActivity.class);
         //}
+        addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
         startActivity(addressIntent);
         finish();
     }
