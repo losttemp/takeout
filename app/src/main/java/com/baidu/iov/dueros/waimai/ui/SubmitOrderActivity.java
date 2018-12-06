@@ -435,7 +435,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         String name = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
                                 + Encryption.desEncrypt(mAddressData.getUser_phone());
                         mUserNameTv.setText(name);
-
+                        sendBroadcast(new Intent(Constant.PULL_LOCATION));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -602,9 +602,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             startActivity(intent);
         } else if (submitCode == Constant.SERVICE_ERROR) {
 
-            Toast.makeText(this, getString(R.string.service_error), Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, getString(R.string.service_error), Toast.LENGTH_SHORT);
         } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
-            Toast.makeText(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
         }
 
     }

@@ -102,6 +102,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                     case R.id.address_select_details_container:
                         String databeanStr = GsonUtil.toJson(dataBean);
                         CacheUtils.saveAddressBean(databeanStr);
+                        sendBroadcast(new Intent(Constant.PULL_LOCATION));
                         if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
                             CacheUtils.saveAddrTime(System.currentTimeMillis());
                         }
@@ -169,7 +170,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
         loadingView.setVisibility(View.GONE);
-        addBtnView.setVisibility(View.VISIBLE);
         if (data.size() == 0) {
             mNoAddress.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
@@ -177,6 +177,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             init = true;
             mNoAddress.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
+            addBtnView.setVisibility(View.VISIBLE);
             mDataList.clear();
             mDataList.addAll(data);
             mAdapter.setAddressList(mDataList);

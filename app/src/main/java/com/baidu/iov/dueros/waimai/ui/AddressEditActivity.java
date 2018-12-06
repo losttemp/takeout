@@ -200,7 +200,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
                     String msg = data.getIov().getErrmsg();
-                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                    ToastUtils.show(this, msg, Toast.LENGTH_SHORT);
                 }
             } else {
                 ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_update_fail),Toast.LENGTH_SHORT);

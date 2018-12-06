@@ -352,7 +352,11 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                             public void onClick(View view) {
                                 int num = spusBean.getNumber();
                                 int minOrderCount = getMinOrderCount(spusBean);
-                                num += minOrderCount;
+                                if (minOrderCount > 1) {
+                                    num += minOrderCount;
+                                } else {
+                                    num++;
+                                }
                                 spusBean.setNumber(num);
                                 viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
                                 if (callBackListener != null) {
@@ -523,14 +527,14 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     public void onClick(View view) {
                         if (spusBean.getSkus().size() >= 2) {
                             if (choiceSkus.size() == 0) {
-                                Toast.makeText(context, context.getString(R.string.please_select_the_specifications_first), Toast.LENGTH_SHORT).show();
+                                ToastUtils.show(context, context.getString(R.string.please_select_the_specifications_first), Toast.LENGTH_SHORT);
                                 return;
                             }
                         }
                         if (spusBean.getAttrs().size() > 0) {
                             for (int i = 0; i < spusBean.getAttrs().size(); i++) {
                                 if (choiseAttrs[i] == false) {
-                                    Toast.makeText(context, context.getString(R.string.please_select_the_specifications_first), Toast.LENGTH_SHORT).show();
+                                    ToastUtils.show(context, context.getString(R.string.please_select_the_specifications_first), Toast.LENGTH_SHORT);
                                     return;
                                 }
                             }
@@ -655,14 +659,18 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                                                 ViewHolder viewHolder, int section, boolean alreadyToast) {
                 int min_order_count = getMinOrderCount(spusBean);
                 if (min_order_count > 1 && !alreadyToast) {
-                    Toast.makeText(context, context.getString(R.string.must_buy) +
-                            min_order_count + context.getString(R.string.share_buy), Toast.LENGTH_SHORT).show();
+                    ToastUtils.show(context, context.getString(R.string.must_buy) +
+                            min_order_count + context.getString(R.string.share_buy), Toast.LENGTH_SHORT);
                 }
                 int num = spusBean.getNumber();
                 if (alreadyToast) {
                     num++;
                 } else {
-                    num += min_order_count;
+                    if (min_order_count > 1) {
+                        num += min_order_count;
+                    } else {
+                        num++;
+                    }
                 }
                 spusBean.setNumber(num);
                 viewHolder.shoppingNum.setText(spusBean.getNumber() + "");

@@ -46,6 +46,8 @@ public class Constant {
     public static final int SEARCH_STATUS_SUGGEST = 1;
     public static final int SEARCH_STATUS_FRAGMENT = 2;
     public static final int COMPREHENSIVE = 0;
+    public static String  PULL_LOCATION = "com.baidu.iov.dueros.waimai.pulllocation";
+    
 
     public static final int ADDRESS_SEARCH_ACTIVITY_RESULT_CODE = 1;
     public static String ADDRESS_EDIT_INTENT_EXTRE_CITY = "address_edit_location_city";

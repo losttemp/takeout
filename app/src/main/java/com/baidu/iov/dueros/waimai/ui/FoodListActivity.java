@@ -470,13 +470,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 Integer number = poifoodSpusTagsBeans.get(i).getNumber();
                 int minOrderCount = getMinOrderCount(spusBean);
                 if (increase) {
-                    if (firstAdd) {
+                    if (firstAdd && minOrderCount > 1) {
                         number += minOrderCount;
                     } else {
                         number++;
                     }
                 } else {
-                    if (minOrderCount == spusBean.getNumber()) {
+                    if (minOrderCount > 1 && minOrderCount == spusBean.getNumber()) {
                         number -= minOrderCount;
                     } else {
                         number--;
@@ -565,8 +565,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         restrict = pro.getSkus().get(0).getRestrict();
 
                         if (restrict > 0 && restrict < pro.getNumber() && !exceedingTheLimit) {//折扣、超过限购弹
-                            Toast.makeText(this, getString(R.string.limit_buy_toast, "" + restrict,
-                                    "" + restrict), Toast.LENGTH_SHORT).show();
+                            ToastUtils.show(this, getString(R.string.limit_buy_toast, "" + restrict,
+                                    "" + restrict), Toast.LENGTH_SHORT);
                             exceedingTheLimit = true;
                         } else {
                             exceedingTheLimit = false;
@@ -1047,7 +1047,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void onArriveTimeSuccess(ArriveTimeBean data) {
         String view_time = data.getMeituan().getData().get(0).getTimelist().get(1).getView_time();
-        Toast.makeText(this, String.format(getString(R.string.first_arrive_time), view_time), Toast.LENGTH_SHORT).show();
+        ToastUtils.show(this, String.format(getString(R.string.first_arrive_time), view_time), Toast.LENGTH_SHORT);
     }
 
     @Override

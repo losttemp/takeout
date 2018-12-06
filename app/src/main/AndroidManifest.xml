@@ -32,6 +32,7 @@
             android:name=".ui.HomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.FoodListActivity"
