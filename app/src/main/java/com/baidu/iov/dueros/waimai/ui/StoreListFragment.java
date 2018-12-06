@@ -1,10 +1,13 @@
 package com.baidu.iov.dueros.waimai.ui;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,7 +47,7 @@ import java.util.List;
 public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreListPresenter.StoreListUi> implements StoreListPresenter.StoreListUi, View.OnClickListener {
 
 	private static final String TAG = StoreListFragment.class.getSimpleName();
-	
+
 	private RelativeLayout mLlFilter;
 	private RelativeLayout mRlSort;
 	private AppCompatTextView mTvSort;
@@ -56,7 +59,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private RecyclerView mRvStore;
 	private View mViewBg;
 	private AppCompatTextView mTvTipNoResult;
-	private  RelativeLayout mRlTipNoResult;
+	private RelativeLayout mRlTipNoResult;
 	private SortTypeTagListView mTagLv;
 	private LinearLayout mWarnNoInternet;
 	private Button mNoInternetBtn;
@@ -70,10 +73,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			ArrayList<>();
 	private List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> mSortList
 			= new ArrayList<>();
-	private List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> mSortTypeTabs=new ArrayList<>();
+	private List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> mSortTypeTabs = new ArrayList<>();
 	private List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean> mFilterList
 			= new ArrayList<>();
-	
+
 	private StoreReq mStoreReq;
 	private SortPopWindow mSortPopWindow;
 	private FilterPopWindow mFilterPopWindow;
@@ -86,8 +89,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private FilterConditionReq filterConditionReq;
 
 	private LinearLayout mLoading;
-	
-	
+
+	private LocalBroadcastManager broadcastManager;
+
+
 
 	@Override
 	StoreListPresenter createPresenter() {
@@ -119,44 +124,49 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 		return view;
 	}
-	
-	
-	private void getLocation(){
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		registerReceiver();
+	}
+
+	private void getLocation() {
 		SharedPreferences sharedPreferences = mContext.getSharedPreferences("_cache", Context.MODE_PRIVATE);
 		String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
 		if (addressDataJson != null) {
 			AddressListBean.IovBean.DataBean mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
-			latitude=mAddressData.getLatitude()!=null?mAddressData.getLatitude():-1;
-			longitude=mAddressData.getLongitude()!=null?mAddressData.getLongitude():-1;
-			Lg.getInstance().d(TAG,"latitude:"+latitude+" longitude:"+longitude);
+			latitude = mAddressData.getLatitude() != null ? mAddressData.getLatitude() : -1;
+			longitude = mAddressData.getLongitude() != null ? mAddressData.getLongitude() : -1;
+			Lg.getInstance().d(TAG, "latitude:" + latitude + " longitude:" + longitude);
 		}
 	}
 
 	private void iniView(View view) {
-		mLlFilter =  view.findViewById(R.id.ll_filter);
-		mRlSort =view.findViewById(R.id.rl_sort);
+		mLlFilter = view.findViewById(R.id.ll_filter);
+		mRlSort = view.findViewById(R.id.rl_sort);
 		mTvSort = view.findViewById(R.id.tv_sort);
 		mIvSort = view.findViewById(R.id.iv_sort);
 		mRlFilter = view.findViewById(R.id.rl_filter);
 		mTvFilter = view.findViewById(R.id.tv_filter);
-		mIvFilter =  view.findViewById(R.id.iv_filter);
+		mIvFilter = view.findViewById(R.id.iv_filter);
 		mRefreshLayout = view.findViewById(R.id.refresh_layout);
 		mRvStore = view.findViewById(R.id.rv_store);
 		mViewBg = view.findViewById(R.id.view_bg);
-		mView= view.findViewById(R.id.view);
+		mView = view.findViewById(R.id.view);
 		mTvTipNoResult = view.findViewById(R.id.tv_tip_no_result);
 		mRlTipNoResult = view.findViewById(R.id.rl_tip_no_result);
-		mWarnNoInternet= view.findViewById(R.id.warn_no_internet);
-		mNoInternetBtn= view.findViewById(R.id.no_internet_btn);
+		mWarnNoInternet = view.findViewById(R.id.warn_no_internet);
+		mNoInternetBtn = view.findViewById(R.id.no_internet_btn);
 		mLoading = view.findViewById(R.id.ll_loading);
 		mTagLv = view.findViewById(R.id.tag_lv);
 		mTagLv.setItemClickListener(new SortTypeTagListView.OnItemClickListener() {
 			@Override
 			public void onClick(int sortType) {
-				mTvSort.setText(getResources().getString(R.string.store_sort)); 
-				if (sortType==Constant.COMPREHENSIVE){
+				mTvSort.setText(getResources().getString(R.string.store_sort));
+				if (sortType == Constant.COMPREHENSIVE) {
 					mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
-				}else{
+				} else {
 					mTvSort.setTextColor(getResources().getColor(R.color.white_60));
 				}
 				mStoreReq.setSortType(sortType);
@@ -174,7 +184,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 		mFromPageType = bundle.getInt(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE);
 
-		mStoreAdaper = new StoreAdaper(mStoreList, mContext,mFromPageType);
+		mStoreAdaper = new StoreAdaper(mStoreList, mContext, mFromPageType);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mRvStore.setLayoutManager(layoutManager);
@@ -195,11 +205,11 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreReq.setLatitude(latitude);
 		mStoreReq.setLongitude(longitude);
 		mStoreReq.setSortType(Constant.COMPREHENSIVE);
-		if (mFromPageType==Constant.STORE_FRAGMENT_FROM_HOME){
+		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
 			homeLoadFirstPage();
 		}
 
-		filterConditionReq =new FilterConditionReq();
+		filterConditionReq = new FilterConditionReq();
 		filterConditionReq.setLatitude(latitude);
 		filterConditionReq.setLongitude(longitude);
 		getPresenter().requestFilterList(filterConditionReq);
@@ -250,9 +260,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 								@Override
 								public void onClickOk(String migFilter) {
 									mStoreReq.setMigFilter(migFilter);
-									if (!migFilter.isEmpty()){
+									if (!migFilter.isEmpty()) {
 										mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
-									}else{
+									} else {
 										mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
 									}
 									loadFirstPage(mStoreReq);
@@ -276,26 +286,30 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				break;
 
 			case R.id.no_internet_btn:
-				if (NetUtil.getNetWorkState(mContext)) {
-					if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
-						mPresenter.requestFilterList(filterConditionReq);
-						homeLoadFirstPage();
-					} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
-						mPresenter.requestFilterList(filterConditionReq);
-						recommendShopLoadFirstPage(mStoreReq);
-					} else {
-						mPresenter.requestFilterList(filterConditionReq);
-						searchLoadFirstPage(mStoreReq);
-					}
-				}else{
-					ToastUtils.show(mContext, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
-				}
+				refresh();
 				break;
-				
+
 			default:
 				break;
 		}
 
+	}
+	
+	private void refresh(){
+		if (NetUtil.getNetWorkState(mContext)) {
+			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
+				mPresenter.requestFilterList(filterConditionReq);
+				homeLoadFirstPage();
+			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
+				mPresenter.requestFilterList(filterConditionReq);
+				recommendShopLoadFirstPage(mStoreReq);
+			} else {
+				mPresenter.requestFilterList(filterConditionReq);
+				searchLoadFirstPage(mStoreReq);
+			}
+		} else {
+			ToastUtils.show(mContext, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
+		}
 	}
 
 	@Override
@@ -308,7 +322,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mLoading.setVisibility(View.GONE);
 		mStoreList.addAll(data.getMeituan().getData().getOpenPoiBaseInfoList());
 		mStoreAdaper.notifyDataSetChanged();
-		Lg.getInstance().d(TAG,"mStoreList:"+mStoreList.get(0));
+		Lg.getInstance().d(TAG, "mStoreList:" + mStoreList.get(0));
 		//set emptey view
 		if (mStoreList.size() == 0) {
 			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
@@ -319,10 +333,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string.no_search_result_keyword));
 					mLlFilter.setVisibility(View.GONE);
 					mView.setVisibility(View.GONE);
-					((SearchActivity)mContext).setmEtTipNoResult();
-					
+					((SearchActivity) mContext).setmEtTipNoResult();
+
 				}
-			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME||mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
+			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME || mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
 				if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
 							.no_search_result_filter));
@@ -333,7 +347,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			}
 			mRlTipNoResult.setVisibility(View.VISIBLE);
 			mRefreshLayout.setVisibility(View.GONE);
-		}else{
+		} else {
 			mView.setVisibility(View.VISIBLE);
 			mRlTipNoResult.setVisibility(View.GONE);
 			mRefreshLayout.setVisibility(View.VISIBLE);
@@ -350,7 +364,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	@Override
 	public void failure(String msg) {
-		Lg.getInstance().d(TAG,"msg:"+msg);
+		Lg.getInstance().d(TAG, "msg:" + msg);
 		mLoading.setVisibility(View.GONE);
 		mWarnNoInternet.setVisibility(View.GONE);
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
@@ -361,9 +375,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string.no_search_result_keyword));
 				mLlFilter.setVisibility(View.GONE);
 				mView.setVisibility(View.GONE);
-				((SearchActivity)mContext).setmEtTipNoResult();
+				((SearchActivity) mContext).setmEtTipNoResult();
 			}
-		} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME||mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
+		} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME || mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
 			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
 						.no_search_result_filter));
@@ -404,7 +418,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			for (int i = 0; i < size; i++) {
 				FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean sortType = sortTypes.get(i);
 				//0:tab  
-				if (sortType.getPosition() ==FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean.TABPOS) {
+				if (sortType.getPosition() == FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean.TABPOS) {
 					sortTypeTabs.add(sortType);
 				}
 			}
@@ -414,7 +428,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	@Override
 	public void updateFilterCondition(FilterConditionResponse data) {
-		if (data==null||data.getMeituan()==null){
+		if (data == null || data.getMeituan() == null) {
 			return;
 		}
 		mSortList.clear();
@@ -460,7 +474,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		if (mRlTipNoResult.getVisibility() == View.GONE) {
 			LinearLayoutManager manager = (LinearLayoutManager) mRvStore.getLayoutManager();
 			assert manager != null;
-			int currentItemPosition  = manager.findFirstVisibleItemPosition();
+			int currentItemPosition = manager.findFirstVisibleItemPosition();
 			if (isNextPage) {
 				if (currentItemPosition + VOICE_STEP * 2 > mStoreList.size() && mRefreshLayout != null) {
 					mRefreshLayout.autoLoadmore(100);
@@ -490,7 +504,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mPresenter.requestStoreList(mStoreReq);
 				} else {
 					mRefreshLayout.finishLoadmore();
-					mPresenter.requestStoreList(mStoreReq);
 				}
 			}
 		});
@@ -499,7 +512,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	private void jumpPage(int position, boolean isNeedVoice) {
 		if (mStoreList.size() > position) {
-			if (mStoreList.get(position).getStatus()==Constant.STROE_STATUS_BREAK){
+			if (mStoreList.get(position).getStatus() == Constant.STROE_STATUS_BREAK) {
 				return;
 			}
 			Intent intent = new Intent(mContext, FoodListActivity.class);
@@ -520,11 +533,11 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mRlTipNoResult.setVisibility(View.GONE);
 			return true;
 		}
-		return  false;
+		return false;
 	}
 
 	public void loadFirstPage(StoreReq storeReq) {
-		if(!netDataReque()) {
+		if (!netDataReque()) {
 			mLoading.setVisibility(View.VISIBLE);
 			mRlTipNoResult.setVisibility(View.GONE);
 			storeReq.setPage_index(1);
@@ -532,44 +545,71 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 	}
 
-	public void searchLoadFirstPage(StoreReq storeReq) { 
-			if(!netDataReque()) {
-				mStoreList.clear();
-				mStoreAdaper.notifyDataSetChanged();
-				mRlTipNoResult.setVisibility(View.GONE);
-				mLoading.setVisibility(View.VISIBLE);
-				mTvSort.setText(getResources().getString(R.string.store_sort));
-				mStoreReq.setSortType(Constant.COMPREHENSIVE);
-				mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
-				mTagLv.setTextViewDefaultColor();
-				
-				storeReq.setPage_index(1);
-				storeReq.setLatitude(latitude);
-				storeReq.setLongitude(longitude);
-				mPresenter.requestStoreList(storeReq);
-				mStoreReq = storeReq;
-				
-			}
+	public void searchLoadFirstPage(StoreReq storeReq) {
+		if (!netDataReque()) {
+			mStoreList.clear();
+			mStoreAdaper.notifyDataSetChanged();
+			mRlTipNoResult.setVisibility(View.GONE);
+			mLoading.setVisibility(View.VISIBLE);
+			mTvSort.setText(getResources().getString(R.string.store_sort));
+			mStoreReq.setSortType(Constant.COMPREHENSIVE);
+			mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
+			mTagLv.setTextViewDefaultColor();
+
+			storeReq.setPage_index(1);
+			storeReq.setLatitude(latitude);
+			storeReq.setLongitude(longitude);
+			mPresenter.requestStoreList(storeReq);
+			mStoreReq = storeReq;
+
+		}
 	}
 
 	public void recommendShopLoadFirstPage(StoreReq storeReq) {
-			if(!netDataReque()) {
-				mLoading.setVisibility(View.VISIBLE);
-				mRlTipNoResult.setVisibility(View.GONE);
-				storeReq.setPage_index(1);
-				storeReq.setLatitude(latitude);
-				storeReq.setLongitude(longitude);
-				mPresenter.requestStoreList(storeReq);
-				mStoreReq = storeReq;
-			}
+		if (!netDataReque()) {
+			mLoading.setVisibility(View.VISIBLE);
+			mRlTipNoResult.setVisibility(View.GONE);
+			storeReq.setPage_index(1);
+			storeReq.setLatitude(latitude);
+			storeReq.setLongitude(longitude);
+			mPresenter.requestStoreList(storeReq);
+			mStoreReq = storeReq;
+		}
 	}
 
 	public void homeLoadFirstPage() {
-		if(!netDataReque()) {
+		if (!netDataReque()) {
 			mLoading.setVisibility(View.VISIBLE);
 			mStoreReq.setPage_index(1);
 			mPresenter.requestStoreList(mStoreReq);
 		}
 	}
-	
+
+
+
+	BroadcastReceiver mPullLocationBroadReceive =new BroadcastReceiver(){
+		@Override
+		public void onReceive(Context context, Intent intent) {
+				getLocation();
+				if (!latitude.equals(mStoreReq.getLatitude())){
+					mStoreReq.setLatitude(latitude);
+					mStoreReq.setLongitude(longitude);
+					refresh();
+				}
+			  
+			
+		}
+	};
+
+	private void registerReceiver() {
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(Constant.PULL_LOCATION);
+		mContext.registerReceiver(mPullLocationBroadReceive, intentFilter);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mContext.unregisterReceiver(mPullLocationBroadReceive);
+	}
 }

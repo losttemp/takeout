@@ -437,7 +437,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         String name = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
                                 + Encryption.desEncrypt(mAddressData.getUser_phone());
                         mUserNameTv.setText(name);
-
+                        sendBroadcast(new Intent(Constant.PULL_LOCATION));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

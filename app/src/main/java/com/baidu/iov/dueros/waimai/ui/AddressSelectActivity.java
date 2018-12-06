@@ -102,6 +102,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                     case R.id.address_select_details_container:
                         String databeanStr = GsonUtil.toJson(dataBean);
                         CacheUtils.saveAddressBean(databeanStr);
+                        sendBroadcast(new Intent(Constant.PULL_LOCATION));
                         if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
                             CacheUtils.saveAddrTime(System.currentTimeMillis());
                         }

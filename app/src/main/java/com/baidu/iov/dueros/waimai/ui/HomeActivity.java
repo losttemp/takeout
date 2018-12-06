@@ -13,7 +13,6 @@ import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.location.BDLocation;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
 
@@ -52,6 +51,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		iniView();
 		iniData();
 	}
+
+	
 
 	@Override
 	protected void onResume() {
@@ -151,7 +152,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		}
 
 	}
-
 
 
 	
