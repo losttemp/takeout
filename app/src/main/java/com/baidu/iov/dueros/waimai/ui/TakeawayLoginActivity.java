@@ -97,6 +97,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
                 getPresenter().requestAccountInfo();
             } else {
+                //mt authorize
                 getPresenter().requestMeituanAuth(mMeituanAuthReq);
             }
             networkView.setVisibility(View.GONE);
