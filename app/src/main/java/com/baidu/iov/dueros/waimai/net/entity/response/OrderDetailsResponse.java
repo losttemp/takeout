@@ -153,7 +153,7 @@ public class OrderDetailsResponse {
             private String out_trade_status_text;
             private boolean is_open;
             private List<FoodListBean> food_list;
-            private List<?> discounts;
+            private List<DiscountsBean> discounts;
 
             public long getOrder_id() {
                 return order_id;
@@ -499,12 +499,52 @@ public class OrderDetailsResponse {
                 this.food_list = food_list;
             }
 
-            public List<?> getDiscounts() {
+            public List<DiscountsBean> getDiscounts() {
                 return discounts;
             }
 
-            public void setDiscounts(List<?> discounts) {
+            public void setDiscounts(List<DiscountsBean> discounts) {
                 this.discounts = discounts;
+            }
+
+            public static class DiscountsBean {
+
+                private String name;
+                private String info;
+                private int reduceFree;
+                private String icon_url;
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
+
+                public String getInfo() {
+                    return info;
+                }
+
+                public void setInfo(String info) {
+                    this.info = info;
+                }
+
+                public int getReduceFree() {
+                    return reduceFree;
+                }
+
+                public void setReduceFree(int reduceFree) {
+                    this.reduceFree = reduceFree;
+                }
+
+                public String getIcon_url() {
+                    return icon_url;
+                }
+
+                public void setIcon_url(String icon_url) {
+                    this.icon_url = icon_url;
+                }
             }
 
             public static class FoodListBean implements Serializable{
