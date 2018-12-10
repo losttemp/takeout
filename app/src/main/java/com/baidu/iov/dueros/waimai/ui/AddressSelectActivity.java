@@ -143,7 +143,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                             }
                         }
                     }
-                }, 500);
+                }, 200);
             }
         });
     }

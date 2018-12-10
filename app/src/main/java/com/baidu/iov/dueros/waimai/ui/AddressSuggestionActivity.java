@@ -167,7 +167,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         citySearchOption.city(city);// 城市
         citySearchOption.keyword(key);// 关键字
         citySearchOption.pageCapacity(20);// 默认每页10条
-        citySearchOption.pageNum(1);// 分页编号
+        citySearchOption.pageNum(0);// 分页编号
         // 发起检索请求
         poiSearch.searchInCity(citySearchOption);
     }
