@@ -100,9 +100,9 @@ public class LocationManager {
         LocationClientOption option = new LocationClientOption();
         //option.setPriority(LocationClientOption.GpsOnly);
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        //"bd09ll"
+        //"gcj02 bd09ll"
         if (TextUtils.isEmpty(coorType)) {
-            option.setCoorType("gcj02");
+            option.setCoorType("bd09ll");
         } else {
             option.setCoorType(coorType);
         }
