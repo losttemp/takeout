@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.SearchHistroyAdapter;
@@ -31,7 +32,6 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
-
 import java.util.ArrayList;
 import java.util.List;
 public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresenter.SearchUi>
@@ -60,6 +60,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private int mCurrentStatus;
 
 	private static final int HEAD_NUM=1;
+
+	private RelativeLayout mRlSearch;
 
 
 	@Override
@@ -98,6 +100,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mIvClean =  findViewById(R.id.iv_clean);
 		mTvCancel =  findViewById(R.id.tv_cancel);
 		mLvSuggest =  findViewById(R.id.lv_suggest);
+		mRlSearch=  findViewById(R.id.rl_search);
 
 		mDivision=new View(this);
 		mLvHistory.addHeaderView(mDivision);
@@ -143,6 +146,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mIvDelete.setOnClickListener(this);
 		mIvClean.setOnClickListener(this);
 		mTvCancel.setOnClickListener(this);
+		mRlSearch.setOnClickListener(this);
 
 		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -231,10 +235,19 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				mEtSearch.setText("");
 				break;
 
+			case R.id.rl_search:
+				showKeyboard();
+				break;
+
 			default:
 				break;
 		}
 
+	}
+
+	private void showKeyboard(){
+		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMethodManager.showSoftInput(mEtSearch, 0);
 	}
 
 	private void deleteAll() {
