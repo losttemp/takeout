@@ -1,15 +1,18 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,7 +25,6 @@ import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
-import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
@@ -38,7 +40,6 @@ import java.util.List;
 
 public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusListAdapter.MyViewHolder> {
     private static final String TAG = PoifoodSpusListAdapter.class.getSimpleName();
-    private FoodListActivity activity;
     List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans;
     private HolderClickListener mHolderClickListener;
     private Context context;
@@ -47,18 +48,19 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList;
     private View mVeiw;
     private boolean mInList;
+    private Window mWindow;
 
     public void setCallBackListener(onCallBackListener callBackListener) {
         this.callBackListener = callBackListener;
     }
 
     public PoifoodSpusListAdapter(Context context, List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList,
-                                  List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans, FoodListActivity activity) {
+                                  List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans, Window window) {
         this.context = context;
         this.foodSpuTagsBeans = foodSpuTagsBeans;
         this.productList = productList;
+        this.mWindow = window;
         mInflater = LayoutInflater.from(context);
-        this.activity = activity;
     }
 
     @NonNull
@@ -72,8 +74,8 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder viewHolder, int position) {
         viewHolder.textUI.setText(foodSpuTagsBeans.get(position).getName());
-        viewHolder.my_gridview.setAdapter(new MyViewHolder.GridViewAdapter(
-                foodSpuTagsBeans.get(position).getSpus(), position, context, activity, productList,
+        viewHolder.my_gridview.setAdapter(viewHolder.new GridViewAdapter(
+                foodSpuTagsBeans.get(position).getSpus(), position, context, productList,
                 callBackListener, mHolderClickListener, foodSpuTagsBeans));
         LinearLayoutManager staggeredGridLayoutManager = new LinearLayoutManager(context);
         staggeredGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -97,7 +99,38 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
         void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection, boolean increase);
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public void showFoodListActivityDialog(View view, View contentView, final PopupWindow window) {
+        window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        window.setOutsideTouchable(true);
+        window.setTouchable(true);
+        window.showAtLocation(view, Gravity.TOP, 0, 0);
+        backgroundAlpha(0.5f);
+        ImageView dismiss = (ImageView) contentView.findViewById(R.id.iv_dismiss);
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                window.dismiss();
+            }
+        });
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1.0f);
+            }
+        });
+    }
+
+    public View getPopView(int layoutId) {
+        return LayoutInflater.from(context).inflate(layoutId, null, false);
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = mWindow.getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        mWindow.setAttributes(lp);
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         RecyclerView my_gridview;
         TextView textUI;
 
@@ -112,20 +145,19 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
             textUI = (TextView) itemView.findViewById(R.id.textItem);
         }
 
-        public static class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHolder> {
-            private static List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList;
-            private static FoodListActivity activity;
-            private static Context context;
-            private static boolean mInList;
-            private static HolderClickListener mHolderClickListener;
+        public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHolder> {
+            private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList;
+            private Context context;
+            private boolean mInList;
+            private HolderClickListener mHolderClickListener;
             private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeans;
             private int section;
             private View mVeiw;
-            private static onCallBackListener callBackListener;
+            private onCallBackListener callBackListener;
             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans;
 
             public GridViewAdapter(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeans,
-                                   int section, Context context, FoodListActivity activity,
+                                   int section, Context context,
                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList,
                                    onCallBackListener callBackListener, HolderClickListener mHolderClickListener,
                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans) {
@@ -133,7 +165,6 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 this.section = section;
                 this.context = context;
                 this.productList = productList;
-                this.activity = activity;
                 this.callBackListener = callBackListener;
                 this.mHolderClickListener = mHolderClickListener;
                 this.foodSpuTagsBeans = foodSpuTagsBeans;
@@ -306,12 +337,13 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     @Override
                     public void onClick(View view) {
                         mVeiw = view;
-                        View popView = activity.getPopView(R.layout.dialog_spus_details);
+                        View popView = PoifoodSpusListAdapter.this.getPopView(R.layout.dialog_spus_details);
                         final Button addToCart = (Button) popView.findViewById(R.id.btn_add_to_cart);
                         Button detailSpecifications = (Button) popView.findViewById(R.id.btn_spus_details_specifications);
                         MultiplTextView spusName = (MultiplTextView) popView.findViewById(R.id.tv_spus_name);
                         ImageView spusPicture = (ImageView) popView.findViewById(R.id.iv_spus);
                         MultiplTextView spusPrice = (MultiplTextView) popView.findViewById(R.id.tv_spus_price);
+                        MultiplTextView spusOriginPrice = (MultiplTextView) popView.findViewById(R.id.tv_spus_origin_price);
                         TextView spusDescription = (TextView) popView.findViewById(R.id.tv_spus_description);
                         ImageView increase = (ImageView) popView.findViewById(R.id.increase);
                         ImageView reduce = (ImageView) popView.findViewById(R.id.reduce);
@@ -325,7 +357,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         final PopupWindow window = new PopupWindow(popView,
                                 WindowManager.LayoutParams.MATCH_PARENT,
                                 WindowManager.LayoutParams.WRAP_CONTENT, true);
-                        activity.showFoodListActivityDialog(view, popView, window);
+                        showFoodListActivityDialog(view, popView, window);
                         if (viewHolder.specifications.getVisibility() == View.VISIBLE) {
                             addToCart.setVisibility(View.GONE);
                             action.setVisibility(View.GONE);
@@ -340,7 +372,16 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         });
 
                         spusDescription.setText(spusBean.getDescription());
-                        spusPrice.setText(String.format("¥%1$s", "" + spusBean.getMin_price()));
+                        double originPrice = spusBean.getSkus().get(0).getOrigin_price();
+                        double price = spusBean.getSkus().get(0).getPrice();
+                        spusPrice.setText(String.format("¥%1$s", "" + price));
+                        if (price < originPrice) {
+                            spusOriginPrice.setVisibility(View.VISIBLE);
+                            spusOriginPrice.setText(String.format("¥%1$s", "" + spusBean.getSkus().get(0).getOrigin_price()));
+                            spusOriginPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        } else {
+                            spusOriginPrice.setVisibility(View.GONE);
+                        }
                         spusName.setText(spusBean.getName());
                         GlideApp.with(context)
                                 .load(pictureUrl)
@@ -474,9 +515,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
             }
 
 
-            private static void spcificationsOnclick(View view, final PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
-                                                     final MyViewHolder.GridViewAdapter.ViewHolder viewHolder, final int section) {
-                View popView = activity.getPopView(R.layout.dialog_spus_specifications);
+            private void spcificationsOnclick(View view, final PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
+                                              final MyViewHolder.GridViewAdapter.ViewHolder viewHolder, final int section) {
+                View popView = getPopView(R.layout.dialog_spus_specifications);
                 final Button addToCart = (Button) popView.findViewById(R.id.btn_add_to_cart_specification);
                 ListView specificationsList = (ListView) popView.findViewById(R.id.gv_specifications);
                 final MultiplTextView specificationsPrice = (MultiplTextView) popView.findViewById(R.id.tv_specifications_price);
@@ -576,10 +617,10 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 final PopupWindow window = new PopupWindow(popView,
                         WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.WRAP_CONTENT, true);
-                activity.showFoodListActivityDialog(view, popView, window);
+                showFoodListActivityDialog(view, popView, window);
             }
 
-            private static boolean inProductList(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
+            private boolean inProductList(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
                 boolean inList = false;
                 if (productList.contains(spusBean)) {
                     for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : productList) {
@@ -633,7 +674,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
             }
 
 
-            private static void reduceOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, MyViewHolder.GridViewAdapter.ViewHolder viewHolder, int section) {
+            private void reduceOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, MyViewHolder.GridViewAdapter.ViewHolder viewHolder, int section) {
                 int num = spusBean.getNumber();
                 int minOrderCount = getMinOrderCount(spusBean);
                 if (num > 0) {
@@ -655,8 +696,8 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 }
             }
 
-            private static void increaseOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
-                                                ViewHolder viewHolder, int section, boolean alreadyToast) {
+            private void increaseOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
+                                         ViewHolder viewHolder, int section, boolean alreadyToast) {
                 int min_order_count = getMinOrderCount(spusBean);
                 if (min_order_count > 1 && !alreadyToast) {
                     ToastUtils.show(context, context.getString(R.string.must_buy) +
@@ -686,7 +727,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 }
             }
 
-            private static int getMinOrderCount(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
+            private int getMinOrderCount(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
                 int min_order_count = 1;
                 if (spusBean.getSkus() != null) {
                     if (spusBean.getSkus().size() > 1 && spusBean.getChoiceSkus() != null) {

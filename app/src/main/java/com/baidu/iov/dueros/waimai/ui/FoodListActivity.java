@@ -6,9 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,7 +48,6 @@ import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
@@ -237,7 +234,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         productList = new ArrayList<>();
         foodSpuTagsBeanName = new ArrayList<>();
         poifoodSpusTagsBeans = new ArrayList<>();
-        mPoifoodSpusListAdapter = new PoifoodSpusListAdapter(this, productList, foodSpuTagsBeans, FoodListActivity.this);
+        mPoifoodSpusListAdapter = new PoifoodSpusListAdapter(this, productList, foodSpuTagsBeans, getWindow());
         mPoifoodSpusListAdapter.SetOnSetHolderClickListener(new PoifoodSpusListAdapter.HolderClickListener() {
             @Override
             public void onHolderClick(Drawable drawable, int[] start_location) {
@@ -325,7 +322,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             mNoNet.setVisibility(View.GONE);
             mLoading.setVisibility(View.VISIBLE);
 //            parentLayout.setVisibility(View.VISIBLE);
-            getPresenter().requestData(map);
+            getPresenter().requestPoifoodList(map);
         } else {
             mNoNet.setVisibility(View.VISIBLE);
             parentLayout.setVisibility(View.GONE);
@@ -341,37 +338,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
         }
         return mAddressData;
-    }
-
-    public void showFoodListActivityDialog(View view, View contentView, final PopupWindow window) {
-        window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        window.setOutsideTouchable(true);
-        window.setTouchable(true);
-        window.showAtLocation(view, Gravity.TOP, 0, 0);
-        backgroundAlpha(0.5f);
-        ImageView dismiss = (ImageView) contentView.findViewById(R.id.iv_dismiss);
-        dismiss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                window.dismiss();
-            }
-        });
-        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                backgroundAlpha(1.0f);
-            }
-        });
-    }
-
-    public View getPopView(int layoutId) {
-        return LayoutInflater.from(this).inflate(layoutId, null, false);
-    }
-
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getWindow().setAttributes(lp);
     }
 
     @Override
@@ -565,7 +531,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         restrict = pro.getSkus().get(0).getRestrict();
 
                         if (restrict > 0 && restrict < pro.getNumber() && !exceedingTheLimit) {//折扣、超过限购弹
-                            ToastUtils.show(this, getString(R.string.limit_buy_toast, "" + restrict,
+                            ToastUtils.show(getApplicationContext(), getString(R.string.limit_buy_toast, "" + restrict,
                                     "" + restrict), Toast.LENGTH_SHORT);
                             exceedingTheLimit = true;
                         } else {
@@ -647,7 +613,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 mCartShoppingPrise.setText("¥" + " " + sum);
             }
             if (increase && mIsDiscountList.size() == 1 && !alreadyToast) {//折扣、第一次折扣、未弹toast
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.discount_prompt), Toast.LENGTH_SHORT);
+                ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.discount_prompt), Toast.LENGTH_SHORT);
                 alreadyToast = true;
             }
         } else {
@@ -778,7 +744,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 if (NetUtil.getNetWorkState(FoodListActivity.this)) {
                     getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
                 } else {
-                    ToastUtils.show(FoodListActivity.this, getString(R.string.net_error), Toast.LENGTH_LONG);
+                    ToastUtils.show(getApplicationContext(), getString(R.string.net_error), Toast.LENGTH_LONG);
                 }
             }
         });
@@ -825,7 +791,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 if (NetUtil.getNetWorkState(this)) {
                     getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
                 } else {
-                    ToastUtils.show(this, getString(R.string.net_error), Toast.LENGTH_LONG);
+                    ToastUtils.show(getApplicationContext(), getString(R.string.net_error), Toast.LENGTH_LONG);
                 }
                 break;
 
@@ -857,7 +823,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 finish();
                 break;
             case R.id.rl_store_details:
-                View popView = getPopView(R.layout.dialog_shop_details);
+                View popView = mPoifoodSpusListAdapter.getPopView(R.layout.dialog_shop_details);
                 mDetailsNotice = (TextView) popView.findViewById(R.id.tv_notice);
                 mDetailsShopName = (MultiplTextView) popView.findViewById(R.id.tv_shop_name);
                 mDetailsDistribution = (MultiplTextView) popView.findViewById(R.id.tv_details_distribution);
@@ -880,7 +846,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 final PopupWindow window = new PopupWindow(popView,
                         WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.WRAP_CONTENT, true);
-                showFoodListActivityDialog(v, popView, window);
+                mPoifoodSpusListAdapter.showFoodListActivityDialog(v, popView, window);
                 break;
             case R.id.no_internet_btn:
                 netDataReque();
@@ -1022,32 +988,35 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 startActivity(intent);
                 break;
             case Constant.STORE_CANT_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT);
+                ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_CANT_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg3), Toast.LENGTH_SHORT);
+                ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg3), Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COST_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg5), Toast.LENGTH_SHORT);
+                ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg5), Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COUNT_NOT_BUY:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_preview_msg15), Toast.LENGTH_SHORT);
+                ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg15), Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_LACK_NOT_BUY:
-                ToastUtils.show(this, data.getMeituan().getMsg(), Toast.LENGTH_SHORT);
+                ToastUtils.show(getApplicationContext(), data.getMeituan().getMsg(), Toast.LENGTH_SHORT);
                 break;
             case Constant.SERVICE_ERROR:
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.service_error), Toast.LENGTH_SHORT);
+                ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.service_error), Toast.LENGTH_SHORT);
                 break;
         }
     }
 
     @Override
     public void onArriveTimeSuccess(ArriveTimeBean data) {
+        mLoading.setVisibility(View.GONE);
+        mNoNet.setVisibility(View.GONE);
+        parentLayout.setVisibility(View.VISIBLE);
         String view_time = data.getMeituan().getData().get(0).getTimelist().get(1).getView_time();
-        ToastUtils.show(this, String.format(getString(R.string.first_arrive_time), view_time), Toast.LENGTH_SHORT);
+        ToastUtils.show(getApplicationContext(), String.format(getString(R.string.first_arrive_time), view_time), Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -1060,10 +1029,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         foodSpuTagsBeans.clear();
         foodSpuTagsBeanName.clear();
         mPoiInfoBean = data.getMeituan().getData().getPoi_info();
-        int status = mPoiInfoBean.getStatus();
-        if (status == 1) {
-            getPresenter().requestArriveTimeData(mWmPoiId);
-        }
         mShopTitle.setText(mPoiInfoBean.getName());
         mDelivery.setText(getString(R.string.distribution_situation, "" + mPoiInfoBean.getMin_price(),
                 "" + mPoiInfoBean.getShipping_fee(), "" + mPoiInfoBean.getAvg_delivery_time()));
@@ -1114,11 +1079,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
 
-        if (mLoading.getVisibility() == View.VISIBLE) {
-            mLoading.setVisibility(View.GONE);
-            mNoNet.setVisibility(View.GONE);
-            parentLayout.setVisibility(View.VISIBLE);
-        }
+        getPresenter().requestPoidetailinfo(map);
     }
 
     private void oneMoreOrder(int section) {
@@ -1302,17 +1263,26 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
 
+        int status = mPoiInfoBean.getStatus();
+        if (status == 1) {
+            getPresenter().requestArriveTimeData(mWmPoiId);
+        }
         Lg.getInstance().d(TAG, "onPoidetailinfoSuccess data = " + data);
     }
 
     @Override
     public void onPoidetailinfoError(String error) {
+        mLoading.setVisibility(View.GONE);
+        mNoNet.setVisibility(View.VISIBLE);
+        parentLayout.setVisibility(View.GONE);
         Lg.getInstance().d(TAG, "onPoidetailinfoError = " + error);
     }
 
     @Override
     public void onArriveTimeError(String error) {
-
+        mLoading.setVisibility(View.GONE);
+        mNoNet.setVisibility(View.VISIBLE);
+        parentLayout.setVisibility(View.GONE);
     }
 
     @Override
