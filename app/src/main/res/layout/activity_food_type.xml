@@ -156,7 +156,7 @@
 
     <RelativeLayout
         android:id="@+id/rl_tip_no_result"
-        android:layout_below="@+id/rl_top"
+        android:layout_below="@+id/rl_search"
         android:layout_width="match_parent"
         android:visibility="gone"
         android:layout_marginTop="@dimen/px72dp"
