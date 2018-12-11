@@ -203,6 +203,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         if (null != mDataList && mDataList.size() >= i) {
             String databeanStr = GsonUtil.toJson(mDataList.get(i));
             CacheUtils.saveAddressBean(databeanStr);
+            sendBroadcast(new Intent(Constant.PULL_LOCATION));
             if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
                 CacheUtils.saveAddrTime(System.currentTimeMillis());
             }
@@ -210,6 +211,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             try {
                 String address = Encryption.desEncrypt(mDataList.get(i).getAddress());
                 CacheUtils.saveAddress(address);
+                HomeActivity.address = address;
                 VoiceManager.getInstance().playTTS(AddressSelectActivity.this, String.format(getString(R.string.harvest_address), address));
             } catch (Exception e) {
                 e.printStackTrace();
