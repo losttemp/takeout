@@ -283,4 +283,7 @@
     <string name="is_network_connected">当前网络不在状态,请稍后重试</string>
     <string name="add_commodity">%d份%s已为你加入购物车</string>
     <string name="choice_specifications">好的，请选择%s的规格</string>
+    <string name="please_choice_commodity">好的，已为你打开外卖服务，现在可以开始挑选了</string>
+    <string name="choice_no_address_voice">好的，已为你打开外卖服务，你尚未添加收货地址，快去点击添加吧</string>
+    <string name="choice_address_voice">好的，已为你打开外卖服务，对我说第几个来进行选择吧</string>
 </resources>

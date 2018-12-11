@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,13 +26,12 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressEditPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
-import com.baidu.mapapi.search.sug.SuggestionResult;
+import com.baidu.mapapi.search.core.PoiInfo;
 
 import java.util.ArrayList;
 
@@ -57,7 +54,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private AddressEditReq mAddrEditReq;
     private AddressAddReq mAddrAddReq;
     AddressListBean.IovBean.DataBean dataBean;
-    private SuggestionResult.SuggestionInfo mLocationBean;
+    private PoiInfo mLocationBean;
 
     @Override
     AddressEditPresenter createPresenter() {
@@ -139,7 +136,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             mLocationBean = intent.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
             address_title.setText(getResources().getString(R.string.add_address));
             iv_del_button.setVisibility(View.INVISIBLE);
-            address_tv.setText(mLocationBean.getKey());
+            address_tv.setText(mLocationBean.getName());
+            et_house_num.setText(mLocationBean.getAddress());
             mTagListView.setTags(tags, "");
             try {
                 et_name.setText(MyApplicationAddressBean.USER_NAMES.get(0));
@@ -168,7 +166,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE) {
             mLocationBean = data.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
-            address_tv.setText(mLocationBean.getKey());
+            address_tv.setText(mLocationBean.getName());
         }
     }
 
@@ -287,8 +285,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 latitude = dataBean.getLatitude();
                 longitude = dataBean.getLongitude();
             } else {
-                latitude = (int) (mLocationBean.getPt().latitude * LocationManager.SPAN);
-                longitude = (int) (mLocationBean.getPt().longitude * LocationManager.SPAN);
+                latitude = (int) (mLocationBean.getLocation().latitude * LocationManager.SPAN);
+                longitude = (int) (mLocationBean.getLocation().longitude * LocationManager.SPAN);
             }
 
             if (isEditMode) {
@@ -302,14 +300,14 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrEditReq.setLatitude(latitude);
                 mAddrEditReq.setLongitude(longitude);
 
-                if (null!=dataBean.getAddress_id()&&dataBean.getAddress_id() != 0) {
+                if (null!=dataBean.getAddress_id()) {
                     mAddrEditReq.setAddress_id(dataBean.getAddress_id());
-                    if (null!=dataBean.getMt_address_id()&&dataBean.getMt_address_id() != 0) {
+                    if (null!=dataBean.getMt_address_id()) {
                         mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
                     }
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
-                    if (null!=dataBean.getMt_address_id()&&dataBean.getMt_address_id() != 0) {
+                    if (null!=dataBean.getMt_address_id()) {
                         mAddrAddReq.setMt_address_id(dataBean.getMt_address_id());
                     }
                     mAddrAddReq.setUser_phone(phone);

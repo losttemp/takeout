@@ -11,13 +11,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
-import com.baidu.mapapi.search.sug.SuggestionResult;
+import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.utils.DistanceUtil;
 
 import java.text.DecimalFormat;
@@ -25,18 +19,14 @@ import java.util.List;
 
 public class AddressSuggestionAdapter extends RecyclerView.Adapter<AddressSuggestionAdapter.AddressViewHolder> {
 
-    private List<SuggestionResult.SuggestionInfo> mSuggestionInfos;
+    private List<PoiInfo> mSuggestionInfos;
     private OnItemClickListener mItemClickListener;
     private LatLng location;
 
-    public AddressSuggestionAdapter(List<SuggestionResult.SuggestionInfo> suggestionInfos) {
+    public AddressSuggestionAdapter(List<PoiInfo> suggestionInfos) {
         mSuggestionInfos = suggestionInfos;
         double span = LocationManager.SPAN + 0.5f;
         location = new LatLng(Constant.LATITUDE / span, Constant.LONGITUDE / span);
-    }
-
-    public void setSuggestionInfos(List<SuggestionResult.SuggestionInfo> suggestionInfos) {
-        this.mSuggestionInfos = suggestionInfos;
     }
 
     public void setOnItemClickListener(OnItemClickListener mItemClickListener) {
@@ -54,7 +44,7 @@ public class AddressSuggestionAdapter extends RecyclerView.Adapter<AddressSugges
 
     @Override
     public void onBindViewHolder(@NonNull AddressViewHolder viewHolder, int position) {
-        SuggestionResult.SuggestionInfo suggestionInfo = mSuggestionInfos.get(position);
+        PoiInfo suggestionInfo = mSuggestionInfos.get(position);
         if (suggestionInfo != null) {
             viewHolder.bindData(position, suggestionInfo);
         }
@@ -71,7 +61,7 @@ public class AddressSuggestionAdapter extends RecyclerView.Adapter<AddressSugges
         private TextView name;
         private TextView address;
         private TextView distance_tv;
-        private SuggestionResult.SuggestionInfo mDataBean;
+        private PoiInfo mDataBean;
 
         private AddressViewHolder(View item) {
             super(item);
@@ -82,12 +72,12 @@ public class AddressSuggestionAdapter extends RecyclerView.Adapter<AddressSugges
             item.setOnClickListener(this);
         }
 
-        public void bindData(int position, SuggestionResult.SuggestionInfo suggestionInfo) {
+        public void bindData(int position, PoiInfo suggestionInfo) {
             this.mDataBean = suggestionInfo;
             suggestionInfo.getCity();
             num.setText((position + 1) + "");
-            name.setText(suggestionInfo.getKey());
-            LatLng pt = suggestionInfo.getPt();
+            name.setText(suggestionInfo.getName());
+            LatLng pt = suggestionInfo.getLocation();
             double distance = DistanceUtil.getDistance(location, pt);
             float distanceValue = Math.round((distance / 10f)) / 100f;
             DecimalFormat decimalFormat = new DecimalFormat("0.0");
@@ -105,7 +95,7 @@ public class AddressSuggestionAdapter extends RecyclerView.Adapter<AddressSugges
     }
 
     public interface OnItemClickListener {
-        void OnItemClick(View v, SuggestionResult.SuggestionInfo dataBean);
+        void OnItemClick(View v, PoiInfo dataBean);
     }
 
 

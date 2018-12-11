@@ -14,6 +14,8 @@ import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.location.BDLocation;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
 
@@ -49,11 +51,14 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
+			VoiceManager.getInstance().playTTS(HomeActivity.this, getString(R.string.please_choice_commodity));
+		}
 		iniView();
 		iniData();
 	}
 
-	
+
 
 	@Override
 	protected void onResume() {

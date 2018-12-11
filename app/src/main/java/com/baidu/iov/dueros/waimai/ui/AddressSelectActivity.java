@@ -3,19 +3,17 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressSelectAdapter;
-import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
@@ -132,15 +130,20 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();//获取LayoutManager
-                if (manager instanceof LinearLayoutManager) {
-                    int position = ((LinearLayoutManager) manager).findLastCompletelyVisibleItemPosition();
-                    if (position == mDataList.size()) {
-                        addBtnView.setVisibility(View.GONE);
-                    } else {
-                        addBtnView.setVisibility(View.VISIBLE);
+                final RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();//获取LayoutManager
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (manager instanceof LinearLayoutManager) {
+                            int position = ((LinearLayoutManager) manager).findLastCompletelyVisibleItemPosition();
+                            if (position == mDataList.size()) {
+                                addBtnView.setVisibility(View.GONE);
+                            } else {
+                                addBtnView.setVisibility(View.VISIBLE);
+                            }
+                        }
                     }
-                }
+                }, 200);
             }
         });
     }
@@ -170,11 +173,16 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
         loadingView.setVisibility(View.GONE);
-        addBtnView.setVisibility(View.VISIBLE);
         if (data.size() == 0) {
+            if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
+                VoiceManager.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.choice_no_address_voice));
+            }
             mNoAddress.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
         } else {
+            if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
+                VoiceManager.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.choice_address_voice));
+            }
             init = true;
             mNoAddress.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
@@ -195,6 +203,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         if (null != mDataList && mDataList.size() >= i) {
             String databeanStr = GsonUtil.toJson(mDataList.get(i));
             CacheUtils.saveAddressBean(databeanStr);
+            sendBroadcast(new Intent(Constant.PULL_LOCATION));
             if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
                 CacheUtils.saveAddrTime(System.currentTimeMillis());
             }
@@ -202,6 +211,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             try {
                 String address = Encryption.desEncrypt(mDataList.get(i).getAddress());
                 CacheUtils.saveAddress(address);
+                HomeActivity.address = address;
                 VoiceManager.getInstance().playTTS(AddressSelectActivity.this, String.format(getString(R.string.harvest_address), address));
             } catch (Exception e) {
                 e.printStackTrace();

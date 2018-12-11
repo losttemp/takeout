@@ -67,9 +67,9 @@ public class ClearEditText extends AppCompatAutoCompleteTextView implements View
         } else {
             showTextClearButton();
             if (maxLength>0&&s.length() > maxLength) {
+                ToastUtils.show(getContext(), getContext().getResources().getString(R.string.edit_text_view_max_length_hint),Toast.LENGTH_SHORT);
                 this.setText(s.toString().substring(0, maxLength));
                 this.setSelection(this.getText().length());
-                ToastUtils.show(getContext(), getContext().getResources().getString(R.string.edit_text_view_max_length_hint),Toast.LENGTH_SHORT);
             }
         }
     }

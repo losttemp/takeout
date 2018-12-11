@@ -121,23 +121,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
             }
         });
-        mPoifoodListModel.requestPoidetailinfo(map, new RequestCallback<PoidetailinfoBean>() {
-
-            @Override
-            public void onSuccess(PoidetailinfoBean data) {
-                if (getUi() != null) {
-                    getUi().onPoidetailinfoSuccess(data);
-                }
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                if (getUi() != null) {
-                    getUi().onPoidetailinfoError(msg);
-                }
-
-            }
-        });
     }
 
     public void requestOrderPreview(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,

@@ -470,13 +470,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 Integer number = poifoodSpusTagsBeans.get(i).getNumber();
                 int minOrderCount = getMinOrderCount(spusBean);
                 if (increase) {
-                    if (firstAdd) {
+                    if (firstAdd && minOrderCount > 1) {
                         number += minOrderCount;
                     } else {
                         number++;
                     }
                 } else {
-                    if (minOrderCount == spusBean.getNumber()) {
+                    if (minOrderCount > 1 && minOrderCount == spusBean.getNumber()) {
                         number -= minOrderCount;
                     } else {
                         number--;
