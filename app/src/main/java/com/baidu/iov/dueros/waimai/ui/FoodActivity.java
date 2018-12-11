@@ -58,6 +58,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     private LinearLayout mLoading;
 
+    private  RelativeLayout mRlTipNoResult;
+
     @Override
     FoodPresenter createPresenter() {
         return new FoodPresenter();
@@ -114,7 +116,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         mWarnNoInternet= findViewById(R.id.warn_no_internet);
         mNoInternetBtn= findViewById(R.id.no_internet_btn);
         rlCenter= findViewById(R.id.rl_center);
-        mLoading = (LinearLayout) findViewById(R.id.ll_loading);
+        mLoading =  findViewById(R.id.ll_loading);
+        mRlTipNoResult=  findViewById(R.id.rl_tip_no_result);
         
         mFirstTypeFoodAdapter=new FirstTypeFoodAdapter(this);
         lvFirstType.setAdapter(mFirstTypeFoodAdapter);
@@ -164,9 +167,9 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     @Override
     public void onSuccess(FilterConditionResponse data) {
         mWarnNoInternet.setVisibility(View.GONE);
-        rlCenter.setVisibility(View.VISIBLE);
         mLoading.setVisibility(View.GONE);
         if (data==null||data.getMeituan()==null||data.getMeituan().getData().getCategory_filter_list().isEmpty()){
+            mRlTipNoResult.setVisibility(View.VISIBLE);
             return;
         }
         categoryFilterList=data.getMeituan().getData().getCategory_filter_list();
@@ -174,6 +177,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         mFirstTypeFoodAdapter.setData(categoryFilterList);
         tvFirstCategory.setText(categoryFilterList.get(0).getName());
         mSecondTypeFoodAdapter.setData(categoryFilterList.get(0).getSub_category_list());
+        mRlTipNoResult.setVisibility(View.GONE);
+        rlCenter.setVisibility(View.VISIBLE);
         
     }
 
@@ -222,8 +227,9 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     public void onError(String error) {
         Lg.getInstance().d(TAG,"msg:"+error);
         mWarnNoInternet.setVisibility(View.GONE);
-        rlCenter.setVisibility(View.VISIBLE);
+        rlCenter.setVisibility(View.GONE);
         mLoading.setVisibility(View.GONE);
+        mRlTipNoResult.setVisibility(View.VISIBLE);
        
     }
 

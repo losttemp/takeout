@@ -154,6 +154,34 @@
         android:layout_below="@+id/rl_search"
         android:visibility="gone"/>
 
-    
-    
+    <RelativeLayout
+        android:id="@+id/rl_tip_no_result"
+        android:layout_below="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/px72dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_tip_no_result"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/px146dp"
+            android:layout_height="@dimen/px146dp"
+            android:src="@drawable/icon_no_internet" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_tip_no_result"
+            android:layout_below="@+id/iv_tip_no_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/px48dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:lineSpacingMultiplier="1.2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px36sp"
+            android:text="@string/no_search_result_position" />
+    </RelativeLayout>
+
+
 </RelativeLayout>
