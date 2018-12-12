@@ -15,7 +15,7 @@
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/px84dp"
+            android:layout_marginLeft="@dimen/px54dp"
             android:src="@drawable/icon_close" />
 
         <com.domain.multipltextview.MultiplTextView
@@ -59,24 +59,25 @@
         android:textSize="@dimen/px30sp"
         app:removeDefaultPadding="true" />
 
-    <TextView
-        android:id="@id/tv_discount"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tv_discount"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/px84dp"
-        android:layout_marginTop="@dimen/px20dp"
-        android:text="@string/discount"
-        android:textColor="@color/full_subtraction_bg"
-        android:textSize="@dimen/px26sp" />
+        android:layout_marginRight="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px20dp" />
 
     <TextView
         android:id="@+id/tv_notice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/px44dp"
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginRight="@dimen/px84dp"
         android:layout_marginTop="@dimen/px28dp"
         android:alpha="0.6"
+        android:ellipsize="end"
+        android:maxLines="3"
         android:textColor="@color/white"
         android:textSize="@dimen/px30sp" />
 </LinearLayout>

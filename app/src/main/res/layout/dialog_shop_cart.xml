@@ -17,15 +17,15 @@
             android:layout_height="@dimen/px60dp"
             android:background="@drawable/youhuixinxi_bg">
 
-            <com.domain.multipltextview.MultiplTextView
+            <TextView
                 android:id="@+id/tv_discount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:textColor="@color/preferential_information"
                 android:textSize="@dimen/px30sp"
-                android:visibility="visible"
-                app:removeDefaultPadding="true" />
+                android:visibility="visible"/>
         </RelativeLayout>
 
 

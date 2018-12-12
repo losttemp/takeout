@@ -14,6 +14,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.domain.multipltextview.MultiplTextView;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class ShoppingCartAdapter extends BaseAdapter {
@@ -68,33 +69,33 @@ public class ShoppingCartAdapter extends BaseAdapter {
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBeans.get(position).getSkus();
         if (skus != null) {
             if (skus.size() == 0) {
-                viewHolder.commodityPrise.setText("" + spusBeans.get(position).getMin_price());
+                viewHolder.commodityPrise.setText(NumberFormat.getInstance().format(spusBeans.get(position).getMin_price()));
                 viewHolder.shopDiscountPrice.setVisibility(View.GONE);
             } else if (skus.size() == 1) {
-                viewHolder.commodityPrise.setText("" + spusBeans.get(position).getSkus().get(0).getPrice());
+                viewHolder.commodityPrise.setText(NumberFormat.getInstance().format(spusBeans.get(position).getSkus().get(0).getPrice()));
                 double origin_price = spusBeans.get(position).getSkus().get(0).getOrigin_price();
                 double price = spusBeans.get(position).getSkus().get(0).getPrice();
                 if (origin_price > price) {
                     viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
-                    viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", "" + spusBeans.get(position).getSkus().get(0).getOrigin_price()));
+                    viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getSkus().get(0).getOrigin_price())));
                     viewHolder.shopDiscountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
                     viewHolder.shopDiscountPrice.setVisibility(View.GONE);
                 }
             } else if (skus.size() > 1) {
-                viewHolder.commodityPrise.setText("" + spusBeans.get(position).getChoiceSkus().get(0).getPrice());
+                viewHolder.commodityPrise.setText(NumberFormat.getInstance().format(spusBeans.get(position).getChoiceSkus().get(0).getPrice()));
                 double origin_price = spusBeans.get(position).getSkus().get(0).getOrigin_price();
                 double price = spusBeans.get(position).getSkus().get(0).getPrice();
                 if (origin_price > price) {
                     viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
-                    viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", "" + spusBeans.get(position).getChoiceSkus().get(0).getOrigin_price()));
+                    viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getChoiceSkus().get(0).getOrigin_price())));
                     viewHolder.shopDiscountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
                     viewHolder.shopDiscountPrice.setVisibility(View.GONE);
                 }
             }
         } else {
-            viewHolder.commodityPrise.setText("" + spusBeans.get(position).getMin_price());
+            viewHolder.commodityPrise.setText(NumberFormat.getInstance().format(spusBeans.get(position).getMin_price()));
         }
 
         viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");

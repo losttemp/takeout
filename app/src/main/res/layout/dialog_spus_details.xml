@@ -15,7 +15,7 @@
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/px84dp"
+            android:layout_marginLeft="@dimen/px54dp"
             android:src="@drawable/icon_close" />
 
         <com.domain.multipltextview.MultiplTextView

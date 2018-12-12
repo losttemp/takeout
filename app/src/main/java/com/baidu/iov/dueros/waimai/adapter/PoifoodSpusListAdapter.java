@@ -31,6 +31,7 @@ import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.domain.multipltextview.MultiplTextView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -217,7 +218,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     int minOrderCount = getMinOrderCount(spusBean);
                     if (minOrderCount > 1) {
                         viewHolder.soldOut.setVisibility(View.VISIBLE);
-                        viewHolder.soldOut.setText(String.format(context.getString(R.string.min_buy), "" + minOrderCount));
+                        viewHolder.soldOut.setText(String.format(context.getString(R.string.min_buy), NumberFormat.getInstance().format(minOrderCount)));
                     } else {
                         viewHolder.soldOut.setVisibility(View.GONE);
                     }
@@ -253,15 +254,15 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         viewHolder.discountPrice.setVisibility(View.GONE);
                         viewHolder.limitBuy.setVisibility(View.GONE);
                     } else {
-                        viewHolder.discountPrice.setText(String.format("¥%1$s", "" + originPrice));
+                        viewHolder.discountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(originPrice)));
                         viewHolder.discountPrice.setVisibility(View.VISIBLE);
                         viewHolder.discountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                         if (skusBeans.get(0).getRestrict() != 0 && skusBeans.get(0).getRestrict() > 0) {
                             viewHolder.limitBuy.setVisibility(View.VISIBLE);
-                            viewHolder.limitBuy.setText(String.format(context.getString(R.string.limit_buy), "" + skusBeans.get(0).getRestrict()));
+                            viewHolder.limitBuy.setText(String.format(context.getString(R.string.limit_buy), NumberFormat.getInstance().format(skusBeans.get(0).getRestrict())));
                         }
                     }
-                    viewHolder.prise.setText("" + price);
+                    viewHolder.prise.setText(NumberFormat.getInstance().format(price));
                 } else {
                     double minOriginPrice = 0;
                     for (int i = 0; i < skusBeans.size(); i++) {
@@ -284,11 +285,11 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     if (spusBean.getMin_price() == minOriginPrice) {
                         viewHolder.discountPrice.setVisibility(View.GONE);
                     } else {
-                        viewHolder.discountPrice.setText(String.format("¥%1$s", "" + minOriginPrice));
+                        viewHolder.discountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(minOriginPrice)));
                         viewHolder.discountPrice.setVisibility(View.VISIBLE);
                         viewHolder.discountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     }
-                    viewHolder.prise.setText("" + spusBean.getMin_price());
+                    viewHolder.prise.setText(NumberFormat.getInstance().format(spusBean.getMin_price()));
                 }
                 viewHolder.shoppingNum.setText("" + spusBean.getNumber());
 
@@ -374,10 +375,10 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         spusDescription.setText(spusBean.getDescription());
                         double originPrice = spusBean.getSkus().get(0).getOrigin_price();
                         double price = spusBean.getSkus().get(0).getPrice();
-                        spusPrice.setText(String.format("¥%1$s", "" + price));
+                        spusPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(price)));
                         if (price < originPrice) {
                             spusOriginPrice.setVisibility(View.VISIBLE);
-                            spusOriginPrice.setText(String.format("¥%1$s", "" + spusBean.getSkus().get(0).getOrigin_price()));
+                            spusOriginPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBean.getSkus().get(0).getOrigin_price())));
                             spusOriginPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                         } else {
                             spusOriginPrice.setVisibility(View.GONE);
