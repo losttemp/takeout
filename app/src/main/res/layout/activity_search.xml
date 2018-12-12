@@ -8,10 +8,10 @@
 	<android.support.v7.widget.AppCompatTextView
 		android:id="@+id/tv_cancel"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:layout_height="@dimen/px108dp"
 		android:layout_alignParentEnd="true"
+		android:gravity="center_vertical"
 		android:layout_marginRight="@dimen/px48dp"
-		android:padding="10dp"
 		android:text="@string/cancel"
 		android:textColor="@color/white"
 		android:textSize="@dimen/px36sp" />

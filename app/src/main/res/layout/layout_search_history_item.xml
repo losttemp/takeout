@@ -20,7 +20,7 @@
 		android:layout_height="@dimen/px96dp"
 		android:layout_alignParentEnd="true"
 		android:layout_centerVertical="true"
-		android:src="@drawable/icon_close" />
+		android:src="@drawable/icon_close_history" />
 
 	<TextView
 		android:id="@+id/tv_history_name"
