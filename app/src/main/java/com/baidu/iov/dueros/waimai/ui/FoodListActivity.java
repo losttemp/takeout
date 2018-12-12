@@ -1221,7 +1221,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
             final FlowLayoutManager layoutManager = new FlowLayoutManager();
             mDiscounts.setLayoutManager(layoutManager);
-            DiscountAdaper discountAdaper = new DiscountAdaper(discountList);
+            DiscountAdaper discountAdaper = new DiscountAdaper(this,discountList);
             mDiscounts.setAdapter(discountAdaper);
             settlement.setText(String.format(getString(R.string.can_not_order), "" + mPoidetailinfoBean.getMeituan().getData().getMin_price()));
             mDistributionFee.setText(String.format(getString(R.string.distribution_fee), "" + mPoidetailinfoBean.getMeituan().getData().getShipping_fee()));

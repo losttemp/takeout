@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,10 +15,14 @@ import java.util.List;
 public class DiscountAdaper extends RecyclerView.Adapter<DiscountAdaper.ViewHolder> {
 
 	private List<String> mData;
+	private Context mContext;
 
-	public DiscountAdaper(List<String> list) {
+	public DiscountAdaper(Context context,List<String> list) {
+		mContext=context;
 		mData = list;
 	}
+
+
 
 	@NonNull
 	@Override
@@ -39,6 +44,11 @@ public class DiscountAdaper extends RecyclerView.Adapter<DiscountAdaper.ViewHold
 	@Override
 	public void onBindViewHolder(ViewHolder viewHolder, int position) {
 		viewHolder.tvText.setText(mData.get(position));
+		if (viewHolder.tvText.getText().toString().startsWith(mContext.getResources().getString(R.string.ten))){
+			viewHolder.tvText.setVisibility(View.GONE);
+		}else{
+			viewHolder.tvText.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Override

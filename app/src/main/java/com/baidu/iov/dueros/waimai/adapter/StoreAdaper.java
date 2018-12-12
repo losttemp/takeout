@@ -30,9 +30,9 @@ import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
 
 public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
-	private  int DISCOUNT_LINE_HEIGHT =22;
+	private  int DISCOUNT_LINE_HEIGHT =0;
 
-	private int space =5;
+	private int space =0;
 
 	private int mFromPageType;
 
@@ -44,8 +44,8 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 					   Context context,int mFromPageType) {
 		mStoreList = storeList;
 		mContext = context;
-		DISCOUNT_LINE_HEIGHT =mContext.getResources().getDimensionPixelSize(R.dimen.px60dp);
-		space=mContext.getResources().getDimensionPixelSize(R.dimen.px6dp);
+		DISCOUNT_LINE_HEIGHT =mContext.getResources().getDimensionPixelSize(R.dimen.px50dp);
+		space=mContext.getResources().getDimensionPixelSize(R.dimen.px10dp);
 		this.mFromPageType=mFromPageType;
 	}
 
@@ -147,7 +147,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 				viewHolder.rvStoreDiscount.addItemDecoration(new SpaceItemDecoration(space));
 			}
 			viewHolder.rvStoreDiscount.setLayoutManager(mFlowLayoutManager);
-			DiscountAdaper discountAdaper = new DiscountAdaper(discounts);
+			DiscountAdaper discountAdaper = new DiscountAdaper(mContext,discounts);
 			viewHolder.rvStoreDiscount.setAdapter(discountAdaper);
 			viewHolder.rlDiscount.setVisibility(View.VISIBLE);
 
