@@ -15,16 +15,14 @@
 
     <TextView
         android:id="@+id/product_name"
-        android:layout_width="@dimen/px432dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/px38dp"
-        android:layout_marginTop="@dimen/px32dp"
+        android:layout_marginTop="@dimen/px28dp"
         android:layout_toEndOf="@+id/product_photo"
+        android:includeFontPadding="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/px36sp"
-        android:ellipsize="end"
-        android:singleLine="true"
-        />
+        android:textSize="@dimen/px36sp" />
 
     <TextView
         android:id="@+id/product_attrs"
@@ -32,9 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/product_name"
         android:layout_below="@+id/product_name"
-        android:layout_marginTop="@dimen/px42dp"
+        android:layout_marginTop="@dimen/px40dp"
         android:alpha="0.6"
-        android:visibility="invisible"
+        android:includeFontPadding="false"
+        android:visibility="gone"
         android:textColor="@color/white"
         android:textSize="@dimen/px30sp"/>
 
@@ -77,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginEnd="@dimen/px28dp"
-        android:layout_marginTop="@dimen/px28dp"
+        android:layout_marginTop="@dimen/px32dp"
         android:layout_toStartOf="@id/product_price"
         android:alpha="0.6"
         android:textColor="@color/white"
@@ -90,7 +89,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/px84dp"
-        android:layout_marginTop="@dimen/px28dp"
+        android:layout_marginTop="@dimen/px32dp"
         android:textColor="@color/money_color"
         android:textSize="@dimen/px36sp"
         app:removeDefaultPadding="true" />

@@ -247,11 +247,6 @@
                         android:layout_marginEnd="@dimen/px84dp" />
                 </LinearLayout>
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/discounts_layout"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical" />-->
                 <LinearLayout
                     android:id="@+id/discounts_layout"
                     android:layout_width="match_parent"
@@ -278,11 +273,12 @@
                         android:layout_marginEnd="@dimen/px84dp" />
                 </LinearLayout>
 
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/px2dp"
-                    android:layout_marginTop="@dimen/px30dp"
                     android:layout_marginLeft="@dimen/px84dp"
+                    android:layout_marginTop="@dimen/px30dp"
                     android:layout_marginRight="@dimen/px84dp"
                     android:alpha="0.06"
                     android:background="@color/white" />
@@ -411,7 +407,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/pay_order_type"/>
+                        android:text="@string/pay_order_type" />
 
                     <com.domain.multipltextview.MultiplTextView
                         android:id="@+id/delivery_type"
@@ -428,7 +424,6 @@
                     android:layout_marginRight="@dimen/px84dp"
                     android:alpha="0.06"
                     android:background="@color/white" />
-
 
 
                 <LinearLayout
@@ -530,6 +525,7 @@
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
+
     <include
         android:id="@+id/network_view"
         layout="@layout/warn_no_internet"

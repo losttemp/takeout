@@ -10,68 +10,70 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px2dp"
-        android:layout_marginEnd="@dimen/px86dp"
         android:layout_marginStart="@dimen/px84dp"
+        android:layout_marginEnd="@dimen/px86dp"
         android:alpha="0.06"
         android:background="@color/white" />
 
     <com.domain.multipltextview.MultiplTextView
         android:id="@+id/tv_num"
-        app:removeDefaultPadding="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       android:layout_marginTop="@dimen/px36dp"
-        android:layout_marginStart="@dimen/px84dp"
         android:layout_below="@+id/divider"
+        android:layout_marginStart="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px36dp"
         android:gravity="center"
         android:text="1"
         android:textColor="@color/white"
-        android:textSize="@dimen/px48sp" />
+        android:textSize="@dimen/px48sp"
+        app:removeDefaultPadding="true" />
 
 
     <RelativeLayout
         android:id="@+id/address_panel"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/px160dp">
-
-        <TextView
-            android:id="@+id/tv_address"
-            android:layout_width="@dimen/px500dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/px84dp"
-            android:layout_marginTop="@dimen/px34dp"
-            android:gravity="start"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px36sp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            />
+        android:layout_width="@dimen/px700dp"
+        android:layout_height="@dimen/px40dp"
+        android:layout_marginTop="@dimen/px34dp"
+        android:layout_marginStart="@dimen/px160dp"
+        >
 
         <TextView
             android:id="@+id/tv_address_type"
             android:layout_width="@dimen/px110dp"
             android:layout_height="@dimen/px40dp"
-            android:layout_marginStart="@dimen/px56dp"
-            android:layout_marginTop="@dimen/px32dp"
-            android:layout_toEndOf="@id/tv_address"
+            android:includeFontPadding="false"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/px30sp" />
-
-        <com.domain.multipltextview.MultiplTextView
-            android:id="@+id/tv_name"
+        <TextView
+            android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/tv_address"
-            android:layout_below="@+id/tv_address"
-            android:layout_marginTop="@dimen/px26dp"
-            android:alpha="0.6"
+            android:includeFontPadding="false"
+            android:layout_toEndOf="@id/tv_address_type"
+            android:layout_marginStart="@dimen/px40dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="@dimen/px30sp"
-            app:removeDefaultPadding="true" />
+            android:textSize="@dimen/px36sp" />
+
+
+
 
     </RelativeLayout>
+
+    <com.domain.multipltextview.MultiplTextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/address_panel"
+        android:layout_marginStart="@dimen/px160dp"
+        android:layout_marginTop="@dimen/px26dp"
+        android:alpha="0.6"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px30sp"
+        app:removeDefaultPadding="true" />
 
     <ImageView
         android:id="@+id/img_select"

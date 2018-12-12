@@ -4,28 +4,31 @@
     android:layout_height="@dimen/px168dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <TextView
+        android:id="@+id/tv_address_type_title"
+        android:layout_width="@dimen/px110dp"
+        android:layout_height="@dimen/px40dp"
+        android:layout_marginStart="@dimen/px84dp"
+        android:layout_marginTop="@dimen/px40dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px30sp" />
+
     <TextView
         android:id="@+id/tv_address_title"
-        android:layout_width="@dimen/px670dp"
+        android:layout_width="@dimen/px680dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/px84dp"
+        android:layout_marginStart="@dimen/px40dp"
         android:layout_marginTop="@dimen/px34dp"
+        android:layout_toEndOf="@id/tv_address_type_title"
         android:gravity="start"
         android:textColor="@color/white"
         android:textSize="@dimen/px36sp"
         android:ellipsize="end"
         android:maxLines="1"/>
 
-    <TextView
-        android:id="@+id/tv_address_type_title"
-        android:layout_width="@dimen/px110dp"
-        android:layout_height="@dimen/px40dp"
-        android:layout_marginStart="@dimen/px56dp"
-        android:layout_marginTop="@dimen/px32dp"
-        android:layout_toEndOf="@id/tv_address_title"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/px30sp" />
+
 
     <com.domain.multipltextview.MultiplTextView
         android:id="@+id/tv_name_title"
