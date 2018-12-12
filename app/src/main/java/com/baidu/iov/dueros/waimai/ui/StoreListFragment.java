@@ -270,6 +270,11 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 						public void onDismiss() {
 							mIvFilter.setImageResource(R.drawable.arrow_down);
 							mViewBg.setVisibility(View.GONE);
+                            if (mStoreReq.getMigFilter()==null||mStoreReq.getMigFilter().isEmpty()) {
+                                mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
+                            } else {
+                                mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
+                            }
 						}
 					});
 				}

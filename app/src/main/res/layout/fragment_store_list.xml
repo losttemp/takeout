@@ -167,7 +167,7 @@
 		android:id="@+id/view_bg"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_below="@+id/ll_filter"
+		android:layout_below="@+id/view"
 		android:background="@color/pop_window_bg"
 		android:visibility="gone" />
 
