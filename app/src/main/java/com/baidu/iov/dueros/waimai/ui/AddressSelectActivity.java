@@ -39,6 +39,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private boolean init = false;
     private View networkView;
     private View loadingView;
+    private boolean isNeedPlayTTS;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -54,6 +55,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_select);
+        isNeedPlayTTS = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
         getPresenter().initDesBeans();
         init = false;
         initView();
@@ -174,14 +176,16 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
         loadingView.setVisibility(View.GONE);
         if (data.size() == 0) {
-            if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
+            if (isNeedPlayTTS) {
                 VoiceManager.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.choice_no_address_voice));
+                isNeedPlayTTS = false;
             }
             mNoAddress.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
         } else {
-            if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
+            if (isNeedPlayTTS) {
                 VoiceManager.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.choice_address_voice));
+                isNeedPlayTTS = false;
             }
             init = true;
             mNoAddress.setVisibility(View.GONE);

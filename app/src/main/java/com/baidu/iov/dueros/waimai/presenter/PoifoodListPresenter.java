@@ -85,7 +85,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         mPoifoodListModel.onDestroy();
     }
 
-    public void requestData(ArrayMap<String, String> map) {
+    public void requestPoifoodList(ArrayMap<String, String> map) {
         mPoifoodListModel.requestPoifoodList(map, new RequestCallback<PoifoodListBean>() {
 
             @Override
@@ -104,6 +104,9 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
                 }
             }
         });
+    }
+
+    public void requestPoidetailinfo(ArrayMap<String, String> map) {
         mPoifoodListModel.requestPoidetailinfo(map, new RequestCallback<PoidetailinfoBean>() {
 
             @Override
