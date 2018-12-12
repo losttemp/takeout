@@ -298,7 +298,12 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		List<String> list = new ArrayList<>();
 		for (DiscountsBean bean : discounts) {
 			String[] name = bean.getInfo().split(";");
-			list.addAll(Arrays.asList(name));
+			for (int i=0;i<name.length;i++){
+				if (!name[i].startsWith(mContext.getResources().getString(R.string.ten))){
+					list.add(name[i]);
+				}
+			}
+			
 		}
 
 		return list;

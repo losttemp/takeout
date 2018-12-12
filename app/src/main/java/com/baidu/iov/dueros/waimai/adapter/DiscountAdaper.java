@@ -44,11 +44,6 @@ public class DiscountAdaper extends RecyclerView.Adapter<DiscountAdaper.ViewHold
 	@Override
 	public void onBindViewHolder(ViewHolder viewHolder, int position) {
 		viewHolder.tvText.setText(mData.get(position));
-		if (viewHolder.tvText.getText().toString().startsWith(mContext.getResources().getString(R.string.ten))){
-			viewHolder.tvText.setVisibility(View.GONE);
-		}else{
-			viewHolder.tvText.setVisibility(View.VISIBLE);
-		}
 	}
 
 	@Override
