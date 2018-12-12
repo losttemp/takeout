@@ -48,6 +48,8 @@
     <string name="delete_history_cancel">取消</string>
     <string name="delete_history_ok">确定</string>
 
+    <string name="supporting_invoices">支持开发票</string>
+
 
     <!--FilterPopWindow-->
     <string name="ok">确定</string>

@@ -15,26 +15,26 @@ import java.util.List;
 public class FilterSubTypeAdapter extends BaseAdapter {
 
 	private List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean>
-			mHistorys;
+			mItemsBeans;
 	private Context mContext;
 	private LayoutInflater mLayoutInflater;
 
 	public FilterSubTypeAdapter(List<FilterConditionResponse.MeituanBean.DataBean
-			.ActivityFilterListBean.ItemsBean> historys, Context context) {
+			.ActivityFilterListBean.ItemsBean> itemsBeans, Context context) {
 		this.mLayoutInflater = LayoutInflater.from(context);
 		mContext = context;
-		mHistorys = historys;
+		mItemsBeans = itemsBeans;
 	}
 
 	@Override
 	public int getCount() {
-		return mHistorys.size();
+		return mItemsBeans.size();
 	}
 
 	@Override
 	public FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean getItem
 			(int position) {
-		return mHistorys.get(position);
+		return mItemsBeans.get(position);
 	}
 
 	@Override
@@ -55,11 +55,16 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.tvSubTypeName.setText(mHistorys.get(position).getName());
-		if (mHistorys.get(position).isChcked()) {
+		viewHolder.tvSubTypeName.setText(mItemsBeans.get(position).getName());
+		if (mItemsBeans.get(position).isChcked()) {
 			viewHolder.tvSubTypeName.setBackgroundResource(R.drawable.shape_filter_selected_bg);
 		} else {
 			viewHolder.tvSubTypeName.setBackgroundResource(R.drawable.shape_filter_unselected_bg);
+		}
+		if (viewHolder.tvSubTypeName.getText().toString().equals(mContext.getResources().getString(R.string.supporting_invoices))){
+			viewHolder.tvSubTypeName.setVisibility(View.GONE);
+		}else{
+			viewHolder.tvSubTypeName.setVisibility(View.VISIBLE);
 		}
 
 		return convertView;

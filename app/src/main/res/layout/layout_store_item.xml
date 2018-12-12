@@ -191,7 +191,7 @@
 				android:id="@+id/rl_discount"
 				android:layout_width="match_parent"
 				android:layout_marginTop="@dimen/px18dp"
-				android:minHeight="@dimen/px48dp"
+				android:minHeight="@dimen/px46dp"
 				android:layout_height="wrap_content">
 
 				<android.support.v7.widget.RecyclerView
