@@ -55,9 +55,9 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
             textView.setTextColor(mTextColor);
             if (!TextUtils.isEmpty(type)&&type.equals(tags.get(i))) {
                 setmTagValue(type);
-                textView.setBackgroundColor(Color.BLACK);
+                textView.setBackgroundColor(this.getResources().getColor(R.color.address_select_type_color));
             } else {
-                textView.setBackgroundColor(Color.GRAY);
+                textView.setBackgroundColor(this.getResources().getColor(R.color.address_type_color));
             }
             int width = getResources().getDimensionPixelSize(R.dimen.px170dp);
             int height = getResources().getDimensionPixelSize(R.dimen.px58dp);
@@ -76,11 +76,11 @@ public class TagListView extends LinearLayout implements View.OnClickListener {
         for (int i = 0; i < mTags.size(); i++) {
             if (v.getTag().equals(mTags.get(i))) {
                 this.mTagValue = mTags.get(i);
-                v.setBackgroundColor(Color.BLACK);
+                v.setBackgroundColor(this.getResources().getColor(R.color.address_select_type_color));
                 v.setClickable(false);
             } else {
                 View childAt = this.getChildAt(i);
-                childAt.setBackgroundColor(Color.GRAY);
+                childAt.setBackgroundColor(this.getResources().getColor(R.color.address_type_color));
                 childAt.setClickable(true);
             }
         }

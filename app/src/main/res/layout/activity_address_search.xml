@@ -61,25 +61,21 @@
                 android:id="@+id/address_search_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/px30dp"
                 android:layout_gravity="center_vertical"
                 android:background="@null"
                 android:hint="@string/address_search_hint"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:maxLines="1"
+                android:textColorHint="@color/hint_view_color"
                 android:singleLine="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px36sp" />
         </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px2dp"
-        android:layout_marginLeft="@dimen/px84dp"
-        android:layout_marginTop="@dimen/px36dp"
-        android:layout_marginRight="@dimen/px84dp"
-        android:background="@color/dark_gray" />
+
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -100,7 +96,6 @@
             android:visibility="gone">
 
             <ImageView
-                android:id="@+id/iv_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

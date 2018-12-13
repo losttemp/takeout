@@ -66,4 +66,11 @@
     <color name="full_subtraction_bg">#ffc600</color>
     <color name="preferential_information">#0adfff</color>
     <color name="list_bg">#414A55</color>
+    <!--8f9194-->
+    <color name="split_view_color">#10FFFFFF</color>
+    <color name="hint_view_color">#60FFFFFF</color>
+    <color name="simple_item_bg_color">#323A44</color>
+    <color name="address_select_type_color">#00A0B9</color>
+    <color name="address_type_color">#10FFFFFF</color>
+
 </resources>

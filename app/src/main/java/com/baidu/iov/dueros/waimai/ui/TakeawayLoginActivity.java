@@ -76,6 +76,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         mWVMeituan.setWebViewClient(webViewClient);
         mWVMeituan.setWebChromeClient(webChromeClient);
         networkView = findViewById(R.id.network_view);
+        networkView.setBackground(getResources().getDrawable(R.drawable.app_bg));
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
         WebSettings webSettings = mWVMeituan.getSettings();
         webSettings.setJavaScriptEnabled(true);

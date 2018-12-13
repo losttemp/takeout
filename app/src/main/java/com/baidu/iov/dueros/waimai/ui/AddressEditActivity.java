@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -129,7 +130,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (null != dataBean.getAddress_id() && dataBean.getAddress_id() != 0) {
+            if (null != dataBean.getAddress_id()) {
                 iv_del_button.setVisibility(View.VISIBLE);
             }
         } else {
@@ -152,6 +153,24 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         et_name.setThreshold(1);
         et_name.setAdapter(nameAdapter);
         et_phone.setAdapter(phoneAdapter);
+        et_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                AutoCompleteTextView view = (AutoCompleteTextView) v;
+                if (hasFocus){
+                    view.showDropDown();
+                }
+            }
+        });
+        et_phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                AutoCompleteTextView view = (AutoCompleteTextView) v;
+                if (hasFocus){
+                    view.showDropDown();
+                }
+            }
+        });
     }
 
 
