@@ -61,7 +61,8 @@
         <activity android:name=".ui.PaySuccessActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.OrderDetailsActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:exported="true"/>
         <activity
             android:name=".ui.SearchActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

@@ -38,6 +38,9 @@ import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.NoClikRecyclerView;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Calendar;
@@ -309,6 +312,14 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     private void initData() {
         order_id = getIntent().getLongExtra(Constant.ORDER_ID, -1);
+        if (null != getIntent().getStringExtra("extra") && !getIntent().getStringExtra("extra").equals("")){
+            try {
+                JSONObject jsonObject = new JSONObject(getIntent().getStringExtra("extra"));
+                order_id = Long.valueOf(jsonObject.getString("order_id"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         expectedTime = getIntent().getLongExtra(Constant.EXPECTED_TIME, 0);
         mOrderDetailsReq = new OrderDetailsReq();
         mOrderDetailsReq.setId(order_id);
