@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -86,6 +87,11 @@ public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 				if (getUi() != null) {
 					getUi().onSuggestFailure(msg);
 				}
+			}
+
+			@Override
+			public void getLogid(String id) {
+				Log.d(TAG, "requestSuggestList getLogid: "+id);
 			}
 		});
 	}

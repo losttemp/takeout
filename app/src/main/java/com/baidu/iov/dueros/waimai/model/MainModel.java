@@ -40,6 +40,14 @@ public class MainModel implements IMainModel {
             public void onFailed(String msg) {
                 callback.onFailure(msg);
             }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+
+                }
+            }
         });
     }
 

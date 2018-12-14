@@ -1,5 +1,7 @@
 package com.baidu.iov.dueros.waimai.model;
 
+import android.util.Log;
+
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
@@ -32,6 +34,14 @@ public class SubmitInfoImpl implements ISubmitInfoModel {
             public void onFailed(String msg) {
                 callback.onFailure(msg);
             }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestArriveTimeList getLogid: "+id);
+                }
+            }
         });
     }
 
@@ -52,6 +62,14 @@ public class SubmitInfoImpl implements ISubmitInfoModel {
             public void onFailed(String msg) {
                 callback.onFailure(msg);
             }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestOrderPreview getLogid: "+id);
+                }
+            }
         });
     }
 
@@ -71,6 +89,14 @@ public class SubmitInfoImpl implements ISubmitInfoModel {
             @Override
             public void onFailed(String msg) {
                 callback.onFailure(msg);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestOrderSubmitData getLogid: "+id);
+                }
             }
         });
 

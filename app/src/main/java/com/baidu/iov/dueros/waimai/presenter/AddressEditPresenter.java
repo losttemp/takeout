@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -67,6 +68,11 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
                     getUi().updateAddressFail(msg);
                 }
             }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestUpdateAddressData getLogid: "+id);
+            }
         });
     }
 
@@ -86,6 +92,11 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
                     getUi().addAddressFail(msg);
                 }
             }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestAddAddressData getLogid: "+id);
+            }
         });
     }
 
@@ -104,6 +115,11 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
                 if (null != getUi()){
                     getUi().deleteAddressFail(msg);
                 }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestDeleteAddressData getLogid: "+id);
             }
         });
     }

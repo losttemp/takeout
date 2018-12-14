@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
@@ -107,6 +108,11 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
                     getUi().failure(msg);
                 }
             }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestMeituanAuth getLogid: "+id);
+            }
         });
     }
 
@@ -127,6 +133,11 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
                 if (null != getUi()) {
                     getUi().getAddressListFail(msg);
                 }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestAddressListData getLogid: "+id);
             }
         });
 

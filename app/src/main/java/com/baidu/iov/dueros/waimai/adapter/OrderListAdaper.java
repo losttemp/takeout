@@ -179,7 +179,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             }
 
             payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
-            String user_phone = payloadBean.getUser_phone();
+//            String user_phone = payloadBean.getUser_phone();
             int total_count = 0;
             double total_price = ((double)extraBean.getOrderInfos().getGoods_total_price())/100;
             for (int i = 0; i < extraBean.getOrderInfos().getFood_list().size(); i++) {

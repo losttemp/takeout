@@ -1,4 +1,6 @@
 package com.baidu.iov.dueros.waimai.model;
+import android.util.Log;
+
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
@@ -29,6 +31,14 @@ public class FoodModel implements IFoodModel {
             public void onFailed(String msg) {
                 if (callback!=null) {
                     callback.onFailure(msg);
+                }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "getLogid: "+id);
                 }
             }
         });

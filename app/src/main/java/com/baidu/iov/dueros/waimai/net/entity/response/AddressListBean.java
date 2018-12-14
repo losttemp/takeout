@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.net.entity.response;
 
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 
 public class AddressListBean {
@@ -39,7 +40,7 @@ public class AddressListBean {
             this.data = data;
         }
 
-        public static class DataBean implements Serializable{
+        public static class DataBean implements Serializable, Comparable<DataBean> {
 
             private String address;
             private Integer latitude;
@@ -158,6 +159,11 @@ public class AddressListBean {
 
             public void setSex(Integer sex) {
                 this.sex = sex;
+            }
+
+            @Override
+            public int compareTo(DataBean o) {
+                return o.getCanShipping() - this.getCanShipping() ;
             }
         }
     }
