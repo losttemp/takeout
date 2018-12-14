@@ -18,8 +18,10 @@ import com.baidu.iov.dueros.waimai.adapter.AddressSuggestionAdapter;
 import com.baidu.iov.dueros.waimai.presenter.AddressSuggestionPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ClearEditText;
+import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
@@ -29,8 +31,11 @@ import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
+import com.baidu.mapapi.utils.DistanceUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPresenter, AddressSuggestionPresenter.AddressSuggestionUi>
@@ -48,6 +53,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     private ImageView iv_back;
     private RelativeLayout selectCityView;
     private PoiSearch poiSearch;
+    private LatLng location;
 
     @Override
     AddressSuggestionPresenter createPresenter() {
@@ -120,6 +126,8 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
 
     private void initPoiInfo(){
         poiSearch = PoiSearch.newInstance();
+        double span = LocationManager.SPAN + 0.5f;
+        location = new LatLng(Constant.LATITUDE / span, Constant.LONGITUDE / span);
         // 设置检索监听器
         poiSearch.setOnGetPoiSearchResultListener(new OnGetPoiSearchResultListener() {
             @Override
@@ -133,6 +141,20 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                     List<PoiInfo> poiAddrInfoList = poiResult.getAllPoi();
                     mAllSuggestions.clear();
                     if (poiAddrInfoList != null && poiAddrInfoList.size() > 0) {
+                        Collections.sort(poiAddrInfoList, new Comparator<PoiInfo>(){
+                            @Override
+                            public int compare(PoiInfo o1, PoiInfo o2) {
+                                double o11 = DistanceUtil.getDistance(location, o1.getLocation());
+                                double o22 = DistanceUtil.getDistance(location, o2.getLocation());
+                                if(o11 > o22){
+                                    return 1;
+                                }
+                                if(o11 == o22){
+                                    return 0;
+                                }
+                                return -1;
+                            }
+                        });
                         mErrorLL.setVisibility(View.GONE);
                         mRecyclerView.setVisibility(View.VISIBLE);
                         mAllSuggestions.addAll(poiAddrInfoList);
