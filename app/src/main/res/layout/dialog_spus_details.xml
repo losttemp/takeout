@@ -74,7 +74,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/px30dp"
             android:layout_marginTop="@dimen/px30dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_blue"
             android:text="@string/add_to_cart"
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp" />
@@ -86,7 +86,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/px30dp"
             android:layout_marginTop="@dimen/px30dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_blue"
             android:text="@string/specifications"
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp"

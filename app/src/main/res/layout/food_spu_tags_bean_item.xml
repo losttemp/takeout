@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/px36dp"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/px48sp"
             app:removeDefaultPadding="true" />
 
         <FrameLayout

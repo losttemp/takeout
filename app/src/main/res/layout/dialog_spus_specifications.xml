@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:maxHeight="@dimen/px594dp"
     android:background="@drawable/card_bg"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px126dp">
 
@@ -31,22 +31,17 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/ll_line_01"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px2dp"
-        android:layout_below="@+id/rl_title"
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginRight="@dimen/px84dp"
         android:alpha="0.06"
-        android:background="@color/white"
-        android:orientation="horizontal" />
+        android:background="@color/white" />
 
     <ListView
         android:id="@+id/gv_specifications"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ll_line_02"
-        android:layout_below="@+id/ll_line_01"
         android:layout_marginBottom="@dimen/px50dp"
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginRight="@dimen/px84dp"
@@ -54,21 +49,16 @@
         android:scrollbars="none" />
 
     <LinearLayout
-        android:id="@+id/ll_line_02"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px2dp"
-        android:layout_above="@+id/rl_toolbar"
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginRight="@dimen/px84dp"
         android:alpha="0.06"
-        android:background="@color/white"
-        android:orientation="horizontal" />
+        android:background="@color/white" />
 
     <RelativeLayout
-        android:id="@+id/rl_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px168dp"
-        android:layout_alignParentBottom="true"
         android:layout_marginRight="@dimen/px84dp">
 
         <com.domain.multipltextview.MultiplTextView
@@ -90,7 +80,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/px30dp"
             android:layout_marginTop="@dimen/px30dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_blue"
             android:text="@string/add_to_cart"
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp" />
@@ -131,4 +121,4 @@
                 android:src="@drawable/increase" />
         </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

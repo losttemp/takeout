@@ -54,7 +54,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.trade_widget, null);
             viewHolder = new ViewHolder();
-            viewHolder.commodityName = (MultiplTextView) convertView.findViewById(R.id.commodityName);
+            viewHolder.commodityName = (TextView) convertView.findViewById(R.id.commodityName);
             viewHolder.commodityPrise = (MultiplTextView) convertView.findViewById(R.id.commodityPrise);
             viewHolder.increase = (ImageView) convertView.findViewById(R.id.increase);
             viewHolder.reduce = (ImageView) convertView.findViewById(R.id.reduce);
@@ -170,7 +170,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        public MultiplTextView commodityName;
+        public TextView commodityName;
         public MultiplTextView commodityPrise;
         public ImageView increase;
         public ImageView reduce;

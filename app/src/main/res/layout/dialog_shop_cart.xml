@@ -139,7 +139,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/px84dp"
-                    android:background="@drawable/btn_bg"
+                    android:background="@drawable/btn_blue"
                     android:text="@string/confirmation_of_the_order"
                     android:textColor="@color/white"
                     android:textSize="@dimen/px36sp" />

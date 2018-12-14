@@ -12,13 +12,14 @@
         android:layout_centerVertical="true"
         android:orientation="vertical">
 
-        <com.domain.multipltextview.MultiplTextView
+        <TextView
             android:id="@+id/commodityName"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/px500dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/px36sp"
-            app:removeDefaultPadding="true" />
+            android:textSize="@dimen/px36sp" />
 
         <com.domain.multipltextview.MultiplTextView
             android:id="@+id/tv_shop_specifications"

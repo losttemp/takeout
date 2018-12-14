@@ -694,7 +694,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     settlement.setEnabled(false);
                 } else {
                     settlement.setText(R.string.confirmation_of_the_order);
-                    settlement.setBackgroundResource(R.drawable.btn_bg);
+                    settlement.setBackgroundResource(R.drawable.btn_blue);
                     settlement.setEnabled(true);
                 }
                 if (mCartSettlement != null) {
@@ -707,7 +707,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         mCartSettlement.setEnabled(false);
                     } else {
                         mCartSettlement.setText(R.string.confirmation_of_the_order);
-                        mCartSettlement.setBackgroundResource(R.drawable.btn_bg);
+                        mCartSettlement.setBackgroundResource(R.drawable.btn_blue);
                         mCartSettlement.setEnabled(true);
                     }
                 }
@@ -1040,8 +1040,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mBulletin.setText(getString(R.string.notice, mPoiInfoBean.getBulletin()));
         GlideApp.with(this)
                 .load(mPoiInfoBean.getPic_url())
-                .placeholder(R.mipmap.ic_launcher)
-                .centerCrop()
                 .into(mShopPicture);
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> food_spu_tags = data.getMeituan().getData().getFood_spu_tags();
         for (int i = 0; i < food_spu_tags.size(); i++) {
@@ -1277,9 +1275,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     @Override
     public void onPoidetailinfoError(String error) {
-        mLoading.setVisibility(View.GONE);
-        mNoNet.setVisibility(View.VISIBLE);
-        parentLayout.setVisibility(View.GONE);
         Lg.getInstance().d(TAG, "onPoidetailinfoError = " + error);
     }
 

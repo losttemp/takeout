@@ -29,6 +29,7 @@ import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.bumptech.glide.Glide;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.text.NumberFormat;
@@ -243,8 +244,6 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 final String pictureUrl = spusBean.getPicture();
                 GlideApp.with(context)
                         .load(pictureUrl)
-                        .placeholder(R.mipmap.ic_launcher)
-                        .centerCrop()
                         .into(viewHolder.head);
 
                 if (skusBeans.size() == 1) {
@@ -386,8 +385,6 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         spusName.setText(spusBean.getName());
                         GlideApp.with(context)
                                 .load(pictureUrl)
-                                .placeholder(R.mipmap.ic_launcher)
-                                .centerCrop()
                                 .into(spusPicture);
                         addToCart.setOnClickListener(new View.OnClickListener() {
                             @Override
