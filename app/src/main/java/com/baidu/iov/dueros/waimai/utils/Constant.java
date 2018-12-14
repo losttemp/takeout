@@ -94,4 +94,6 @@ public class Constant {
     public final static int SERVICE_ERROR = 26;
 
     public static final String IS_NEED_VOICE_FEEDBACK = "isNeedVoiceFeedback";
+
+    public static String UUID = "uuid";
 }
