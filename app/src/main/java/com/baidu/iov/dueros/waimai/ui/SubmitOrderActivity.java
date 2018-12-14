@@ -346,7 +346,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mListViewTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                isChoiceAddressBack = true;
                 if (mDataBean != null) {
                     String type = mDataBean.get(mCurDateItem).getTimelist().get(position).getDate_type_tip();
                     String time = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_time();
@@ -422,6 +422,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             case Constant.SELECT_DELIVERY_ADDRESS:
                 if (data != null) {
+                    isChoiceAddressBack = true;
                     mAddressData = (AddressListBean.IovBean.DataBean) data.getSerializableExtra(ADDRESS_DATA);
                     getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData);
 
@@ -432,7 +433,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         if (isNeedVoice) {
                             VoiceManager.getInstance().playTTS(SubmitOrderActivity.this,
                                     String.format(getString(R.string.commodity_address), address));
-                            isChoiceAddressBack = true;
                         }
                         String name = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
                                 + Encryption.desEncrypt(mAddressData.getUser_phone());
