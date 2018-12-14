@@ -1,5 +1,7 @@
 package com.baidu.iov.dueros.waimai.model;
 
+import android.util.Log;
+
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
@@ -11,6 +13,7 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 
 public class OrderDetailsModel implements IOrderDetailsModel {
 
+    private static final String TAG = OrderDetailsModel.class.getSimpleName();
     @Override
     public void onReady() {
 
@@ -37,6 +40,14 @@ public class OrderDetailsModel implements IOrderDetailsModel {
                     callback.onFailure(msg);
                 }
             }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestMeituanAuth getLogid: "+id);
+                }
+            }
         });
 
     }
@@ -55,6 +66,14 @@ public class OrderDetailsModel implements IOrderDetailsModel {
             public void onFailed(String msg) {
                 if (callback!=null) {
                     callback.onFailure(msg);
+                }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestOrderCancel getLogid: "+id);
                 }
             }
         });

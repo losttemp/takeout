@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -103,6 +104,11 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
                     getUi().onPoifoodListError(msg);
                 }
             }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestPoifoodList getLogid: "+id);
+            }
         });
     }
 
@@ -122,6 +128,11 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
                     getUi().onPoidetailinfoError(msg);
                 }
 
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestPoidetailinfo getLogid: "+id);
             }
         });
     }
@@ -145,6 +156,11 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
                 if (getUi() != null) {
                     getUi().onOrderPreviewFailure(msg);
                 }
+            }
+
+            @Override
+            public void getLogid(String id) {
+
             }
         });
     }
@@ -202,6 +218,11 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
                 if (null != getUi()) {
                     getUi().onArriveTimeError(msg);
                 }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestArriveTimeData getLogid: "+id);
             }
         });
 

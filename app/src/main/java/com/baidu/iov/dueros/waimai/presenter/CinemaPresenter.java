@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.model.ICinemaModel;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
@@ -72,6 +73,11 @@ public class CinemaPresenter extends Presenter<CinemaPresenter.CinemaUi> {
             @Override
             public void onFailure(String msg) {
                 getUi().failure(msg);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "getLogid: "+id);
             }
         });
     }

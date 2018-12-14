@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.model.IMainModel;
@@ -63,6 +64,11 @@ public class MainPresenter extends Presenter<MainPresenter.MainUi> {
             @Override
             public void onFailure(String error) {
                 getUi().failure(error);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "getLogid: "+id);
             }
         });
     }

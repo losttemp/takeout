@@ -12,6 +12,7 @@ import android.util.Log;
 
 public class OrderListModel implements IOrderListModel {
 
+    private static final String TAG = OrderListModel.class.getSimpleName();
     @Override
     public void onReady() {
 
@@ -38,6 +39,14 @@ public class OrderListModel implements IOrderListModel {
             public void onFailed(String msg) {
                 callback.onFailure(msg);
             }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestOrderList getLogid: "+id);
+                }
+            }
         });
 
     }
@@ -56,6 +65,14 @@ public class OrderListModel implements IOrderListModel {
             @Override
             public void onFailed(String msg) {
                 callback.onFailure(msg);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestOrderCancel getLogid: "+id);
+                }
             }
         });
     }

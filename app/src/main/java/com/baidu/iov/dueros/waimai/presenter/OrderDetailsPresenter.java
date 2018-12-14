@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -80,6 +81,11 @@ public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.Order
                     getUi().failure(msg);
                 }
             }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestOrderDetails getLogid: "+id);
+            }
         });
     }
 
@@ -97,6 +103,11 @@ public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.Order
                 if (getUi() != null) {
                     getUi().failure(msg);
                 }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestOrderCancel getLogid: "+id);
             }
         });
     }

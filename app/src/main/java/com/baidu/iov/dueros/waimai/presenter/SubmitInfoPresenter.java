@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -32,6 +33,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         mSubmitInfo = new SubmitInfoImpl();
     }
 
+    private static final String TAG = SubmitInfoPresenter.class.getSimpleName();
     @Override
     public void onUiReady(SubmitInfoUi ui) {
         super.onUiReady(ui);
@@ -101,6 +103,11 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                     getUi().onFailure(msg);
                 }
             }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestFilterList getLogid: "+id);
+            }
         });
 
     }
@@ -131,6 +138,11 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                 if (null != getUi()) {
                     getUi().onFailure(msg);
                 }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestOrderSubmitData getLogid: "+id);
             }
         });
 
@@ -209,6 +221,11 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                 if (getUi() != null) {
                     getUi().onFailure(msg);
                 }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestOrderPreview getLogid: "+id);
             }
         });
     }

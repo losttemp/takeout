@@ -154,6 +154,11 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                     getUi().onFailure(msg);
                 }
             }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "getLogid: "+id);
+            }
         });
     }
 

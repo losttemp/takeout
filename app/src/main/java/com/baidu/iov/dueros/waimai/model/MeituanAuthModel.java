@@ -1,6 +1,8 @@
 package com.baidu.iov.dueros.waimai.model;
 
 
+import android.util.Log;
+
 import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
@@ -16,6 +18,7 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
  */
 
 public class MeituanAuthModel implements IMeituanAuthModel {
+    private static final String TAG = MeituanAuthModel.class.getSimpleName();
     @Override
     public void onReady() {
 
@@ -72,6 +75,14 @@ public class MeituanAuthModel implements IMeituanAuthModel {
             public void onFailed(String msg) {
                 callback.onFailure(msg);
             }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestMeituanAuth getLogid: "+id);
+                }
+            }
         });
 
     }
@@ -91,6 +102,14 @@ public class MeituanAuthModel implements IMeituanAuthModel {
             @Override
             public void onFailed(String msg) {
                 callback.onFailure(msg);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestAdressList getLogid: "+id);
+                }
             }
         });
     }

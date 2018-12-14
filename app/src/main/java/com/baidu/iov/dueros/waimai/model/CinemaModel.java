@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.model;
 
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
@@ -48,6 +49,14 @@ public class CinemaModel implements ICinemaModel {
             @Override
             public void onFailed(String msg) {
                 callback.onFailure(msg);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "getLogid: "+id);
+                }
             }
         });
     }

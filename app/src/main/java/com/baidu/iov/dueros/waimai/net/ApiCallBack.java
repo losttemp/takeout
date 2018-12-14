@@ -35,6 +35,7 @@ public abstract class ApiCallBack<T> implements Callback<ResponseBase<T>> {
                     obToArry((StoreResponse)responseBase.getData());
                 }
                 onSuccess(responseBase.getData());
+                getLogid(responseBase.getLogid());
                 Lg.getInstance().i(TAG, responseBase.getData().toString());
             } else if (responseBase.getErrno() == AuthFail_CODE){
                 onSuccess(responseBase.getData());
@@ -59,10 +60,13 @@ public abstract class ApiCallBack<T> implements Callback<ResponseBase<T>> {
     @Override
     public void onFailure(Call<ResponseBase<T>> call, Throwable throwable) {
         onFailed(throwable.getMessage());
+
         Lg.getInstance().e(TAG, throwable.getMessage());
     }
 
     public abstract void onSuccess(T data);
 
     public abstract void onFailed(String msg);
+
+    public abstract void getLogid(String id);
 }

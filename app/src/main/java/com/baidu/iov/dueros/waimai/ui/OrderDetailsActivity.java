@@ -402,7 +402,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 finish();
                 break;
             case R.id.cancel_order:
-                mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId(), mOrderDetailsReq.getPhone());
+                mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId());
                 ConfirmDialog dialog = new ConfirmDialog.Builder(this)
                         .setTitle(R.string.order_cancel_title)
                         .setMessage(R.string.order_cancel_message)

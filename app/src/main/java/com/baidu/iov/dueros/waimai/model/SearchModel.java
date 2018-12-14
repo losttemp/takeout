@@ -1,5 +1,7 @@
 package com.baidu.iov.dueros.waimai.model;
 
+import android.util.Log;
+
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.SearchSuggestReq;
@@ -8,6 +10,7 @@ import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 
 public class SearchModel implements ISearchModel {
 
+	private static final String TAG = SearchModel.class.getSimpleName();
 	@Override
 	public void onReady() {
 
@@ -37,6 +40,14 @@ public class SearchModel implements ISearchModel {
 			@Override
 			public void onFailed(String msg) {
 				callback.onFailure(msg);
+			}
+
+			@Override
+			public void getLogid(String id) {
+				if (callback!=null) {
+					callback.getLogid(id);
+					Log.d(TAG, "getLogid: "+id);
+				}
 			}
 		});
 	}

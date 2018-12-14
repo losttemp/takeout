@@ -86,38 +86,38 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (getItemViewType(position) == TYPE_HEADER) return;
         final int realPosition = getRealPosition(holder);
         if (holder instanceof ViewHolder) {
-            try {
-                ((ViewHolder) holder).tv_serial.setText(String.valueOf(realPosition + 1));
+                try {
+                    ((ViewHolder) holder).tv_serial.setText(String.valueOf(realPosition + 1));
 
-                String address = Encryption.desEncrypt(mData.get(realPosition).getAddress());
-                ((ViewHolder) holder).tv_address.setText(address);
+                    String address = Encryption.desEncrypt(mData.get(realPosition).getAddress());
+                    ((ViewHolder) holder).tv_address.setText(address);
 
-                String address_type = mData.get(realPosition).getType();
+                    String address_type = mData.get(realPosition).getType();
 
-                if (mContext.getString(R.string.address_home).equals(address_type)) {
-                    ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_green);
-                    ((ViewHolder) holder).tv_address_type.setText(address_type);
+                    if (mContext.getString(R.string.address_home).equals(address_type)) {
+                        ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_green);
+                        ((ViewHolder) holder).tv_address_type.setText(address_type);
 
-                } else if (mContext.getString(R.string.address_company).equals(address_type)) {
-                    ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_blue);
-                    ((ViewHolder) holder).tv_address_type.setText(address_type);
+                    } else if (mContext.getString(R.string.address_company).equals(address_type)) {
+                        ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_blue);
+                        ((ViewHolder) holder).tv_address_type.setText(address_type);
 
-                } else if (mContext.getString(R.string.address_tag_other).equals(address_type)) {
-                    ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg);
-                    ((ViewHolder) holder).tv_address_type.setText(address_type);
+                    } else if (mContext.getString(R.string.address_tag_other).equals(address_type)) {
+                        ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg);
+                        ((ViewHolder) holder).tv_address_type.setText(address_type);
 
-                } else {
-                    ((ViewHolder) holder).tv_address_type.setText(mContext.getString(R.string.address_tag_other));
-                    ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg);
+                    } else {
+                        ((ViewHolder) holder).tv_address_type.setText(mContext.getString(R.string.address_tag_other));
+                        ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg);
+                    }
+
+                    String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
+                    String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
+                    ((ViewHolder) holder).tv_name.setText(name + " " + phone);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-                String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
-                String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
-                ((ViewHolder) holder).tv_name.setText(name + " " + phone);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
             if (mData.get(realPosition).getCanShipping() == 1) {
                 holder.itemView.setBackground(null);

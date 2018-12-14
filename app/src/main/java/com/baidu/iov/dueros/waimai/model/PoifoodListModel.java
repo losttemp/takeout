@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.model;
 
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
@@ -61,6 +62,14 @@ public class PoifoodListModel implements IPoifoodListModel {
             public void onFailed(String msg) {
                 callback.onFailure(msg);
             }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestPoifoodList getLogid: "+id);
+                }
+            }
         });
     }
 
@@ -87,6 +96,14 @@ public class PoifoodListModel implements IPoifoodListModel {
             public void onFailed(String msg) {
                 callback.onFailure(msg);
             }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestPoidetailinfo getLogid: "+id);
+                }
+            }
         });
     }
 
@@ -105,6 +122,14 @@ public class PoifoodListModel implements IPoifoodListModel {
             @Override
             public void onFailed(String msg) {
                 callback.onFailure(msg);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestOrderPreview getLogid: "+id);
+                }
             }
         });
     }
@@ -125,6 +150,14 @@ public class PoifoodListModel implements IPoifoodListModel {
             @Override
             public void onFailed(String msg) {
                 callback.onFailure(msg);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "requestArriveTimeList getLogid: "+id);
+                }
             }
         });
     }

@@ -11,6 +11,10 @@ public class OrderCancelReq extends RequestBase {
         this.user_phone = phone;
     }
 
+    public OrderCancelReq(long id) {
+        this.order_id = id;
+    }
+
     public long getId() {
         return order_id;
     }

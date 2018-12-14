@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.model;
 
 
+import android.nfc.Tag;
 import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
@@ -13,10 +14,13 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressDeleteBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import java.util.List;
 
 public class AddressEditModel implements IAddressEditModel {
+
+    private static final String TAG = AddressEditModel.class.getSimpleName();
 
     @Override
     public void updateAddressData(AddressEditReq addressEditReq, final RequestCallback callback) {
@@ -33,6 +37,14 @@ public class AddressEditModel implements IAddressEditModel {
             @Override
             public void onFailed(String msg) {
                 callback.onFailure(msg);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "updateAddressData getLogid: "+id);
+                }
             }
         });
     }
@@ -54,6 +66,14 @@ public class AddressEditModel implements IAddressEditModel {
             public void onFailed(String msg) {
                 callback.onFailure(msg);
             }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "addAddressData getLogid: "+id);
+                }
+            }
         });
     }
 
@@ -72,6 +92,14 @@ public class AddressEditModel implements IAddressEditModel {
             @Override
             public void onFailed(String msg) {
                 callback.onFailure(msg);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Log.d(TAG, "deleteAddressData getLogid: "+id);
+                }
             }
         });
     }

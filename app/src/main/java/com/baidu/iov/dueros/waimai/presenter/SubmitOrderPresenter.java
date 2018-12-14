@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.presenter;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -27,6 +28,8 @@ import java.util.List;
 public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitOrderUi> {
 
     private ISubmitOrderModel mSubmitOrder;
+
+    private static final String TAG = SubmitOrderPresenter.class.getSimpleName();
 
     public SubmitOrderPresenter() {
         mSubmitOrder = new SubmitOrderImpl();
@@ -74,6 +77,11 @@ public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitO
                 if (getUi() != null) {
                     getUi().onSubmitFailure(msg);
                 }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Log.d(TAG, "requestOrderPreview getLogid: "+id);
             }
         });
     }
