@@ -95,9 +95,6 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                 }
                 mDataBeans.addAll(data.getIov().getData());
                 Lg.getInstance().d(TAG, "onSuccess:" + mDataBeans.toString());
-                if (null != getUi()) {
-                    getUi().onSuccess(mDataBeans);
-                }
                 String baiduName = null;
                 String baiduPhone = null;
                 for (int i = 0; i < mDataBeans.size(); i++) {
@@ -121,7 +118,12 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                             //baidu
                             baiduPhone = user_phone;
                             baiduName = user_name;
-                        } else {
+                        }  else if (null == mDataBeans.get(i).getMt_address_id() &&
+                                null == mDataBeans.get(i).getAddress_id()) {
+                            //baidu
+                            baiduPhone = user_phone;
+                            baiduName = user_name;
+                        }else {
                             if (MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
                                 MyApplicationAddressBean.USER_NAMES.remove(user_name);
                             }
@@ -132,10 +134,17 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                             MyApplicationAddressBean.USER_PHONES.add(user_phone);
                             MyApplicationAddressBean.USER_NAMES.add(user_name);
                         }
+                        if (mDesBean.isIs_hint()){
+                            mDataBeans.remove(i);
+                            i--;
+                        }
 //TODO set desBeanDada: username userphone
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                }
+                if (null != getUi()) {
+                    getUi().onSuccess(mDataBeans);
                 }
                 //baidu>mt>app
                 if (!TextUtils.isEmpty(baiduName) && !TextUtils.isEmpty(baiduPhone)) {
