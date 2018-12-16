@@ -107,12 +107,12 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                             if (MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
                                 MyApplicationAddressBean.USER_NAMES.remove(user_name);
                             }
-                            if (MyApplicationAddressBean.USER_PHONES.contains(user_phone)) {
-                                MyApplicationAddressBean.USER_PHONES.remove(user_phone);
-                            }
+//                            if (MyApplicationAddressBean.USER_PHONES.contains(user_phone)) {
+//                                MyApplicationAddressBean.USER_PHONES.remove(user_phone);
+//                            }
                             //mt
-                            MyApplicationAddressBean.USER_PHONES.add(0, user_phone);
                             MyApplicationAddressBean.USER_NAMES.add(0, user_name);
+//                            MyApplicationAddressBean.USER_PHONES.add(0, user_phone);
                         } else if (null == mDataBeans.get(i).getMt_address_id() &&
                                 null != mDataBeans.get(i).getAddress_id()) {
                             //baidu
@@ -127,12 +127,12 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                             if (MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
                                 MyApplicationAddressBean.USER_NAMES.remove(user_name);
                             }
-                            if (MyApplicationAddressBean.USER_PHONES.contains(user_phone)) {
-                                MyApplicationAddressBean.USER_PHONES.remove(user_phone);
-                            }
+//                            if (MyApplicationAddressBean.USER_PHONES.contains(user_phone)) {
+//                                MyApplicationAddressBean.USER_PHONES.remove(user_phone);
+//                            }
                             //app
-                            MyApplicationAddressBean.USER_PHONES.add(user_phone);
                             MyApplicationAddressBean.USER_NAMES.add(user_name);
+//                            MyApplicationAddressBean.USER_PHONES.add(user_phone);
                         }
                         if (mDesBean.isIs_hint()){
                             mDataBeans.remove(i);

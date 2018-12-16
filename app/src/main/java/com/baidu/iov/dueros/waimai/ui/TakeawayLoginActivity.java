@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -72,7 +73,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mWVMeituan = (WebView) findViewById(R.id.meituan_login);
 
-        mWVMeituan.addJavascriptInterface(this, "android");
+        mWVMeituan.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
         mWVMeituan.setWebViewClient(webViewClient);
         mWVMeituan.setWebChromeClient(webChromeClient);
         networkView = findViewById(R.id.network_view);
@@ -95,12 +96,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     protected void onResume() {
         super.onResume();
         if (NetUtil.getNetWorkState(this)) {
-            if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
-                getPresenter().requestAccountInfo();
-            } else {
-                //mt authorize
-                getPresenter().requestMeituanAuth(mMeituanAuthReq);
-            }
+            initPostHttp();
             networkView.setVisibility(View.GONE);
         } else {
             networkView.setVisibility(View.VISIBLE);
@@ -122,7 +118,13 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private WebViewClient webViewClient = new WebViewClient() {
         @Override
         public void onPageFinished(WebView view, String url) {
+            view.loadUrl("javascript:window.java_obj.showSource("
+                    + "document.getElementsByTagName('html')[0].innerHTML);");
+            view.loadUrl("javascript:window.java_obj.showDescription("
+                    + "document.querySelector('meta[name=\"share-description\"]').getAttribute('content')"
+                    + ");");
             progressBar.setVisibility(View.GONE);
+            super.onPageFinished(view, url);
         }
 
         @Override
@@ -273,17 +275,36 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         switch (v.getId()) {
             case R.id.no_internet_btn:
                 if (NetUtil.getNetWorkState(this)) {
-                    if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
-                        getPresenter().requestAccountInfo();
-                    } else {
-                        getPresenter().requestMeituanAuth(mMeituanAuthReq);
-                    }
+                    initPostHttp();
                 } else {
                     ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
                 }
                 break;
             default:
                 break;
+        }
+    }
+
+    public final class InJavaScriptLocalObj{
+        @JavascriptInterface
+        public void showSource(String html) {
+            if (html.contains("{\"errno\":0,\"err_msg\":\"success\",")
+                    &&html.contains(",\"meituan\":{\"msg\":\"success\"},")){
+                initPostHttp();
+            }
+        }
+
+        @JavascriptInterface
+        public void showDescription(String str) {
+        }
+    }
+
+    private void initPostHttp(){
+        if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
+            getPresenter().requestAccountInfo();
+        } else {
+            //mt authorize
+            getPresenter().requestMeituanAuth(mMeituanAuthReq);
         }
     }
 }

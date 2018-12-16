@@ -300,7 +300,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
         Bundle extras = getIntent().getExtras();
         if (extras.containsKey(Constant.STORE_ID)) {
-            mWmPoiId = (long) getIntent().getExtras().get(Constant.STORE_ID);
+            mWmPoiId = Long.parseLong(String.valueOf(getIntent().getExtras().get(Constant.STORE_ID)));
         }
         if (extras.containsKey("latitude")) {
             latitude = (Integer) getIntent().getExtras().get("latitude");

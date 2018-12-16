@@ -28,6 +28,7 @@ import com.baidu.iov.dueros.waimai.presenter.AddressEditPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
+import com.baidu.iov.dueros.waimai.utils.StringUtils;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
@@ -92,7 +93,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         iv_del_button.setOnClickListener(this);
         address_tv.setOnClickListener(this);
         address_arrow.setOnClickListener(this);
-        et_name.setMaxLength(11);
+        et_name.setMaxLength(10);
         et_house_num.setMaxLength(30);
     }
 
@@ -225,6 +226,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         } else {
             if (data.getMeituan().getCode() == 0) {
                 ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_success),Toast.LENGTH_SHORT);
+                MyApplicationAddressBean.USER_PHONES.add(et_phone.getText().toString().trim());
                 finish();
             } else {
                 ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_fail),Toast.LENGTH_LONG);
@@ -293,6 +295,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_address),Toast.LENGTH_SHORT);
         }else if(TextUtils.isEmpty(type)){
             ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_tagvalue),Toast.LENGTH_SHORT);
+        }else if(!StringUtils.isChinaPhoneLegal(et_phone.getText().toString())){
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_phone_error_hint_text),Toast.LENGTH_SHORT);
         } else{
             String house_num = Encryption.encrypt(et_house_num.getText().toString() + "");
             String name = Encryption.encrypt(et_name.getText() + "");
