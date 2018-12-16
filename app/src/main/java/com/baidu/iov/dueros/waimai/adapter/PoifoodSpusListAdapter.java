@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -303,13 +304,13 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     public void onClick(View view) {
                         viewHolder.add.setVisibility(View.GONE);
                         viewHolder.action.setVisibility(View.VISIBLE);
-                        increaseOnClick(spusBean, viewHolder, section, false);
+                        increaseOnClick(spusBean, viewHolder, section, false, null);
                     }
                 });
                 viewHolder.increase.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        increaseOnClick(spusBean, viewHolder, section, true);
+                        increaseOnClick(spusBean, viewHolder, section, true, null);
                     }
                 });
                 viewHolder.reduce.setOnClickListener(new View.OnClickListener() {
@@ -413,7 +414,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         increase.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                increaseOnClick(spusBean, viewHolder, section, true);
+                                increaseOnClick(spusBean, viewHolder, section, true, shoppingNum);
                                 shoppingNum.setText(spusBean.getNumber() + "");
                             }
                         });
@@ -457,7 +458,8 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 MultiplTextView storeIndex;
                 MultiplTextView shoppingNum;
                 ImageView add;
-                Button specifications;
+                TextView specifications;
+                Button specificationsNumber;
                 RelativeLayout action;
                 RelativeLayout addNumber;
                 MultiplTextView discountPrice;
@@ -477,7 +479,8 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     storeIndex = (MultiplTextView) itemView.findViewById(R.id.tv_store_index);
                     shoppingNum = (MultiplTextView) itemView.findViewById(R.id.shoppingNum);
                     add = (ImageView) itemView.findViewById(R.id.btn_add);
-                    specifications = (Button) itemView.findViewById(R.id.btn_specifications);
+                    specifications = (TextView) itemView.findViewById(R.id.btn_specifications);
+                    specificationsNumber = (Button) itemView.findViewById(R.id.tv_num);
                     action = (RelativeLayout) itemView.findViewById(R.id.action);
                     addNumber = (RelativeLayout) itemView.findViewById(R.id.rl_add_number);
                     discountPrice = (MultiplTextView) itemView.findViewById(R.id.tv_discount_price);
@@ -578,6 +581,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                                 }
                             }
                         }
+
                         mInList = inProductList(spusBean);
                         int num = spusBean.getNumber();
                         int min_order_count = getMinOrderCount(spusBean);
@@ -590,14 +594,19 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         action.setVisibility(View.VISIBLE);
                         mInList = true;
                         shoppingNum.setText(spusBean.getNumber() + "");
+
+                        viewHolder.specificationsNumber.setVisibility(View.VISIBLE);
+                        setSpecificationNumber(spusBean, viewHolder);
                     }
                 });
                 increase.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         inProductList(spusBean);
-                        increaseOnClick(spusBean, viewHolder, section, true);
+                        increaseOnClick(spusBean, viewHolder, section, true, shoppingNum);
                         shoppingNum.setText(spusBean.getNumber() + "");
+
+                        setSpecificationNumber(spusBean, viewHolder);
                     }
                 });
                 reduce.setOnClickListener(new View.OnClickListener() {
@@ -610,12 +619,33 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                             addToCart.setVisibility(View.VISIBLE);
                             action.setVisibility(View.GONE);
                         }
+                        setSpecificationNumber(spusBean, viewHolder);
                     }
                 });
                 final PopupWindow window = new PopupWindow(popView,
                         WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.WRAP_CONTENT, true);
                 showFoodListActivityDialog(view, popView, window);
+            }
+
+            private void setSpecificationNumber(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, ViewHolder viewHolder) {
+                int specificationsNumber = 0;
+                int specificationsSpus = -1;
+                for (int i = 0; i < productList.size(); i++) {
+                    if (spusBean.getTag().equals(productList.get(i).getTag())){
+                        specificationsSpus =i;
+                    }
+                    if (specificationsSpus != -1) {
+                        specificationsNumber += productList.get(specificationsSpus).getNumber();
+                    }else {
+                        specificationsNumber += productList.get(0).getNumber();
+                    }
+                }
+                if (specificationsNumber == 0) {
+                    viewHolder.specificationsNumber.setVisibility(View.GONE);
+                } else {
+                    viewHolder.specificationsNumber.setText(specificationsNumber + "");
+                }
             }
 
             private boolean inProductList(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
@@ -695,7 +725,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
             }
 
             private void increaseOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
-                                         ViewHolder viewHolder, int section, boolean alreadyToast) {
+                                         ViewHolder viewHolder, int section, boolean alreadyToast,MultiplTextView detailShopNum) {
                 int min_order_count = getMinOrderCount(spusBean);
                 if (min_order_count > 1 && !alreadyToast) {
                     ToastUtils.show(context, context.getString(R.string.must_buy) +
@@ -719,7 +749,11 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 }
                 if (mHolderClickListener != null) {
                     int[] start_location = new int[2];
-                    viewHolder.shoppingNum.getLocationInWindow(start_location);
+                    if (detailShopNum != null) {
+                        detailShopNum.getLocationInWindow(start_location);
+                    } else {
+                        viewHolder.shoppingNum.getLocationInWindow(start_location);
+                    }
                     Drawable drawable = context.getResources().getDrawable(R.drawable.adddetail);
                     mHolderClickListener.onHolderClick(drawable, start_location);
                 }

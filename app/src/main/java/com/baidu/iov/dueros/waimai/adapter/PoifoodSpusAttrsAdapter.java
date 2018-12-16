@@ -209,7 +209,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                         if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
                             for (int i = 0; i < shopProduct.getSkus().size(); i++) {
                                 int id = shopProduct.getChoiceSkus().get(0).getId();
-                                if (id == spusBean.getChoiceSkus().get(i).getId()) {
+                                if (id == spusBean.getChoiceSkus().get(0).getId()) {
                                     if (setPriceListener != null) {
                                         setPriceListener.setNumber(shopProduct.getNumber());
                                         inList = true;

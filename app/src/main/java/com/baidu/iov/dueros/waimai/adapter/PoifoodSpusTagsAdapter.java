@@ -42,12 +42,12 @@ public class PoifoodSpusTagsAdapter extends RecyclerView.Adapter<PoifoodSpusTags
     @Override
     public void onBindViewHolder(@NonNull PoifoodSpusTagsAdapter.ViewHolder viewHolder, final int position) {
         viewHolder.foodSpuTagsBeanName.setText(poifoodSpusTagsBeans.get(position).getFoodSpuTagsBeanName());
-        if (poifoodSpusTagsBeans.get(position).getNumber() != 0) {
-            viewHolder.number.setVisibility(View.VISIBLE);
-            viewHolder.number.setText("" + poifoodSpusTagsBeans.get(position).getNumber());
-        } else {
-            viewHolder.number.setVisibility(View.GONE);
-        }
+//        if (poifoodSpusTagsBeans.get(position).getNumber() != 0) {
+//            viewHolder.number.setVisibility(View.VISIBLE);
+//            viewHolder.number.setText("" + poifoodSpusTagsBeans.get(position).getNumber());
+//        } else {
+//            viewHolder.number.setVisibility(View.GONE);
+//        }
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,14 +72,14 @@ public class PoifoodSpusTagsAdapter extends RecyclerView.Adapter<PoifoodSpusTags
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         View view;
-        TextView number;
+//        TextView number;
         TextView foodSpuTagsBeanName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView;
             foodSpuTagsBeanName = (TextView) itemView.findViewById(R.id.mainitem_txt);
-            number = (TextView) itemView.findViewById(R.id.tv_num);
+//            number = (TextView) itemView.findViewById(R.id.tv_num);
         }
     }
 

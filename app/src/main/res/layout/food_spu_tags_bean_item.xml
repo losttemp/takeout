@@ -145,7 +145,7 @@
                 <RelativeLayout
                     android:id="@+id/rl_add_number"
                     android:layout_width="@dimen/px164dp"
-                    android:layout_height="@dimen/px52dp"
+                    android:layout_height="@dimen/px70dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true">
 
@@ -154,25 +154,45 @@
                         android:layout_width="@dimen/px52dp"
                         android:layout_height="@dimen/px52dp"
                         android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
                         android:src="@drawable/increase" />
 
-                    <Button
-                        android:id="@+id/btn_specifications"
+                    <FrameLayout
                         android:layout_width="@dimen/px118dp"
-                        android:layout_height="@dimen/px50dp"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/btn_s_bg"
-                        android:text="@string/specifications"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px26sp"
-                        android:visibility="gone" />
+                        android:layout_height="@dimen/px70dp"
+                        android:layout_alignParentRight="true">
+
+                        <TextView
+                            android:id="@+id/btn_specifications"
+                            android:layout_width="@dimen/px118dp"
+                            android:layout_height="@dimen/px50dp"
+                            android:background="@drawable/btn_s_bg"
+                            android:text="@string/specifications"
+                            android:layout_gravity="bottom"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px26sp"
+                            android:gravity="center"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/tv_num"
+                            android:layout_width="@dimen/px30dp"
+                            android:layout_height="@dimen/px30dp"
+                            android:layout_gravity="top|right"
+                            android:background="@drawable/point"
+                            android:gravity="center"
+                            android:enabled="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px24sp"
+                            android:visibility="gone" />
+                    </FrameLayout>
 
                     <RelativeLayout
                         android:id="@+id/action"
                         android:layout_width="@dimen/px164dp"
                         android:layout_height="@dimen/px52dp"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
+                        android:layout_alignParentBottom="true"
                         android:visibility="visible">
 
                         <ImageView
@@ -209,7 +229,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+                    android:layout_alignParentBottom="true"
                     android:visibility="gone">
 
                     <ImageView

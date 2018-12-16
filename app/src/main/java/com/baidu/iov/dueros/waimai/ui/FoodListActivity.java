@@ -68,7 +68,6 @@ import com.baidu.iov.faceos.client.GsonUtil;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -323,7 +322,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             mNoNet.setVisibility(View.GONE);
             mLoading.setVisibility(View.VISIBLE);
 //            parentLayout.setVisibility(View.VISIBLE);
-            getPresenter().requestPoifoodList(map);
+            getPresenter().requestPoidetailinfo(map);
         } else {
             mNoNet.setVisibility(View.VISIBLE);
             parentLayout.setVisibility(View.GONE);
@@ -388,7 +387,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
                                     for (int i = 0; i < shopProduct.getSkus().size(); i++) {
                                         int id = shopProduct.getChoiceSkus().get(0).getId();
-                                        if (id == spusBean.getChoiceSkus().get(i).getId()) {
+                                        if (id == spusBean.getChoiceSkus().get(0).getId()) {
                                             int num = spusBean.getNumber();
                                             shopProduct.setNumber(num);
                                             firstAdd = false;
@@ -983,7 +982,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     @Override
     public void onOrderPreviewSuccess(OrderPreviewBean data) {
-        switch (data.getMeituan().getCode()) {
+        switch (data.getMeituan().getData().getCode()) {
             case Constant.SUBMIT_ORDER_SUCCESS:
                 Intent intent = new Intent(this, SubmitOrderActivity.class);
                 intent.putExtra(POI_INFO, mPoiInfoBean);
@@ -991,6 +990,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 intent.putExtra(DISCOUNT, mDiscountNumber);
                 intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                 startActivity(intent);
+                break;
+            /*case Constant.SUBMIT_ORDER_FAIL:
+                ToastUtils.show(getApplicationContext(), data.getMeituan().getMsg(), Toast.LENGTH_SHORT);
                 break;
             case Constant.STORE_CANT_NOT_BUY:
                 ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT);
@@ -1011,15 +1013,15 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
             case Constant.SERVICE_ERROR:
                 ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.service_error), Toast.LENGTH_SHORT);
+                break;*/
+            default:
+                ToastUtils.show(getApplicationContext(), data.getMeituan().getData().getMsg(), Toast.LENGTH_SHORT);
                 break;
         }
     }
 
     @Override
     public void onArriveTimeSuccess(ArriveTimeBean data) {
-        mLoading.setVisibility(View.GONE);
-        mNoNet.setVisibility(View.GONE);
-        parentLayout.setVisibility(View.VISIBLE);
         String view_time = data.getMeituan().getData().get(0).getTimelist().get(1).getView_time();
         ToastUtils.show(getApplicationContext(), String.format(getString(R.string.first_arrive_time), view_time), Toast.LENGTH_SHORT);
     }
@@ -1082,7 +1084,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
 
-        getPresenter().requestPoidetailinfo(map);
+        mLoading.setVisibility(View.GONE);
+        mNoNet.setVisibility(View.GONE);
+        parentLayout.setVisibility(View.VISIBLE);
+
+        int status = mPoiInfoBean.getStatus();
+        if (status == 1) {
+            getPresenter().requestArriveTimeData(mWmPoiId);
+        }
     }
 
     private void oneMoreOrder(int section) {
@@ -1266,10 +1275,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
 
-        int status = mPoiInfoBean.getStatus();
-        if (status == 1) {
-            getPresenter().requestArriveTimeData(mWmPoiId);
-        }
+        getPresenter().requestPoifoodList(map);
         Lg.getInstance().d(TAG, "onPoidetailinfoSuccess data = " + data);
     }
 
