@@ -379,6 +379,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
+                Intent orderListIntent = new Intent(this, OrderListActivity.class);
+                startActivity(orderListIntent);
                 finish();
                 break;
             case R.id.repeat_order:

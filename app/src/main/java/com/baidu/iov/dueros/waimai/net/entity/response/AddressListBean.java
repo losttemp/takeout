@@ -163,7 +163,35 @@ public class AddressListBean {
 
             @Override
             public int compareTo(DataBean o) {
-                return o.getCanShipping() - this.getCanShipping() ;
+                if ((int)o.getCanShipping() != this.getCanShipping()) {
+                    return  o.getCanShipping() - this.getCanShipping();
+                } else {
+                    if (o.getType().equals("家里") && this.getType().equals("公司")){
+                        return 1;
+                    }
+
+                    if (o.getType().equals("家里") && this.getType() == null){
+                        return 1;
+                    }
+
+                    if (o.getType().equals("公司") && this.getType().equals("家里")){
+                        return -1;
+                    }
+
+                    if (o.getType().equals("公司") && this.getType() == null){
+                        return 1;
+                    }
+
+                    if (o.getType() == null && this.getType().equals("家里")){
+                        return -1;
+                    }
+
+                    if (o.getType() == null && this.getType().equals("公司")){
+                        return -1;
+                    }
+                }
+
+                return 0;
             }
         }
     }
