@@ -495,6 +495,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			@Override
 			public void onRefresh(RefreshLayout refreshLayout) {
 				loadFirstPage(mStoreReq);
+				mLoading.setVisibility(View.GONE);
 			}
 		});
 
