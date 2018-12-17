@@ -43,7 +43,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private ProgressBar progressBar;
     private MeituanAuthorizeReq mMeituanAuthReq;
     private AddressListReqBean mAddressListReq;
-    private final String baiduUrl = "http://sandbox.codriverapi.baidu.com/";
     private final long SIX_HOUR = 6 * 60 * 60 * 1000;
     Bundle savedInstanceState;
     private View networkView;
@@ -171,7 +170,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                 getPresenter().requestAuthInfo();
             }
         } else {
-            syncCookie(this, baiduUrl);
+            syncCookie(this, Config.getHost());
             mWVMeituan.loadUrl(data.getIov().getAuthorizeUrl());
         }
     }
