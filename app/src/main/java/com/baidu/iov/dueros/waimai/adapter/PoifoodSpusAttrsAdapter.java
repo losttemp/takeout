@@ -94,7 +94,8 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
         if (attrsBeans.size() > 0 && position != attrsBeans.size()) {
             viewHolder.attrsName.setText(attrsBeans.get(position).getName());
             final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> values = attrsBeans.get(position).getValues();
-            final SpecificationAdapter specificationAdapter = new SpecificationAdapter(values, null);
+            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> lastChoiceAttrs = attrsBeans.get(position).getChoiceAttrs();
+            final SpecificationAdapter specificationAdapter = new SpecificationAdapter(lastChoiceAttrs, null, values, null);
             viewHolder.recyclerview.setAdapter(specificationAdapter);
             specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {
                 @Override
@@ -130,7 +131,8 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
         } else {
             if (skusBeans.size() > 1) {
                 viewHolder.attrsName.setText(context.getString(R.string.specification));
-                final SpecificationAdapter specificationAdapter = new SpecificationAdapter(null, skusBeans);
+                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> lastChoiceSkus = spusBean.getChoiceSkus();
+                final SpecificationAdapter specificationAdapter = new SpecificationAdapter(null, lastChoiceSkus, null, skusBeans);
                 viewHolder.recyclerview.setAdapter(specificationAdapter);
                 specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {
                     @Override
@@ -182,7 +184,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                                 if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
                                     for (int j = 0; j < shopProduct.getSkus().size(); j++) {
                                         int skusId = shopProduct.getChoiceSkus().get(0).getId();
-                                        if (skusId == spusBean.getChoiceSkus().get(i).getId()) {
+                                        if (skusId == spusBean.getChoiceSkus().get(0).getId()) {
                                             if (setPriceListener != null) {
                                                 setPriceListener.setNumber(shopProduct.getNumber());
                                                 inList = true;
