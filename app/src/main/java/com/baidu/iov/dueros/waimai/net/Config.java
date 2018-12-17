@@ -15,7 +15,7 @@ public class Config {
     private static boolean isOfficial = false;
 
     private static final String OFFICIAL_HOST = "https://vehicle.baidu.com";
-    private static final String TEST_HOST = "http://sandbox.codriverapi.baidu.com";
+    private static final String TEST_HOST = "https://sandbox-vehicle.baidu.com";
 
 
     public static String getHost(){
