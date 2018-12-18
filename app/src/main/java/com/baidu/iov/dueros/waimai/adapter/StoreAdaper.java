@@ -222,7 +222,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
 	static class ViewHolder extends RecyclerView.ViewHolder {
 		private AppCompatImageView ivStore;
-		private MultiplTextView tvStoreName;
+		private TextView tvStoreName;
 		private TextView tvStatusDesc;
 		private RatingBar ratingBar;
 		private MultiplTextView tvScore;
