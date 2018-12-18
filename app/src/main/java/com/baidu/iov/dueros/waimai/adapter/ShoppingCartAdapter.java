@@ -150,8 +150,13 @@ public class ShoppingCartAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int num = spusBeans.get(position).getNumber();
+                int minOrderCount = getMinOrderCount(spusBeans.get(position));
                 if (num > 0) {
-                    num--;
+                    if (minOrderCount == num) {
+                        num -= minOrderCount;
+                    } else {
+                        num--;
+                    }
                     spusBeans.get(position).setNumber(num);
                     viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
                     if (shopToDetailListener != null) {
@@ -177,5 +182,17 @@ public class ShoppingCartAdapter extends BaseAdapter {
         public MultiplTextView shoppingNum;
         public MultiplTextView shopSpecifications;
         public MultiplTextView shopDiscountPrice;
+    }
+
+    private int getMinOrderCount(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
+        int min_order_count = 1;
+        if (spusBean.getSkus() != null) {
+            if (spusBean.getSkus().size() > 1 && spusBean.getChoiceSkus() != null) {
+                min_order_count = spusBean.getChoiceSkus().get(0).getMin_order_count();
+            } else {
+                min_order_count = spusBean.getSkus().get(0).getMin_order_count();
+            }
+        }
+        return min_order_count;
     }
 }
