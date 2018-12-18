@@ -187,6 +187,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     default:
                         Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
                         intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
+                        intent.putExtra(Constant.STORE_ID,Long.parseLong(payloadBean.getWm_ordering_list().getWm_poi_id()));
                         intent.putExtra(Constant.EXPECTED_TIME, payloadBean.getWm_ordering_list().getDelivery_time());
                         String status=  mOrderList.get(position).getOut_trade_status();
                         if (IOV_STATUS_ZERO.equals(status) || IOV_STATUS_WAITING.equals(status)){
