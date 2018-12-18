@@ -284,8 +284,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 }
                 if (NetUtil.getNetWorkState(this)) {
                     if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
-//                        mAddressData.setLongitude(95369826);
-//                        mAddressData.setLatitude(29735952);
                         List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
                         wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
                         getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime);
@@ -498,7 +496,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             double original_price = mOrderPreviewData.getWm_ordering_preview_order_vo().getOriginal_price();
             double reduced = original_price - total;
-            mDiscountTv.setText(String.format(getResources().getString(R.string.submit_discount), mNumberFormat.format(reduced)));
+            if (reduced==0){
+                mDiscountTv.setVisibility(View.GONE);
+                mDiscountsLayout.setVisibility(View.GONE);
+            }else {
+                mDiscountTv.setText(String.format(getResources().getString(R.string.submit_discount), mNumberFormat.format(reduced)));
+            }
 
 
             String discount_WarnTip = mOrderPreviewData.getDiscountWarnTip();

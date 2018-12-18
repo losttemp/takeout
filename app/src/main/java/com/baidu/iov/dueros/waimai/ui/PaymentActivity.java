@@ -86,7 +86,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         NumberFormat nf = new DecimalFormat("##.##");
         Intent intent = getIntent();
         if (intent != null) {
-
             double amount = intent.getDoubleExtra(Constant.TOTAL_COST, 0);
             mStoreId = intent.getLongExtra(Constant.STORE_ID, 0);
             mOrderId = intent.getLongExtra(Constant.ORDER_ID, 0);

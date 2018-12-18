@@ -52,7 +52,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     /**
      *
      */
-    private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod, mPayStatus, mDeliveryType;
+    private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod, mTimerTv, mDeliveryType;
     private NoClikRecyclerView mFoodListView;
     private Button mRepeatOrder, mPayOrder, mCancelOrder;
     private FoodListAdaper mFoodListAdaper;
@@ -61,6 +61,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private OrderCancelReq mOrderCancelReq;
     private long order_id;
     private long expectedTime;
+    private long mStoreId;
+    private int mPayStatus;
     private NumberFormat mNumberFormat;
     private OrderDetailsResponse.MeituanBean.DataBean mOrderDetails = new OrderDetailsResponse.MeituanBean.DataBean();
     private static final int REQUEST_CODE_CALL_PHONE = 600;
@@ -143,7 +145,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         mOrderTime = findViewById(R.id.order_time);
         mPayMethod = findViewById(R.id.pay_method);
         mFoodListView = findViewById(R.id.ll_food);
-        mPayStatus = findViewById(R.id.pay_status);
+        mTimerTv = findViewById(R.id.pay_status);
         mRepeatOrder = findViewById(R.id.repeat_order);
         mPayOrder = findViewById(R.id.pay_order);
         mCancelOrder = findViewById(R.id.cancel_order);
@@ -156,6 +158,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
         getPayStatus(mOrderDetails.getOut_trade_status());
         mNumberFormat = new DecimalFormat("##.##");
+
         long orderTime = mOrderDetails.getOrder_time();
         long orderId = mOrderDetails.getOrder_id();
         double boxTotalPrice = mOrderDetails.getBox_total_price();
@@ -246,53 +249,53 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         if (status == IOV_STATUS_ZERO || status == IOV_STATUS_WAITING) {
             mPayOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
-            mPayStatus.setText(R.string.waiting_to_pay);
+            mTimerTv.setText(R.string.waiting_to_pay);
             timerStart();
         } else if (status == IOV_STATUS_PAID) {
             mRepeatOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
             mArrivalTime.setVisibility(View.VISIBLE);
             String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
-            mPayStatus.setText(R.string.have_paid);
+            mTimerTv.setText(R.string.have_paid);
             mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
         } else if (status == IOV_STATUS_NOTIFY_RESTAURANT) {
             mRepeatOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
             mArrivalTime.setVisibility(View.VISIBLE);
             String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
-            mPayStatus.setText(R.string.have_paid);
+            mTimerTv.setText(R.string.have_paid);
             mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
-            mPayStatus.setText(R.string.notify_restaurant);
+            mTimerTv.setText(R.string.notify_restaurant);
         } else if (status == IOV_STATUS_RESTAURANT_CONFIRM) {
             mRepeatOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
             mArrivalTime.setVisibility(View.VISIBLE);
             String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
-            mPayStatus.setText(R.string.have_paid);
+            mTimerTv.setText(R.string.have_paid);
             mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
-            mPayStatus.setText(R.string.restaurant_confirm);
+            mTimerTv.setText(R.string.restaurant_confirm);
         } else if (status == IOV_STATUS_DELIVERING) {
             mRepeatOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
-            mPayStatus.setText(R.string.delivering);
+            mTimerTv.setText(R.string.delivering);
         } else if (status == IOV_STATUS_FINISHED) {
             mRepeatOrder.setVisibility(View.VISIBLE);
-            mPayStatus.setText(R.string.pay_done);
+            mTimerTv.setText(R.string.pay_done);
         } else if (status == IOV_STATUS_PAYMENT_FAILED) {
             mRepeatOrder.setVisibility(View.VISIBLE);
-            mPayStatus.setText(R.string.pay_fail);
+            mTimerTv.setText(R.string.pay_fail);
         } else if (status == IOV_STATUS_CANCELED) {
             mRepeatOrder.setVisibility(View.VISIBLE);
-            mPayStatus.setText(R.string.pay_cancel);
+            mTimerTv.setText(R.string.pay_cancel);
         } else if (status == IOV_STATUS_REFUNDING) {
             mRepeatOrder.setVisibility(View.VISIBLE);
-            mPayStatus.setText(R.string.pay_refunding);
+            mTimerTv.setText(R.string.pay_refunding);
         } else if (status == IOV_STATUS_REFUNDED) {
             mRepeatOrder.setVisibility(View.VISIBLE);
-            mPayStatus.setText(R.string.pay_refunded);
+            mTimerTv.setText(R.string.pay_refunded);
         } else if (status == IOV_STATUS_REFUND_FAILED) {
             mRepeatOrder.setVisibility(View.VISIBLE);
-            mPayStatus.setText(R.string.refund_fail);
+            mTimerTv.setText(R.string.refund_fail);
         }
     }
 
@@ -311,6 +314,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void initData() {
+        mStoreId = getIntent().getLongExtra(Constant.STORE_ID,0);
         order_id = getIntent().getLongExtra(Constant.ORDER_ID, -1);
         if (null != getIntent().getStringExtra("extra") && !getIntent().getStringExtra("extra").equals("")){
             try {
@@ -339,13 +343,54 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private CountDownTimer mTimer = new CountDownTimer(15 * 60 * 1000, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
-            mPayStatus.setText(String.format(getResources().getString(R.string.count_down_timer), formatCountDownTime(millisUntilFinished)));
+            mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), formatCountDownTime(millisUntilFinished)));
         }
 
         @Override
         public void onFinish() {
-            mPayStatus.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
+            mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
+            mPayStatus = mOrderDetails.getPay_status();
+            if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
+
+                ConfirmDialog dialog = new ConfirmDialog.Builder(OrderDetailsActivity.this)
+                        .setTitle(R.string.pay_title)
+                        .setMessage(R.string.pay_time_out)
+                        .setNegativeButton(R.string.anew_submit, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Intent intent = new Intent();
+                                intent.setClass(OrderDetailsActivity.this, FoodListActivity.class);
+                                intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
+                                intent.putExtra(Constant.STORE_ID, mStoreId);
+                                startActivity(intent);
+                                dialog.dismiss();
+                                finish();
+                            }
+                        })
+                        .setPositiveButton(R.string.back_store, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent();
+                                intent.setClass(OrderDetailsActivity.this, FoodListActivity.class);
+                                intent.putExtra(Constant.STORE_ID, mStoreId);
+                                startActivity(intent);
+                                dialog.dismiss();
+                                finish();
+                            }
+                        })
+                        .setCloseButton(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+            }
         }
+
     };
 
     public String formatCountDownTime(long millisecond) {

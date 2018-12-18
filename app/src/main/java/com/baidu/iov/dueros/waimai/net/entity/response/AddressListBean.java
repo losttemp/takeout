@@ -1,6 +1,8 @@
 package com.baidu.iov.dueros.waimai.net.entity.response;
 
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
@@ -166,6 +168,9 @@ public class AddressListBean {
                 if ((int)o.getCanShipping() != this.getCanShipping()) {
                     return  o.getCanShipping() - this.getCanShipping();
                 } else {
+                    if(TextUtils.isEmpty(o.getType())||TextUtils.isEmpty(this.getType())){
+                        return -1;
+                    }
                     if (o.getType().equals("家里") && this.getType().equals("公司")){
                         return 1;
                     }
@@ -182,13 +187,15 @@ public class AddressListBean {
                         return 1;
                     }
 
-                    if (o.getType() == null && this.getType().equals("家里")){
+                    if (TextUtils.isEmpty(o.getType()) && this.getType().equals("家里")){
                         return -1;
                     }
 
-                    if (o.getType() == null && this.getType().equals("公司")){
+                    if (TextUtils.isEmpty(o.getType()) && this.getType().equals("公司")){
                         return -1;
                     }
+
+
                 }
 
                 return 0;
