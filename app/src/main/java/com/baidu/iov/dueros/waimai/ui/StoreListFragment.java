@@ -114,7 +114,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
 							 @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_store_list, container, false);
-		Lg.getInstance().e(TAG, "onCreateView");
 		mContext = getActivity();
 		getLocation();
 		iniView(view);
