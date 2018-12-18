@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -32,6 +33,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
     private int mCountDownTime = 5;
     private Long mOrderId;
     private int mExpectedTime;
+    private boolean isGo2OrderDetail;
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -41,9 +43,9 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
                 case MSG_UPDATE_TIME:
                     if (mCountDownTime > 0) {
                         mCountDownTv.setText(String.format(getString(R.string.complete), --mCountDownTime));
-                        mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, INTERNAL_TIME);
+                        if (!isGo2OrderDetail)
+                            mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, INTERNAL_TIME);
                     } else {
-
                         startOtherActivity();
                     }
                     break;
@@ -126,12 +128,13 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
 
         switch (v.getId()) {
             case R.id.order_details_tv:
-
+                isGo2OrderDetail = true;
                 Intent intent = new Intent(this, OrderDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Constant.ORDER_ID, mOrderId);
                 intent.putExtra(Constant.EXPECTED_TIME, mExpectedTime);
                 startActivity(intent);
+                finish();
                 break;
 
             case R.id.complete_tv:
@@ -144,5 +147,10 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

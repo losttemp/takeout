@@ -350,6 +350,15 @@ public class PoifoodListBean {
                     private List<SkusBean> choiceSkus;
                     private int number;
                     private Integer restrict;
+                    private int specificationsNumber;
+
+                    public int getSpecificationsNumber() {
+                        return specificationsNumber;
+                    }
+
+                    public void setSpecificationsNumber(int specificationsNumber) {
+                        this.specificationsNumber = specificationsNumber;
+                    }
 
                     public Integer getRestrict() {
                         return restrict;

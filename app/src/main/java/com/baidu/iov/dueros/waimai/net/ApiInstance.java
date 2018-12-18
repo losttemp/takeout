@@ -1,6 +1,8 @@
 package com.baidu.iov.dueros.waimai.net;
 
 
+import com.baidu.iov.dueros.waimai.utils.SSLSocketClient;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -72,6 +74,8 @@ public class ApiInstance {
                 return chain.proceed(request);
             }
         });
+        httpClient.sslSocketFactory(SSLSocketClient.getSSLSocketFactory());
+        httpClient.hostnameVerifier(SSLSocketClient.getHostnameVerifier());
         httpClient.addInterceptor(logging);
         return httpClient.build();
     }

@@ -20,13 +20,19 @@ import java.util.List;
 public class SpecificationAdapter extends RecyclerView.Adapter<SpecificationAdapter.SpecificationAdapterViewHolder> {
 
     private final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> valuesBeans;
+    private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs;
     private final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusBeans;
+    private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus;
     private OnItemClickListener mItemClickListerner;
 
-    public SpecificationAdapter(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> valuesBeans,
+    public SpecificationAdapter(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs,
+                                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus,
+                                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> valuesBeans,
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusBeans) {
         this.valuesBeans = valuesBeans;
         this.skusBeans = skusBeans;
+        this.choiceAttrs = choiceAttrs;
+        this.choiceSkus = choiceSkus;
     }
 
     @NonNull
@@ -47,6 +53,19 @@ public class SpecificationAdapter extends RecyclerView.Adapter<SpecificationAdap
             String spec = skusBeans.get(position).getSpec();
             holder.text.setText(spec);
         }
+        if (choiceAttrs!=null){
+            String value = choiceAttrs.get(0).getValue();
+            if (value.equals(holder.text.getText())){
+                holder.item.setBackgroundResource(R.drawable.tag_on);
+            }
+        }
+        if (choiceSkus!=null){
+            String value = choiceSkus.get(0).getSpec();
+            if (value.equals(holder.text.getText())){
+                holder.item.setBackgroundResource(R.drawable.tag_on);
+            }
+        }
+
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
