@@ -109,7 +109,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             address_title.setText(getResources().getString(R.string.edit_address));
             mAddressDelReq = new AddressDeleteReq();
             dataBean = (AddressListBean.IovBean.DataBean) intent.getSerializableExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS);
-            if (null!=dataBean.getSex()&&dataBean.getSex() == 0) {
+            if (null != dataBean.getSex() && dataBean.getSex() == 0) {
                 ladyButton.setChecked(true);
                 sirButton.setChecked(false);
             } else {
@@ -141,11 +141,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             address_tv.setText(mLocationBean.getName());
             et_house_num.setText(mLocationBean.getAddress());
             mTagListView.setTags(tags, "");
-            try {
+            if (null != MyApplicationAddressBean.USER_NAMES && MyApplicationAddressBean.USER_NAMES.size() > 0) {
                 et_name.setText(MyApplicationAddressBean.USER_NAMES.get(0));
+            }
+            if (null != MyApplicationAddressBean.USER_PHONES && MyApplicationAddressBean.USER_PHONES.size() > 0) {
                 et_phone.setText(MyApplicationAddressBean.USER_PHONES.get(0));
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
         ArrayAdapter<String> nameAdapter = new ArrayAdapter<>(this, R.layout.address_simple_list_item, MyApplicationAddressBean.USER_NAMES);
@@ -158,7 +158,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 AutoCompleteTextView view = (AutoCompleteTextView) v;
-                if (hasFocus){
+                if (hasFocus) {
                     view.showDropDown();
                 }
             }
@@ -167,7 +167,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 AutoCompleteTextView view = (AutoCompleteTextView) v;
-                if (hasFocus){
+                if (hasFocus) {
                     view.showDropDown();
                 }
             }
@@ -193,17 +193,17 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     @Override
     public void updateAddressSuccess(AddressEditBean data) {
         if (data.getMeituan().getCode() == 0) {
-            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_update_success),Toast.LENGTH_SHORT);
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_update_success), Toast.LENGTH_SHORT);
             finish();
         } else {
             String msg = data.getMeituan().getMsg();
-            ToastUtils.show(this, msg,Toast.LENGTH_SHORT);
+            ToastUtils.show(this, msg, Toast.LENGTH_SHORT);
         }
     }
 
     @Override
     public void updateAddressFail(String msg) {
-        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_update_fail),Toast.LENGTH_SHORT);
+        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -213,23 +213,28 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 if (data.getIov().getErrno() == 0) {
                     address_id = data.getIov().getData().getAddress_id();
                     mAddrEditReq.setAddress_id(address_id);
-                    mAddrEditReq.setMt_address_id(dataBean.getMt_address_id()==null?
-                    0:dataBean.getMt_address_id());
+                    mAddrEditReq.setMt_address_id(dataBean.getMt_address_id() == null ?
+                            0 : dataBean.getMt_address_id());
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
                     String msg = data.getIov().getErrmsg();
                     ToastUtils.show(this, msg, Toast.LENGTH_SHORT);
                 }
             } else {
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_update_fail),Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
             }
         } else {
             if (data.getMeituan().getCode() == 0) {
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_success),Toast.LENGTH_SHORT);
-                MyApplicationAddressBean.USER_PHONES.add(et_phone.getText().toString().trim());
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_success), Toast.LENGTH_SHORT);
+                if (!MyApplicationAddressBean.USER_PHONES.contains(et_phone.getText().toString().trim())) {
+                    MyApplicationAddressBean.USER_PHONES.add(et_phone.getText().toString().trim());
+                }
+                if (!MyApplicationAddressBean.USER_NAMES.contains(et_name.getText().toString().trim())) {
+                    MyApplicationAddressBean.USER_NAMES.add(et_name.getText().toString().trim());
+                }
                 finish();
             } else {
-                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_fail),Toast.LENGTH_LONG);
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_fail), Toast.LENGTH_LONG);
             }
         }
 
@@ -237,23 +242,23 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void addAddressFail(String msg) {
-        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_fail),Toast.LENGTH_LONG);
+        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_save_fail), Toast.LENGTH_LONG);
     }
 
     @Override
     public void deleteAddressSuccess(AddressDeleteBean data) {
         if (data.getIov().getErrno() == 0) {
-            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_delete_success),Toast.LENGTH_SHORT);
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_delete_success), Toast.LENGTH_SHORT);
             finish();
         } else {
             String msg = data.getIov().getErrmsg();
-            ToastUtils.show(this, msg,Toast.LENGTH_SHORT);
+            ToastUtils.show(this, msg, Toast.LENGTH_SHORT);
         }
     }
 
     @Override
     public void deleteAddressFail(String msg) {
-        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_delete_fail),Toast.LENGTH_SHORT);
+        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_delete_fail), Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -288,16 +293,14 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         String type = mTagListView.getmTagValue();
 
         if (TextUtils.isEmpty(et_name.getText())) {
-            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_name),Toast.LENGTH_SHORT);
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_name), Toast.LENGTH_SHORT);
         } else if (TextUtils.isEmpty(et_phone.getText())) {
-            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_phone),Toast.LENGTH_SHORT);
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_phone), Toast.LENGTH_SHORT);
         } else if (TextUtils.isEmpty(address_tv.getText())) {
-            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_address),Toast.LENGTH_SHORT);
-        }else if(TextUtils.isEmpty(type)){
-            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_tagvalue),Toast.LENGTH_SHORT);
-        }else if(!StringUtils.isChinaPhoneLegal(et_phone.getText().toString())){
-            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_phone_error_hint_text),Toast.LENGTH_SHORT);
-        } else{
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_address), Toast.LENGTH_SHORT);
+        } else if (TextUtils.isEmpty(type)) {
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_check_tagvalue), Toast.LENGTH_SHORT);
+        } else {
             String house_num = Encryption.encrypt(et_house_num.getText().toString() + "");
             String name = Encryption.encrypt(et_name.getText() + "");
             String phone = Encryption.encrypt(et_phone.getText() + "");
@@ -313,6 +316,15 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             }
 
             if (isEditMode) {
+                try {
+                    String oldPhone = Encryption.desEncrypt(dataBean.getUser_phone());
+                    if (!oldPhone.equals(et_phone.getText()) && !StringUtils.isChinaPhoneLegal(et_phone.getText().toString())) {
+                        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_phone_error_hint_text), Toast.LENGTH_SHORT);
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 mAddrEditReq = new AddressEditReq();
                 mAddrEditReq.setUser_phone(phone);
                 mAddrEditReq.setUser_name(name);
@@ -323,14 +335,14 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrEditReq.setLatitude(latitude);
                 mAddrEditReq.setLongitude(longitude);
 
-                if (null!=dataBean.getAddress_id()) {
+                if (null != dataBean.getAddress_id()) {
                     mAddrEditReq.setAddress_id(dataBean.getAddress_id());
-                    if (null!=dataBean.getMt_address_id()) {
+                    if (null != dataBean.getMt_address_id()) {
                         mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
                     }
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
-                    if (null!=dataBean.getMt_address_id()) {
+                    if (null != dataBean.getMt_address_id()) {
                         mAddrAddReq.setMt_address_id(dataBean.getMt_address_id());
                     }
                     mAddrAddReq.setUser_phone(phone);
@@ -344,6 +356,10 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     getPresenter().requestAddAddressData(mAddrAddReq);
                 }
             } else {
+                if (!StringUtils.isChinaPhoneLegal(et_phone.getText().toString())) {
+                    ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.address_phone_error_hint_text), Toast.LENGTH_SHORT);
+                    return;
+                }
                 mAddrAddReq.setUser_phone(phone);
                 mAddrAddReq.setUser_name(name);
                 mAddrAddReq.setAddress(address);
