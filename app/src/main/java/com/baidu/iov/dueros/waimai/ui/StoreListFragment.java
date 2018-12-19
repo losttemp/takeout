@@ -369,7 +369,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		Lg.getInstance().d(TAG, "msg:" + msg);
 		mLoading.setVisibility(View.GONE);
 		mWarnNoInternet.setVisibility(View.VISIBLE);
-		mView.setVisibility(View.VISIBLE);
+		mView.setVisibility(View.GONE);
 		mLlFilter.setVisibility(View.GONE);
 		mRlTipNoResult.setVisibility(View.GONE);
 		mRefreshLayout.setVisibility(View.GONE);
