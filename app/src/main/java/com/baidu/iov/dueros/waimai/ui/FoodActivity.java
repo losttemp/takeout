@@ -226,10 +226,10 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     @Override
     public void onError(String error) {
         Lg.getInstance().d(TAG,"msg:"+error);
-        mWarnNoInternet.setVisibility(View.GONE);
+        mWarnNoInternet.setVisibility(View.VISIBLE);
         rlCenter.setVisibility(View.GONE);
         mLoading.setVisibility(View.GONE);
-        mRlTipNoResult.setVisibility(View.VISIBLE);
+        mRlTipNoResult.setVisibility(View.GONE);
        
     }
 
