@@ -1,8 +1,6 @@
 package com.baidu.iov.dueros.waimai.net.entity.request;
-
-import com.baidu.iov.dueros.waimai.net.entity.base.LatLongRequestBase;
-
-public class SearchSuggestReq extends LatLongRequestBase {
+import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
+public class SearchSuggestReq extends RequestBase {
 	private Integer longitude;
 	private Integer latitude;
 	private String query;

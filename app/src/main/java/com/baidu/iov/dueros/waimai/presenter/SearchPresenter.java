@@ -7,6 +7,7 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.ISearchModel;
 import com.baidu.iov.dueros.waimai.model.SearchModel;
+import com.baidu.iov.dueros.waimai.net.entity.request.SearchSuggestReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
@@ -72,9 +73,9 @@ public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 		mModel.onDestroy();
 	}
 
-	public void requestSuggestList(String query) {
+	public void requestSuggestList(SearchSuggestReq searchSuggestReq) {
 
-		mModel.requestSuggestList(query, new RequestCallback<SearchSuggestResponse>() {
+		mModel.requestSuggestList(searchSuggestReq, new RequestCallback<SearchSuggestResponse>() {
 			@Override
 			public void onSuccess(SearchSuggestResponse data) {
 				if (getUi() != null) {

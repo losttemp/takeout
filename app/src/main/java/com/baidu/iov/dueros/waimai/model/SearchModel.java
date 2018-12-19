@@ -22,15 +22,12 @@ public class SearchModel implements ISearchModel {
 	}
 
 	@Override
-	public void requestSuggestList(String query, final RequestCallback
+	public void requestSuggestList(SearchSuggestReq searchSuggestReq, final RequestCallback
 			callback) {
 		if (callback == null) {
 			return;
 		}
-
-		SearchSuggestReq searchSuggestReq = new SearchSuggestReq();
-		searchSuggestReq.setQuery(query);
-
+		
 		ApiUtils.getSearchSuggest(searchSuggestReq, new ApiCallBack<SearchSuggestResponse>() {
 			@Override
 			public void onSuccess(SearchSuggestResponse data) {

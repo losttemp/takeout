@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.SearchHistroyAdapter;
 import com.baidu.iov.dueros.waimai.adapter.SearchSuggestAdapter;
+import com.baidu.iov.dueros.waimai.net.entity.request.SearchSuggestReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.presenter.SearchPresenter;
@@ -63,6 +64,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	private RelativeLayout mRlSearch;
 
+	SearchSuggestReq searchSuggestReq;
+
 
 	@Override
 	SearchPresenter createPresenter() {
@@ -82,8 +85,13 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		iniData();
 
 	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
 	
-	
+	}
+
 	public void setmEtTipNoResult(){
 		mEtSearch.setText(getResources().getString(R.string.this_keyword_is_complicated));
 		mLlHistory.setVisibility(View.GONE);
@@ -120,6 +128,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mPresenter = getPresenter();
 		mStoreReq = new StoreReq();
 
+		
+
 		//fragment
 		mStoreListFragment = new StoreListFragment();
 		Bundle bundle = new Bundle();
@@ -147,6 +157,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mIvClean.setOnClickListener(this);
 		mTvCancel.setOnClickListener(this);
 		mRlSearch.setOnClickListener(this);
+		
 
 		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -208,7 +219,13 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					mLvSuggest.setVisibility(View.VISIBLE);
 					mLlHistory.setVisibility(View.GONE);
 					mFragmentStoreList.setVisibility(View.GONE);
-					mPresenter.requestSuggestList(mEtSearch.getText().toString());
+					if (searchSuggestReq==null) {
+						searchSuggestReq = new SearchSuggestReq();
+					}
+					searchSuggestReq.setLatitude(mStoreListFragment.getLatitude());
+					searchSuggestReq.setLongitude(mStoreListFragment.getLongitude());
+					searchSuggestReq.setQuery(mEtSearch.getText().toString());
+					mPresenter.requestSuggestList(searchSuggestReq);
 				}
 			}
 
