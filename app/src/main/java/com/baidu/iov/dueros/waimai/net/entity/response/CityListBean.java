@@ -2,6 +2,8 @@ package com.baidu.iov.dueros.waimai.net.entity.response;
 
 import java.util.List;
 
+import me.yokeyword.indexablerv.IndexableEntity;
+
 /**
  * Created by ubuntu on 18-10-15.
  */
@@ -70,9 +72,10 @@ public class CityListBean {
                     ", pinyin='" + pinyin + '\'' +
                     '}';
         }
+
     }
 
-    public static class AllBean {
+    public static class AllBean implements IndexableEntity {
         public AllBean(int id, String name, String pinyin) {
             this.id = id;
             this.name = name;
@@ -121,6 +124,22 @@ public class CityListBean {
                     ", name='" + name + '\'' +
                     ", pinyin='" + pinyin + '\'' +
                     '}';
+        }
+
+
+        @Override
+        public String getFieldIndexBy() {
+            return name;
+        }
+
+        @Override
+        public void setFieldIndexBy(String indexField) {
+            name = indexField;
+        }
+
+        @Override
+        public void setFieldPinyinIndexBy(String pinyin) {
+
         }
     }
 }
