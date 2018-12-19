@@ -231,7 +231,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                 finish();
                 break;
             case R.id.address_search_city_layout:
-                Intent intent = new Intent(AddressSuggestionActivity.this, CityListActivity.class);
+                Intent intent = new Intent(AddressSuggestionActivity.this, CityPickerActivity.class);
                 startActivityForResult(intent, Constant.CITY_REQUEST_CODE_CHOOSE);
                 break;
             default:

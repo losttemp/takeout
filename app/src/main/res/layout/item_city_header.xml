@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px60dp"
+            android:gravity="center_vertical"
+            android:background="#2f3841">
+
+            <com.domain.multipltextview.MultiplTextView
+                android:id="@+id/first_recentHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/px84dp"
+                android:layout_marginTop="@dimen/px4dp"
+                android:layout_marginBottom="@dimen/px4dp"
+                android:text="@string/location_of_the_city"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/px30sp"
+                app:removeDefaultPadding="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/px84dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/current_city"
+                android:layout_width="@dimen/px160dp"
+                android:layout_height="@dimen/px58dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/px34dp"
+                android:layout_marginBottom="@dimen/px34dp"
+                android:background="@drawable/bt_city_selector"
+                android:gravity="center"
+                android:text="@string/position_fail"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/px30sp" />
+
+            <TextView
+                android:id="@+id/try_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/position_try"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/px16sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px60dp"
+            android:gravity="center_vertical"
+            android:background="#2f3841">
+
+            <com.domain.multipltextview.MultiplTextView
+                android:id="@+id/recent_hot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/px4dp"
+                android:layout_marginLeft="@dimen/px84dp"
+                android:layout_marginTop="@dimen/px4dp"
+                android:text="@string/hot_city"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/px30sp"
+                app:removeDefaultPadding="true" />
+
+        </LinearLayout>
+
+        <com.baidu.iov.dueros.waimai.view.QGridView
+            android:id="@+id/item_header_city_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/px34dp"
+            android:layout_marginLeft="@dimen/px84dp"
+            android:layout_marginRight="@dimen/px144dp"
+            android:layout_marginTop="@dimen/px34dp"
+            android:horizontalSpacing="@dimen/px56dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="4"
+            android:verticalSpacing="@dimen/px68dp" />
+    </LinearLayout>
+</LinearLayout>

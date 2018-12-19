@@ -32,7 +32,7 @@
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginRight="@dimen/px84dp"
         android:layout_marginTop="@dimen/px14dp"
-        android:background="#1Affffff" />
+        android:background="@color/split_view_color" />
 
     <RelativeLayout
         android:layout_width="match_parent"

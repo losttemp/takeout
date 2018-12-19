@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="#2f3841"
+    android:gravity="center_vertical"
+    android:layout_height="@dimen/px60dp">
+
+    <com.domain.multipltextview.MultiplTextView
+        android:id="@+id/city_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginRight="@dimen/px84dp"
+        android:gravity="left|center_vertical"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/px30sp"
+        app:removeDefaultPadding="true" />
+</RelativeLayout>
