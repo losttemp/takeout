@@ -64,7 +64,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	private RelativeLayout mRlSearch;
 
-	SearchSuggestReq searchSuggestReq;
+	private SearchSuggestReq searchSuggestReq;
 
 
 	@Override
