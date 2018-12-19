@@ -507,7 +507,7 @@ public class OrderDetailsResponse {
                 this.discounts = discounts;
             }
 
-            public static class DiscountsBean {
+            public static class DiscountsBean implements Serializable{
 
                 private String name;
                 private String info;
