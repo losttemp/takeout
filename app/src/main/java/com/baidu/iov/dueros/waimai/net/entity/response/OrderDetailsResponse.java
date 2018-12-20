@@ -511,7 +511,7 @@ public class OrderDetailsResponse {
 
                 private String name;
                 private String info;
-                private int reduceFree;
+                private double reduceFree;
                 private String icon_url;
 
                 public String getName() {
@@ -530,7 +530,7 @@ public class OrderDetailsResponse {
                     this.info = info;
                 }
 
-                public int getReduceFree() {
+                public double getReduceFree() {
                     return reduceFree;
                 }
 

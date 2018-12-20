@@ -102,7 +102,7 @@ public class LocationManager {
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //"gcj02 bd09ll"
         if (TextUtils.isEmpty(coorType)) {
-            option.setCoorType("bd09ll");
+            option.setCoorType("gcj02");
         } else {
             option.setCoorType(coorType);
         }
