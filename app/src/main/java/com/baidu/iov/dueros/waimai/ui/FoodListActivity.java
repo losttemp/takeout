@@ -345,10 +345,16 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         String spusBeanTag = spusBean.getTag();
         boolean firstAdd = false;
         boolean inList = false;
+        boolean equalsSpusBeanId = false;
         Lg.getInstance().d(TAG, "updateProduct tag = " + tag + "; spusBeanTag = " + spusBeanTag);
         if (tag.equals(spusBeanTag)) {
             Lg.getInstance().d(TAG, "productList.contains(spusBean) = " + productList.contains(spusBean));
-            if (productList.contains(spusBean)) {
+            for (int i = 0; i < productList.size(); i++) {
+                if (productList.get(i).getId() == spusBean.getId()) {
+                    equalsSpusBeanId = true;
+                }
+            }
+            if (equalsSpusBeanId||productList.contains(spusBean)) {
                 if (spusBean.getNumber() == 0) {
                     productList.remove(spusBean);
                 } else {
@@ -359,6 +365,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                             if (shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0) {
                                 for (int i = 0; i < shopProduct.getAttrs().size(); i++) {
                                     List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs = shopProduct.getAttrs().get(i).getChoiceAttrs();
+                                    if (choiceAttrs == null) {
+                                        break;
+                                    }
                                     long id = choiceAttrs.get(0).getId();
                                     if (id == spusBean.getAttrs().get(i).getChoiceAttrs().get(0).getId()) {
 
@@ -424,7 +433,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (mBottomDialog != null && mBottomDialog.isShowing()) {
             setDialogHeight(mBottomDialog);
         }
-        refreshSpusTagNum(selection, increase, spusBean, firstAdd);
+//        refreshSpusTagNum(selection, increase, spusBean, firstAdd);
         setPrise(increase);
     }
 
@@ -481,7 +490,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
         mPoifoodSpusListAdapter.notifyDataSetChanged();
-        refreshSpusTagNum(section, increase, spusBean, false);
+//        refreshSpusTagNum(section, increase, spusBean, false);
         setPrise(increase);
     }
 
@@ -1037,8 +1046,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         foodSpuTagsBeanName.clear();
         mPoiInfoBean = data.getMeituan().getData().getPoi_info();
         mShopTitle.setText(mPoiInfoBean.getName());
-        mDelivery.setText(getString(R.string.distribution_situation, NumberFormat.getInstance().format(mPoiInfoBean.getMin_price()),
-                NumberFormat.getInstance().format(mPoiInfoBean.getShipping_fee()), NumberFormat.getInstance().format(mPoiInfoBean.getAvg_delivery_time())));
         mBulletin.setText(getString(R.string.notice, mPoiInfoBean.getBulletin()));
         GlideApp.with(this)
                 .load(mPoiInfoBean.getPic_url())
@@ -1195,8 +1202,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         for (int i = 0; i < attrIds.size(); i++) {
             for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrs) {
                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrsList = attrsBean.getChoiceAttrs();
-                choiceAttrsList.get(0).setId(Long.parseLong(attrIds.get(i)));
-                choiceAttrsList.get(0).setValue(String.valueOf(attrValues.get(i)));
+                if (choiceAttrsList != null && choiceAttrsList.size() > 0) {
+                    choiceAttrsList.get(0).setId(Long.parseLong(attrIds.get(i)));
+                    choiceAttrsList.get(0).setValue(String.valueOf(attrValues.get(i)));
+                }
             }
         }
         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean skusBean : skus) {
@@ -1235,6 +1244,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             mDiscounts.setLayoutManager(layoutManager);
             DiscountAdaper discountAdaper = new DiscountAdaper(this, discountList);
             mDiscounts.setAdapter(discountAdaper);
+            mDelivery.setText(getString(R.string.distribution_situation, NumberFormat.getInstance().format(mPoidetailinfoBean.getMeituan().getData().getMin_price()),
+                    NumberFormat.getInstance().format(mPoidetailinfoBean.getMeituan().getData().getShipping_fee()),
+                    NumberFormat.getInstance().format(mPoidetailinfoBean.getMeituan().getData().getAvg_delivery_time())));
             settlement.setText(String.format(getString(R.string.can_not_order), NumberFormat.getInstance().format(mPoidetailinfoBean.getMeituan().getData().getMin_price())));
             mDistributionFee.setText(String.format(getString(R.string.distribution_fee), NumberFormat.getInstance().format(mPoidetailinfoBean.getMeituan().getData().getShipping_fee())));
             mMtDistributionFee.setText(String.format(getString(R.string.distribution_fee), NumberFormat.getInstance().format(mPoidetailinfoBean.getMeituan().getData().getShipping_fee())));

@@ -82,6 +82,8 @@ public class PoifoodListModel implements IPoifoodListModel {
                     + " brandId:" + params.get(Constant.BRAND_ID));
         }
         PoifoodListReq poidetailinfoReq = new PoifoodListReq();
+        poidetailinfoReq.setLongitude(Integer.valueOf(params.get("longitude")));
+        poidetailinfoReq.setLatitude(Integer.valueOf(params.get("latitude")));
         poidetailinfoReq.setWm_poi_id(Long.parseLong(params.get(Constant.STORE_ID)));
         Lg.getInstance().d(TAG, "wm_poi_id = " + params.get(Constant.STORE_ID));
         ApiUtils.getPoidetailinfo(poidetailinfoReq, new ApiCallBack<PoidetailinfoBean>() {

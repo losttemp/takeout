@@ -298,7 +298,7 @@ public class PoidetailinfoBean {
                 private String info;
                 private String icon_url;
                 private String name;
-                private int reduceFree;
+                private double reduceFree;
 
                 public String getInfo() {
                     return info;
@@ -324,11 +324,11 @@ public class PoidetailinfoBean {
                     this.name = name;
                 }
 
-                public int getReduceFree() {
+                public double getReduceFree() {
                     return reduceFree;
                 }
 
-                public void setReduceFree(int reduceFree) {
+                public void setReduceFree(double reduceFree) {
                     this.reduceFree = reduceFree;
                 }
             }
