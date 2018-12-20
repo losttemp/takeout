@@ -94,6 +94,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         private TextView details;
         private TextView name;
         private TextView phone;
+        private TextView tvType;
         private ImageView ivType;
         private ImageView edit;
         private AddressListBean.IovBean.DataBean mDataBean;
@@ -101,7 +102,8 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         private AddressViewHolder(View view) {
             super(view);
             num = view.findViewById(R.id.address_select_num);
-            ivType = view.findViewById(R.id.address_type);
+//            ivType = view.findViewById(R.id.address_type);
+            tvType = view.findViewById(R.id.tv_address_type);
             details = view.findViewById(R.id.address_select_des_details);
             name = view.findViewById(R.id.address_select_name);
             phone = view.findViewById(R.id.address_select_phone);
@@ -113,22 +115,45 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         public void bindData(int position, AddressListBean.IovBean.DataBean dataBean) {
             this.mDataBean = dataBean;
             String type = dataBean.getType();
-            if (TextUtils.isEmpty(type)) {
-                ivType.setImageResource(R.drawable.address_other);
-            }else if (type.equals(mContext.getString(R.string.address_destination))) {
-                ivType.setImageResource(R.drawable.address_location);
-            } else if (type.equals(mContext.getString(R.string.address_company))) {
-                ivType.setImageResource(R.drawable.address_company);
-            } else if (type.equals(mContext.getString(R.string.address_home))) {
-                ivType.setImageResource(R.drawable.address_home);
-            } else {
-                ivType.setImageResource(R.drawable.address_other);
-            }
+//            if (TextUtils.isEmpty(type)) {
+//                ivType.setImageResource(R.drawable.address_other);
+//            }else if (type.equals(mContext.getString(R.string.address_destination))) {
+//                ivType.setImageResource(R.drawable.address_location);
+//            } else if (type.equals(mContext.getString(R.string.address_company))) {
+//                ivType.setImageResource(R.drawable.address_company);
+//            } else if (type.equals(mContext.getString(R.string.address_home))) {
+//                ivType.setImageResource(R.drawable.address_home);
+//            } else {
+//                ivType.setImageResource(R.drawable.address_other);
+//            }
+           if (TextUtils.isEmpty(type)){
+               tvType.setText(mContext.getString(R.string.address_tag_other));
+               tvType.setBackgroundResource(R.drawable.tag_bg);
+           }else if (mContext.getString(R.string.address_home).equals(type)) {
+                tvType.setBackgroundResource(R.drawable.tag_bg_green);
+                tvType.setText(type);
+
+           } else if (mContext.getString(R.string.address_company).equals(type)) {
+                tvType.setBackgroundResource(R.drawable.tag_bg_blue);
+                tvType.setText(type);
+
+           } else if (mContext.getString(R.string.address_tag_other).equals(type)) {
+                tvType.setBackgroundResource(R.drawable.tag_bg);
+                tvType.setText(type);
+
+           } else if (mContext.getString(R.string.address_destination).equals(type)){
+                tvType.setText(mContext.getString(R.string.address_tag_other));
+                tvType.setBackgroundResource(R.drawable.tag_bg);
+           }
             num.setText((position + 1) + "");
+            name.setText("");
+            phone.setText("");
             try {
                 details.setText(Encryption.desEncrypt(dataBean.getAddress()));
-                if (!TextUtils.isEmpty(dataBean.getUser_name()) && !TextUtils.isEmpty(dataBean.getUser_phone())) {
+                if (!TextUtils.isEmpty(dataBean.getUser_name())) {
                     name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
+                }
+                if (!TextUtils.isEmpty(dataBean.getUser_phone())) {
                     phone.setText(Encryption.desEncrypt(dataBean.getUser_phone()));
                 }
             } catch (Exception e) {

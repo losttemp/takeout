@@ -167,9 +167,6 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                         e.printStackTrace();
                     }
                 }
-                if (null != getUi()) {
-                    getUi().onSuccess(mDataBeans);
-                }
                 if (!TextUtils.isEmpty(data.getIov().getUser_phone())) {
                     try {
                         String personalPhone = Encryption.desEncrypt(data.getIov().getUser_phone());
@@ -181,8 +178,15 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                     }
                 }
                 if (mDataBeans.contains(mDesBean)) {
-                    mDataBeans.get(0).setUser_phone(MyApplicationAddressBean.USER_PHONES.get(0));
-                    mDataBeans.get(0).setUser_name(MyApplicationAddressBean.USER_NAMES.get(0));
+                    if (MyApplicationAddressBean.USER_PHONES.size()>0){
+                        mDataBeans.get(0).setUser_phone(MyApplicationAddressBean.USER_PHONES.get(0));
+                    }
+                    if (MyApplicationAddressBean.USER_NAMES.size()>0){
+                        mDataBeans.get(0).setUser_name(MyApplicationAddressBean.USER_NAMES.get(0));
+                    }
+                }
+                if (null != getUi()) {
+                    getUi().onSuccess(mDataBeans);
                 }
             }
 
