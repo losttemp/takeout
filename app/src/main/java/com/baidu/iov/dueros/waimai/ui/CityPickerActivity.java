@@ -2,7 +2,9 @@ package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +22,7 @@ import com.baidu.iov.dueros.waimai.adapter.CYBChangeCityGridViewAdapter;
 import com.baidu.iov.dueros.waimai.adapter.ContactAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListBean;
 import com.baidu.iov.dueros.waimai.utils.CheckUtils;
+import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.view.QGridView;
@@ -55,6 +58,7 @@ public class CityPickerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
         setContentView(R.layout.activity_city_picker);
         getLocationCity();
         initview();
@@ -101,7 +105,7 @@ public class CityPickerActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int originalPosition, int currentPosition, CityListBean.AllBean entity) {
                 if (originalPosition >= 0) {
-                    reFreshCityInfo(entity.getName(),0);
+                    reFreshCityInfo(entity.getName(), 0);
                 }
             }
         });
@@ -137,7 +141,7 @@ public class CityPickerActivity extends AppCompatActivity {
             vh.head_home_change_city_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    reFreshCityInfo(cityListBean.getHot().get(position).getName(),0);
+                    reFreshCityInfo(cityListBean.getHot().get(position).getName(), 0);
                 }
             });
             if (!CheckUtils.isEmpty(mlocation)) {
@@ -169,8 +173,8 @@ public class CityPickerActivity extends AppCompatActivity {
             public VH(View itemView) {
                 super(itemView);
                 head_home_change_city_gridview = (QGridView) itemView.findViewById(R.id.item_header_city_gridview);
-                item_header_city_dw = (Button)itemView.findViewById(R.id.current_city);
-                try_city = (TextView)itemView.findViewById(R.id.try_city);
+                item_header_city_dw = (Button) itemView.findViewById(R.id.current_city);
+                try_city = (TextView) itemView.findViewById(R.id.try_city);
             }
         }
     }
@@ -223,6 +227,22 @@ public class CityPickerActivity extends AppCompatActivity {
         intent.putExtra(Constant.CITYCODE, name);
         setResult(Constant.CITY_RESULT_CODE_CHOOSE, intent);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mlocationManager.stopLocation();
+        mLocationListener = null;
+        mlocationManager = null;
+        indexableLayout = null;
+    }
+
+    public void setStatusBar(boolean translucent, @ColorInt int color) {
+        CommonUtils.setTranslucentStatusBar(this, translucent);
+        if (color != 0) {
+            CommonUtils.setStatusBarColor(this, color);
+        }
     }
 
 }
