@@ -19,6 +19,8 @@ import com.baidu.iov.dueros.waimai.presenter.FoodPresenter;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 import com.domain.multipltextview.MultiplTextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -237,6 +239,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
+                Entry.getInstance().onEvent(	31300102,EventType.TOUCH_TYPE);
                 finish();
                 break;
             case R.id.rl_search:
