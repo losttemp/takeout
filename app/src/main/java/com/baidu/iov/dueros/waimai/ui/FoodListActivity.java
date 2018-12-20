@@ -65,6 +65,8 @@ import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.faceos.client.GsonUtil;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.io.Serializable;
@@ -349,12 +351,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         Lg.getInstance().d(TAG, "updateProduct tag = " + tag + "; spusBeanTag = " + spusBeanTag);
         if (tag.equals(spusBeanTag)) {
             Lg.getInstance().d(TAG, "productList.contains(spusBean) = " + productList.contains(spusBean));
-            for (int i = 0; i < productList.size(); i++) {
-                if (productList.get(i).getId() == spusBean.getId()) {
-                    equalsSpusBeanId = true;
-                }
-            }
-            if (equalsSpusBeanId||productList.contains(spusBean)) {
+//            for (int i = 0; i < productList.size(); i++) { //TODO
+//                if (productList.get(i).getId() == spusBean.getId()) {
+//                    equalsSpusBeanId = true;
+//                }
+//            }
+//            if (equalsSpusBeanId||productList.contains(spusBean)) {
+            if (productList.contains(spusBean)) {
                 if (spusBean.getNumber() == 0) {
                     productList.remove(spusBean);
                 } else {
@@ -749,6 +752,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mCartSettlement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Entry.getInstance().onEvent(31300072, EventType.TOUCH_TYPE);
                 mBottomDialog.dismiss();
                 if (NetUtil.getNetWorkState(FoodListActivity.this)) {
                     getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
@@ -760,6 +764,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mCartClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Entry.getInstance().onEvent(31300078, EventType.TOUCH_TYPE);
                 mBottomDialog.dismiss();
             }
         });
@@ -786,6 +791,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.shopping_cart:
+                Entry.getInstance().onEvent(31300074, EventType.TOUCH_TYPE);
                 if (productList == null || productList.size() == 0) {
                     return;
                 }
@@ -793,6 +799,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
 
             case R.id.settlement:
+                Entry.getInstance().onEvent(31300072, EventType.TOUCH_TYPE);
                 if (productList == null || productList.size() == 0) {
                     settlement.setEnabled(false);
                     return;
@@ -805,6 +812,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
 
             case R.id.tv_clear:
+                Entry.getInstance().onEvent(31300076, EventType.TOUCH_TYPE);
                 if (productList != null && productList.size() > 0) {
                     productList.clear();
                     for (int i = 0; i < foodSpuTagsBeans.size(); i++) {
@@ -830,8 +838,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
             case R.id.iv_finish:
                 finish();
+                Entry.getInstance().onEvent(31300021, EventType.TOUCH_TYPE);
                 break;
             case R.id.rl_store_details:
+                Entry.getInstance().onEvent(31300069, EventType.TOUCH_TYPE);
                 View popView = mPoifoodSpusListAdapter.getPopView(R.layout.dialog_shop_details);
                 mDetailsNotice = (TextView) popView.findViewById(R.id.tv_notice);
                 mDetailsShopName = (MultiplTextView) popView.findViewById(R.id.tv_shop_name);
