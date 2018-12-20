@@ -104,6 +104,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     protected void onDestroy() {
         super.onDestroy();
         timerCancel();
+        mFoodListView.removeAllViews();
+        mFoodListView=null;
     }
 
     @Override
@@ -660,4 +662,5 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             }
         }
     }
+
 }

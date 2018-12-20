@@ -168,30 +168,32 @@ public class AddressListBean {
                 if ((int)o.getCanShipping() != this.getCanShipping()) {
                     return  o.getCanShipping() - this.getCanShipping();
                 } else {
-                    if(TextUtils.isEmpty(o.getType())||TextUtils.isEmpty(this.getType())){
+
+                    if ((o.getType() == null || o.getType().equals("")) && (this.getType() == null || this.getType().equals(""))){
+                        return 0;
+                    }
+
+                    if ((o.getType() == null || o.getType().equals("")) && this.getType().equals("家里")){
                         return -1;
                     }
+
+                    if ((o.getType() == null || o.getType().equals("")) && this.getType().equals("公司")){
+                        return -1;
+                    }
+
+                    if (o.getType().equals("公司") && (this.getType() == null || this.getType().equals(""))){
+                        return 1;
+                    }
+
+                    if (o.getType().equals("家里") && (this.getType() == null || this.getType().equals(""))){
+                        return 1;
+                    }
+
                     if (o.getType().equals("家里") && this.getType().equals("公司")){
                         return 1;
                     }
 
-                    if (o.getType().equals("家里") && this.getType() == null){
-                        return 1;
-                    }
-
                     if (o.getType().equals("公司") && this.getType().equals("家里")){
-                        return -1;
-                    }
-
-                    if (o.getType().equals("公司") && this.getType() == null){
-                        return 1;
-                    }
-
-                    if (TextUtils.isEmpty(o.getType()) && this.getType().equals("家里")){
-                        return -1;
-                    }
-
-                    if (TextUtils.isEmpty(o.getType()) && this.getType().equals("公司")){
                         return -1;
                     }
 
