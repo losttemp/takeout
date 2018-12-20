@@ -316,6 +316,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	@Override
 	public void update(StoreResponse data) {
+		Lg.getInstance().d(TAG, "data:" + data);
 		mStoreData = data.getMeituan().getData();
 		if (mStoreData.getCurrent_page_index() <= 1) {
 			mStoreList.clear();
@@ -324,7 +325,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mLoading.setVisibility(View.GONE);
 		mStoreList.addAll(data.getMeituan().getData().getOpenPoiBaseInfoList());
 		mStoreAdaper.notifyDataSetChanged();
-		Lg.getInstance().d(TAG, "mStoreList:" + mStoreList.get(0));
 		//set emptey view
 		if (mStoreList.size() == 0) {
 			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
@@ -354,6 +354,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mRlTipNoResult.setVisibility(View.GONE);
 			mRefreshLayout.setVisibility(View.VISIBLE);
 			mLlFilter.setVisibility(View.VISIBLE);
+			Lg.getInstance().d(TAG, "mStoreList:" + mStoreList.get(0));
 		}
 
 		if (mRefreshLayout.isRefreshing()) {
@@ -368,40 +369,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	public void failure(String msg) {
 		Lg.getInstance().d(TAG, "msg:" + msg);
 		mLoading.setVisibility(View.GONE);
-		mWarnNoInternet.setVisibility(View.GONE);
-		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
-			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
-				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
-						.no_search_result_filter));
-			} else {
-				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string.no_search_result_keyword));
-				mLlFilter.setVisibility(View.GONE);
-				mView.setVisibility(View.GONE);
-				((SearchActivity) mContext).setmEtTipNoResult();
-			}
-		} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME || mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
-			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
-				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
-						.no_search_result_filter));
-			} else {
-				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
-						.no_search_result_position));
-			}
-		}
-		mRlTipNoResult.setVisibility(View.VISIBLE);
-		mRefreshLayout.setVisibility(View.GONE);
-		if (mRefreshLayout.isRefreshing()) {
-			mRefreshLayout.finishRefresh(false);
-		}
-		if (mRefreshLayout.isLoading()) {
-			mRefreshLayout.finishLoadmore(1000, false);
-		}
-		if (mRefreshLayout.isRefreshing()) {
-			mRefreshLayout.finishRefresh(false);
-		}
-		if (mRefreshLayout.isLoading()) {
-			mRefreshLayout.finishLoadmore(1000, false);
-		}
+		mWarnNoInternet.setVisibility(View.VISIBLE);
+		mView.setVisibility(View.VISIBLE);
+		mLlFilter.setVisibility(View.VISIBLE);
+		mRlTipNoResult.setVisibility(View.GONE);
 	}
 
 	private List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> getSortTypeList(List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> sortTypes) {
@@ -535,8 +506,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	private boolean netDataReque() {
 		if (!NetUtil.getNetWorkState(mContext)) {
-			mLlFilter.setVisibility(View.GONE);
-			mView.setVisibility(View.GONE);
 			mRefreshLayout.setVisibility(View.GONE);
 			mWarnNoInternet.setVisibility(View.VISIBLE);
 			mRlTipNoResult.setVisibility(View.GONE);
