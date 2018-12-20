@@ -65,27 +65,15 @@
 
 			<TextView
 				android:id="@+id/tv_store_name"
-				android:layout_width="@dimen/px376dp"
+				android:layout_width="@dimen/px386dp"
 				android:layout_height="wrap_content"
 				android:textColor="@color/white"
-				android:layout_marginRight="@dimen/px20dp"
+				android:layout_marginRight="@dimen/px10dp"
 				android:ellipsize="end"
 				android:maxLines="1"
 				android:textSize="@dimen/px36sp"
 				tools:text="@string/tools_text_store_name" />
-
-			<com.domain.multipltextview.MultiplTextView
-				app:removeDefaultPadding="true"
-				android:id="@+id/tv_distance"
-				android:layout_alignParentRight="true"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="3dp"
-				android:textColor="@color/white_60"
-				android:gravity="center"
-				android:textSize="@dimen/px30sp"
-				tools:text="2.5km" />
+				
 			<com.domain.multipltextview.MultiplTextView
 				app:removeDefaultPadding="true"
 				android:id="@+id/tv_time"
@@ -93,11 +81,24 @@
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
 				android:textColor="@color/white_60"
-				android:layout_marginRight="5dp"
+				android:layout_marginRight="@dimen/px4dp"
 				android:gravity="center"
 				android:textSize="@dimen/px30sp"
-				android:layout_toLeftOf="@id/tv_distance"
+				android:layout_toRightOf="@id/tv_store_name"
 				tools:text="@string/delivery_time" />
+
+				<com.domain.multipltextview.MultiplTextView
+					app:removeDefaultPadding="true"
+					android:id="@+id/tv_distance"
+					android:layout_toRightOf="@id/tv_time"
+					android:layout_alignParentRight="true"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:textColor="@color/white_60"
+					android:gravity="center"
+					android:textSize="@dimen/px30sp"
+					tools:text="2.5km" />
 			
 			</RelativeLayout>
 
@@ -201,9 +202,9 @@
 
 				<android.support.v7.widget.RecyclerView
 					android:id="@+id/rv_store_discount"
-					android:layout_width="match_parent"
+					android:layout_width="@dimen/px480dp"
 					android:layout_height="wrap_content"
-					android:layout_marginRight="20dp"
+					android:layout_marginRight="@dimen/px20dp"
 					tools:listitem="@layout/item_store_discount" />
 
 				<android.support.v7.widget.AppCompatImageView
