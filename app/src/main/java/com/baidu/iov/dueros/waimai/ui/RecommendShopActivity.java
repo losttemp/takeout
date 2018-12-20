@@ -12,6 +12,9 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
+
 public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
         HomePresenter.HomeUi, View.OnClickListener {
 
@@ -130,8 +133,8 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
+                Entry.getInstance().onEvent(	31300102,EventType.TOUCH_TYPE);
                 finish();
-                onBackPressed();
                 break;
             case R.id.rl_search:
                 Intent intent = new Intent(RecommendShopActivity.this, SearchActivity.class);

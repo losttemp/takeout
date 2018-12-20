@@ -36,6 +36,8 @@ import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortTypeTagListView;
 import com.baidu.iov.faceos.client.GsonUtil;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -161,6 +163,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			@Override
 			public void onClick(int sortType) {
 				mTvSort.setText(getResources().getString(R.string.store_sort));
+				Entry.getInstance().onEvent(31300062,EventType.TOUCH_TYPE);
 				if (sortType == Constant.COMPREHENSIVE) {
 					mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
 				} else {
@@ -189,6 +192,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreAdaper.setItemClickListener(new StoreAdaper.OnItemClickListener() {
 			@Override
 			public void onItemClick(int position) {
+				Entry.getInstance().onEvent(31300109,EventType.TOUCH_TYPE);
 				jumpPage(position, false);
 			}
 		});
@@ -227,6 +231,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 						@Override
 						public void OnSelectedSort(FilterConditionResponse.MeituanBean.DataBean
 														   .SortTypeListBean type) {
+							Entry.getInstance().onEvent(31300062,EventType.TOUCH_TYPE);
 							mStoreReq.setSortType((int) type.getCode());
 							mTvSort.setText(type.getName());
 							loadFirstPage(mStoreReq);
@@ -446,7 +451,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				.getStatus() != Constant.SEARCH_STATUS_FRAGMENT) {
 			return;
 		}
-
+		
+		Entry.getInstance().onEvent(31300110,EventType.VOICE_TYPE);
 		jumpPage(index, true);
 	}
 
@@ -458,6 +464,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 
 		if (mRlTipNoResult.getVisibility() == View.GONE) {
+			Entry.getInstance().onEvent(31300107,EventType.VOICE_TYPE);
 			LinearLayoutManager manager = (LinearLayoutManager) mRvStore.getLayoutManager();
 			assert manager != null;
 			int currentItemPosition = manager.findFirstVisibleItemPosition();
@@ -486,6 +493,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
 			@Override
 			public void onLoadmore(RefreshLayout refreshLayout) {
+				Entry.getInstance().onEvent(31300108,EventType.TOUCH_TYPE);
 				if (mStoreData.getHave_next_page() == 1) {
 					mStoreReq.setPage_index(mStoreData.getCurrent_page_index() + 1);
 					mPresenter.requestStoreList(mStoreReq);

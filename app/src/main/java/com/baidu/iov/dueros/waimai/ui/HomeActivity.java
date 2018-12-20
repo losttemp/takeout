@@ -17,6 +17,9 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.location.BDLocation;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
+
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
 
@@ -117,6 +120,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.iv_back:
+				Entry.getInstance().onEvent(	31300104,EventType.TOUCH_TYPE);
 				MyApplicationAddressBean.USER_NAMES.clear();
 				MyApplicationAddressBean.USER_PHONES.clear();
 				AtyContainer.getInstance().finishAllActivity();
@@ -125,11 +129,15 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 			case R.id.tv_title:
 			case R.id.iv_title:
+				
+
 				Intent addressIntent = new Intent(HomeActivity.this, AddressSelectActivity.class);
 				startActivity(addressIntent);
 				break;
 
 			case R.id.iv_right:
+			
+						
 				Intent orderListIntent = new Intent(this, OrderListActivity.class);
 				startActivity(orderListIntent);
 				break;
@@ -140,18 +148,22 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 				break;
 
 			case R.id.rl_flower:
+				
+				Entry.getInstance().onEvent(31300053,EventType.TOUCH_TYPE);
 				Intent flowerIntent = new Intent(this, RecommendShopActivity.class);
 				flowerIntent.putExtra("title", mTvFlower.getText().toString());
 				startActivity(flowerIntent);
 				break;
 
 			case R.id.rl_cake:
+				Entry.getInstance().onEvent(31300055,EventType.TOUCH_TYPE);
 				Intent cakeIntent = new Intent(this, RecommendShopActivity.class);
 				cakeIntent.putExtra("title", mTvCake.getText().toString());
 				startActivity(cakeIntent);
 				break;
 
 			case R.id.rl_food:
+				Entry.getInstance().onEvent(31300051,EventType.TOUCH_TYPE);
 				Intent foodIntent = new Intent(this, FoodActivity.class);
 				foodIntent.putExtra("title", mTvFood.getText().toString());
 				foodIntent.putExtra("latitude", mStoreListFragment.getLatitude());

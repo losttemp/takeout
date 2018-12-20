@@ -33,6 +33,9 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
+
 import java.util.ArrayList;
 import java.util.List;
 public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresenter.SearchUi>
@@ -162,6 +165,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Entry.getInstance().onEvent(	31300049,EventType.TOUCH_TYPE);
 				searchKeyword(mHistorys.get(position-HEAD_NUM));
 			}
 		});
@@ -215,6 +219,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					mIvClean.setVisibility(View.GONE);
 					changeStatus(Constant.SEARCH_STATUS_HISTORY);
 				} else {
+					Entry.getInstance().onEvent(	31300047,EventType.TOUCH_TYPE);
 					mIvClean.setVisibility(View.VISIBLE);
 					mLvSuggest.setVisibility(View.VISIBLE);
 					mLlHistory.setVisibility(View.GONE);
@@ -299,6 +304,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	@Override
 	public void selectListItem(int index) {
 		if (mCurrentStatus == Constant.SEARCH_STATUS_HISTORY && mHistorys.size() > index) {
+			Entry.getInstance().onEvent(	31300048,EventType.VOICE_TYPE);
 			VoiceManager.getInstance().playTTS(SearchActivity.this, getString(R.string.yes));
 			searchKeyword(mHistorys.get(index));
 		}
@@ -369,6 +375,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		if (mCurrentStatus == Constant.SEARCH_STATUS_FRAGMENT) {
 			changeStatus(Constant.SEARCH_STATUS_HISTORY);
 		} else {
+			Entry.getInstance().onEvent(31300102,EventType.TOUCH_TYPE);
 			finish();
 		}
 	}
