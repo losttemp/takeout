@@ -13,7 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +47,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     private List<AddressListBean.IovBean.DataBean> mDataListBean;
     public final static String ADDRESS_DATA = "address_data";
     private AddressListBean.IovBean.DataBean mAddressData;
-
+    private RelativeLayout viewById;
 
     @Override
     AddressListPresenter createPresenter() {
@@ -61,8 +64,13 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_list);
+        viewById = findViewById(R.id.rv_activity_address_list);
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) viewById.getLayoutParams();
+        lp.topMargin = getStateBar3();
+        viewById.setLayoutParams(lp);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.px962dp));
         getWindow().setGravity(Gravity.TOP);
+
     }
 
     public void initView() {
@@ -114,13 +122,13 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                         try {
                             String address = Encryption.desEncrypt(addressData.getAddress());
                             CacheUtils.saveAddress(address);
-                            HomeActivity.address=address;
+                            HomeActivity.address = address;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                         setResult(RESULT_OK, data);
-                        if (mDataListBean.get(position).getCanShipping() != 1){
-                            ToastUtils.show(getApplicationContext(),getResources().getString(R.string.order_submit_msg8),Toast.LENGTH_LONG);
+                        if (mDataListBean.get(position).getCanShipping() != 1) {
+                            ToastUtils.show(getApplicationContext(), getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_LONG);
                         }
                         finish();
                         break;
@@ -211,19 +219,19 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             mAddressListAdapter.setData(mDataListBean);
             if (MyApplicationAddressBean.USER_PHONES.size() == 0) {
                 for (int i = 0; i < mDataListBean.size(); i++) {
-                        try {
-                            AddressListBean.IovBean.DataBean dataBean = mDataListBean.get(i);
-                            String user_phone = Encryption.desEncrypt(dataBean.getUser_phone());
-                            String user_name = Encryption.desEncrypt(dataBean.getUser_name());
-                            if (!MyApplicationAddressBean.USER_PHONES.contains(user_phone)) {
-                                MyApplicationAddressBean.USER_PHONES.add(0, user_phone);
-                            }
-                            if (!MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
-                                MyApplicationAddressBean.USER_NAMES.add(0, user_name);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    try {
+                        AddressListBean.IovBean.DataBean dataBean = mDataListBean.get(i);
+                        String user_phone = Encryption.desEncrypt(dataBean.getUser_phone());
+                        String user_name = Encryption.desEncrypt(dataBean.getUser_name());
+                        if (!MyApplicationAddressBean.USER_PHONES.contains(user_phone)) {
+                            MyApplicationAddressBean.USER_PHONES.add(0, user_phone);
                         }
+                        if (!MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
+                            MyApplicationAddressBean.USER_NAMES.add(0, user_name);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
 
                 }
@@ -255,4 +263,14 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             finish();
         }
     }
+
+    private int getStateBar3() {
+        int result = 0;
+        int resourceId = this.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = this.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
 }
