@@ -483,7 +483,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         int code = mOrderPreviewData.getCode();
         if (code == Constant.ORDER_PREVIEW_SUCCESS) {
             showAllProductItem(mOrderPreviewData.getWm_ordering_preview_detail_vo_list());
-            showAllDiscountItem();
+
             double shippingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getShipping_fee();
             mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
 
@@ -500,6 +500,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 mDiscountTv.setVisibility(View.GONE);
                 mDiscountsLayout.setVisibility(View.GONE);
             }else {
+                showAllDiscountItem();
                 mDiscountTv.setText(String.format(getResources().getString(R.string.submit_discount), mNumberFormat.format(reduced)));
             }
 
@@ -532,11 +533,15 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         for (OrderPreviewBean.MeituanBean.DataBean.DiscountsBean discountsBean : discountsBeanList) {
             LayoutInflater inflater = this.getLayoutInflater();
             final RelativeLayout discountItem = (RelativeLayout) inflater.inflate(R.layout.discount_list_item, mDiscountsLayout, false);
-            TextView discount_name_tv = discountItem.findViewById(R.id.discount_name);
-            discount_name_tv.setText(discountsBean.getName());
-            TextView discount_info_tv = discountItem.findViewById(R.id.discount);
-            discount_info_tv.setText(String.format(getString(R.string.discount_money), mNumberFormat.format(discountsBean.getReduceFree())));
-            mDiscountsLayout.addView(discountItem);
+            if (discountsBean.getReduceFree()==0){
+                discountItem.setVisibility(View.INVISIBLE);
+            }else {
+                TextView discount_name_tv = discountItem.findViewById(R.id.discount_name);
+                discount_name_tv.setText(discountsBean.getName());
+                TextView discount_info_tv = discountItem.findViewById(R.id.discount);
+                discount_info_tv.setText(String.format(getString(R.string.discount_money), mNumberFormat.format(discountsBean.getReduceFree())));
+                mDiscountsLayout.addView(discountItem);
+            }
         }
 
     }
