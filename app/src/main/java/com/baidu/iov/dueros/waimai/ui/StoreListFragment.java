@@ -373,6 +373,13 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mView.setVisibility(View.VISIBLE);
 		mLlFilter.setVisibility(View.VISIBLE);
 		mRlTipNoResult.setVisibility(View.GONE);
+		mRefreshLayout.setVisibility(View.GONE);
+		if (mRefreshLayout.isRefreshing()) {
+			mRefreshLayout.finishRefresh(false);
+		}
+		if (mRefreshLayout.isLoading()) {
+			mRefreshLayout.finishLoadmore(1000, false);
+		}
 	}
 
 	private List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> getSortTypeList(List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> sortTypes) {
