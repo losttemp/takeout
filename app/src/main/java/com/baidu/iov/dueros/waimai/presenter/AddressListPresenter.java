@@ -41,7 +41,15 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
             @Override
             public void onSuccess(AddressListBean data) {
                 if (null != getUi()) {
-                    getUi().onGetAddressListSuccess(data);
+                    if (data != null && data.getIov().getData().size() > 0) {
+                        for (int i = 0; i < data.getIov().getData().size(); i++) {
+                            if (data.getIov().getData().get(i).isIs_hint()){
+                                data.getIov().getData().remove(i);
+                                i--;
+                            }
+                        }
+                        getUi().onGetAddressListSuccess(data);
+                    }
                 }
             }
 
@@ -55,7 +63,7 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "getLogid: "+id);
+                Log.d(TAG, "getLogid: " + id);
             }
         });
 
