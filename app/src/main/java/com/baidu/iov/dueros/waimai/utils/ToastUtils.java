@@ -13,7 +13,7 @@ public class ToastUtils {
 
     public static void show(Context context, CharSequence text, int duration) {
         if (result == null) {
-            result = Toast.makeText(context, text, duration);
+            result = Toast.makeText(context.getApplicationContext(), text, duration);
         }
         TextView tv = result.getView().findViewById(Resources.getSystem().getIdentifier("message", "id", "android"));
         tv.setText(text);
