@@ -15,39 +15,45 @@
 
     <TextView
         android:id="@+id/product_name"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/px450dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/px38dp"
         android:layout_marginTop="@dimen/px28dp"
         android:layout_toEndOf="@+id/product_photo"
         android:includeFontPadding="false"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/white"
         android:textSize="@dimen/px36sp" />
 
     <TextView
         android:id="@+id/product_attrs"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/px200dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/product_name"
         android:layout_below="@+id/product_name"
         android:layout_marginTop="@dimen/px40dp"
         android:alpha="0.6"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:includeFontPadding="false"
         android:visibility="gone"
         android:textColor="@color/white"
         android:textSize="@dimen/px30sp"/>
 
-    <com.domain.multipltextview.MultiplTextView
+    <TextView
         android:id="@+id/product_count"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/px200dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/product_attrs"
         android:layout_below="@+id/product_attrs"
         android:layout_marginTop="@dimen/px12dp"
         android:alpha="0.6"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/px30sp"
-        app:removeDefaultPadding="true" />
+        android:textSize="@dimen/px30sp" />
 
     <View
         android:layout_width="match_parent"
