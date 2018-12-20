@@ -19,6 +19,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
+import com.baidu.iov.dueros.waimai.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -150,10 +151,10 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                                 }
                             }
                         }
-                        if (!TextUtils.isEmpty(baiduName)&&!MyApplicationAddressBean.USER_NAMES.contains(baiduName)) {
+                        if (!TextUtils.isEmpty(baiduName) && !MyApplicationAddressBean.USER_NAMES.contains(baiduName)) {
                             MyApplicationAddressBean.USER_NAMES.add(0, baiduName.toString());
                         }
-                        if (!TextUtils.isEmpty(baiduPhone)&&!MyApplicationAddressBean.USER_PHONES.contains(baiduPhone)) {
+                        if (!TextUtils.isEmpty(baiduPhone) && !MyApplicationAddressBean.USER_PHONES.contains(baiduPhone)) {
                             MyApplicationAddressBean.USER_PHONES.add(0, baiduPhone.toString());
                         }
                         if (dataInfo.isIs_hint()) {
@@ -168,6 +169,16 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                 }
                 if (null != getUi()) {
                     getUi().onSuccess(mDataBeans);
+                }
+                if (!TextUtils.isEmpty(data.getIov().getUser_phone())) {
+                    try {
+                        String personalPhone = Encryption.desEncrypt(data.getIov().getUser_phone());
+                        if (StringUtils.isChinaPhoneLegal(personalPhone)) {
+                            MyApplicationAddressBean.USER_PHONES.add(0, personalPhone);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 if (mDataBeans.contains(mDesBean)) {
                     mDataBeans.get(0).setUser_phone(MyApplicationAddressBean.USER_PHONES.get(0));

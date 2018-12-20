@@ -33,6 +33,7 @@ public class AddressListBean {
 
     public static class IovBean {
         private List<DataBean> data;
+        private String user_phone;
 
         public List<DataBean> getData() {
             return data;
@@ -40,6 +41,14 @@ public class AddressListBean {
 
         public void setData(List<DataBean> data) {
             this.data = data;
+        }
+
+        public String getUser_phone() {
+            return user_phone;
+        }
+
+        public void setUser_phone(String user_phone) {
+            this.user_phone = user_phone;
         }
 
         public static class DataBean implements Serializable, Comparable<DataBean> {
