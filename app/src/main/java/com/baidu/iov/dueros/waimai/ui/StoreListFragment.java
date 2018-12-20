@@ -368,11 +368,34 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	public void failure(String msg) {
 		Lg.getInstance().d(TAG, "msg:" + msg);
 		mLoading.setVisibility(View.GONE);
-		mWarnNoInternet.setVisibility(View.VISIBLE);
-		mView.setVisibility(View.GONE);
-		mLlFilter.setVisibility(View.GONE);
-		mRlTipNoResult.setVisibility(View.GONE);
+		mWarnNoInternet.setVisibility(View.GONE);
+		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
+			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
+				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+						.no_search_result_filter));
+			} else {
+				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string.no_search_result_keyword));
+				mLlFilter.setVisibility(View.GONE);
+				mView.setVisibility(View.GONE);
+				((SearchActivity) mContext).setmEtTipNoResult();
+			}
+		} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME || mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
+			if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
+				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+						.no_search_result_filter));
+			} else {
+				mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
+						.no_search_result_position));
+			}
+		}
+		mRlTipNoResult.setVisibility(View.VISIBLE);
 		mRefreshLayout.setVisibility(View.GONE);
+		if (mRefreshLayout.isRefreshing()) {
+			mRefreshLayout.finishRefresh(false);
+		}
+		if (mRefreshLayout.isLoading()) {
+			mRefreshLayout.finishLoadmore(1000, false);
+		}
 		if (mRefreshLayout.isRefreshing()) {
 			mRefreshLayout.finishRefresh(false);
 		}
