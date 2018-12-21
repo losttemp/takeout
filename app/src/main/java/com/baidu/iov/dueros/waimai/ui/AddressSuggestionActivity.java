@@ -32,6 +32,8 @@ import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.utils.DistanceUtil;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,6 +71,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_search);
+        Entry.getInstance().onEvent(31300026,EventType.TOUCH_TYPE);
         initView();
         initData();
         initPoiInfo();
