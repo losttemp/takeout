@@ -24,6 +24,8 @@ import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.faceos.client.GsonUtil;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,6 +153,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     }
 
     private void startEditActivity(AddressListBean.IovBean.DataBean dataBean) {
+        Entry.getInstance().onEvent(31300037,EventType.TOUCH_TYPE);
         Intent intent = new Intent(AddressSelectActivity.this, AddressEditActivity.class);
         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS, dataBean);

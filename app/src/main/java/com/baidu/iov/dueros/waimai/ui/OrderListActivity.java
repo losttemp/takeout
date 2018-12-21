@@ -35,6 +35,8 @@ import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -136,6 +138,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         startActivity(storeintent);
                         break;
                     case R.id.one_more_order:
+                        Entry.getInstance().onEvent(31300095,EventType.TOUCH_TYPE);
                         Intent onemoreintent = new Intent(OrderListActivity.this, FoodListActivity.class);
                         onemoreintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         onemoreintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(position).getExtra());
@@ -144,6 +147,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         startActivity(onemoreintent);
                         break;
                     case R.id.pay_order:
+                        Entry.getInstance().onEvent(31300081,EventType.TOUCH_TYPE);
                         Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
                         double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
                         payintent.putExtra("total_cost", total_price);
@@ -158,6 +162,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         break;
                     case R.id.cancel_order:
                         pos = position;
+                        Entry.getInstance().onEvent(31300081,EventType.TOUCH_TYPE);
                         mOrderCancelReq = new OrderCancelReq(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         ConfirmDialog dialog = new ConfirmDialog.Builder(OrderListActivity.this)
                                 .setTitle(R.string.order_cancel_title)
@@ -185,6 +190,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         dialog.show();
                         break;
                     default:
+                        Entry.getInstance().onEvent(31300097,EventType.TOUCH_TYPE);
                         Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
                         intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         intent.putExtra(Constant.STORE_ID,Long.parseLong(payloadBean.getWm_ordering_list().getWm_poi_id()));
@@ -272,6 +278,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back:
+                Entry.getInstance().onEvent(31300102,EventType.TOUCH_TYPE);
                 onBackPressed();
                 break;
             case R.id.no_internet_btn:

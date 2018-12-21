@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 import com.bumptech.glide.Glide;
 
 public class PaySuccessActivity extends AppCompatActivity implements View.OnClickListener {
@@ -129,6 +131,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.order_details_tv:
                 isGo2OrderDetail = true;
+                Entry.getInstance().onEvent(31300088,EventType.TOUCH_TYPE);
                 Intent intent = new Intent(this, OrderDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Constant.ORDER_ID, mOrderId);

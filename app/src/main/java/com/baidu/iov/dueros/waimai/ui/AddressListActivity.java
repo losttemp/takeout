@@ -31,8 +31,8 @@ import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
+import com.baidu.xiaoduos.syncclient.Entry;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,8 +49,10 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     private AddressListBean.IovBean.DataBean mAddressData;
     private RelativeLayout viewById;
 
+
     @Override
     AddressListPresenter createPresenter() {
+
         return new AddressListPresenter();
     }
 
@@ -66,7 +68,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         setContentView(R.layout.activity_address_list);
         viewById = findViewById(R.id.rv_activity_address_list);
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) viewById.getLayoutParams();
-        lp.topMargin = getStateBar3();
+        lp.topMargin = getStateBar();
         viewById.setLayoutParams(lp);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.px962dp));
         getWindow().setGravity(Gravity.TOP);
@@ -264,7 +266,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         }
     }
 
-    private int getStateBar3() {
+    private int getStateBar() {
         int result = 0;
         int resourceId = this.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {

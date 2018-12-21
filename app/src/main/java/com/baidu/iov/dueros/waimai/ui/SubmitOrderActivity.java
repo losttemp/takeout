@@ -38,6 +38,8 @@ import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 import com.bumptech.glide.Glide;
 
 import org.apache.commons.lang3.StringUtils;
@@ -261,10 +263,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         switch (v.getId()) {
 
             case R.id.back_action:
+                Entry.getInstance().onEvent(31300102,EventType.TOUCH_TYPE);
                 onBackPressed();
                 break;
             case R.id.address_info:
-
+                Entry.getInstance().onEvent(31300083,EventType.TOUCH_TYPE);
                 Intent intent = new Intent(this, AddressListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Constant.WM_POI_ID, mPoiInfo.getWm_poi_id());
@@ -272,13 +275,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 break;
 
             case R.id.delivery_info:
-
+                Entry.getInstance().onEvent(31300082,EventType.TOUCH_TYPE);
                 showPopwindow();
                 backgroundAlpha(0.5f);
                 break;
 
             case R.id.to_pay:
-
+                Entry.getInstance().onEvent(31300081,EventType.TOUCH_TYPE);
                 if (mAddressData == null) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT);
                 }
