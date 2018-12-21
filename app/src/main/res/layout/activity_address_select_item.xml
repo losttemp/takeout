@@ -16,8 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/px36dp"
-            android:textColor="#ffffff"
-            app:removeDefaultPadding="true"
+            android:textColor="@color/white"
             android:textSize="@dimen/px48sp" />
 
         <TextView
