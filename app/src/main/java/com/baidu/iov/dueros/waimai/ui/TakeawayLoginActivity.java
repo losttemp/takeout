@@ -32,6 +32,8 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 
 import java.util.List;
 
@@ -162,6 +164,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     @Override
     public void update(MeituanAuthorizeResponse data) {
+        Entry.getInstance().onEvent(31300023,EventType.TOUCH_TYPE);
         if (data.getIov().getAuthorizedState()) {
             if (CacheUtils.getAuth()) {
                 //getPresenter().requestAddressListData(mAddressListReq);
@@ -299,6 +302,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     }
 
     private void initPostHttp(){
+        Entry.getInstance().onEvent(31300022,EventType.TOUCH_TYPE);
         if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
             getPresenter().requestAccountInfo();
         } else {

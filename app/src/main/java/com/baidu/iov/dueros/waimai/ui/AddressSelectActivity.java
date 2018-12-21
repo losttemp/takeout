@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_select);
+        Entry.getInstance().onEvent(31300046,EventType.TOUCH_TYPE);
         isNeedPlayTTS = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
         getPresenter().initDesBeans();
         init = false;
@@ -102,6 +104,16 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             public void OnItemClick(View v, AddressListBean.IovBean.DataBean dataBean) {
                 switch (v.getId()) {
                     case R.id.address_select_details_container:
+                        Entry.getInstance().onEvent(31300034,EventType.TOUCH_TYPE);
+                        String type =dataBean.getType();
+                        if (TextUtils.isEmpty(type)){
+                        }else if (getString(R.string.address_home).equals(type)) {
+                            Entry.getInstance().onEvent(31300032,EventType.TOUCH_TYPE);
+                        } else if (getString(R.string.address_company).equals(type)) {
+                            Entry.getInstance().onEvent(31300030,EventType.TOUCH_TYPE);
+                        }else if (getString(R.string.address_destination).equals(type)){
+                            Entry.getInstance().onEvent(31300028,EventType.TOUCH_TYPE);
+                        }
                         String databeanStr = GsonUtil.toJson(dataBean);
                         CacheUtils.saveAddressBean(databeanStr);
                         sendBroadcast(new Intent(Constant.PULL_LOCATION));

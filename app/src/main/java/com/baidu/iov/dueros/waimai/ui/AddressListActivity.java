@@ -32,6 +32,7 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 
 import java.util.Collections;
 import java.util.List;
@@ -49,10 +50,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     private AddressListBean.IovBean.DataBean mAddressData;
     private RelativeLayout viewById;
 
-
     @Override
     AddressListPresenter createPresenter() {
-
         return new AddressListPresenter();
     }
 
@@ -66,6 +65,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_list);
+        Entry.getInstance().onEvent(31300046,EventType.TOUCH_TYPE);
         viewById = findViewById(R.id.rv_activity_address_list);
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) viewById.getLayoutParams();
         lp.topMargin = getStateBar();
