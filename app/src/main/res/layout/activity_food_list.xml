@@ -9,7 +9,7 @@
     <include
         android:id="@+id/ll_loading"
         layout="@layout/dialog_loading_toast"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <include
         android:id="@+id/no_net"
@@ -21,7 +21,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -154,32 +154,23 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/card_bg">
 
-            <ImageView
-                android:id="@+id/shopping_cart"
-                android:layout_width="@dimen/px94dp"
-                android:layout_height="@dimen/px94dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/px84dp"
-                android:src="@drawable/icon_gouwuche" />
-
             <TextView
-                android:id="@+id/shoppingNum"
-                android:layout_width="@dimen/px30dp"
-                android:layout_height="@dimen/px30dp"
-                android:layout_alignRight="@+id/shopping_cart"
-                android:layout_alignTop="@+id/shopping_cart"
-                android:background="@drawable/point"
-                android:gravity="center"
+                android:id="@+id/tv_open_shop_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/px18dp"
+                android:layout_marginLeft="@dimen/px72dp"
+                android:text="查看购物车"
                 android:textColor="@color/white"
-                android:textSize="@dimen/px24sp"
-                android:visibility="gone" />
+                android:textSize="@dimen/px26sp" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/px36dp"
-                android:layout_toRightOf="@+id/shopping_cart">
+                android:layout_toRightOf="@+id/tv_open_shop_cart">
 
                 <RelativeLayout
                     android:id="@+id/ll_price"
@@ -252,5 +243,31 @@
                 android:textSize="@dimen/px36sp" />
         </RelativeLayout>
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/px60dp"
+        android:layout_marginLeft="@dimen/px72dp">
+
+        <ImageView
+            android:id="@+id/shopping_cart"
+            android:layout_width="@dimen/px120dp"
+            android:layout_height="@dimen/px120dp"
+            android:src="@drawable/icon120" />
+
+        <TextView
+            android:id="@+id/shoppingNum"
+            android:layout_width="@dimen/px30dp"
+            android:layout_height="@dimen/px30dp"
+            android:layout_alignRight="@+id/shopping_cart"
+            android:layout_alignTop="@+id/shopping_cart"
+            android:background="@drawable/point"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px24sp"
+            android:visibility="gone" />
     </RelativeLayout>
 </FrameLayout>
