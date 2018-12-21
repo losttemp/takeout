@@ -267,8 +267,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             mCancelOrder.setVisibility(View.VISIBLE);
             mArrivalTime.setVisibility(View.VISIBLE);
             String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
-            mTimerTv.setText(R.string.have_paid);
             mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
+            mTimerTv.setText(R.string.have_paid);
             mTimerTv.setText(R.string.notify_restaurant);
         } else if (status == IOV_STATUS_RESTAURANT_CONFIRM) {
             mRepeatOrder.setVisibility(View.VISIBLE);
@@ -281,9 +281,15 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         } else if (status == IOV_STATUS_DELIVERING) {
             mRepeatOrder.setVisibility(View.VISIBLE);
             mCancelOrder.setVisibility(View.VISIBLE);
+            mArrivalTime.setVisibility(View.VISIBLE);
+            String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
+            mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
             mTimerTv.setText(R.string.delivering);
         } else if (status == IOV_STATUS_FINISHED) {
             mRepeatOrder.setVisibility(View.VISIBLE);
+            mArrivalTime.setVisibility(View.VISIBLE);
+            String arrivalTime = formatTime(mOrderDetails.getEstimate_arrival_time(), true);
+            mArrivalTime.setText(String.format(getResources().getString(R.string.arrival_time), arrivalTime));
             mTimerTv.setText(R.string.pay_done);
         } else if (status == IOV_STATUS_PAYMENT_FAILED) {
             mRepeatOrder.setVisibility(View.VISIBLE);
