@@ -42,6 +42,7 @@
             android:name=".ui.FoodListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.RecommendShopActivity"
@@ -62,6 +63,7 @@
             android:theme="@style/NoTitleDialog" />
         <activity
             android:name=".ui.PaymentActivity"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.PaySuccessActivity"

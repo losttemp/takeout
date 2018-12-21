@@ -34,6 +34,8 @@ import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
 import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 
 import java.util.ArrayList;
 
@@ -98,7 +100,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     }
 
     private void initData() {
-
+        Entry.getInstance().onEvent(31300042,EventType.TOUCH_TYPE);
         ArrayList<String> tags = new ArrayList<>();
         tags.add(getResources().getString(R.string.address_company));
         tags.add(getResources().getString(R.string.address_home));
@@ -266,12 +268,15 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         switch (v.getId()) {
             case R.id.address_edit_address:
             case R.id.address_edit_arrow:
+                Entry.getInstance().onEvent(31300044,EventType.TOUCH_TYPE);
                 doSearchAddress(true);
                 break;
             case R.id.address_edit_save:
+                Entry.getInstance().onEvent(31300039,EventType.TOUCH_TYPE);
                 doSave();
                 break;
             case R.id.address_del:
+                Entry.getInstance().onEvent(31300040,EventType.TOUCH_TYPE);
                 doClear();
                 break;
             case R.id.address_back:

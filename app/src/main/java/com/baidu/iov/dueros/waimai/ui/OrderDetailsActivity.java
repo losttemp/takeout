@@ -36,6 +36,8 @@ import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.NoClikRecyclerView;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 
 
 import org.json.JSONException;
@@ -426,6 +428,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
+                Entry.getInstance().onEvent(31300102,EventType.TOUCH_TYPE);
                 Intent orderListIntent = new Intent(this, OrderListActivity.class);
                 startActivity(orderListIntent);
                 finish();
@@ -478,6 +481,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 dialog.show();
                 break;
             case R.id.phone:
+                Entry.getInstance().onEvent(31300090,EventType.TOUCH_TYPE);
                 ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
                         .setTitle(R.string.contact_meituan_title)
                         .setMessage(R.string.contact_meituan_message)
