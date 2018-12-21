@@ -68,6 +68,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     protected void onResume() {
         super.onResume();
+        mNoAddress.setVisibility(View.GONE);
         if (NetUtil.getNetWorkState(this)) {
             sendBroadcast(new Intent("com.baidu.iov.dueros.waimai.requestNaviDes"));
             if (init) {
@@ -191,20 +192,20 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
         loadingView.setVisibility(View.GONE);
         if (data.size() == 0) {
+            mNoAddress.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
             if (isNeedPlayTTS) {
                 VoiceManager.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.choice_no_address_voice));
                 isNeedPlayTTS = false;
             }
-            mNoAddress.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.GONE);
         } else {
+            mNoAddress.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
             if (isNeedPlayTTS) {
                 VoiceManager.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.choice_address_voice));
                 isNeedPlayTTS = false;
             }
             init = true;
-            mNoAddress.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.VISIBLE);
             mDataList.clear();
             mDataList.addAll(data);
             mAdapter.setAddressList(mDataList);
