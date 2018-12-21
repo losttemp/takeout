@@ -44,7 +44,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
     @NonNull
     @Override
     public BaseViewHolderHelper onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        if( position == TYPE_FOOTER) {
+        if (position == TYPE_FOOTER) {
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout
                     .item_footer_view, viewGroup, false);
             return new FooterViewHolder(view);
@@ -57,11 +57,11 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolderHelper viewHolder, int position) {
-        if (getItemViewType(position) == TYPE_NORMAL){
+        if (getItemViewType(position) == TYPE_NORMAL) {
             AddressViewHolder addressViewHolder = (AddressViewHolder) viewHolder;
             AddressListBean.IovBean.DataBean dataBean = mAddressList.get(position);
             addressViewHolder.bindData(position, dataBean);
-        } else if (getItemViewType(position) == TYPE_FOOTER){
+        } else if (getItemViewType(position) == TYPE_FOOTER) {
             FooterViewHolder footerViewHolder = (FooterViewHolder) viewHolder;
             footerViewHolder.addressBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,7 +75,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
     @Override
     public int getItemViewType(int position) {
-        if(position == mAddressList.size()) return TYPE_FOOTER;
+        if (position == mAddressList.size()) return TYPE_FOOTER;
         return TYPE_NORMAL;
     }
 
@@ -84,7 +84,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         return mAddressList.size() + 1;
     }
 
-    public void addAddress(){
+    public void addAddress() {
 
     }
 
@@ -115,36 +115,18 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         public void bindData(int position, AddressListBean.IovBean.DataBean dataBean) {
             this.mDataBean = dataBean;
             String type = dataBean.getType();
-//            if (TextUtils.isEmpty(type)) {
-//                ivType.setImageResource(R.drawable.address_other);
-//            }else if (type.equals(mContext.getString(R.string.address_destination))) {
-//                ivType.setImageResource(R.drawable.address_location);
-//            } else if (type.equals(mContext.getString(R.string.address_company))) {
-//                ivType.setImageResource(R.drawable.address_company);
-//            } else if (type.equals(mContext.getString(R.string.address_home))) {
-//                ivType.setImageResource(R.drawable.address_home);
-//            } else {
-//                ivType.setImageResource(R.drawable.address_other);
-//            }
-           if (TextUtils.isEmpty(type)){
-               tvType.setText(mContext.getString(R.string.address_tag_other));
-               tvType.setBackgroundResource(R.drawable.tag_bg);
-           }else if (mContext.getString(R.string.address_home).equals(type)) {
+            if (TextUtils.isEmpty(type)) {
+                tvType.setBackgroundResource(R.drawable.tag_bg);
+            } else if (mContext.getString(R.string.address_home).equals(type)) {
                 tvType.setBackgroundResource(R.drawable.tag_bg_green);
-                tvType.setText(type);
-
-           } else if (mContext.getString(R.string.address_company).equals(type)) {
+            } else if (mContext.getString(R.string.address_company).equals(type)) {
                 tvType.setBackgroundResource(R.drawable.tag_bg_blue);
-                tvType.setText(type);
-
-           } else if (mContext.getString(R.string.address_tag_other).equals(type)) {
+            } else if (mContext.getString(R.string.address_tag_other).equals(type)) {
                 tvType.setBackgroundResource(R.drawable.tag_bg);
-                tvType.setText(type);
-
-           } else if (mContext.getString(R.string.address_destination).equals(type)){
-                tvType.setText(mContext.getString(R.string.address_tag_other));
+            } else if (mContext.getString(R.string.address_destination).equals(type)) {
                 tvType.setBackgroundResource(R.drawable.tag_bg);
-           }
+            }
+            tvType.setText(TextUtils.isEmpty(type) ? type : mContext.getString(R.string.address_tag_other));
             num.setText((position + 1) + "");
             name.setText("");
             phone.setText("");
@@ -169,16 +151,18 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         }
     }
 
-    class BaseViewHolderHelper  extends RecyclerView.ViewHolder{
-        public BaseViewHolderHelper (@NonNull View itemView) {
+    class BaseViewHolderHelper extends RecyclerView.ViewHolder {
+        public BaseViewHolderHelper(@NonNull View itemView) {
             super(itemView);
         }
     }
-    class FooterViewHolder extends BaseViewHolderHelper{
+
+    class FooterViewHolder extends BaseViewHolderHelper {
         Button addressBtn;
+
         public FooterViewHolder(@NonNull View itemView) {
             super(itemView);
-            addressBtn = (Button)itemView.findViewById(R.id.item_address_select_add);
+            addressBtn = (Button) itemView.findViewById(R.id.item_address_select_add);
         }
     }
 
