@@ -30,6 +30,8 @@ import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
 import com.bumptech.glide.Glide;
 import com.domain.multipltextview.MultiplTextView;
 
@@ -391,6 +393,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         addToCart.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                Entry.getInstance().onEvent(31300068, EventType.TOUCH_TYPE);
                                 int num = spusBean.getNumber();
                                 int minOrderCount = getMinOrderCount(spusBean);
                                 if (minOrderCount > 1) {
@@ -519,6 +522,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
 
             private void spcificationsOnclick(View view, PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                               final MyViewHolder.GridViewAdapter.ViewHolder viewHolder, final int section) {
+                Entry.getInstance().onEvent(31300079, EventType.TOUCH_TYPE);
                 View popView = getPopView(R.layout.dialog_spus_specifications);
                 final Button addToCart = (Button) popView.findViewById(R.id.btn_add_to_cart_specification);
                 ListView specificationsList = (ListView) popView.findViewById(R.id.gv_specifications);
@@ -607,6 +611,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 addToCart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Entry.getInstance().onEvent(31300068, EventType.TOUCH_TYPE);
                         if (finalSpusBean.getSkus().size() >= 2) {
                             if (finalChoiceSkus.size() == 0) {
                                 ToastUtils.show(context, context.getString(R.string.please_select_the_specifications_first), Toast.LENGTH_SHORT);
@@ -746,6 +751,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
 
 
             private void reduceOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, MyViewHolder.GridViewAdapter.ViewHolder viewHolder, int section) {
+                Entry.getInstance().onEvent(31300068, EventType.TOUCH_TYPE);
                 int num = spusBean.getNumber();
                 int minOrderCount = getMinOrderCount(spusBean);
                 if (num > 0) {
@@ -769,6 +775,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
 
             private void increaseOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                          ViewHolder viewHolder, int section, boolean alreadyToast,MultiplTextView detailShopNum) {
+                Entry.getInstance().onEvent(31300068, EventType.TOUCH_TYPE);
                 int min_order_count = getMinOrderCount(spusBean);
                 if (min_order_count > 1 && !alreadyToast) {
                     ToastUtils.show(context, context.getString(R.string.must_buy) +

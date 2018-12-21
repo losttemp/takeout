@@ -77,6 +77,6 @@ dependencies {
     compile files('libs/sun.misc.BASE64Decoder.jar')
     compile 'com.google.zxing:core:3.3.3'
     compile 'com.github.domain9065:MultiplTextView:1.1'
-    implementation files('libs/syncclient-0.2.4.jar')
+    implementation files('libs/syncclient-0.2.5.jar')
     compile 'me.yokeyword:indexablerecyclerview:1.3.0'
 }
