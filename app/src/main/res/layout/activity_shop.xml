@@ -10,6 +10,8 @@
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px16dp"
+        android:layout_marginBottom="@dimen/px14dp"
         android:orientation="vertical" >
 
         <Button
@@ -41,9 +43,8 @@
         android:layout_marginRight="@dimen/px84dp"
         android:layout_below="@id/rl_top"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/px20dp"
-        android:layout_marginTop="@dimen/px20dp"
-        android:background="@color/dark_gray"/>
+        android:layout_marginBottom="@dimen/px32dp"
+        android:background="@color/split_view_color"/>
 
     <RelativeLayout
         android:id="@+id/rl_search"
@@ -93,7 +94,7 @@
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginRight="@dimen/px84dp"
         android:layout_centerHorizontal="true"
-        android:background="@color/dark_gray"/>
+        android:background="@color/split_view_color"/>
 
     <FrameLayout
         android:id="@+id/fragment_store_list"

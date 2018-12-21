@@ -16,7 +16,7 @@
 		android:layout_below="@id/rl_layout_header"
 		android:layout_centerHorizontal="true"
 		android:layout_marginBottom="@dimen/px32dp"
-		android:background="@color/dark_gray"/>
+		android:background="@color/split_view_color"/>
 
 	<!--search-->
 	<RelativeLayout
@@ -157,7 +157,7 @@
 		android:layout_marginRight="@dimen/px84dp"
         android:layout_height="@dimen/px2dp"
         android:layout_centerHorizontal="true"
-		android:background="@color/dark_gray"/>
+		android:background="@color/split_view_color"/>
 
 	<FrameLayout
 		android:id="@+id/fragment_store_list"

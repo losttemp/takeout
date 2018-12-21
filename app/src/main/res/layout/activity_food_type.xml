@@ -9,7 +9,9 @@
     <RelativeLayout
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/px96dp"
+        android:layout_marginTop="@dimen/px16dp"
+        android:layout_marginBottom="@dimen/px14dp"
         android:orientation="vertical" >
 
         <Button
@@ -41,9 +43,8 @@
         android:layout_height="@dimen/px2dp"
         android:layout_below="@id/rl_top"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/px20dp"
-        android:layout_marginTop="@dimen/px20dp"
-        android:background="@color/dark_gray"/>
+        android:layout_marginBottom="@dimen/px32dp"
+        android:background="@color/split_view_color"/>
 
     <RelativeLayout
         android:id="@+id/rl_search"
@@ -124,7 +125,7 @@
             android:layout_marginBottom="@dimen/px36dp"
             android:layout_below="@id/tv_first_category"
             android:layout_toRightOf="@id/lv_first_type"
-            android:background="@color/dark_gray"/>
+            android:background="@color/split_view_color"/>
         <GridView
             android:id="@+id/gv_second_type"
             android:scrollbars="none"
