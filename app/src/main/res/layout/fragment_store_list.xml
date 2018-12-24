@@ -31,7 +31,7 @@
 				android:gravity="center"
 				android:maxLines="1"
 				android:text="@string/store_sort"
-				android:textColor="@color/white_60"
+				android:textColor="@color/filter_selected"
 				android:textSize="@dimen/px30sp" />
 
 			<android.support.v7.widget.AppCompatImageView
