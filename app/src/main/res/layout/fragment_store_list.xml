@@ -88,7 +88,7 @@
 		android:layout_height="@dimen/px2dp"
 		android:layout_marginLeft="@dimen/px84dp"
 		android:layout_marginRight="@dimen/px84dp"
-		android:background="@color/dark_gray"/>
+		android:background="@color/split_view_color"/>
 
 	<com.scwang.smartrefresh.layout.SmartRefreshLayout
 		android:id="@+id/refresh_layout"

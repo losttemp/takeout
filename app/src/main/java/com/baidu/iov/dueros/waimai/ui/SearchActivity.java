@@ -114,6 +114,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mRlSearch=  findViewById(R.id.rl_search);
 
 		mDivision=new View(this);
+		mDivision.setBackgroundColor(getResources().getColor(R.color.split_view_color));
 		mLvHistory.addHeaderView(mDivision);
 		mLvHistory.addFooterView(mDivision);
 		mLvSuggest.addHeaderView(mDivision);

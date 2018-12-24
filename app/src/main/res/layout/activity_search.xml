@@ -7,6 +7,7 @@
 
 	<android.support.v7.widget.AppCompatTextView
 		android:id="@+id/tv_cancel"
+		android:layout_marginTop="@dimen/px16dp"
 		android:layout_width="wrap_content"
 		android:layout_height="@dimen/px108dp"
 		android:layout_alignParentEnd="true"
@@ -18,6 +19,7 @@
 
 	<RelativeLayout
 		android:id="@+id/rl_search"
+		android:layout_marginTop="@dimen/px16dp"
 		android:layout_toLeftOf="@+id/tv_cancel"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/px108dp"
@@ -128,7 +130,7 @@
             android:layout_marginLeft="@dimen/px84dp"
             android:layout_marginRight="@dimen/px84dp"
 			android:layout_marginTop="@dimen/px14dp"
-			android:divider="@color/dark_gray"
+			android:divider="@color/split_view_color"
 			android:scrollbars="none"
 			android:dividerHeight="@dimen/px2dp"
 			tools:listitem="@layout/layout_search_history_item" />
@@ -139,7 +141,7 @@
 		android:id="@+id/lv_suggest"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:divider="@color/dark_gray"
+		android:divider="@color/split_view_color"
 		android:layout_marginLeft="@dimen/px84dp"
 		android:layout_marginRight="@dimen/px84dp"
 		android:layout_marginTop="@dimen/px14dp"

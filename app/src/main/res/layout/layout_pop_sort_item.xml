@@ -9,7 +9,7 @@
         app:removeDefaultPadding="true"
         android:id="@+id/tv_sort_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="@dimen/px44dp"
         android:layout_marginBottom="@dimen/px44dp"
         android:textColor="@color/white"

@@ -8,7 +8,7 @@
 	<ImageView
 		android:id="@+id/iv_product"
 		android:layout_width="@dimen/px200dp"
-		android:layout_height="@dimen/px160dp"
+		android:layout_height="@dimen/px154dp"
 		android:layout_centerHorizontal="true"
 		android:scaleType="fitXY"
 		android:src="@mipmap/ic_launcher" />
