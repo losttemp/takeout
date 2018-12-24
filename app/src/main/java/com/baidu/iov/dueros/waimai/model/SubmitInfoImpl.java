@@ -11,6 +11,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 
 public class SubmitInfoImpl implements ISubmitInfoModel {
 
@@ -39,7 +40,7 @@ public class SubmitInfoImpl implements ISubmitInfoModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "requestArriveTimeList getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestArriveTimeList getLogid: "+id);
                 }
             }
         });
@@ -67,7 +68,7 @@ public class SubmitInfoImpl implements ISubmitInfoModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "requestOrderPreview getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestOrderPreview getLogid: "+id);
                 }
             }
         });
@@ -95,7 +96,7 @@ public class SubmitInfoImpl implements ISubmitInfoModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "requestOrderSubmitData getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestOrderSubmitData getLogid: "+id);
                 }
             }
         });

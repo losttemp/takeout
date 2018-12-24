@@ -92,7 +92,7 @@ public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 
 			@Override
 			public void getLogid(String id) {
-				Log.d(TAG, "requestSuggestList getLogid: "+id);
+				Lg.getInstance().d(TAG, "requestSuggestList getLogid: "+id);
 			}
 		});
 	}

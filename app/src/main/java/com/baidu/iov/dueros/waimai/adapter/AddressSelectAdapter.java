@@ -126,7 +126,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             } else if (mContext.getString(R.string.address_destination).equals(type)) {
                 tvType.setBackgroundResource(R.drawable.tag_bg);
             }
-            tvType.setText(TextUtils.isEmpty(type) ? type : mContext.getString(R.string.address_tag_other));
+            tvType.setText(!TextUtils.isEmpty(type) ? type : mContext.getString(R.string.address_tag_other));
             num.setText((position + 1) + "");
             name.setText("");
             phone.setText("");

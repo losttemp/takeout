@@ -43,7 +43,7 @@ public class AddressEditModel implements IAddressEditModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "updateAddressData getLogid: "+id);
+                    Lg.getInstance().d(TAG, "updateAddressData getLogid: "+id);
                 }
             }
         });
@@ -71,7 +71,7 @@ public class AddressEditModel implements IAddressEditModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "addAddressData getLogid: "+id);
+                    Lg.getInstance().d(TAG, "addAddressData getLogid: "+id);
                 }
             }
         });
@@ -98,7 +98,7 @@ public class AddressEditModel implements IAddressEditModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "deleteAddressData getLogid: "+id);
+                    Lg.getInstance().d(TAG, "deleteAddressData getLogid: "+id);
                 }
             }
         });

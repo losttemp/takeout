@@ -71,7 +71,7 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestUpdateAddressData getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestUpdateAddressData getLogid: "+id);
             }
         });
     }
@@ -95,7 +95,7 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestAddAddressData getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestAddAddressData getLogid: "+id);
             }
         });
     }
@@ -119,7 +119,7 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestDeleteAddressData getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestDeleteAddressData getLogid: "+id);
             }
         });
     }

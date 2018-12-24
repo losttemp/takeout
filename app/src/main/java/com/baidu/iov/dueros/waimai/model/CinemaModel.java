@@ -55,7 +55,7 @@ public class CinemaModel implements ICinemaModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "getLogid: "+id);
+                    Lg.getInstance().d(TAG, "getLogid: "+id);
                 }
             }
         });

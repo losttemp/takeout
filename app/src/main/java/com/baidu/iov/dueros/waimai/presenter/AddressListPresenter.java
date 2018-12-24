@@ -63,7 +63,7 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "getLogid: " + id);
+                Lg.getInstance().d(TAG, "getLogid: " + id);
             }
         });
 

@@ -7,6 +7,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import android.util.Log;
 
@@ -44,7 +45,7 @@ public class OrderListModel implements IOrderListModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "requestOrderList getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestOrderList getLogid: "+id);
                 }
             }
         });
@@ -71,7 +72,7 @@ public class OrderListModel implements IOrderListModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "requestOrderCancel getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestOrderCancel getLogid: "+id);
                 }
             }
         });

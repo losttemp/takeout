@@ -99,7 +99,7 @@ public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi
 
 			@Override
 			public void getLogid(String id) {
-				Log.d(TAG, "requestStoreList getLogid: "+id);
+				Lg.getInstance().d(TAG, "requestStoreList getLogid: "+id);
 			}
 		});
 	}
@@ -124,7 +124,7 @@ public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi
 
 			@Override
 			public void getLogid(String id) {
-				Log.d(TAG, "requestFilterList getLogid: "+id);
+				Lg.getInstance().d(TAG, "requestFilterList getLogid: "+id);
 			}
 		});
 	}

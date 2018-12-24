@@ -65,7 +65,7 @@ public class PoifoodListModel implements IPoifoodListModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "requestPoifoodList getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestPoifoodList getLogid: "+id);
                 }
             }
         });
@@ -101,7 +101,7 @@ public class PoifoodListModel implements IPoifoodListModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "requestPoidetailinfo getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestPoidetailinfo getLogid: "+id);
                 }
             }
         });
@@ -128,7 +128,7 @@ public class PoifoodListModel implements IPoifoodListModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "requestOrderPreview getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestOrderPreview getLogid: "+id);
                 }
             }
         });
@@ -156,7 +156,7 @@ public class PoifoodListModel implements IPoifoodListModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "requestArriveTimeList getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestArriveTimeList getLogid: "+id);
                 }
             }
         });

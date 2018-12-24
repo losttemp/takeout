@@ -68,7 +68,7 @@ public class VoiceManager {
      */
     public void unregisterCmd(Context context, CmdCallback callback) {
         if (context == null || callback == null) {
-            Log.d(TAG, "unregisterCmd() context == null");
+            Lg.getInstance().d(TAG, "unregisterCmd() context == null");
             return;
         }
         Intent intent = new Intent();

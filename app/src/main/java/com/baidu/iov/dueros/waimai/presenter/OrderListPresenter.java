@@ -97,7 +97,7 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestOrderList getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestOrderList getLogid: "+id);
             }
         });
     }
@@ -120,7 +120,7 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestOrderCancel getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestOrderCancel getLogid: "+id);
             }
         });
     }

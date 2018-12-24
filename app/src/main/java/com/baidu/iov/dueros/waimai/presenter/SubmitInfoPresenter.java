@@ -20,6 +20,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -108,7 +109,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestFilterList getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestFilterList getLogid: "+id);
             }
         });
 
@@ -144,7 +145,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestOrderSubmitData getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestOrderSubmitData getLogid: "+id);
             }
         });
 
@@ -239,7 +240,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestOrderPreview getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestOrderPreview getLogid: "+id);
             }
         });
     }

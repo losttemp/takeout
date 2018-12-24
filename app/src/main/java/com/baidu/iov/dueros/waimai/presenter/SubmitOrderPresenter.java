@@ -81,7 +81,7 @@ public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitO
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestOrderPreview getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestOrderPreview getLogid: "+id);
             }
         });
     }

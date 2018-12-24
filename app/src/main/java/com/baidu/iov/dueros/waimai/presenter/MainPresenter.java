@@ -68,7 +68,7 @@ public class MainPresenter extends Presenter<MainPresenter.MainUi> {
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "getLogid: "+id);
+                Lg.getInstance().d(TAG, "getLogid: "+id);
             }
         });
     }

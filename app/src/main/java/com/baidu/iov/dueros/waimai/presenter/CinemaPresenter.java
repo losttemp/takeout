@@ -77,7 +77,7 @@ public class CinemaPresenter extends Presenter<CinemaPresenter.CinemaUi> {
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "getLogid: "+id);
+                Lg.getInstance().d(TAG, "getLogid: "+id);
             }
         });
     }

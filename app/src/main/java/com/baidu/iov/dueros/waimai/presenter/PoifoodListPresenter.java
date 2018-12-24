@@ -17,6 +17,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.ArrayList;
@@ -107,7 +108,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestPoifoodList getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestPoifoodList getLogid: "+id);
             }
         });
     }
@@ -132,7 +133,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestPoidetailinfo getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestPoidetailinfo getLogid: "+id);
             }
         });
     }
@@ -222,7 +223,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestArriveTimeData getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestArriveTimeData getLogid: "+id);
             }
         });
 

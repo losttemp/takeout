@@ -8,6 +8,7 @@ import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 
 public class AddressListImpl implements IAddressList {
 
@@ -37,7 +38,7 @@ public class AddressListImpl implements IAddressList {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "getLogid: "+id);
+                    Lg.getInstance().d(TAG, "getLogid: "+id);
                 }
             }
         });

@@ -111,7 +111,7 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestMeituanAuth getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestMeituanAuth getLogid: "+id);
             }
         });
     }
@@ -137,7 +137,7 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "requestAddressListData getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestAddressListData getLogid: "+id);
             }
         });
 

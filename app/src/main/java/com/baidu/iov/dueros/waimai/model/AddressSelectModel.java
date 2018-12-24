@@ -10,6 +10,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 
 public class AddressSelectModel implements IAddressSelectModel {
     private static final String TAG = AddressSelectModel.class.getSimpleName();
@@ -34,7 +35,7 @@ public class AddressSelectModel implements IAddressSelectModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "getLogid: "+id);
+                    Lg.getInstance().d(TAG, "getLogid: "+id);
                 }
             }
         });

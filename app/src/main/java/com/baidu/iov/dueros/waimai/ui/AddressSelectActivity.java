@@ -160,7 +160,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                             }
                         }
                     }
-                }, 200);
+                }, 500);
             }
         });
     }

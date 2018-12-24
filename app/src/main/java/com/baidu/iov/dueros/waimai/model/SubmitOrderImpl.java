@@ -7,6 +7,7 @@ import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 
 public class SubmitOrderImpl implements ISubmitOrderModel {
 
@@ -33,7 +34,7 @@ public class SubmitOrderImpl implements ISubmitOrderModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "getLogid: "+id);
+                    Lg.getInstance().d(TAG, "getLogid: "+id);
                 }
             }
         });

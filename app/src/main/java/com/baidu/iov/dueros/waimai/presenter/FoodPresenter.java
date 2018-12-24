@@ -67,7 +67,7 @@ public class FoodPresenter extends Presenter< FoodPresenter.FoodUi> {
 
             @Override
             public void getLogid(String id) {
-                Log.d(TAG, "getLogid: "+id);
+                Lg.getInstance().d(TAG, "getLogid: "+id);
             }
         });
     }

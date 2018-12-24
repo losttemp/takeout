@@ -6,6 +6,7 @@ import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 
 /**
  *
@@ -38,7 +39,7 @@ public class FoodModel implements IFoodModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "getLogid: "+id);
+                    Lg.getInstance().d(TAG, "getLogid: "+id);
                 }
             }
         });

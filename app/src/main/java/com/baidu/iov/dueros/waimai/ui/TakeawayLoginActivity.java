@@ -303,11 +303,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     private void initPostHttp(){
         Entry.getInstance().onEvent(31300022,EventType.TOUCH_TYPE);
-        if (CacheUtils.getBduss() == null || "".equals(CacheUtils.getBduss())) {
-            getPresenter().requestAccountInfo();
-        } else {
-            //mt authorize
-            getPresenter().requestMeituanAuth(mMeituanAuthReq);
-        }
+        getPresenter().requestAccountInfo();
     }
 }

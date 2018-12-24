@@ -7,6 +7,7 @@ import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.SearchSuggestReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 
 public class SearchModel implements ISearchModel {
 
@@ -43,7 +44,7 @@ public class SearchModel implements ISearchModel {
 			public void getLogid(String id) {
 				if (callback!=null) {
 					callback.getLogid(id);
-					Log.d(TAG, "getLogid: "+id);
+					Lg.getInstance().d(TAG, "getLogid: "+id);
 				}
 			}
 		});

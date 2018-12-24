@@ -45,7 +45,7 @@ public class OrderDetailsModel implements IOrderDetailsModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "requestMeituanAuth getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestMeituanAuth getLogid: "+id);
                 }
             }
         });
@@ -73,7 +73,7 @@ public class OrderDetailsModel implements IOrderDetailsModel {
             public void getLogid(String id) {
                 if (callback!=null) {
                     callback.getLogid(id);
-                    Log.d(TAG, "requestOrderCancel getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestOrderCancel getLogid: "+id);
                 }
             }
         });
