@@ -98,38 +98,6 @@ public class RatingBar extends LinearLayout {
 
         for (int i = 0; i < starCount; ++i) {
             ImageView imageView = getStarImageView(context, isEmpty);
-            imageView.setOnClickListener(
-                    new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mClickable) {
-                                if (halfstart) {
-                                    //TODO:This is not the best way to solve half a star,
-                                    //TODO:but That's what I can do,Please let me know if you have a better solution
-                                    if (y % 2 == 0) {
-                                        setStar(indexOfChild(v) + 1f);
-                                    } else {
-                                        setStar(indexOfChild(v) + 0.5f);
-                                    }
-                                    if (onRatingChangeListener != null) {
-                                        if (y % 2 == 0) {
-                                            onRatingChangeListener.onRatingChange(indexOfChild(v) + 1f);
-                                            y++;
-                                        } else {
-                                            onRatingChangeListener.onRatingChange(indexOfChild(v) + 0.5f);
-                                            y++;
-                                        }
-                                    }
-                                } else {
-                                    setStar(indexOfChild(v) + 1f);
-                                    if (onRatingChangeListener != null) {
-                                        onRatingChangeListener.onRatingChange(indexOfChild(v) + 1f);
-                                    }
-                                }
-                            }
-                        }
-                    }
-            );
             addView(imageView);
         }
     }
