@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px364dp"
+            android:layout_height="@dimen/px366dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -36,8 +36,6 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/px60dp"
-                    android:layout_marginRight="@dimen/px60dp"
                     android:gravity="center"
                     android:text="取消订单并退款"
                     android:textColor="@color/white"
@@ -58,8 +56,7 @@
                     android:layout_marginRight="@dimen/px60dp"
                     android:layout_marginTop="@dimen/px66dp"
                     android:text="温馨提示"
-                    android:alpha="0.6"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_60"
                     android:textSize="@dimen/px36sp" />
             </LinearLayout>
         </LinearLayout>
