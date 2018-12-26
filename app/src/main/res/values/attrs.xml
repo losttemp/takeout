@@ -24,6 +24,8 @@
         <attr name="starImageWidth" format="dimension" />
         <attr name="starImageHeight" format="dimension" />
         <attr name="starImagePadding" format="dimension" />
+        <attr name="halfstart" format="boolean" />
+        <attr name="starNum" format="integer" />
         <attr name="stepSize">
             <enum name="Half" value="0" />
             <enum name="Full" value="1" />
