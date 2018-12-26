@@ -9,7 +9,6 @@
         android:id="@+id/iv"
         android:layout_width="@dimen/px194dp"
         android:layout_height="@dimen/px204dp"
-        android:background="@color/white"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher" />
     <TextView
