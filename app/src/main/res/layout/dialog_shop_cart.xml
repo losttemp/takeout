@@ -62,9 +62,7 @@
             android:layout_height="@dimen/px2dp"
             android:layout_marginLeft="@dimen/px84dp"
             android:layout_marginRight="@dimen/px84dp"
-            android:alpha="0.6"
-            android:background="@color/white"
-            android:orientation="horizontal" />
+            android:background="@color/split_view_color" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -80,7 +78,7 @@
                 android:layout_marginRight="@dimen/px84dp"
                 android:layout_weight="1"
                 android:cacheColorHint="#00000000"
-                android:divider="#dcdcdc"
+                android:divider="@color/split_view_color"
                 android:dividerHeight="2px"
                 android:listSelector="#00000000"
                 android:orientation="vertical"
@@ -92,9 +90,7 @@
                 android:layout_height="@dimen/px2dp"
                 android:layout_marginLeft="@dimen/px84dp"
                 android:layout_marginRight="@dimen/px84dp"
-                android:alpha="0.6"
-                android:background="@color/white"
-                android:orientation="horizontal" />
+                android:background="@color/split_view_color" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

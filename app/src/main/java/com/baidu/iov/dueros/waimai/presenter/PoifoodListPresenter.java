@@ -182,8 +182,10 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
             List<Long> food_spu_attr_ids = new ArrayList<>();
             for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : spusBean.getAttrs()) {
-                long id = attrsBean.getChoiceAttrs().get(0).getId();
-                food_spu_attr_ids.add(id);
+                if (attrsBean.getChoiceAttrs() != null) {
+                    long id = attrsBean.getChoiceAttrs().get(0).getId();
+                    food_spu_attr_ids.add(id);
+                }
             }
             foodListBean.setFood_spu_attr_ids(food_spu_attr_ids);
             foodListBean.setCount(spusBean.getNumber());

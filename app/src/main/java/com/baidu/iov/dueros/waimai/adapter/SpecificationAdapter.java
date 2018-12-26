@@ -48,10 +48,10 @@ public class SpecificationAdapter extends RecyclerView.Adapter<SpecificationAdap
     public void onBindViewHolder(@NonNull SpecificationAdapterViewHolder holder, final int position) {
         if (valuesBeans != null) {
             PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean valuesBean = valuesBeans.get(position);
-            holder.text.setText(valuesBean.getValue());
+            holder.text.setText(valuesBean.getValue().trim());
         } else {
             String spec = skusBeans.get(position).getSpec();
-            holder.text.setText(spec);
+            holder.text.setText(spec.trim());
         }
         if (choiceAttrs!=null){
             String value = choiceAttrs.get(0).getValue();
