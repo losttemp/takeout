@@ -20,7 +20,7 @@
 		android:layout_marginBottom="@dimen/px42dp"
 		android:numColumns="4"
 		android:scrollbars="none"
-		android:verticalSpacing="@dimen/px42dp"
+		android:verticalSpacing="@dimen/px48dp"
 		android:horizontalSpacing="@dimen/px50dp"
 		tools:listitem="@layout/layout_filter_sub_type_item" />
 

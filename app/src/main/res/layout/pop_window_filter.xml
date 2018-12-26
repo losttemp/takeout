@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:background="#3f4853">
+	android:layout_height="@dimen/px312dp"
+	android:background="@drawable/bg_pop">
 
 	<ListView
 		android:id="@+id/lv_filter_type"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="@dimen/px144dp"
 		android:layout_marginLeft="@dimen/px84dp"
 		android:layout_marginRight="@dimen/px84dp"
 		android:divider="@color/dark_gray"
