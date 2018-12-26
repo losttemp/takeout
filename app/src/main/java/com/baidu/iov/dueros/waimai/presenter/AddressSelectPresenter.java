@@ -90,13 +90,15 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
             public void onSuccess(AddressListBean data) {
                 if (mDataBeans.contains(mDesBean)) {
                     mDataBeans.clear();
-                    mDataBeans.add(0, mDesBean);
+                    mDataBeans.add(mDesBean);
                 } else {
                     mDataBeans.clear();
                 }
                 mDataBeans.addAll(data.getIov().getData());
                 StringBuilder baiduName = new StringBuilder();
                 StringBuilder baiduPhone = new StringBuilder();
+                AddressListBean.IovBean.DataBean gs = null;
+                AddressListBean.IovBean.DataBean jl = null;
                 for (int i = 0; i < mDataBeans.size(); i++) {
                     try {
                         AddressListBean.IovBean.DataBean dataInfo = mDataBeans.get(i);
@@ -151,18 +153,35 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                                 }
                             }
                         }
-                        if (!TextUtils.isEmpty(baiduName) && !MyApplicationAddressBean.USER_NAMES.contains(baiduName)) {
+                        if (!TextUtils.isEmpty(baiduName)) {
+                            if (MyApplicationAddressBean.USER_NAMES.contains(baiduName.toString())) {
+                                MyApplicationAddressBean.USER_NAMES.remove(baiduName.toString());
+                            }
                             MyApplicationAddressBean.USER_NAMES.add(0, baiduName.toString());
                         }
-                        if (!TextUtils.isEmpty(baiduPhone) && !MyApplicationAddressBean.USER_PHONES.contains(baiduPhone)) {
+                        if (!TextUtils.isEmpty(baiduPhone)) {
+                            if (MyApplicationAddressBean.USER_PHONES.contains(baiduPhone.toString())) {
+                                MyApplicationAddressBean.USER_PHONES.remove(baiduPhone.toString());
+                            }
                             MyApplicationAddressBean.USER_PHONES.add(0, baiduPhone.toString());
-                        }
-                        if (dataInfo.isIs_hint()) {
-                            mDataBeans.remove(i);
-                            i--;
                         }
                         baiduName.delete(0, baiduName.length());
                         baiduPhone.delete(0, baiduPhone.length());
+                        if (dataInfo.isIs_hint()) {
+                            mDataBeans.remove(i);
+                            i--;
+                        } else if (!TextUtils.isEmpty(mDataBeans.get(i).getType())) {
+                            if ("家里".equals(mDataBeans.get(i).getType())) {
+                                jl = mDataBeans.get(i);
+                                mDataBeans.remove(i);
+                                i--;
+                            }
+                            if ("公司".equals(mDataBeans.get(i).getType())) {
+                                gs = mDataBeans.get(i);
+                                mDataBeans.remove(i);
+                                i--;
+                            }
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -178,11 +197,25 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                     }
                 }
                 if (mDataBeans.contains(mDesBean)) {
-                    if (MyApplicationAddressBean.USER_PHONES.size()>0){
+                    if (MyApplicationAddressBean.USER_PHONES.size() > 0) {
                         mDataBeans.get(0).setUser_phone(MyApplicationAddressBean.USER_PHONES.get(0));
                     }
-                    if (MyApplicationAddressBean.USER_NAMES.size()>0){
+                    if (MyApplicationAddressBean.USER_NAMES.size() > 0) {
                         mDataBeans.get(0).setUser_name(MyApplicationAddressBean.USER_NAMES.get(0));
+                    }
+                }
+                if (jl != null) {
+                    if (mDataBeans.contains(mDesBean)) {
+                        mDataBeans.add(1, jl);
+                    } else {
+                        mDataBeans.add(0, jl);
+                    }
+                }
+                if (gs != null) {
+                    if (mDataBeans.contains(mDesBean)) {
+                        mDataBeans.add(1, gs);
+                    } else {
+                        mDataBeans.add(0, gs);
                     }
                 }
                 if (null != getUi()) {

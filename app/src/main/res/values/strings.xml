@@ -288,4 +288,7 @@
     <string name="choice_no_address_voice">好的，已为你打开外卖服务，你尚未添加收货地址，快去点击添加吧</string>
     <string name="choice_address_voice">好的，已为你打开外卖服务，对我说第几个来进行选择吧</string>
     <string name="address_phone_error_hint_text">您输入的手机号格式有误，请重新输入 ～</string>
+    <string name= "contacts_hint_text">请填写收货人姓名</string>
+    <string name= "phone_hint_text">请填写收货人手机号</string>
+    <string name= "address_details_hint_text">详细地址：例：3楼3层303室</string>
 </resources>

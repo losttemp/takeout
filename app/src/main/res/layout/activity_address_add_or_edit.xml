@@ -20,7 +20,9 @@
 
         <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_name"
-            style="@style/AddressEditTextStyle" />
+            style="@style/AddressEditTextStyle"
+            android:hint="@string/contacts_hint_text"
+            android:textColorHint="@color/white_60"/>
 
     </LinearLayout>
 
@@ -70,7 +72,9 @@
             android:id="@+id/address_edit_phone"
             style="@style/AddressEditTextStyle"
             android:inputType="phone"
-            android:maxLength="11" />
+            android:maxLength="11"
+            android:hint="@string/phone_hint_text"
+            android:textColorHint="@color/white_60"/>
     </LinearLayout>
 
     <View style="@style/AddressEditDividerStyle" />
@@ -110,7 +114,9 @@
 
         <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_house_num"
-            style="@style/AddressEditTextStyle" />
+            style="@style/AddressEditTextStyle"
+            android:hint="@string/address_details_hint_text"
+            android:textColorHint="@color/white_60"/>
     </LinearLayout>
 
     <View style="@style/AddressEditDividerStyle" />

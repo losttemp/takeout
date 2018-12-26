@@ -125,6 +125,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 type = getResources().getString(R.string.address_tag_other);
             }
             mTagListView.setTags(tags, type);
+            if (null != dataBean.getAddress_id()) {
+                iv_del_button.setVisibility(View.VISIBLE);
+            }
             try {
                 address_tv.setText(Encryption.desEncrypt(dataBean.getAddress()));
                 et_name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
@@ -132,9 +135,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 et_house_num.setText((dataBean.getHouse() == null) ? "" : Encryption.desEncrypt(dataBean.getHouse()));
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-            if (null != dataBean.getAddress_id()) {
-                iv_del_button.setVisibility(View.VISIBLE);
             }
         } else {
             mLocationBean = intent.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
@@ -148,6 +148,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             }
             if (null != MyApplicationAddressBean.USER_PHONES && MyApplicationAddressBean.USER_PHONES.size() > 0) {
                 et_phone.setText(MyApplicationAddressBean.USER_PHONES.get(0));
+            }else{
+                //fix bug
+                et_phone.setText("");
             }
         }
         ArrayAdapter<String> nameAdapter = new ArrayAdapter<>(this, R.layout.address_simple_list_item, MyApplicationAddressBean.USER_NAMES);
