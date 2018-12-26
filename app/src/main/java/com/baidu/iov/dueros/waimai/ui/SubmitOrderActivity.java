@@ -333,6 +333,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 mCurDateItem = position;
                 List<ArriveTimeBean.MeituanBean.DataBean.TimelistBean> timelistBeans = mDataBean.get(position).getTimelist();
                 mTimeAdapter.setData(timelistBeans, mCurDateItem);
+                mTimeAdapter.setCurrentItem(0, mCurDateItem);
+                mTimeAdapter.notifyDataSetChanged();
                 mDateAdapter.setCurrentItem(position);
                 mDateAdapter.notifyDataSetChanged();
                 if (mPreDateItem == mCurDateItem) {

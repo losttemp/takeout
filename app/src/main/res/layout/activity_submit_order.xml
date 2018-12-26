@@ -70,6 +70,7 @@
                         android:layout_width="@dimen/px826dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/px84dp"
+                        android:includeFontPadding="false"
                         android:layout_marginTop="@dimen/px30dp"
                         android:textColor="@color/white"
                         android:textSize="@dimen/px40sp"
@@ -187,8 +188,10 @@
                         android:layout_width="@dimen/px140dp"
                         android:layout_height="@dimen/px40dp"
                         android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/px84dp"
                         android:layout_marginTop="@dimen/px32dp"
+                        android:includeFontPadding="false"
                         android:background="@drawable/tagbg1"
                         android:gravity="center"
                         android:textColor="@color/delivery_type_color"
@@ -324,14 +327,13 @@
             android:layout_height="@dimen/px60dp"
             android:alpha="0.9"
             android:background="@drawable/youhuixinxi_bg"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/discount_WarnTip"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px32dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_height="@dimen/px30dp"
+                android:layout_centerInParent="true"
                 android:textColor="@color/discount_WarnTip_color"
                 android:textSize="@dimen/px30sp"
                 app:removeDefaultPadding="true" />
@@ -387,7 +389,7 @@
                 android:gravity="center"
                 android:text="@string/to_pay_text"
                 android:textColor="@color/white_bg"
-                android:textSize="@dimen/px30sp" />
+                android:textSize="@dimen/px36sp" />
         </RelativeLayout>
 
     </LinearLayout>

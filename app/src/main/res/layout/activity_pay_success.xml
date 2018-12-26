@@ -42,7 +42,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/px218dp"
-        android:layout_gravity="center_vertical">
+        >
 
         <ImageView
             android:id="@+id/store_photo_img"
@@ -149,7 +149,7 @@
         android:layout_height="@dimen/px108dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/px62dp"
-        android:background="@drawable/btn_blue"
+        android:background="@drawable/buybg"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/px36sp" />

@@ -3,7 +3,9 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.xiaoduos.syncclient.Entry;
@@ -63,10 +66,17 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_success);
+        setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
         initView();
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, INTERNAL_TIME);
     }
 
+    public void setStatusBar(boolean translucent, @ColorInt int color) {
+        CommonUtils.setTranslucentStatusBar(this, translucent);
+        if (color != 0) {
+            CommonUtils.setStatusBarColor(this, color);
+        }
+    }
     public void initView() {
 
         Intent intent = getIntent();

@@ -71,6 +71,17 @@ public class DeliveryTimeAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        if (mTimepos == position) {
+            viewHolder.tv_time.setTextColor(mContext.getResources().getColor(R.color.select_date_color));
+            viewHolder.tv_cost.setTextColor(mContext.getResources().getColor(R.color.select_date_color));
+            viewHolder.img_select.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.tv_time.setTextColor(mContext.getResources().getColor(R.color.white));
+            viewHolder.tv_cost.setTextColor(mContext.getResources().getColor(R.color.white));
+            viewHolder.img_select.setVisibility(View.INVISIBLE);
+        }
+
+
         String time = mData.get(position).getView_time();
         String shipping_fee = mData.get(position).getView_shipping_fee();
 

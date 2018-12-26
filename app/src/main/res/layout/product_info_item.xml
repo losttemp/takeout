@@ -15,7 +15,7 @@
 
     <TextView
         android:id="@+id/product_name"
-        android:layout_width="@dimen/px450dp"
+        android:layout_width="@dimen/px420dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/px38dp"
         android:layout_marginTop="@dimen/px28dp"
@@ -32,12 +32,12 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/product_name"
         android:layout_below="@+id/product_name"
-        android:layout_marginTop="@dimen/px40dp"
+        android:layout_marginTop="@dimen/px26dp"
         android:alpha="0.6"
         android:maxLines="1"
         android:ellipsize="end"
         android:includeFontPadding="false"
-        android:visibility="gone"
+        android:visibility="visible"
         android:textColor="@color/white"
         android:textSize="@dimen/px30sp"/>
 
