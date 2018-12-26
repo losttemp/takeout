@@ -232,7 +232,7 @@
 
     <string name="address_suggestion_erro">抱歉，未能找到您搜索的地址，换个地址试试</string>
     <string name="edit_address">编辑地址</string>
-    <string name="delete_address_title">温馨提示</string>
+    <string name="delete_address_title">温馨提醒</string>
     <string name="delete_address_message">删除地址后将无法恢复，确定要删除吗？</string>
     <string name="delete_address_cancel">还是算了</string>
     <string name="delete_address_ok">确定</string>

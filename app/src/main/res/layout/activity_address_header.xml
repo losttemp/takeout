@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/px120dp"
-    android:paddingLeft="@dimen/px54dp"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:layout_height="@dimen/px126dp"
+    android:paddingLeft="@dimen/px50dp"
+    android:paddingRight="@dimen/px82dp">
 
     <ImageView
         android:id="@+id/address_back"
         android:layout_width="@dimen/px96dp"
         android:layout_height="@dimen/px96dp"
+        android:layout_marginTop="@dimen/px16dp"
         android:src="@drawable/icon_back" />
 
     <TextView
         android:id="@+id/address_title"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginBottom="@dimen/px42dp"
         android:gravity="center"
         android:text="@string/address_select_title"
         android:textColor="@color/white"
@@ -26,7 +28,9 @@
         android:id="@+id/address_del"
         android:layout_width="@dimen/px48dp"
         android:layout_height="@dimen/px48dp"
-        android:layout_marginRight="@dimen/px82dp"
         android:src="@drawable/delete"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/px38dp"
         android:visibility="invisible" />
-</LinearLayout>
+</RelativeLayout>

@@ -8,12 +8,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/px126dp">
 
         <ImageView
             android:id="@+id/pic_contact_back"
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/px50dp"
             android:src="@drawable/icon_back" />
 
@@ -26,14 +27,6 @@
             android:textSize="@dimen/px40sp" />
 
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/px84dp"
-        android:layout_marginTop="@dimen/px14dp"
-        android:layout_marginRight="@dimen/px84dp"
-        android:background="@color/split_view_color" />
 
     <me.yokeyword.indexablerv.IndexableLayout
         android:id="@+id/indexableLayout"

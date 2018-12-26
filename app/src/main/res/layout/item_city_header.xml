@@ -12,17 +12,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px60dp"
-            android:gravity="center_vertical"
-            android:background="#2f3841">
+            android:layout_height="@dimen/px40dp"
+            android:background="#2F3841"
+            android:gravity="center_vertical">
 
             <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/first_recentHint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginTop="@dimen/px4dp"
-                android:layout_marginBottom="@dimen/px4dp"
                 android:text="@string/location_of_the_city"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/px30sp"
@@ -31,7 +29,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/px126dp"
             android:layout_marginLeft="@dimen/px84dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -41,8 +39,6 @@
                 android:layout_width="@dimen/px160dp"
                 android:layout_height="@dimen/px58dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/px34dp"
-                android:layout_marginBottom="@dimen/px34dp"
                 android:background="@drawable/bt_city_selector"
                 android:gravity="center"
                 android:text="@string/position_fail"
@@ -70,17 +66,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px60dp"
-            android:gravity="center_vertical"
-            android:background="#2f3841">
+            android:layout_height="@dimen/px40dp"
+            android:background="#2F3841"
+            android:gravity="center_vertical">
 
             <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/recent_hot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/px4dp"
                 android:layout_marginLeft="@dimen/px84dp"
-                android:layout_marginTop="@dimen/px4dp"
                 android:text="@string/hot_city"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/px30sp"
@@ -92,10 +86,10 @@
             android:id="@+id/item_header_city_gridview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/px34dp"
             android:layout_marginLeft="@dimen/px84dp"
-            android:layout_marginRight="@dimen/px144dp"
             android:layout_marginTop="@dimen/px34dp"
+            android:layout_marginRight="@dimen/px144dp"
+            android:layout_marginBottom="@dimen/px34dp"
             android:horizontalSpacing="@dimen/px56dp"
             android:listSelector="@android:color/transparent"
             android:numColumns="4"
