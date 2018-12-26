@@ -169,6 +169,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private LinearLayout mNoNet;
     private Button mNoInternetButton;
     private LinearLayout mLoading;
+    private RelativeLayout mShopCartPic;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -216,6 +217,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mNoNet = (LinearLayout) findViewById(R.id.no_net);
         mNoInternetButton = (Button) findViewById(R.id.no_internet_btn);
         mLoading = (LinearLayout) findViewById(R.id.ll_loading);
+        mShopCartPic = (RelativeLayout) findViewById(R.id.rl_shop_cart);
     }
 
     @Override
@@ -329,6 +331,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             mNoNet.setVisibility(View.VISIBLE);
             parentLayout.setVisibility(View.GONE);
             mLoading.setVisibility(View.GONE);
+            mShopCartPic.setVisibility(View.GONE);
         }
     }
 
@@ -1104,6 +1107,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mLoading.setVisibility(View.GONE);
         mNoNet.setVisibility(View.GONE);
         parentLayout.setVisibility(View.VISIBLE);
+        mShopCartPic.setVisibility(View.VISIBLE);
 
         int status = mPoiInfoBean.getStatus();
         if (status == 1) {
@@ -1131,9 +1135,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     }
                     List<OrderListExtraBean.OrderInfos.Food_list> spusFoodList = orderInfos.getFood_list();
                     for (OrderListExtraBean.OrderInfos.Food_list spusFood : spusFoodList) {
-                        String name = spusFood.getName();
+                        long spuId = spusFood.getSpu_id();
                         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
-                            if (spusBean.getName().equals(name)) {
+                            if (spusBean.getId() == spuId) {
                                 spusBean.setNumber(spusFood.getCount());
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
@@ -1167,9 +1171,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     OrderDetailsResponse.MeituanBean.DataBean orderLsitBean = (OrderDetailsResponse.MeituanBean.DataBean) getIntent().getExtras().getSerializable(Constant.ORDER_LSIT_BEAN);
                     List<OrderDetailsResponse.MeituanBean.DataBean.FoodListBean> food_list = orderLsitBean.getFood_list();
                     for (OrderDetailsResponse.MeituanBean.DataBean.FoodListBean spusFood : food_list) {
-                        String name = spusFood.getName();
+                        long spuId = spusFood.getSpu_id();
                         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
-                            if (spusBean.getName().equals(name)) {
+                            if (spusBean.getId() == spuId) {
                                 spusBean.setNumber(spusFood.getCount());
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
@@ -1239,6 +1243,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mLoading.setVisibility(View.GONE);
         mNoNet.setVisibility(View.VISIBLE);
         parentLayout.setVisibility(View.GONE);
+        mShopCartPic.setVisibility(View.GONE);
     }
 
     @Override

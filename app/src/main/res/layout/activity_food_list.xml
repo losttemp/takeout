@@ -9,7 +9,7 @@
     <include
         android:id="@+id/ll_loading"
         layout="@layout/dialog_loading_toast"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <include
         android:id="@+id/no_net"
@@ -21,7 +21,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -152,7 +152,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/px150dp"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/card_bg">
+            android:background="@drawable/bg_pay">
 
             <TextView
                 android:id="@+id/tv_open_shop_cart"
@@ -246,11 +246,13 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_shop_cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/px60dp"
-        android:layout_marginLeft="@dimen/px72dp">
+        android:layout_marginLeft="@dimen/px72dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/shopping_cart"

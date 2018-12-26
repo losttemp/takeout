@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/mainitem_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px306dp"
+        android:layout_height="@dimen/px276dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -16,7 +16,7 @@
             android:id="@+id/tv_store_index"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/px52dp"
+            android:layout_marginTop="@dimen/px34dp"
             android:textColor="@color/white"
             android:textSize="@dimen/px48sp"
             app:removeDefaultPadding="true" />
@@ -32,8 +32,7 @@
             <ImageView
                 android:id="@+id/head"
                 android:layout_width="@dimen/px206dp"
-                android:layout_height="@dimen/px206dp"
-                android:scaleType="centerCrop" />
+                android:layout_height="@dimen/px206dp"/>
 
             <TextView
                 android:id="@+id/tv_sold_out"
@@ -82,12 +81,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/px50dp">
+                android:layout_marginBottom="@dimen/px34dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_alignParentBottom="true"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -123,7 +122,7 @@
                             android:gravity="center_vertical"
                             android:text="¥%1$s"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/px36sp"
+                            android:textSize="@dimen/px26sp"
                             android:visibility="gone"
                             app:removeDefaultPadding="true" />
                     </LinearLayout>
@@ -147,7 +146,7 @@
                     android:layout_width="@dimen/px164dp"
                     android:layout_height="@dimen/px70dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true">
+                    android:layout_alignParentBottom="true">
 
                     <ImageView
                         android:id="@+id/btn_add"
@@ -253,6 +252,5 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/px2dp"
-        android:alpha="0.6"
-        android:background="@color/white" />
+        android:background="@color/split_view_color" />
 </LinearLayout>
