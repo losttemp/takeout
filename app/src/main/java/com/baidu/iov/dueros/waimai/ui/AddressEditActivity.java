@@ -146,7 +146,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             }
             if (null != MyApplicationAddressBean.USER_PHONES && MyApplicationAddressBean.USER_PHONES.size() > 0) {
                 et_phone.setText(MyApplicationAddressBean.USER_PHONES.get(0));
-            }else{
+            } else {
                 //fix bug
                 et_phone.setText("");
             }
@@ -161,7 +161,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 AutoCompleteTextView view = (AutoCompleteTextView) v;
-                if (hasFocus) {
+                if (hasFocus && MyApplicationAddressBean.USER_NAMES.size() > 0) {
                     view.showDropDown();
                 }
             }
@@ -170,7 +170,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 AutoCompleteTextView view = (AutoCompleteTextView) v;
-                if (hasFocus) {
+                if (hasFocus && MyApplicationAddressBean.USER_PHONES.size() > 0) {
                     view.showDropDown();
                 }
             }
@@ -229,15 +229,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         } else {
             if (data.getMeituan().getCode() == 0) {
                 ToastUtils.show(this, getResources().getString(R.string.address_save_success), Toast.LENGTH_SHORT);
-                if (!MyApplicationAddressBean.USER_PHONES.contains(et_phone.getText().toString().trim())) {
-                    MyApplicationAddressBean.USER_PHONES.add(et_phone.getText().toString().trim());
-                }
-                if (!MyApplicationAddressBean.USER_NAMES.contains(et_name.getText().toString().trim())) {
-                    MyApplicationAddressBean.USER_NAMES.add(et_name.getText().toString().trim());
-                }
                 finish();
             } else {
-                ToastUtils.show(this,getResources().getString(R.string.address_save_fail), Toast.LENGTH_LONG);
+                ToastUtils.show(this, getResources().getString(R.string.address_save_fail), Toast.LENGTH_LONG);
             }
         }
 
@@ -269,14 +263,14 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         switch (v.getId()) {
             case R.id.address_edit_address:
             case R.id.address_edit_arrow:
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_START_POI,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_START_POI, EventType.TOUCH_TYPE);
                 doSearchAddress(true);
                 break;
             case R.id.address_edit_save:
                 doSave();
                 break;
             case R.id.address_del:
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_DELETE,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_DELETE, EventType.TOUCH_TYPE);
                 doClear();
                 break;
             case R.id.address_back:
@@ -330,7 +324,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_EDIT_DATA,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_EDIT_DATA, EventType.TOUCH_TYPE);
                 mAddrEditReq = new AddressEditReq();
                 mAddrEditReq.setUser_phone(phone);
                 mAddrEditReq.setUser_name(name);
@@ -346,7 +340,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     if (null != dataBean.getMt_address_id()) {
                         mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
                     }
-                    Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_SAVE,EventType.TOUCH_TYPE);
+                    Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_SAVE, EventType.TOUCH_TYPE);
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
                     if (null != dataBean.getMt_address_id()) {
@@ -360,7 +354,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     mAddrAddReq.setHouse(house_num);
                     mAddrAddReq.setLatitude(latitude);
                     mAddrAddReq.setLongitude(longitude);
-                    Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_SAVE,EventType.TOUCH_TYPE);
+                    Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_SAVE, EventType.TOUCH_TYPE);
                     getPresenter().requestAddAddressData(mAddrAddReq);
                 }
             } else {
@@ -376,8 +370,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrAddReq.setHouse(house_num);
                 mAddrAddReq.setLatitude(latitude);
                 mAddrAddReq.setLongitude(longitude);
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_SAVE,EventType.TOUCH_TYPE);
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_EDIT_DATA,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_SAVE, EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_EDIT_DATA, EventType.TOUCH_TYPE);
                 getPresenter().requestAddAddressData(mAddrAddReq);
             }
         }

@@ -198,10 +198,10 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                 }
                 if (mDataBeans.contains(mDesBean)) {
                     if (MyApplicationAddressBean.USER_PHONES.size() > 0) {
-                        mDataBeans.get(0).setUser_phone(MyApplicationAddressBean.USER_PHONES.get(0));
+                        mDataBeans.get(0).setUser_phone(Encryption.encrypt(MyApplicationAddressBean.USER_PHONES.get(0)));
                     }
                     if (MyApplicationAddressBean.USER_NAMES.size() > 0) {
-                        mDataBeans.get(0).setUser_name(MyApplicationAddressBean.USER_NAMES.get(0));
+                        mDataBeans.get(0).setUser_name(Encryption.encrypt(MyApplicationAddressBean.USER_NAMES.get(0)));
                     }
                 }
                 if (jl != null) {

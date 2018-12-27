@@ -16,6 +16,7 @@
         android:id="@+id/address_select_details_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px36dp"
         android:orientation="horizontal">
 
         <TextView
@@ -23,7 +24,6 @@
             android:layout_width="@dimen/px110dp"
             android:layout_height="@dimen/px40dp"
             android:layout_marginLeft="@dimen/px62dp"
-            android:layout_marginTop="@dimen/px14dp"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/px24sp" />
@@ -34,8 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/px28dp"
-            android:layout_marginTop="@dimen/px36dp"
-            android:layout_marginBottom="@dimen/px36dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
