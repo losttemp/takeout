@@ -40,7 +40,6 @@ import com.baidu.xiaoduos.syncclient.EventType;
 import java.util.ArrayList;
 
 public class AddressEditActivity extends BaseActivity<AddressEditPresenter, AddressEditPresenter.AddressEditUi> implements AddressEditPresenter.AddressEditUi, View.OnClickListener {
-    private ArrayMap<String, String> reqMap;
     private TextView address_title;
     private TextView address_tv;
     private ImageView address_arrow;
@@ -100,7 +99,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     }
 
     private void initData() {
-        Entry.getInstance().onEvent(31300042,EventType.TOUCH_TYPE);
         ArrayList<String> tags = new ArrayList<>();
         tags.add(getResources().getString(R.string.address_company));
         tags.add(getResources().getString(R.string.address_home));
@@ -271,15 +269,14 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         switch (v.getId()) {
             case R.id.address_edit_address:
             case R.id.address_edit_arrow:
-                Entry.getInstance().onEvent(31300044,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_START_POI,EventType.TOUCH_TYPE);
                 doSearchAddress(true);
                 break;
             case R.id.address_edit_save:
-                Entry.getInstance().onEvent(31300039,EventType.TOUCH_TYPE);
                 doSave();
                 break;
             case R.id.address_del:
-                Entry.getInstance().onEvent(31300040,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_DELETE,EventType.TOUCH_TYPE);
                 doClear();
                 break;
             case R.id.address_back:
@@ -333,6 +330,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_EDIT_DATA,EventType.TOUCH_TYPE);
                 mAddrEditReq = new AddressEditReq();
                 mAddrEditReq.setUser_phone(phone);
                 mAddrEditReq.setUser_name(name);
@@ -348,6 +346,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     if (null != dataBean.getMt_address_id()) {
                         mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
                     }
+                    Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_SAVE,EventType.TOUCH_TYPE);
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
                     if (null != dataBean.getMt_address_id()) {
@@ -361,6 +360,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     mAddrAddReq.setHouse(house_num);
                     mAddrAddReq.setLatitude(latitude);
                     mAddrAddReq.setLongitude(longitude);
+                    Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_SAVE,EventType.TOUCH_TYPE);
                     getPresenter().requestAddAddressData(mAddrAddReq);
                 }
             } else {
@@ -376,6 +376,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrAddReq.setHouse(house_num);
                 mAddrAddReq.setLatitude(latitude);
                 mAddrAddReq.setLongitude(longitude);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_SAVE,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_EDIT_DATA,EventType.TOUCH_TYPE);
                 getPresenter().requestAddAddressData(mAddrAddReq);
             }
         }
