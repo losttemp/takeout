@@ -183,4 +183,5 @@ public class Constant {
     public final static int ORDERLIST_TO_ORDERDETAIL_VOICE=31300075;
     public final static int ORDERLIST_REFRESH_VOICE=31300076;
     public final static int GOBACK_TO_PREACTIVITY=31300077;
+    
 }
