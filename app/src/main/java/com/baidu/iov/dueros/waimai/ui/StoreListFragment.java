@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
+import com.baidu.iov.dueros.waimai.model.IFoodModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
@@ -163,7 +164,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			@Override
 			public void onClick(int sortType) {
 				mTvSort.setText(getResources().getString(R.string.store_sort));
-				Entry.getInstance().onEvent(31300062,EventType.TOUCH_TYPE);
+				addTagLvItemClickEvent(sortType);
 				if (sortType == Constant.COMPREHENSIVE) {
 					mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
 				} else {
@@ -192,7 +193,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreAdaper.setItemClickListener(new StoreAdaper.OnItemClickListener() {
 			@Override
 			public void onItemClick(int position) {
-				Entry.getInstance().onEvent(31300109,EventType.TOUCH_TYPE);
+				addStoreItemClickEvent();
 				jumpPage(position, false);
 			}
 		});
@@ -216,15 +217,42 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		getPresenter().requestFilterList(filterConditionReq);
 	}
 
-	@Override
-	public void onStart() {
-		super.onStart();
+	private void addStoreItemClickEvent(){
+		if (mFromPageType==Constant.STORE_FRAGMENT_FROM_HOME){
+			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_CLICK_FROM_HOME,EventType.TOUCH_TYPE);
+		}
+		else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_FLOWER){
+			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_CLICK_FROM_FLOWER,EventType.TOUCH_TYPE);
+		}else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_CAKE){
+			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_CLICK_FROM_CAKE,EventType.TOUCH_TYPE);
+		}
+	}
+
+	private void addTagLvItemClickEvent(int sortType){
+		if (sortType==Constant.SALES) {
+			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
+				Entry.getInstance().onEvent(Constant.EVENT_CLICK_SALES_FROM_HOME, EventType.TOUCH_TYPE);
+			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_FLOWER) {
+				Entry.getInstance().onEvent(Constant.EVENT_CLICK_SALES_FROM_FLOWER, EventType.TOUCH_TYPE);
+			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_CAKE) {
+				Entry.getInstance().onEvent(Constant.EVENT_CLICK_SALES_FROM_CAKE, EventType.TOUCH_TYPE);
+			}
+		}else  if (sortType==Constant.DISTANCE) {
+			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
+				Entry.getInstance().onEvent(Constant.EVENT_CLICK_DISTANCE_FROM_HOME, EventType.TOUCH_TYPE);
+			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_FLOWER) {
+				Entry.getInstance().onEvent(Constant.EVENT_CLICK_DISTANCE_FROM_FLOWER, EventType.TOUCH_TYPE);
+			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_CAKE) {
+				Entry.getInstance().onEvent(Constant.EVENT_CLICK_DISTANCE_FROM_CAKE, EventType.TOUCH_TYPE);
+			}
+		}
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.rl_sort:
+				addSortEvent();
 				if (mSortPopWindow == null) {
 					mSortPopWindow = new SortPopWindow(mContext, mSortList, (new SortPopWindow
 							.OnSelectedSortListener() {
@@ -256,6 +284,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				break;
 
 			case R.id.rl_filter:
+				addFliterEvent();
 				if (mFilterPopWindow == null) {
 					mFilterPopWindow = new FilterPopWindow(mContext, mFilterList, new
 							FilterPopWindow.OnClickOkListener() {
@@ -301,18 +330,40 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 
 	}
+
+	private void addSortEvent(){
+		if (mFromPageType==Constant.STORE_FRAGMENT_FROM_HOME){
+			Entry.getInstance().onEvent(Constant.EVENT_CLICK_SORT_FROM_HOME,EventType.TOUCH_TYPE);
+		}
+		else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_FLOWER){
+			Entry.getInstance().onEvent(Constant.EVENT_CLICK_SORT_FROM_FLOWER,EventType.TOUCH_TYPE);
+		}else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_CAKE){
+			Entry.getInstance().onEvent(Constant.EVENT_CLICK_SORT_FROM_CAKE,EventType.TOUCH_TYPE);
+		}
+	}
+
+	private void addFliterEvent(){
+		if (mFromPageType==Constant.STORE_FRAGMENT_FROM_HOME){
+			Entry.getInstance().onEvent(Constant.EVENT_CLICK_FILTER_FROM_HOME,EventType.TOUCH_TYPE);
+		}
+		else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_FLOWER){
+			Entry.getInstance().onEvent(Constant.EVENT_CLICK_FILTER_FROM_FLOWER,EventType.TOUCH_TYPE);
+		}else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_CAKE){
+			Entry.getInstance().onEvent(Constant.EVENT_CLICK_FILTER_FROM_CAKE,EventType.TOUCH_TYPE);
+		}
+	}
 	
 	private void refresh(){
 		if (NetUtil.getNetWorkState(mContext)) {
 			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
 				mPresenter.requestFilterList(filterConditionReq);
 				homeLoadFirstPage();
-			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
-				mPresenter.requestFilterList(filterConditionReq);
-				recommendShopLoadFirstPage(mStoreReq);
-			} else {
+			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH) {
 				mPresenter.requestFilterList(filterConditionReq);
 				searchLoadFirstPage(mStoreReq);
+			} else {
+				mPresenter.requestFilterList(filterConditionReq);
+				recommendShopLoadFirstPage(mStoreReq);
 			}
 		} else {
 			ToastUtils.show(mContext, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
@@ -343,7 +394,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					((SearchActivity) mContext).setmEtTipNoResult();
 
 				}
-			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME || mFromPageType == Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP) {
+			} else if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME || mFromPageType == Constant.STORE_FRAGMENT_FROM_FLOWER
+					|| mFromPageType == Constant.STORE_FRAGMENT_FROM_CAKE|| mFromPageType == Constant.STORE_FRAGMENT_FROM_FOOD) {
 				if (!TextUtils.isEmpty(mStoreReq.getMigFilter())) {
 					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
 							.no_search_result_filter));
@@ -445,14 +497,24 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	}
 
+	private void addStoreItemVoiceEvent(){
+		if (mFromPageType==Constant.STORE_FRAGMENT_FROM_HOME){
+			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_VOICE_FROM_HOME,EventType.VOICE_TYPE);
+		}
+		else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_FLOWER){
+			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_VOICE_FROM_FLOWER,EventType.VOICE_TYPE);
+		}else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_CAKE){
+			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_VOICE_FROM_CAKE,EventType.VOICE_TYPE);
+		}
+	}
+
 	@Override
 	public void selectListItem(int index) {
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH && ((SearchActivity) mContext)
 				.getStatus() != Constant.SEARCH_STATUS_FRAGMENT) {
 			return;
 		}
-		
-		Entry.getInstance().onEvent(31300110,EventType.VOICE_TYPE);
+		addStoreItemVoiceEvent();
 		jumpPage(index, true);
 	}
 
@@ -464,7 +526,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 
 		if (mRlTipNoResult.getVisibility() == View.GONE) {
-			Entry.getInstance().onEvent(31300107,EventType.VOICE_TYPE);
+			addNextPageEvent();
 			LinearLayoutManager manager = (LinearLayoutManager) mRvStore.getLayoutManager();
 			assert manager != null;
 			int currentItemPosition = manager.findFirstVisibleItemPosition();
@@ -478,6 +540,17 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			}
 		}
 
+	}
+	
+	private void addNextPageEvent(){
+		if (mFromPageType==Constant.STORE_FRAGMENT_FROM_HOME){
+			Entry.getInstance().onEvent(Constant.EVENT_NEXT_PAGE_VOICE_FROM_HOME,EventType.VOICE_TYPE);
+		}
+		else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_FLOWER){
+			Entry.getInstance().onEvent(Constant.EVENT_NEXT_PAGE_VOICE_FROM_FLOWER,EventType.VOICE_TYPE);
+		}else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_CAKE){
+			Entry.getInstance().onEvent(Constant.EVENT_NEXT_PAGE_VOICE_FROM_CAKE,EventType.VOICE_TYPE);
+		}
 	}
 
 	private void setRefreshView() {

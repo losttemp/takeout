@@ -120,7 +120,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.iv_back:
-				Entry.getInstance().onEvent(	31300104,EventType.TOUCH_TYPE);
+				Entry.getInstance().onEvent(Constant.EVENT_EXIT,EventType.TOUCH_TYPE);
 				MyApplicationAddressBean.USER_NAMES.clear();
 				MyApplicationAddressBean.USER_PHONES.clear();
 				AtyContainer.getInstance().finishAllActivity();
@@ -129,41 +129,40 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 			case R.id.tv_title:
 			case R.id.iv_title:
-				
-
+				Entry.getInstance().onEvent(Constant.EVENT_OPEN_ADDRESS_SELECT,EventType.TOUCH_TYPE);
 				Intent addressIntent = new Intent(HomeActivity.this, AddressSelectActivity.class);
 				startActivity(addressIntent);
 				break;
 
 			case R.id.iv_right:
-			
-						
+				Entry.getInstance().onEvent(Constant.EVENT_OPEN_ORDER_LIST,EventType.TOUCH_TYPE);		
 				Intent orderListIntent = new Intent(this, OrderListActivity.class);
 				startActivity(orderListIntent);
 				break;
 
 			case R.id.rl_search:
+				Entry.getInstance().onEvent(Constant.EVENT_OPEN_SEARCH_FROM_HOME,EventType.TOUCH_TYPE);
 				Intent searchIntent = new Intent(HomeActivity.this, SearchActivity.class);
+				searchIntent.putExtra(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_HOME);
 				startActivity(searchIntent);
 				break;
 
 			case R.id.rl_flower:
-				
-				Entry.getInstance().onEvent(31300053,EventType.TOUCH_TYPE);
+				Entry.getInstance().onEvent(Constant.EVENT_FLOWER_CLICK,EventType.TOUCH_TYPE);
 				Intent flowerIntent = new Intent(this, RecommendShopActivity.class);
 				flowerIntent.putExtra("title", mTvFlower.getText().toString());
 				startActivity(flowerIntent);
 				break;
 
 			case R.id.rl_cake:
-				Entry.getInstance().onEvent(31300055,EventType.TOUCH_TYPE);
+				Entry.getInstance().onEvent(Constant.EVENT_CAKE_CLICK,EventType.TOUCH_TYPE);
 				Intent cakeIntent = new Intent(this, RecommendShopActivity.class);
 				cakeIntent.putExtra("title", mTvCake.getText().toString());
 				startActivity(cakeIntent);
 				break;
 
 			case R.id.rl_food:
-				Entry.getInstance().onEvent(31300051,EventType.TOUCH_TYPE);
+				Entry.getInstance().onEvent(Constant.EVENT_FOOD_CLICK,EventType.TOUCH_TYPE);
 				Intent foodIntent = new Intent(this, FoodActivity.class);
 				foodIntent.putExtra("title", mTvFood.getText().toString());
 				foodIntent.putExtra("latitude", mStoreListFragment.getLatitude());

@@ -16,6 +16,7 @@ import com.baidu.iov.dueros.waimai.adapter.SecondTypeFoodAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.presenter.FoodPresenter;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
@@ -239,11 +240,12 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
-                Entry.getInstance().onEvent(	31300102,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.EVENT_BACK,EventType.TOUCH_TYPE);
                 finish();
                 break;
             case R.id.rl_search:
                 Intent intent = new Intent(FoodActivity.this, SearchActivity.class);
+                intent.putExtra(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_FOOD);
                 startActivity(intent);
                 break;
             case R.id.no_internet_btn:

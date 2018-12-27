@@ -38,6 +38,8 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
 
     private boolean isload =false;
 
+    private int mFromPageType;
+
     @Override
     HomePresenter createPresenter() {
         return new HomePresenter();
@@ -79,14 +81,19 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
     private void initData (){
         if (getResources().getString(R.string.stroe_type_cake).equals(title)){
             keyword=getResources().getString(R.string.cake);
+            mFromPageType=Constant.STORE_FRAGMENT_FROM_CAKE;
         }else if (getResources().getString(R.string.stroe_type_flower).equals(title)){
             keyword=getResources().getString(R.string.flower);
+            mFromPageType=Constant.STORE_FRAGMENT_FROM_FLOWER;
+        }else {
+            mFromPageType=Constant.STORE_FRAGMENT_FROM_FOOD;
         }
+        
       
         //fragment
         mStoreListFragment = new StoreListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_RECOMMENDSHOP);
+        bundle.putInt(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, mFromPageType);
         mStoreListFragment.setArguments(bundle);
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -133,11 +140,17 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
-                Entry.getInstance().onEvent(	31300102,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.EVENT_BACK,EventType.TOUCH_TYPE);
                 finish();
                 break;
             case R.id.rl_search:
+                if (mFromPageType==Constant.STORE_FRAGMENT_FROM_FLOWER){
+                    Entry.getInstance().onEvent(Constant.EVENT_OPEN_SEARCH_FROM_FLOWER,EventType.TOUCH_TYPE);
+                }else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_CAKE){
+                    Entry.getInstance().onEvent(Constant.EVENT_OPEN_SEARCH_FROM_CAKE,EventType.TOUCH_TYPE);
+                }
                 Intent intent = new Intent(RecommendShopActivity.this, SearchActivity.class);
+                intent.putExtra(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, mFromPageType);
                 startActivity(intent);
                 break;
             default:

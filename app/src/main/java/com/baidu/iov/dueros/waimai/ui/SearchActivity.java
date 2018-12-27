@@ -68,6 +68,9 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private RelativeLayout mRlSearch;
 
 	private SearchSuggestReq searchSuggestReq;
+	
+	private int mFromPageType;
+	
 
 
 	@Override
@@ -84,9 +87,17 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
+		getIntentData();
 		iniView();
 		iniData();
 
+	}
+
+	public void getIntentData() {
+		Intent intent = getIntent();
+		if (intent != null) {
+			mFromPageType = intent.getIntExtra(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE,Constant.STORE_FRAGMENT_FROM_HOME);
+		}
 	}
 
 	@Override
@@ -166,7 +177,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Entry.getInstance().onEvent(	31300049,EventType.TOUCH_TYPE);
+				Entry.getInstance().onEvent(Constant.EVENT_HISTORY_ITEM_CLICK,EventType.TOUCH_TYPE);
 				searchKeyword(mHistorys.get(position-HEAD_NUM));
 			}
 		});
@@ -220,7 +231,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					mIvClean.setVisibility(View.GONE);
 					changeStatus(Constant.SEARCH_STATUS_HISTORY);
 				} else {
-					Entry.getInstance().onEvent(	31300047,EventType.TOUCH_TYPE);
+					Entry.getInstance().onEvent(Constant.EVENT_INPUT_SEARCH, EventType.TOUCH_TYPE);
 					mIvClean.setVisibility(View.VISIBLE);
 					mLvSuggest.setVisibility(View.VISIBLE);
 					mLlHistory.setVisibility(View.GONE);
@@ -305,7 +316,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	@Override
 	public void selectListItem(int index) {
 		if (mCurrentStatus == Constant.SEARCH_STATUS_HISTORY && mHistorys.size() > index) {
-			Entry.getInstance().onEvent(	31300048,EventType.VOICE_TYPE);
+			Entry.getInstance().onEvent(Constant.EVENT_HISTORY_ITEM_VOIVE,EventType.VOICE_TYPE);
 			VoiceManager.getInstance().playTTS(SearchActivity.this, getString(R.string.yes));
 			searchKeyword(mHistorys.get(index));
 		}
@@ -376,7 +387,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		if (mCurrentStatus == Constant.SEARCH_STATUS_FRAGMENT) {
 			changeStatus(Constant.SEARCH_STATUS_HISTORY);
 		} else {
-			Entry.getInstance().onEvent(31300102,EventType.TOUCH_TYPE);
+			Entry.getInstance().onEvent(Constant.EVENT_BACK,EventType.TOUCH_TYPE);
 			finish();
 		}
 	}
