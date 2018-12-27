@@ -164,7 +164,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     @Override
     public void update(MeituanAuthorizeResponse data) {
-        Entry.getInstance().onEvent(31300023,EventType.TOUCH_TYPE);
+        Entry.getInstance().onEvent(Constant.ENTRY_LOGIN_MEITUAN,EventType.TOUCH_TYPE);
         if (data.getIov().getAuthorizedState()) {
             if (CacheUtils.getAuth()) {
                 //getPresenter().requestAddressListData(mAddressListReq);
@@ -302,7 +302,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     }
 
     private void initPostHttp(){
-        Entry.getInstance().onEvent(31300022,EventType.TOUCH_TYPE);
+        Entry.getInstance().onEvent(Constant.ENTRY_LOGIN_OS,EventType.TOUCH_TYPE);
         getPresenter().requestAccountInfo();
     }
 }

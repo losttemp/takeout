@@ -71,7 +71,6 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_search);
-        Entry.getInstance().onEvent(31300026,EventType.TOUCH_TYPE);
         initView();
         initData();
         initPoiInfo();
@@ -106,6 +105,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         mAdapter.setOnItemClickListener(new AddressSuggestionAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View v, PoiInfo dataBean) {
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_POIACT_SELECT,EventType.TOUCH_TYPE);
                 Lg.getInstance().d(TAG, "setOnItemClickListener");
                 Intent intent = new Intent(AddressSuggestionActivity.this, AddressEditActivity.class);
                 intent.putExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR, dataBean);
@@ -141,6 +141,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                     return;
                 }
                 if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {// success
+                    Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_POIACT_EDIT,EventType.TOUCH_TYPE);
                     List<PoiInfo> poiAddrInfoList = poiResult.getAllPoi();
                     mAllSuggestions.clear();
                     if (poiAddrInfoList != null && poiAddrInfoList.size() > 0) {

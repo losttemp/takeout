@@ -58,7 +58,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_select);
-        Entry.getInstance().onEvent(31300046,EventType.TOUCH_TYPE);
         isNeedPlayTTS = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
         getPresenter().initDesBeans();
         init = false;
@@ -92,6 +91,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         mAdapter = new AddressSelectAdapter(mDataList, this) {
             @Override
             public void addAddress() {
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_START_ADD_NEW,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_START_POI,EventType.TOUCH_TYPE);
                 doSearchAddress(false);
             }
         };
@@ -105,15 +106,17 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             public void OnItemClick(View v, AddressListBean.IovBean.DataBean dataBean) {
                 switch (v.getId()) {
                     case R.id.address_select_details_container:
-                        Entry.getInstance().onEvent(31300034,EventType.TOUCH_TYPE);
                         String type =dataBean.getType();
                         if (TextUtils.isEmpty(type)){
+                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_OTHER,EventType.TOUCH_TYPE);
                         }else if (getString(R.string.address_home).equals(type)) {
-                            Entry.getInstance().onEvent(31300032,EventType.TOUCH_TYPE);
+                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_HOME,EventType.TOUCH_TYPE);
                         } else if (getString(R.string.address_company).equals(type)) {
-                            Entry.getInstance().onEvent(31300030,EventType.TOUCH_TYPE);
+                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_FIRM,EventType.TOUCH_TYPE);
                         }else if (getString(R.string.address_destination).equals(type)){
-                            Entry.getInstance().onEvent(31300028,EventType.TOUCH_TYPE);
+                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_MUDIDI,EventType.TOUCH_TYPE);
+                        }else{
+                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_OTHER,EventType.TOUCH_TYPE);
                         }
                         String databeanStr = GsonUtil.toJson(dataBean);
                         CacheUtils.saveAddressBean(databeanStr);
@@ -166,7 +169,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     }
 
     private void startEditActivity(AddressListBean.IovBean.DataBean dataBean) {
-        Entry.getInstance().onEvent(31300037,EventType.TOUCH_TYPE);
+        Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_START_EDIT,EventType.TOUCH_TYPE);
         Intent intent = new Intent(AddressSelectActivity.this, AddressEditActivity.class);
         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS, dataBean);
@@ -256,6 +259,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 break;
             case R.id.add_no_address:
             case R.id.address_select_add:
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_START_ADD_NEW,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_START_POI,EventType.TOUCH_TYPE);
                 doSearchAddress(false);
                 break;
             case R.id.no_internet_btn:

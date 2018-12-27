@@ -96,4 +96,22 @@ public class Constant {
     public static final String IS_NEED_VOICE_FEEDBACK = "isNeedVoiceFeedback";
 
     public static String UUID = "uuid";
+    //address
+    public final static int ENTRY_LOGIN_OS = 31300016;
+    public final static int ENTRY_LOGIN_MEITUAN = 31300017;
+    public final static int ENTRY_ADDRESS_NEWACT_SAVE = 31300018;
+    public final static int ENTRY_ADDRESS_NEWACT_START_POI = 31300019;
+    public final static int ENTRY_ADDRESS_NEWACT_EDIT_DATA = 31300020;
+    public final static int ENTRY_ADDRESS_EDITACT_SAVE = 31300029;
+    public final static int ENTRY_ADDRESS_EDITACT_DELETE = 31300030;
+    public final static int ENTRY_ADDRESS_EDITACT_START_POI = 31300031;
+    public final static int ENTRY_ADDRESS_EDITACT_EDIT_DATA = 31300032;
+    public final static int ENTRY_ADDRESS_LIST_SELECT_MUDIDI = 31300021;
+    public final static int ENTRY_ADDRESS_LIST_SELECT_FIRM = 31300022;
+    public final static int ENTRY_ADDRESS_LIST_SELECT_HOME = 31300023;
+    public final static int ENTRY_ADDRESS_LIST_SELECT_OTHER = 31300024;
+    public final static int ENTRY_ADDRESS_LIST_START_EDIT = 31300026;
+    public final static int ENTRY_ADDRESS_LIST_START_ADD_NEW = 31300027;
+    public final static int ENTRY_ADDRESS_POIACT_EDIT = 31300033;
+    public final static int ENTRY_ADDRESS_POIACT_SELECT = 31300035;
 }
