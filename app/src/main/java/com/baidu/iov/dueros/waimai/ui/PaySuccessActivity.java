@@ -141,7 +141,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.order_details_tv:
                 isGo2OrderDetail = true;
-                Entry.getInstance().onEvent(31300088,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.PAYSUCCESS_TO_ORDERDETAIL,EventType.TOUCH_TYPE);
                 Intent intent = new Intent(this, OrderDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Constant.ORDER_ID, mOrderId);
