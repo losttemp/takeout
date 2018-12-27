@@ -1218,7 +1218,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         for (int i = 0; i < attrIds.size(); i++) {
             for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrs) {
                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrsList = attrsBean.getChoiceAttrs();
-                if (choiceAttrsList != null && choiceAttrsList.size() > 0) {
+                if (choiceAttrsList == null) {
+                    choiceAttrsList = new ArrayList<>();
+                    PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean valuesBean = new PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean();
+                    valuesBean.setId(Long.parseLong(attrIds.get(i)));
+                    valuesBean.setValue(String.valueOf(attrValues.get(i)));
+                    choiceAttrsList.add(valuesBean);
+                    attrsBean.setChoiceAttrs(choiceAttrsList);
+                } else {
                     choiceAttrsList.get(0).setId(Long.parseLong(attrIds.get(i)));
                     choiceAttrsList.get(0).setValue(String.valueOf(attrValues.get(i)));
                 }

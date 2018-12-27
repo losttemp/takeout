@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.ISubmitInfoModel;
@@ -173,8 +174,12 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
                 List<Long> food_spu_attr_ids = new ArrayList<>();
                 for (OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean.WmOrderingPreviewFoodSpuAttrListBean wmOrderingPreviewFoodSpuAttrListBean : previewDetailVoListBean.getWm_ordering_preview_food_spu_attr_list()) {
-                    long id = wmOrderingPreviewFoodSpuAttrListBean.getId();
-                    food_spu_attr_ids.add(id);
+                    if (wmOrderingPreviewFoodSpuAttrListBean!=null){
+                        long id = wmOrderingPreviewFoodSpuAttrListBean.getId();
+                        food_spu_attr_ids.add(id);
+                    }else {
+                        ToastUtils.show(context,context.getString(R.string.error_nullpoint),Toast.LENGTH_LONG);
+                    }
                 }
                 foodListBean.setFood_spu_attr_ids(food_spu_attr_ids);
                 foodListBean.setCount(previewDetailVoListBean.getCount());
@@ -189,7 +194,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             if (addressData.getUser_phone()!=null){
                 wmOrderingUserBean.setUser_phone(Encryption.desEncrypt(addressData.getUser_phone()));
             }else {
-                ToastUtils.show(context,"收货人联系方式不能为空！",Toast.LENGTH_LONG);
+                ToastUtils.show(context,context.getString(R.string.error_nullpoint),Toast.LENGTH_LONG);
             }
             if (addressData.getUser_name()!=null){
                 wmOrderingUserBean.setUser_name(Encryption.desEncrypt(addressData.getUser_name()));
@@ -218,8 +223,8 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
     public void requestOrderPreview(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,
                                     PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean, int delivery_time,
-                                    AddressListBean.IovBean.DataBean addressData) {
-        String payload = onCreatePayLoadJson(spusBeanList, poiInfoBean, delivery_time, addressData);
+                                    AddressListBean.IovBean.DataBean addressData,Context context) {
+        String payload = onCreatePayLoadJson(spusBeanList, poiInfoBean, delivery_time, addressData,context);
         OrderPreviewReqBean orderPreviewReqBean = new OrderPreviewReqBean();
         orderPreviewReqBean.setPayload(Encryption.encrypt(payload));
         mSubmitInfo.requestOrderPreview(orderPreviewReqBean, new RequestCallback<OrderPreviewBean>() {
@@ -247,7 +252,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
     private String onCreatePayLoadJson(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,
                                        PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean, int delivery_time,
-                                       AddressListBean.IovBean.DataBean addressData) {
+                                       AddressListBean.IovBean.DataBean addressData,Context context) {
 
 
         OrderPreviewJsonBean orderPreviewJsonBean = new OrderPreviewJsonBean();
@@ -262,8 +267,12 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             List<Long> food_spu_attr_ids = new ArrayList<>();
             for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : spusBean.getAttrs()) {
-                long id = attrsBean.getChoiceAttrs().get(0).getId();
-                food_spu_attr_ids.add(id);
+                if (attrsBean.getChoiceAttrs()!=null){
+                    long id = attrsBean.getChoiceAttrs().get(0).getId();
+                    food_spu_attr_ids.add(id);
+                }else {
+                    ToastUtils.show(context,"商品列表不能为空",Toast.LENGTH_LONG);
+                }
             }
             foodListBean.setFood_spu_attr_ids(food_spu_attr_ids);
             foodListBean.setCount(spusBean.getNumber());

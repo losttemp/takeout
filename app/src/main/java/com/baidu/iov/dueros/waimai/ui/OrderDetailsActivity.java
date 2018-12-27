@@ -434,7 +434,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
-                Entry.getInstance().onEvent(31300102,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY,EventType.TOUCH_TYPE);
                 Intent orderListIntent = new Intent(this, OrderListActivity.class);
                 startActivity(orderListIntent);
                 finish();
@@ -487,7 +487,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 dialog.show();
                 break;
             case R.id.phone:
-                Entry.getInstance().onEvent(31300090,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.CALL_FOR_CANCLE_ORDER,EventType.TOUCH_TYPE);
                 ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
                         .setTitle(R.string.contact_meituan_title)
                         .setMessage(R.string.contact_meituan_message)

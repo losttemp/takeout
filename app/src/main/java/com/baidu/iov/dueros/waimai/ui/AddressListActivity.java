@@ -65,13 +65,13 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_list);
-        Entry.getInstance().onEvent(31300046,EventType.TOUCH_TYPE);
         viewById = findViewById(R.id.rv_activity_address_list);
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) viewById.getLayoutParams();
         lp.topMargin = getStateBar();
         viewById.setLayoutParams(lp);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.px962dp));
         getWindow().setGravity(Gravity.TOP);
+        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG,EventType.TOUCH_TYPE);
 
     }
 
@@ -103,6 +103,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             public void onItemClick(View view, int position) {
                 switch (view.getId()) {
                     case R.id.img_select:
+                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_UPDATE_ADDRESS,EventType.TOUCH_TYPE);
                         Intent intent = new Intent(getApplicationContext(), AddressEditActivity.class);
                         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
                         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS, mDataListBean.get(position));
@@ -112,6 +113,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                         break;
 
                     default:
+                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_ADDRESS_VOICE,EventType.VOICE_TYPE);
+                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_ADDRESS,EventType.TOUCH_TYPE);
                         AddressListBean.IovBean.DataBean addressData = mDataListBean.get(position);
                         Intent data = new Intent();
                         data.putExtra(ADDRESS_DATA, addressData);
@@ -204,6 +207,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 break;
 
             case R.id.img_add:
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ALERT_ADDRESS,EventType.TOUCH_TYPE);
                 doSearchAddress(false);
                 break;
 

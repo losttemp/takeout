@@ -117,7 +117,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             if (mProductList != null && mPoiInfo != null) {
                 getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData);
+                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData,SubmitOrderActivity.this);
             }
         }
 
@@ -263,11 +263,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         switch (v.getId()) {
 
             case R.id.back_action:
-                Entry.getInstance().onEvent(31300102,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY,EventType.TOUCH_TYPE);
                 onBackPressed();
                 break;
             case R.id.address_info:
-                Entry.getInstance().onEvent(31300083,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG,EventType.TOUCH_TYPE);
                 Intent intent = new Intent(this, AddressListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Constant.WM_POI_ID, mPoiInfo.getWm_poi_id());
@@ -275,13 +275,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 break;
 
             case R.id.delivery_info:
-                Entry.getInstance().onEvent(31300082,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TIME_DIALOG,EventType.TOUCH_TYPE);
                 showPopwindow();
                 backgroundAlpha(0.5f);
                 break;
 
             case R.id.to_pay:
-                Entry.getInstance().onEvent(31300081,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY,EventType.TOUCH_TYPE);
                 if (mAddressData == null) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT);
                 }
@@ -329,7 +329,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mListViewDate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_TIME,EventType.TOUCH_TYPE);
                 mCurDateItem = position;
                 List<ArriveTimeBean.MeituanBean.DataBean.TimelistBean> timelistBeans = mDataBean.get(position).getTimelist();
                 mTimeAdapter.setData(timelistBeans, mCurDateItem);
@@ -349,6 +349,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mListViewTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_TIME,EventType.TOUCH_TYPE);
                 isChoiceAddressBack = true;
                 if (mDataBean != null) {
                     String type = mDataBean.get(mCurDateItem).getTimelist().get(position).getDate_type_tip();
@@ -370,7 +371,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     }
 
                 }
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData);
+                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData,SubmitOrderActivity.this);
                 mCurTimeItem = position;
                 mPreDateItem = mCurDateItem;
                 mTimeAdapter.setCurrentItem(mCurTimeItem, mPreDateItem);
@@ -427,7 +428,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 if (data != null) {
                     isChoiceAddressBack = true;
                     mAddressData = (AddressListBean.IovBean.DataBean) data.getSerializableExtra(ADDRESS_DATA);
-                    getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData);
+                    getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData,SubmitOrderActivity.this);
 
                     boolean isNeedVoice = data.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
                     try {
