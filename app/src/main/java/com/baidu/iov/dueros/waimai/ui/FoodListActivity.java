@@ -170,6 +170,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private Button mNoInternetButton;
     private LinearLayout mLoading;
     private RelativeLayout mShopCartPic;
+    private static final int VOICE_STEP = 3;//语音选择下一页时跳动的item数目
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -287,6 +288,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mFoodSpuTagsListAdapter.setOnItemClickListener(new PoifoodSpusTagsAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
+                Entry.getInstance().onEvent(Constant.POIFOODLIST_CLICK_ON_THE_TYPE_OF_GOODS, EventType.TOUCH_TYPE);
                 ((LinearLayoutManager) mSpusList.getLayoutManager()).scrollToPositionWithOffset(position, 0);
                 mFoodSpuTagsListAdapter.setSelectedPosition(position);
                 mFoodSpuTagsListAdapter.notifyDataSetChanged();
@@ -755,7 +757,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mCartSettlement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Entry.getInstance().onEvent(31300072, EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.POIFOODLIST_CONFIRM_THE_ORDER, EventType.TOUCH_TYPE);
                 mBottomDialog.dismiss();
                 if (NetUtil.getNetWorkState(FoodListActivity.this)) {
                     getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
@@ -767,7 +769,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mCartClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Entry.getInstance().onEvent(31300078, EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.POIFOODLIST_CLOSE_THE_SHOPPING_CART, EventType.TOUCH_TYPE);
                 mBottomDialog.dismiss();
             }
         });
@@ -794,7 +796,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.shopping_cart:
-                Entry.getInstance().onEvent(31300074, EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.POIFOODLIST_CHECK_THE_SHOPPING_CART, EventType.TOUCH_TYPE);
                 if (productList == null || productList.size() == 0) {
                     return;
                 }
@@ -802,7 +804,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
 
             case R.id.settlement:
-                Entry.getInstance().onEvent(31300072, EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.POIFOODLIST_CONFIRM_THE_ORDER, EventType.TOUCH_TYPE);
                 if (productList == null || productList.size() == 0) {
                     settlement.setEnabled(false);
                     return;
@@ -815,7 +817,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
 
             case R.id.tv_clear:
-                Entry.getInstance().onEvent(31300076, EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.POIFOODLIST_EMPTY_CART, EventType.TOUCH_TYPE);
                 if (productList != null && productList.size() > 0) {
                     productList.clear();
                     for (int i = 0; i < foodSpuTagsBeans.size(); i++) {
@@ -841,10 +843,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
             case R.id.iv_finish:
                 finish();
-                Entry.getInstance().onEvent(31300021, EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.POIFOODLIST_FINISH, EventType.TOUCH_TYPE);
                 break;
             case R.id.rl_store_details:
-                Entry.getInstance().onEvent(31300069, EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.POIFOODLIST_SEE_NOTICE, EventType.TOUCH_TYPE);
                 View popView = mPoifoodSpusListAdapter.getPopView(R.layout.dialog_shop_details);
                 mDetailsNotice = (TextView) popView.findViewById(R.id.tv_notice);
                 mDetailsShopName = (MultiplTextView) popView.findViewById(R.id.tv_shop_name);
@@ -1331,7 +1333,56 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     @Override
+    public void nextPage(boolean isNextPage) {
+        Entry.getInstance().onEvent(Constant.POIFOODLIST_VOICE_PAGING, EventType.TOUCH_TYPE);
+        LinearLayoutManager manager = (LinearLayoutManager) mSpusList.getLayoutManager();
+        assert manager != null;
+        int currentItemPosition = manager.findFirstVisibleItemPosition();
+        int flag = currentItemPosition + 1;
+        int section = 0;
+        int position = 0;
+        boolean ok = true;
+//        while (ok) {
+//            int oldFlag = flag;
+//            flag -= foodSpuTagsBeans.get(section).getSpus().size();
+//            if (flag <= 0 && section == 0) {
+//                position = currentItemPosition;
+//                ok = false;
+//                continue;
+//            }
+//            if (flag <= 0) {
+//                position = oldFlag - 1;
+//                ok = false;
+//                continue;
+//            }
+//            section++;
+//        }
+//        if (null != manager) {
+//            int firstItemPosition = manager.findFirstVisibleItemPosition();
+//            int lastItemPosition = manager.findLastVisibleItemPosition();
+//
+//            if (firstItemPosition <= section && lastItemPosition >= section) {
+//                View view = mSpusList.getChildAt(section - firstItemPosition);
+//                if (null != mSpusList.getChildViewHolder(view)) {
+//                    PoifoodSpusListAdapter.MyViewHolder viewHolder = (PoifoodSpusListAdapter.MyViewHolder) mSpusList.getChildViewHolder(view);
+//                    RecyclerView recyclerView = viewHolder.getRecyclerView();
+//                    LinearLayoutManager m = (LinearLayoutManager) recyclerView.getLayoutManager();
+//                    if (null != m) {
+//                        int f = m.findLastVisibleItemPosition();
+//                        if (isNextPage) {
+//                            m.scrollToPositionWithOffset(f + VOICE_STEP, 0);
+//                        } else {
+//                            m.scrollToPositionWithOffset(f - VOICE_STEP > 0 ? f - VOICE_STEP : 0, 0);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+    }
+
+    @Override
     public void selectListItem(int i) {
+        Entry.getInstance().onEvent(Constant.POIFOODLIST_ADD_GOODS_BY_VOICE, EventType.TOUCH_TYPE);
         int flag = i + 1;
         int section = 0;
         int position = 0;

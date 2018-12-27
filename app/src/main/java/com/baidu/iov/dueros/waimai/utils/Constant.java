@@ -169,4 +169,15 @@ public class Constant {
     public final static int ENTRY_ADDRESS_POIACT_EDIT = 31300033;
     public final static int ENTRY_ADDRESS_POIACT_SELECT = 31300035;
 
+    public static final int POIFOODLIST_CLICK_ON_THE_TYPE_OF_GOODS = 31300052;
+    public static final int POIFOODLIST_ADD_GOODS_BY_VOICE = 31300053;
+    public static final int POIFOODLIST_CLICK_ON_INCREASE_OR_DECREASE = 31300054;
+    public static final int POIFOODLIST_SEE_NOTICE = 31300055;
+    public static final int POIFOODLIST_VOICE_PAGING = 31300056;
+    public static final int POIFOODLIST_CONFIRM_THE_ORDER = 31300057;
+    public static final int POIFOODLIST_CHECK_THE_SHOPPING_CART = 31300058;
+    public static final int POIFOODLIST_EMPTY_CART = 31300059;
+    public static final int POIFOODLIST_CLOSE_THE_SHOPPING_CART = 31300060;
+    public static final int POIFOODLIST_SPECIFICATION_CLICK = 31300061;
+    public static final int POIFOODLIST_FINISH = 31300077;
 }
