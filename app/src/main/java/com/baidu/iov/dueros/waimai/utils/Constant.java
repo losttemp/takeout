@@ -103,49 +103,49 @@ public class Constant {
     public static String UUID = "uuid";
 
     //shujumaidian home
-    public static int  EVENT_EXIT= 31300078;
-    public static int  EVENT_BACK= 31300077;
+    public final static int  EVENT_EXIT= 31300078;
+    public final static int  EVENT_BACK= 31300077;
     
-    public static int  EVENT_FOOD_CLICK= 31300039;
-    public static int  EVENT_FLOWER_CLICK= 31300040;
-    public static int  EVENT_CAKE_CLICK= 31300041;
-    public static int  EVENT_HISTORY_ITEM_CLICK= 31300038;
-    public static int  EVENT_HISTORY_ITEM_VOIVE= 31300037;
+    public final static int  EVENT_FOOD_CLICK= 31300039;
+    public final static int  EVENT_FLOWER_CLICK= 31300040;
+    public final static int  EVENT_CAKE_CLICK= 31300041;
+    public final static int  EVENT_HISTORY_ITEM_CLICK= 31300038;
+    public final static int  EVENT_HISTORY_ITEM_VOIVE= 31300037;
     
-    public static int  EVENT_INPUT_SEARCH= 31300036;
-    public static int  EVENT_OPEN_ORDER_LIST= 31300044;
-    public static int  EVENT_OPEN_ADDRESS_SELECT= 31300045;
-    public static int  EVENT_OPEN_SEARCH_FROM_HOME= 31300046;
-    public static int  EVENT_OPEN_SEARCH_FROM_FLOWER= 31300079;
-    public static int  EVENT_OPEN_SEARCH_FROM_CAKE= 31300087;
+    public final static int  EVENT_INPUT_SEARCH= 31300036;
+    public final static int  EVENT_OPEN_ORDER_LIST= 31300044;
+    public final static int  EVENT_OPEN_ADDRESS_SELECT= 31300045;
+    public final static int  EVENT_OPEN_SEARCH_FROM_HOME= 31300046;
+    public final static int  EVENT_OPEN_SEARCH_FROM_FLOWER= 31300079;
+    public final static int  EVENT_OPEN_SEARCH_FROM_CAKE= 31300087;
     
-    public static int  EVENT_NEXT_PAGE_VOICE_FROM_HOME= 31300051;
-    public static int  EVENT_NEXT_PAGE_VOICE_FROM_FLOWER= 31300084;
-    public static int  EVENT_NEXT_PAGE_VOICE_FROM_CAKE= 31300092;
+    public final static int  EVENT_NEXT_PAGE_VOICE_FROM_HOME= 31300051;
+    public final static int  EVENT_NEXT_PAGE_VOICE_FROM_FLOWER= 31300084;
+    public final static int  EVENT_NEXT_PAGE_VOICE_FROM_CAKE= 31300092;
 
-    public static int  EVENT_SELECTE_STORE_CLICK_FROM_HOME= 31300043;
-    public static int  EVENT_SELECTE_STORE_CLICK_FROM_FLOWER= 31300085;
-    public static int  EVENT_SELECTE_STORE_CLICK_FROM_CAKE= 31300095;
+    public final static int  EVENT_SELECTE_STORE_CLICK_FROM_HOME= 31300043;
+    public final static int  EVENT_SELECTE_STORE_CLICK_FROM_FLOWER= 31300085;
+    public final static int  EVENT_SELECTE_STORE_CLICK_FROM_CAKE= 31300095;
 
-    public static int  EVENT_SELECTE_STORE_VOICE_FROM_HOME= 31300042;
-    public static int  EVENT_SELECTE_STORE_VOICE_FROM_FLOWER= 31300084;
-    public static int  EVENT_SELECTE_STORE_VOICE_FROM_CAKE= 31300094;
+    public final static int  EVENT_SELECTE_STORE_VOICE_FROM_HOME= 31300042;
+    public final static int  EVENT_SELECTE_STORE_VOICE_FROM_FLOWER= 31300084;
+    public final static int  EVENT_SELECTE_STORE_VOICE_FROM_CAKE= 31300094;
 
-    public static int  EVENT_CLICK_FILTER_FROM_HOME= 31300050;
-    public static int  EVENT_CLICK_FILTER_FROM_FLOWER= 31300083;
-    public static int  EVENT_CLICK_FILTER_FROM_CAKE= 31300091;
+    public final static int  EVENT_CLICK_FILTER_FROM_HOME= 31300050;
+    public final static int  EVENT_CLICK_FILTER_FROM_FLOWER= 31300083;
+    public final static int  EVENT_CLICK_FILTER_FROM_CAKE= 31300091;
 
-    public static int  EVENT_CLICK_SORT_FROM_HOME= 31300049;
-    public static int  EVENT_CLICK_SORT_FROM_FLOWER= 31300080;
-    public static int  EVENT_CLICK_SORT_FROM_CAKE= 31300088;
+    public final static int  EVENT_CLICK_SORT_FROM_HOME= 31300049;
+    public final static int  EVENT_CLICK_SORT_FROM_FLOWER= 31300080;
+    public final static int  EVENT_CLICK_SORT_FROM_CAKE= 31300088;
 
-    public static int  EVENT_CLICK_SALES_FROM_HOME= 31300047;
-    public static int  EVENT_CLICK_SALES_FROM_FLOWER= 31300081;
-    public static int  EVENT_CLICK_SALES_FROM_CAKE= 31300089;
+    public final static int  EVENT_CLICK_SALES_FROM_HOME= 31300047;
+    public final static int  EVENT_CLICK_SALES_FROM_FLOWER= 31300081;
+    public final static int  EVENT_CLICK_SALES_FROM_CAKE= 31300089;
 
-    public static int  EVENT_CLICK_DISTANCE_FROM_HOME= 31300047;
-    public static int  EVENT_CLICK_DISTANCE_FROM_FLOWER= 31300082;
-    public static int  EVENT_CLICK_DISTANCE_FROM_CAKE= 31300048;
+    public final static int  EVENT_CLICK_DISTANCE_FROM_HOME= 31300047;
+    public final static int  EVENT_CLICK_DISTANCE_FROM_FLOWER= 31300082;
+    public final static int  EVENT_CLICK_DISTANCE_FROM_CAKE= 31300048;
 
 
 
