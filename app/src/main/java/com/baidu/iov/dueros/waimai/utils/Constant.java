@@ -143,9 +143,9 @@ public class Constant {
     public final static int  EVENT_CLICK_SALES_FROM_FLOWER= 31300081;
     public final static int  EVENT_CLICK_SALES_FROM_CAKE= 31300089;
 
-    public final static int  EVENT_CLICK_DISTANCE_FROM_HOME= 31300047;
+    public final static int  EVENT_CLICK_DISTANCE_FROM_HOME= 31300048;
     public final static int  EVENT_CLICK_DISTANCE_FROM_FLOWER= 31300082;
-    public final static int  EVENT_CLICK_DISTANCE_FROM_CAKE= 31300048;
+    public final static int  EVENT_CLICK_DISTANCE_FROM_CAKE= 31300090;
 
 
 
