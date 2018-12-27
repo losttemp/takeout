@@ -102,7 +102,6 @@ public class Constant {
 
     public static String UUID = "uuid";
 
-    //shujumaidian home
     public final static int  EVENT_EXIT= 31300078;
     public final static int  EVENT_BACK= 31300077;
     
@@ -169,4 +168,19 @@ public class Constant {
     public final static int ENTRY_ADDRESS_POIACT_EDIT = 31300033;
     public final static int ENTRY_ADDRESS_POIACT_SELECT = 31300035;
 
+    public final static int ORDERSUBMIT_TOPAY=31300062;
+    public final static int ORDERSUBMIT_TIME_DIALOG=31300063;
+    public final static int ORDERSUBMIT_ADDRESS_DIALOG=31300064;
+    public final static int ORDERSUBMIT_CHANGE_ADDRESS=31300065;
+    public final static int ORDERSUBMIT_UPDATE_ADDRESS=31300066;
+    public final static int ORDERSUBMIT_ALERT_ADDRESS=31300067;
+    public final static int ORDERSUBMIT_CHANGE_ADDRESS_VOICE=31300068;
+    public final static int ORDERSUBMIT_CHANGE_TIME=31300069;
+    public final static int PAYSUCCESS_TO_ORDERDETAIL=31300070;
+    public final static int CALL_FOR_CANCLE_ORDER=31300072;
+    public final static int ORDERLIST_TO_REPEAT_VOCIE=31300073;
+    public final static int ORDERLIST_TO_ORDERDETAIL=31300074;
+    public final static int ORDERLIST_TO_ORDERDETAIL_VOICE=31300075;
+    public final static int ORDERLIST_REFRESH_VOICE=31300076;
+    public final static int GOBACK_TO_PREACTIVITY=31300077;
 }
