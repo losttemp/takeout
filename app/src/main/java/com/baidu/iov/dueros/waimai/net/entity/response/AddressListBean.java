@@ -197,14 +197,14 @@ public class AddressListBean {
                     if (o.getType().equals("家里") && (this.getType() == null || this.getType().equals(""))){
                         return 1;
                     }
-
-                    if (o.getType().equals("家里") && this.getType().equals("公司")){
+                    if (o.getType().equals("公司") && this.getType().equals("家里")){
                         return 1;
                     }
 
-                    if (o.getType().equals("公司") && this.getType().equals("家里")){
+                    if (o.getType().equals("家里") && this.getType().equals("公司")){
                         return -1;
                     }
+
 
 
                 }
