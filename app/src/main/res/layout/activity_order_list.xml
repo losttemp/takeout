@@ -36,7 +36,7 @@
         android:layout_height="1dp"
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginRight="@dimen/px84dp"
-        android:background="@color/dark_gray" />
+        android:background="@color/split_view_color" />
 
     <RelativeLayout
         android:id="@+id/order_list_empty_view"

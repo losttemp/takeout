@@ -134,7 +134,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             public void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean, boolean isNeedVoice) {
                 switch (view.getId()) {
                     case R.id.tv_store_name:
-                    case R.id.iv_click:
                         Intent storeintent = new Intent(OrderListActivity.this, FoodListActivity.class);
                         storeintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         startActivity(storeintent);

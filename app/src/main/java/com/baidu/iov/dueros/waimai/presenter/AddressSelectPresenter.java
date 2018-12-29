@@ -170,7 +170,8 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                         if (dataInfo.isIs_hint()) {
                             mDataBeans.remove(i);
                             i--;
-                        } else if (!TextUtils.isEmpty(mDataBeans.get(i).getType())) {
+                        }
+                        if (i >= 0 && !TextUtils.isEmpty(mDataBeans.get(i).getType())) {
                             if ("家里".equals(mDataBeans.get(i).getType())) {
                                 jl = mDataBeans.get(i);
                                 mDataBeans.remove(i);
