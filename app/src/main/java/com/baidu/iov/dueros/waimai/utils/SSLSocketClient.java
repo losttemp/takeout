@@ -17,7 +17,7 @@ import javax.net.ssl.X509TrustManager;
 public class SSLSocketClient {
     public static SSLSocketFactory getSSLSocketFactory() {
         try {
-            SSLContext sslContext = SSLContext.getInstance("SSL");
+            SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
             sslContext.init(null, getTrustManager(), new SecureRandom());
             return sslContext.getSocketFactory();
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class SSLSocketClient {
         HostnameVerifier hostnameVerifier = new HostnameVerifier() {
             @Override
             public boolean verify(String s, SSLSession sslSession) {
-                return true;
+                return s.contains("vehicle.baidu.com");
             }
         };
         return hostnameVerifier;

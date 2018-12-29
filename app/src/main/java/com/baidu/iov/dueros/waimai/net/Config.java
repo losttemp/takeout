@@ -12,7 +12,7 @@ import com.baidu.iov.dueros.waimai.utils.CacheUtils;
  */
 public class Config {
     /**url type*/
-    private static boolean isOfficial = false;
+    private static boolean isOfficial = true;
 
     private static final String OFFICIAL_HOST = "https://vehicle.baidu.com";
     private static final String TEST_HOST = "https://sandbox-vehicle.baidu.com";
@@ -26,12 +26,12 @@ public class Config {
 
     public static final String APP_KEY ="fordedge";
 
-    public static final String CN ="1002006006";
+    public static final String CN ="1006002002";
 
 
-    public static final String PREFIX_SIGN ="123456";
+    public static final String PREFIX_SIGN ="fdS1Oa";
 
-    public static final String KEY_SIGN ="123456";
+    public static final String KEY_SIGN ="Vs@dsP";
 
     public static final int Coordinate_Type_GB =2;
 

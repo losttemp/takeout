@@ -17,7 +17,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/px32sp" />
 
-    <!-- <TextView
+     <TextView
          android:id="@+id/tv_num"
          android:layout_width="@dimen/px30dp"
          android:layout_height="@dimen/px30dp"
@@ -27,5 +27,5 @@
          android:gravity="center"
          android:textColor="@color/white"
          android:textSize="@dimen/px24sp"
-         android:visibility="visible" />-->
+         android:visibility="visible" />
 </RelativeLayout>
