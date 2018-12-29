@@ -2,7 +2,6 @@ package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
 import android.util.ArrayMap;
-import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -18,6 +17,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.ArrayList;
@@ -48,6 +48,12 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
             case CMD_SELECT:
                 getUi().selectListItem(Integer.parseInt(extra));
                 break;
+            case VoiceManager.CMD_NEXT:
+                getUi().nextPage(true);
+                break;
+            case VoiceManager.CMD_PRE:
+                getUi().nextPage(false);
+                break;
             default:
                 break;
         }
@@ -60,6 +66,8 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
             cmdList.add(CMD_NO);
             cmdList.add(CMD_SELECT);
             cmdList.add(CMD_YES);
+            cmdList.add(VoiceManager.CMD_NEXT);
+            cmdList.add(VoiceManager.CMD_PRE);
             mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
         }
     }
@@ -252,5 +260,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         void sureOrder();
 
         void selectListItem(int i);
+
+        void nextPage(boolean isNextPage);
     }
 }

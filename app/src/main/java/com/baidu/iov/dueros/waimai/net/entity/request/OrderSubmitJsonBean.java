@@ -129,8 +129,8 @@ public class OrderSubmitJsonBean {
         private String user_phone;
         private String user_name;
         private String user_address;
-        private int addr_longitude;
-        private int addr_latitude;
+        private long addr_longitude;
+        private long addr_latitude;
 
         public long getAddress_id() {
             return address_id;
@@ -164,7 +164,7 @@ public class OrderSubmitJsonBean {
             this.user_address = user_address;
         }
 
-        public int getAddr_longitude() {
+        public long getAddr_longitude() {
             return addr_longitude;
         }
 
@@ -172,7 +172,7 @@ public class OrderSubmitJsonBean {
             this.addr_longitude = addr_longitude;
         }
 
-        public int getAddr_latitude() {
+        public long getAddr_latitude() {
             return addr_latitude;
         }
 
