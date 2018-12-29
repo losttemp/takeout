@@ -50,6 +50,7 @@
     <string name="supporting_invoices">支持开发票</string>
     <string name="ten">领</string>
     <string name="cash_coupon">代金券</string>
+    
 
     <!--FilterPopWindow-->
     <string name="ok">确定</string>
