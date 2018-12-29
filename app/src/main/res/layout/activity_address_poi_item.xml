@@ -8,54 +8,56 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/px36dp"
-        android:textColor="@color/white"
         android:includeFontPadding="false"
+        android:textColor="@color/white"
         android:textSize="@dimen/px48sp" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/px78dp"
-    android:orientation="horizontal">
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/px36dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_marginLeft="@dimen/px78dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/px36dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/poi_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp" />
+
+            <TextView
+                android:id="@+id/poi_item_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px24dp"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:textColor="@color/white_60"
+                android:textSize="@dimen/px30sp" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/poi_item_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:id="@+id/poi_item_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/px40dp"
+            android:layout_marginTop="@dimen/px46dp"
             android:includeFontPadding="false"
-            android:ellipsize="end"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px36sp"/>
-
-        <TextView
-            android:id="@+id/poi_item_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:layout_marginTop="@dimen/px24dp"
-            android:textSize="@dimen/px30sp"
-            android:textColor="@color/white_60" />
+            android:textColor="@color/white_60"
+            android:textSize="@dimen/px30sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/poi_item_distance"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/px40dp"
-        android:layout_marginTop="@dimen/px46dp"
-        android:textSize="@dimen/px30sp"
-        android:includeFontPadding="false"
-        android:textColor="@color/white_60" />
-</LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/px2dp"

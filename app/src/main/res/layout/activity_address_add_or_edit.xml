@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_bg"
-    android:orientation="vertical"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
     <include layout="@layout/activity_address_header" />
 
@@ -21,8 +21,9 @@
         <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_name"
             style="@style/AddressEditTextStyle"
+            android:layout_width="@dimen/px528dp"
             android:hint="@string/contacts_hint_text"
-            android:textColorHint="@color/white_60"/>
+            android:textColorHint="@color/white_60" />
 
     </LinearLayout>
 
@@ -38,12 +39,12 @@
             android:id="@+id/address_edit_sir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:includeFontPadding="false"
             android:layout_marginLeft="@dimen/px230dp"
             android:button="@null"
             android:checked="true"
             android:drawableLeft="@drawable/address_radio_button"
             android:drawablePadding="@dimen/px20dp"
+            android:includeFontPadding="false"
             android:text="@string/address_sir"
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp" />
@@ -52,11 +53,11 @@
             android:id="@+id/address_edit_lady"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:includeFontPadding="false"
             android:layout_marginLeft="@dimen/px70dp"
             android:button="@null"
             android:drawableLeft="@drawable/address_radio_button"
             android:drawablePadding="@dimen/px20dp"
+            android:includeFontPadding="false"
             android:text="@string/address_lady"
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp" />
@@ -73,10 +74,11 @@
         <com.baidu.iov.dueros.waimai.view.ClearEditText
             android:id="@+id/address_edit_phone"
             style="@style/AddressEditTextStyle"
-            android:inputType="phone"
-            android:maxLength="11"
+            android:layout_width="@dimen/px528dp"
             android:hint="@string/phone_hint_text"
-            android:textColorHint="@color/white_60"/>
+            android:inputType="phone"
+            android:textColorHint="@color/white_60" />
+
     </LinearLayout>
 
     <View style="@style/AddressEditDividerStyle" />
@@ -118,7 +120,7 @@
             android:id="@+id/address_edit_house_num"
             style="@style/AddressEditTextStyle"
             android:hint="@string/address_details_hint_text"
-            android:textColorHint="@color/white_60"/>
+            android:textColorHint="@color/white_60" />
     </LinearLayout>
 
     <View style="@style/AddressEditDividerStyle" />
@@ -136,8 +138,7 @@
             android:gravity="center_vertical"
             app:dividerWidth="@dimen/px58dp"
             app:textColor="@color/white"
-            app:textSize="@dimen/px36sp"
-            />
+            app:textSize="@dimen/px36sp" />
     </LinearLayout>
 
     <View style="@style/AddressEditDividerStyle" />
