@@ -441,7 +441,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (mBottomDialog != null && mBottomDialog.isShowing()) {
             setDialogHeight(mBottomDialog);
         }
-//        refreshSpusTagNum(selection, increase, spusBean, firstAdd);
+        refreshSpusTagNum(selection, increase, spusBean, firstAdd);
         setPrise(increase);
     }
 
@@ -498,7 +498,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
         mPoifoodSpusListAdapter.notifyDataSetChanged();
-//        refreshSpusTagNum(section, increase, spusBean, false);
+        refreshSpusTagNum(section, increase, spusBean, false);
         setPrise(increase);
     }
 
