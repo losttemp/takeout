@@ -73,7 +73,7 @@
 			android:layout_marginBottom="@dimen/px6dp"
 			android:layout_marginRight="@dimen/px32dp"
 			android:scaleType="centerInside"
-			android:src="@drawable/icon_close"
+			android:src="@drawable/icon_close_history"
 			android:visibility="gone" />
 	</RelativeLayout>
 

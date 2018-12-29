@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.adapter;
-
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
@@ -23,10 +24,8 @@ import com.bumptech.glide.Glide;
 import com.domain.multipltextview.MultiplTextView;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
 
 public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
@@ -103,18 +102,18 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		//status
 		final int status = store.getStatus();
 		if (status == Constant.STROE_STATUS_BREAK) {
-			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string
-					.store_status_break));
+			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string.store_status_break));
 			viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
-			viewHolder.rl.setBackgroundColor(mContext.getResources().getColor(R.color.gray_bg));
+			viewHolder.tvStoreName.setTextColor(mContext.getResources().getColor(R.color.white_60));
+            viewHolder.ivStore.setColorFilter(getGrayFilter());
 		} else if (status == Constant.STROE_STATUS_BUSY) {
-			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string
-					.store_status_busy));
+			viewHolder.tvStatusDesc.setText(mContext.getResources().getString(R.string.store_status_busy));
 			viewHolder.tvStatusDesc.setVisibility(View.VISIBLE);
-			viewHolder.rl.setBackground(null);
+			viewHolder.tvStoreName.setTextColor(mContext.getResources().getColor(R.color.white_60));
 		} else {
 			viewHolder.tvStatusDesc.setVisibility(View.GONE);
-			viewHolder.rl.setBackground(null);
+			viewHolder.tvStoreName.setTextColor(mContext.getResources().getColor(R.color.white));
+			
 		}
 		
         if (mFromPageType==Constant.STORE_FRAGMENT_FROM_SEARCH){
@@ -299,7 +298,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		for (DiscountsBean bean : discounts) {
 			String[] name = bean.getInfo().split(";");
 			for (int i=0;i<name.length;i++){
-				if (!name[i].startsWith(mContext.getResources().getString(R.string.ten))){
+				if (!name[i].startsWith(mContext.getResources().getString(R.string.ten))&&!name[i].contains(mContext.getResources().getString(R.string.cash_coupon))){
 					list.add(name[i]);
 				}
 			}
@@ -308,4 +307,14 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
 		return list;
 	}
+	
+	private  ColorMatrixColorFilter getGrayFilter(){
+		ColorMatrix matrix = new ColorMatrix();
+		matrix.setSaturation(0);
+		ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+		return filter;
+		
+	}
+	
+	
 }
