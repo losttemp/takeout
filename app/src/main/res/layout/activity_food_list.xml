@@ -135,15 +135,14 @@
             android:background="@drawable/youhuixinxi_bg"
             android:visibility="gone">
 
-            <com.domain.multipltextview.MultiplTextView
+            <TextView
                 android:id="@+id/tv_discount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@color/preferential_information"
                 android:textSize="@dimen/px30sp"
-                android:visibility="visible"
-                app:removeDefaultPadding="true" />
+                android:visibility="visible"/>
         </RelativeLayout>
 
 
@@ -160,8 +159,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/px18dp"
-                android:layout_marginLeft="@dimen/px72dp"
-                android:text="查看购物车"
+                android:layout_marginLeft="@dimen/px68dp"
+                android:text="@string/open_the_shopping_cart"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px26sp" />
 
@@ -260,16 +259,25 @@
             android:layout_height="@dimen/px120dp"
             android:src="@drawable/icon120" />
 
-        <TextView
-            android:id="@+id/shoppingNum"
+        <LinearLayout
+            android:id="@+id/ll_shoppingNum_layout"
             android:layout_width="@dimen/px30dp"
             android:layout_height="@dimen/px30dp"
             android:layout_alignRight="@+id/shopping_cart"
             android:layout_alignTop="@+id/shopping_cart"
             android:background="@drawable/point"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px24sp"
-            android:visibility="gone" />
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/shoppingNum"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/px2dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px24sp"
+                android:visibility="gone" />
+        </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

@@ -138,7 +138,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private ImageView mShopPicture;
     private List<String> listFull;
     private List<String> listReduce;
-    private MultiplTextView mDiscount;
+    private TextView mDiscount;
     private Integer discount;
     private double mDiscountNumber;
     private TextView mDetailsNotice;
@@ -171,6 +171,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private LinearLayout mLoading;
     private RelativeLayout mShopCartPic;
     private static final int VOICE_STEP = 3;//语音选择下一页时跳动的item数目
+    private LinearLayout shoppingNumLayout;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -196,6 +197,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         parentLayout = (RelativeLayout) findViewById(R.id.parentLayout);
         shoppingPrise = (MultiplTextView) findViewById(R.id.shoppingPrise);
         shoppingNum = (TextView) findViewById(R.id.shoppingNum);
+        shoppingNumLayout = (LinearLayout) findViewById(R.id.ll_shoppingNum_layout);
         settlement = (Button) findViewById(R.id.settlement);
         mFoodSpuTagsList = (RecyclerView) findViewById(R.id.classify_mainlist);
         mSpusList = (RecyclerView) findViewById(R.id.classify_morelist);
@@ -207,7 +209,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mBulletin = (TextView) findViewById(R.id.tv_bulletin);
         mDiscounts = (RecyclerView) findViewById(R.id.tv_discounts);
         mShopPicture = (ImageView) findViewById(R.id.iv_shop);
-        mDiscount = (MultiplTextView) findViewById(R.id.tv_discount);
+        mDiscount = (TextView) findViewById(R.id.tv_discount);
         mDistributionFee = (MultiplTextView) findViewById(R.id.tv_distribution_fee);
         mRlDiscount = (RelativeLayout) findViewById(R.id.rl_discount);
         mNoProduct = (MultiplTextView) findViewById(R.id.tv_no_product);
@@ -590,11 +592,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
         if (shopNum > 0) {
             shoppingNum.setVisibility(View.VISIBLE);
+            shoppingNumLayout.setVisibility(View.VISIBLE);
             if (mShopCartNum != null) {
                 mShopCartNum.setVisibility(View.VISIBLE);
             }
         } else {
             shoppingNum.setVisibility(View.GONE);
+            shoppingNumLayout.setVisibility(View.GONE);
             if (mShopCartNum != null) {
                 mShopCartNum.setVisibility(View.GONE);
             }
