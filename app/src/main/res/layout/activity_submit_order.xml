@@ -179,6 +179,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/px84dp"
                         android:layout_marginTop="@dimen/px34dp"
+                        android:layout_centerVertical="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/px36sp"
                         app:removeDefaultPadding="true" />
