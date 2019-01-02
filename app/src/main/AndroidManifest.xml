@@ -86,10 +86,10 @@
             android:name=".ui.AddressSuggestionActivity"
             android:screenOrientation="portrait" />
 
-        <!-- BaiDu SDK wLtpOczEdREiDnlauVSdPSN15pMHGYir -->
+        <!-- BaiDu SDK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="spHC5D9vxvqarqazZfEuNyaVjca3WIsU" />
+            android:value="mMbz0MukMm1OQD84VYVYCGdiNbAPyemN" />
 
         <service
             android:name="com.baidu.location.f"
