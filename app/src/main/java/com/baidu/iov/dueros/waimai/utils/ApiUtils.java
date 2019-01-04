@@ -13,6 +13,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.GuidingBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
@@ -37,6 +38,20 @@ import java.util.Map;
 
 public class ApiUtils {
     private static final String TAG = "ApiUtils";
+
+
+    /**
+     * get getGuiding request
+     *
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getGuiding(D request, ApiCallBack<GuidingBean> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getGuiding(requestMap).enqueue(callBack);
+    }
+
 
     /**
      * get city list request

@@ -31,6 +31,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
@@ -117,6 +118,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             contentView.setVisibility(View.VISIBLE);
             networkView.setVisibility(View.GONE);
             loadData();
+            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getDetail());
         } else {
             if (null != networkView) {
                 contentView.setVisibility(View.GONE);

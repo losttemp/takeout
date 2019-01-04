@@ -31,6 +31,7 @@ import java.util.List;
 
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
@@ -92,6 +93,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             mOrderListReq.setPage(START_PAGE);
             mRefreshLayout.autoRefresh();
             networkView.setVisibility(View.GONE);
+            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getOrder().getOrder());
         } else {
             if (null!=networkView){
                 networkView.setVisibility(View.VISIBLE);

@@ -29,6 +29,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.presenter.SearchPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
@@ -70,7 +71,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private SearchSuggestReq searchSuggestReq;
 	
 	private int mFromPageType;
-	
+
 
 
 	@Override
@@ -93,7 +94,13 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	}
 
-	public void getIntentData() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getSearch().getSearch());
+    }
+
+    public void getIntentData() {
 		Intent intent = getIntent();
 		if (intent != null) {
 			mFromPageType = intent.getIntExtra(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE,Constant.STORE_FRAGMENT_FROM_HOME);
@@ -179,6 +186,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Entry.getInstance().onEvent(Constant.EVENT_HISTORY_ITEM_CLICK,EventType.TOUCH_TYPE);
 				searchKeyword(mHistorys.get(position-HEAD_NUM));
+                GuidingAppear.INSTANCE.init(SearchActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getSearch().getResult());
 			}
 		});
 

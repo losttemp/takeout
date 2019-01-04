@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
@@ -59,6 +60,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
+import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
@@ -190,6 +192,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         map = new ArrayMap<>();
         initView();
         initData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GuidingAppear.INSTANCE.init(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail());
     }
 
     private void initView() {
@@ -740,6 +748,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     private void showShopCartDialog() {
+        GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getCart_view());
         mBottomDialog = new Dialog(this, R.style.DialogTheme);
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_shop_cart, null);
         mBottomDialog.setContentView(v);
@@ -748,6 +757,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         v.setLayoutParams(layoutParams);
         mBottomDialog.getWindow().setGravity(Gravity.BOTTOM);
         mBottomDialog.show();
+        mBottomDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                GuidingAppear.INSTANCE.init(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail());
+            }
+        });
         setDialogHeight(mBottomDialog);
         cardShopLayout = (LinearLayout) v.findViewById(R.id.cardShopLayout);
         mClearshopCart = (MultiplTextView) v.findViewById(R.id.tv_clear);
