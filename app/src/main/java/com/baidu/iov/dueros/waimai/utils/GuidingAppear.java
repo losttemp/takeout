@@ -30,13 +30,12 @@ public enum GuidingAppear {
         if (strings.size() == 0)
             return;
         if (strings.size() == 1) {
-            //TODO zjh Log换回StatusBarsManager
             Lg.getInstance().e("GuidingAppear", strings.get(0));
 //            StatusBarsManager.conversationByApp(context, APP_NAME, strings.get(0));
             return;
         }
-        //TODO zjh Log换回StatusBarsManager
-//        StatusBarsManager.conversationByApp(mContext, APP_NAME, strings.get(times % strings.size()));
+
+//        StatusBarsManager.conversationByApp(context, APP_NAME, strings.get(times % strings.size()));
         Lg.getInstance().e("GuidingAppear", strings.get(times % strings.size()));
         times++;
         mHandler.postDelayed(mRunnable, 10000);

@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.Manifest;
+import android.app.StatusBarsManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -67,6 +68,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     protected void onPause() {
         super.onPause();
         getPresenter().unregisterCmd(this);
+//        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
     }
 
     @Override

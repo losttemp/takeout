@@ -125,9 +125,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 				Entry.getInstance().onEvent(Constant.EVENT_EXIT,EventType.TOUCH_TYPE);
 				MyApplicationAddressBean.USER_NAMES.clear();
 				MyApplicationAddressBean.USER_PHONES.clear();
-				//TODO zjh Log换回StatusBarsManager
-//				StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
-                Lg.getInstance().e("GuidingAppear", "exitApp");
 				AtyContainer.getInstance().finishAllActivity();
 				finish();
 				break;
