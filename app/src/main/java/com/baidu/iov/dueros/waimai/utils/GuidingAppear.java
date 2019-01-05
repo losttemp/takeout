@@ -1,6 +1,5 @@
 package com.baidu.iov.dueros.waimai.utils;
 
-import android.app.StatusBarsManager;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;

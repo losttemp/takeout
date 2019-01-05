@@ -77,6 +77,7 @@
             android:layout_width="@dimen/px528dp"
             android:hint="@string/phone_hint_text"
             android:inputType="phone"
+            android:maxLength="11"
             android:textColorHint="@color/white_60" />
 
     </LinearLayout>
