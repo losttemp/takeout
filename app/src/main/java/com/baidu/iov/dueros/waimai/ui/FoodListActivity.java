@@ -3,9 +3,11 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -19,6 +21,7 @@ import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,6 +177,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private RelativeLayout mShopCartPic;
     private static final int VOICE_STEP = 3;//语音选择下一页时跳动的item数目
     private LinearLayout shoppingNumLayout;
+    private InnerRecevier mInnerReceiver;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -192,6 +196,41 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         map = new ArrayMap<>();
         initView();
         initData();
+
+        //创建广播
+        mInnerReceiver = new InnerRecevier();
+        //动态注册广播
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        //启动广播
+        registerReceiver(mInnerReceiver, intentFilter);
+    }
+
+    class InnerRecevier extends BroadcastReceiver {
+
+        final String SYSTEM_DIALOG_REASON_KEY = "reason";
+
+        final String SYSTEM_DIALOG_REASON_RECENT_APPS = "recentapps";
+
+        final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (Intent.ACTION_CLOSE_SYSTEM_DIALOGS.equals(action)) {
+                String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
+                if (reason != null) {
+                    if (reason.equals(SYSTEM_DIALOG_REASON_HOME_KEY)) {
+                        finish();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mInnerReceiver);
     }
 
     @Override
@@ -281,7 +320,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     lastItemPosition = linearManager.findLastVisibleItemPosition();
                     firstItemPosition = linearManager.findFirstVisibleItemPosition();
                 }
-                mFoodSpuTagsListAdapter.setSelectedPosition(firstItemPosition);
+                mFoodSpuTagsListAdapter.setSelectedPosition(lastItemPosition);
+                ((LinearLayoutManager) mFoodSpuTagsList.getLayoutManager()).scrollToPositionWithOffset(lastItemPosition, 0);
                 mFoodSpuTagsListAdapter.notifyDataSetChanged();
             }
 
@@ -1489,5 +1529,4 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             outRect.bottom = space;
         }
     }
-
 }
