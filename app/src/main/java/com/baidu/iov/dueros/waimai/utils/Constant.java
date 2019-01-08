@@ -32,7 +32,7 @@ public class Constant {
     public static final int STORE_FRAGMENT_FROM_FLOWER = 2;
     public static final int STORE_FRAGMENT_FROM_CAKE = 3;
     public static final int STORE_FRAGMENT_FROM_FOOD = 4;
-   
+
     public static final String STORE_ID = "store_id";
     public static final int STROE_STATUS_NORMAL = 1;
     public static final int STROE_STATUS_BUSY = 2;
@@ -49,10 +49,10 @@ public class Constant {
     public static final int SEARCH_STATUS_SUGGEST = 1;
     public static final int SEARCH_STATUS_FRAGMENT = 2;
     public static final int COMPREHENSIVE = 0;
-    public static final int SALES = 1; 
+    public static final int SALES = 1;
     public static final int DISTANCE = 5;
     public static String  PULL_LOCATION = "com.baidu.iov.dueros.waimai.pulllocation";
-    
+
 
     public static final int ADDRESS_SEARCH_ACTIVITY_RESULT_CODE = 1;
     public static String ADDRESS_EDIT_INTENT_EXTRE_CITY = "address_edit_location_city";
@@ -104,20 +104,20 @@ public class Constant {
 
     public final static int  EVENT_EXIT= 31300078;
     public final static int  EVENT_BACK= 31300077;
-    
+
     public final static int  EVENT_FOOD_CLICK= 31300039;
     public final static int  EVENT_FLOWER_CLICK= 31300040;
     public final static int  EVENT_CAKE_CLICK= 31300041;
     public final static int  EVENT_HISTORY_ITEM_CLICK= 31300038;
     public final static int  EVENT_HISTORY_ITEM_VOIVE= 31300037;
-    
+
     public final static int  EVENT_INPUT_SEARCH= 31300036;
     public final static int  EVENT_OPEN_ORDER_LIST= 31300044;
     public final static int  EVENT_OPEN_ADDRESS_SELECT= 31300045;
     public final static int  EVENT_OPEN_SEARCH_FROM_HOME= 31300046;
     public final static int  EVENT_OPEN_SEARCH_FROM_FLOWER= 31300079;
     public final static int  EVENT_OPEN_SEARCH_FROM_CAKE= 31300087;
-    
+
     public final static int  EVENT_NEXT_PAGE_VOICE_FROM_HOME= 31300051;
     public final static int  EVENT_NEXT_PAGE_VOICE_FROM_FLOWER= 31300084;
     public final static int  EVENT_NEXT_PAGE_VOICE_FROM_CAKE= 31300092;
@@ -195,5 +195,5 @@ public class Constant {
     public final static int ORDERLIST_TO_ORDERDETAIL_VOICE=31300075;
     public final static int ORDERLIST_REFRESH_VOICE=31300076;
     public final static int GOBACK_TO_PREACTIVITY=31300077;
-    
+
 }

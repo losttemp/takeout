@@ -156,7 +156,9 @@ public class LocationManager {
                 }
             }
             Lg.getInstance().d(TAG, "onReceiveLocation end");
-            mLocationClient.stop();
+            if (mLocationClient!=null){
+                mLocationClient.stop();
+            }
         }
     };
 

@@ -207,7 +207,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void addAddressSuccess(AddressAddBean data) {
-        if (isEditMode) {
+        if (isEditMode && !getString(R.string.address_destination).equals(dataBean.getType())) {
             if (data.getMeituan().getCode() == 0) {
                 if (data.getIov().getErrno() == 0) {
                     address_id = data.getIov().getData().getAddress_id();
@@ -216,8 +216,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                             0 : dataBean.getMt_address_id());
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
-                    String msg = data.getIov().getErrmsg();
-                    ToastUtils.show(this, msg, Toast.LENGTH_SHORT);
+                    ToastUtils.show(this, getResources().getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
                 }
             } else {
                 ToastUtils.show(this, getResources().getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
@@ -312,10 +311,15 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
             if (isEditMode) {
                 try {
-                    String oldPhone = Encryption.desEncrypt(dataBean.getUser_phone());
-                    if (!oldPhone.equals(et_phone.getText().toString()) && !StringUtils.isChinaPhoneLegal(et_phone.getText().toString())) {
+                    if (TextUtils.isEmpty(dataBean.getUser_phone()) && !StringUtils.isChinaPhoneLegal(et_phone.getText().toString())) {
                         ToastUtils.show(this, getResources().getString(R.string.address_phone_error_hint_text), Toast.LENGTH_SHORT);
                         return;
+                    } else if (!TextUtils.isEmpty(dataBean.getUser_phone())) {
+                        String oldPhone = Encryption.desEncrypt(dataBean.getUser_phone());
+                        if (!oldPhone.equals(et_phone.getText().toString()) && !StringUtils.isChinaPhoneLegal(et_phone.getText().toString())) {
+                            ToastUtils.show(this, getResources().getString(R.string.address_phone_error_hint_text), Toast.LENGTH_SHORT);
+                            return;
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
