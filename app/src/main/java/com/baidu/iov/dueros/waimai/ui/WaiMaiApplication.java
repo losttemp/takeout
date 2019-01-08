@@ -14,6 +14,7 @@ import com.baidu.iov.dueros.waimai.utils.LeakCanaryUtils;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.faceos.client.GsonUtil;
+import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.xiaoduos.syncclient.Entry;
 
@@ -30,6 +31,7 @@ public class WaiMaiApplication extends Application {
 			new LeakCanaryUtils().install(this);
 		}
 		SDKInitializer.initialize(this);
+        SDKInitializer.setCoordType(CoordType.GCJ02);
 		LocationManager locationManager = LocationManager.getInstance(getApplicationContext());
 		locationManager.initLocationClient(null, null, 0, true);
 		locationManager.startLocation();

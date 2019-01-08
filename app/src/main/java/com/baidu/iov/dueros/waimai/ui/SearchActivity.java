@@ -51,9 +51,9 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private AppCompatTextView mTvCancel;
 	private ListView mLvHistory;
 	private ListView mLvSuggest;
-	
+
 	private  View mDivision;
-	
+
 
 	private SearchPresenter mPresenter;
 	private StoreReq mStoreReq;
@@ -69,7 +69,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private RelativeLayout mRlSearch;
 
 	private SearchSuggestReq searchSuggestReq;
-	
+
 	private int mFromPageType;
 
 
@@ -110,7 +110,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	@Override
 	protected void onStart() {
 		super.onStart();
-	
+
 	}
 
 	public void setmEtTipNoResult(){
@@ -138,7 +138,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mLvSuggest.addHeaderView(mDivision);
 	}
 
-	
+
 	public void setmLlHistoryVisibility(){
 		if (mHistorys.isEmpty()){
 			mLlHistory.setVisibility(View.GONE);
@@ -150,7 +150,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mPresenter = getPresenter();
 		mStoreReq = new StoreReq();
 
-		
+
 
 		//fragment
 		mStoreListFragment = new StoreListFragment();
@@ -179,7 +179,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mIvClean.setOnClickListener(this);
 		mTvCancel.setOnClickListener(this);
 		mRlSearch.setOnClickListener(this);
-		
+
 
 		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -209,7 +209,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 						 intent.putExtra("longitude", mStoreListFragment.getLongitude());
 						 startActivity(intent);
 					 }
-					 
+
 				} else {
 					searchKeyword(name);
 				}
