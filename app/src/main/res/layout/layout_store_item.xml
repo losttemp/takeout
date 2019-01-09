@@ -66,10 +66,10 @@
 
 			<TextView
 				android:id="@+id/tv_store_name"
-				android:layout_width="@dimen/px384dp"
+				android:layout_width="@dimen/px380dp"
 				android:layout_height="wrap_content"
 				android:textColor="@color/white"
-				android:layout_marginRight="@dimen/px6dp"
+				android:layout_marginRight="@dimen/px10dp"
 				android:ellipsize="end"
 				android:maxLines="1"
 				android:textSize="@dimen/px36sp"
@@ -234,6 +234,7 @@
 	<View
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/px2dp"
+		android:layout_marginRight="@dimen/px84dp"
 		android:layout_below="@+id/rv_store_product"
 		android:background="@color/split_view_color" />
 	

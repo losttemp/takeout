@@ -171,6 +171,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mTvSort.setTextColor(getResources().getColor(R.color.white_60));
 				}
 				mStoreReq.setSortType(sortType);
+				mRvStore.scrollToPosition(0);
 				loadFirstPage(mStoreReq);
 			}
 		});
@@ -257,9 +258,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mSortPopWindow = new SortPopWindow(mContext, mSortList, (new SortPopWindow
 							.OnSelectedSortListener() {
 						@Override
-						public void OnSelectedSort(FilterConditionResponse.MeituanBean.DataBean
-														   .SortTypeListBean type) {
-							Entry.getInstance().onEvent(31300062,EventType.TOUCH_TYPE);
+						public void OnSelectedSort(FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean type) {
 							mStoreReq.setSortType((int) type.getCode());
 							mTvSort.setText(type.getName());
 							loadFirstPage(mStoreReq);
@@ -566,7 +565,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
 			@Override
 			public void onLoadmore(RefreshLayout refreshLayout) {
-				Entry.getInstance().onEvent(31300108,EventType.TOUCH_TYPE);
 				if (mStoreData.getHave_next_page() == 1) {
 					mStoreReq.setPage_index(mStoreData.getCurrent_page_index() + 1);
 					mPresenter.requestStoreList(mStoreReq);
