@@ -17,6 +17,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 import com.bumptech.glide.Glide;
@@ -69,6 +70,12 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
         setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
         initView();
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, INTERNAL_TIME);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getPayment_success());
     }
 
     public void setStatusBar(boolean translucent, @ColorInt int color) {

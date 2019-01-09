@@ -1,11 +1,10 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +15,9 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.R;
-import com.baidu.iov.dueros.waimai.utils.DeviceUtils;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -74,7 +70,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private AppCompatTextView tvIndex;
         private ImageView ivStore;
-        private ImageView ivClick;
         private LinearLayout llOrderInfo;
         private AppCompatTextView tvStoreName;
         private AppCompatTextView tvFood;
@@ -98,7 +93,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             ivStore = (ImageView) view.findViewById(R.id.iv_store);
             llOrderInfo = (LinearLayout) view.findViewById(R.id.ll_order_info);
             tvStoreName = (AppCompatTextView) view.findViewById(R.id.tv_store_name);
-            ivClick = (ImageView) view.findViewById(R.id.iv_click);
             tvFood = (AppCompatTextView) view.findViewById(R.id.tv_food);
             tvPrice = (AppCompatTextView) view.findViewById(R.id.tv_price);
             tvFoodNum = (AppCompatTextView) view.findViewById(R.id.tv_food_num);
@@ -111,9 +105,11 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             view.setOnClickListener(this);
             tvStoreName.setOnClickListener(this);
             tvOneMore.setOnClickListener(this);
-            ivClick.setOnClickListener(this);
             tvCancelOrder.setOnClickListener(this);
             tvPayOrder.setOnClickListener(this);
+            Drawable drawable = view.getContext().getResources().getDrawable(R.drawable.arrow_right);
+            drawable.setBounds(0, 0, 48, 48);  //设置图片参数
+            tvStoreName.setCompoundDrawables(null, null, drawable, null);  //设置到哪个控件的位置（）
         }
 
         public void bindData(int position, OrderListResponse.IovBean.DataBean order) {
@@ -179,9 +175,8 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             }
 
             payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
-//            String user_phone = payloadBean.getUser_phone();
             int total_count = 0;
-            double total_price = ((double)extraBean.getOrderInfos().getGoods_total_price())/100;
+            double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
             for (int i = 0; i < extraBean.getOrderInfos().getFood_list().size(); i++) {
                 total_count = total_count + extraBean.getOrderInfos().getFood_list().get(i).getCount();
             }
@@ -199,7 +194,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
 
             itemView.setTag(position);
             tvStoreName.setTag(position);
-            ivClick.setTag(position);
             tvOneMore.setTag(position);
             tvCancelOrder.setTag(position);
             tvOneMore.setTag(position);
@@ -212,7 +206,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             if (mOnItemClickListener != null) {
                 switch (v.getId()) {
                     case R.id.tv_store_name:
-                    case R.id.iv_click:
                         mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean, isNeedVoice);
                         break;
                     case R.id.one_more_order:

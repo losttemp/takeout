@@ -14,6 +14,7 @@ import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.location.BDLocation;
@@ -76,6 +77,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 			}
 		}
 		mTvTitle.setText(address);
+        GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getList());
 	}
 
 	private void iniView() {
@@ -177,5 +179,5 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	}
 
 
-	
+
 }

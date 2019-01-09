@@ -33,7 +33,7 @@
         android:layout_height="@dimen/px2dp"
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginRight="@dimen/px84dp"
-        android:alpha="0.6"
+        android:alpha="0.1"
         android:background="@color/white" />
 
     <com.domain.multipltextview.MultiplTextView

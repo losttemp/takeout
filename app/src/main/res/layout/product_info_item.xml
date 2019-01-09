@@ -15,7 +15,7 @@
 
     <TextView
         android:id="@+id/product_name"
-        android:layout_width="@dimen/px420dp"
+        android:layout_width="@dimen/px400dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/px38dp"
         android:layout_marginTop="@dimen/px28dp"
@@ -77,26 +77,28 @@
         android:textColor="@color/delivery_type_color"
         android:textSize="@dimen/px30sp" />
 
-    <com.domain.multipltextview.MultiplTextView
+    <TextView
         android:id="@+id/origin_price"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/px28dp"
-        android:layout_marginTop="@dimen/px32dp"
+        android:layout_marginTop="@dimen/px30dp"
         android:layout_toStartOf="@id/product_price"
         android:alpha="0.6"
         android:textColor="@color/white"
         android:textSize="@dimen/px36sp"
-        app:removeDefaultPadding="true" />
+        android:includeFontPadding="false"
+        />
 
-    <com.domain.multipltextview.MultiplTextView
+    <TextView
         android:id="@+id/product_price"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/px84dp"
-        android:layout_marginTop="@dimen/px32dp"
+        android:layout_marginTop="@dimen/px30dp"
         android:textColor="@color/money_color"
         android:textSize="@dimen/px36sp"
-        app:removeDefaultPadding="true" />
+        android:includeFontPadding="false"
+        />
 </RelativeLayout>

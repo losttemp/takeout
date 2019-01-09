@@ -31,6 +31,7 @@ import java.util.List;
 
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
@@ -92,6 +93,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             mOrderListReq.setPage(START_PAGE);
             mRefreshLayout.autoRefresh();
             networkView.setVisibility(View.GONE);
+            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getOrder().getOrder());
         } else {
             if (null!=networkView){
                 networkView.setVisibility(View.VISIBLE);
@@ -134,7 +136,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             public void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean, boolean isNeedVoice) {
                 switch (view.getId()) {
                     case R.id.tv_store_name:
-                    case R.id.iv_click:
                         Intent storeintent = new Intent(OrderListActivity.this, FoodListActivity.class);
                         storeintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         startActivity(storeintent);

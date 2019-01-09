@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.ArrayMap;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -16,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.adapter.AddressHintListAdapter;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressAddReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressDeleteReq;
@@ -146,13 +145,10 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             }
             if (null != MyApplicationAddressBean.USER_PHONES && MyApplicationAddressBean.USER_PHONES.size() > 0) {
                 et_phone.setText(MyApplicationAddressBean.USER_PHONES.get(0));
-            } else {
-                //fix bug
-                et_phone.setText("");
             }
         }
-        ArrayAdapter<String> nameAdapter = new ArrayAdapter<>(this, R.layout.address_simple_list_item, MyApplicationAddressBean.USER_NAMES);
-        ArrayAdapter<String> phoneAdapter = new ArrayAdapter<>(this, R.layout.address_simple_list_item, MyApplicationAddressBean.USER_PHONES);
+        AddressHintListAdapter nameAdapter = new AddressHintListAdapter(this, MyApplicationAddressBean.USER_NAMES);
+        AddressHintListAdapter phoneAdapter = new AddressHintListAdapter(this, MyApplicationAddressBean.USER_PHONES);
         et_phone.setThreshold(1);
         et_name.setThreshold(1);
         et_name.setAdapter(nameAdapter);
@@ -211,7 +207,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void addAddressSuccess(AddressAddBean data) {
-        if (isEditMode) {
+        if (isEditMode && !getString(R.string.address_destination).equals(dataBean.getType())) {
             if (data.getMeituan().getCode() == 0) {
                 if (data.getIov().getErrno() == 0) {
                     address_id = data.getIov().getData().getAddress_id();
@@ -220,8 +216,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                             0 : dataBean.getMt_address_id());
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
-                    String msg = data.getIov().getErrmsg();
-                    ToastUtils.show(this, msg, Toast.LENGTH_SHORT);
+                    ToastUtils.show(this, getResources().getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
                 }
             } else {
                 ToastUtils.show(this, getResources().getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
@@ -316,10 +311,15 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
             if (isEditMode) {
                 try {
-                    String oldPhone = Encryption.desEncrypt(dataBean.getUser_phone());
-                    if (!oldPhone.equals(et_phone.getText().toString()) && !StringUtils.isChinaPhoneLegal(et_phone.getText().toString())) {
+                    if (TextUtils.isEmpty(dataBean.getUser_phone()) && !StringUtils.isChinaPhoneLegal(et_phone.getText().toString())) {
                         ToastUtils.show(this, getResources().getString(R.string.address_phone_error_hint_text), Toast.LENGTH_SHORT);
                         return;
+                    } else if (!TextUtils.isEmpty(dataBean.getUser_phone())) {
+                        String oldPhone = Encryption.desEncrypt(dataBean.getUser_phone());
+                        if (!oldPhone.equals(et_phone.getText().toString()) && !StringUtils.isChinaPhoneLegal(et_phone.getText().toString())) {
+                            ToastUtils.show(this, getResources().getString(R.string.address_phone_error_hint_text), Toast.LENGTH_SHORT);
+                            return;
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

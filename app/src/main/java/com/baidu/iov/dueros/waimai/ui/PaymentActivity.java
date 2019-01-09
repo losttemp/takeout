@@ -289,6 +289,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setClass(this, PaySuccessActivity.class);
                 startActivity(intent);
+                finish();
             }
 
         }

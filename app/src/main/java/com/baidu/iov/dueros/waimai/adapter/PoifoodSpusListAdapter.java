@@ -460,7 +460,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 MultiplTextView prise;
                 ImageView increase;
                 ImageView reduce;
-                MultiplTextView storeIndex;
+                TextView storeIndex;
                 MultiplTextView shoppingNum;
                 ImageView add;
                 TextView specifications;
@@ -481,7 +481,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     prise = (MultiplTextView) itemView.findViewById(R.id.prise);
                     increase = (ImageView) itemView.findViewById(R.id.increase);
                     reduce = (ImageView) itemView.findViewById(R.id.reduce);
-                    storeIndex = (MultiplTextView) itemView.findViewById(R.id.tv_store_index);
+                    storeIndex = (TextView) itemView.findViewById(R.id.tv_store_index);
                     shoppingNum = (MultiplTextView) itemView.findViewById(R.id.shoppingNum);
                     add = (ImageView) itemView.findViewById(R.id.btn_add);
                     specifications = (TextView) itemView.findViewById(R.id.btn_specifications);

@@ -34,7 +34,7 @@ public class ClearEditText extends AppCompatAutoCompleteTextView implements View
     }
 
     private void showTextClearButton() {
-        this.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_close, 0);
+        this.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_close_96, 0);
         this.setOnTouchListener(null);
         this.setOnTouchListener(new ClearButtonOnTouchListener(this));
     }
@@ -79,6 +79,11 @@ public class ClearEditText extends AppCompatAutoCompleteTextView implements View
 
     }
 
+    @Override
+    public void setThreshold(int threshold) {
+        super.setThreshold(threshold);
+    }
+
     public class ClearButtonOnTouchListener implements View.OnTouchListener {
         private Drawable mDrawable;
 
@@ -102,14 +107,14 @@ public class ClearEditText extends AppCompatAutoCompleteTextView implements View
                 int y2 = (v.getBottom() - v.getPaddingBottom() + 20);
                 if (x > x1 && x < x2 && y > y1 && y < y2) {
                     if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN) {
-                        ClearEditText.this.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_close, 0);
+                        ClearEditText.this.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_close_96, 0);
                         event.setAction(MotionEvent.ACTION_CANCEL);
                         ClearEditText.this.setText("");
                         if (!ClearEditText.this.isCursorVisible()) {
                             ClearEditText.this.setCursorVisible(true);
                         }
                     } else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-                        ClearEditText.this.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_close, 0);
+                        ClearEditText.this.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_close_96, 0);
                     } else {
                         if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
                             ClearEditText.this.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_launcher, 0);

@@ -164,7 +164,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     @Override
     public void update(MeituanAuthorizeResponse data) {
-        Entry.getInstance().onEvent(Constant.ENTRY_LOGIN_MEITUAN,EventType.TOUCH_TYPE);
+        Entry.getInstance().onEvent(Constant.ENTRY_LOGIN_MEITUAN, EventType.TOUCH_TYPE);
         if (data.getIov().getAuthorizedState()) {
             if (CacheUtils.getAuth()) {
                 //getPresenter().requestAddressListData(mAddressListReq);
@@ -187,7 +187,10 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private void startIntent() {
         long time = CacheUtils.getAddrTime();
         if (time == 0 || (System.currentTimeMillis() - time > SIX_HOUR)) {
-            getPresenter().requestAddressListData(mAddressListReq);
+            Intent addressIntent = new Intent(this, AddressSelectActivity.class);
+            addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+            startActivity(addressIntent);
+            finish();
         } else {
             Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
@@ -268,8 +271,15 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mWVMeituan.destroy();
-        mWVMeituan = null;
+        if (mWVMeituan != null) {
+            mWVMeituan.stopLoading();
+            mWVMeituan.setWebViewClient(null);
+            mWVMeituan.clearHistory();
+            mWVMeituan.clearCache(true);
+            mWVMeituan.loadUrl("about:blank");
+            mWVMeituan.pauseTimers();
+            mWVMeituan = null;
+        }
     }
 
     @Override
@@ -287,11 +297,12 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         }
     }
 
-    public final class InJavaScriptLocalObj{
+    public final class InJavaScriptLocalObj {
         @JavascriptInterface
         public void showSource(String html) {
             if (html.contains("{\"errno\":0,\"err_msg\":\"success\",")
-                    &&html.contains(",\"meituan\":{\"msg\":\"success\"},")){
+                    && html.contains(",\"meituan\":{\"msg\":\"success\"},")) {
+                mWVMeituan.loadUrl("about:blank");
                 initPostHttp();
             }
         }
@@ -301,8 +312,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         }
     }
 
-    private void initPostHttp(){
-        Entry.getInstance().onEvent(Constant.ENTRY_LOGIN_OS,EventType.TOUCH_TYPE);
+    private void initPostHttp() {
+        Entry.getInstance().onEvent(Constant.ENTRY_LOGIN_OS, EventType.TOUCH_TYPE);
         getPresenter().requestAccountInfo();
     }
 }

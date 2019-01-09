@@ -3,8 +3,11 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -18,6 +21,7 @@ import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +63,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
+import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
@@ -138,7 +143,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private ImageView mShopPicture;
     private List<String> listFull;
     private List<String> listReduce;
-    private MultiplTextView mDiscount;
+    private TextView mDiscount;
     private Integer discount;
     private double mDiscountNumber;
     private TextView mDetailsNotice;
@@ -171,6 +176,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private LinearLayout mLoading;
     private RelativeLayout mShopCartPic;
     private static final int VOICE_STEP = 3;//语音选择下一页时跳动的item数目
+    private LinearLayout shoppingNumLayout;
+    private InnerRecevier mInnerReceiver;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -189,6 +196,47 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         map = new ArrayMap<>();
         initView();
         initData();
+
+        //创建广播
+        mInnerReceiver = new InnerRecevier();
+        //动态注册广播
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        //启动广播
+        registerReceiver(mInnerReceiver, intentFilter);
+    }
+
+    class InnerRecevier extends BroadcastReceiver {
+
+        final String SYSTEM_DIALOG_REASON_KEY = "reason";
+
+        final String SYSTEM_DIALOG_REASON_RECENT_APPS = "recentapps";
+
+        final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (Intent.ACTION_CLOSE_SYSTEM_DIALOGS.equals(action)) {
+                String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
+                if (reason != null) {
+                    if (reason.equals(SYSTEM_DIALOG_REASON_HOME_KEY)) {
+                        finish();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mInnerReceiver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GuidingAppear.INSTANCE.init(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail());
     }
 
     private void initView() {
@@ -196,6 +244,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         parentLayout = (RelativeLayout) findViewById(R.id.parentLayout);
         shoppingPrise = (MultiplTextView) findViewById(R.id.shoppingPrise);
         shoppingNum = (TextView) findViewById(R.id.shoppingNum);
+        shoppingNumLayout = (LinearLayout) findViewById(R.id.ll_shoppingNum_layout);
         settlement = (Button) findViewById(R.id.settlement);
         mFoodSpuTagsList = (RecyclerView) findViewById(R.id.classify_mainlist);
         mSpusList = (RecyclerView) findViewById(R.id.classify_morelist);
@@ -207,7 +256,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mBulletin = (TextView) findViewById(R.id.tv_bulletin);
         mDiscounts = (RecyclerView) findViewById(R.id.tv_discounts);
         mShopPicture = (ImageView) findViewById(R.id.iv_shop);
-        mDiscount = (MultiplTextView) findViewById(R.id.tv_discount);
+        mDiscount = (TextView) findViewById(R.id.tv_discount);
         mDistributionFee = (MultiplTextView) findViewById(R.id.tv_distribution_fee);
         mRlDiscount = (RelativeLayout) findViewById(R.id.rl_discount);
         mNoProduct = (MultiplTextView) findViewById(R.id.tv_no_product);
@@ -271,7 +320,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     lastItemPosition = linearManager.findLastVisibleItemPosition();
                     firstItemPosition = linearManager.findFirstVisibleItemPosition();
                 }
-                mFoodSpuTagsListAdapter.setSelectedPosition(firstItemPosition);
+                mFoodSpuTagsListAdapter.setSelectedPosition(lastItemPosition);
+                ((LinearLayoutManager) mFoodSpuTagsList.getLayoutManager()).scrollToPositionWithOffset(lastItemPosition, 0);
                 mFoodSpuTagsListAdapter.notifyDataSetChanged();
             }
 
@@ -441,7 +491,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (mBottomDialog != null && mBottomDialog.isShowing()) {
             setDialogHeight(mBottomDialog);
         }
-//        refreshSpusTagNum(selection, increase, spusBean, firstAdd);
+        refreshSpusTagNum(selection, increase, spusBean, firstAdd);
         setPrise(increase);
     }
 
@@ -498,7 +548,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
         mPoifoodSpusListAdapter.notifyDataSetChanged();
-//        refreshSpusTagNum(section, increase, spusBean, false);
+        refreshSpusTagNum(section, increase, spusBean, false);
         setPrise(increase);
     }
 
@@ -590,11 +640,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
         if (shopNum > 0) {
             shoppingNum.setVisibility(View.VISIBLE);
+            shoppingNumLayout.setVisibility(View.VISIBLE);
             if (mShopCartNum != null) {
                 mShopCartNum.setVisibility(View.VISIBLE);
             }
         } else {
             shoppingNum.setVisibility(View.GONE);
+            shoppingNumLayout.setVisibility(View.GONE);
             if (mShopCartNum != null) {
                 mShopCartNum.setVisibility(View.GONE);
             }
@@ -736,6 +788,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     private void showShopCartDialog() {
+        GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getCart_view());
         mBottomDialog = new Dialog(this, R.style.DialogTheme);
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_shop_cart, null);
         mBottomDialog.setContentView(v);
@@ -744,6 +797,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         v.setLayoutParams(layoutParams);
         mBottomDialog.getWindow().setGravity(Gravity.BOTTOM);
         mBottomDialog.show();
+        mBottomDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                GuidingAppear.INSTANCE.init(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail());
+            }
+        });
         setDialogHeight(mBottomDialog);
         cardShopLayout = (LinearLayout) v.findViewById(R.id.cardShopLayout);
         mClearshopCart = (MultiplTextView) v.findViewById(R.id.tv_clear);
@@ -1470,5 +1529,4 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             outRect.bottom = space;
         }
     }
-
 }

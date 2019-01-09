@@ -35,7 +35,7 @@
         <activity
             android:name=".ui.HomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
@@ -86,10 +86,10 @@
             android:name=".ui.AddressSuggestionActivity"
             android:screenOrientation="portrait" />
 
-        <!-- BaiDu SDK wLtpOczEdREiDnlauVSdPSN15pMHGYir -->
+        <!-- BaiDu SDK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="spHC5D9vxvqarqazZfEuNyaVjca3WIsU" />
+            android:value="mMbz0MukMm1OQD84VYVYCGdiNbAPyemN" />
 
         <service
             android:name="com.baidu.location.f"

@@ -12,14 +12,13 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.domain.multipltextview.MultiplTextView
+        <TextView
             android:id="@+id/tv_store_index"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/px34dp"
             android:textColor="@color/white"
-            android:textSize="@dimen/px48sp"
-            app:removeDefaultPadding="true" />
+            android:textSize="@dimen/px48sp"/>
 
         <FrameLayout
             android:id="@+id/fl_head"

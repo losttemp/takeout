@@ -170,7 +170,8 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                         if (dataInfo.isIs_hint()) {
                             mDataBeans.remove(i);
                             i--;
-                        } else if (!TextUtils.isEmpty(mDataBeans.get(i).getType())) {
+                        }
+                        if (i >= 0 && !TextUtils.isEmpty(mDataBeans.get(i).getType())) {
                             if ("家里".equals(mDataBeans.get(i).getType())) {
                                 jl = mDataBeans.get(i);
                                 mDataBeans.remove(i);
@@ -190,6 +191,9 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                     try {
                         String personalPhone = Encryption.desEncrypt(data.getIov().getUser_phone());
                         if (StringUtils.isChinaPhoneLegal(personalPhone)) {
+                            if (MyApplicationAddressBean.USER_PHONES.contains(personalPhone)){
+                                MyApplicationAddressBean.USER_PHONES.remove(personalPhone);
+                            }
                             MyApplicationAddressBean.USER_PHONES.add(0, personalPhone);
                         }
                     } catch (Exception e) {

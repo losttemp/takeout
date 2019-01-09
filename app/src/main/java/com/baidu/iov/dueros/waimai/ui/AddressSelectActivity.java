@@ -21,6 +21,7 @@ import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
@@ -77,6 +78,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             mRecyclerView.setVisibility(View.GONE);
             loadingView.setVisibility(View.VISIBLE);
             initData();
+            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getMe());
         } else {
             if (null != networkView) {
                 networkView.setVisibility(View.VISIBLE);
@@ -195,6 +197,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
         loadingView.setVisibility(View.GONE);
         if (data.size() == 0) {
+            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getEmpty_result());
             mNoAddress.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
             if (isNeedPlayTTS) {

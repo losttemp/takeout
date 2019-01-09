@@ -17,6 +17,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressSuggestionAdapter;
 import com.baidu.iov.dueros.waimai.presenter.AddressSuggestionPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
@@ -125,6 +126,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     @Override
     protected void onResume() {
         super.onResume();
+        GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getSearch_result());
     }
 
     private void initPoiInfo(){

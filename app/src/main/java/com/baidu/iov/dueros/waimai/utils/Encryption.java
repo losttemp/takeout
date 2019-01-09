@@ -8,8 +8,9 @@ import Decoder.BASE64Decoder;
 import Decoder.BASE64Encoder;
 
 public class Encryption {
-    private static final String key = "4kuGqPLCbMEfkKkH";
-    private static final String iv = "uCoBJZqly4VwBCR7";
+    private static final String key = "HkK1fEMbCLPqGuk4";
+    private static final String iv = "7RCB2V4ylqZJBoCu";
+
 
     /**
      * jie mi

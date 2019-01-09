@@ -12,6 +12,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 
@@ -127,7 +128,11 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
     @Override
     protected void onResume() {
         super.onResume();
-        
+        if (getResources().getString(R.string.stroe_type_cake).equals(title)){
+            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getCake());
+        }else if (getResources().getString(R.string.stroe_type_flower).equals(title)){
+            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getFlower());
+        }
     }
 
     private void setListener(){
