@@ -34,7 +34,7 @@
 				android:id="@+id/iv_store"
 				android:layout_width="@dimen/px194dp"
 				android:layout_height="@dimen/px204dp"
-				android:scaleType="fitXY"
+				android:scaleType="centerCrop"
 				tools:src="@mipmap/ic_launcher" />
 
 			<TextView
@@ -66,10 +66,10 @@
 
 			<TextView
 				android:id="@+id/tv_store_name"
-				android:layout_width="@dimen/px382dp"
+				android:layout_width="@dimen/px380dp"
 				android:layout_height="wrap_content"
 				android:textColor="@color/white"
-				android:layout_marginRight="@dimen/px8dp"
+				android:layout_marginRight="@dimen/px10dp"
 				android:ellipsize="end"
 				android:maxLines="1"
 				android:textSize="@dimen/px36sp"

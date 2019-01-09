@@ -217,6 +217,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		filterConditionReq.setLongitude(longitude);
 		getPresenter().requestFilterList(filterConditionReq);
 	}
+	
+	
 
 	private void addStoreItemClickEvent(){
 		if (mFromPageType==Constant.STORE_FRAGMENT_FROM_HOME){
@@ -657,6 +659,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		public void onReceive(Context context, Intent intent) {
 				getLocation();
 				if (!latitude.equals(mStoreReq.getLatitude())){
+					filterConditionReq.setLatitude(latitude);
+					filterConditionReq.setLongitude(longitude);
+					
 					mStoreReq.setLatitude(latitude);
 					mStoreReq.setLongitude(longitude);
 					refresh();
