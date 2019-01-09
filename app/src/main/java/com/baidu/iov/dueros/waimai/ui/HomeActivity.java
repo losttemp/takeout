@@ -62,6 +62,9 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		}
 		iniView();
 		iniData();
+		if (getIntent().getIntExtra(Constant.START_APP,-1)==Constant.START_APP_CODE){
+			requestPermission();
+		}
 	}
 
 

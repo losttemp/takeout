@@ -202,8 +202,9 @@
     <string name="address_edit_save">保存</string>
     <string name="address_search_hint">请输入您的收货地址</string>
     <string name="wuhan">武汉</string>
-    <string name="persion_err">自Android 6.0开始需要打开位置权限</string>
-    <string name="settings">设置</string>
+    <string name="persion_err">打开“定位服务”来允许“外卖服务”确定您的位置</string>
+    <string name="settings">去开启</string>
+    <string name="i_know">知道了</string>
     <string name="close">取消</string>
     <string name="order_details">订单详情</string>
     <string name="order_cancel">取消订单</string>
