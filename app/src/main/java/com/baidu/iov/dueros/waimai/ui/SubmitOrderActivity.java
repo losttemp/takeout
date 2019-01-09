@@ -360,6 +360,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
                         mTypeTipTv.setText(getString(R.string.delivery_immediately));
                     } else {
+                        if (mCurDateItem != 0){
+                            String date = mDataBean.get(mCurDateItem).getDate();
+                            mArriveTimeTv.setText(date +" "+time);
+                        }
                         mArriveTimeTv.setText(time);
                         mTypeTipTv.setText(type);
                     }
