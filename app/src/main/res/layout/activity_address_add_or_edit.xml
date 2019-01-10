@@ -12,20 +12,29 @@
 
     <View style="@style/AddressEditDividerStyle" />
 
-    <LinearLayout style="@style/AddressEditContactStyle">
+    <RelativeLayout style="@style/AddressEditContactStyle">
 
         <TextView
+            android:id="@+id/address_edit_name_text"
             style="@style/AddressEditViewTextStyle"
             android:text="@string/address_contact" />
 
-        <com.baidu.iov.dueros.waimai.view.ClearEditText
+        <AutoCompleteTextView
             android:id="@+id/address_edit_name"
             style="@style/AddressEditTextStyle"
             android:layout_width="@dimen/px528dp"
+            android:layout_toRightOf="@id/address_edit_name_text"
             android:hint="@string/contacts_hint_text"
             android:textColorHint="@color/white_60" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/et_name_close"
+            android:layout_width="@dimen/px96dp"
+            android:layout_height="@dimen/px96dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_close" />
+    </RelativeLayout>
 
     <View
         style="@style/AddressEditDividerStyle"
@@ -65,22 +74,32 @@
 
     <View style="@style/AddressEditDividerStyle" />
 
-    <LinearLayout style="@style/AddressEditLLStyle">
+
+    <RelativeLayout style="@style/AddressEditContactStyle">
 
         <TextView
+            android:id="@+id/address_edit_phone_text"
             style="@style/AddressEditViewTextStyle"
             android:text="@string/address_phone" />
 
-        <com.baidu.iov.dueros.waimai.view.ClearEditText
+        <AutoCompleteTextView
             android:id="@+id/address_edit_phone"
             style="@style/AddressEditTextStyle"
             android:layout_width="@dimen/px528dp"
+            android:layout_toRightOf="@id/address_edit_phone_text"
             android:hint="@string/phone_hint_text"
             android:inputType="phone"
             android:maxLength="11"
             android:textColorHint="@color/white_60" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/et_phone_close"
+            android:layout_width="@dimen/px96dp"
+            android:layout_height="@dimen/px96dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_close" />
+    </RelativeLayout>
 
     <View style="@style/AddressEditDividerStyle" />
 
@@ -111,18 +130,28 @@
 
     <View style="@style/AddressEditDividerStyle" />
 
-    <LinearLayout style="@style/AddressEditLLStyle">
+    <RelativeLayout style="@style/AddressEditContactStyle">
 
         <TextView
+            android:id="@+id/address_edit_house_text"
             style="@style/AddressEditViewTextStyle"
             android:text="@string/address_house_num" />
 
-        <com.baidu.iov.dueros.waimai.view.ClearEditText
+        <EditText
             android:id="@+id/address_edit_house_num"
             style="@style/AddressEditTextStyle"
+            android:layout_toRightOf="@id/address_edit_house_text"
             android:hint="@string/address_details_hint_text"
             android:textColorHint="@color/white_60" />
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/et_house_close"
+            android:layout_width="@dimen/px96dp"
+            android:layout_height="@dimen/px96dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_close" />
+    </RelativeLayout>
 
     <View style="@style/AddressEditDividerStyle" />
 
