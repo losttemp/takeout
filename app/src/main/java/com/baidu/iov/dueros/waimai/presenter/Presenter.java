@@ -33,6 +33,8 @@ public abstract class Presenter<U extends Ui> {
 
                 @Override
                 public void onCmdCallback(String cmd, String extra) {
+                    if (cmd.equals(VoiceManager.CMD_SELECT) && Integer.parseInt(extra) < 0)
+                        return;
                     onCommandCallback(cmd, extra);
                 }
             };
