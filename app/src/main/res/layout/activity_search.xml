@@ -113,8 +113,8 @@
 
 			<android.support.v7.widget.AppCompatImageView
 				android:id="@+id/iv_delete"
-				android:layout_width="@dimen/px64dp"
-				android:layout_height="@dimen/px64dp"
+				android:layout_width="@dimen/px96dp"
+				android:layout_height="@dimen/px96dp"
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
 				android:scaleType="centerInside"
