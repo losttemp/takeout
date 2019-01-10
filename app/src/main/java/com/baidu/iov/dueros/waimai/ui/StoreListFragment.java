@@ -664,6 +664,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					
 					mStoreReq.setLatitude(latitude);
 					mStoreReq.setLongitude(longitude);
+					mStoreReq.setSortType(Constant.COMPREHENSIVE);
+					mStoreReq.setMigFilter("");
+					mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
 					refresh();
 				}
 			  

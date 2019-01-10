@@ -3,7 +3,7 @@
 	
 	<!-- Edge line color -->
 	<stroke
-		android:width="@dimen/px2dp"
+		android:width="@dimen/px1dp"
 		android:color="#ffc600" />
 	<corners android:radius="2dp" />
 

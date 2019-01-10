@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="px0dp">0.0dp</dimen>
+    <dimen name="px1dp">0.333dp</dimen>
     <dimen name="px2dp">0.666dp</dimen>
     <dimen name="px4dp">1.333dp</dimen>
     <dimen name="px6dp">2.0dp</dimen>
