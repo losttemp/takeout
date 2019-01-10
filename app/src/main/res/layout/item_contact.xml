@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_item"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/px126dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginTop="@dimen/px44dp"
-        android:layout_marginRight="@dimen/px84dp"
         android:textColor="#ffffff"
         android:textSize="@dimen/px36sp"
         app:removeDefaultPadding="true" />
@@ -22,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/px2dp"
         android:layout_marginLeft="@dimen/px84dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/px44dp"
         android:layout_marginRight="@dimen/px144dp"
         android:background="@color/split_view_color" />
-</RelativeLayout>
+</LinearLayout>

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/px40dp"
             android:background="#2F3841"
@@ -21,39 +21,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/px84dp"
+                android:layout_marginTop="@dimen/px6dp"
+                android:layout_marginBottom="@dimen/px4dp"
                 android:text="@string/location_of_the_city"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/px30sp"
                 app:removeDefaultPadding="true" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/px126dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/px84dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/current_city"
-                android:layout_width="@dimen/px160dp"
+                android:layout_width="@dimen/px168dp"
                 android:layout_height="@dimen/px58dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/px34dp"
+                android:layout_marginBottom="@dimen/px34dp"
                 android:background="@drawable/bt_city_selector"
+                android:ellipsize="end"
                 android:gravity="center"
-                android:text="@string/position_fail"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/position_try"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/px30sp" />
 
-            <TextView
-                android:id="@+id/try_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="@string/position_try"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/px16sp"
-                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>
@@ -75,6 +73,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/px84dp"
+                android:layout_marginTop="@dimen/px4dp"
+                android:layout_marginBottom="@dimen/px4dp"
                 android:text="@string/hot_city"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/px30sp"
