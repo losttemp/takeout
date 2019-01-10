@@ -6,14 +6,17 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.baidu.iov.dueros.waimai.R;
+
 import android.view.ViewGroup.LayoutParams;
 
-public class ConfirmDialog extends Dialog{
+public class ConfirmDialog extends Dialog {
     public ConfirmDialog(@NonNull Context context) {
         super(context);
     }
@@ -28,6 +31,7 @@ public class ConfirmDialog extends Dialog{
         private DialogInterface.OnClickListener positiveButtonClickListener;
         private DialogInterface.OnClickListener negativeButtonClickListener;
         private OnClickListener closeButtonCliceListener;
+        private SpannableString spannableMessage;
 
         public Builder(Context context) {
             this.context = context;
@@ -60,6 +64,11 @@ public class ConfirmDialog extends Dialog{
 
         public Builder setMessage(int message) {
             this.message = (String) context.getText(message);
+            return this;
+        }
+
+        public Builder setSpannableMessage(SpannableString spannableMessage) {
+            this.spannableMessage = spannableMessage;
             return this;
         }
 
@@ -99,7 +108,6 @@ public class ConfirmDialog extends Dialog{
         }
 
 
-
         public ConfirmDialog create() {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -110,7 +118,12 @@ public class ConfirmDialog extends Dialog{
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
             ((TextView) layout.findViewById(R.id.title)).setText(title);
-            ((TextView) layout.findViewById(R.id.message)).setText(message);
+            if (spannableMessage != null) {
+                ((TextView) layout.findViewById(R.id.message)).setText(spannableMessage);
+            } else {
+                ((TextView) layout.findViewById(R.id.message)).setText(message);
+            }
+
 
             if (closeButtonCliceListener != null) {
                 ((Button) layout.findViewById(R.id.close))

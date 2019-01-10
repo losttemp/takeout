@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -466,7 +470,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 ConfirmDialog dialog = new ConfirmDialog.Builder(this)
                         .setTitle(R.string.order_cancel_title)
                         .setMessage(R.string.order_cancel_message)
-                        .setNegativeButton(R.string.order_cancel, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.delete_address_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 getPresenter().requestOrderCancel(mOrderCancelReq);
@@ -490,16 +494,14 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.phone:
                 Entry.getInstance().onEvent(Constant.CALL_FOR_CANCLE_ORDER,EventType.TOUCH_TYPE);
+                String mMessage = getResources().getString(R.string.contact_meituan_message);
+                SpannableString spanColor = new SpannableString(mMessage);
+                spanColor.setSpan(new ForegroundColorSpan(Color.parseColor("#10CBE5")), 11, 19, 0);
+
                 ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
                         .setTitle(R.string.contact_meituan_title)
-                        .setMessage(R.string.contact_meituan_message)
-                        .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        .setSpannableMessage(spanColor)
+                        .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -515,12 +517,13 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                                 dialog.dismiss();
                             }
                         })
-                        .setCloseButton(new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.order_cancel_positive, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
-                        }).create();
+                        })
+                        .create();
                 dialog1.show();
                 break;
             case R.id.no_internet_btn:
@@ -599,9 +602,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             timerCancel();
             loadData();
         } else {
+            String mMessage = getResources().getString(R.string.remind_message);
+            SpannableString spanColor = new SpannableString(mMessage);
+            spanColor.setSpan(new ForegroundColorSpan(Color.parseColor("#10CBE5")), 4, 11, 0);
             ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
-                    .setTitle(R.string.remind_title)
-                    .setMessage(R.string.remind_message)
+                    .setTitle(R.string.order_cancel)
+                    .setSpannableMessage(spanColor)
                     .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
