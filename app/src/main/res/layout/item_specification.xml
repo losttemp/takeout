@@ -14,6 +14,10 @@
         android:alpha="0.6"
         android:layout_gravity="center"
         android:gravity="center"
+        android:autoSizeMaxTextSize="@dimen/px30sp"
+        android:autoSizeMinTextSize="@dimen/px2sp"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
         android:textColor="@color/white"
         android:textSize="@dimen/px30sp" />
 

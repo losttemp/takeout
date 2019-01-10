@@ -582,6 +582,17 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         mInList = true;
                         shoppingNum.setText(spusBean.getNumber() + "");
                     }
+                }else {
+                    if (attrs != null) {
+                        for (int i = 0; i < attrs.size(); i++) {
+                            if (attrs.get(i).getChoiceAttrs() != null) {
+                                attrs.get(i).getChoiceAttrs().clear();
+                            }
+                        }
+                    }
+                    if (spusBean.getChoiceSkus() != null) {
+                        spusBean.getChoiceSkus().clear();
+                    }
                 }
 
                 PoifoodSpusAttrsAdapter poifoodSpusAttrsAdapter = new PoifoodSpusAttrsAdapter(context, attrs, skus, spusBean,
@@ -691,6 +702,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 }
                 if (specificationsNumber == 0) {
                     viewHolder.specificationsNumber.setVisibility(View.GONE);
+                    spusBean.setSpecificationsNumber(specificationsNumber);
                 } else {
                     viewHolder.specificationsNumber.setText(specificationsNumber + "");
                     spusBean.setSpecificationsNumber(specificationsNumber);
