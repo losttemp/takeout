@@ -146,7 +146,6 @@ public class CityPickerActivity extends AppCompatActivity {
             });
             if (!CheckUtils.isEmpty(mlocation)) {
                 vh.item_header_city_dw.setText(mlocation);
-                vh.try_city.setVisibility(View.GONE);
                 vh.item_header_city_dw.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -155,7 +154,6 @@ public class CityPickerActivity extends AppCompatActivity {
                 });
             } else {
                 vh.item_header_city_dw.setText(R.string.position_fail);
-                vh.try_city.setVisibility(View.VISIBLE);
                 vh.item_header_city_dw.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -168,13 +166,11 @@ public class CityPickerActivity extends AppCompatActivity {
         private class VH extends RecyclerView.ViewHolder {
             GridView head_home_change_city_gridview;
             Button item_header_city_dw;
-            TextView try_city;
 
             public VH(View itemView) {
                 super(itemView);
                 head_home_change_city_gridview = (QGridView) itemView.findViewById(R.id.item_header_city_gridview);
                 item_header_city_dw = (Button) itemView.findViewById(R.id.current_city);
-                try_city = (TextView) itemView.findViewById(R.id.try_city);
             }
         }
     }

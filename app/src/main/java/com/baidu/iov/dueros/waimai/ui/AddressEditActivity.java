@@ -4,9 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -43,13 +46,13 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private TextView address_tv;
     private ImageView address_arrow;
     private TagListView mTagListView;
-    private ClearEditText et_phone;
-    private ClearEditText et_name;
+    private AutoCompleteTextView et_phone;
+    private AutoCompleteTextView et_name;
     private ImageView iv_del_button;
     private RadioGroup radioGroup;
     private RadioButton sirButton;
     private RadioButton ladyButton;
-    private ClearEditText et_house_num;
+    private EditText et_house_num;
     private boolean isEditMode;
     private long address_id;
     private AddressDeleteReq mAddressDelReq;
@@ -57,6 +60,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private AddressAddReq mAddrAddReq;
     AddressListBean.IovBean.DataBean dataBean;
     private PoiInfo mLocationBean;
+    private ImageView nameCloseView;
+    private ImageView phoneCloseView;
+    private ImageView houseCloseView;
+    private final int nameMaxLength = 10;
+    private final int houseMaxLength = 30;
 
     @Override
     AddressEditPresenter createPresenter() {
@@ -80,21 +88,26 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         address_title = (TextView) findViewById(R.id.address_title);
         address_tv = (TextView) findViewById(R.id.address_edit_address);
         address_arrow = (ImageView) findViewById(R.id.address_edit_arrow);
-        et_name = (ClearEditText) findViewById(R.id.address_edit_name);
-        et_phone = (ClearEditText) findViewById(R.id.address_edit_phone);
+        et_name = (AutoCompleteTextView) findViewById(R.id.address_edit_name);
+        et_phone = (AutoCompleteTextView) findViewById(R.id.address_edit_phone);
         iv_del_button = (ImageView) findViewById(R.id.address_del);
         mTagListView = (TagListView) findViewById(R.id.address_edit_tags);
         radioGroup = (RadioGroup) findViewById(R.id.address_edit_gender);
         sirButton = (RadioButton) findViewById(R.id.address_edit_sir);
         ladyButton = (RadioButton) findViewById(R.id.address_edit_lady);
-        et_house_num = (ClearEditText) findViewById(R.id.address_edit_house_num);
+        et_house_num = (EditText) findViewById(R.id.address_edit_house_num);
+
+        nameCloseView = findViewById(R.id.et_name_close);
+        phoneCloseView = findViewById(R.id.et_phone_close);
+        houseCloseView = findViewById(R.id.et_house_close);
+        nameCloseView.setOnClickListener(this);
+        phoneCloseView.setOnClickListener(this);
+        houseCloseView.setOnClickListener(this);
         findViewById(R.id.address_edit_save).setOnClickListener(this);
         findViewById(R.id.address_back).setOnClickListener(this);
         iv_del_button.setOnClickListener(this);
         address_tv.setOnClickListener(this);
         address_arrow.setOnClickListener(this);
-        et_name.setMaxLength(10);
-        et_house_num.setMaxLength(30);
     }
 
     private void initData() {
@@ -133,6 +146,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            if (et_house_num.getText().toString().length() <= 0) {
+                houseCloseView.setVisibility(View.GONE);
+            }
         } else {
             mLocationBean = intent.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
             address_title.setText(getResources().getString(R.string.add_address));
@@ -142,9 +158,13 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             mTagListView.setTags(tags, "");
             if (null != MyApplicationAddressBean.USER_NAMES && MyApplicationAddressBean.USER_NAMES.size() > 0) {
                 et_name.setText(MyApplicationAddressBean.USER_NAMES.get(0));
+            } else {
+                nameCloseView.setVisibility(View.GONE);
             }
             if (null != MyApplicationAddressBean.USER_PHONES && MyApplicationAddressBean.USER_PHONES.size() > 0) {
                 et_phone.setText(MyApplicationAddressBean.USER_PHONES.get(0));
+            } else {
+                phoneCloseView.setVisibility(View.GONE);
             }
         }
         AddressHintListAdapter nameAdapter = new AddressHintListAdapter(this, MyApplicationAddressBean.USER_NAMES);
@@ -169,6 +189,96 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 if (hasFocus && MyApplicationAddressBean.USER_PHONES.size() > 0) {
                     view.showDropDown();
                 }
+            }
+        });
+        et_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    nameCloseView.setVisibility(View.VISIBLE);
+                } else {
+                    nameCloseView.setVisibility(View.GONE);
+                }
+                if (s.length() > nameMaxLength) {
+                    ToastUtils.show(AddressEditActivity.this, getResources().getString(R.string.edit_text_view_max_length_hint), Toast.LENGTH_SHORT);
+                    et_name.setText(s.toString().substring(0, nameMaxLength));
+                    et_name.setSelection(et_name.getText().length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        et_phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    phoneCloseView.setVisibility(View.VISIBLE);
+                } else {
+                    phoneCloseView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        et_phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    phoneCloseView.setVisibility(View.VISIBLE);
+                } else {
+                    phoneCloseView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        et_house_num.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    houseCloseView.setVisibility(View.VISIBLE);
+                } else {
+                    houseCloseView.setVisibility(View.GONE);
+                }
+                if (s.length() > houseMaxLength) {
+                    ToastUtils.show(AddressEditActivity.this, getResources().getString(R.string.edit_text_view_max_length_hint), Toast.LENGTH_SHORT);
+                    et_house_num.setText(s.toString().substring(0, houseMaxLength));
+                    et_house_num.setSelection(et_house_num.getText().length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -270,6 +380,15 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 break;
             case R.id.address_back:
                 finish();
+                break;
+            case R.id.et_name_close:
+                et_name.setText("");
+                break;
+            case R.id.et_phone_close:
+                et_phone.setText("");
+                break;
+            case R.id.et_house_close:
+                et_house_num.setText("");
                 break;
         }
     }

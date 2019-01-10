@@ -6,8 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,6 +24,7 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ClearEditText;
+import com.baidu.iov.dueros.waimai.view.RollTextView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -44,16 +47,17 @@ import java.util.List;
 public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPresenter, AddressSuggestionPresenter.AddressSuggestionUi>
         implements TextWatcher, View.OnClickListener, AddressSuggestionPresenter.AddressSuggestionUi {
     private RecyclerView mRecyclerView;
-    private ClearEditText mSearchEdit;
+    private EditText mSearchEdit;
     private AddressSuggestionAdapter mAdapter;
     private List<PoiInfo> mAllSuggestions;
-    private TextView mCityTV;
+    private RollTextView mCityTV;
     private static final String TAG = AddressSuggestionActivity.class.getSimpleName();
     private LinearLayout mErrorLL;
     private String mCity;
     private boolean isEditModle;
     private TextView tv_title;
     private ImageView iv_back;
+    private ImageView closeView;
     private RelativeLayout selectCityView;
     private PoiSearch poiSearch;
     private LatLng location;
@@ -82,8 +86,9 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         tv_title = (TextView) findViewById(R.id.address_title);
         iv_back = (ImageView) findViewById(R.id.address_back);
         mRecyclerView = (RecyclerView) findViewById(R.id.address_search_rv);
-        mSearchEdit = (ClearEditText) findViewById(R.id.address_search_edit);
-        mCityTV = (TextView) findViewById(R.id.address_search_city);
+        mSearchEdit = (EditText) findViewById(R.id.address_search_edit);
+        closeView = (ImageView) findViewById(R.id.suggestion_close);
+        mCityTV = (RollTextView) findViewById(R.id.address_search_city);
         mErrorLL = (LinearLayout) findViewById(R.id.address_search_error);
         selectCityView = (RelativeLayout) findViewById(R.id.address_search_city_layout);
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -95,6 +100,11 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         mCity = getIntent().getStringExtra(Constant.ADDRESS_EDIT_INTENT_EXTRE_CITY);
         isEditModle = getIntent().getBooleanExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
         mCityTV.setText(mCity);
+        if (mCity.length() > 2) {
+            mCityTV.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            mCityTV.setSingleLine(true);
+            mCityTV.setMarqueeRepeatLimit(-1);
+        }
         mAllSuggestions = new ArrayList<>();
         mAdapter = new AddressSuggestionAdapter(mAllSuggestions);
         mRecyclerView.setAdapter(mAdapter);
@@ -102,11 +112,12 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
 
     private void initListener() {
         iv_back.setOnClickListener(this);
+        closeView.setOnClickListener(this);
         selectCityView.setOnClickListener(this);
         mAdapter.setOnItemClickListener(new AddressSuggestionAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View v, PoiInfo dataBean) {
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_POIACT_SELECT,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_POIACT_SELECT, EventType.TOUCH_TYPE);
                 Lg.getInstance().d(TAG, "setOnItemClickListener");
                 Intent intent = new Intent(AddressSuggestionActivity.this, AddressEditActivity.class);
                 intent.putExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR, dataBean);
@@ -129,7 +140,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getSearch_result());
     }
 
-    private void initPoiInfo(){
+    private void initPoiInfo() {
         poiSearch = PoiSearch.newInstance();
         double span = LocationManager.SPAN + 0.5f;
         location = new LatLng(Constant.LATITUDE / span, Constant.LONGITUDE / span);
@@ -137,25 +148,25 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         poiSearch.setOnGetPoiSearchResultListener(new OnGetPoiSearchResultListener() {
             @Override
             public void onGetPoiResult(PoiResult poiResult) {
-                if (poiResult == null|| poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {// 没有找到检索结果
+                if (poiResult == null || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {// 没有找到检索结果
                     mErrorLL.setVisibility(View.VISIBLE);
                     mRecyclerView.setVisibility(View.GONE);
                     return;
                 }
                 if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {// success
-                    Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_POIACT_EDIT,EventType.TOUCH_TYPE);
+                    Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_POIACT_EDIT, EventType.TOUCH_TYPE);
                     List<PoiInfo> poiAddrInfoList = poiResult.getAllPoi();
                     mAllSuggestions.clear();
                     if (poiAddrInfoList != null && poiAddrInfoList.size() > 0) {
-                        Collections.sort(poiAddrInfoList, new Comparator<PoiInfo>(){
+                        Collections.sort(poiAddrInfoList, new Comparator<PoiInfo>() {
                             @Override
                             public int compare(PoiInfo o1, PoiInfo o2) {
                                 double o11 = DistanceUtil.getDistance(location, o1.getLocation());
                                 double o22 = DistanceUtil.getDistance(location, o2.getLocation());
-                                if(o11 > o22){
+                                if (o11 > o22) {
                                     return 1;
                                 }
-                                if(o11 == o22){
+                                if (o11 == o22) {
                                     return 0;
                                 }
                                 return -1;
@@ -208,13 +219,15 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.length() < 1) {
+        if (s.length() > 0) {
+            closeView.setVisibility(View.VISIBLE);
+            citySearch(mCity, s + "");
+        } else {
             mAllSuggestions.clear();
             mAdapter.notifyDataSetChanged();
             mErrorLL.setVisibility(View.GONE);
-            return;
+            closeView.setVisibility(View.GONE);
         }
-        citySearch(mCity, s + "");
     }
 
     @Override
@@ -240,6 +253,9 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                 Intent intent = new Intent(AddressSuggestionActivity.this, CityPickerActivity.class);
                 startActivityForResult(intent, Constant.CITY_REQUEST_CODE_CHOOSE);
                 break;
+            case R.id.suggestion_close:
+                mSearchEdit.setText("");
+                break;
             default:
                 break;
         }
@@ -251,6 +267,11 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         if (requestCode == Constant.CITY_REQUEST_CODE_CHOOSE && resultCode == Constant.CITY_RESULT_CODE_CHOOSE) {
             String cityName = data.getStringExtra(Constant.CITYCODE);
             mCityTV.setText(cityName);
+            if (cityName.length() > 2) {
+                mCityTV.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                mCityTV.setSingleLine(true);
+                mCityTV.setMarqueeRepeatLimit(-1);
+            }
             mCity = cityName;
             mAllSuggestions.clear();
             mAdapter.notifyDataSetChanged();

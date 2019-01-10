@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
@@ -124,14 +125,22 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             } else if (mContext.getString(R.string.address_tag_other).equals(type)) {
                 tvType.setBackgroundResource(R.drawable.tag_bg);
             } else if (mContext.getString(R.string.address_destination).equals(type)) {
-                tvType.setBackgroundResource(R.drawable.tag_bg);
+                tvType.setBackgroundResource(R.drawable.tag_bg_mudidi);
             }
             tvType.setText(!TextUtils.isEmpty(type) ? type : mContext.getString(R.string.address_tag_other));
             num.setText((position + 1) + "");
             name.setText("");
             phone.setText("");
             try {
-                details.setText(Encryption.desEncrypt(dataBean.getAddress()));
+                String detail = Encryption.desEncrypt(dataBean.getAddress());
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) details.getLayoutParams();
+                if (detail.length() > 20) {
+                    lp.width = 586;
+                } else {
+                    lp.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                }
+                details.setLayoutParams(lp);
+                details.setText(detail);
                 if (!TextUtils.isEmpty(dataBean.getUser_name())) {
                     name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
                 }

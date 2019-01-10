@@ -1,6 +1,5 @@
 package com.baidu.iov.dueros.waimai.net;
 
-import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 
 /**
  * @author pengqm
