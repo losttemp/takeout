@@ -193,11 +193,13 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         if (time == 0 || (System.currentTimeMillis() - time > SIX_HOUR)) {
             Intent addressIntent = new Intent(this, AddressSelectActivity.class);
             addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+            addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
             startActivity(addressIntent);
             finish();
         } else {
             Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+            intent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
             startActivity(intent);
             finish();
         }

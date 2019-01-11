@@ -58,6 +58,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     private TextView tv_title;
     private ImageView iv_back;
     private ImageView closeView;
+    private ImageView iv_arrow, iv_refresh;
     private RelativeLayout selectCityView;
     private PoiSearch poiSearch;
     private LatLng location;
@@ -85,6 +86,8 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     private void initView() {
         tv_title = (TextView) findViewById(R.id.address_title);
         iv_back = (ImageView) findViewById(R.id.address_back);
+        iv_arrow = (ImageView) findViewById(R.id.arrow);
+        iv_refresh = (ImageView) findViewById(R.id.refresh);
         mRecyclerView = (RecyclerView) findViewById(R.id.address_search_rv);
         mSearchEdit = (EditText) findViewById(R.id.address_search_edit);
         closeView = (ImageView) findViewById(R.id.suggestion_close);
@@ -104,6 +107,13 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
             mCityTV.setEllipsize(TextUtils.TruncateAt.MARQUEE);
             mCityTV.setSingleLine(true);
             mCityTV.setMarqueeRepeatLimit(-1);
+        }
+        if (mCity.equals(Constant.GET_CITY_ERROR)) {
+            iv_arrow.setVisibility(View.GONE);
+            iv_refresh.setVisibility(View.VISIBLE);
+        } else {
+            iv_arrow.setVisibility(View.VISIBLE);
+            iv_refresh.setVisibility(View.GONE);
         }
         mAllSuggestions = new ArrayList<>();
         mAdapter = new AddressSuggestionAdapter(mAllSuggestions);
@@ -271,6 +281,13 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                 mCityTV.setEllipsize(TextUtils.TruncateAt.MARQUEE);
                 mCityTV.setSingleLine(true);
                 mCityTV.setMarqueeRepeatLimit(-1);
+            }
+            if (cityName.equals(Constant.GET_CITY_ERROR)) {
+                iv_arrow.setVisibility(View.GONE);
+                iv_refresh.setVisibility(View.VISIBLE);
+            } else {
+                iv_arrow.setVisibility(View.VISIBLE);
+                iv_refresh.setVisibility(View.GONE);
             }
             mCity = cityName;
             mAllSuggestions.clear();

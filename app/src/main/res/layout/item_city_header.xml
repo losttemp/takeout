@@ -31,27 +31,37 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/px126dp"
             android:layout_marginLeft="@dimen/px84dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/current_city"
-                android:layout_width="@dimen/px168dp"
+            <RelativeLayout
+                android:id="@+id/layout"
+                android:layout_width="@dimen/px160dp"
                 android:layout_height="@dimen/px58dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/px34dp"
-                android:layout_marginBottom="@dimen/px34dp"
-                android:background="@drawable/bt_city_selector"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="@string/position_try"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/px30sp" />
+                android:background="@drawable/bt_city_selector">
 
+                <ImageView
+                    android:id="@+id/try_city"
+                    android:layout_width="@dimen/px48dp"
+                    android:layout_height="@dimen/px48dp"
+                    android:src="@drawable/local_refresh"
+                    android:layout_marginStart="@dimen/px22dp"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/current_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/position_fail"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/px14dp"
+                    android:layout_toEndOf="@+id/try_city"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/px30sp" />
+            </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>

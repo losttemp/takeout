@@ -17,8 +17,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -155,14 +158,20 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         Button btn_cancel = layout.findViewById(R.id.i_know);
         dialog = builder.create();
         dialog.show();
-        dialog.getWindow().setLayout((int) getResources().getDimension(R.dimen.px1000dp), (int) getResources().getDimension(R.dimen.px400dp));
+        if (dialog.getWindow() != null) {
+            Window window = dialog.getWindow();
+            window.setLayout((int) getResources().getDimension(R.dimen.px912dp), (int) getResources().getDimension(R.dimen.px516dp));
+            window.setBackgroundDrawableResource(R.drawable.permission_dialog_bg);
+            WindowManager.LayoutParams lp = window.getAttributes();
+            window.setGravity(Gravity.CENTER_HORIZONTAL);
+            window.setGravity(Gravity.TOP);
+            lp.y = (int) getResources().getDimension(R.dimen.px480dp);
+            window.setAttributes(lp);
+        }
         btn_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-                intent.setData(Uri.fromParts("package", getPackageName(), null));
-                startActivity(intent);
+                startPrivacyActivity();
                 dialog.dismiss();
             }
         });
