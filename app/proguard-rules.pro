@@ -178,37 +178,10 @@
 -dontwarn com.bumptech.glide.load.resource.bitmap.HardwareConfigState
 -dontwarn com.bumptech.glide.manager.RequestManagerRetriever
 
--keep interface com.baidu.iov.commonlib.util.INoProguard { *; }
--keep class * implements com.baidu.iov.commonlib.util.INoProguard { *; }
--keep interface * extends com.baidu.iov.commonlib.util.INoProguard { *; }
--keepclasseswithmembernames class * implements com.baidu.iov.commonlib.util.INoProguard {*;}
--keep interface com.baidu.iov.playercore.INoProguard { *; }
--keep class * implements com.baidu.iov.playercore.INoProguard { *; }
--keep interface * extends com.baidu.iov.playercore.INoProguard { *; }
--keepclasseswithmembernames class * implements com.baidu.iov.playercore.INoProguard {*;}
-
 # faceos-client
 -keep class com.baidu.iov.faceos.** { *; }
 -keep interface com.baidu.iov.faceos.** { *; }
 -dontwarn com.baidu.iov.faceos.**
-
-# exoplayer2
--keep class com.google.android.exoplayer2.** { *; }
--keep interface com.google.android.exoplayer2.** { *; }
--dontwarn com.google.android.exoplayer2.**
-
-# ycbannerlib
--keep class com.yc.cn.ycbannerlib.** { *; }
--keep interface com.yc.cn.ycbannerlib.** { *; }
--dontwarn com.yc.cn.ycbannerlib.**
-
-# vlayout
--keep class com.alibaba.android.vlayout.** { *; }
--keep interface com.alibaba.android.vlayout.** { *; }
--dontwarn com.alibaba.android.vlayout.**
-
--dontwarn javax.annotation.**
--dontwarn javax.inject.**
 
 # okhttp3
 -keep class okhttp3.** {*; }
@@ -235,31 +208,17 @@
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
+
 # Gson
 -keep class com.google.gson.** { *; }
 -keep interface com.google.gson.** { *; }
 -dontwarn com.google.gson.**
 -keepattributes EnclosingMethod
 
-# fastjson
--keep class com.alibaba.fastjson.** { *; }
--keep interface com.alibaba.fastjson.** { *; }
--dontwarn com.alibaba.fastjson.**
-
 # syncclient.jar
 -keep class com.baidu.xiaoduos.** { *; }
 -keep interface com.baidu.xiaoduos.** { *; }
 -dontwarn com.baidu.xiaoduos.**
-
--keep class org.greenrobot.eventbus.** {*;}
-
--keepclasseswithmembernames class * {
-    public <init>(android.content.Context, android.util.AttributeSet);
-}
-
--keepclasseswithmembernames class * {
-    public <init>(android.content.Context, android.util.AttributeSet, int);
-}
 
 # sdk.jar
 -keep class android.app.** { *; }

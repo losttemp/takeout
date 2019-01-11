@@ -77,7 +77,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     protected void onPause() {
         super.onPause();
         getPresenter().unregisterCmd(this);
-//        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
+        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
     }
 
     @Override

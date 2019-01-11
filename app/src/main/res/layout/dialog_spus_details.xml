@@ -18,15 +18,17 @@
             android:layout_marginLeft="@dimen/px54dp"
             android:src="@drawable/icon_close" />
 
-        <com.domain.multipltextview.MultiplTextView
+        <TextView
             android:id="@+id/tv_spus_name"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/px500dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
             android:text="@string/porridge"
             android:textColor="@color/white"
-            android:textSize="@dimen/px40sp"
-            app:removeDefaultPadding="true" />
+            android:textSize="@dimen/px40sp" />
     </RelativeLayout>
 
     <ImageView
@@ -70,7 +72,7 @@
         <Button
             android:id="@+id/btn_add_to_cart"
             android:layout_width="@dimen/px330dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/px112dp"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/px30dp"
             android:layout_marginTop="@dimen/px30dp"
@@ -82,7 +84,7 @@
         <Button
             android:id="@+id/btn_spus_details_specifications"
             android:layout_width="@dimen/px330dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/px112dp"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/px30dp"
             android:layout_marginTop="@dimen/px30dp"
