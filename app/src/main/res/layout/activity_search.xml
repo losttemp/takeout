@@ -98,7 +98,7 @@
 		<RelativeLayout
 			android:id="@+id/rl_history"
 			android:layout_marginLeft="@dimen/px84dp"
-			android:layout_marginRight="@dimen/px84dp"
+			android:layout_marginRight="@dimen/px54dp"
 			android:layout_width="match_parent"
 			android:layout_height="@dimen/px96dp">
 

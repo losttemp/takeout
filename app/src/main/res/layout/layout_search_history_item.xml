@@ -18,6 +18,7 @@
 		android:id="@+id/iv_delete"
 		android:layout_width="@dimen/px96dp"
 		android:layout_height="@dimen/px96dp"
+		android:layout_marginRight="@dimen/pxminus30dp"
 		android:layout_alignParentEnd="true"
 		android:layout_centerVertical="true"
 		android:src="@drawable/icon_close_history" />
