@@ -163,6 +163,9 @@
             android:layout_alignTop="@+id/shopping_cart"
             android:background="@drawable/point"
             android:gravity="center"
+            android:autoSizeMaxTextSize="@dimen/px24sp"
+            android:autoSizeMinTextSize="@dimen/px2sp"
+            android:autoSizeTextType="uniform"
             android:textColor="@color/white"
             android:textSize="@dimen/px24sp"
             android:visibility="visible" />

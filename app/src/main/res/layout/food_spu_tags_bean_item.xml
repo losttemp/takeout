@@ -179,6 +179,9 @@
                             android:background="@drawable/point"
                             android:gravity="center"
                             android:enabled="false"
+                            android:autoSizeMaxTextSize="@dimen/px24sp"
+                            android:autoSizeMinTextSize="@dimen/px2sp"
+                            android:autoSizeTextType="uniform"
                             android:textColor="@color/white"
                             android:textSize="@dimen/px24sp"
                             android:visibility="gone" />
