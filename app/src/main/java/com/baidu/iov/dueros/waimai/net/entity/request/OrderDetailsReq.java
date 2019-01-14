@@ -14,7 +14,12 @@ public class OrderDetailsReq extends RequestBase {
         this.order_id = id;
     }
 
-//    public String getPhone() {
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    //    public String getPhone() {
 //        return user_phone;
 //    }
 //

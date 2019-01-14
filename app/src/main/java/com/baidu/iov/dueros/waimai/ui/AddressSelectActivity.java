@@ -63,6 +63,9 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         getPresenter().initDesBeans();
         init = false;
         initView();
+        if (getIntent().getIntExtra(Constant.START_APP,-1)==Constant.START_APP_CODE){
+            requestPermission();
+        }
     }
 
     @Override

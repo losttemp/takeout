@@ -53,13 +53,13 @@ public class SpecificationAdapter extends RecyclerView.Adapter<SpecificationAdap
             String spec = skusBeans.get(position).getSpec();
             holder.text.setText(spec.trim());
         }
-        if (choiceAttrs!=null){
+        if (choiceAttrs != null && choiceAttrs.size() > 0) {
             String value = choiceAttrs.get(0).getValue();
             if (value.equals(holder.text.getText())){
                 holder.item.setBackgroundResource(R.drawable.tag_on);
             }
         }
-        if (choiceSkus!=null){
+        if (choiceSkus!=null&& choiceSkus.size() > 0){
             String value = choiceSkus.get(0).getSpec();
             if (value.equals(holder.text.getText())){
                 holder.item.setBackgroundResource(R.drawable.tag_on);

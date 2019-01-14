@@ -21,6 +21,8 @@ import com.baidu.location.BDLocation;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 
+import retrofit2.http.HEAD;
+
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
 		HomePresenter.HomeUi, View.OnClickListener {
 
@@ -69,6 +71,9 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 			initFragment(); 
 		}
 		
+		if (getIntent().getIntExtra(Constant.START_APP,-1)==Constant.START_APP_CODE){
+			requestPermission();
+		}
 	}
 
 	@Override 

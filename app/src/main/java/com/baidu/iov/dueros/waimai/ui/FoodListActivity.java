@@ -320,8 +320,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     lastItemPosition = linearManager.findLastVisibleItemPosition();
                     firstItemPosition = linearManager.findFirstVisibleItemPosition();
                 }
-                mFoodSpuTagsListAdapter.setSelectedPosition(lastItemPosition);
-                ((LinearLayoutManager) mFoodSpuTagsList.getLayoutManager()).scrollToPositionWithOffset(lastItemPosition, 0);
+                mFoodSpuTagsListAdapter.setSelectedPosition(firstItemPosition);
+                ((LinearLayoutManager) mFoodSpuTagsList.getLayoutManager()).scrollToPositionWithOffset(firstItemPosition, 0);
                 mFoodSpuTagsListAdapter.notifyDataSetChanged();
             }
 

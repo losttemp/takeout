@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -345,7 +346,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         View popView = PoifoodSpusListAdapter.this.getPopView(R.layout.dialog_spus_details);
                         final Button addToCart = (Button) popView.findViewById(R.id.btn_add_to_cart);
                         Button detailSpecifications = (Button) popView.findViewById(R.id.btn_spus_details_specifications);
-                        MultiplTextView spusName = (MultiplTextView) popView.findViewById(R.id.tv_spus_name);
+                        TextView spusName = (TextView) popView.findViewById(R.id.tv_spus_name);
                         ImageView spusPicture = (ImageView) popView.findViewById(R.id.iv_spus);
                         MultiplTextView spusPrice = (MultiplTextView) popView.findViewById(R.id.tv_spus_price);
                         MultiplTextView spusOriginPrice = (MultiplTextView) popView.findViewById(R.id.tv_spus_origin_price);
@@ -531,7 +532,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 ImageView increase = (ImageView) popView.findViewById(R.id.increase);
                 ImageView reduce = (ImageView) popView.findViewById(R.id.reduce);
                 final MultiplTextView shoppingNum = (MultiplTextView) popView.findViewById(R.id.shoppingNum);
-                MultiplTextView spusName = (MultiplTextView) popView.findViewById(R.id.tv_spus_name);
+                TextView spusName = (TextView) popView.findViewById(R.id.tv_spus_name);
                 final RelativeLayout action = (RelativeLayout) popView.findViewById(R.id.action);
                 spusName.setText(spusBean.getName());
                 specificationsPrice.setText("¥" + spusBean.getMin_price());
@@ -581,6 +582,17 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         action.setVisibility(View.VISIBLE);
                         mInList = true;
                         shoppingNum.setText(spusBean.getNumber() + "");
+                    }
+                }else {
+                    if (attrs != null) {
+                        for (int i = 0; i < attrs.size(); i++) {
+                            if (attrs.get(i).getChoiceAttrs() != null) {
+                                attrs.get(i).getChoiceAttrs().clear();
+                            }
+                        }
+                    }
+                    if (spusBean.getChoiceSkus() != null) {
+                        spusBean.getChoiceSkus().clear();
                     }
                 }
 
@@ -691,6 +703,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 }
                 if (specificationsNumber == 0) {
                     viewHolder.specificationsNumber.setVisibility(View.GONE);
+                    spusBean.setSpecificationsNumber(specificationsNumber);
                 } else {
                     viewHolder.specificationsNumber.setText(specificationsNumber + "");
                     spusBean.setSpecificationsNumber(specificationsNumber);

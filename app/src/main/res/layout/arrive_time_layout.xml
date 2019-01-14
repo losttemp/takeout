@@ -35,7 +35,6 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px2dp"
-        android:layout_below="@+id/address_title"
         android:layout_marginEnd="@dimen/px86dp"
         android:layout_marginStart="@dimen/px84dp"
         android:alpha="0.06"

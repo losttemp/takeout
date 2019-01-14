@@ -12,9 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -144,19 +144,23 @@ public class CityPickerActivity extends AppCompatActivity {
                     reFreshCityInfo(cityListBean.getHot().get(position).getName(), 0);
                 }
             });
+            ViewGroup.LayoutParams linearParams = vh.layout.getLayoutParams();
             if (!CheckUtils.isEmpty(mlocation)) {
+                linearParams.width = (int) getResources().getDimension(R.dimen.px160dp);
+                vh.layout.setLayoutParams(linearParams);
                 vh.item_header_city_dw.setText(mlocation);
                 vh.try_city.setVisibility(View.GONE);
-                vh.item_header_city_dw.setOnClickListener(new View.OnClickListener() {
+                vh.layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         reFreshCityInfo(mlocation, 0);
                     }
                 });
             } else {
-                vh.item_header_city_dw.setText(R.string.position_fail);
+                linearParams.width = (int) getResources().getDimension(R.dimen.px430dp);
+                vh.item_header_city_dw.setText(R.string.position_try);
                 vh.try_city.setVisibility(View.VISIBLE);
-                vh.item_header_city_dw.setOnClickListener(new View.OnClickListener() {
+                vh.layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         getLocationCity();
@@ -167,14 +171,16 @@ public class CityPickerActivity extends AppCompatActivity {
 
         private class VH extends RecyclerView.ViewHolder {
             GridView head_home_change_city_gridview;
-            Button item_header_city_dw;
-            TextView try_city;
+            TextView item_header_city_dw;
+            ImageView try_city;
+            RelativeLayout layout;
 
             public VH(View itemView) {
                 super(itemView);
                 head_home_change_city_gridview = (QGridView) itemView.findViewById(R.id.item_header_city_gridview);
-                item_header_city_dw = (Button) itemView.findViewById(R.id.current_city);
-                try_city = (TextView) itemView.findViewById(R.id.try_city);
+                item_header_city_dw = (TextView) itemView.findViewById(R.id.current_city);
+                try_city = (ImageView) itemView.findViewById(R.id.try_city);
+                layout = (RelativeLayout) itemView.findViewById(R.id.layout);
             }
         }
     }

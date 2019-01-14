@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/px40dp"
             android:background="#2F3841"
@@ -21,11 +21,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/px84dp"
+                android:layout_marginTop="@dimen/px6dp"
+                android:layout_marginBottom="@dimen/px4dp"
                 android:text="@string/location_of_the_city"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/px30sp"
                 app:removeDefaultPadding="true" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -34,26 +36,32 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/current_city"
+            <RelativeLayout
+                android:id="@+id/layout"
                 android:layout_width="@dimen/px160dp"
                 android:layout_height="@dimen/px58dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/bt_city_selector"
-                android:gravity="center"
-                android:text="@string/position_fail"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/px30sp" />
+                android:background="@drawable/bt_city_selector">
 
-            <TextView
-                android:id="@+id/try_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="@string/position_try"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/px16sp"
-                android:visibility="gone" />
+                <ImageView
+                    android:id="@+id/try_city"
+                    android:layout_width="@dimen/px48dp"
+                    android:layout_height="@dimen/px48dp"
+                    android:src="@drawable/local_refresh"
+                    android:layout_marginStart="@dimen/px22dp"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/current_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/position_fail"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/px14dp"
+                    android:layout_toEndOf="@+id/try_city"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/px30sp" />
+            </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>
@@ -75,6 +83,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/px84dp"
+                android:layout_marginTop="@dimen/px4dp"
+                android:layout_marginBottom="@dimen/px4dp"
                 android:text="@string/hot_city"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/px30sp"

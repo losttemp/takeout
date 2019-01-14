@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -44,7 +45,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private WebView mWVMeituan;
     private ProgressBar progressBar;
     private MeituanAuthorizeReq mMeituanAuthReq;
-    private AddressListReqBean mAddressListReq;
     private final long SIX_HOUR = 6 * 60 * 60 * 1000;
     Bundle savedInstanceState;
     private View networkView;
@@ -74,23 +74,23 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mWVMeituan = (WebView) findViewById(R.id.meituan_login);
 
-        mWVMeituan.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
-        mWVMeituan.setWebViewClient(webViewClient);
-        mWVMeituan.setWebChromeClient(webChromeClient);
-        networkView = findViewById(R.id.network_view);
-        networkView.setBackground(getResources().getDrawable(R.drawable.app_bg));
-        findViewById(R.id.no_internet_btn).setOnClickListener(this);
         WebSettings webSettings = mWVMeituan.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setSupportMultipleWindows(true);
         webSettings.setDomStorageEnabled(true);
-
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setSupportZoom(true);
+        webSettings.setBuiltInZoomControls(true);
 
-        mWVMeituan.getSettings().setSupportZoom(true);
-        mWVMeituan.getSettings().setBuiltInZoomControls(true);
+        mWVMeituan.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
+        mWVMeituan.setWebViewClient(webViewClient);
+        mWVMeituan.setWebChromeClient(webChromeClient);
+        mWVMeituan.setVisibility(View.GONE);
 
+        networkView = findViewById(R.id.network_view);
+        networkView.setBackground(getResources().getDrawable(R.drawable.app_bg));
+        findViewById(R.id.no_internet_btn).setOnClickListener(this);
     }
 
     @Override
@@ -113,7 +113,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private void init() {
         mMeituanAuthReq = new MeituanAuthorizeReq();
         mMeituanAuthReq.setBduss(CacheUtils.getBduss());
-        mAddressListReq = new AddressListReqBean();
     }
 
     private WebViewClient webViewClient = new WebViewClient() {
@@ -135,7 +134,12 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return super.shouldOverrideUrlLoading(view, request);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                view.loadUrl(request.getUrl().toString());
+            } else {
+                view.loadUrl(request.toString());
+            }
+            return true;
         }
     };
 
@@ -167,13 +171,13 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         Entry.getInstance().onEvent(Constant.ENTRY_LOGIN_MEITUAN, EventType.TOUCH_TYPE);
         if (data.getIov().getAuthorizedState()) {
             if (CacheUtils.getAuth()) {
-                //getPresenter().requestAddressListData(mAddressListReq);
                 startIntent();
             } else {
                 getPresenter().requestAuthInfo();
             }
         } else {
             syncCookie(this, Config.getHost());
+            mWVMeituan.setVisibility(View.VISIBLE);
             mWVMeituan.loadUrl(data.getIov().getAuthorizeUrl());
         }
     }
@@ -189,11 +193,13 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         if (time == 0 || (System.currentTimeMillis() - time > SIX_HOUR)) {
             Intent addressIntent = new Intent(this, AddressSelectActivity.class);
             addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+            addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
             startActivity(addressIntent);
             finish();
         } else {
             Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+            intent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
             startActivity(intent);
             finish();
         }
@@ -224,7 +230,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     public void authSuccess(String msg) {
         if (Constant.ACCOUNT_AUTH_SUCCESS.equals(msg)) {
             Lg.getInstance().d(TAG, "account auth success");
-            //getPresenter().requestAddressListData(mAddressListReq);
             startIntent();
         }
     }
@@ -241,12 +246,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     public void getAddressListSuccess(List<AddressListBean.IovBean.DataBean> data) {
         Lg.getInstance().d(TAG, "get addresslist success");
         Intent addressIntent = new Intent(this, AddressSelectActivity.class);
-        //if (data.size() == 0) {
-        //addressIntent = new Intent(this, AddressEditActivity.class);
-        //addressIntent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, false);
-        //} else {
-        //addressIntent = new Intent(this, AddressSelectActivity.class);
-        //}
         addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
         startActivity(addressIntent);
         finish();
@@ -300,10 +299,16 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     public final class InJavaScriptLocalObj {
         @JavascriptInterface
         public void showSource(String html) {
+            if (html.contains("errno")||html.contains("error_code")) {
+                Lg.getInstance().e(TAG, "webview:" + html);
+            }
             if (html.contains("{\"errno\":0,\"err_msg\":\"success\",")
                     && html.contains(",\"meituan\":{\"msg\":\"success\"},")) {
                 mWVMeituan.loadUrl("about:blank");
                 initPostHttp();
+            }
+            if (html.contains("error_code") && html.contains("10002")) {
+                finish();
             }
         }
 

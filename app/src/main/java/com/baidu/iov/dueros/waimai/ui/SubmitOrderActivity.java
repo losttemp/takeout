@@ -157,7 +157,14 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mShopNameTv.setText(shopName);
             String deliveryType = mPoiInfo.getDelivery_type() == 1 ? getString(R.string.delivery_type1_text)
                     : getString(R.string.delivery_type2_text);
-            mDeliveryTypeTv.setText(deliveryType);
+//            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mDeliveryTypeTv.getLayoutParams();
+            if (mPoiInfo.getDelivery_type()==1){
+                mDeliveryTypeTv.setText(deliveryType);
+            }else {
+//                lp.width=54;
+                mDeliveryTypeTv.setWidth(54);
+                mDeliveryTypeTv.setText(deliveryType);
+            }
         }
 
         if (mAddressData != null) {
@@ -360,6 +367,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
                         mTypeTipTv.setText(getString(R.string.delivery_immediately));
                     } else {
+                        if (mCurDateItem != 0){
+                            String date = mDataBean.get(mCurDateItem).getDate();
+                            mArriveTimeTv.setText(date +" "+time);
+                        }
                         mArriveTimeTv.setText(time);
                         mTypeTipTv.setText(type);
                     }

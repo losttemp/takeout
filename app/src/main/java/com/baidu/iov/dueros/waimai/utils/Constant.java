@@ -99,7 +99,9 @@ public class Constant {
     public final static int SERVICE_ERROR = 26;
 
     public static final String IS_NEED_VOICE_FEEDBACK = "isNeedVoiceFeedback";
-
+    public static final String START_APP = "start_app";
+    public static final int START_APP_CODE = 0x123;
+    public static final String GET_CITY_ERROR = "失败";
     public static String UUID = "uuid";
 
     public final static int  EVENT_EXIT= 31300078;
