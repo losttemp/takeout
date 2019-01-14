@@ -40,6 +40,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 	private StoreListFragment mStoreListFragment;
 
+	private static final String FRAGMENT_KEY = "storeListFragment";
+
 	public static String address;
 
 	@Override
@@ -61,14 +63,33 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 			VoiceManager.getInstance().playTTS(HomeActivity.this, getString(R.string.please_choice_commodity));
 		}
 		iniView();
-		iniData();
+		if (savedInstanceState != null) {
+			mStoreListFragment = (StoreListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_KEY); 
+		} else { 
+			initFragment(); 
+		}
+		
+	}
+
+	@Override 
+	protected void onSaveInstanceState(Bundle outState) {
+		if (mStoreListFragment != null) {
+			getSupportFragmentManager().putFragment(outState, FRAGMENT_KEY, mStoreListFragment); 
+		}
+		super.onSaveInstanceState(outState); 
 	}
 
 
+	@Override
+	protected void onStart() {
+		Lg.getInstance().e(TAG, "onStart");
+		super.onStart();
+	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Lg.getInstance().e(TAG, "onResume");
 		if (TextUtils.isEmpty(address)) {
 			if (!CacheUtils.getAddress().isEmpty()) {
 				address = CacheUtils.getAddress();
@@ -92,9 +113,18 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mTvTitle =  findViewById(R.id.tv_title);
 		mRlSearch = findViewById(R.id.rl_search);
 		mIvTitle = findViewById(R.id.iv_title);
+
+		mIvBack.setOnClickListener(this);
+		mIvRight.setOnClickListener(this);
+		mRlFlower.setOnClickListener(this);
+		mRlFood.setOnClickListener(this);
+		mRlCake.setOnClickListener(this);
+		mTvTitle.setOnClickListener(this);
+		mRlSearch.setOnClickListener(this);
+		mIvTitle.setOnClickListener(this);
 	}
 
-	private void iniData() {
+	private void initFragment() {
 		//fragment
 		if (mStoreListFragment==null) {
 			Lg.getInstance().e(TAG, "mStoreListFragment:"+mStoreListFragment);
@@ -107,15 +137,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 			transaction.add(R.id.fragment_store_list, mStoreListFragment);
 			transaction.commit();
 		}
-
-		mIvBack.setOnClickListener(this);
-		mIvRight.setOnClickListener(this);
-		mRlFlower.setOnClickListener(this);
-		mRlFood.setOnClickListener(this);
-		mRlCake.setOnClickListener(this);
-		mTvTitle.setOnClickListener(this);
-		mRlSearch.setOnClickListener(this);
-		mIvTitle.setOnClickListener(this);
 	}
 
 	@Override
