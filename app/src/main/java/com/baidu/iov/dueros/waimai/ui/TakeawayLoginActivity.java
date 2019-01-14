@@ -214,6 +214,9 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     public void accountSuccess(String msg) {
         if (Constant.ACCOUNT_LOGIN_SUCCESS.equals(msg)) {
             Lg.getInstance().d(TAG, "account login success");
+            if (mMeituanAuthReq!=null){
+                mMeituanAuthReq.setBduss(CacheUtils.getBduss());
+            }
             getPresenter().requestMeituanAuth(mMeituanAuthReq);
         }
     }

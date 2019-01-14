@@ -211,13 +211,11 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     }
 
     private void citySearch(String city, final String key) {
-        // 设置检索参数
         PoiCitySearchOption citySearchOption = new PoiCitySearchOption();
-        citySearchOption.city(city);// 城市
-        citySearchOption.keyword(key);// 关键字
-        citySearchOption.pageCapacity(20);// 默认每页10条
-        citySearchOption.pageNum(0);// 分页编号
-        // 发起检索请求
+        citySearchOption.city(city);
+        citySearchOption.keyword(key);
+        citySearchOption.pageCapacity(20);
+        citySearchOption.pageNum(0);
         poiSearch.searchInCity(citySearchOption);
     }
 
