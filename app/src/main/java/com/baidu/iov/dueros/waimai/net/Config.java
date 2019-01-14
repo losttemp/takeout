@@ -1,6 +1,8 @@
 package com.baidu.iov.dueros.waimai.net;
 
 
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
+
 /**
  * @author pengqm
  * @name FilmApplication
@@ -36,7 +38,7 @@ public class Config {
 
     public static final int Coordinate_Type_BAIDU =3;
 
-    public static  String COOKIE_VALUE ;
+    public static String COOKIE_VALUE = "BDUSS=" + CacheUtils.getBduss();
     
     public static final String COOKIE_KEY = "Cookie";
     public static final String CONTENT_TYPE_KEY = "Content-Type";
