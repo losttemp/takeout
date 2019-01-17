@@ -86,8 +86,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	//语音选择下一页时跳动的item数目
 	private static final int VOICE_STEP_HOME = 3,VOICE_STEP_SHOP=4,VOICE_STEP_SEARCH=3;
 	private View mView;
-	private Integer latitude;
-	private Integer longitude;
+	private Integer latitude=-1;
+	private Integer longitude=-1;
 
 	private FilterConditionReq filterConditionReq;
 

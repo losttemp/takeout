@@ -54,10 +54,10 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
     private List<FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean> categoryFilterList;
     
     private int lvFirstTypePos;
+
+    private Integer latitude=-1;
     
-    private int latitude;
-    
-    private int longitude;
+    private Integer longitude=-1;
 
     private LinearLayout mLoading;
 
