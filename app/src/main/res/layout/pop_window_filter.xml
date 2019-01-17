@@ -3,7 +3,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="@dimen/px312dp"
-	android:background="@drawable/bg_pop">
+	android:background="@drawable/bg_filter_pop">
 
 	<ListView
 		android:id="@+id/lv_filter_type"

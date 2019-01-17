@@ -20,9 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
-import com.baidu.iov.dueros.waimai.model.IFoodModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
@@ -82,7 +82,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private SortPopWindow mSortPopWindow;
 	private FilterPopWindow mFilterPopWindow;
 	private int mFromPageType;
-	private static final int VOICE_STEP = 5;//语音选择下一页时跳动的item数目
+	
+	//语音选择下一页时跳动的item数目
+	private static final int VOICE_STEP_HOME = 3,VOICE_STEP_SHOP=4,VOICE_STEP_SEARCH=3;
 	private View mView;
 	private Integer latitude;
 	private Integer longitude;
@@ -263,6 +265,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 						public void OnSelectedSort(FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean type) {
 							mStoreReq.setSortType((int) type.getCode());
 							mTvSort.setText(type.getName());
+							mRvStore.scrollToPosition(0);
 							loadFirstPage(mStoreReq);
 						}
 					}));
@@ -297,6 +300,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 									} else {
 										mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
 									}
+									mRvStore.scrollToPosition(0);
 									loadFirstPage(mStoreReq);
 								}
 							});
@@ -532,15 +536,24 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			assert manager != null;
 			int currentItemPosition = manager.findFirstVisibleItemPosition();
 			if (isNextPage) {
-				if (currentItemPosition + VOICE_STEP * 2 > mStoreList.size() && mRefreshLayout != null) {
+				if (currentItemPosition + getPageNum() * 2 > mStoreList.size() && mRefreshLayout != null) {
 					mRefreshLayout.autoLoadmore(100);
 				}
-				manager.scrollToPositionWithOffset(currentItemPosition + VOICE_STEP, 0);
+				manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
 			} else {
-				manager.scrollToPositionWithOffset(currentItemPosition - VOICE_STEP > 0 ? currentItemPosition - VOICE_STEP : 0, 0);
+				manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
 			}
 		}
 
+	}
+
+	private int getPageNum(){
+		if (mFromPageType==Constant.STORE_FRAGMENT_FROM_HOME){
+			return  VOICE_STEP_HOME;
+		}else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_SEARCH){
+			return  VOICE_STEP_SEARCH;
+		}
+		return  VOICE_STEP_SHOP;
 	}
 	
 	private void addNextPageEvent(){
@@ -665,6 +678,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mStoreReq.setLatitude(latitude);
 					mStoreReq.setLongitude(longitude);
 					mStoreReq.setSortType(Constant.COMPREHENSIVE);
+					mTvSort.setText(getResources().getString(R.string.store_sort));
+					mTvSort.setTextColor(getResources().getColor(R.color.white_60));
 					mStoreReq.setMigFilter("");
 					mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
 					refresh();

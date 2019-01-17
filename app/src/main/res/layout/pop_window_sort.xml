@@ -10,7 +10,7 @@
 		android:paddingRight="@dimen/px84dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@drawable/bg_pop"
+		android:background="@drawable/bg_filter_pop"
 		android:divider="@color/split_view_color"
 		android:dividerHeight="@dimen/px2dp"
 		tools:listitem="@layout/layout_pop_sort_item" />
