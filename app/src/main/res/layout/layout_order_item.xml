@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/px300dp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -43,7 +43,7 @@
                 android:layout_marginLeft="@dimen/px32dp"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="@dimen/px540dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -52,48 +52,39 @@
                         android:id="@+id/tv_store_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:ellipsize="end"
                         android:drawablePadding="@dimen/px14dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:textColor="#ffffff"
                         android:textSize="@dimen/px36sp" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
-                <LinearLayout
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_food"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/px18dp"
-                    android:orientation="horizontal">
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_food"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#ffffff"
-                        android:textSize="@dimen/px30sp" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tv_food_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/px2dp"
-                        android:textColor="#ffffff"
-                        android:textSize="@dimen/px30sp" />
-                </LinearLayout>
+                    android:layout_marginTop="@dimen/px10dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/px30sp"
+                    tools:text="123" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_total_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/px18dp"
+                    android:layout_marginTop="@dimen/px10dp"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/px30sp" />
+                    android:textSize="@dimen/px30sp"
+                    tools:text="123" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/px36dp"
+                    android:layout_marginTop="@dimen/px30dp"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatTextView

@@ -88,6 +88,8 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
 
             @Override
             public void onSuccess(AddressListBean data) {
+                MyApplicationAddressBean.USER_NAMES.clear();
+                MyApplicationAddressBean.USER_PHONES.clear();
                 if (mDataBeans.contains(mDesBean)) {
                     mDataBeans.clear();
                     mDataBeans.add(mDesBean);

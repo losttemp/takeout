@@ -4,12 +4,14 @@ import android.Manifest;
 import android.app.StatusBarsManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,6 +34,7 @@ import com.baidu.iov.dueros.waimai.presenter.Presenter;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.location.BDLocation;
@@ -57,6 +60,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     }
 
     private static final int REQUEST_CODE_ACCESS_COARSE_LOCATION = 400;
+    protected Context mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +68,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         AtyContainer.getInstance().addActivity(this);
         setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
         mPresenter.onUiReady(getUi());
-        initLocationCity();
+        mContext = this;
     }
 
     @Override
@@ -97,7 +101,9 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         instance.startLocation();
         BDLocation lastKnownLocation = instance.getLastKnownLocation();
         if (lastKnownLocation != null) {
+            getGPSAddressSuccess();
             mBDLocation = lastKnownLocation;
+            Lg.getInstance().e("AddrStr",lastKnownLocation.getAddrStr());
             Constant.LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
             Constant.LONGITUDE = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
         }
@@ -114,6 +120,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
         if (isSuccess) {
             mBDLocation = bdLocation;
+            getGPSAddressSuccess();
             Constant.LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
             Constant.LONGITUDE = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
         } else {
@@ -123,7 +130,6 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     }
 
     public void requestPermission() {
-        if (isNoRequest)return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -141,10 +147,9 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
                                     Manifest.permission.ACCESS_FINE_LOCATION},
                             REQUEST_CODE_ACCESS_COARSE_LOCATION);
                 }
-
-
+            }else{
+                initLocationCity();
             }
-
         }
     }
 
@@ -178,6 +183,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getGPSAddressFail();
                 dialog.dismiss();
             }
         });
@@ -212,8 +218,8 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         }
     }
 
-    protected void doSearchAddress(boolean isEditModle) {
-        Intent intent = new Intent(this, AddressSuggestionActivity.class);
+    protected void doSearchAddress(final boolean isEditModle) {
+        final Intent intent = new Intent(this, AddressSuggestionActivity.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -224,21 +230,24 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
                 startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
                 return;
             }
-
         }
-        if (mBDLocation != null) {
-            intent.putExtra(Constant.ADDRESS_EDIT_INTENT_EXTRE_CITY, mBDLocation.getCity());
-            intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, isEditModle);
-            startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
-        } else {
-            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.location_error_toast),Toast.LENGTH_SHORT);
-            LocationManager.getInstance(this).requestLocation();
-        }
+        initLocationCity();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mBDLocation != null) {
+                    intent.putExtra(Constant.ADDRESS_EDIT_INTENT_EXTRE_CITY, mBDLocation.getCity());
+                    intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, isEditModle);
+                    startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
+                } else {
+                    ToastUtils.show(mContext, getApplicationContext().getResources().getString(R.string.location_error_toast),Toast.LENGTH_SHORT);
+                    LocationManager.getInstance(mContext).requestLocation();
+                }
+            }
+        },300);
     }
 
-    private boolean isNoRequest = false;
+    public void getGPSAddressSuccess(){}
+    public void getGPSAddressFail(){}
 
-    public void setNoRequestForPermissions(boolean isNoRequest){
-        this.isNoRequest=isNoRequest;
-    }
 }

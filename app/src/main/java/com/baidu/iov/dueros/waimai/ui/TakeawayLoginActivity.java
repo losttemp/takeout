@@ -62,7 +62,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setNoRequestForPermissions(true);
         isNeedVoice = getIntent().getBooleanExtra(VoiceManager.NEED_TTS, false);
         if (isNeedVoice) {
             AtyContainer.getInstance().finishAllActivity();
@@ -207,6 +206,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     @Override
     public void failure(String msg) {
+        Lg.getInstance().e(TAG, "Meituan Auth Fail Activity Finish");
+        ToastUtils.show(this,getString(R.string.http_error),Toast.LENGTH_SHORT);
         finish();
     }
 
@@ -214,7 +215,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     public void accountSuccess(String msg) {
         if (Constant.ACCOUNT_LOGIN_SUCCESS.equals(msg)) {
             Lg.getInstance().d(TAG, "account login success");
-            if (mMeituanAuthReq!=null){
+            if (mMeituanAuthReq != null) {
                 mMeituanAuthReq.setBduss(CacheUtils.getBduss());
             }
             getPresenter().requestMeituanAuth(mMeituanAuthReq);
@@ -302,7 +303,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     public final class InJavaScriptLocalObj {
         @JavascriptInterface
         public void showSource(String html) {
-            if (html.contains("errno")||html.contains("error_code")) {
+            if (html.contains("errno") || html.contains("error_code")) {
                 Lg.getInstance().e(TAG, "webview:" + html);
             }
             if (html.contains("{\"errno\":0,\"err_msg\":\"success\",")

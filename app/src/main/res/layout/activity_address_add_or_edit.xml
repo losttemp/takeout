@@ -124,6 +124,8 @@
                 android:id="@+id/address_edit_arrow"
                 android:layout_width="@dimen/px48dp"
                 android:layout_height="@dimen/px48dp"
+                android:layout_marginRight="@dimen/px30dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/arrow_right" />
         </LinearLayout>
     </LinearLayout>
@@ -140,6 +142,7 @@
         <EditText
             android:id="@+id/address_edit_house_num"
             style="@style/AddressEditTextStyle"
+            android:layout_width="@dimen/px640dp"
             android:layout_toRightOf="@id/address_edit_house_text"
             android:hint="@string/address_details_hint_text"
             android:textColorHint="@color/white_60" />

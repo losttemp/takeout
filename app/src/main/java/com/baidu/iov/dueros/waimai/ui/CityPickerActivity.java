@@ -1,9 +1,13 @@
 package com.baidu.iov.dueros.waimai.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -60,7 +64,7 @@ public class CityPickerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
         setContentView(R.layout.activity_city_picker);
-        getLocationCity();
+        requestPermission();
         initview();
         initAdapter();
         onlisten();
@@ -75,7 +79,7 @@ public class CityPickerActivity extends AppCompatActivity {
         indexableLayout.setCompareMode(IndexableLayout.MODE_FAST);
         List<String> bannerList = new ArrayList<>();
         bannerList.add("");
-        mBannerHeaderAdapter = new BannerHeaderAdapter("↑", null, bannerList);
+        mBannerHeaderAdapter = new BannerHeaderAdapter("", null, bannerList);
         indexableLayout.addHeaderAdapter(mBannerHeaderAdapter);
     }
 
@@ -163,7 +167,7 @@ public class CityPickerActivity extends AppCompatActivity {
                 vh.layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        getLocationCity();
+                        requestPermission();
                     }
                 });
             }
@@ -238,9 +242,11 @@ public class CityPickerActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mlocationManager.stopLocation();
+        if (mlocationManager!=null){
+            mlocationManager.stopLocation();
+            mlocationManager = null;
+        }
         mLocationListener = null;
-        mlocationManager = null;
         indexableLayout = null;
     }
 
@@ -248,6 +254,17 @@ public class CityPickerActivity extends AppCompatActivity {
         CommonUtils.setTranslucentStatusBar(this, translucent);
         if (color != 0) {
             CommonUtils.setStatusBarColor(this, color);
+        }
+    }
+
+    public void requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                   && ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                getLocationCity();
+            }
         }
     }
 

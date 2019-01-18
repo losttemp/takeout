@@ -22,7 +22,6 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".ui.TakeawayLoginActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,7 +52,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.OrderListActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SubmitOrderActivity"

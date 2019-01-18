@@ -16,7 +16,9 @@ import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.location.Address;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
@@ -41,6 +43,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	private static final String FRAGMENT_KEY = "storeListFragment";
 
 	public static String address;
+	private boolean init = false;
 
 	@Override
 	HomePresenter createPresenter() {
@@ -138,6 +141,22 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 			transaction.add(R.id.fragment_store_list, mStoreListFragment);
 			transaction.commit();
 		}
+	}
+
+	@Override
+	public void getGPSAddressSuccess() {
+		if (mBDLocation!=null&&!init){
+			String address=mBDLocation.getAddrStr();
+			int latitude = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
+			int longitude = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
+			mTvTitle.setText(address);
+			init=true;
+		}
+	}
+
+	@Override
+	public void getGPSAddressFail() {
+		super.getGPSAddressFail();
 	}
 
 	@Override

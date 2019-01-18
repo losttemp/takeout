@@ -18,6 +18,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.bumptech.glide.Glide;
+import com.domain.multipltextview.MultiplTextView;
 
 import java.util.List;
 
@@ -74,7 +75,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         private AppCompatTextView tvStoreName;
         private AppCompatTextView tvFood;
         private AppCompatTextView tvPrice;
-        private AppCompatTextView tvFoodNum;
         private AppCompatTextView tvTotalCount;
         private AppCompatTextView tvOrderTime;
         private AppCompatTextView tvOrderStatus;
@@ -95,7 +95,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvStoreName = (AppCompatTextView) view.findViewById(R.id.tv_store_name);
             tvFood = (AppCompatTextView) view.findViewById(R.id.tv_food);
             tvPrice = (AppCompatTextView) view.findViewById(R.id.tv_price);
-            tvFoodNum = (AppCompatTextView) view.findViewById(R.id.tv_food_num);
             tvTotalCount = (AppCompatTextView) view.findViewById(R.id.tv_total_count);
             tvOrderTime = (AppCompatTextView) view.findViewById(R.id.tv_order_time);
             tvCancelOrder = (AppCompatTextView) view.findViewById(R.id.cancel_order);
@@ -185,9 +184,8 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             int food_num = mOrderInfosfood_list.getCount();
             String wm_pic_url = extraBean.getOrderInfos().getWm_pic_url();
 
-            tvFood.setText(food_name);
-            tvFoodNum.setText("x" + String.valueOf(food_num));
-            tvPrice.setText("￥" + String.valueOf(total_price));
+            tvFood.setText(food_name+"x" + String.valueOf(food_num));
+            tvPrice.setText("¥" + String.valueOf(total_price));
             tvTotalCount.setText(String.format(mContext.getResources().getString(R.string
                     .goods_total_count), total_count));
             Glide.with(mContext).load(wm_pic_url).into(ivStore);

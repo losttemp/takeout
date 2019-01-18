@@ -298,7 +298,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE) {
             mLocationBean = data.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
-            address_tv.setText(mLocationBean.getName());
+            address_tv.setText(TextUtils.isEmpty(mLocationBean.getName())?"":mLocationBean.getName());
+            et_house_num.setText(TextUtils.isEmpty(mLocationBean.getAddress())?"":mLocationBean.getAddress());
         }
     }
 

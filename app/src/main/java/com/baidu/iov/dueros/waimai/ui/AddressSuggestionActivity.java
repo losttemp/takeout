@@ -9,6 +9,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,7 +19,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.adapter.AddressHintListAdapter;
 import com.baidu.iov.dueros.waimai.adapter.AddressSuggestionAdapter;
+import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressSuggestionPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
@@ -35,6 +40,10 @@ import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
+import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
+import com.baidu.mapapi.search.sug.SuggestionResult;
+import com.baidu.mapapi.search.sug.SuggestionSearch;
+import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
@@ -45,9 +54,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPresenter, AddressSuggestionPresenter.AddressSuggestionUi>
-        implements TextWatcher, View.OnClickListener, AddressSuggestionPresenter.AddressSuggestionUi {
+        implements TextWatcher, View.OnClickListener, AddressSuggestionPresenter.AddressSuggestionUi, OnGetSuggestionResultListener, AdapterView.OnItemClickListener {
     private RecyclerView mRecyclerView;
-    private EditText mSearchEdit;
+    private AutoCompleteTextView mSearchEdit;
     private AddressSuggestionAdapter mAdapter;
     private List<PoiInfo> mAllSuggestions;
     private RollTextView mCityTV;
@@ -62,6 +71,9 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     private RelativeLayout selectCityView;
     private PoiSearch poiSearch;
     private LatLng location;
+    private SuggestionSearch mSuggestionSearch =null;
+    private ArrayList<String> suggest = null;
+    private AddressHintListAdapter sugAdapter;
 
     @Override
     AddressSuggestionPresenter createPresenter() {
@@ -77,6 +89,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_search);
+        suggest = new ArrayList<>();
         initView();
         initData();
         initPoiInfo();
@@ -89,7 +102,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         iv_arrow = (ImageView) findViewById(R.id.arrow);
         iv_refresh = (ImageView) findViewById(R.id.refresh);
         mRecyclerView = (RecyclerView) findViewById(R.id.address_search_rv);
-        mSearchEdit = (EditText) findViewById(R.id.address_search_edit);
+        mSearchEdit = (AutoCompleteTextView) findViewById(R.id.address_search_edit);
         closeView = (ImageView) findViewById(R.id.suggestion_close);
         mCityTV = (RollTextView) findViewById(R.id.address_search_city);
         mErrorLL = (LinearLayout) findViewById(R.id.address_search_error);
@@ -140,7 +153,13 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                 finish();
             }
         });
+        sugAdapter = new AddressHintListAdapter(this, suggest);
+        mSearchEdit.setThreshold(1);
+        mSearchEdit.setAdapter(sugAdapter);
         mSearchEdit.addTextChangedListener(this);
+        mSearchEdit.setOnItemClickListener(this);
+        mSuggestionSearch = SuggestionSearch.newInstance();
+        mSuggestionSearch.setOnGetSuggestionResultListener(this);
     }
 
 
@@ -226,10 +245,12 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.length() > 0) {
+    public void onTextChanged(CharSequence cs, int start, int before, int count) {
+        if (cs.length() > 0) {
             closeView.setVisibility(View.VISIBLE);
-            citySearch(mCity, s + "");
+            mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
+                    .keyword(cs.toString())
+                    .city(mCity));
         } else {
             mAllSuggestions.clear();
             mAdapter.notifyDataSetChanged();
@@ -308,5 +329,29 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
             }
             finish();
         }
+    }
+
+    @Override
+    public void onGetSuggestionResult(SuggestionResult res) {
+        if (res == null || res.getAllSuggestions() == null) {
+            return;
+        }
+
+        List<String> s = new ArrayList<>();
+        for (SuggestionResult.SuggestionInfo info : res.getAllSuggestions()) {
+            if (info.key != null) {
+                s.add(info.key);
+            }
+        }
+        suggest.clear();
+        suggest.addAll(s);
+        sugAdapter = new AddressHintListAdapter(this, suggest);
+        mSearchEdit.setAdapter(sugAdapter);
+        sugAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        citySearch(mCity, suggest.get(position));
     }
 }
