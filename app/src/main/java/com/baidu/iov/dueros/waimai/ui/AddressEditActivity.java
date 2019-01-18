@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -27,6 +28,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressDeleteBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressEditPresenter;
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
@@ -35,6 +37,7 @@ import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
+import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
@@ -300,9 +303,26 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     }
 
     @Override
-    public void updateAddressSuccess(AddressEditBean data) {
+    public void updateAddressSuccess(AddressEditBean data, AddressEditReq addressEditreq) {
         if (data.getMeituan().getCode() == 0) {
             ToastUtils.show(this, getResources().getString(R.string.address_update_success), Toast.LENGTH_SHORT);
+            if (getIntent().getLongExtra(Constant.ADDRESS_SELECT_ID, 0) == dataBean.getAddress_id()) {
+                Log.d("sss", "dataBean: " +dataBean.getType());
+                AddressListBean.IovBean.DataBean bean = new AddressListBean.IovBean.DataBean();
+                bean.setAddress(addressEditreq.getAddress());
+                bean.setAddress_id(addressEditreq.getAddress_id());
+                bean.setHouse(addressEditreq.getHouse());
+                bean.setMt_address_id(addressEditreq.getMt_address_id());
+                bean.setLatitude(addressEditreq.getLatitude());
+                bean.setSex(addressEditreq.getSex());
+                bean.setType(addressEditreq.getType());
+                bean.setUser_name(addressEditreq.getUser_name());
+                bean.setUser_phone(addressEditreq.getUser_phone());
+                bean.setAddressRangeTip(dataBean.getAddressRangeTip());
+                bean.setCanShipping(dataBean.getCanShipping());
+                bean.setIs_hint(dataBean.isIs_hint());
+                CacheUtils.saveAddressBean( GsonUtil.toJson(bean));
+            }
             finish();
         } else {
             String msg = data.getMeituan().getMsg();

@@ -107,6 +107,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                         Intent intent = new Intent(getApplicationContext(), AddressEditActivity.class);
                         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
                         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS, mDataListBean.get(position));
+                        intent.putExtra(Constant.ADDRESS_SELECT_ID, mAddressData.getAddress_id());
                         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
 

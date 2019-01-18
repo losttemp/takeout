@@ -131,7 +131,7 @@
     <string name="order_expired">订单已失效</string>
     <string name="cancel">取消</string>
     <string name="select_address">选择收货地址</string>
-    <string name="select_arrive_time">选择到达目时间</string>
+    <string name="select_arrive_time">选择送达时间</string>
     <string name="submit_order_title">提交订单</string>
     <string name="add_address">新增收货地址</string>
     <string name="network_anomaly">您的网络好像不太给力，请稍候再试</string>
@@ -157,7 +157,7 @@
     <string name="to_pay_text">去支付</string>
     <string name="payment_header">支付订单</string>
     <string name="payment_success">支付成功</string>
-    <string name="count_down_timer">支付剩余时间%6s</string>
+    <string name="count_down_timer">剩余支付时间%6s</string>
     <string name="pay_amount">金额</string>
     <string name="pay_order_id">订单编号</string>
     <string name="pay_order_type">配送服务</string>
@@ -214,8 +214,8 @@
     <string name="remind_title">温馨提醒</string>
     <string name="remind_message">拨打电话10109777取消订单吗？\n该订单需要联系美团客服取消</string>
     <string name="remind_phone">10109777</string>
-    <string name="contact_meituan_title">联系百度客服</string>
-    <string name="contact_meituan_message">是否拨打百度客服电话:10109777</string>
+    <string name="contact_meituan_title">联系美团客服</string>
+    <string name="contact_meituan_message">是否拨打美团客服电话:10109777</string>
     <string name="order_pay_type1">货到付款</string>
     <string name="order_pay_type2">在线支付</string>
     <string name="waiting_to_pay">待支付</string>

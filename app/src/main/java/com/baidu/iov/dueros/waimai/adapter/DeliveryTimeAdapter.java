@@ -72,8 +72,8 @@ public class DeliveryTimeAdapter extends BaseAdapter {
         }
 
         if (mTimepos == position) {
-            viewHolder.tv_time.setTextColor(mContext.getResources().getColor(R.color.select_date_color));
-            viewHolder.tv_cost.setTextColor(mContext.getResources().getColor(R.color.select_date_color));
+//            viewHolder.tv_time.setTextColor(mContext.getResources().getColor(R.color.select_date_color));
+//            viewHolder.tv_cost.setTextColor(mContext.getResources().getColor(R.color.select_date_color));
             viewHolder.img_select.setVisibility(View.VISIBLE);
         } else {
             viewHolder.tv_time.setTextColor(mContext.getResources().getColor(R.color.white));

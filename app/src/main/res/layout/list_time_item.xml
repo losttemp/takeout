@@ -7,15 +7,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <com.domain.multipltextview.MultiplTextView
             android:id="@+id/tv_delivery_time"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/px36dp"
-            android:layout_marginTop="@dimen/px44dp"
-            android:layout_marginBottom="@dimen/px46dp"
+            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/px84dp"
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp"
@@ -25,8 +24,7 @@
             android:id="@+id/tv_delivery_cost"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/px36dp"
-            android:layout_marginTop="@dimen/px44dp"
-            android:layout_marginBottom="@dimen/px46dp"
+            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/px204dp"
             android:textColor="@color/white"
@@ -39,10 +37,9 @@
             android:layout_width="@dimen/px64dp"
             android:layout_height="@dimen/px64dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="@dimen/px32dp"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/px84dp"
             android:layout_marginStart="@dimen/px56dp"
-            android:layout_marginTop="@dimen/px30dp"
             android:scaleType="fitCenter"
             android:visibility="invisible" />
     </RelativeLayout>

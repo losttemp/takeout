@@ -52,13 +52,13 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
     }
 
 
-    public void requestUpdateAddressData(AddressEditReq addressEditreq) {
+    public void requestUpdateAddressData(final AddressEditReq addressEditreq) {
         addressEditModel.updateAddressData(addressEditreq, new RequestCallback<AddressEditBean>() {
 
             @Override
             public void onSuccess(AddressEditBean data) {
                 if (null != getUi()){
-                    getUi().updateAddressSuccess(data);
+                    getUi().updateAddressSuccess(data, addressEditreq);
                 }
             }
 
@@ -125,7 +125,7 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
     }
 
     public interface AddressEditUi extends Ui {
-        void updateAddressSuccess(AddressEditBean data);
+        void updateAddressSuccess(AddressEditBean data, AddressEditReq addressEditreq);
         void updateAddressFail(String msg);
         void addAddressSuccess(AddressAddBean data);
         void addAddressFail(String msg);

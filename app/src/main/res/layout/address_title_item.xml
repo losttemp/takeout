@@ -11,6 +11,7 @@
         android:layout_height="@dimen/px40dp"
         android:layout_marginStart="@dimen/px84dp"
         android:layout_marginTop="@dimen/px40dp"
+        android:layout_centerVertical="true"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/px30sp" />

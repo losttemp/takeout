@@ -157,12 +157,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mShopNameTv.setText(shopName);
             String deliveryType = mPoiInfo.getDelivery_type() == 1 ? getString(R.string.delivery_type1_text)
                     : getString(R.string.delivery_type2_text);
-//            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mDeliveryTypeTv.getLayoutParams();
             if (mPoiInfo.getDelivery_type()==1){
                 mDeliveryTypeTv.setText(deliveryType);
             }else {
-//                lp.width=54;
-                mDeliveryTypeTv.setWidth(54);
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mDeliveryTypeTv.getLayoutParams();
+                lp.width=142;
+                mDeliveryTypeTv.setLayoutParams(lp);
                 mDeliveryTypeTv.setText(deliveryType);
             }
         }
@@ -293,20 +293,35 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 if (mAddressData == null) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT);
                 }
-                if (NetUtil.getNetWorkState(this)) {
-                    if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
-                        List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
-                        wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
-                        getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime,this);
+                if(!isFastClick()){
+                    if (NetUtil.getNetWorkState(this)) {
+                        if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
+                            List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
+                            wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
+                            getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime,this);
+                        }
+                    } else {
+                        ToastUtils.show(this, getResources().getString(R.string.net_unconnect), Toast.LENGTH_LONG);
                     }
-                } else {
-                    ToastUtils.show(this, getResources().getString(R.string.net_unconnect), Toast.LENGTH_LONG);
+                    break;
                 }
-                break;
 
             default:
                 break;
         }
+    }
+
+    private static final int MIN_DELAY_TIME = 1000; // 两次点击间隔不能少于1000ms
+    private static long lastClickTime;
+
+    public static boolean isFastClick() {
+        boolean flag = true;
+        long currentClickTime = System.currentTimeMillis();
+        if ((currentClickTime - lastClickTime) >= MIN_DELAY_TIME) {
+            flag = false;
+        }
+        lastClickTime = currentClickTime;
+        return flag;
     }
 
     private void showPopwindow() {
@@ -370,9 +385,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         if (mCurDateItem != 0){
                             String date = mDataBean.get(mCurDateItem).getDate();
                             mArriveTimeTv.setText(date +" "+time);
+                            mTypeTipTv.setText(type);
+                        }else {
+                            mArriveTimeTv.setText(time);
+                            mTypeTipTv.setText(type);
                         }
-                        mArriveTimeTv.setText(time);
-                        mTypeTipTv.setText(type);
                     }
 
                     String shippingFee = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_shipping_fee().trim();
@@ -634,7 +651,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
             ToastUtils.show(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
         }
-
+        finish();
     }
 
 }

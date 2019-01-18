@@ -161,7 +161,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             orderSubmitJsonBean.setPay_source(3);
             orderSubmitJsonBean.setReturn_url("www.meituan.com");
-
+            orderSubmitJsonBean.setAddress_id(addressData.getMt_address_id());
             OrderSubmitJsonBean.WmOrderingListBean wmOrderingListBean = new OrderSubmitJsonBean.WmOrderingListBean();
             wmOrderingListBean.setWm_poi_id(poiInfoBean.getWm_poi_id());
             wmOrderingListBean.setDelivery_time(unixtime);
@@ -208,9 +208,6 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             }
             wmOrderingUserBean.setAddr_longitude(addressData.getLongitude());
             wmOrderingUserBean.setAddr_latitude(addressData.getLatitude());
-            if (null != addressData.getMt_address_id()) {
-                wmOrderingUserBean.setAddress_id(addressData.getMt_address_id());
-            }
             orderSubmitJsonBean.setWm_ordering_user(wmOrderingUserBean);
         } catch (Exception e) {
             e.printStackTrace();

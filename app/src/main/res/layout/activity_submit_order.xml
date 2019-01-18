@@ -185,7 +185,7 @@
 
                     <TextView
                         android:id="@+id/delivery_type"
-                        android:layout_width="@dimen/px142dp"
+                        android:layout_width="@dimen/px124dp"
                         android:layout_height="@dimen/px40dp"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="@dimen/px84dp"

@@ -11,6 +11,15 @@ public class OrderSubmitJsonBean {
     private WmOrderingUserBean wm_ordering_user;
     private int pay_source;
     private String return_url;
+    private long address_id;
+
+    public long getAddress_id() {
+        return address_id;
+    }
+
+    public void setAddress_id(long address_id) {
+        this.address_id = address_id;
+    }
 
     public String getUser_phone() {
         return user_phone;
@@ -125,20 +134,12 @@ public class OrderSubmitJsonBean {
 
     public static class WmOrderingUserBean {
 
-        private long address_id;
         private String user_phone;
         private String user_name;
         private String user_address;
         private long addr_longitude;
         private long addr_latitude;
 
-        public long getAddress_id() {
-            return address_id;
-        }
-
-        public void setAddress_id(long address_id) {
-            this.address_id = address_id;
-        }
 
         public String getUser_phone() {
             return user_phone;
