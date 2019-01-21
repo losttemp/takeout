@@ -73,7 +73,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 				(position);
 
 		viewHolder.tvStoreName.setText(store.getName());
-		viewHolder.tvScore.setText(String.valueOf(store.getWm_poi_score()));
+		viewHolder.tvScore.setText(String.valueOf(store.getWm_poi_score())+"分");
 		viewHolder.tvDistance.setText(store.getDistance());
 		viewHolder.tvAveragePrice.setText(store.getAverage_price_tip());
 		viewHolder.tvSales.setText(String.format(mContext.getResources().getString(R.string
