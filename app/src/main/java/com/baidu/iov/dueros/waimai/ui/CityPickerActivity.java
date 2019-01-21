@@ -28,11 +28,14 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CityListBean;
 import com.baidu.iov.dueros.waimai.utils.CheckUtils;
 import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.view.QGridView;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
 
 import org.json.JSONObject;
 
@@ -258,14 +261,15 @@ public class CityPickerActivity extends AppCompatActivity {
     }
 
     public void requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                   && ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                getLocationCity();
-            }
-        }
+        AndPermission.with(this)
+                .permission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                .onGranted(new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        Lg.getInstance().e("LocationManager","AndPermission true");
+                        getLocationCity();
+                    }
+                }).start();
     }
 
 }

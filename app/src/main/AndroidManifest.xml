@@ -80,9 +80,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.AddressEditActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.AddressSuggestionActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
 
         <!-- BaiDu SDK -->

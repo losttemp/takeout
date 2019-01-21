@@ -49,6 +49,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     public final static String ADDRESS_DATA = "address_data";
     private AddressListBean.IovBean.DataBean mAddressData;
     private RelativeLayout viewById;
+    private View mLoading;
+
 
     @Override
     AddressListPresenter createPresenter() {
@@ -83,6 +85,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
         }
 
+        mLoading = findViewById(R.id.ll_loading);
         mCancelImg = findViewById(R.id.cancel_action);
         mAddBtn = findViewById(R.id.img_add);
         mCancelImg.setOnClickListener(this);
@@ -224,6 +227,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             mDataListBean = data.getIov().getData();
             Collections.sort(mDataListBean);
             mAddressListAdapter.setData(mDataListBean);
+            viewById.setVisibility(View.VISIBLE);
+            mLoading.setVisibility(View.GONE);
         } else {
             Lg.getInstance().d(TAG, "not find data !");
         }
@@ -231,7 +236,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 
     @Override
     public void onGetAddressListFailure(String msg) {
-
+        viewById.setVisibility(View.VISIBLE);
+        mLoading.setVisibility(View.GONE);
     }
 
     @Override
