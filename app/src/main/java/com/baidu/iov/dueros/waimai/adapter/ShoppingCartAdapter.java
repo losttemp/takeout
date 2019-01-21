@@ -55,12 +55,12 @@ public class ShoppingCartAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.trade_widget, null);
             viewHolder = new ViewHolder();
             viewHolder.commodityName = (TextView) convertView.findViewById(R.id.commodityName);
-            viewHolder.commodityPrise = (MultiplTextView) convertView.findViewById(R.id.commodityPrise);
+            viewHolder.commodityPrise = (TextView) convertView.findViewById(R.id.commodityPrise);
             viewHolder.increase = (ImageView) convertView.findViewById(R.id.increase);
             viewHolder.reduce = (ImageView) convertView.findViewById(R.id.reduce);
             viewHolder.shoppingNum = (MultiplTextView) convertView.findViewById(R.id.shoppingNum);
             viewHolder.shopSpecifications = (MultiplTextView) convertView.findViewById(R.id.tv_shop_specifications);
-            viewHolder.shopDiscountPrice = (MultiplTextView) convertView.findViewById(R.id.tv_discount_price);
+            viewHolder.shopDiscountPrice = (TextView) convertView.findViewById(R.id.tv_discount_price);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -132,13 +132,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int num = spusBeans.get(position).getNumber();
-                int min_order_count = 1;
-                if (spusBeans.get(position).getSkus().size() > 1) {
-                    min_order_count = spusBeans.get(position).getChoiceSkus().get(0).getMin_order_count();
-                } else {
-                    min_order_count = spusBeans.get(position).getSkus().get(0).getMin_order_count();
-                }
-                num += min_order_count;
+                num ++;
                 spusBeans.get(position).setNumber(num);
                 viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
                 if (shopToDetailListener != null) {
@@ -179,12 +173,12 @@ public class ShoppingCartAdapter extends BaseAdapter {
 
     class ViewHolder {
         public TextView commodityName;
-        public MultiplTextView commodityPrise;
+        public TextView commodityPrise;
         public ImageView increase;
         public ImageView reduce;
         public MultiplTextView shoppingNum;
         public MultiplTextView shopSpecifications;
-        public MultiplTextView shopDiscountPrice;
+        public TextView shopDiscountPrice;
     }
 
     private int getMinOrderCount(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {

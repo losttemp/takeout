@@ -46,15 +46,14 @@
             android:textSize="@dimen/px40sp"
             app:removeDefaultPadding="true" />
 
-        <com.domain.multipltextview.MultiplTextView
+        <TextView
             android:id="@+id/commodityPrise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/full_subtraction_bg"
-            android:textSize="@dimen/px40sp"
-            app:removeDefaultPadding="true" />
+            android:textSize="@dimen/px40sp"/>
 
-        <com.domain.multipltextview.MultiplTextView
+        <TextView
             android:id="@+id/tv_discount_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,8 +63,7 @@
             android:text="¥%1$s"
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp"
-            android:visibility="gone"
-            app:removeDefaultPadding="true" />
+            android:visibility="gone"/>
 
     </LinearLayout>
 

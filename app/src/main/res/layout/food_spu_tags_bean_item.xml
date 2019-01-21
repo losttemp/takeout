@@ -132,7 +132,6 @@
                         android:layout_marginTop="@dimen/px10dp"
                         android:alpha="0.6"
                         android:gravity="center_vertical"
-                        android:text="@string/limit_buy"
                         android:textColor="@color/white"
                         android:textSize="@dimen/px30sp"
                         android:visibility="gone"
@@ -243,6 +242,7 @@
                         android:layout_marginLeft="@dimen/px8dp"
                         android:alpha="0.6"
                         android:text="@string/not_buy_time"
+                        android:layout_gravity="center_vertical"
                         android:textColor="@color/white"
                         android:textSize="@dimen/px30sp" />
                 </LinearLayout>

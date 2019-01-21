@@ -817,12 +817,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mCartSettlement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Entry.getInstance().onEvent(Constant.POIFOODLIST_CONFIRM_THE_ORDER, EventType.TOUCH_TYPE);
-                mBottomDialog.dismiss();
-                if (NetUtil.getNetWorkState(FoodListActivity.this)) {
-                    getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
-                } else {
-                    ToastUtils.show(getApplicationContext(), getString(R.string.net_error), Toast.LENGTH_LONG);
+                if (!isFastClick()) {
+                    Entry.getInstance().onEvent(Constant.POIFOODLIST_CONFIRM_THE_ORDER, EventType.TOUCH_TYPE);
+                    mBottomDialog.dismiss();
+                    if (NetUtil.getNetWorkState(FoodListActivity.this)) {
+                        getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
+                    } else {
+                        ToastUtils.show(getApplicationContext(), getString(R.string.net_error), Toast.LENGTH_LONG);
+                    }
                 }
             }
         });
@@ -864,15 +866,17 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
 
             case R.id.settlement:
-                Entry.getInstance().onEvent(Constant.POIFOODLIST_CONFIRM_THE_ORDER, EventType.TOUCH_TYPE);
-                if (productList == null || productList.size() == 0) {
-                    settlement.setEnabled(false);
-                    return;
-                }
-                if (NetUtil.getNetWorkState(this)) {
-                    getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
-                } else {
-                    ToastUtils.show(getApplicationContext(), getString(R.string.net_error), Toast.LENGTH_LONG);
+                if (!isFastClick()) {
+                    Entry.getInstance().onEvent(Constant.POIFOODLIST_CONFIRM_THE_ORDER, EventType.TOUCH_TYPE);
+                    if (productList == null || productList.size() == 0) {
+                        settlement.setEnabled(false);
+                        return;
+                    }
+                    if (NetUtil.getNetWorkState(this)) {
+                        getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
+                    } else {
+                        ToastUtils.show(getApplicationContext(), getString(R.string.net_error), Toast.LENGTH_LONG);
+                    }
                 }
                 break;
 
@@ -989,7 +993,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         int[] end_location = new int[2];
         settlement.getLocationInWindow(end_location);
 
-        int endX = 0 - start_location[0] + 40;
+        int endX = 0 - start_location[0] + 112;
         int endY = end_location[1] - start_location[1];
         TranslateAnimation translateAnimationX = new TranslateAnimation(0,
                 endX, 0, 0);
@@ -1534,5 +1538,18 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             outRect.right = space;
             outRect.bottom = space;
         }
+    }
+
+    private static final int MIN_DELAY_TIME = 2000; // 两次点击间隔不能少于2000ms
+    private static long lastClickTime;
+
+    public static boolean isFastClick() {
+        boolean flag = true;
+        long currentClickTime = System.currentTimeMillis();
+        if ((currentClickTime - lastClickTime) >= MIN_DELAY_TIME) {
+            flag = false;
+        }
+        lastClickTime = currentClickTime;
+        return flag;
     }
 }
