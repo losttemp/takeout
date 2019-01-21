@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
+import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.bumptech.glide.Glide;
 
@@ -50,7 +51,7 @@ public class ProductAdaper extends RecyclerView.Adapter<ProductAdaper.ViewHolder
 	public void onBindViewHolder(ViewHolder viewHolder, int position) {
 		viewHolder.tvProductName.setText(mData.get(position).getName());
 		viewHolder.tvProductPrice.setText("¥"+mData.get(position).getPrice());
-		Glide.with(mContext).load(mData.get(position).getPicture()).into(viewHolder.ivProduct);
+		GlideApp.with(mContext).load(mData.get(position).getPicture()).into(viewHolder.ivProduct);
 	}
 
 	@Override

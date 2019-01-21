@@ -1,18 +1,15 @@
 package com.baidu.iov.dueros.waimai.adapter;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
-import com.bumptech.glide.Glide;
-
+import com.baidu.iov.dueros.waimai.utils.GlideApp;
+import com.bumptech.glide.load.DecodeFormat;
 import java.util.List;
-
 public class SecondTypeFoodAdapter extends BaseAdapter {
 
     private Context mContext;
@@ -53,7 +50,8 @@ public class SecondTypeFoodAdapter extends BaseAdapter {
         }
         FilterConditionResponse.MeituanBean.DataBean.CategoryFilterListBean.SubCategoryListBean mSubCategory =mData.get(position);
         mViewHolder.tvName.setText(mSubCategory.getName());
-        Glide.with(mContext).load(mSubCategory.getIcon_url()).into(mViewHolder.iv);
+        GlideApp.with(mContext).asBitmap()
+                .format(DecodeFormat.PREFER_ARGB_8888).load(mSubCategory.getIcon_url()).into(mViewHolder.iv);
         return convertView;
     }
 

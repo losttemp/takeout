@@ -18,9 +18,9 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean.DiscountsBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
-import com.bumptech.glide.Glide;
 import com.domain.multipltextview.MultiplTextView;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -85,7 +85,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		viewHolder.tvExpressPrice.setText(String.format(mContext.getResources().getString(R.string
 				.shipping_fee_s), NumberFormat.getInstance().format(store.getShipping_fee())));
 		viewHolder.tvStoreIndex.setText(String.valueOf(position + 1));
-		Glide.with(mContext).load(store.getPic_url()).into(viewHolder.ivStore);
+		GlideApp.with(mContext).load(store.getPic_url()).into(viewHolder.ivStore);
 
 		viewHolder.ratingBar.setClickable(false);
 		viewHolder.ratingBar.setStar((float) store.getWm_poi_score());

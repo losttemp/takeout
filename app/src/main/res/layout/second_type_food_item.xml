@@ -9,7 +9,7 @@
         android:id="@+id/iv"
         android:layout_width="@dimen/px194dp"
         android:layout_height="@dimen/px204dp"
-        android:scaleType="centerCrop"
+        android:scaleType="center"
         android:src="@mipmap/ic_launcher" />
     <TextView
         android:id="@+id/tv_name"

@@ -207,8 +207,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 						 changeStatus(Constant.SEARCH_STATUS_HISTORY);
 						 Intent intent = new Intent(SearchActivity.this, FoodListActivity.class);
 						 intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id());
-						 intent.putExtra("latitude", mStoreListFragment.getLatitude());
-						 intent.putExtra("longitude", mStoreListFragment.getLongitude());
+						 intent.putExtra("latitude", Constant.GOODS_LATITUDE);
+						 intent.putExtra("longitude", Constant.GOODS_LONGITUDE);
 						 startActivity(intent);
 					 }
 
@@ -249,8 +249,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					if (searchSuggestReq==null) {
 						searchSuggestReq = new SearchSuggestReq();
 					}
-					searchSuggestReq.setLatitude(mStoreListFragment.getLatitude());
-					searchSuggestReq.setLongitude(mStoreListFragment.getLongitude());
+					searchSuggestReq.setLatitude(Constant.GOODS_LATITUDE);
+					searchSuggestReq.setLongitude(Constant.GOODS_LONGITUDE);
 					searchSuggestReq.setQuery(mEtSearch.getText().toString());
 					mPresenter.requestSuggestList(searchSuggestReq);
 				}
@@ -383,6 +383,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		} else {
 			setmLlHistoryVisibility();
 			mLvSuggest.setVisibility(View.GONE);
+			 
 			mFragmentStoreList.setVisibility(View.GONE);
 			if (mSuggests.size() > 0) {
 				mSuggests.clear();

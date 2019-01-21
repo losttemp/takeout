@@ -18,7 +18,6 @@ import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
-import com.baidu.location.Address;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
@@ -130,8 +129,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 	private void initFragment() {
 		//fragment
-		if (mStoreListFragment==null) {
-			Lg.getInstance().e(TAG, "mStoreListFragment:"+mStoreListFragment);
 			mStoreListFragment = new StoreListFragment();
 			Bundle bundle = new Bundle();
 			bundle.putInt(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_HOME);
@@ -140,16 +137,21 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 			FragmentTransaction transaction = manager.beginTransaction();
 			transaction.add(R.id.fragment_store_list, mStoreListFragment);
 			transaction.commit();
-		}
 	}
 
 	@Override
 	public void getGPSAddressSuccess() {
+		Lg.getInstance().e(TAG, "getGPSAddressSuccess:");
 		if (mBDLocation!=null&&!init){
 			String address=mBDLocation.getAddrStr();
-			int latitude = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
-			int longitude = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
 			mTvTitle.setText(address);
+			Constant.GOODS_LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
+			Constant.GOODS_LONGITUDE  = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
+			if (mStoreListFragment==null){
+				initFragment();
+			}
+			mStoreListFragment.getFilterList();
+			mStoreListFragment.homeLoadFirstPage();
 			init=true;
 		}
 	}
@@ -157,6 +159,13 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	@Override
 	public void getGPSAddressFail() {
 		super.getGPSAddressFail();
+		Lg.getInstance().e(TAG, "getGPSAddressFail:");
+		StoreListFragment.getLocation(this);
+		if (mStoreListFragment==null){
+			initFragment();
+		}
+		mStoreListFragment.getFilterList();
+		mStoreListFragment.homeLoadFirstPage();
 	}
 
 	@Override
@@ -208,8 +217,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 				Entry.getInstance().onEvent(Constant.EVENT_FOOD_CLICK,EventType.TOUCH_TYPE);
 				Intent foodIntent = new Intent(this, FoodActivity.class);
 				foodIntent.putExtra("title", mTvFood.getText().toString());
-				foodIntent.putExtra("latitude", mStoreListFragment.getLatitude());
-				foodIntent.putExtra("longitude", mStoreListFragment.getLongitude());
+				foodIntent.putExtra("latitude", Constant.GOODS_LATITUDE);
+				foodIntent.putExtra("longitude", Constant.GOODS_LONGITUDE);
 				startActivity(foodIntent);
 				break;
 

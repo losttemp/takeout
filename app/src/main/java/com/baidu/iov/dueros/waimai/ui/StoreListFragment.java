@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.StoreAdaper;
 import com.baidu.iov.dueros.waimai.net.entity.request.FilterConditionReq;
@@ -86,8 +85,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	//语音选择下一页时跳动的item数目
 	private static final int VOICE_STEP_HOME = 3,VOICE_STEP_SHOP=4,VOICE_STEP_SEARCH=3;
 	private View mView;
-	private Integer latitude=-1;
-	private Integer longitude=-1;
 
 	private FilterConditionReq filterConditionReq;
 
@@ -106,21 +103,13 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		return this;
 	}
 
-	public int getLatitude() {
-		return latitude;
-	}
-
-	public int getLongitude() {
-		return longitude;
-	}
-
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
 							 @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_store_list, container, false);
 		mContext = getActivity();
-		getLocation();
+		getLocation(mContext);
 		iniView(view);
 		iniData();
 
@@ -133,14 +122,14 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		registerReceiver();
 	}
 
-	private void getLocation() {
+	public static void getLocation(Context mContext) {
 		SharedPreferences sharedPreferences = mContext.getSharedPreferences("_cache", Context.MODE_PRIVATE);
 		String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
 		if (addressDataJson != null) {
 			AddressListBean.IovBean.DataBean mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
-			latitude = mAddressData.getLatitude() != null ? mAddressData.getLatitude() : -1;
-			longitude = mAddressData.getLongitude() != null ? mAddressData.getLongitude() : -1;
-			Lg.getInstance().d(TAG, "latitude:" + latitude + " longitude:" + longitude);
+			Constant.GOODS_LATITUDE = mAddressData.getLatitude() != null ? mAddressData.getLatitude() : -1;
+			Constant.GOODS_LONGITUDE = mAddressData.getLongitude() != null ? mAddressData.getLongitude() : -1;
+			Lg.getInstance().d(TAG, "latitude:" + Constant.GOODS_LATITUDE  + " longitude:" + Constant.GOODS_LONGITUDE );
 		}
 	}
 
@@ -207,16 +196,20 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mNoInternetBtn.setOnClickListener(this);
 
 		mStoreReq = new StoreReq();
-		mStoreReq.setLatitude(latitude);
-		mStoreReq.setLongitude(longitude);
+		mStoreReq.setLatitude(Constant.GOODS_LATITUDE);
+		mStoreReq.setLongitude(Constant.GOODS_LONGITUDE );
 		mStoreReq.setSortType(Constant.COMPREHENSIVE);
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
 			homeLoadFirstPage();
 		}
 
 		filterConditionReq = new FilterConditionReq();
-		filterConditionReq.setLatitude(latitude);
-		filterConditionReq.setLongitude(longitude);
+		getFilterList();
+	}
+	
+	public void getFilterList(){
+		filterConditionReq.setLatitude(Constant.GOODS_LATITUDE);
+		filterConditionReq.setLongitude(Constant.GOODS_LONGITUDE );
 		getPresenter().requestFilterList(filterConditionReq);
 	}
 	
@@ -599,8 +592,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			Intent intent = new Intent(mContext, FoodListActivity.class);
 			intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());
 			intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-			intent.putExtra("latitude", latitude);
-			intent.putExtra("longitude", longitude);
+			intent.putExtra("latitude", Constant.GOODS_LATITUDE);
+			intent.putExtra("longitude", Constant.GOODS_LONGITUDE);
 			startActivity(intent);
 		}
 	}
@@ -637,8 +630,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mTagLv.setTextViewDefaultColor();
 
 			storeReq.setPage_index(1);
-			storeReq.setLatitude(latitude);
-			storeReq.setLongitude(longitude);
+			storeReq.setLatitude(Constant.GOODS_LATITUDE);
+			storeReq.setLongitude(Constant.GOODS_LONGITUDE);
 			mPresenter.requestStoreList(storeReq);
 			mStoreReq = storeReq;
 
@@ -650,8 +643,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mLoading.setVisibility(View.VISIBLE);
 			mRlTipNoResult.setVisibility(View.GONE);
 			storeReq.setPage_index(1);
-			storeReq.setLatitude(latitude);
-			storeReq.setLongitude(longitude);
+			storeReq.setLatitude(Constant.GOODS_LATITUDE);
+			storeReq.setLongitude(Constant.GOODS_LONGITUDE);
 			mPresenter.requestStoreList(storeReq);
 			mStoreReq = storeReq;
 		}
@@ -661,6 +654,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		if (!netDataReque()) {
 			mLoading.setVisibility(View.VISIBLE);
 			mStoreReq.setPage_index(1);
+			mStoreReq.setLatitude(Constant.GOODS_LATITUDE);
+			mStoreReq.setLongitude(Constant.GOODS_LONGITUDE);
 			mPresenter.requestStoreList(mStoreReq);
 		}
 	}
@@ -670,13 +665,13 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	BroadcastReceiver mPullLocationBroadReceive =new BroadcastReceiver(){
 		@Override
 		public void onReceive(Context context, Intent intent) {
-				getLocation();
-				if (!latitude.equals(mStoreReq.getLatitude())){
-					filterConditionReq.setLatitude(latitude);
-					filterConditionReq.setLongitude(longitude);
+				getLocation(mContext);
+				if (!Constant.GOODS_LATITUDE.equals(mStoreReq.getLatitude())){
+					filterConditionReq.setLatitude(Constant.GOODS_LATITUDE);
+					filterConditionReq.setLongitude(Constant.GOODS_LONGITUDE);
 					
-					mStoreReq.setLatitude(latitude);
-					mStoreReq.setLongitude(longitude);
+					mStoreReq.setLatitude(Constant.GOODS_LATITUDE);
+					mStoreReq.setLongitude(Constant.GOODS_LONGITUDE);
 					mStoreReq.setSortType(Constant.COMPREHENSIVE);
 					mTvSort.setText(getResources().getString(R.string.store_sort));
 					mTvSort.setTextColor(getResources().getColor(R.color.white_60));
