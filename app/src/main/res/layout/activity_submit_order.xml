@@ -341,7 +341,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/px150dp"
-            android:background="@drawable/bg_pay">
+            android:background="#3C4650">
 
             <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/discount_exists"
@@ -359,9 +359,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/px22dp"
                 android:layout_toStartOf="@+id/total"
-                android:alpha="0.6"
-                android:text="合计："
-                android:textColor="@color/white"
+                android:text="@string/total"
+                android:textColor="@color/white_60"
                 android:textSize="@dimen/px30sp"
                 app:removeDefaultPadding="true" />
 
