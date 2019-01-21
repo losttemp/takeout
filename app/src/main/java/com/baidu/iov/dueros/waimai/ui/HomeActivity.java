@@ -143,30 +143,30 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	@Override
 	public void getGPSAddressSuccess() {
 		Lg.getInstance().e(TAG, "getGPSAddressSuccess:");
-		if (mBDLocation!=null&&!init){
-			String address=mBDLocation.getAddrStr();
-			mTvTitle.setText(address);
-			Constant.GOODS_LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
-			Constant.GOODS_LONGITUDE  = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
-			if (mStoreListFragment==null){
-				initFragment();
-			}
-			mStoreListFragment.getFilterList();
-			mStoreListFragment.homeLoadFirstPage();
-			init=true;
-		}
+//		if (mBDLocation!=null&&!init){
+//			String address=mBDLocation.getAddrStr();
+//			mTvTitle.setText(address);
+//			Constant.GOODS_LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
+//			Constant.GOODS_LONGITUDE  = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
+//			if (mStoreListFragment==null){
+//				initFragment();
+//			}
+//			mStoreListFragment.getFilterList();
+//			mStoreListFragment.homeLoadFirstPage();
+//			init=true;
+//		}
 	}
 
 	@Override
 	public void getGPSAddressFail() {
 		super.getGPSAddressFail();
-		Lg.getInstance().e(TAG, "getGPSAddressFail:");
-		StoreListFragment.getLocation(this);
-		if (mStoreListFragment==null){
-			initFragment();
-		}
-		mStoreListFragment.getFilterList();
-		mStoreListFragment.homeLoadFirstPage();
+//		Lg.getInstance().e(TAG, "getGPSAddressFail:");
+//		StoreListFragment.getLocation(this);
+//		if (mStoreListFragment==null){
+//			initFragment();
+//		}
+//		mStoreListFragment.getFilterList();
+//		mStoreListFragment.homeLoadFirstPage();
 	}
 
 	@Override

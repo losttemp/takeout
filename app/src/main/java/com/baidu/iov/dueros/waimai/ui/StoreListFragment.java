@@ -400,6 +400,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				} else {
 					mTvTipNoResult.setText(WaiMaiApplication.getInstance().getString(R.string
 							.no_search_result_position));
+					mLlFilter.setVisibility(View.GONE);
+					mView.setVisibility(View.GONE);
 				}
 			}
 			mRlTipNoResult.setVisibility(View.VISIBLE);
@@ -426,7 +428,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mLoading.setVisibility(View.GONE);
 		mWarnNoInternet.setVisibility(View.VISIBLE);
 		mView.setVisibility(View.VISIBLE);
-		mLlFilter.setVisibility(View.VISIBLE);
+		mLlFilter.setVisibility(View.GONE);
 		mRlTipNoResult.setVisibility(View.GONE);
 		mRefreshLayout.setVisibility(View.GONE);
 		if (mRefreshLayout.isRefreshing()) {
@@ -603,6 +605,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mRefreshLayout.setVisibility(View.GONE);
 			mWarnNoInternet.setVisibility(View.VISIBLE);
 			mRlTipNoResult.setVisibility(View.GONE);
+			mLlFilter.setVisibility(View.GONE);
+			mView.setVisibility(View.GONE);
 			return true;
 		}
 		return false;
