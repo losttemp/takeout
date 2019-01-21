@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
- android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    >
+    android:layout_marginTop="@dimen/px60dp"
+    android:layout_marginBottom="@dimen/px60dp">
+
     <Button
         android:id="@+id/item_address_select_add"
         android:layout_width="@dimen/px540dp"
+        android:layout_height="@dimen/px108dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_height="@dimen/px108dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/address_button"
         android:text="@string/address_select_add_address"
-        android:textSize="@dimen/px36sp"
         android:textColor="@color/white"
-        android:layout_marginTop="@dimen/px120dp"/>
+        android:textSize="@dimen/px36sp" />
 </RelativeLayout>

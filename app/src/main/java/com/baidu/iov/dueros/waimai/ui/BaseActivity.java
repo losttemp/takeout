@@ -5,17 +5,14 @@ import android.app.StatusBarsManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -38,11 +35,16 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.location.BDLocation;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RequestExecutor;
+
+import java.util.List;
 
 public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends AppCompatActivity implements LocationManager.LocationCallBack {
 
     private T mPresenter;
-    private int mBDLocationLocType;
     private AlertDialog dialog;
 
     abstract T createPresenter();
@@ -81,7 +83,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     protected void onPause() {
         super.onPause();
         getPresenter().unregisterCmd(this);
-        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
+//        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
     }
 
     @Override
@@ -96,14 +98,14 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
 
     protected void initLocationCity() {
         LocationManager instance = LocationManager.getInstance(this);
-        instance.initLocationClient(null, null, 0, true);
+        instance.initLocationClient(null, null, 1100, true);
         LocationManager.getInstance(this).setLocationCallBack(this);
         instance.startLocation();
         BDLocation lastKnownLocation = instance.getLastKnownLocation();
         if (lastKnownLocation != null) {
-            getGPSAddressSuccess();
             mBDLocation = lastKnownLocation;
-            Lg.getInstance().e("AddrStr",lastKnownLocation.getAddrStr());
+            getGPSAddressSuccess();
+            Lg.getInstance().e("AddrStr", lastKnownLocation.getAddrStr());
             Constant.LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
             Constant.LONGITUDE = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
         }
@@ -118,39 +120,35 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
 
     @Override
     public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
+        Lg.getInstance().e("locationCallBack", isSuccess + "");
         if (isSuccess) {
-            mBDLocation = bdLocation;
             getGPSAddressSuccess();
+            mBDLocation = bdLocation;
             Constant.LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
             Constant.LONGITUDE = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
         } else {
-            mBDLocationLocType = bdLocation.getLocType();
+            getGPSAddressFail();
             LocationManager.getInstance(this).requestLocation();
         }
     }
 
     public void requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION) ||
-                        ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    showPermissionDialog();
-                } else {
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                                    Manifest.permission.ACCESS_FINE_LOCATION},
-                            REQUEST_CODE_ACCESS_COARSE_LOCATION);
-                }
-            }else{
-                initLocationCity();
+        AndPermission.with(this)
+                .permission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                .onGranted(new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        Lg.getInstance().e("LocationManager","AndPermission true");
+                        initLocationCity();
+                        getGPSAddressSuccess();
+                    }
+                }).onDenied(new Action() {
+            @Override
+            public void onAction(List<String> permissions) {
+                Lg.getInstance().e("LocationManager","AndPermission false");
+                showPermissionDialog();
             }
-        }
+        }).start();
     }
 
     private void showPermissionDialog() {
@@ -240,14 +238,17 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
                     intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, isEditModle);
                     startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
                 } else {
-                    ToastUtils.show(mContext, getApplicationContext().getResources().getString(R.string.location_error_toast),Toast.LENGTH_SHORT);
+                    ToastUtils.show(mContext, getApplicationContext().getResources().getString(R.string.location_error_toast), Toast.LENGTH_SHORT);
                     LocationManager.getInstance(mContext).requestLocation();
                 }
             }
-        },300);
+        }, 500);
     }
 
-    public void getGPSAddressSuccess(){}
-    public void getGPSAddressFail(){}
+    public void getGPSAddressSuccess() {
+    }
+
+    public void getGPSAddressFail() {
+    }
 
 }

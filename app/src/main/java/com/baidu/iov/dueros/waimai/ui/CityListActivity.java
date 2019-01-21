@@ -128,9 +128,11 @@ public class CityListActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mlocationManager.stopLocation();
+        if (mlocationManager!=null){
+            mlocationManager.stopLocation();
+            mlocationManager = null;
+        }
         mLocationListener = null;
-        mlocationManager = null;
         mWindowManager.removeViewImmediate(mOverlay);
         mAllCityData.clear();
         mHotCityData.clear();

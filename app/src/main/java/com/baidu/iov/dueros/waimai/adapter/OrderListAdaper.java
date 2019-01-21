@@ -200,7 +200,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
 
         @Override
         public void onClick(View v) {
-            int position = (int) v.getTag();
+            int position = getLayoutPosition();
             if (mOnItemClickListener != null) {
                 switch (v.getId()) {
                     case R.id.tv_store_name:

@@ -1,5 +1,7 @@
 package com.baidu.iov.dueros.waimai.utils;
 
+import android.text.TextUtils;
+
 import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.ui.WaiMaiApplication;
 import com.baidu.iov.faceos.client.FaceOSClient;
@@ -65,7 +67,9 @@ public class AccountManager {
             if (exAccountData != null && exAccountData.isLogin()) {
                 if (mClient.isServiceBinded()) {
                     CacheUtils.saveBduss(exAccountData.getBduss());
-                    Config.COOKIE_VALUE = "BDUSS=" + exAccountData.getBduss();
+                    if (!TextUtils.isEmpty(exAccountData.getBduss())){
+                        Config.COOKIE_VALUE = "BDUSS=" + exAccountData.getBduss();
+                    }
                     callback.onAccountSuccess(Constant.ACCOUNT_LOGIN_SUCCESS);
                 } else {
                     Lg.getInstance().d(TAG, "service is not bind");

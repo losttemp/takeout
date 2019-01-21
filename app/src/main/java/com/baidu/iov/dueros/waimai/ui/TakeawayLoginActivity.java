@@ -4,12 +4,17 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -78,9 +83,22 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setSupportMultipleWindows(true);
         webSettings.setDomStorageEnabled(true);
-        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webSettings.setSupportZoom(true);
         webSettings.setBuiltInZoomControls(true);
+
+        webSettings.setAppCacheEnabled(true);
+        webSettings.supportMultipleWindows();
+        webSettings.setAllowContentAccess(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setSavePassword(true);
+        webSettings.setSaveFormData(true);
+        webSettings.setLoadsImagesAutomatically(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
 
         mWVMeituan.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
         mWVMeituan.setWebViewClient(webViewClient);
@@ -139,6 +157,12 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                 view.loadUrl(request.toString());
             }
             return true;
+        }
+
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            handler.proceed();
+            super.onReceivedSslError(view, handler, error);
         }
     };
 
@@ -274,13 +298,24 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (handler!=null){
+            handler.removeCallbacksAndMessages(null);
+        }
         if (mWVMeituan != null) {
             mWVMeituan.stopLoading();
             mWVMeituan.setWebViewClient(null);
             mWVMeituan.clearHistory();
+            CookieSyncManager.createInstance(getApplicationContext());
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.removeAllCookie();
+            CookieSyncManager.getInstance().sync();
+            mWVMeituan.setWebChromeClient(null);
+            mWVMeituan.setWebViewClient(null);
+            mWVMeituan.getSettings().setJavaScriptEnabled(false);
             mWVMeituan.clearCache(true);
             mWVMeituan.loadUrl("about:blank");
             mWVMeituan.pauseTimers();
+            mWVMeituan.destroy();
             mWVMeituan = null;
         }
     }
@@ -300,19 +335,41 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         }
     }
 
+    private final int HANDLER_FINISH_ACT = 0;
+    private final int HANDLER_POST_HTTP = 1;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case HANDLER_FINISH_ACT:
+                    finish();
+                    break;
+                case HANDLER_POST_HTTP:
+                    mWVMeituan.setVisibility(View.GONE);
+                    mWVMeituan.clearCache(true);
+                    mWVMeituan.clearHistory();
+                    mWVMeituan.destroy();
+                    initPostHttp();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     public final class InJavaScriptLocalObj {
         @JavascriptInterface
         public void showSource(String html) {
             if (html.contains("errno") || html.contains("error_code")) {
                 Lg.getInstance().e(TAG, "webview:" + html);
             }
-            if (html.contains("{\"errno\":0,\"err_msg\":\"success\",")
-                    && html.contains(",\"meituan\":{\"msg\":\"success\"},")) {
-                mWVMeituan.loadUrl("about:blank");
-                initPostHttp();
+            if (html.contains("{\"errno\":0,\"err_msg\":\"success\",")) {
+                handler.sendEmptyMessage(HANDLER_POST_HTTP);
             }
             if (html.contains("error_code") && html.contains("10002")) {
-                finish();
+                handler.sendEmptyMessage(HANDLER_FINISH_ACT);
             }
         }
 
