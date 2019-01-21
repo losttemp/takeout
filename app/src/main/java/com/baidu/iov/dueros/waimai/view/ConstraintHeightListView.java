@@ -41,4 +41,8 @@ public class ConstraintHeightListView extends ListView{
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
+
+    public void setmMaxHeight(float maxHeight) {
+        this.mMaxHeight = maxHeight;
+    }
 }
