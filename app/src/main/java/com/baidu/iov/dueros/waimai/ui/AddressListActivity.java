@@ -222,7 +222,6 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 
     @Override
     public void onGetAddressListSuccess(AddressListBean data) {
-
         if (data != null) {
             mDataListBean = data.getIov().getData();
             Collections.sort(mDataListBean);

@@ -216,7 +216,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             TextView tv_count = viewItem.findViewById(R.id.product_count);
             TextView tv_price = viewItem.findViewById(R.id.product_price);
             TextView tv_origin_price = viewItem.findViewById(R.id.origin_price);
-            TextView tv_discounts = viewItem.findViewById(R.id.product_discount);
+//            TextView tv_discounts = viewItem.findViewById(R.id.product_discount);
 
             String pictureUrl = wmOrderingPreviewDetailVoListBean.getPicture();
             String name = wmOrderingPreviewDetailVoListBean.getFood_name();
@@ -243,10 +243,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 tv_origin_price.setText(String.format(getResources().getString(R.string.cost_text), nf.format(origin_price)));
                 tv_origin_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 tv_origin_price.setVisibility(View.VISIBLE);
-                tv_discounts.setVisibility(View.VISIBLE);
+//                tv_discounts.setVisibility(View.VISIBLE);
             } else {
                 tv_origin_price.setVisibility(View.INVISIBLE);
-                tv_discounts.setVisibility(View.INVISIBLE);
+//                tv_discounts.setVisibility(View.INVISIBLE);
             }
             Glide.with(this).load(pictureUrl).into(img_photo);
             tv_name.setText(name);
