@@ -1,116 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_bg">
 
+
+    <include
+        android:id="@+id/no_net"
+        layout="@layout/warn_no_internet"
+        android:visibility="gone" />
+
     <RelativeLayout
-        android:id="@+id/submit_order_title"
+        android:id="@+id/order_submit_rl"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px120dp">
-
-        <ImageView
-            android:id="@+id/back_action"
-            android:layout_width="@dimen/px96dp"
-            android:layout_height="@dimen/px96dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/px54dp"
-            android:background="@drawable/icon_back" />
-
-        <com.domain.multipltextview.MultiplTextView
-            android:id="@+id/select_shipping_address"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:text="@string/submit_order_title"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px40sp"
-            app:removeDefaultPadding="true" />
-
-    </RelativeLayout>
-
-
-    <ScrollView
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/pay_panel"
-        android:layout_below="@+id/submit_order_title"
-        android:scrollbars="none">
-
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        >
         <RelativeLayout
+            android:id="@+id/submit_order_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="@dimen/px120dp">
 
-            <View
-                android:id="@+id/divider"
+            <ImageView
+                android:id="@+id/back_action"
+                android:layout_width="@dimen/px96dp"
+                android:layout_height="@dimen/px96dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/px54dp"
+                android:background="@drawable/icon_back" />
+
+            <com.domain.multipltextview.MultiplTextView
+                android:id="@+id/select_shipping_address"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px2dp"
-                android:layout_marginEnd="@dimen/px84dp"
-                android:layout_marginStart="@dimen/px84dp"
-                android:alpha="0.06"
-                android:background="@color/white" />
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:text="@string/submit_order_title"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px40sp"
+                app:removeDefaultPadding="true" />
 
+        </RelativeLayout>
+
+
+        <ScrollView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/pay_panel"
+            android:layout_below="@+id/submit_order_title"
+            android:scrollbars="none">
 
             <RelativeLayout
-                android:id="@+id/address_info"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px168dp"
-                android:layout_below="@+id/divider">
-
-                <RelativeLayout
-                    android:id="@+id/modify_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true">
-
-                    <TextView
-                        android:id="@+id/tv_address"
-                        android:layout_width="@dimen/px826dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/px84dp"
-                        android:includeFontPadding="false"
-                        android:layout_marginTop="@dimen/px30dp"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px40sp"
-                        android:ellipsize="end"
-                        android:maxLines="1"/>
-
-                    <com.domain.multipltextview.MultiplTextView
-                        android:id="@+id/tv_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/px36dp"
-                        android:layout_below="@+id/tv_address"
-                        android:layout_marginBottom="@dimen/px40dp"
-                        android:layout_marginStart="@dimen/px84dp"
-                        android:layout_marginTop="@dimen/px22dp"
-                        android:alpha="0.6"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px30sp"
-                        app:removeDefaultPadding="true" />
-                </RelativeLayout>
-
-                <ImageView
-                    android:id="@+id/img_address"
-                    android:layout_width="@dimen/px64dp"
-                    android:layout_height="@dimen/px64dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/px66dp"
-                    android:background="@drawable/arrow_right"
-                    android:scaleType="fitCenter" />
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/delivery_info"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/px126dp"
-                android:layout_below="@+id/address_info">
+                android:layout_height="match_parent">
 
                 <View
-                    android:id="@+id/delivery_info_divider"
+                    android:id="@+id/divider"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/px2dp"
                     android:layout_marginEnd="@dimen/px84dp"
@@ -118,279 +64,347 @@
                     android:alpha="0.06"
                     android:background="@color/white" />
 
-                <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/type_tip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/px38dp"
-                    android:layout_below="@+id/delivery_info_divider"
-                    android:layout_marginBottom="@dimen/px44dp"
-                    android:layout_marginStart="@dimen/px84dp"
-                    android:layout_marginTop="@dimen/px44dp"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/px36sp"
-                    app:removeDefaultPadding="true" />
-
-                <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/arrive_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/px32dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/px140dp"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/px30sp"
-                    app:removeDefaultPadding="true" />
-
-                <ImageView
-                    android:id="@+id/img_time"
-                    android:layout_width="@dimen/px64dp"
-                    android:layout_height="@dimen/px64dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/px66dp"
-                    android:background="@drawable/arrow_right"
-                    android:scaleType="fitCenter" />
-
-                <View
-                    android:id="@+id/store_info_divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/px2dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="@dimen/px84dp"
-                    android:layout_marginStart="@dimen/px84dp"
-                    android:alpha="0.06"
-                    android:background="@color/white" />
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/store_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/delivery_info"
-                android:orientation="vertical">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/px70dp">
-
-                    <com.domain.multipltextview.MultiplTextView
-                        android:id="@+id/store_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/px84dp"
-                        android:layout_marginTop="@dimen/px30dp"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px36sp"
-                        app:removeDefaultPadding="true" />
-
-                    <TextView
-                        android:id="@+id/delivery_type"
-                        android:layout_width="@dimen/px124dp"
-                        android:layout_height="@dimen/px40dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="@dimen/px84dp"
-                        android:layout_marginTop="@dimen/px32dp"
-                        android:includeFontPadding="false"
-                        android:background="@drawable/tagbg1"
-                        android:gravity="center"
-                        android:textColor="@color/delivery_type_color"
-                        android:textSize="@dimen/px26sp" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/product_listview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-
-                <RelativeLayout
+                    android:id="@+id/address_info"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/px168dp"
-                    android:gravity="center_vertical">
+                    android:layout_below="@+id/divider">
 
-
-                    <com.domain.multipltextview.MultiplTextView
-                        android:id="@+id/packing_fee_summary"
+                    <RelativeLayout
+                        android:id="@+id/modify_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/px26dp"
-                        android:layout_marginStart="@dimen/px84dp"
-                        android:layout_marginTop="@dimen/px34dp"
-                        android:text="@string/packing_fee"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px36sp"
-                        app:removeDefaultPadding="true" />
+                        android:layout_centerVertical="true">
 
-                    <TextView
-                        android:id="@+id/packing_fee"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        <TextView
+                            android:id="@+id/tv_address"
+                            android:layout_width="@dimen/px826dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/px84dp"
+                            android:includeFontPadding="false"
+                            android:layout_marginTop="@dimen/px30dp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px40sp"
+                            android:ellipsize="end"
+                            android:maxLines="1"/>
+
+                        <com.domain.multipltextview.MultiplTextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/px36dp"
+                            android:layout_below="@+id/tv_address"
+                            android:layout_marginBottom="@dimen/px40dp"
+                            android:layout_marginStart="@dimen/px84dp"
+                            android:layout_marginTop="@dimen/px22dp"
+                            android:alpha="0.6"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px30sp"
+                            app:removeDefaultPadding="true" />
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/img_address"
+                        android:layout_width="@dimen/px64dp"
+                        android:layout_height="@dimen/px64dp"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="@dimen/px84dp"
-                        android:layout_marginTop="@dimen/px32dp"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px40sp" />
-
-                    <com.domain.multipltextview.MultiplTextView
-                        android:id="@+id/delivery_fee_summary"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/px34dp"
-                        android:layout_below="@+id/packing_fee_summary"
-                        android:layout_marginBottom="@dimen/px34dp"
-                        android:layout_marginStart="@dimen/px84dp"
-                        android:text="@string/shipping_fee_text"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px36sp"
-                        app:removeDefaultPadding="true" />
-
-                    <TextView
-                        android:id="@+id/shipping_fee"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_below="@+id/packing_fee"
-                        android:layout_marginEnd="@dimen/px84dp"
-                       android:layout_marginBottom="@dimen/px32dp"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px40sp" />
-
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/px66dp"
+                        android:background="@drawable/arrow_right"
+                        android:scaleType="fitCenter" />
                 </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/discounts_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/px2dp"
-                    android:layout_marginEnd="@dimen/px84dp"
-                    android:layout_marginStart="@dimen/px84dp"
-                    android:alpha="0.06"
-                    android:background="@color/white" />
 
                 <RelativeLayout
-                    android:id="@+id/pay_type_panel"
-                    android:layout_width="match_parent"
+                    android:id="@+id/delivery_info"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/px126dp"
-                    android:gravity="center_vertical">
+                    android:layout_below="@+id/address_info">
+
+                    <View
+                        android:id="@+id/delivery_info_divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/px2dp"
+                        android:layout_marginEnd="@dimen/px84dp"
+                        android:layout_marginStart="@dimen/px84dp"
+                        android:alpha="0.06"
+                        android:background="@color/white" />
 
                     <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/type_tip"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/px38dp"
+                        android:layout_below="@+id/delivery_info_divider"
                         android:layout_marginBottom="@dimen/px44dp"
                         android:layout_marginStart="@dimen/px84dp"
                         android:layout_marginTop="@dimen/px44dp"
-                        android:text="@string/payment_summary"
                         android:textColor="@color/white"
                         android:textSize="@dimen/px36sp"
                         app:removeDefaultPadding="true" />
 
                     <com.domain.multipltextview.MultiplTextView
+                        android:id="@+id/arrive_time"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/px32dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/px84dp"
-                        android:text="@string/payment"
+                        android:layout_marginEnd="@dimen/px140dp"
                         android:textColor="@color/white"
                         android:textSize="@dimen/px30sp"
                         app:removeDefaultPadding="true" />
+
+                    <ImageView
+                        android:id="@+id/img_time"
+                        android:layout_width="@dimen/px64dp"
+                        android:layout_height="@dimen/px64dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/px66dp"
+                        android:background="@drawable/arrow_right"
+                        android:scaleType="fitCenter" />
+
+                    <View
+                        android:id="@+id/store_info_divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/px2dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="@dimen/px84dp"
+                        android:layout_marginStart="@dimen/px84dp"
+                        android:alpha="0.06"
+                        android:background="@color/white" />
                 </RelativeLayout>
 
-                <View
+                <LinearLayout
+                    android:id="@+id/store_info"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/px2dp"
-                    android:layout_marginEnd="@dimen/px84dp"
-                    android:layout_marginStart="@dimen/px84dp"
-                    android:alpha="0.06"
-                    android:background="@color/white" />
-            </LinearLayout>
-        </RelativeLayout>
-    </ScrollView>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/delivery_info"
+                    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/pay_panel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/px70dp">
 
-        <RelativeLayout
-            android:id="@+id/warntip_parent"
+                        <com.domain.multipltextview.MultiplTextView
+                            android:id="@+id/store_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/px84dp"
+                            android:layout_marginTop="@dimen/px30dp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px36sp"
+                            app:removeDefaultPadding="true" />
+
+                        <TextView
+                            android:id="@+id/delivery_type"
+                            android:layout_width="@dimen/px124dp"
+                            android:layout_height="@dimen/px40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/px84dp"
+                            android:layout_marginTop="@dimen/px32dp"
+                            android:includeFontPadding="false"
+                            android:background="@drawable/tagbg1"
+                            android:gravity="center"
+                            android:textColor="@color/delivery_type_color"
+                            android:textSize="@dimen/px26sp" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/product_listview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/px168dp"
+                        android:gravity="center_vertical">
+
+
+                        <com.domain.multipltextview.MultiplTextView
+                            android:id="@+id/packing_fee_summary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/px26dp"
+                            android:layout_marginStart="@dimen/px84dp"
+                            android:layout_marginTop="@dimen/px34dp"
+                            android:text="@string/packing_fee"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px36sp"
+                            app:removeDefaultPadding="true" />
+
+                        <TextView
+                            android:id="@+id/packing_fee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/px84dp"
+                            android:layout_marginTop="@dimen/px32dp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px40sp" />
+
+                        <com.domain.multipltextview.MultiplTextView
+                            android:id="@+id/delivery_fee_summary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/px34dp"
+                            android:layout_below="@+id/packing_fee_summary"
+                            android:layout_marginBottom="@dimen/px34dp"
+                            android:layout_marginStart="@dimen/px84dp"
+                            android:text="@string/shipping_fee_text"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px36sp"
+                            app:removeDefaultPadding="true" />
+
+                        <TextView
+                            android:id="@+id/shipping_fee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@+id/packing_fee"
+                            android:layout_marginEnd="@dimen/px84dp"
+                            android:layout_marginBottom="@dimen/px32dp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px40sp" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/discounts_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/px2dp"
+                        android:layout_marginEnd="@dimen/px84dp"
+                        android:layout_marginStart="@dimen/px84dp"
+                        android:alpha="0.06"
+                        android:background="@color/white" />
+
+                    <RelativeLayout
+                        android:id="@+id/pay_type_panel"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/px126dp"
+                        android:gravity="center_vertical">
+
+                        <com.domain.multipltextview.MultiplTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/px38dp"
+                            android:layout_marginBottom="@dimen/px44dp"
+                            android:layout_marginStart="@dimen/px84dp"
+                            android:layout_marginTop="@dimen/px44dp"
+                            android:text="@string/payment_summary"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px36sp"
+                            app:removeDefaultPadding="true" />
+
+                        <com.domain.multipltextview.MultiplTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/px32dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/px84dp"
+                            android:text="@string/payment"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px30sp"
+                            app:removeDefaultPadding="true" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/px2dp"
+                        android:layout_marginEnd="@dimen/px84dp"
+                        android:layout_marginStart="@dimen/px84dp"
+                        android:alpha="0.06"
+                        android:background="@color/white" />
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/pay_panel"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px60dp"
-            android:alpha="0.9"
-            android:background="@drawable/youhuixinxi_bg"
-            android:visibility="visible">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/discount_WarnTip"
+            <RelativeLayout
+                android:id="@+id/warntip_parent"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px30dp"
-                android:layout_centerInParent="true"
-                android:textColor="@color/discount_WarnTip_color"
-                android:textSize="@dimen/px30sp"
-                app:removeDefaultPadding="true" />
-        </RelativeLayout>
+                android:layout_height="@dimen/px60dp"
+                android:alpha="0.9"
+                android:background="@drawable/youhuixinxi_bg"
+                android:visibility="visible">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/px150dp"
-            android:background="#3C4650">
+                <com.domain.multipltextview.MultiplTextView
+                    android:id="@+id/discount_WarnTip"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px30dp"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/discount_WarnTip_color"
+                    android:textSize="@dimen/px30sp"
+                    app:removeDefaultPadding="true" />
+            </RelativeLayout>
 
-            <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/discount_exists"
-                android:layout_width="@dimen/px206dp"
-                android:layout_height="@dimen/px30dp"
-                android:layout_marginStart="@dimen/px84dp"
-                android:layout_marginTop="@dimen/px60dp"
-                android:textColor="@color/white"
-                android:textSize="@dimen/px30sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px150dp"
+                android:background="#3C4650">
 
-            <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/total_summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/px22dp"
-                android:layout_toStartOf="@+id/total"
-                android:text="@string/total"
-                android:textColor="@color/white_60"
-                android:textSize="@dimen/px30sp"
-                app:removeDefaultPadding="true" />
+                <com.domain.multipltextview.MultiplTextView
+                    android:id="@+id/discount_exists"
+                    android:layout_width="@dimen/px206dp"
+                    android:layout_height="@dimen/px30dp"
+                    android:layout_marginStart="@dimen/px84dp"
+                    android:layout_marginTop="@dimen/px60dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/px30sp" />
 
-            <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/total"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/px40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/px456dp"
-                android:gravity="center_vertical"
-                android:textColor="@color/money_color"
-                android:textSize="@dimen/px40sp"
-                app:removeDefaultPadding="true" />
+                <com.domain.multipltextview.MultiplTextView
+                    android:id="@+id/total_summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/px22dp"
+                    android:layout_toStartOf="@+id/total"
+                    android:text="@string/total"
+                    android:textColor="@color/white_60"
+                    android:textSize="@dimen/px30sp"
+                    app:removeDefaultPadding="true" />
 
-            <Button
-                android:id="@+id/to_pay"
-                android:layout_width="@dimen/px332dp"
-                android:layout_height="@dimen/px108dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/px84dp"
-                android:background="@drawable/buybg"
-                android:gravity="center"
-                android:text="@string/to_pay_text"
-                android:textColor="@color/white_bg"
-                android:textSize="@dimen/px36sp" />
-        </RelativeLayout>
+                <com.domain.multipltextview.MultiplTextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/px40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/px456dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/money_color"
+                    android:textSize="@dimen/px40sp"
+                    app:removeDefaultPadding="true" />
 
-    </LinearLayout>
+                <Button
+                    android:id="@+id/to_pay"
+                    android:layout_width="@dimen/px332dp"
+                    android:layout_height="@dimen/px108dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/px84dp"
+                    android:background="@drawable/buybg"
+                    android:gravity="center"
+                    android:text="@string/to_pay_text"
+                    android:textColor="@color/white_bg"
+                    android:textSize="@dimen/px36sp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
     <include
         android:id="@+id/submit_order_loading"
         layout="@layout/dialog_loading_toast"
@@ -398,4 +412,4 @@
         android:layout_height="@dimen/px140dp"
         android:layout_centerInParent="true"
         android:visibility="gone"/>
-</RelativeLayout>
+</FrameLayout>

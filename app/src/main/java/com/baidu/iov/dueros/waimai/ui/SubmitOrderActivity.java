@@ -99,6 +99,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private int mUnixtime = 0;
     private boolean isChoiceAddressBack;
     private View loadingView;
+    private RelativeLayout mParentsLayout;
+    private LinearLayout mNoNet;
+    private Button mNoInternetButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,10 +151,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mDiscountsLayout = findViewById(R.id.discounts_layout);
         mBackImg = findViewById(R.id.back_action);
         loadingView = findViewById(R.id.submit_order_loading);
-
+        mParentsLayout = findViewById(R.id.order_submit_rl);
+        mNoNet = findViewById(R.id.no_net);
+        mNoInternetButton = (Button) findViewById(R.id.no_internet_btn);
         mBackImg.setOnClickListener(this);
         mArrivetimeLayout.setOnClickListener(this);
         mAddressUpdateLayout.setOnClickListener(this);
+        mNoInternetButton.setOnClickListener(this);
 
         if (mProductList != null && mPoiInfo != null) {
 
@@ -180,7 +186,22 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             }
 
         }
+        netDataReque();
+
     }
+
+    private void netDataReque() {
+        if (NetUtil.getNetWorkState(this)) {
+            mNoNet.setVisibility(View.GONE);
+            mParentsLayout.setVisibility(View.VISIBLE);
+            getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
+            getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData,SubmitOrderActivity.this);
+        } else {
+            mNoNet.setVisibility(View.VISIBLE);
+            mParentsLayout.setVisibility(View.GONE);
+        }
+    }
+
 
     private void playVoice() {
         boolean isNeedVoice = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
@@ -305,11 +326,14 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                             getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime,this);
                         }
                     } else {
+                        netDataReque();
                         ToastUtils.show(this, getResources().getString(R.string.net_unconnect), Toast.LENGTH_LONG);
                     }
                     break;
                 }
-
+            case R.id.no_internet_btn:
+                netDataReque();
+                break;
             default:
                 break;
         }
@@ -478,11 +502,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
-
                 break;
-
             default:
                 break;
         }
@@ -517,7 +538,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         } else {
             Lg.getInstance().d(TAG, "not find data !");
         }
-
 
         int code = mOrderPreviewData.getCode();
         if (code == Constant.ORDER_PREVIEW_SUCCESS) {
@@ -614,8 +634,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     @Override
     public void onFailure(String msg) {
-        loadingView.setVisibility(View.GONE);
-        mToPayTv.setEnabled(true);
+        if (!NetUtil.getNetWorkState(this)) {
+            mParentsLayout.setVisibility(View.GONE);
+            mNoNet.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -635,7 +657,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         if (data != null) {
             mOrderSubmitData = data.getMeituan().getData();
         }
-
         int submitCode = mOrderSubmitData.getCode();
         if (submitCode == Constant.SUBMIT_ORDER_SUCCESS) {
             double total = mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal();
@@ -659,6 +680,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
             ToastUtils.show(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
         }
+
         finish();
     }
 
