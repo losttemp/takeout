@@ -8,6 +8,7 @@ import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 
 public class AddressDeleteReq extends RequestBase {
     private Long address_id;
+    private Long mt_address_id;
 
     public Long getAddress_id() {
         return address_id;
@@ -15,5 +16,13 @@ public class AddressDeleteReq extends RequestBase {
 
     public void setAddress_id(Long address_id) {
         this.address_id = address_id;
+    }
+
+    public Long getMt_address_id() {
+        return mt_address_id;
+    }
+
+    public void setMt_address_id(Long mt_address_id) {
+        this.mt_address_id = mt_address_id;
     }
 }

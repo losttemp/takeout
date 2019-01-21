@@ -132,7 +132,7 @@
 
     <View style="@style/AddressEditDividerStyle" />
 
-    <RelativeLayout style="@style/AddressEditContactStyle">
+    <LinearLayout style="@style/AddressEditContactStyle">
 
         <TextView
             android:id="@+id/address_edit_house_text"
@@ -142,7 +142,8 @@
         <EditText
             android:id="@+id/address_edit_house_num"
             style="@style/AddressEditTextStyle"
-            android:layout_width="@dimen/px640dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_toRightOf="@id/address_edit_house_text"
             android:hint="@string/address_details_hint_text"
             android:textColorHint="@color/white_60" />
@@ -154,7 +155,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/icon_close" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <View style="@style/AddressEditDividerStyle" />
 

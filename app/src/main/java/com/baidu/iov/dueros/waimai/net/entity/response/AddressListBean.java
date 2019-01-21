@@ -65,6 +65,7 @@ public class AddressListBean {
             private Integer canShipping =0;
             private String addressRangeTip;
             private Integer sex;
+            private int item_type;
 
             public Long getAddress_id() {
                 return address_id;
@@ -170,6 +171,14 @@ public class AddressListBean {
 
             public void setSex(Integer sex) {
                 this.sex = sex;
+            }
+
+            public int getItem_type() {
+                return item_type;
+            }
+
+            public void setItem_type(int item_type) {
+                this.item_type = item_type;
             }
 
             @Override

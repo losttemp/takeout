@@ -76,13 +76,13 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
     @Override
     public int getItemViewType(int position) {
-        if (position == mAddressList.size()) return TYPE_FOOTER;
+        if (mAddressList.get(position).getItem_type()==TYPE_FOOTER) return TYPE_FOOTER;
         return TYPE_NORMAL;
     }
 
     @Override
     public int getItemCount() {
-        return mAddressList.size() + 1;
+        return mAddressList.size();
     }
 
     public void addAddress() {

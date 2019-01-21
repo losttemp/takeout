@@ -426,19 +426,19 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         }
         String type = mTagListView.getmTagValue();
 
-        if (TextUtils.isEmpty(et_name.getText())) {
+        if (TextUtils.isEmpty(et_name.getText().toString().trim())) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_name), Toast.LENGTH_SHORT);
-        } else if (TextUtils.isEmpty(et_phone.getText())) {
+        } else if (TextUtils.isEmpty(et_phone.getText().toString().trim())) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_phone), Toast.LENGTH_SHORT);
-        } else if (TextUtils.isEmpty(address_tv.getText())) {
+        } else if (TextUtils.isEmpty(address_tv.getText().toString().trim())) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_address), Toast.LENGTH_SHORT);
         } else if (TextUtils.isEmpty(type)) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_tagvalue), Toast.LENGTH_SHORT);
         } else {
-            String house_num = Encryption.encrypt(et_house_num.getText().toString() + "");
-            String name = Encryption.encrypt(et_name.getText() + "");
-            String phone = Encryption.encrypt(et_phone.getText() + "");
-            String address = Encryption.encrypt(address_tv.getText() + "");
+            String house_num = Encryption.encrypt(et_house_num.getText().toString().trim() + "");
+            String name = Encryption.encrypt(et_name.getText().toString().trim() + "");
+            String phone = Encryption.encrypt(et_phone.getText().toString().trim() + "");
+            String address = Encryption.encrypt(address_tv.getText().toString().trim() + "");
             Integer latitude;
             Integer longitude;
             if (mLocationBean == null) {
@@ -525,6 +525,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mAddressDelReq.setAddress_id(dataBean.getAddress_id());
+                        if (dataBean.getMt_address_id()!=null){
+                            mAddressDelReq.setMt_address_id(dataBean.getMt_address_id());
+                        }
                         getPresenter().requestDeleteAddressData(mAddressDelReq);
                         dialog.dismiss();
                     }

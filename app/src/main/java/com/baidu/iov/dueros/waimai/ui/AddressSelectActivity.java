@@ -40,7 +40,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private final long SIX_HOUR = 6 * 60 * 60 * 1000;
     private AddressSelectPresenter.MReceiver mReceiver;
     private View addBtnView;
-    private boolean init = false;
     private View networkView;
     private View loadingView;
     private boolean isNeedPlayTTS;
@@ -61,7 +60,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         setContentView(R.layout.activity_address_select);
         isNeedPlayTTS = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
         getPresenter().initDesBeans();
-        init = false;
         initView();
         if (getIntent().getIntExtra(Constant.START_APP,-1)==Constant.START_APP_CODE){
             requestPermission();
@@ -72,11 +70,9 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     protected void onResume() {
         super.onResume();
         mNoAddress.setVisibility(View.GONE);
+        addBtnView.setVisibility(View.GONE);
         if (NetUtil.getNetWorkState(this)) {
             sendBroadcast(new Intent("com.baidu.iov.dueros.waimai.requestNaviDes"));
-            if (init) {
-                addBtnView.setVisibility(View.GONE);
-            }
             networkView.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.GONE);
             loadingView.setVisibility(View.VISIBLE);
@@ -146,31 +142,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 }
             }
         });
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                final RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();//获取LayoutManager
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (manager instanceof LinearLayoutManager) {
-                            int position = ((LinearLayoutManager) manager).findLastCompletelyVisibleItemPosition();
-                            if (position == mDataList.size()) {
-                                addBtnView.setVisibility(View.GONE);
-                            } else {
-                                addBtnView.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    }
-                }, 500);
-            }
-        });
     }
 
     private void startEditActivity(AddressListBean.IovBean.DataBean dataBean) {
@@ -214,9 +185,20 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 VoiceManager.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.choice_address_voice));
                 isNeedPlayTTS = false;
             }
-            init = true;
             mDataList.clear();
             mDataList.addAll(data);
+            if (mDataList.size()>6){
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1.0f);
+                mRecyclerView.setLayoutParams(lp);
+                addBtnView.setVisibility(View.VISIBLE);
+            }else{
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                mRecyclerView.setLayoutParams(lp);
+                addBtnView.setVisibility(View.GONE);
+                AddressListBean.IovBean.DataBean dataBean = new AddressListBean.IovBean.DataBean();
+                dataBean.setItem_type(1);
+                mDataList.add(dataBean);
+            }
             mAdapter.setAddressList(mDataList);
             mAdapter.notifyDataSetChanged();
         }
@@ -272,9 +254,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             case R.id.no_internet_btn:
                 if (NetUtil.getNetWorkState(this)) {
                     sendBroadcast(new Intent("com.baidu.iov.dueros.waimai.requestNaviDes"));
-                    if (init) {
-                        addBtnView.setVisibility(View.GONE);
-                    }
                     networkView.setVisibility(View.GONE);
                     initData();
                 } else {

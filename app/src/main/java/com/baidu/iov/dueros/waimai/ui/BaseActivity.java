@@ -83,7 +83,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     protected void onPause() {
         super.onPause();
         getPresenter().unregisterCmd(this);
-//        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
+        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
     }
 
     @Override
@@ -98,7 +98,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
 
     protected void initLocationCity() {
         LocationManager instance = LocationManager.getInstance(this);
-        instance.initLocationClient(null, null, 1100, true);
+        instance.initLocationClient(null, null, 1000, true);
         LocationManager.getInstance(this).setLocationCallBack(this);
         instance.startLocation();
         BDLocation lastKnownLocation = instance.getLastKnownLocation();
@@ -120,12 +120,12 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
 
     @Override
     public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
-        Lg.getInstance().e("locationCallBack", isSuccess + "");
         if (isSuccess) {
-            getGPSAddressSuccess();
+            Lg.getInstance().e("locationCallBack", isSuccess + "");
             mBDLocation = bdLocation;
             Constant.LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
             Constant.LONGITUDE = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
+            getGPSAddressSuccess();
         } else {
             getGPSAddressFail();
             LocationManager.getInstance(this).requestLocation();
@@ -140,7 +140,6 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
                     public void onAction(List<String> permissions) {
                         Lg.getInstance().e("LocationManager","AndPermission true");
                         initLocationCity();
-                        getGPSAddressSuccess();
                     }
                 }).onDenied(new Action() {
             @Override

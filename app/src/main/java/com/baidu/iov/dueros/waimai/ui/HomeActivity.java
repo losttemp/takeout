@@ -188,7 +188,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 				break;
 
 			case R.id.iv_right:
-				Entry.getInstance().onEvent(Constant.EVENT_OPEN_ORDER_LIST,EventType.TOUCH_TYPE);		
+				Entry.getInstance().onEvent(Constant.EVENT_OPEN_ORDER_LIST,EventType.TOUCH_TYPE);
 				Intent orderListIntent = new Intent(this, OrderListActivity.class);
 				startActivity(orderListIntent);
 				break;
@@ -228,9 +228,9 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		}
 
 	}
-	
-	
+
+
     }
 
-    
-    
+
+
