@@ -58,6 +58,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.PoifoodListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
@@ -883,6 +884,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spus = foodSpuTagsBeans.get(i).getSpus();
                         for (int j = 0; j < spus.size(); j++) {
                             spus.get(j).setNumber(0);
+                            spus.get(j).setSpecificationsNumber(0);
                         }
                     }
                     mPoifoodSpusListAdapter.notifyDataSetChanged();
@@ -1501,7 +1503,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         List<String> discountList = new ArrayList<>();
         for (PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean bean : discounts) {
             String[] name = bean.getInfo().split(";");
-            list.addAll(Arrays.asList(name));
+            for (int i = 0; i < name.length; i++) {
+                if (!name[i].startsWith(getString(R.string.ten)) && !name[i].contains(getString(R.string.cash_coupon))) {
+                    list.add(name[i]);
+                }
+            }
         }
         if (list.size() > 3 && !allShow) {
             discountList.add(list.get(0));
