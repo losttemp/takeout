@@ -64,18 +64,18 @@
         android:alpha="0.06"
         android:background="@color/white" />
 
-    <TextView
-        android:id="@+id/product_discount"
-        android:layout_width="@dimen/px40dp"
-        android:layout_height="@dimen/px40dp"
-        android:layout_marginStart="@dimen/px20dp"
-        android:layout_marginTop="@dimen/px30dp"
-        android:layout_toEndOf="@+id/product_name"
-        android:background="@drawable/tagbg2"
-        android:gravity="center"
-        android:text="@string/discount_text"
-        android:textColor="@color/delivery_type_color"
-        android:textSize="@dimen/px30sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/product_discount"-->
+        <!--android:layout_width="@dimen/px40dp"-->
+        <!--android:layout_height="@dimen/px40dp"-->
+        <!--android:layout_marginStart="@dimen/px20dp"-->
+        <!--android:layout_marginTop="@dimen/px30dp"-->
+        <!--android:layout_toEndOf="@+id/product_name"-->
+        <!--android:background="@drawable/tagbg2"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/discount_text"-->
+        <!--android:textColor="@color/delivery_type_color"-->
+        <!--android:textSize="@dimen/px30sp" />-->
 
     <TextView
         android:id="@+id/origin_price"

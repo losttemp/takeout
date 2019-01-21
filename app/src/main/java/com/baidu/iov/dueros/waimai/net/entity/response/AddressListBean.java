@@ -62,7 +62,7 @@ public class AddressListBean {
             private String house;
             private String user_phone;
             private String user_name;
-            private Integer canShipping;
+            private Integer canShipping =0;
             private String addressRangeTip;
             private Integer sex;
 
