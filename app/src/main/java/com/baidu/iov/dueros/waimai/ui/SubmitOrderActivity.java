@@ -98,6 +98,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private String mEstimateTime;
     private int mUnixtime = 0;
     private boolean isChoiceAddressBack;
+    private View loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +147,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mWarnTipParent = findViewById(R.id.warntip_parent);
         mDiscountsLayout = findViewById(R.id.discounts_layout);
         mBackImg = findViewById(R.id.back_action);
+        loadingView = findViewById(R.id.submit_order_loading);
 
         mBackImg.setOnClickListener(this);
         mArrivetimeLayout.setOnClickListener(this);
@@ -298,6 +300,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
                             List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
                             wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
+                            mToPayTv.setEnabled(false);
+                            loadingView.setVisibility(View.VISIBLE);
                             getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime,this);
                         }
                     } else {
@@ -610,6 +614,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     @Override
     public void onFailure(String msg) {
+        loadingView.setVisibility(View.GONE);
+        mToPayTv.setEnabled(true);
     }
 
     @Override
@@ -624,6 +630,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     @Override
     public void onOrderSubmitSuccess(OrderSubmitBean data) {
+        loadingView.setVisibility(View.GONE);
+        mToPayTv.setEnabled(true);
         if (data != null) {
             mOrderSubmitData = data.getMeituan().getData();
         }
