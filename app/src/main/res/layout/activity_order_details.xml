@@ -338,13 +338,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
-                        <com.domain.multipltextview.MultiplTextView
+                        <TextView
                             android:id="@+id/address"
                             style="@style/OrderDetailsText"
-                            removeDefaultPadding="true"
-                            android:layout_width="wrap_content"
+                            android:includeFontPadding="false"
+                            android:layout_width="@dimen/px720dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/px26dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:alpha="0.6"
                             android:textSize="@dimen/px30sp" />
 
