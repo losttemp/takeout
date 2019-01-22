@@ -405,6 +405,7 @@
         </LinearLayout>
 
     </RelativeLayout>
+
     <include
         android:id="@+id/submit_order_loading"
         layout="@layout/dialog_loading_toast"
