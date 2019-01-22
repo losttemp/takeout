@@ -212,7 +212,7 @@
     <string name="order_cancel_message">现在取消订单吗？\n退款将原路回到您的支付账户</string>
     <string name="order_cancel_positive">再想想</string>
     <string name="remind_title">温馨提醒</string>
-    <string name="remind_message">拨打电话10109777取消订单吗？\n该订单需要联系美团客服取消</string>
+    <string name="remind_message">拨打电话:10109777取消订单吗？\n该订单需要联系美团客服取消</string>
     <string name="remind_phone">10109777</string>
     <string name="contact_meituan_title">联系美团客服</string>
     <string name="contact_meituan_message">是否拨打美团客服电话:10109777</string>
