@@ -157,7 +157,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             address_title.setText(getResources().getString(R.string.add_address));
             iv_del_button.setVisibility(View.INVISIBLE);
             address_tv.setText(mLocationBean.getName());
-            et_house_num.setText(mLocationBean.getAddress());
             mTagListView.setTags(tags, "");
             if (null != MyApplicationAddressBean.USER_NAMES && MyApplicationAddressBean.USER_NAMES.size() > 0) {
                 et_name.setText(MyApplicationAddressBean.USER_NAMES.get(0));
@@ -299,7 +298,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         if (resultCode == Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE) {
             mLocationBean = data.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
             address_tv.setText(TextUtils.isEmpty(mLocationBean.getName())?"":mLocationBean.getName());
-            et_house_num.setText(TextUtils.isEmpty(mLocationBean.getAddress())?"":mLocationBean.getAddress());
         }
     }
 
