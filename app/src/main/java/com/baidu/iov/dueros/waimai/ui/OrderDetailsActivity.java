@@ -112,7 +112,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         super.onDestroy();
         timerCancel();
         mFoodListView.removeAllViews();
-        mFoodListView=null;
+        mFoodListView = null;
     }
 
     @Override
@@ -192,9 +192,9 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         mAddress.setText(address);
         mBusinessName.setText(shopName);
         mDistributionFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
-        if (discount != 0){
+        if (discount != 0) {
             mDiscount.setText(String.format(getString(R.string.discount_money), mNumberFormat.format(discount)));
-        }else {
+        } else {
             mDiscountsLayout.setVisibility(View.GONE);
         }
         mRealPay.setText(String.format(getString(R.string.actual_payment), mNumberFormat.format(totalCost)));
@@ -216,7 +216,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             mExpectedTime.setText(formatTime(expectedTime, false));
         }
 
-        if (mOrderDetails.getDelivery_type() == 1){
+        if (mOrderDetails.getDelivery_type() == 1) {
             mDeliveryType.setText(getString(R.string.order_meituan));
         } else {
             mDeliveryType.setText(getString(R.string.order_not_meituan));
@@ -331,9 +331,9 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void initData() {
-        mStoreId = getIntent().getLongExtra(Constant.STORE_ID,0);
+        mStoreId = getIntent().getLongExtra(Constant.STORE_ID, 0);
         order_id = getIntent().getLongExtra(Constant.ORDER_ID, -1);
-        if (null != getIntent().getStringExtra("extra") && !getIntent().getStringExtra("extra").equals("")){
+        if (null != getIntent().getStringExtra("extra") && !getIntent().getStringExtra("extra").equals("")) {
             try {
                 JSONObject jsonObject = new JSONObject(getIntent().getStringExtra("extra"));
                 order_id = Long.valueOf(jsonObject.getString("order_id"));
@@ -390,9 +390,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
-                Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY,EventType.TOUCH_TYPE);
-                Intent orderListIntent = new Intent(this, OrderListActivity.class);
-                startActivity(orderListIntent);
+                Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY, EventType.TOUCH_TYPE);
                 finish();
                 break;
             case R.id.repeat_order:
@@ -405,7 +403,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.pay_order:
                 Intent intentPayment = new Intent(OrderDetailsActivity.this, PaymentActivity.class);
-                intentPayment.putExtra(Constant.STORE_ID,mOrderDetails.getWm_poi_id());
+                intentPayment.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id());
                 intentPayment.putExtra("total_cost", mOrderDetails.getTotal());
                 intentPayment.putExtra("order_id", mOrderDetails.getOrder_id());
                 intentPayment.putExtra("shop_name", mOrderDetails.getPoi_name());
@@ -443,7 +441,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 dialog.show();
                 break;
             case R.id.phone:
-                Entry.getInstance().onEvent(Constant.CALL_FOR_CANCLE_ORDER,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.CALL_FOR_CANCLE_ORDER, EventType.TOUCH_TYPE);
                 String mMessage = getResources().getString(R.string.contact_meituan_message);
                 SpannableString spanColor = new SpannableString(mMessage);
                 spanColor.setSpan(new ForegroundColorSpan(Color.parseColor("#10CBE5")), 11, 19, 0);
@@ -493,8 +491,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     @Override
     public void update(OrderDetailsResponse data) {
         mOrderDetails = data.getMeituan().getData();
-        long orderTime = (long)mOrderDetails.getOrder_time() * 1000L;
-           mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
+        long orderTime = (long) mOrderDetails.getOrder_time() * 1000L;
+        mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mArrivalTime.setText(String.format(getResources().getString(R.string.count_down_timer), formatCountDownTime(millisUntilFinished)));

@@ -150,7 +150,6 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
                 isGo2OrderDetail = true;
                 Entry.getInstance().onEvent(Constant.PAYSUCCESS_TO_ORDERDETAIL,EventType.TOUCH_TYPE);
                 Intent intent = new Intent(this, OrderDetailsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Constant.ORDER_ID, mOrderId);
                 intent.putExtra(Constant.EXPECTED_TIME, mExpectedTime);
                 startActivity(intent);
