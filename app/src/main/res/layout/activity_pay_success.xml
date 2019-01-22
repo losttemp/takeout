@@ -141,6 +141,29 @@
         android:layout_marginStart="@dimen/px84dp"
         android:alpha="0.06"
         android:background="@color/white" />
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/px62dp"
+    android:layout_gravity="center_horizontal"
+    >
+    <TextView
+        android:id="@+id/order_details_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:text="@string/check_order_details"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px36sp" />
+    <ImageView
+        android:layout_width="@dimen/px60dp"
+        android:layout_height="@dimen/px60dp"
+        android:layout_marginStart="@dimen/px20dp"
+        android:src="@drawable/arrow_right"
+        android:layout_toEndOf="@+id/order_details_tv"
+        />
+</RelativeLayout>
 
 
     <Button
@@ -148,24 +171,14 @@
         android:layout_width="@dimen/px540dp"
         android:layout_height="@dimen/px108dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/px62dp"
+        android:layout_marginTop="@dimen/px162dp"
         android:background="@drawable/btn_bg"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/px36sp" />
 
 
-    <TextView
-        android:id="@+id/order_details_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/px162dp"
-        android:drawableEnd="@drawable/arrow_right"
-        android:gravity="center"
-        android:text="@string/check_order_details"
-        android:textColor="@color/white"
-        android:textSize="@dimen/px36sp" />
+
 
 
 </LinearLayout>
