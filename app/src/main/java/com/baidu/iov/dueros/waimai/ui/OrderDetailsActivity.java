@@ -606,7 +606,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         } else {
             String mMessage = getResources().getString(R.string.remind_message);
             SpannableString spanColor = new SpannableString(mMessage);
-            spanColor.setSpan(new ForegroundColorSpan(Color.parseColor("#10CBE5")), 4, 11, 0);
+            spanColor.setSpan(new ForegroundColorSpan(Color.parseColor("#10CBE5")), 5, 12, 0);
             ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
                     .setTitle(R.string.order_cancel)
                     .setSpannableMessage(spanColor)
