@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Toast;
 
@@ -233,9 +236,12 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     }
 
     private void showCancelDialog() {
+        String mMessage = getResources().getString(R.string.remind_message);
+        SpannableString spanColor = new SpannableString(mMessage);
+        spanColor.setSpan(new ForegroundColorSpan(Color.parseColor("#10CBE5")), 5, 12, 0);
         ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
-                .setTitle(R.string.remind_title)
-                .setMessage(R.string.remind_message)
+                .setTitle(R.string.order_cancel)
+                .setSpannableMessage(spanColor)
                 .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
