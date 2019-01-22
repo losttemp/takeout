@@ -74,9 +74,9 @@ public class ApiInstance {
                 return chain.proceed(request);
             }
         });
-        httpClient.sslSocketFactory(SSLSocketClient.getSSLSocketFactory());
-        httpClient.hostnameVerifier(SSLSocketClient.getHostnameVerifier());
-        httpClient.addInterceptor(logging);
+//        httpClient.sslSocketFactory(SSLSocketClient.getSSLSocketFactory());
+//        httpClient.hostnameVerifier(SSLSocketClient.getHostnameVerifier());
+//        httpClient.addInterceptor(logging);
         return httpClient.build();
     }
 
