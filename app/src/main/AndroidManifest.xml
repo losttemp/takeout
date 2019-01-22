@@ -61,7 +61,6 @@
         <activity
             android:name=".ui.PaymentActivity"
             android:exported="true"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.PaySuccessActivity"
