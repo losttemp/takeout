@@ -634,6 +634,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     @Override
     public void onFailure(String msg) {
+        mToPayTv.setEnabled(true);
+        loadingView.setVisibility(View.GONE);
         if (!NetUtil.getNetWorkState(this)) {
             mParentsLayout.setVisibility(View.GONE);
             mNoNet.setVisibility(View.VISIBLE);

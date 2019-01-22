@@ -175,52 +175,10 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
         boolean inList = false;
         if (productList.contains(spusBean)) {
             for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : productList) {
-                if (spusBean.getId() == shopProduct.getId()) {
-                    if (shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0) {
-                        for (int i = 0; i < shopProduct.getAttrs().size(); i++) {
-                            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs = shopProduct.getAttrs().get(i).getChoiceAttrs();
-                            long id = choiceAttrs.get(0).getId();
-                            if (id == spusBean.getAttrs().get(i).getChoiceAttrs().get(0).getId()) {
-                                if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
-                                    for (int j = 0; j < shopProduct.getSkus().size(); j++) {
-                                        int skusId = shopProduct.getChoiceSkus().get(0).getId();
-                                        if (skusId == spusBean.getChoiceSkus().get(0).getId()) {
-                                            if (setPriceListener != null) {
-                                                setPriceListener.setNumber(shopProduct.getNumber());
-                                                inList = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if (inList) {
-                                        break;
-                                    }
-                                } else {
-                                    setPriceListener.setNumber(shopProduct.getNumber());
-                                    inList = true;
-                                    break;
-                                }
-                            } else {
-                                break;
-                            }
-                        }
-                        if (inList) {
-                            break;
-                        }
-                    } else {
-                        if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
-                            for (int i = 0; i < shopProduct.getSkus().size(); i++) {
-                                int id = shopProduct.getChoiceSkus().get(0).getId();
-                                if (id == spusBean.getChoiceSkus().get(0).getId()) {
-                                    if (setPriceListener != null) {
-                                        setPriceListener.setNumber(shopProduct.getNumber());
-                                        inList = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                if (spusBean.equals(shopProduct)) {
+                    setPriceListener.setNumber(shopProduct.getNumber());
+                    inList = true;
+                    break;
                 }
             }
             if (!inList) {

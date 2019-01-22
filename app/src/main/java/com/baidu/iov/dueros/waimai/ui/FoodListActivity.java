@@ -403,74 +403,19 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         String spusBeanTag = spusBean.getTag();
         boolean firstAdd = false;
         boolean inList = false;
-        boolean equalsSpusBeanId = false;
         Lg.getInstance().d(TAG, "updateProduct tag = " + tag + "; spusBeanTag = " + spusBeanTag);
         if (tag.equals(spusBeanTag)) {
             Lg.getInstance().d(TAG, "productList.contains(spusBean) = " + productList.contains(spusBean));
-//            for (int i = 0; i < productList.size(); i++) { //TODO
-//                if (productList.get(i).getId() == spusBean.getId()) {
-//                    equalsSpusBeanId = true;
-//                }
-//            }
-//            if (equalsSpusBeanId||productList.contains(spusBean)) {
             if (productList.contains(spusBean)) {
                 if (spusBean.getNumber() == 0) {
                     productList.remove(spusBean);
                 } else {
                     for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : productList) {
                         Lg.getInstance().d(TAG, "shopProduct.getId() = " + shopProduct.getId() + "; spusBean.getId() = " + spusBean.getId());
-                        if (spusBean.getId() == shopProduct.getId()) {
-                            Lg.getInstance().d(TAG, "shopProduct.getNumber() = " + shopProduct.getNumber());
-                            if (shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0) {
-                                for (int i = 0; i < shopProduct.getAttrs().size(); i++) {
-                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs = shopProduct.getAttrs().get(i).getChoiceAttrs();
-                                    if (choiceAttrs == null) {
-                                        break;
-                                    }
-                                    long id = choiceAttrs.get(0).getId();
-                                    if (id == spusBean.getAttrs().get(i).getChoiceAttrs().get(0).getId()) {
-
-                                        if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
-                                            int skusId = shopProduct.getChoiceSkus().get(0).getId();
-                                            if (skusId == spusBean.getChoiceSkus().get(0).getId()) {
-                                                shopProduct.setNumber(spusBean.getNumber());
-                                                firstAdd = false;
-                                                inList = true;
-                                                break;
-                                            }
-                                        } else {
-                                            shopProduct.setNumber(spusBean.getNumber());
-                                            firstAdd = false;
-                                            inList = true;
-                                            break;
-                                        }
-                                    } else {
-                                        break;
-                                    }
-                                }
-                                if (inList) {
-                                    break;
-                                }
-                            } else {
-                                if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
-                                    for (int i = 0; i < shopProduct.getSkus().size(); i++) {
-                                        int id = shopProduct.getChoiceSkus().get(0).getId();
-                                        if (id == spusBean.getChoiceSkus().get(0).getId()) {
-                                            int num = spusBean.getNumber();
-                                            shopProduct.setNumber(num);
-                                            firstAdd = false;
-                                            inList = true;
-                                            break;
-                                        }
-                                    }
-                                } else {
-                                    int num = spusBean.getNumber();
-                                    shopProduct.setNumber(num);
-                                    firstAdd = false;
-                                    inList = true;
-                                    break;
-                                }
-                            }
+                        if (spusBean.equals(shopProduct)) {
+                            shopProduct.setNumber(spusBean.getNumber());
+                            inList = true;
+                            break;
                         }
                     }
                 }

@@ -159,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/px18dp"
+                android:layout_marginBottom="@dimen/px22dp"
                 android:layout_marginLeft="@dimen/px68dp"
                 android:text="@string/open_the_shopping_cart"
                 android:textColor="@color/white"
@@ -250,14 +250,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/px60dp"
-        android:layout_marginLeft="@dimen/px72dp"
+        android:layout_marginBottom="@dimen/px84dp"
+        android:layout_marginLeft="@dimen/px84dp"
         android:visibility="gone">
 
         <ImageView
             android:id="@+id/shopping_cart"
-            android:layout_width="@dimen/px120dp"
-            android:layout_height="@dimen/px120dp"
+            android:layout_width="@dimen/px96dp"
+            android:layout_height="@dimen/px96dp"
             android:src="@drawable/icon120" />
 
         <LinearLayout

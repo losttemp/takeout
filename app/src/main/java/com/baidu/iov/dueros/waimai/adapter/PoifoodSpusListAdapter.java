@@ -716,42 +716,10 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 boolean inList = false;
                 if (productList.contains(spusBean)) {
                     for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : productList) {
-                        Lg.getInstance().d(TAG, "shopProduct.getId() = " + shopProduct.getId() + "; spusBean.getId() = " + spusBean.getId());
-                        if (spusBean.getId() == shopProduct.getId()) {
-                            if (shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0) {
-                                for (int i = 0; i < shopProduct.getAttrs().size(); i++) {
-                                    List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs = shopProduct.getAttrs().get(i).getChoiceAttrs();
-                                    long id = choiceAttrs.get(0).getId();
-                                    if (id == spusBean.getAttrs().get(i).getChoiceAttrs().get(0).getId()) {
-                                        if (shopProduct.getSkus() != null && shopProduct.getSkus().size() > 1) {
-                                            int skusId = shopProduct.getChoiceSkus().get(0).getId();
-                                            if (skusId == spusBean.getChoiceSkus().get(0).getId()) {
-                                                spusBean.setNumber(shopProduct.getNumber());
-                                                inList = true;
-                                                break;
-                                            }
-                                        } else {
-                                            spusBean.setNumber(shopProduct.getNumber());
-                                            inList = true;
-                                            break;
-                                        }
-                                    } else {
-                                        break;
-                                    }
-                                }
-                                if (inList) {
-                                    break;
-                                }
-                            } else {
-                                for (int i = 0; i < shopProduct.getSkus().size(); i++) {
-                                    int id = shopProduct.getChoiceSkus().get(0).getId();
-                                    if (id == spusBean.getChoiceSkus().get(0).getId()) {
-                                        spusBean.setNumber(shopProduct.getNumber());
-                                        inList = true;
-                                        break;
-                                    }
-                                }
-                            }
+                        if (spusBean.equals(shopProduct)) {
+                            spusBean.setNumber(shopProduct.getNumber());
+                            inList = true;
+                            break;
                         }
                     }
                     if (!inList) {
@@ -780,7 +748,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
                     if (spusBean.getNumber() == 0) {
                         viewHolder.action.setVisibility(View.GONE);
-                        viewHolder.add.setVisibility(View.VISIBLE);
+                        if (viewHolder.specifications.getVisibility() == View.GONE) {
+                            viewHolder.add.setVisibility(View.VISIBLE);
+                        }
                     }
                     if (callBackListener != null) {
                         callBackListener.updateProduct(spusBean, spusBean.getTag(), section, false);
