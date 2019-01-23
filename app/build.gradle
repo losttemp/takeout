@@ -82,5 +82,4 @@ dependencies {
     implementation files('libs/sdk.jar')
     implementation files('libs/faceos-client-sdk-v1.0.5.jar')
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
-    implementation 'com.yanzhenjie:permission:2.0.0-rc4'
 }

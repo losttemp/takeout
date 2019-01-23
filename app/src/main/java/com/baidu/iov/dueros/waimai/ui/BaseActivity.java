@@ -35,12 +35,6 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.location.BDLocation;
-import com.yanzhenjie.permission.Action;
-import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.Rationale;
-import com.yanzhenjie.permission.RequestExecutor;
-
-import java.util.List;
 
 public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends AppCompatActivity implements LocationManager.LocationCallBack {
 
@@ -83,7 +77,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     protected void onPause() {
         super.onPause();
         getPresenter().unregisterCmd(this);
-        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
+//        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
     }
 
     @Override
@@ -133,21 +127,14 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     }
 
     public void requestPermission() {
-        AndPermission.with(this)
-                .permission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
-                .onGranted(new Action() {
-                    @Override
-                    public void onAction(List<String> permissions) {
-                        Lg.getInstance().e("LocationManager","AndPermission true");
-                        initLocationCity();
-                    }
-                }).onDenied(new Action() {
-            @Override
-            public void onAction(List<String> permissions) {
-                Lg.getInstance().e("LocationManager","AndPermission false");
-                showPermissionDialog();
-            }
-        }).start();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            showPermissionDialog();
+        } else {
+            initLocationCity();
+        }
     }
 
     private void showPermissionDialog() {

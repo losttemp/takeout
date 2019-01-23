@@ -21,7 +21,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/address_edit_name"
-            style="@style/AddressEditTextStyle"
+            style="@style/AutoCompleteStyle"
             android:layout_width="@dimen/px528dp"
             android:layout_toRightOf="@id/address_edit_name_text"
             android:hint="@string/contacts_hint_text"
@@ -29,11 +29,11 @@
 
         <ImageView
             android:id="@+id/et_name_close"
-            android:layout_width="@dimen/px96dp"
-            android:layout_height="@dimen/px96dp"
+            android:layout_width="@dimen/px48dp"
+            android:layout_height="@dimen/px48dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_close" />
+            android:src="@drawable/icon_close_48" />
     </RelativeLayout>
 
     <View
@@ -84,7 +84,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/address_edit_phone"
-            style="@style/AddressEditTextStyle"
+            style="@style/AutoCompleteStyle"
             android:layout_width="@dimen/px528dp"
             android:layout_toRightOf="@id/address_edit_phone_text"
             android:hint="@string/phone_hint_text"
@@ -94,11 +94,11 @@
 
         <ImageView
             android:id="@+id/et_phone_close"
-            android:layout_width="@dimen/px96dp"
-            android:layout_height="@dimen/px96dp"
+            android:layout_width="@dimen/px48dp"
+            android:layout_height="@dimen/px48dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_close" />
+            android:src="@drawable/icon_close_48" />
     </RelativeLayout>
 
     <View style="@style/AddressEditDividerStyle" />
@@ -118,13 +118,14 @@
             <TextView
                 android:id="@+id/address_edit_address"
                 style="@style/AddressEditTextStyle"
+                android:layout_width="0dp"
                 android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/address_edit_arrow"
                 android:layout_width="@dimen/px48dp"
                 android:layout_height="@dimen/px48dp"
-                android:layout_marginRight="@dimen/px30dp"
+                android:layout_marginRight="@dimen/px10dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_right" />
         </LinearLayout>
@@ -143,18 +144,18 @@
             android:id="@+id/address_edit_house_num"
             style="@style/AddressEditTextStyle"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_toRightOf="@id/address_edit_house_text"
+            android:layout_weight="1"
             android:hint="@string/address_details_hint_text"
             android:textColorHint="@color/white_60" />
 
         <ImageView
             android:id="@+id/et_house_close"
-            android:layout_width="@dimen/px96dp"
-            android:layout_height="@dimen/px96dp"
+            android:layout_width="@dimen/px48dp"
+            android:layout_height="@dimen/px48dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_close" />
+            android:src="@drawable/icon_close_48" />
     </LinearLayout>
 
     <View style="@style/AddressEditDividerStyle" />

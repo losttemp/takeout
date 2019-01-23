@@ -3,11 +3,9 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,8 +32,6 @@ import com.baidu.iov.dueros.waimai.view.QGridView;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
-import com.yanzhenjie.permission.Action;
-import com.yanzhenjie.permission.AndPermission;
 
 import org.json.JSONObject;
 
@@ -261,15 +257,13 @@ public class CityPickerActivity extends AppCompatActivity {
     }
 
     public void requestPermission() {
-        AndPermission.with(this)
-                .permission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
-                .onGranted(new Action() {
-                    @Override
-                    public void onAction(List<String> permissions) {
-                        Lg.getInstance().e("LocationManager","AndPermission true");
-                        getLocationCity();
-                    }
-                }).start();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Lg.getInstance().e("LocationManager","AndPermission true");
+            getLocationCity();
+        }
     }
 
 }

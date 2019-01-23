@@ -91,7 +91,18 @@
     </style>
 
     <declare-styleable name="ConstraintHeightListView">
-        <attr name="maxHeight" format="dimension"/>
+        <attr name="maxHeight" format="dimension" />
     </declare-styleable>
 
+    <style name="AutoCompleteStyle" parent="@android:style/Widget.AutoCompleteTextView">
+        <item name="android:popupBackground">@null</item>
+        <item name="android:dropDownVerticalOffset">0dip</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/px36sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
 </resources>

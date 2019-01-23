@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_bg"
+    android:id="@+id/content"
     android:orientation="vertical">
 
     <WebView
         android:id="@+id/meituan_login"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="match_parent" />
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -20,6 +20,7 @@
         android:max="100"
         android:progress="0"
         android:visibility="gone" />
+
     <include layout="@layout/warn_no_internet"
         android:id="@+id/network_view"
         android:visibility="gone"/>

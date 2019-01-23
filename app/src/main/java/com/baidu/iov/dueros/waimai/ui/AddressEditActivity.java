@@ -34,7 +34,6 @@ import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.StringUtils;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -149,9 +148,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (et_house_num.getText().toString().length() <= 0) {
-                houseCloseView.setVisibility(View.GONE);
-            }
         } else {
             mLocationBean = intent.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
             address_title.setText(getResources().getString(R.string.add_address));
@@ -168,6 +164,10 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             } else {
                 phoneCloseView.setVisibility(View.GONE);
             }
+
+        }
+        if (et_house_num.getText().toString().length() <= 0) {
+            houseCloseView.setVisibility(View.GONE);
         }
         AddressHintListAdapter nameAdapter = new AddressHintListAdapter(this, MyApplicationAddressBean.USER_NAMES);
         AddressHintListAdapter phoneAdapter = new AddressHintListAdapter(this, MyApplicationAddressBean.USER_PHONES);

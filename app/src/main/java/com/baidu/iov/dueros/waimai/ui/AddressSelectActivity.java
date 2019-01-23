@@ -166,7 +166,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
     }
 
-
     @Override
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
         loadingView.setVisibility(View.GONE);
@@ -187,7 +186,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             }
             mDataList.clear();
             mDataList.addAll(data);
-            if (mDataList.size()>6){
+            if (mDataList.size()>7){
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1.0f);
                 mRecyclerView.setLayoutParams(lp);
                 addBtnView.setVisibility(View.VISIBLE);
@@ -207,6 +206,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     public void onFailure(String msg) {
         loadingView.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
+        networkView.setVisibility(View.VISIBLE);
     }
 
     @Override

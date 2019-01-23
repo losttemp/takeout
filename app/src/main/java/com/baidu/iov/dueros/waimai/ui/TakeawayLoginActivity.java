@@ -34,6 +34,7 @@ import com.baidu.iov.dueros.waimai.presenter.MeituanAuthPresenter;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.KeyBoardListener;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
@@ -108,6 +109,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         networkView = findViewById(R.id.network_view);
         networkView.setBackground(getResources().getDrawable(R.drawable.app_bg));
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
+        KeyBoardListener.getInstance(this).init();
     }
 
     @Override

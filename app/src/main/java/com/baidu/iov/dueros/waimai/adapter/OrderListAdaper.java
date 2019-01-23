@@ -71,7 +71,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private AppCompatTextView tvIndex;
         private ImageView ivStore;
-        private LinearLayout llOrderInfo;
         private AppCompatTextView tvStoreName;
         private AppCompatTextView tvFood;
         private AppCompatTextView tvPrice;
@@ -81,7 +80,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         private AppCompatTextView tvOneMore;
         private AppCompatTextView tvCancelOrder;
         private AppCompatTextView tvPayOrder;
-        private OrderListResponse.IovBean.DataBean mOrder;
         private OrderListExtraPayloadBean payloadBean;
         private OrderListExtraBean extraBean;
         private boolean isNeedVoice;
@@ -91,7 +89,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
 
             tvIndex = (AppCompatTextView) view.findViewById(R.id.index);
             ivStore = (ImageView) view.findViewById(R.id.iv_store);
-            llOrderInfo = (LinearLayout) view.findViewById(R.id.ll_order_info);
             tvStoreName = (AppCompatTextView) view.findViewById(R.id.tv_store_name);
             tvFood = (AppCompatTextView) view.findViewById(R.id.tv_food);
             tvPrice = (AppCompatTextView) view.findViewById(R.id.tv_price);
@@ -112,7 +109,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         }
 
         public void bindData(int position, OrderListResponse.IovBean.DataBean order) {
-            this.mOrder = order;
             tvOneMore.setText(mContext.getResources().getString(R.string.one_more_order));
             tvCancelOrder.setText(mContext.getResources().getString(R.string.order_cancel));
             tvPayOrder.setText(mContext.getResources().getString(R.string.pay_order));

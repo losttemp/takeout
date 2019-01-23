@@ -33,21 +33,21 @@
 
             <ImageView
                 android:id="@+id/refresh"
-                android:visibility="gone"
                 android:layout_width="@dimen/px48dp"
                 android:layout_height="@dimen/px48dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/local_refresh" />
+                android:src="@drawable/local_refresh"
+                android:visibility="gone" />
 
             <com.baidu.iov.dueros.waimai.view.RollTextView
                 android:id="@+id/address_search_city"
                 android:layout_width="@dimen/px72dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/refresh"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:maxLines="1"
-                android:layout_toEndOf="@+id/refresh"
                 android:text="@string/wuhan"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px36sp" />
@@ -97,12 +97,12 @@
 
             <ImageView
                 android:id="@+id/suggestion_close"
-                android:layout_width="@dimen/px96dp"
-                android:layout_height="@dimen/px96dp"
+                android:layout_width="@dimen/px48dp"
+                android:layout_height="@dimen/px48dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/px46dp"
-                android:src="@drawable/icon_close"
-                android:visibility="gone" />
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_close_48" />
         </LinearLayout>
     </LinearLayout>
 
