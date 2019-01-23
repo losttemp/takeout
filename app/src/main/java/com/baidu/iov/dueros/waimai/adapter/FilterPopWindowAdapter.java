@@ -47,6 +47,20 @@ public class FilterPopWindowAdapter extends BaseAdapter {
 		return position;
 	}
 
+	private List<ActivityFilterListBean.ItemsBean> getItemsBean(List<ActivityFilterListBean.ItemsBean> subTypeList) {
+		 if (subTypeList==null||subTypeList.isEmpty()){
+			 return subTypeList;
+		 }
+	
+			for (int i=0;i<subTypeList.size();i++){
+				if (subTypeList.get(i).getName().equals(mContext.getResources().getString(R.string.new_bus))||subTypeList.get(i).getName().equals(mContext.getResources().getString(R.string.booking))){
+					subTypeList.remove(i);
+				}
+			}
+			
+		return subTypeList;
+	}
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder viewHolder = null;
@@ -74,9 +88,9 @@ public class FilterPopWindowAdapter extends BaseAdapter {
 		subTypeList.addAll(mFilterList.get(position).getItems());
 
 		
-		if (!TextUtils.isEmpty(name)&&name.contains("商家特色")){
+		if (!TextUtils.isEmpty(name)&&name.contains(mContext.getResources().getString(R.string.feature_business))){
 			viewHolder.gvSubType.setVisibility(View.VISIBLE);
-			final FilterSubTypeAdapter adapter = new FilterSubTypeAdapter(subTypeList,
+			final FilterSubTypeAdapter adapter = new FilterSubTypeAdapter(getItemsBean(subTypeList),
 					mContext);
 			viewHolder.gvSubType.setAdapter(adapter);
 			viewHolder.gvSubType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -123,5 +137,7 @@ public class FilterPopWindowAdapter extends BaseAdapter {
 			notifyDataSetChanged();
 		}
 	}
+	
+	
 
 }

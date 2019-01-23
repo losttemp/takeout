@@ -29,8 +29,8 @@
     <string name="min_price">起送¥%.2f |</string>
     <string name="shipping_fee">配送¥%.2f |</string>
     <string name="min_price_s">起送¥%s</string>
-    <string name="shipping_fee_s">| 配送¥%s</string>
-    <string name="average_price">| %s</string>
+    <string name="shipping_fee_s"> | 配送¥%s</string>
+    <string name="average_price">  | %s</string>
     <string name="flower">鲜花</string>
     <string name="cake">蛋糕</string>
     <string name="takeaway">外卖</string>
@@ -50,7 +50,10 @@
     <string name="supporting_invoices">支持开发票</string>
     <string name="ten">领</string>
     <string name="cash_coupon">代金券</string>
-    
+    <string name="feature_business">商家特色</string>
+    <string name="new_bus">商家特色</string>
+    <string name="booking">跨天预订</string>
+
 
     <!--FilterPopWindow-->
     <string name="ok">确定</string>

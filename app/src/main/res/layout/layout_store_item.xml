@@ -161,6 +161,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="@dimen/px18dp"
 				android:layout_toRightOf="@+id/iv_store"
+				android:gravity="center_vertical"
 				android:orientation="horizontal">
 
 				<com.domain.multipltextview.MultiplTextView
@@ -168,20 +169,36 @@
 					android:id="@+id/tv_min_price"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginRight="5dp"
+					android:layout_marginRight="@dimen/px8dp"
 					android:textColor="@color/white_60"
 					android:textSize="@dimen/px30sp"
 					tools:text="@string/min_price_s" />
+
+				<View
+					android:id="@+id/vw_price_right"
+					android:layout_width="@dimen/px2dp"
+					android:layout_height="@dimen/px32dp"
+					android:visibility="gone"
+					android:layout_marginRight="@dimen/px10dp"
+					android:background="@color/white_60" />
 
 				<com.domain.multipltextview.MultiplTextView
 					app:removeDefaultPadding="true"
 					android:id="@+id/tv_express_price"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginRight="5dp"
+					android:layout_marginRight="@dimen/px8dp"
 					android:textColor="@color/white_60"
 					android:textSize="@dimen/px30sp"
 					tools:text="@string/shipping_fee_s" />
+
+				<View
+					android:id="@+id/vw_express_price_right"
+					android:layout_width="@dimen/px2dp"
+					android:layout_height="@dimen/px32dp"
+					android:visibility="gone"
+					android:layout_marginRight="@dimen/px10dp"
+					android:background="@color/white_60" />
 
 				<com.domain.multipltextview.MultiplTextView
 					app:removeDefaultPadding="true"
@@ -189,7 +206,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:textColor="@color/white_60"
-					android:layout_marginRight="5dp"
+					android:layout_marginRight="@dimen/px8dp"
 					android:textSize="@dimen/px30sp"
 					tools:text="@string/average_price" />
 

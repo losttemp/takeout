@@ -252,32 +252,35 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			case R.id.rl_sort:
 				addSortEvent();
 				if (mSortPopWindow == null) {
-					mSortPopWindow = new SortPopWindow(mContext, mSortList, (new SortPopWindow
-							.OnSelectedSortListener() {
-						@Override
-						public void OnSelectedSort(FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean type) {
-							mStoreReq.setSortType((int) type.getCode());
-							mTvSort.setText(type.getName());
-							mRvStore.scrollToPosition(0);
-							loadFirstPage(mStoreReq);
-						}
-					}));
-					mSortPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-						@Override
-						public void onDismiss() {
-							mIvSort.setImageResource(R.drawable.arrow_down);
-							mViewBg.setVisibility(View.GONE);
-						}
-					});
+						mSortPopWindow = new SortPopWindow(mContext, mSortList, (new SortPopWindow
+								.OnSelectedSortListener() {
+							@Override
+							public void OnSelectedSort(FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean type) {
+								mStoreReq.setSortType((int) type.getCode());
+								mTvSort.setText(type.getName());
+								mRvStore.scrollToPosition(0);
+								loadFirstPage(mStoreReq);
+							}
+						}));
+						mSortPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+							@Override
+							public void onDismiss() {
+								mIvSort.setImageResource(R.drawable.arrow_down);
+								mViewBg.setVisibility(View.GONE);
+							}
+						});
+						
 				}
-				if (mSortList.size() == 0) {
-					mPresenter.requestFilterList(filterConditionReq);
-				}
-				mTagLv.setTextViewDefaultColor();
-				mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
-				mIvSort.setImageResource(R.drawable.arrow_up);
-				mSortPopWindow.showAsDropDown(mView);
-				mViewBg.setVisibility(View.VISIBLE);
+
+		  if (mFilterPopWindow==null||!mFilterPopWindow.isShowing()) {
+			mTagLv.setTextViewDefaultColor();
+			mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
+			mIvSort.setImageResource(R.drawable.arrow_up);
+			mSortPopWindow.showAsDropDown(mView);
+			mViewBg.setVisibility(View.VISIBLE);
+		  }
+				
+			
 				break;
 
 			case R.id.rl_filter:
@@ -302,21 +305,21 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 						public void onDismiss() {
 							mIvFilter.setImageResource(R.drawable.arrow_down);
 							mViewBg.setVisibility(View.GONE);
-                            if (mStoreReq.getMigFilter()==null||mStoreReq.getMigFilter().isEmpty()) {
-                                mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
-                            } else {
-                                mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
-                            }
+							if (mStoreReq.getMigFilter() == null || mStoreReq.getMigFilter().isEmpty()) {
+								mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
+							} else {
+								mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
+							}
 						}
 					});
-				}
-				if (mFilterList.size() == 0) {
-					mPresenter.requestFilterList(filterConditionReq);
-				}
-				mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
-				mIvFilter.setImageResource(R.drawable.arrow_up);
-				mFilterPopWindow.showAsDropDown(mView);
-				mViewBg.setVisibility(View.VISIBLE);
+					}
+
+		if (mSortPopWindow==null||!mSortPopWindow.isShowing()) {
+			mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
+			mIvFilter.setImageResource(R.drawable.arrow_up);
+			mFilterPopWindow.showAsDropDown(mView);
+			mViewBg.setVisibility(View.VISIBLE);
+		}
 				break;
 
 			case R.id.no_internet_btn:
@@ -427,7 +430,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		Lg.getInstance().d(TAG, "msg:" + msg);
 		mLoading.setVisibility(View.GONE);
 		mWarnNoInternet.setVisibility(View.VISIBLE);
-		mView.setVisibility(View.VISIBLE);
+		mView.setVisibility(View.GONE);
 		mLlFilter.setVisibility(View.GONE);
 		mRlTipNoResult.setVisibility(View.GONE);
 		mRefreshLayout.setVisibility(View.GONE);
