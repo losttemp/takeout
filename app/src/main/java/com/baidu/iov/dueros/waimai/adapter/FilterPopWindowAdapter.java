@@ -51,7 +51,7 @@ public class FilterPopWindowAdapter extends BaseAdapter {
 		 if (subTypeList==null||subTypeList.isEmpty()){
 			 return subTypeList;
 		 }
-		final List<ActivityFilterListBean.ItemsBean> deleteSubTypes = new ArrayList<>();
+		 List<ActivityFilterListBean.ItemsBean> deleteSubTypes = new ArrayList<>();
 			for (int i=0;i<subTypeList.size();i++){
 				if (subTypeList.get(i).getName().equals(mContext.getResources().getString(R.string.new_bus))||subTypeList.get(i).getName().equals(mContext.getResources().getString(R.string.booking))||subTypeList.get(i).getName().equals(mContext.getResources().getString(R.string.supporting_invoices))){
 					deleteSubTypes.add(subTypeList.get(i));
