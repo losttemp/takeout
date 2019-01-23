@@ -34,7 +34,7 @@
 				android:id="@+id/iv_store"
 				android:layout_width="@dimen/px194dp"
 				android:layout_height="@dimen/px204dp"
-				android:scaleType="centerCrop"
+				android:scaleType="fitXY"
 				tools:src="@mipmap/ic_launcher" />
 
 			<TextView
