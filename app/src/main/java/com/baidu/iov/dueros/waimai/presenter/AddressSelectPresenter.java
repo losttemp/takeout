@@ -106,6 +106,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                         AddressListBean.IovBean.DataBean dataInfo = mDataBeans.get(i);
                         if (!TextUtils.isEmpty(dataInfo.getUser_name())) {
                             String user_name = Encryption.desEncrypt(dataInfo.getUser_name());
+                            if (TextUtils.isEmpty(user_name)) break;
                             if (null != dataInfo.getMt_address_id() &&
                                     null == dataInfo.getAddress_id()) {
                                 if (MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
@@ -130,6 +131,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                         }
                         if (!TextUtils.isEmpty(dataInfo.getUser_phone())) {
                             String user_phone = Encryption.desEncrypt(dataInfo.getUser_phone());
+                            if (TextUtils.isEmpty(user_phone)) break;
                             if (!user_phone.contains("*")) {
                                 if (null != dataInfo.getMt_address_id() &&
                                         null == dataInfo.getAddress_id()) {
@@ -179,10 +181,12 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                                 mDataBeans.remove(i);
                                 i--;
                             }
-                            if ("公司".equals(mDataBeans.get(i).getType())) {
-                                gs = mDataBeans.get(i);
-                                mDataBeans.remove(i);
-                                i--;
+                            if (i >= 0 && !TextUtils.isEmpty(mDataBeans.get(i).getType())) {
+                                if ("公司".equals(mDataBeans.get(i).getType())) {
+                                    gs = mDataBeans.get(i);
+                                    mDataBeans.remove(i);
+                                    i--;
+                                }
                             }
                         }
                     } catch (Exception e) {
