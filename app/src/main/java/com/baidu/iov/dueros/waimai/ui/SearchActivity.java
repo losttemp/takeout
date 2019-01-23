@@ -227,7 +227,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 						searchKeyword(mEtSearch.getText().toString());
 						return true;
 					}
-					
 				}
 				return false;
 			}

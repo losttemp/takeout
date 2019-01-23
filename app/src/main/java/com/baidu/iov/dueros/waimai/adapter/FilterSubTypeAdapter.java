@@ -61,12 +61,6 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 		} else {
 			viewHolder.tvSubTypeName.setBackgroundResource(R.drawable.shape_filter_unselected_bg);
 		}
-		if (viewHolder.tvSubTypeName.getText().toString().equals(mContext.getResources().getString(R.string.supporting_invoices))){
-			viewHolder.tvSubTypeName.setVisibility(View.GONE);
-		}else{
-			viewHolder.tvSubTypeName.setVisibility(View.VISIBLE);
-		}
-
 		return convertView;
 	}
 
