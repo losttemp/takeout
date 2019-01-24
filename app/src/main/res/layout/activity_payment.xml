@@ -124,8 +124,9 @@
         <com.domain.multipltextview.MultiplTextView
             android:id="@+id/order_id"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px36dp"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
+            android:gravity="center"
             android:layout_marginBottom="@dimen/px46dp"
             android:layout_marginEnd="@dimen/px86dp"
             android:layout_marginStart="@dimen/px40dp"

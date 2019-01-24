@@ -676,14 +676,14 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             intent.putExtra(Constant.PIC_URL, mPoiInfo.getPic_url());
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         } else if (submitCode == Constant.SERVICE_ERROR) {
 
             ToastUtils.show(this, getString(R.string.service_error), Toast.LENGTH_SHORT);
+            finish();
         } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
             ToastUtils.show(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
         }
-
-        finish();
     }
 
 }

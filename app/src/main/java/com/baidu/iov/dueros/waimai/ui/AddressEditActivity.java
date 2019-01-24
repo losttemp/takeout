@@ -306,7 +306,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         if (data.getMeituan().getCode() == 0) {
             ToastUtils.show(this, getResources().getString(R.string.address_update_success), Toast.LENGTH_SHORT);
             if (getIntent().getLongExtra(Constant.ADDRESS_SELECT_ID, 0) == dataBean.getAddress_id()) {
-                Log.d("sss", "dataBean: " +dataBean.getType());
                 AddressListBean.IovBean.DataBean bean = new AddressListBean.IovBean.DataBean();
                 bean.setAddress(addressEditreq.getAddress());
                 bean.setAddress_id(addressEditreq.getAddress_id());
