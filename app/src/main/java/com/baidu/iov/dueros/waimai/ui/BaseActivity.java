@@ -77,7 +77,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     protected void onPause() {
         super.onPause();
         getPresenter().unregisterCmd(this);
-//        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
+        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
     }
 
     @Override
@@ -172,14 +172,14 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
             }
         });
     }
-
+    private static final int GPS_REQUEST_CODE = 0x147;
     public void startPrivacyActivity() {
         Intent intent = new Intent();
         intent.putExtra("com.baidu.bodyguard-Query.Location", "map.query");
         intent.putExtra("query_action", "Location");
         intent.setComponent(new ComponentName("com.baidu.bodyguard", "com.baidu.bodyguard.ui.activity.PrivacyDetailsActivity"));
         try {
-            startActivity(intent);
+            startActivityForResult(intent, GPS_REQUEST_CODE);
         } catch (ActivityNotFoundException exception) {
             exception.printStackTrace();
         }
@@ -235,6 +235,14 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     }
 
     public void getGPSAddressFail() {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GPS_REQUEST_CODE) {
+            requestPermission();
+        }
     }
 
 }
