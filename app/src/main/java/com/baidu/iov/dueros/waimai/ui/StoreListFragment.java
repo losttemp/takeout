@@ -109,7 +109,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 							 @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_store_list, container, false);
 		mContext = getActivity();
-		getLocation(mContext);
+		//getLocation(mContext);
 		iniView(view);
 		iniData();
 
@@ -199,10 +199,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreReq.setLatitude(Constant.GOODS_LATITUDE);
 		mStoreReq.setLongitude(Constant.GOODS_LONGITUDE );
 		mStoreReq.setSortType(Constant.COMPREHENSIVE);
-		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
-			homeLoadFirstPage();
-		}
-
+		
 		filterConditionReq = new FilterConditionReq();
 		getFilterList();
 	}
