@@ -319,35 +319,36 @@
                     <TextView
                         style="@style/OrderDetailsText"
                         android:includeFontPadding="false"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:alpha="0.6"
                         android:text="@string/pay_succuess_address" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="end|center_vertical"
+                        android:gravity="center_vertical"
                         android:orientation="vertical">
 
                         <com.domain.multipltextview.MultiplTextView
                             android:id="@+id/contact"
                             style="@style/OrderDetailsText"
                             removeDefaultPadding="true"
+                            android:layout_gravity="end"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
                         <TextView
                             android:id="@+id/address"
-                            style="@style/OrderDetailsText"
                             android:includeFontPadding="false"
-                            android:layout_width="@dimen/px720dp"
+                            android:layout_width="@dimen/px800dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/px26dp"
+                            android:gravity="end"
+                            android:layout_gravity="end"
                             android:maxLines="1"
                             android:ellipsize="end"
-                            android:alpha="0.6"
+                            android:textColor="@color/white_60"
                             android:textSize="@dimen/px30sp" />
 
                     </LinearLayout>

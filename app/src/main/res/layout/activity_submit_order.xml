@@ -222,48 +222,51 @@
                         android:gravity="center_vertical">
 
 
-                        <com.domain.multipltextview.MultiplTextView
+                        <TextView
                             android:id="@+id/packing_fee_summary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/px26dp"
                             android:layout_marginStart="@dimen/px84dp"
                             android:layout_marginTop="@dimen/px34dp"
                             android:text="@string/packing_fee"
                             android:textColor="@color/white"
                             android:textSize="@dimen/px36sp"
-                            app:removeDefaultPadding="true" />
+                            android:includeFontPadding="false"
+                            />
 
                         <TextView
                             android:id="@+id/packing_fee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
                             android:layout_alignParentEnd="true"
                             android:layout_marginEnd="@dimen/px84dp"
-                            android:layout_marginTop="@dimen/px32dp"
+                            android:layout_marginTop="@dimen/px34dp"
                             android:textColor="@color/white"
                             android:textSize="@dimen/px40sp" />
 
-                        <com.domain.multipltextview.MultiplTextView
+                        <TextView
                             android:id="@+id/delivery_fee_summary"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/px34dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/packing_fee_summary"
-                            android:layout_marginBottom="@dimen/px34dp"
+                            android:layout_marginTop="@dimen/px26dp"
                             android:layout_marginStart="@dimen/px84dp"
                             android:text="@string/shipping_fee_text"
                             android:textColor="@color/white"
                             android:textSize="@dimen/px36sp"
-                            app:removeDefaultPadding="true" />
+                            android:includeFontPadding="false"
+                            />
 
                         <TextView
                             android:id="@+id/shipping_fee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
                             android:layout_alignParentEnd="true"
+                            android:layout_marginTop="@dimen/px26dp"
                             android:layout_below="@+id/packing_fee"
                             android:layout_marginEnd="@dimen/px84dp"
-                            android:layout_marginBottom="@dimen/px32dp"
                             android:textColor="@color/white"
                             android:textSize="@dimen/px40sp" />
 

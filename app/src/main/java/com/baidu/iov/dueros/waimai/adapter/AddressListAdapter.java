@@ -93,7 +93,9 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 String address = Encryption.desEncrypt(mData.get(realPosition).getAddress());
                 ((ViewHolder) holder).tv_address.setText(address);
-
+                if (address.length() > 17) {
+                    ((ViewHolder) holder).tv_address.setWidth((int) mContext.getResources().getDimension(R.dimen.px550dp));
+                }
                 String address_type = mData.get(realPosition).getType();
 
                 if (mContext.getString(R.string.address_home).equals(address_type)) {
@@ -112,7 +114,6 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     ((ViewHolder) holder).tv_address_type.setText(mContext.getString(R.string.address_tag_other));
                     ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg);
                 }
-
                 String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
                 String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
                 ((ViewHolder) holder).tv_name.setText(name + " " + phone);
