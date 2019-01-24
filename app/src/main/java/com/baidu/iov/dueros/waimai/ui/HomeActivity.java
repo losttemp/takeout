@@ -72,7 +72,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
         if (getIntent().getIntExtra(Constant.START_APP, -1) == Constant.START_APP_CODE) {
             requestPermission();
-        }
+         }
     }
 
     @Override
@@ -142,7 +142,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	public void getGPSAddressSuccess() {
 		Lg.getInstance().e(TAG, "getGPSAddressSuccess:");
 		if (mBDLocation!=null&&!init){
-			address=mBDLocation.getAddrStr();
+			address=mBDLocation.getAddress().district+mBDLocation.getAddress().street+mBDLocation.getAddress().streetNumber;
 			mTvTitle.setText(address);
 			Constant.GOODS_LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
 			Constant.GOODS_LONGITUDE  = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
