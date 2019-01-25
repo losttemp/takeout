@@ -183,9 +183,11 @@
     <string name="discount_money">\&#8722;\&#165;%s</string>
     <string name="order_preview_msg2">商家不可买</string>
     <string name="order_preview_msg3">菜品不可买</string>
+    <string name="order_preview_msg4">不在配送时间内</string>
     <string name="order_preview_msg5">菜品未达起送金额</string>
     <string name="order_preview_msg15">未达到最小菜品起送份数</string>
     <string name="order_preview_msg20">缺少必选菜品</string>
+    <string name="order_preview_msg26">商家不支持此配送类型</string>
     <string name="order_submit_msg8">该地址不在配送范围内，请重新选择</string>
     <string name="service_error">服务器异常</string>
     <string name="please_select_address">请选择配送地址</string>

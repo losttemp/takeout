@@ -179,6 +179,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private static final int VOICE_STEP = 3;//语音选择下一页时跳动的item数目
     private LinearLayout shoppingNumLayout;
     private InnerRecevier mInnerReceiver;
+    private TextView mTextOpenCart;
+    private boolean mTagsListOnclick;
+    private int mTagsOnclicPosition;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -269,6 +272,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mNoInternetButton = (Button) findViewById(R.id.no_internet_btn);
         mLoading = (LinearLayout) findViewById(R.id.ll_loading);
         mShopCartPic = (RelativeLayout) findViewById(R.id.rl_shop_cart);
+        mTextOpenCart = (TextView) findViewById(R.id.tv_open_shop_cart);
     }
 
     @Override
@@ -321,8 +325,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     lastItemPosition = linearManager.findLastVisibleItemPosition();
                     firstItemPosition = linearManager.findFirstVisibleItemPosition();
                 }
-                mFoodSpuTagsListAdapter.setSelectedPosition(firstItemPosition);
-                ((LinearLayoutManager) mFoodSpuTagsList.getLayoutManager()).scrollToPositionWithOffset(firstItemPosition, 0);
+                if (mTagsListOnclick && mTagsOnclicPosition != firstItemPosition) {
+                    mFoodSpuTagsListAdapter.setSelectedPosition(mTagsOnclicPosition);
+                    ((LinearLayoutManager) mFoodSpuTagsList.getLayoutManager()).scrollToPositionWithOffset(mTagsOnclicPosition, 0);
+                    mTagsListOnclick = false;
+                } else {
+                    mFoodSpuTagsListAdapter.setSelectedPosition(firstItemPosition);
+                    ((LinearLayoutManager) mFoodSpuTagsList.getLayoutManager()).scrollToPositionWithOffset(firstItemPosition, 0);
+                }
                 mFoodSpuTagsListAdapter.notifyDataSetChanged();
             }
 
@@ -339,6 +349,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mFoodSpuTagsListAdapter.setOnItemClickListener(new PoifoodSpusTagsAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
+                mTagsListOnclick = true;
+                mTagsOnclicPosition = position;
                 Entry.getInstance().onEvent(Constant.POIFOODLIST_CLICK_ON_THE_TYPE_OF_GOODS, EventType.TOUCH_TYPE);
                 ((LinearLayoutManager) mSpusList.getLayoutManager()).scrollToPositionWithOffset(position, 0);
                 mFoodSpuTagsListAdapter.setSelectedPosition(position);
@@ -348,6 +360,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
         settlement.setOnClickListener(this);
         shopping_cart.setOnClickListener(this);
+        mTextOpenCart.setOnClickListener(this);
 
         mFinish.setOnClickListener(this);
         mStoreDetails.setOnClickListener(this);
@@ -428,6 +441,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 }
                 Lg.getInstance().d(TAG, "shopProduct else");
                 spusBeanNew.setSection(selection);
+                if (productList.size() == 0) {
+                    alreadyToast = false;
+                }
                 productList.add(spusBeanNew);
                 inList = false;
                 firstAdd = true;
@@ -652,7 +668,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 } else {
                     for (int i = 0; i < listFull.size(); i++) {
                         Lg.getInstance().d(TAG, "listFull.get(0) = " + listFull.get(0));
-                        if (Double.parseDouble(listFull.get(i)) >= sum) {
+                        if (Double.parseDouble(listFull.get(i)) > sum) {
                             double v = Double.parseDouble(listFull.get(i)) - sum;
                             java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
                             String str = NumberFormat.getInstance().format(v);
@@ -803,6 +819,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.shopping_cart:
+            case R.id.tv_open_shop_cart:
                 Entry.getInstance().onEvent(Constant.POIFOODLIST_CHECK_THE_SHOPPING_CART, EventType.TOUCH_TYPE);
                 if (productList == null || productList.size() == 0) {
                     return;
@@ -850,6 +867,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 if (mBottomDialog != null && mBottomDialog.isShowing()) {
                     mBottomDialog.dismiss();
                 }
+                alreadyToast = false;
                 break;
             case R.id.iv_finish:
                 finish();
@@ -1025,15 +1043,15 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                 startActivity(intent);
                 break;
-            /*case Constant.SUBMIT_ORDER_FAIL:
-                ToastUtils.show(getApplicationContext(), data.getMeituan().getMsg(), Toast.LENGTH_SHORT);
-                break;
             case Constant.STORE_CANT_NOT_BUY:
                 ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg2), Toast.LENGTH_SHORT);
                 break;
 
             case Constant.FOOD_CANT_NOT_BUY:
                 ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg3), Toast.LENGTH_SHORT);
+                break;
+            case Constant.BEYOND_THE_SCOPE_OF_DISTRIBUTION:
+                ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg4), Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_COST_NOT_BUY:
                 ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg5), Toast.LENGTH_SHORT);
@@ -1043,13 +1061,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
 
             case Constant.FOOD_LACK_NOT_BUY:
-                ToastUtils.show(getApplicationContext(), data.getMeituan().getMsg(), Toast.LENGTH_SHORT);
+                ToastUtils.show(getApplicationContext(), data.getMeituan().getData().getMsg(), Toast.LENGTH_SHORT);
                 break;
             case Constant.SERVICE_ERROR:
-                ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.service_error), Toast.LENGTH_SHORT);
-                break;*/
+                ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg26), Toast.LENGTH_SHORT);
+                break;
             default:
-                ToastUtils.show(getApplicationContext(), data.getMeituan().getData().getMsg(), Toast.LENGTH_SHORT);
+                ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.service_error), Toast.LENGTH_SHORT);
                 break;
         }
     }

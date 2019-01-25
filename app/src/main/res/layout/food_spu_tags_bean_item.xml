@@ -30,7 +30,8 @@
             <ImageView
                 android:id="@+id/head"
                 android:layout_width="@dimen/px206dp"
-                android:layout_height="@dimen/px206dp"/>
+                android:layout_height="@dimen/px206dp"
+                android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/tv_sold_out"
@@ -89,7 +90,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/px48dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -226,7 +227,7 @@
                 <LinearLayout
                     android:id="@+id/ll_not_buy_time"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/px48dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:visibility="gone">

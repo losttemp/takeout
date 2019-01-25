@@ -94,6 +94,7 @@ public class Constant {
     public final static int SUBMIT_ORDER_SUCCESS = 0;
     public final static int STORE_CANT_NOT_BUY = 2;
     public final static int FOOD_CANT_NOT_BUY = 3;
+    public final static int BEYOND_THE_SCOPE_OF_DISTRIBUTION = 4;
     public final static int FOOD_COST_NOT_BUY = 5;
     public final static int FOOD_COUNT_NOT_BUY = 15;
     public final static int FOOD_LACK_NOT_BUY = 20;

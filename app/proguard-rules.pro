@@ -223,3 +223,11 @@
 # sdk.jar
 -keep class android.app.** { *; }
 -dontwarn android.app.**
+
+-keep public class android.net.http.SslError
+
+-keepattributes *JavascriptInterface*
+
+-keep public class com.baidu.iov.dueros.waimai.ui.TakeawayLoginActivity$InJavaScriptLocalObj{
+public void *(java.lang.String);
+}
