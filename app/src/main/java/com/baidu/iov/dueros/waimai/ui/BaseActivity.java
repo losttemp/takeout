@@ -115,7 +115,6 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     @Override
     public void locationCallBack(boolean isSuccess, BDLocation bdLocation) {
         if (isSuccess) {
-            Lg.getInstance().e("locationCallBack", isSuccess + "");
             mBDLocation = bdLocation;
             Constant.LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
             Constant.LONGITUDE = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);

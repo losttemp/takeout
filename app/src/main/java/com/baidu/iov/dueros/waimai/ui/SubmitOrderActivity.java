@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.iov.dueros.waimai.BuildConfig;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryDateAdapter;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryTimeAdapter;
 
@@ -498,7 +499,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         String name = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
                                 + Encryption.desEncrypt(mAddressData.getUser_phone());
                         mUserNameTv.setText(name);
-                        sendBroadcast(new Intent(Constant.PULL_LOCATION));
+                        Intent intent = new Intent(Constant.PULL_LOCATION);
+                        intent.setPackage(BuildConfig.APPLICATION_ID);
+                        sendBroadcast(intent);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

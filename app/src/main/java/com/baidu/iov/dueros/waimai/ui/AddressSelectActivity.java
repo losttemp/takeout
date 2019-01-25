@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.baidu.iov.dueros.waimai.BuildConfig;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressSelectAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
@@ -61,7 +62,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         isNeedPlayTTS = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
         getPresenter().initDesBeans();
         initView();
-        if (getIntent().getIntExtra(Constant.START_APP,-1)==Constant.START_APP_CODE){
+        if (getIntent().getIntExtra(Constant.START_APP, -1) == Constant.START_APP_CODE) {
             requestPermission();
         }
     }
@@ -72,7 +73,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         mNoAddress.setVisibility(View.GONE);
         addBtnView.setVisibility(View.GONE);
         if (NetUtil.getNetWorkState(this)) {
-            sendBroadcast(new Intent("com.baidu.iov.dueros.waimai.requestNaviDes"));
+            sendDestination();
             networkView.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.GONE);
             loadingView.setVisibility(View.VISIBLE);
@@ -92,8 +93,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         mAdapter = new AddressSelectAdapter(mDataList, this) {
             @Override
             public void addAddress() {
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_START_ADD_NEW,EventType.TOUCH_TYPE);
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_START_POI,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_START_ADD_NEW, EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_START_POI, EventType.TOUCH_TYPE);
                 doSearchAddress(false);
             }
         };
@@ -107,21 +108,23 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             public void OnItemClick(View v, AddressListBean.IovBean.DataBean dataBean) {
                 switch (v.getId()) {
                     case R.id.address_select_details_container:
-                        String type =dataBean.getType();
-                        if (TextUtils.isEmpty(type)){
-                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_OTHER,EventType.TOUCH_TYPE);
-                        }else if (getString(R.string.address_home).equals(type)) {
-                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_HOME,EventType.TOUCH_TYPE);
+                        String type = dataBean.getType();
+                        if (TextUtils.isEmpty(type)) {
+                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_OTHER, EventType.TOUCH_TYPE);
+                        } else if (getString(R.string.address_home).equals(type)) {
+                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_HOME, EventType.TOUCH_TYPE);
                         } else if (getString(R.string.address_company).equals(type)) {
-                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_FIRM,EventType.TOUCH_TYPE);
-                        }else if (getString(R.string.address_destination).equals(type)){
-                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_MUDIDI,EventType.TOUCH_TYPE);
-                        }else{
-                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_OTHER,EventType.TOUCH_TYPE);
+                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_FIRM, EventType.TOUCH_TYPE);
+                        } else if (getString(R.string.address_destination).equals(type)) {
+                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_MUDIDI, EventType.TOUCH_TYPE);
+                        } else {
+                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_OTHER, EventType.TOUCH_TYPE);
                         }
                         String databeanStr = GsonUtil.toJson(dataBean);
                         CacheUtils.saveAddressBean(databeanStr);
-                        sendBroadcast(new Intent(Constant.PULL_LOCATION));
+                        Intent intent = new Intent(Constant.PULL_LOCATION);
+                        intent.setPackage(BuildConfig.APPLICATION_ID);
+                        sendBroadcast(intent);
                         if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
                             CacheUtils.saveAddrTime(System.currentTimeMillis());
                         }
@@ -145,7 +148,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     }
 
     private void startEditActivity(AddressListBean.IovBean.DataBean dataBean) {
-        Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_START_EDIT,EventType.TOUCH_TYPE);
+        Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_START_EDIT, EventType.TOUCH_TYPE);
         Intent intent = new Intent(AddressSelectActivity.this, AddressEditActivity.class);
         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS, dataBean);
@@ -186,11 +189,11 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             }
             mDataList.clear();
             mDataList.addAll(data);
-            if (mDataList.size()>7){
+            if (mDataList.size() > 7) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1.0f);
                 mRecyclerView.setLayoutParams(lp);
                 addBtnView.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 mRecyclerView.setLayoutParams(lp);
                 addBtnView.setVisibility(View.GONE);
@@ -215,7 +218,9 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         if (null != mDataList && mDataList.size() >= i) {
             String databeanStr = GsonUtil.toJson(mDataList.get(i));
             CacheUtils.saveAddressBean(databeanStr);
-            sendBroadcast(new Intent(Constant.PULL_LOCATION));
+            Intent intent = new Intent(Constant.PULL_LOCATION);
+            intent.setPackage(BuildConfig.APPLICATION_ID);
+            sendBroadcast(intent);
             if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
                 CacheUtils.saveAddrTime(System.currentTimeMillis());
             }
@@ -248,13 +253,13 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 break;
             case R.id.add_no_address:
             case R.id.address_select_add:
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_START_ADD_NEW,EventType.TOUCH_TYPE);
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_START_POI,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_START_ADD_NEW, EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_START_POI, EventType.TOUCH_TYPE);
                 doSearchAddress(false);
                 break;
             case R.id.no_internet_btn:
                 if (NetUtil.getNetWorkState(this)) {
-                    sendBroadcast(new Intent("com.baidu.iov.dueros.waimai.requestNaviDes"));
+                    sendDestination();
                     networkView.setVisibility(View.GONE);
                     initData();
                 } else {
@@ -264,6 +269,10 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             default:
                 break;
         }
+    }
+
+    private void sendDestination() {
+        sendBroadcast(new Intent("com.baidu.iov.dueros.waimai.requestNaviDes"));
     }
 
     @Override
