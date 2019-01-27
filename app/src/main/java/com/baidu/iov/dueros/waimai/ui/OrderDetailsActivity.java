@@ -456,10 +456,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                                     if (ActivityCompat.checkSelfPermission(OrderDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                                         ActivityCompat.requestPermissions(OrderDetailsActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_CALL_PHONE);
                                     } else {
-                                        Intent intent = new Intent(Intent.ACTION_CALL);
-                                        Uri data = Uri.parse("tel:" + "10109777");
-                                        intent.setData(data);
-                                        startActivity(intent);
+                                        startActionCall();
                                     }
                                 }
                                 dialog.dismiss();
@@ -633,10 +630,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                                                 REQUEST_CODE_CALL_PHONE);
                                     }
                                 } else {
-                                    Intent intent = new Intent(Intent.ACTION_CALL);
-                                    Uri data = Uri.parse("tel:" + "10109777");
-                                    intent.setData(data);
-                                    startActivity(intent);
+                                    startActionCall();
                                 }
                             }
                             dialog.dismiss();
@@ -668,10 +662,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         if (requestCode == REQUEST_CODE_CALL_PHONE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //permission was granted, yay! Do the contacts-related task you need to do.
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                Uri data = Uri.parse("tel:" + "10109777");
-                intent.setData(data);
-                startActivity(intent);
+                startActionCall();
             } else {
                 //permission denied, boo! Disable the functionality that depends on this permission.
                 Intent intent = new Intent();
@@ -681,6 +672,13 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 finish();
             }
         }
+    }
+
+    private void startActionCall(){
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + "10109777");
+        intent.setData(data);
+        startActivity(intent);
     }
 
 }
