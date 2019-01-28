@@ -3,13 +3,12 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -19,6 +18,7 @@ import com.baidu.iov.dueros.waimai.adapter.AddressSelectAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
@@ -26,6 +26,7 @@ import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
@@ -44,6 +45,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private View networkView;
     private View loadingView;
     private boolean isNeedPlayTTS;
+    private Button addressAddBtn;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -70,13 +72,17 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     protected void onResume() {
         super.onResume();
-        mNoAddress.setVisibility(View.GONE);
-        addBtnView.setVisibility(View.GONE);
+        ArrayList<String> prefix = new ArrayList<>();
+        prefix.add("选择");
+        AccessibilityClient.getInstance().register(this, true, prefix, null);
         if (NetUtil.getNetWorkState(this)) {
             sendDestination();
-            networkView.setVisibility(View.GONE);
+            addBtnView.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.GONE);
             loadingView.setVisibility(View.VISIBLE);
+            if (null != networkView) {
+                networkView.setVisibility(View.GONE);
+            }
             initData();
             GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getMe());
         } else {
@@ -87,19 +93,14 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AccessibilityClient.getInstance().unregister(this);
+    }
+
     private void initData() {
-        mDataList = new ArrayList<>();
         getPresenter().requestData(new AddressListReqBean());
-        mAdapter = new AddressSelectAdapter(mDataList, this) {
-            @Override
-            public void addAddress() {
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_START_ADD_NEW, EventType.TOUCH_TYPE);
-                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_START_POI, EventType.TOUCH_TYPE);
-                doSearchAddress(false);
-            }
-        };
-        mRecyclerView.setAdapter(mAdapter);
-        initListener();
     }
 
     private void initListener() {
@@ -145,6 +146,9 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 }
             }
         });
+
+        VoiceTouchUtils.setVoicesTouchSupport(addressAddBtn, mContext.getString(R.string.add_address_text));
+        VoiceTouchUtils.setVoiceTouchTTSSupport(addressAddBtn, mContext.getString(R.string.tts_add_new_address));
     }
 
     private void startEditActivity(AddressListBean.IovBean.DataBean dataBean) {
@@ -161,17 +165,29 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layout);
         findViewById(R.id.address_back).setOnClickListener(this);
-        findViewById(R.id.address_select_add).setOnClickListener(this);
         findViewById(R.id.add_no_address).setOnClickListener(this);
         addBtnView = findViewById(R.id.address_select_btn_layout);
         networkView = findViewById(R.id.network_view);
         loadingView = findViewById(R.id.loading_view);
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
+        addressAddBtn = findViewById(R.id.address_select_add);
+        addressAddBtn.setOnClickListener(this);
+
+        mDataList = new ArrayList<>();
+        mAdapter = new AddressSelectAdapter(mDataList, this) {
+            @Override
+            public void addAddress() {
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_START_ADD_NEW, EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_START_POI, EventType.TOUCH_TYPE);
+                doSearchAddress(false);
+            }
+        };
+        mRecyclerView.setAdapter(mAdapter);
+        initListener();
     }
 
     @Override
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
-        loadingView.setVisibility(View.GONE);
         if (data.size() == 0) {
             GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getEmpty_result());
             mNoAddress.setVisibility(View.VISIBLE);
@@ -189,21 +205,18 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             }
             mDataList.clear();
             mDataList.addAll(data);
+            addBtnView.setVisibility(View.VISIBLE);
             if (mDataList.size() > 7) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1.0f);
                 mRecyclerView.setLayoutParams(lp);
-                addBtnView.setVisibility(View.VISIBLE);
             } else {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 mRecyclerView.setLayoutParams(lp);
-                addBtnView.setVisibility(View.GONE);
-                AddressListBean.IovBean.DataBean dataBean = new AddressListBean.IovBean.DataBean();
-                dataBean.setItem_type(1);
-                mDataList.add(dataBean);
             }
             mAdapter.setAddressList(mDataList);
             mAdapter.notifyDataSetChanged();
         }
+        loadingView.setVisibility(View.GONE);
     }
 
     @Override
@@ -236,6 +249,35 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             startActivity(homeintent);
             finish();
         }
+    }
+
+    @Override
+    public void nextPage(boolean isNextPage) {
+        if (mNoAddress.getVisibility() == View.GONE) {
+            LinearLayoutManager manager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+            assert manager != null;
+            int currentItemPosition = manager.findFirstVisibleItemPosition();
+            int last = manager.findLastCompletelyVisibleItemPosition();
+            if (isNextPage) {
+                if (last == mDataList.size() - 1) {
+                    VoiceManager.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.last_page));
+                }
+                if (currentItemPosition + getPageNum() * 2 > mDataList.size()) {
+                    manager.scrollToPositionWithOffset(mDataList.size(), 0);
+                    return;
+                }
+                manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
+            } else {
+                if (currentItemPosition == 0) {
+                    VoiceManager.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.first_page));
+                }
+                manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
+            }
+        }
+    }
+
+    private int getPageNum() {
+        return 5;
     }
 
     @Override

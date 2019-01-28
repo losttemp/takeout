@@ -71,7 +71,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     private RelativeLayout selectCityView;
     private PoiSearch poiSearch;
     private LatLng location;
-    private SuggestionSearch mSuggestionSearch =null;
+    private SuggestionSearch mSuggestionSearch = null;
     private ArrayList<String> suggest = null;
     private AddressHintListAdapter sugAdapter;
 
@@ -235,9 +235,10 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         citySearchOption.keyword(key);
         citySearchOption.pageCapacity(20);
         citySearchOption.pageNum(0);
-        poiSearch.searchInCity(citySearchOption);
+        if (poiSearch != null) {
+            poiSearch.searchInCity(citySearchOption);
+        }
     }
-
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {

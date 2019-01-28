@@ -187,5 +187,6 @@
         android:background="@drawable/address_button"
         android:text="@string/address_edit_save"
         android:textColor="@color/white"
+        android:contentDescription="@string/save_address_text"
         android:textSize="@dimen/px36sp" />
 </LinearLayout>

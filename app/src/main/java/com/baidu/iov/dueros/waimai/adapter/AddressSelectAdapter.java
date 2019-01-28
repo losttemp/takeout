@@ -4,11 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,14 +15,12 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
-import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 
 import java.util.List;
 
 public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdapter.BaseViewHolderHelper> {
 
-    public static final int TYPE_NORMAL = 0;
-    public static final int TYPE_FOOTER = 1;
     private final Context mContext;
     private List<AddressListBean.IovBean.DataBean> mAddressList;
     private OnItemClickListener mItemClickListerner;
@@ -45,11 +41,6 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
     @NonNull
     @Override
     public BaseViewHolderHelper onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        if (position == TYPE_FOOTER) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout
-                    .item_footer_view, viewGroup, false);
-            return new FooterViewHolder(view);
-        }
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout
                 .activity_address_select_item, viewGroup, false);
         BaseViewHolderHelper holder = new AddressViewHolder(view);
@@ -58,26 +49,9 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolderHelper viewHolder, int position) {
-        if (getItemViewType(position) == TYPE_NORMAL) {
             AddressViewHolder addressViewHolder = (AddressViewHolder) viewHolder;
             AddressListBean.IovBean.DataBean dataBean = mAddressList.get(position);
             addressViewHolder.bindData(position, dataBean);
-        } else if (getItemViewType(position) == TYPE_FOOTER) {
-            FooterViewHolder footerViewHolder = (FooterViewHolder) viewHolder;
-            footerViewHolder.addressBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addAddress();
-                }
-            });
-        }
-
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (mAddressList.get(position).getItem_type()==TYPE_FOOTER) return TYPE_FOOTER;
-        return TYPE_NORMAL;
     }
 
     @Override
@@ -89,7 +63,6 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
     }
 
-
     class AddressViewHolder extends BaseViewHolderHelper implements View.OnClickListener {
         private TextView num;
         private TextView details;
@@ -99,6 +72,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         private ImageView ivType;
         private ImageView edit;
         private AddressListBean.IovBean.DataBean mDataBean;
+        private View contentView;
 
         private AddressViewHolder(View view) {
             super(view);
@@ -110,29 +84,18 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             phone = view.findViewById(R.id.address_select_phone);
             edit = view.findViewById(R.id.address_select_edit);
             edit.setOnClickListener(this);
-            view.findViewById(R.id.address_select_details_container).setOnClickListener(this);
+            contentView = view.findViewById(R.id.address_select_details_container);
+            contentView.setOnClickListener(this);
         }
 
         public void bindData(int position, AddressListBean.IovBean.DataBean dataBean) {
             this.mDataBean = dataBean;
-            String type = dataBean.getType();
-            if (TextUtils.isEmpty(type)) {
-                tvType.setBackgroundResource(R.drawable.tag_bg);
-            } else if (mContext.getString(R.string.address_home).equals(type)) {
-                tvType.setBackgroundResource(R.drawable.tag_bg_green);
-            } else if (mContext.getString(R.string.address_company).equals(type)) {
-                tvType.setBackgroundResource(R.drawable.tag_bg_blue);
-            } else if (mContext.getString(R.string.address_tag_other).equals(type)) {
-                tvType.setBackgroundResource(R.drawable.tag_bg);
-            } else if (mContext.getString(R.string.address_destination).equals(type)) {
-                tvType.setBackgroundResource(R.drawable.tag_bg_mudidi);
-            }
-            tvType.setText(!TextUtils.isEmpty(type) ? type : mContext.getString(R.string.address_tag_other));
             num.setText((position + 1) + "");
             name.setText("");
             phone.setText("");
+            String detail="";
             try {
-                String detail = Encryption.desEncrypt(dataBean.getAddress());
+                detail = Encryption.desEncrypt(dataBean.getAddress());
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) details.getLayoutParams();
                 if (detail.length() > 20) {
                     lp.width = 586;
@@ -150,6 +113,28 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            String type = dataBean.getType();
+            if (TextUtils.isEmpty(type)) {
+                tvType.setBackgroundResource(R.drawable.tag_bg);
+            } else if (mContext.getString(R.string.address_home).equals(type)) {
+                tvType.setBackgroundResource(R.drawable.tag_bg_green);
+                VoiceTouchUtils.setVoicesTouchSupport(contentView,mContext.getString(R.string.send_to_home));
+                VoiceTouchUtils.setVoiceTouchTTSSupport(contentView,String.format(mContext.getString(R.string.harvest_address), detail));
+            } else if (mContext.getString(R.string.address_company).equals(type)) {
+                tvType.setBackgroundResource(R.drawable.tag_bg_blue);
+                VoiceTouchUtils.setVoicesTouchSupport(contentView,mContext.getString(R.string.send_to_company));
+                VoiceTouchUtils.setVoiceTouchTTSSupport(contentView,String.format(mContext.getString(R.string.harvest_address), detail));
+            } else if (mContext.getString(R.string.address_tag_other).equals(type)) {
+                tvType.setBackgroundResource(R.drawable.tag_bg);
+            } else if (mContext.getString(R.string.address_destination).equals(type)) {
+                tvType.setBackgroundResource(R.drawable.tag_bg_mudidi);
+                VoiceTouchUtils.setVoicesTouchSupport(contentView,mContext.getString(R.string.send_to_destination));
+                VoiceTouchUtils.setVoiceTouchTTSSupport(contentView,String.format(mContext.getString(R.string.harvest_address), detail));
+            }
+            tvType.setText(!TextUtils.isEmpty(type) ? type : mContext.getString(R.string.address_tag_other));
+            VoiceTouchUtils.setItemVoicesTouchSupport(edit, position, R.array.address_edit);
+            VoiceTouchUtils.setVoiceTouchTTSSupport(edit,mContext.getString(R.string.start_edit_address_success_text));
         }
 
         @Override
@@ -163,15 +148,6 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
     class BaseViewHolderHelper extends RecyclerView.ViewHolder {
         public BaseViewHolderHelper(@NonNull View itemView) {
             super(itemView);
-        }
-    }
-
-    class FooterViewHolder extends BaseViewHolderHelper {
-        Button addressBtn;
-
-        public FooterViewHolder(@NonNull View itemView) {
-            super(itemView);
-            addressBtn = (Button) itemView.findViewById(R.id.item_address_select_add);
         }
     }
 

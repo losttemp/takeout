@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,12 +29,15 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressDeleteBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressEditPresenter;
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
+import com.baidu.iov.dueros.waimai.utils.ResUtils;
 import com.baidu.iov.dueros.waimai.utils.StringUtils;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -86,6 +90,14 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         initData();
     }
 
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AccessibilityClient.getInstance().unregister(this);
+    }
+
     private void initView() {
         address_title = (TextView) findViewById(R.id.address_title);
         address_tv = (TextView) findViewById(R.id.address_edit_address);
@@ -110,6 +122,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         iv_del_button.setOnClickListener(this);
         address_tv.setOnClickListener(this);
         address_arrow.setOnClickListener(this);
+
+        StringUtils.setEditTextInputSpeChat(et_name);
+        StringUtils.setEditTextInputSpeChat(et_house_num);
     }
 
     private void initData() {
@@ -283,13 +298,51 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
             }
         });
+        findViewById(R.id.address_del).setAccessibilityDelegate(new View.AccessibilityDelegate() {
+            @Override
+            public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                switch (action) {
+                    case AccessibilityNodeInfo.ACTION_CLICK:
+                        Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_DELETE, EventType.TOUCH_TYPE);
+                        initTTS=true;
+                        deleteAddressData();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+        findViewById(R.id.address_edit_save).setAccessibilityDelegate(new View.AccessibilityDelegate() {
+            @Override
+            public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                switch (action) {
+                    case AccessibilityNodeInfo.ACTION_CLICK:
+                        initTTS=true;
+                        doSave();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
+    private boolean initTTS = false;
 
     @Override
     protected void onResume() {
         super.onResume();
+        AccessibilityClient.getInstance().register(this, true, null, null);
+    }
 
+    private void deleteAddressData(){
+        mAddressDelReq.setAddress_id(dataBean.getAddress_id());
+        if (dataBean.getMt_address_id()!=null){
+            mAddressDelReq.setMt_address_id(dataBean.getMt_address_id());
+        }
+        getPresenter().requestDeleteAddressData(mAddressDelReq);
     }
 
     @Override
@@ -304,8 +357,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     @Override
     public void updateAddressSuccess(AddressEditBean data, AddressEditReq addressEditreq) {
         if (data.getMeituan().getCode() == 0) {
+            sendTTS(R.string.tts_save_address_success);
             ToastUtils.show(this, getResources().getString(R.string.address_update_success), Toast.LENGTH_SHORT);
-            if (getIntent().getLongExtra(Constant.ADDRESS_SELECT_ID, 0) == dataBean.getAddress_id()) {
+            if (dataBean.getAddress_id()!=null&&getIntent().getLongExtra(Constant.ADDRESS_SELECT_ID, 0) == dataBean.getAddress_id()) {
                 AddressListBean.IovBean.DataBean bean = new AddressListBean.IovBean.DataBean();
                 bean.setAddress(addressEditreq.getAddress());
                 bean.setAddress_id(addressEditreq.getAddress_id());
@@ -351,6 +405,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             }
         } else {
             if (data.getMeituan().getCode() == 0) {
+                sendTTS(R.string.tts_save_address_success);
                 ToastUtils.show(this, getResources().getString(R.string.address_save_success), Toast.LENGTH_SHORT);
                 finish();
             } else {
@@ -369,6 +424,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     public void deleteAddressSuccess(AddressDeleteBean data) {
         if (data.getIov().getErrno() == 0) {
             ToastUtils.show(this, getResources().getString(R.string.address_delete_success), Toast.LENGTH_SHORT);
+            sendTTS(R.string.tts_delete_address);
             finish();
         } else {
             String msg = data.getIov().getErrmsg();
@@ -411,6 +467,12 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         }
     }
 
+    private void sendTTS(int stringId){
+        if (initTTS){
+            initTTS=false;
+            VoiceManager.getInstance().playTTS(mContext, ResUtils.getString(stringId));
+        }
+    }
 
     private void doSave() {
         mAddrAddReq = new AddressAddReq();
@@ -425,12 +487,16 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
         if (TextUtils.isEmpty(et_name.getText().toString().trim())) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_name), Toast.LENGTH_SHORT);
+            sendTTS(R.string.tts_save_address_error);
         } else if (TextUtils.isEmpty(et_phone.getText().toString().trim())) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_phone), Toast.LENGTH_SHORT);
+            sendTTS(R.string.tts_save_address_error);
         } else if (TextUtils.isEmpty(address_tv.getText().toString().trim())) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_address), Toast.LENGTH_SHORT);
+            sendTTS(R.string.tts_save_address_error);
         } else if (TextUtils.isEmpty(type)) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_tagvalue), Toast.LENGTH_SHORT);
+            sendTTS(R.string.tts_save_address_error);
         } else {
             String house_num = Encryption.encrypt(et_house_num.getText().toString().trim() + "");
             String name = Encryption.encrypt(et_name.getText().toString().trim() + "");
@@ -521,11 +587,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 .setNegativeButton(R.string.delete_address_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mAddressDelReq.setAddress_id(dataBean.getAddress_id());
-                        if (dataBean.getMt_address_id()!=null){
-                            mAddressDelReq.setMt_address_id(dataBean.getMt_address_id());
-                        }
-                        getPresenter().requestDeleteAddressData(mAddressDelReq);
+                        deleteAddressData();
                         dialog.dismiss();
                     }
                 })

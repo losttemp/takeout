@@ -20,6 +20,7 @@ import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.StringUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_SELECT;
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NEXT;
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_PRE;
 
 public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.AddressSelectUi> {
     private static final String TAG = AddressSelectPresenter.class.getSimpleName();
@@ -51,6 +54,12 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
             case CMD_SELECT:
                 getUi().selectListItem(Integer.parseInt(extra));
                 break;
+            case VoiceManager.CMD_NEXT:
+                getUi().nextPage(true);
+                break;
+            case VoiceManager.CMD_PRE:
+                getUi().nextPage(false);
+                break;
             default:
                 break;
         }
@@ -61,6 +70,8 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
         if (null != mVoiceManager) {
             ArrayList<String> cmdList = new ArrayList<String>();
             cmdList.add(CMD_SELECT);
+            cmdList.add(CMD_NEXT);
+            cmdList.add(CMD_PRE);
             mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
         }
     }
@@ -267,6 +278,8 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
         void onFailure(String msg);
 
         void selectListItem(int i);
+
+        void nextPage(boolean isNextPage);
     }
 
     public class MReceiver extends BroadcastReceiver {
