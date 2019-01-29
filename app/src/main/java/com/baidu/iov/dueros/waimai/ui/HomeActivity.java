@@ -102,10 +102,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     protected void onResume() {
         super.onResume();
         Lg.getInstance().e(TAG, "onResume");
-            if (!CacheUtils.getAddress().isEmpty()) {
-                address = CacheUtils.getAddress();
-				mTvTitle.setText(address);
-            }
+		setAddress();
         GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getList());
 		AccessibilityClient.getInstance().register(this,true,prefix, null);
 	}
