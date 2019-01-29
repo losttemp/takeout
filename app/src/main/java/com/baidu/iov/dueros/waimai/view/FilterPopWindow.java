@@ -2,10 +2,12 @@ package com.baidu.iov.dueros.waimai.view;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -15,6 +17,7 @@ import com.baidu.iov.dueros.waimai.adapter.FilterSubTypeAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,8 @@ public class FilterPopWindow extends PopupWindow {
 	private FilterSubTypeAdapter mFilterSubTypeAdapter;
 
 	private GridView gvFilterType;
+
+    private ArrayList<String> prefix = new ArrayList<>();
 
 	private FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean mActivityFilterListBean;
 	private List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean> itemsBeans= new ArrayList<>();
@@ -51,6 +56,11 @@ public class FilterPopWindow extends PopupWindow {
 		setHeight(ActionBar.LayoutParams.WRAP_CONTENT);
 		setFocusable(true);
 		setOutsideTouchable(true);
+
+        prefix.add(mContext.getResources().getString(R.string.prefix_choice));
+        prefix.add(mContext.getResources().getString(R.string.prefix_check));
+        prefix.add(mContext.getResources().getString(R.string.prefix_open));
+		
 		update();
 		mActivityFilterListBean =getActivityFilterListBean(mFilterList);
 		itemsBeans=mActivityFilterListBean.getItems();
@@ -82,25 +92,40 @@ public class FilterPopWindow extends PopupWindow {
 		tvOk.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				StringBuffer migFilter = new StringBuffer();
-			
-					for (ActivityFilterListBean.ItemsBean subtype : mActivityFilterListBean.getItems()) {
-						if (subtype.isChcked()) {
-							if (!TextUtils.isEmpty(migFilter)) {
-								migFilter.append(",");
-							}
-							migFilter.append(subtype.getCode());
-						}
-					}
-				if (listener != null) {
-					listener.onClickOk(migFilter.toString());
-				}
-				dismiss();
+                toFilter(listener);
 			}
 		});
 
+        tvOk.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+            @Override
+            public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                switch (action) {
+                    case AccessibilityNodeInfo.ACTION_CLICK:
+                        toFilter(listener);
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }});
 
 	}
+	
+	private  void  toFilter(OnClickOkListener listener){
+        StringBuffer migFilter = new StringBuffer();
+        for (ActivityFilterListBean.ItemsBean subtype : mActivityFilterListBean.getItems()) {
+            if (subtype.isChcked()) {
+                if (!TextUtils.isEmpty(migFilter)) {
+                    migFilter.append(",");
+                }
+                migFilter.append(subtype.getCode());
+            }
+        }
+        if (listener != null) {
+            listener.onClickOk(migFilter.toString());
+        }
+        dismiss();
+    }
 
 	public  FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean getActivityFilterListBean(List<ActivityFilterListBean> filterList){
 		FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean mActivityFilterListBean = new FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean();
@@ -135,6 +160,18 @@ public class FilterPopWindow extends PopupWindow {
 	public interface OnClickOkListener {
 		void onClickOk(String migFilter);
 	}
+
+    @Override
+    public void showAsDropDown(View anchor) {
+        super.showAsDropDown(anchor);
+        AccessibilityClient.getInstance().register(mContext,true,prefix, null);
+    }
+
+    @Override
+    public void dismiss() {
+        AccessibilityClient.getInstance().unregister(mContext);
+        super.dismiss();
+    }
 }
 
 

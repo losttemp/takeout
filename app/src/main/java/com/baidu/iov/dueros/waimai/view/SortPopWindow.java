@@ -15,6 +15,7 @@ import com.baidu.iov.dueros.waimai.adapter.SortPopWindowAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
 		.DataBean.SortTypeListBean;
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 
 
@@ -27,7 +28,7 @@ public class SortPopWindow extends PopupWindow {
 	private SortPopWindowAdapter mAdapter;
 	private OnSelectedSortListener mOnSelectedSortListener;
 
-	protected VoiceManager.CmdCallback mVoiceCallback;
+	private ArrayList<String> prefix = new ArrayList<>();
 	
 
 	public SortPopWindow(Context context, List<SortTypeListBean> sortList,
@@ -44,7 +45,9 @@ public class SortPopWindow extends PopupWindow {
 		setFocusable(true);
 		setOutsideTouchable(false);
 		update();
-
+		prefix.add(mContext.getResources().getString(R.string.prefix_choice));
+		prefix.add(mContext.getResources().getString(R.string.prefix_check));
+		prefix.add(mContext.getResources().getString(R.string.prefix_open));
 		ListView lvSortClass = (ListView) mContentView.findViewById(R.id.lv_sort_class);
 		mAdapter = new SortPopWindowAdapter(mSortList, context);
 		lvSortClass.setAdapter(mAdapter);
@@ -58,21 +61,7 @@ public class SortPopWindow extends PopupWindow {
 			}
 		});
 
-		if (null == mVoiceCallback) {
-			mVoiceCallback = new VoiceManager.CmdCallback(){
-
-				@Override
-				public void onCmdCallback(String cmd, String extra) {
-					if (cmd.equals(VoiceManager.CMD_SELECT) && Integer.parseInt(extra) > 0) {
-						if (listener != null) {
-							listener.OnSelectedSort(mSortList.get(Integer.parseInt(extra)));
-						}
-						dismiss();
-					}
-				}
-			};
-		}
-
+		
 	}
 
 	public void updateList() {
@@ -87,14 +76,12 @@ public class SortPopWindow extends PopupWindow {
 	@Override
 	public void showAsDropDown(View anchor) {
 		super.showAsDropDown(anchor);
-		ArrayList<String> cmdList = new ArrayList<String>();
-		cmdList.add(VoiceManager.CMD_SELECT);
-		VoiceManager.getInstance().registerCmd(mContext, cmdList, mVoiceCallback);
+		AccessibilityClient.getInstance().register(mContext,true,prefix, null);
 	}
 
 	@Override
 	public void dismiss() {
-		VoiceManager.getInstance().unregisterCmd(mContext, mVoiceCallback);
+		AccessibilityClient.getInstance().unregister(mContext);
 		super.dismiss();
 	}
 }

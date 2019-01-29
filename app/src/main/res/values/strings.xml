@@ -324,5 +324,6 @@
     <string name="tts_into_food">好的，已进入美食分类页</string>
     <string name="tts_into_flower">好的，已进入预定鲜花页</string>
     <string name="tts_into_cake">好的，已进入预订蛋糕页</string>
+    <string name="tts_rescheduling">好的，已为你重新排序</string>
 
 </resources>

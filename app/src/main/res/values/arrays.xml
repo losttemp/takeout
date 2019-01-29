@@ -5,4 +5,9 @@
         <item>更新第%d个</item>
         <item>修改地址第%d个</item>
     </string-array>
+
+    <string-array name="search_histroy">
+        <item>删除第%d个</item>
+        <item>删掉第%d个</item>
+    </string-array>
 </resources>

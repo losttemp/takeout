@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 
 import java.util.List;
 
@@ -61,6 +62,8 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 		} else {
 			viewHolder.tvSubTypeName.setBackgroundResource(R.drawable.shape_filter_unselected_bg);
 		}
+		convertView.setContentDescription(mItemsBeans.get(position).getName());
+		VoiceTouchUtils.setVoiceTouchTTSSupport(convertView,mContext.getString(R.string.yes));
 		return convertView;
 	}
 

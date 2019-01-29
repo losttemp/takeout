@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
 		.DataBean.SortTypeListBean;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.util.List;
@@ -56,8 +57,8 @@ public class SortPopWindowAdapter extends BaseAdapter {
 		}
 
 		viewHolder.tvSortName.setText(mSortList.get(position).getName());
-		
-
+		convertView.setContentDescription(mSortList.get(position).getName());
+		VoiceTouchUtils.setVoiceTouchTTSSupport(convertView,mContext.getString(R.string.tts_rescheduling));
 		return convertView;
 	}
 
