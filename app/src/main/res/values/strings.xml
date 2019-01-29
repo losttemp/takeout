@@ -315,4 +315,14 @@
     <string name="send_to_destination">送到目的地</string>
     <string name="send_to_company">送到公司</string>
     <string name="send_to_home">送到家里</string>
+    <string name="prefix_choice">选择</string>
+    <string name="prefix_check">查看</string>
+    <string name="prefix_open">打开</string>
+    <string name="content_order_form">订单^再来一单^外卖订单</string>
+    <string name="content_update_address">修改地址^更换地址^更改地址^修改地址^更换地址^更改收货地址</string>
+    <string name="content_clear_up_historical">清空历史记录^删除历史记录^历史记录清空^历史记录删除</string>
+    <string name="tts_into_food">好的，已进入美食分类页</string>
+    <string name="tts_into_flower">好的，已进入预定鲜花页</string>
+    <string name="tts_into_cake">好的，已进入预订蛋糕页</string>
+
 </resources>

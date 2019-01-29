@@ -20,6 +20,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 import com.domain.multipltextview.MultiplTextView;
@@ -88,6 +89,9 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         if (intent!=null) {
             latitude=intent.getIntExtra("latitude",-1);
             longitude=intent.getIntExtra("longitude",-1);
+            if (intent.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
+                VoiceManager.getInstance().playTTS(FoodActivity.this, getString(R.string.tts_into_food));
+            }
         }
     }
 

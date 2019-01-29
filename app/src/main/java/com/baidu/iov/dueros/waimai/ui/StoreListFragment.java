@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -32,6 +33,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortTypeTagListView;
@@ -109,7 +111,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 							 @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_store_list, container, false);
 		mContext = getActivity();
-		//getLocation(mContext);
 		iniView(view);
 		iniData();
 
@@ -194,6 +195,30 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mRlSort.setOnClickListener(this);
 		mRlFilter.setOnClickListener(this);
 		mNoInternetBtn.setOnClickListener(this);
+		mRlSort.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						showFilterPop();
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
+		mRlFilter.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						showFilterPop();
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
 
 		mStoreReq = new StoreReq();
 		mStoreReq.setLatitude(Constant.GOODS_LATITUDE);
@@ -242,74 +267,68 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			}
 		}
 	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.rl_sort:
-				addSortEvent();
-				if (mSortPopWindow == null) {
-						mSortPopWindow = new SortPopWindow(mContext, mSortList, (new SortPopWindow
-								.OnSelectedSortListener() {
-							@Override
-							public void OnSelectedSort(FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean type) {
-								mStoreReq.setSortType((int) type.getCode());
-								mTvSort.setText(type.getName());
-								mRvStore.scrollToPosition(0);
-								loadFirstPage(mStoreReq);
-							}
-						}));
-						mSortPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-							@Override
-							public void onDismiss() {
-								mIvSort.setImageResource(R.drawable.arrow_down);
-								mViewBg.setVisibility(View.GONE);
-							}
-						});
-						
+	
+	
+	private void showSortPop(){
+		if (mSortPopWindow == null) {
+			mSortPopWindow = new SortPopWindow(mContext, mSortList, (new SortPopWindow
+					.OnSelectedSortListener() {
+				@Override
+				public void OnSelectedSort(FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean type) {
+					mStoreReq.setSortType((int) type.getCode());
+					mTvSort.setText(type.getName());
+					mRvStore.scrollToPosition(0);
+					loadFirstPage(mStoreReq);
 				}
+			}));
+			mSortPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+				@Override
+				public void onDismiss() {
+					mIvSort.setImageResource(R.drawable.arrow_down);
+					mViewBg.setVisibility(View.GONE);
+				}
+			});
 
-		  if (mFilterPopWindow==null||!mFilterPopWindow.isShowing()) {
+		}
+
+		if (mFilterPopWindow==null||!mFilterPopWindow.isShowing()) {
 			mTagLv.setTextViewDefaultColor();
 			mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
 			mIvSort.setImageResource(R.drawable.arrow_up);
 			mSortPopWindow.showAsDropDown(mView);
 			mViewBg.setVisibility(View.VISIBLE);
-		  }
-				
-			
-				break;
+		}
+	}
 
-			case R.id.rl_filter:
-				addFliterEvent();
-				if (mFilterPopWindow == null) {
-					mFilterPopWindow = new FilterPopWindow(mContext, mFilterList, new
-							FilterPopWindow.OnClickOkListener() {
-								@Override
-								public void onClickOk(String migFilter) {
-									mStoreReq.setMigFilter(migFilter);
-									if (!migFilter.isEmpty()) {
-										mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
-									} else {
-										mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
-									}
-									mRvStore.scrollToPosition(0);
-									loadFirstPage(mStoreReq);
-								}
-							});
-					mFilterPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+	private void showFilterPop(){
+		if (mFilterPopWindow == null) {
+			mFilterPopWindow = new FilterPopWindow(mContext, mFilterList, new
+					FilterPopWindow.OnClickOkListener() {
 						@Override
-						public void onDismiss() {
-							mIvFilter.setImageResource(R.drawable.arrow_down);
-							mViewBg.setVisibility(View.GONE);
-							if (mStoreReq.getMigFilter() == null || mStoreReq.getMigFilter().isEmpty()) {
-								mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
-							} else {
+						public void onClickOk(String migFilter) {
+							mStoreReq.setMigFilter(migFilter);
+							if (!migFilter.isEmpty()) {
 								mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
+							} else {
+								mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
 							}
+							mRvStore.scrollToPosition(0);
+							loadFirstPage(mStoreReq);
 						}
 					});
+			mFilterPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+				@Override
+				public void onDismiss() {
+					mIvFilter.setImageResource(R.drawable.arrow_down);
+					mViewBg.setVisibility(View.GONE);
+					if (mStoreReq.getMigFilter() == null || mStoreReq.getMigFilter().isEmpty()) {
+						mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
+					} else {
+						mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
 					}
+				}
+			});
+		}
 
 		if (mSortPopWindow==null||!mSortPopWindow.isShowing()) {
 			mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
@@ -317,6 +336,19 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mFilterPopWindow.showAsDropDown(mView);
 			mViewBg.setVisibility(View.VISIBLE);
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.rl_sort:
+				addSortEvent();
+				showSortPop();
+				break;
+
+			case R.id.rl_filter:
+				addFliterEvent();
+				showFilterPop();
 				break;
 
 			case R.id.no_internet_btn:
@@ -530,12 +562,16 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			LinearLayoutManager manager = (LinearLayoutManager) mRvStore.getLayoutManager();
 			assert manager != null;
 			int currentItemPosition = manager.findFirstVisibleItemPosition();
+			int last = manager.findLastCompletelyVisibleItemPosition();
 			if (isNextPage) {
 				if (currentItemPosition + getPageNum() * 2 > mStoreList.size() && mRefreshLayout != null) {
 					mRefreshLayout.autoLoadmore(100);
 				}
 				manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
 			} else {
+				if (currentItemPosition == 0) {
+					VoiceManager.getInstance().playTTS(mContext, getString(R.string.first_page));
+				}
 				manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
 			}
 		}

@@ -6,11 +6,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
@@ -20,8 +22,11 @@ import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
+
+import java.util.ArrayList;
+
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
-        HomePresenter.HomeUi, View.OnClickListener {
+        HomePresenter.HomeUi, View.OnClickListener{
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private RelativeLayout mRlFood;
@@ -44,6 +49,9 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     public static String address = "地址";
 
     private boolean init = false;
+
+	private ArrayList<String> prefix = new ArrayList<>();
+	
 
     @Override
     HomePresenter createPresenter() {
@@ -70,9 +78,9 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
             initFragment();
         }
 
-        if (getIntent().getIntExtra(Constant.START_APP, -1) == Constant.START_APP_CODE) {
+        //if (getIntent().getIntExtra(Constant.START_APP, -1) == Constant.START_APP_CODE) {
             requestPermission();
-         }
+         //}
     }
 
     @Override
@@ -94,13 +102,27 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     protected void onResume() {
         super.onResume();
         Lg.getInstance().e(TAG, "onResume");
-        if (TextUtils.isEmpty(address)) {
             if (!CacheUtils.getAddress().isEmpty()) {
                 address = CacheUtils.getAddress();
-            } 
-        }
-        mTvTitle.setText(address);
+				mTvTitle.setText(address);
+            }
         GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getList());
+		AccessibilityClient.getInstance().register(this,true,prefix, null);
+	}
+	
+	private void setAddress(){
+		if (!CacheUtils.getAddress().isEmpty()) {
+			address = CacheUtils.getAddress();
+		}
+		mTvTitle.setText(address);
+	}
+	
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		AccessibilityClient.getInstance().unregister(this);
+		
 	}
 
 	private void iniView() {
@@ -124,6 +146,72 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		mTvTitle.setOnClickListener(this);
 		mRlSearch.setOnClickListener(this);
 		mIvTitle.setOnClickListener(this);
+		prefix.add(getResources().getString(R.string.prefix_choice));
+		prefix.add(getResources().getString(R.string.prefix_check));
+		prefix.add(getResources().getString(R.string.prefix_open));
+		mTvTitle.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						intentToAddress(true);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
+		mIvRight.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						intentToOrderList(true);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
+		mRlFood.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+		@Override
+		public boolean performAccessibilityAction(View host, int action, Bundle args) {
+			switch (action) {
+				case AccessibilityNodeInfo.ACTION_CLICK:
+					intentToFood(true);
+					break;
+				default:
+					break;
+			}
+			return true;
+		}});
+
+		mRlFlower.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						intentToFlower(true);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
+
+		mRlCake.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						intentToCake(true);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
+		
 	}
 
 	private void initFragment() {
@@ -159,6 +247,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	public void getGPSAddressFail() {
 		super.getGPSAddressFail();
 		Lg.getInstance().e(TAG, "getGPSAddressFail:");
+		setAddress();
 		StoreListFragment.getLocation(this);
 		if (mStoreListFragment==null){
 			initFragment();
@@ -181,14 +270,12 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 			case R.id.tv_title:
 			case R.id.iv_title:
 				Entry.getInstance().onEvent(Constant.EVENT_OPEN_ADDRESS_SELECT,EventType.TOUCH_TYPE);
-				Intent addressIntent = new Intent(HomeActivity.this, AddressSelectActivity.class);
-				startActivity(addressIntent);
+				intentToAddress(false);
 				break;
 
 			case R.id.iv_right:
 				Entry.getInstance().onEvent(Constant.EVENT_OPEN_ORDER_LIST,EventType.TOUCH_TYPE);
-				Intent orderListIntent = new Intent(this, OrderListActivity.class);
-				startActivity(orderListIntent);
+				intentToOrderList(false);
 				break;
 
 			case R.id.rl_search:
@@ -200,25 +287,17 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 			case R.id.rl_flower:
 				Entry.getInstance().onEvent(Constant.EVENT_FLOWER_CLICK,EventType.TOUCH_TYPE);
-				Intent flowerIntent = new Intent(this, RecommendShopActivity.class);
-				flowerIntent.putExtra("title", mTvFlower.getText().toString());
-				startActivity(flowerIntent);
+				intentToFlower(false);
 				break;
 
 			case R.id.rl_cake:
 				Entry.getInstance().onEvent(Constant.EVENT_CAKE_CLICK,EventType.TOUCH_TYPE);
-				Intent cakeIntent = new Intent(this, RecommendShopActivity.class);
-				cakeIntent.putExtra("title", mTvCake.getText().toString());
-				startActivity(cakeIntent);
+				intentToCake(false);
 				break;
 
 			case R.id.rl_food:
 				Entry.getInstance().onEvent(Constant.EVENT_FOOD_CLICK,EventType.TOUCH_TYPE);
-				Intent foodIntent = new Intent(this, FoodActivity.class);
-				foodIntent.putExtra("title", mTvFood.getText().toString());
-				foodIntent.putExtra("latitude", Constant.GOODS_LATITUDE);
-				foodIntent.putExtra("longitude", Constant.GOODS_LONGITUDE);
-				startActivity(foodIntent);
+				intentToFood(false);
 				break;
 
 			default:
@@ -226,6 +305,46 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		}
 
 	}
+
+
+	private void intentToAddress(boolean isNeedVoice){
+		Intent addressIntent = new Intent(HomeActivity.this, AddressSelectActivity.class);
+		addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+		startActivity(addressIntent);
+	}
+
+	
+	
+	private void intentToOrderList(boolean isNeedVoice){
+		Intent orderListIntent = new Intent(this, OrderListActivity.class);
+		orderListIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+		startActivity(orderListIntent);
+	}
+	
+	private void intentToFood(boolean isNeedVoice){
+		Intent foodIntent = new Intent(this, FoodActivity.class);
+		foodIntent.putExtra("title", mTvFood.getText().toString());
+		foodIntent.putExtra("latitude", Constant.GOODS_LATITUDE);
+		foodIntent.putExtra("longitude", Constant.GOODS_LONGITUDE);
+		foodIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+		startActivity(foodIntent);
+	}
+
+	private void intentToFlower( boolean isNeedVoice){
+		Intent flowerIntent = new Intent(this, RecommendShopActivity.class);
+		flowerIntent.putExtra("title", mTvFlower.getText().toString());
+		flowerIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+		startActivity(flowerIntent);
+	}
+
+	private void intentToCake(boolean isNeedVoice){
+		Intent cakeIntent = new Intent(this, RecommendShopActivity.class);
+		cakeIntent.putExtra("title", mTvCake.getText().toString());
+		cakeIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+		startActivity(cakeIntent);
+	}
+	
+	
 
 
     }

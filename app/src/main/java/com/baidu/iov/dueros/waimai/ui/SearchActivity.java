@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -28,6 +29,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.SearchSuggestReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.presenter.SearchPresenter;
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
@@ -72,6 +74,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	private int mFromPageType;
 
+	private ArrayList<String> prefix = new ArrayList<>();
 
 
 	@Override
@@ -98,7 +101,15 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
     protected void onResume() {
         super.onResume();
         GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getSearch().getSearch());
-    }
+		AccessibilityClient.getInstance().register(this,true,prefix, null);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		AccessibilityClient.getInstance().unregister(this);
+
+	}
 
     public void getIntentData() {
 		Intent intent = getIntent();
@@ -114,7 +125,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	}
 
 	public void setmEtTipNoResult(){
-		mEtSearch.setText(getResources().getString(R.string.this_keyword_is_complicated));
+		mEtSearch.setHint(getResources().getString(R.string.this_keyword_is_complicated));
+		mEtSearch.setText("");
 		mEtSearch.setSelection(mEtSearch.getText().toString().length());
 		mLlHistory.setVisibility(View.GONE);
 		mLvSuggest.setVisibility(View.GONE);
@@ -137,6 +149,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mLvHistory.addHeaderView(mDivision);
 		mLvHistory.addFooterView(mDivision);
 		mLvSuggest.addHeaderView(mDivision);
+		prefix.add(getResources().getString(R.string.prefix_choice));
+	
 	}
 
 
@@ -181,7 +195,18 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mTvCancel.setOnClickListener(this);
 		mRlSearch.setOnClickListener(this);
 
-
+		mIvDelete.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						deleteAll();
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
 		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -240,7 +265,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (TextUtils.isEmpty(s)) {
+				String keyWord =mEtSearch.getText().toString().trim();
+				if (TextUtils.isEmpty(keyWord)) {
 					mIvClean.setVisibility(View.GONE);
 					changeStatus(Constant.SEARCH_STATUS_HISTORY);
 				} else {
@@ -254,7 +280,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					}
 					searchSuggestReq.setLatitude(Constant.GOODS_LATITUDE);
 					searchSuggestReq.setLongitude(Constant.GOODS_LONGITUDE);
-					searchSuggestReq.setQuery(mEtSearch.getText().toString());
+					searchSuggestReq.setQuery(keyWord);
 					mPresenter.requestSuggestList(searchSuggestReq);
 				}
 			}
@@ -283,6 +309,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				break;
 
 			case R.id.rl_search:
+				mEtSearch.setHint(getResources().getString(R.string.search_hint_text));
 				showKeyboard();
 				break;
 

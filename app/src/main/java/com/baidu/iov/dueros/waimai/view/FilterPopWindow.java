@@ -6,24 +6,36 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 
-import com.baidu.iov.dueros.waimai.adapter.FilterPopWindowAdapter;
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
-		.DataBean.ActivityFilterListBean;
+import com.baidu.iov.dueros.waimai.adapter.FilterSubTypeAdapter;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean;
 import com.baidu.iov.dueros.waimai.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FilterPopWindow extends PopupWindow {
-	private List<ActivityFilterListBean>
-			mFilterList;
-	private FilterPopWindowAdapter mFilterAdapter;
 
-	public FilterPopWindow(final Context context, List<ActivityFilterListBean> filterList,
+	private Context  mContext;
+	
+	private List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean> mFilterList;
+	
+	private FilterSubTypeAdapter mFilterSubTypeAdapter;
+
+	private GridView gvFilterType;
+
+	private FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean mActivityFilterListBean;
+	private List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean> itemsBeans= new ArrayList<>();
+
+	public FilterPopWindow( Context context, List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean> filterList,
 						   final OnClickOkListener listener) {
+
+		mContext=context;
 		mFilterList = filterList;
 
 		final View mContentView;
@@ -32,25 +44,47 @@ public class FilterPopWindow extends PopupWindow {
 		LinearLayout linearLayout = new LinearLayout(context);
 		mContentView = inflater.inflate(R.layout.pop_window_filter, linearLayout);
 		setContentView(mContentView);
-		ListView lvFilterType = (ListView) mContentView.findViewById(R.id.lv_filter_type);
-		//AppCompatTextView tvReset = (AppCompatTextView) mContentView.findViewById(R.id.tv_reset);
-		AppCompatTextView tvOk = (AppCompatTextView) mContentView.findViewById(R.id.tv_ok);
+		gvFilterType =  mContentView.findViewById(R.id.gv_subType);
+		AppCompatTextView tvOk = mContentView.findViewById(R.id.tv_ok);
 
 		setWidth(ActionBar.LayoutParams.MATCH_PARENT);
 		setHeight(ActionBar.LayoutParams.WRAP_CONTENT);
 		setFocusable(true);
 		setOutsideTouchable(true);
 		update();
+		mActivityFilterListBean =getActivityFilterListBean(mFilterList);
+		itemsBeans=mActivityFilterListBean.getItems();
+		mFilterSubTypeAdapter = new FilterSubTypeAdapter(itemsBeans, context);
+		gvFilterType.setAdapter(mFilterSubTypeAdapter);
+		gvFilterType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+				ActivityFilterListBean.ItemsBean item = itemsBeans.get
+						(pos);
 
-		mFilterAdapter = new FilterPopWindowAdapter(mFilterList, context);
-		lvFilterType.setAdapter(mFilterAdapter);
+				if (item.isChcked()) {
+					item.setChcked(false);
+				} else {
+					if (mActivityFilterListBean.getSupport_multi_choice() == 0) {
+						for (FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean data : mActivityFilterListBean.getItems()) {
+							if (data.isChcked()) {
+								data.setChcked(false);
+								break;
+							}
+						}
+					}
+					item.setChcked(true);
+				}
 
+				mFilterSubTypeAdapter.notifyDataSetChanged();
+			}
+		});
 		tvOk.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				StringBuffer migFilter = new StringBuffer();
-				for (ActivityFilterListBean type : mFilterList) {
-					for (ActivityFilterListBean.ItemsBean subtype : type.getItems()) {
+			
+					for (ActivityFilterListBean.ItemsBean subtype : mActivityFilterListBean.getItems()) {
 						if (subtype.isChcked()) {
 							if (!TextUtils.isEmpty(migFilter)) {
 								migFilter.append(",");
@@ -58,7 +92,6 @@ public class FilterPopWindow extends PopupWindow {
 							migFilter.append(subtype.getCode());
 						}
 					}
-				}
 				if (listener != null) {
 					listener.onClickOk(migFilter.toString());
 				}
@@ -66,23 +99,37 @@ public class FilterPopWindow extends PopupWindow {
 			}
 		});
 
-//		tvReset.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				for (ActivityFilterListBean type : mFilterList) {
-//					for (ActivityFilterListBean.ItemsBean subtype : type.getItems()) {
-//						if (subtype.isChcked()) {
-//							subtype.setChcked(false);
-//						}
-//					}
-//				}
-//				mFilterAdapter.notifyDataSetChanged();
-//			}
-//		});
+
+	}
+
+	public  FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean getActivityFilterListBean(List<ActivityFilterListBean> filterList){
+		FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean mActivityFilterListBean = new FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean();
+		if (filterList==null||filterList.isEmpty()){
+			return mActivityFilterListBean;
+		}
+
+		int size =filterList.size();
+		for (int i = 0; i < size; i++) {
+			String name = filterList.get(i).getGroup_title();
+			if (!TextUtils.isEmpty(name)&&name.contains(mContext.getResources().getString(R.string.feature_business))){
+				mActivityFilterListBean=filterList.get(i);
+				int items=mActivityFilterListBean.getItems().size();
+				List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean> deleteSubTypes = new ArrayList<>();
+				for (int j = 0; j < items; j++) {
+					if (mActivityFilterListBean.getItems().get(j).getName().equals(mContext.getResources().getString(R.string.new_bus))||mActivityFilterListBean.getItems().get(j).getName().equals(mContext.getResources().getString(R.string.booking))||mActivityFilterListBean.getItems().get(j).getName().equals(mContext.getResources().getString(R.string.supporting_invoices))){
+						deleteSubTypes.add(mActivityFilterListBean.getItems().get(j));
+					}
+
+				}
+				mActivityFilterListBean.getItems().removeAll(deleteSubTypes);
+				return mActivityFilterListBean;
+			} }
+
+		return mActivityFilterListBean;
 	}
 
 	public void updateList() {
-		mFilterAdapter.notifyDataSetChanged();
+		mFilterSubTypeAdapter.notifyDataSetChanged();
 	}
 
 	public interface OnClickOkListener {

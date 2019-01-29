@@ -116,6 +116,7 @@
 				android:layout_width="@dimen/px96dp"
 				android:layout_height="@dimen/px96dp"
 				android:layout_alignParentRight="true"
+				android:contentDescription="@string/content_clear_up_historical"
 				android:layout_centerVertical="true"
 				android:scaleType="centerInside"
 				android:src="@drawable/icon_delete_all"

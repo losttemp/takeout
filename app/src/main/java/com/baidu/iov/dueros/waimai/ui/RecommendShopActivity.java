@@ -11,10 +11,15 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
+import com.baidu.iov.dueros.waimai.utils.ResUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
+
+import java.util.ArrayList;
 
 public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
         HomePresenter.HomeUi, View.OnClickListener {
@@ -40,6 +45,8 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
     private boolean isload =false;
 
     private int mFromPageType;
+
+    private ArrayList<String> prefix = new ArrayList<>();
 
     @Override
     HomePresenter createPresenter() {
@@ -68,6 +75,13 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
             title = intent.getStringExtra("title");
             categoryType=(int)intent.getLongExtra("categoryType",0);
             secondCategoryType=(int)intent.getLongExtra("secondCategoryType",0);
+            if (intent.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
+                if (getResources().getString(R.string.stroe_type_flower).equals(title)){
+                    VoiceManager.getInstance().playTTS(RecommendShopActivity.this, getString(R.string.tts_into_flower));
+                }else if (getResources().getString(R.string.stroe_type_cake).equals(title)){
+                    VoiceManager.getInstance().playTTS(RecommendShopActivity.this, getString(R.string.tts_into_cake));
+                }
+            }
         }
     }
 
@@ -76,6 +90,9 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
         tvTitle=findViewById(R.id.tv_title);
         mRlSearch = findViewById(R.id.rl_search);
         tvTitle.setText(title);
+        prefix.add(getResources().getString(R.string.prefix_choice));
+        prefix.add(getResources().getString(R.string.prefix_check));
+        prefix.add(getResources().getString(R.string.prefix_open));
        
     }
 
@@ -133,7 +150,17 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
         }else if (getResources().getString(R.string.stroe_type_flower).equals(title)){
             GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getFlower());
         }
+        AccessibilityClient.getInstance().register(this,true,prefix, null);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AccessibilityClient.getInstance().unregister(this);
+
+    }
+
+   
 
     private void setListener(){
         btnBack.setOnClickListener(this);

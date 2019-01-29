@@ -1,11 +1,14 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseAdapter;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -63,16 +66,33 @@ public class SearchHistroyAdapter extends BaseAdapter {
 		viewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mHistorys.remove(position);
-				SharedPreferencesUtils.deleteSearchHistory(mHistorys);
-				notifyDataSetChanged();
-				if (mHistorys.isEmpty()){
-					((SearchActivity)mContext).setmLlHistoryVisibility();
-				}
+				removeHistory(position);
 			}
 		});
 
+		viewHolder.ivDelete.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						removeHistory(position);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
+
 		return convertView;
+	}
+	
+	private  void removeHistory(int position){
+		mHistorys.remove(position);
+		SharedPreferencesUtils.deleteSearchHistory(mHistorys);
+		notifyDataSetChanged();
+		if (mHistorys.isEmpty()){
+			((SearchActivity)mContext).setmLlHistoryVisibility();
+		}
 	}
 
 	public static class ViewHolder {
