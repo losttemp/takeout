@@ -16,6 +16,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.bumptech.glide.Glide;
 import com.domain.multipltextview.MultiplTextView;
@@ -192,6 +193,18 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvCancelOrder.setTag(position);
             tvOneMore.setTag(position);
             tvPayOrder.setTag(position);
+
+            VoiceTouchUtils.setItemVoicesTouchSupport(itemView, position, R.array.look_order_details);
+            VoiceTouchUtils.setVoiceTouchTTSSupport(itemView,mContext.getString(R.string.look_order_details_success_text));
+
+            if (tvCancelOrder.getVisibility()==View.VISIBLE){
+                VoiceTouchUtils.setItemVoicesTouchSupport(tvCancelOrder, position, R.array.close_order);
+                VoiceTouchUtils.setVoiceTouchTTSSupport(tvCancelOrder,mContext.getString(R.string.close_order_success_text));
+            }
+            if (tvOneMore.getVisibility()==View.VISIBLE){
+                VoiceTouchUtils.setItemVoicesTouchSupport(tvOneMore, position, R.array.one_more_order);
+                VoiceTouchUtils.setVoiceTouchTTSSupport(tvOneMore,String.format(mContext.getString(R.string.sure_order), order.getOrder_name()));
+            }
         }
 
         @Override

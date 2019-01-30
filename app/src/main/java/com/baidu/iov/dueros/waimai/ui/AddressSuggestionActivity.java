@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressHintListAdapter;
@@ -27,6 +28,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.iov.dueros.waimai.view.RollTextView;
@@ -229,7 +231,15 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         });
     }
 
-    private void citySearch(String city, final String key) {
+    private void citySearch(String city,String key) {
+        if (TextUtils.isEmpty(key)){
+            ToastUtils.show(mContext,getResources().getString(R.string.poi_search_hint_text),Toast.LENGTH_SHORT);
+            return;
+        }
+        if (getResources().getString(R.string.city_error).equals(city)){
+            ToastUtils.show(mContext,getResources().getString(R.string.poi_select_hint_text),Toast.LENGTH_SHORT);
+            return;
+        }
         PoiCitySearchOption citySearchOption = new PoiCitySearchOption();
         citySearchOption.city(city);
         citySearchOption.keyword(key);

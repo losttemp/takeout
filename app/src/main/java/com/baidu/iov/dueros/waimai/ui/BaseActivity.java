@@ -58,6 +58,8 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     private static final int REQUEST_CODE_ACCESS_COARSE_LOCATION = 400;
     protected Context mContext;
 
+    private  boolean isStartPermissions =false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,9 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     protected void onResume() {
         super.onResume();
         getPresenter().registerCmd(this);
+        if (isStartPermissions){
+            requestPermission();
+        }
     }
 
     @Override
@@ -132,6 +137,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             showPermissionDialog();
         } else {
+            isStartPermissions=false;
             initLocationCity();
         }
     }
@@ -171,14 +177,15 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
             }
         });
     }
-    private static final int GPS_REQUEST_CODE = 0x147;
+
     public void startPrivacyActivity() {
+        isStartPermissions = true;
         Intent intent = new Intent();
         intent.putExtra("com.baidu.bodyguard-Query.Location", "map.query");
         intent.putExtra("query_action", "Location");
         intent.setComponent(new ComponentName("com.baidu.bodyguard", "com.baidu.bodyguard.ui.activity.PrivacyDetailsActivity"));
         try {
-            startActivityForResult(intent, GPS_REQUEST_CODE);
+            startActivity(intent);
         } catch (ActivityNotFoundException exception) {
             exception.printStackTrace();
         }
@@ -230,18 +237,8 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         }, 500);
     }
 
-    public void getGPSAddressSuccess() {
-    }
+    public void getGPSAddressSuccess() {}
 
-    public void getGPSAddressFail() {
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GPS_REQUEST_CODE) {
-            requestPermission();
-        }
-    }
+    public void getGPSAddressFail() {}
 
 }

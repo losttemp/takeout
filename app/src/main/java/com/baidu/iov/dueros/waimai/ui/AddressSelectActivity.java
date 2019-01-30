@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.BuildConfig;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressSelectAdapter;
+import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
@@ -79,7 +80,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             sendDestination();
             addBtnView.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.GONE);
-            loadingView.setVisibility(View.VISIBLE);
             if (null != networkView) {
                 networkView.setVisibility(View.GONE);
             }
@@ -100,6 +100,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     }
 
     private void initData() {
+        mNoAddress.setVisibility(View.GONE);
+        loadingView.setVisibility(View.VISIBLE);
         getPresenter().requestData(new AddressListReqBean());
     }
 
@@ -261,6 +263,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             if (isNextPage) {
                 if (last == mDataList.size() - 1) {
                     VoiceManager.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.last_page));
+                }else{
+                    VoiceManager.getInstance().playTTS(AddressSelectActivity.this, Config.DEFAULT_TTS);
                 }
                 if (currentItemPosition + getPageNum() * 2 > mDataList.size()) {
                     manager.scrollToPositionWithOffset(mDataList.size(), 0);
@@ -270,6 +274,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             } else {
                 if (currentItemPosition == 0) {
                     VoiceManager.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.first_page));
+                }else{
+                    VoiceManager.getInstance().playTTS(AddressSelectActivity.this, Config.DEFAULT_TTS);
                 }
                 manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
             }

@@ -6,6 +6,24 @@
         <item>修改地址第%d个</item>
     </string-array>
 
+    <string-array name="look_order_details">
+        <item>查看第%d个</item>
+        <item>看下第%d个</item>
+    </string-array>
+
+    <string-array name="close_order">
+        <item>第%d个取消</item>
+        <item>第%d个取消订单</item>
+        <item>第%d个订单取消</item>
+    </string-array>
+
+    <string-array name="one_more_order">
+        <item>第%d个再来一单</item>
+        <item>第%d个再来一份</item>
+        <item>再来一单第%d个</item>
+        <item>再来一份第%d个</item>
+    </string-array>
+
     <string-array name="search_histroy">
         <item>删除第%d个</item>
         <item>删掉第%d个</item>

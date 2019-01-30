@@ -44,5 +44,5 @@ public class Config {
     public static final String CONTENT_TYPE_KEY = "Content-Type";
     public static final String CONTENT_TYPE_VALUE = "application/x-www-form-urlencoded; charset=UTF-8";
 
-
+    public static final String DEFAULT_TTS = "BUBBLE";
 }

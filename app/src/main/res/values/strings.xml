@@ -207,7 +207,7 @@
     <string name="address_edit_save">保存</string>
     <string name="address_search_hint">请输入您的收货地址</string>
     <string name="wuhan">武汉</string>
-    <string name="persion_err">打开“定位服务”来允许“外卖服务”确定您的位置</string>
+    <string name="persion_err">打开“定位服务”来允许“外卖服务”\n确定您的位置</string>
     <string name="settings">去开启</string>
     <string name="i_know">知道了</string>
     <string name="close">取消</string>
@@ -315,6 +315,12 @@
     <string name="send_to_destination">送到目的地</string>
     <string name="send_to_company">送到公司</string>
     <string name="send_to_home">送到家里</string>
+    <string name="city_error">失败</string>
+    <string name="city_loading">定位中</string>
+    <string name="poi_search_hint_text">搜索内容不能为空</string>
+    <string name="poi_select_hint_text">请选择城市</string>
+    <string name="look_order_details_success_text">好的，为你展示订单详情</string>
+    <string name="close_order_success_text">好的，已为你取消订单</string>
     <string name="prefix_choice">选择</string>
     <string name="prefix_check">查看</string>
     <string name="prefix_open">打开</string>

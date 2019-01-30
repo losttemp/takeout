@@ -32,6 +32,7 @@ import com.baidu.iov.dueros.waimai.presenter.OrderListPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
@@ -91,6 +92,9 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     protected void onResume() {
         super.onResume();
+        ArrayList<String> prefix = new ArrayList<>();
+        prefix.add("选择");
+        AccessibilityClient.getInstance().register(this, true, prefix, null);
         if (NetUtil.getNetWorkState(this)) {
             mRefreshLayout.setEnableLoadmore(false);
             mOrderListReq.setPage(START_PAGE);
@@ -107,6 +111,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     protected void onPause() {
         super.onPause();
+        AccessibilityClient.getInstance().unregister(this);
     }
 
     private void initView() {
