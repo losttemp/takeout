@@ -12,8 +12,10 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.ui.FoodActivity;
 import com.baidu.iov.dueros.waimai.ui.SearchActivity;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.domain.multipltextview.MultiplTextView;
 
@@ -64,7 +66,19 @@ public class SearchHistroyAdapter extends BaseAdapter {
 		viewHolder.tvHistoryNum.setText(position + 1 + "");
 		viewHolder.tvHistoryName.setText(mHistorys.get(position));
 		VoiceTouchUtils.setItemVoicesTouchSupport(viewHolder.ivDelete, position, R.array.search_histroy);
-		VoiceTouchUtils.setVoiceTouchTTSSupport(viewHolder.ivDelete,mContext.getString(R.string.yes));
+		viewHolder.ivDelete.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						removeHistory(position);
+						VoiceManager.getInstance().playTTS(mContext, mContext.getString(R.string.yes));
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
 		viewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

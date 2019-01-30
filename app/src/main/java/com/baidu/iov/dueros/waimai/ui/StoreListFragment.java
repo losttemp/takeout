@@ -201,6 +201,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						showFilterPop();
+						VoiceManager.getInstance().playTTS(mContext,"BUBBLE");
 						break;
 					default:
 						break;
@@ -213,6 +214,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						showFilterPop();
+						VoiceManager.getInstance().playTTS(mContext,"BUBBLE");
 						break;
 					default:
 						break;

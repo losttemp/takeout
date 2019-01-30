@@ -14,10 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.baidu.iov.dueros.waimai.adapter.FilterSubTypeAdapter;
+import com.baidu.iov.dueros.waimai.adapter.SortPopWindowAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,24 +71,7 @@ public class FilterPopWindow extends PopupWindow {
 		gvFilterType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-				ActivityFilterListBean.ItemsBean item = itemsBeans.get
-						(pos);
-
-				if (item.isChcked()) {
-					item.setChcked(false);
-				} else {
-					if (mActivityFilterListBean.getSupport_multi_choice() == 0) {
-						for (FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean data : mActivityFilterListBean.getItems()) {
-							if (data.isChcked()) {
-								data.setChcked(false);
-								break;
-							}
-						}
-					}
-					item.setChcked(true);
-				}
-
-				mFilterSubTypeAdapter.notifyDataSetChanged();
+				itemFilter(pos);
 			}
 		});
 		tvOk.setOnClickListener(new View.OnClickListener() {
@@ -96,12 +81,21 @@ public class FilterPopWindow extends PopupWindow {
 			}
 		});
 
+		mFilterSubTypeAdapter.setItemAccessibilityDelegate(new FilterSubTypeAdapter.ItemAccessibilityDelegate() {
+			@Override
+			public void onItemAccessibilityDelegate(int position) {
+				itemFilter(position);
+				dismiss();
+			}
+		});
+
         tvOk.setAccessibilityDelegate(new View.AccessibilityDelegate(){
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
                         toFilter(listener);
+						VoiceManager.getInstance().playTTS(mContext,"BUBBLE");
                         break;
                     default:
                         break;
@@ -109,6 +103,25 @@ public class FilterPopWindow extends PopupWindow {
                 return true;
             }});
 
+	}
+
+	private  void itemFilter(int pos){
+		ActivityFilterListBean.ItemsBean item = itemsBeans.get(pos);
+		if (item.isChcked()) {
+			item.setChcked(false);
+		} else {
+			if (mActivityFilterListBean.getSupport_multi_choice() == 0) {
+				for (FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean data : mActivityFilterListBean.getItems()) {
+					if (data.isChcked()) {
+						data.setChcked(false);
+						break;
+					}
+				}
+			}
+			item.setChcked(true);
+		}
+
+		mFilterSubTypeAdapter.notifyDataSetChanged();
 	}
 	
 	private  void  toFilter(OnClickOkListener listener){

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatImageView;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.RelativeLayout;
@@ -78,9 +77,9 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
             initFragment();
         }
 
-        //if (getIntent().getIntExtra(Constant.START_APP, -1) == Constant.START_APP_CODE) {
+        if (getIntent().getIntExtra(Constant.START_APP, -1) == Constant.START_APP_CODE) {
             requestPermission();
-         //}
+         }
     }
 
     @Override

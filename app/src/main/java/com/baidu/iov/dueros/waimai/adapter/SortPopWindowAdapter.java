@@ -1,15 +1,18 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
 		.DataBean.SortTypeListBean;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.domain.multipltextview.MultiplTextView;
 
@@ -21,7 +24,7 @@ public class SortPopWindowAdapter extends BaseAdapter {
 	private Context mContext;
 	private LayoutInflater mLayoutInflater;
 	private int mCurrentSelect;
-
+    private  ItemAccessibilityDelegate mItemAccessibilityDelegate;
 	public SortPopWindowAdapter(List<SortTypeListBean> sortList, Context context) {
 		this.mLayoutInflater = LayoutInflater.from(context);
 		mContext = context;
@@ -44,8 +47,8 @@ public class SortPopWindowAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder viewHolder = null;
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		 ViewHolder viewHolder;
 		if (convertView == null) {
 			convertView = mLayoutInflater.inflate(R.layout.layout_pop_sort_item, parent,
 					false);
@@ -57,8 +60,22 @@ public class SortPopWindowAdapter extends BaseAdapter {
 		}
 
 		viewHolder.tvSortName.setText(mSortList.get(position).getName());
-		convertView.setContentDescription(mSortList.get(position).getName());
-		VoiceTouchUtils.setVoiceTouchTTSSupport(convertView,mContext.getString(R.string.tts_rescheduling));
+		viewHolder.tvSortName.setContentDescription(mSortList.get(position).getName());
+		viewHolder.tvSortName.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						if (mItemAccessibilityDelegate != null) {
+							mItemAccessibilityDelegate.onItemAccessibilityDelegate(position);
+							VoiceManager.getInstance().playTTS(mContext, mContext.getString(R.string.tts_rescheduling));
+						}
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
 		return convertView;
 	}
 
@@ -72,4 +89,13 @@ public class SortPopWindowAdapter extends BaseAdapter {
 			notifyDataSetChanged();
 		}
 	}
+
+	public interface ItemAccessibilityDelegate {
+		void onItemAccessibilityDelegate(int position);
+	}
+
+	public void setItemAccessibilityDelegate(ItemAccessibilityDelegate itemAccessibilityDelegate) {
+		mItemAccessibilityDelegate = itemAccessibilityDelegate;
+	}
+	
 }
