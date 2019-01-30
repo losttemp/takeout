@@ -657,8 +657,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     @Override
     public void onOrderSubmitSuccess(OrderSubmitBean data) {
-        loadingView.setVisibility(View.GONE);
         mToPayTv.setEnabled(true);
+        mParentsLayout.setVisibility(View.VISIBLE);
+        mNoNet.setVisibility(View.GONE);
+        loadingView.setVisibility(View.GONE);
         if (data != null) {
             mOrderSubmitData = data.getMeituan().getData();
         }
