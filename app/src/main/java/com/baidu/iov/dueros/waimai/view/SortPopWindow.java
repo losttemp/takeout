@@ -61,6 +61,16 @@ public class SortPopWindow extends PopupWindow {
 			}
 		});
 
+		mAdapter.setItemAccessibilityDelegate(new SortPopWindowAdapter.ItemAccessibilityDelegate() {
+			@Override
+			public void onItemAccessibilityDelegate(int position) {
+				if (listener != null) {
+					listener.OnSelectedSort(mSortList.get(position));
+				}
+				dismiss();
+			}
+		});
+
 		
 	}
 

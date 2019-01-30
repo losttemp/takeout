@@ -201,6 +201,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						deleteAll();
+						VoiceManager.getInstance().playTTS(mContext, mContext.getString(R.string.yes));
 						break;
 					default:
 						break;
@@ -357,7 +358,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	public void selectListItem(int index) {
 		if (mCurrentStatus == Constant.SEARCH_STATUS_HISTORY && mHistorys.size() > index) {
 			Entry.getInstance().onEvent(Constant.EVENT_HISTORY_ITEM_VOIVE,EventType.VOICE_TYPE);
-			VoiceManager.getInstance().playTTS(SearchActivity.this, getString(R.string.yes));
+			VoiceManager.getInstance().playTTS(SearchActivity.this, getString(R.string.tts_search_for_you));
 			searchKeyword(mHistorys.get(index));
 		}
 	}

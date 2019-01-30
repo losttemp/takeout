@@ -1,19 +1,19 @@
 package com.baidu.iov.dueros.waimai.view;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
-import com.baidu.iov.dueros.waimai.model.IFoodModel;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import java.util.List;
-
-public class SortTypeTagListView extends LinearLayout implements View.OnClickListener {
+public class SortTypeTagListView extends LinearLayout implements View.OnClickListener{
     private int mTextSize = getResources().getDimensionPixelSize(R.dimen.px30sp);;
     private int mTextColor = getResources().getColor(R.color.white_60);
     private int mTextSelectedColor = getResources().getColor(R.color.filter_selected);
@@ -22,16 +22,16 @@ public class SortTypeTagListView extends LinearLayout implements View.OnClickLis
 
     private OnItemClickListener mItemClickListener;
 
-   
-
-    private FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean mTagValue;
-
+    private Context mContext;
+    
     public SortTypeTagListView(Context context) {
         this(context, null);
+        mContext=context;
     }
 
     public SortTypeTagListView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+        mContext=context;
         setOrientation(HORIZONTAL);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagListView);
         mTextSize = a.getDimensionPixelSize(R.styleable.TagListView_textSize, mTextSize);
@@ -41,14 +41,16 @@ public class SortTypeTagListView extends LinearLayout implements View.OnClickLis
 
     public SortTypeTagListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext=context;
     }
 
     public void setTags(List<FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean> tags) {
         this.mTags = tags;
         removeAllViews();
         for (int i = 0; i < tags.size(); i++) {
-            TextView textView = new TextView(getContext());
+            final TextView textView = new TextView(getContext());
             textView.setText(tags.get(i).getShort_name());
+            textView.setContentDescription(tags.get(i).getShort_name());
             textView.getPaint().setTextSize(mTextSize);
             textView.setTextColor(mTextColor);
             int width = LayoutParams.WRAP_CONTENT;
@@ -60,11 +62,30 @@ public class SortTypeTagListView extends LinearLayout implements View.OnClickLis
             textView.setOnClickListener(this);
             textView.setTag(tags.get(i));
             addView(textView);
+            textView.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+                @Override
+                public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                    switch (action) {
+                        case AccessibilityNodeInfo.ACTION_CLICK:
+                            itemclick(textView);
+                            VoiceManager.getInstance().playTTS(mContext,"BUBBLE");
+                            break;
+                        default:
+                            break;
+                    }
+                    return true;
+                }});
         }
     }
+    
+    
 
     @Override
     public void onClick(View v) {
+        itemclick(v);
+    }
+
+    private   void itemclick( View v){
         if(mTags==null){
             return;
         }

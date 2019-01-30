@@ -1,14 +1,17 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 
 import java.util.List;
@@ -19,6 +22,8 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 			mItemsBeans;
 	private Context mContext;
 	private LayoutInflater mLayoutInflater;
+
+	private  ItemAccessibilityDelegate mItemAccessibilityDelegate;
 
 	public FilterSubTypeAdapter(List<FilterConditionResponse.MeituanBean.DataBean
 			.ActivityFilterListBean.ItemsBean> itemsBeans, Context context) {
@@ -44,8 +49,8 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder viewHolder = null;
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		final ViewHolder viewHolder;
 		if (convertView == null) {
 			convertView = mLayoutInflater.inflate(R.layout.layout_filter_sub_type_item, parent,
 					false);
@@ -62,12 +67,35 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 		} else {
 			viewHolder.tvSubTypeName.setBackgroundResource(R.drawable.shape_filter_unselected_bg);
 		}
-		convertView.setContentDescription(mItemsBeans.get(position).getName());
-		VoiceTouchUtils.setVoiceTouchTTSSupport(convertView,mContext.getString(R.string.yes));
+		viewHolder.tvSubTypeName.setContentDescription(mItemsBeans.get(position).getName());
+		viewHolder.tvSubTypeName.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						if (mItemAccessibilityDelegate != null) {
+							mItemAccessibilityDelegate.onItemAccessibilityDelegate(position);
+							VoiceManager.getInstance().playTTS(mContext,"BUBBLE");
+						}
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
+	
 		return convertView;
 	}
 
 	public static class ViewHolder {
 		private TextView tvSubTypeName;
+	}
+
+	public interface ItemAccessibilityDelegate {
+		void onItemAccessibilityDelegate(int position);
+	}
+
+	public void setItemAccessibilityDelegate(ItemAccessibilityDelegate itemAccessibilityDelegate) {
+		mItemAccessibilityDelegate = itemAccessibilityDelegate;
 	}
 }
