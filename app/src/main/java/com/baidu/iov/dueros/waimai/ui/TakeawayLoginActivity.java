@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
@@ -79,33 +80,26 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mWVMeituan = (WebView) findViewById(R.id.meituan_login);
 
+        mWVMeituan.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
+        mWVMeituan.setWebViewClient(webViewClient);
+        mWVMeituan.setWebChromeClient(webChromeClient);
+        mWVMeituan.setHorizontalScrollBarEnabled(false);
+        mWVMeituan.setVerticalScrollBarEnabled(false);
+
         WebSettings webSettings = mWVMeituan.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        webSettings.setSupportMultipleWindows(true);
         webSettings.setDomStorageEnabled(true);
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setSupportZoom(true);
-        webSettings.setBuiltInZoomControls(true);
-
-        webSettings.setAppCacheEnabled(true);
-        webSettings.supportMultipleWindows();
-        webSettings.setAllowContentAccess(true);
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
-        webSettings.setSavePassword(true);
-        webSettings.setSaveFormData(true);
         webSettings.setLoadsImagesAutomatically(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
-        mWVMeituan.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
-        mWVMeituan.setWebViewClient(webViewClient);
-        mWVMeituan.setWebChromeClient(webChromeClient);
         mWVMeituan.setVisibility(View.GONE);
-
         networkView = findViewById(R.id.network_view);
         networkView.setBackground(getResources().getDrawable(R.drawable.app_bg));
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
@@ -142,7 +136,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             view.loadUrl("javascript:window.java_obj.showDescription("
                     + "document.querySelector('meta[name=\"share-description\"]').getAttribute('content')"
                     + ");");
-            progressBar.setVisibility(View.GONE);
             super.onPageFinished(view, url);
         }
 
@@ -188,6 +181,9 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             progressBar.setProgress(newProgress);
+            if (newProgress == 100) {
+                progressBar.setVisibility(View.GONE);
+            }
         }
     };
 
@@ -303,20 +299,14 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         if (handler!=null){
             handler.removeCallbacksAndMessages(null);
         }
-        if (mWVMeituan != null) {
-            mWVMeituan.stopLoading();
-            mWVMeituan.setWebViewClient(null);
-            mWVMeituan.clearHistory();
+        if (mWVMeituan != null){
             CookieSyncManager.createInstance(getApplicationContext());
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookie();
             CookieSyncManager.getInstance().sync();
-            mWVMeituan.setWebChromeClient(null);
-            mWVMeituan.setWebViewClient(null);
-            mWVMeituan.getSettings().setJavaScriptEnabled(false);
-            mWVMeituan.clearCache(true);
-            mWVMeituan.loadUrl("about:blank");
-            mWVMeituan.pauseTimers();
+            mWVMeituan.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            mWVMeituan.clearHistory();
+            ((ViewGroup) mWVMeituan.getParent()).removeView(mWVMeituan);
             mWVMeituan.destroy();
             mWVMeituan = null;
         }
