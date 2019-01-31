@@ -158,6 +158,10 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         TextView nameTv = header.findViewById(R.id.tv_name_title);
 
         try {
+            if (mAddressData.getCanShipping()!=1){
+                addressTv.setTextColor(0x99ffffff);
+                nameTv.setTextColor(0x99ffffff);
+            }
             addressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
             if (addressTv.getText().length() > 16) {
                 addressTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
@@ -179,7 +183,6 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 typeTv.setText(getString(R.string.address_tag_other));
 
             }
-
 
             String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
             nameTv.setText(userInfo);

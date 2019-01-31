@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 
 import java.util.List;
 
@@ -58,6 +60,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView tv_address_type;
         TextView tv_name;
         ImageView img_edit;
+        RelativeLayout address_item;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -67,9 +70,11 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             tv_address_type = itemView.findViewById(R.id.tv_address_type);
             tv_name = itemView.findViewById(R.id.tv_name);
             img_edit = itemView.findViewById(R.id.img_select);
+            address_item = itemView.findViewById(R.id.address_item);
 
             itemView.setOnClickListener(AddressListAdapter.this);
             img_edit.setOnClickListener(AddressListAdapter.this);
+            address_item.setOnClickListener(AddressListAdapter.this);
         }
     }
 
@@ -118,6 +123,12 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
                 ((ViewHolder) holder).tv_name.setText(name + " " + phone);
 
+                holder.itemView.setTag(realPosition);
+                String ttsAddress = Encryption.desEncrypt(mData.get(realPosition).getAddress());
+                String str = String.format(mContext.getString(R.string.delivery_an_address), ttsAddress);
+                VoiceTouchUtils.setItemVoicesTouchSupport(((ViewHolder) holder).itemView, realPosition, mContext.getString(R.string.choose_an_address));
+                VoiceTouchUtils.setVoiceTouchTTSSupport(((ViewHolder) holder).itemView,str);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -132,7 +143,6 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             ((ViewHolder) holder).img_edit.setTag(realPosition);
 
-            holder.itemView.setTag(realPosition);
 
         }
     }

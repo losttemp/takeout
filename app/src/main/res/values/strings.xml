@@ -302,11 +302,12 @@
     <string name= "address_details_hint_text">详细地址：例：3楼3层303室</string>
     <string name="http_error">网络服务器错误</string>
 
+    <string name="tts_add_new_time">好的，请选择你的配送时间</string>
     <string name="tts_add_new_address">好的，请选择你的收货地址</string>
     <string name="tts_delete_address">好的，已删除</string>
     <string name="tts_save_address_error">请输入必填信息后保存</string>
     <string name="tts_save_address_success">好的，已为你保存地址</string>
-    <string name="save_address_text">保存地址</string>addadd
+    <string name="save_address_text">保存地址</string>
     <string name="add_address_text">新增地址^添加地址</string>
     <string name="delete_address_text">删除地址^删除收货地址^删掉地址^删掉收货地址</string>
     <string name="first_page">当前已是第一页</string>
@@ -321,6 +322,8 @@
     <string name="poi_select_hint_text">请选择城市</string>
     <string name="look_order_details_success_text">好的，为你展示订单详情</string>
     <string name="close_order_success_text">好的，已为你取消订单</string>
+    <string name="choose_an_address">送到第%d个</string>
+    <string name="delivery_an_address">好的，你的外卖将送到%s</string>
     <string name="prefix_choice">选择</string>
     <string name="prefix_check">查看</string>
     <string name="prefix_open">打开</string>
@@ -332,5 +335,7 @@
     <string name="tts_into_cake">好的，已进入预订蛋糕页</string>
     <string name="tts_rescheduling">好的，已为你重新排序</string>
     <string name="tts_search_for_you">好的，现在开始为你检索</string>
+    <string name="tts_topay_text">请打开微信或支付宝扫描二维码进行付款</string>
+    <string name="tts_show_order_detail">好的，为你展示订单详情</string>
 
 </resources>

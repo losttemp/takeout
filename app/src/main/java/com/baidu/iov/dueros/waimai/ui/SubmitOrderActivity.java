@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitInfoPresenter;
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
@@ -39,6 +41,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
@@ -49,6 +52,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -178,6 +182,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
         if (mAddressData != null) {
             try {
+                if (mAddressData.getCanShipping()!=1){
+                    mAddressTv.setTextColor(0x99ffffff);
+                    mUserNameTv.setTextColor(0x99ffffff);
+                    mTypeTipTv.setTextColor(0x99ffffff);
+                }
                 mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
                 String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
                         + Encryption.desEncrypt(mAddressData.getUser_phone());
@@ -187,6 +196,15 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             }
 
         }
+
+        VoiceTouchUtils.setVoicesTouchSupport(mArrivetimeLayout, R.array.update_time);
+        VoiceTouchUtils.setVoiceTouchTTSSupport(mArrivetimeLayout, mContext.getString(R.string.tts_add_new_time));
+
+        VoiceTouchUtils.setVoicesTouchSupport(mAddressUpdateLayout, R.array.update_address);
+        VoiceTouchUtils.setVoiceTouchTTSSupport(mAddressUpdateLayout, mContext.getString(R.string.tts_add_new_address));
+
+        VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
+        VoiceTouchUtils.setVoiceTouchTTSSupport(mToPayTv, mContext.getString(R.string.tts_topay_text));
         netDataReque();
 
     }
@@ -279,12 +297,31 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             mProductInfoListview.addView(viewItem, params);
 
+            String total = String.format(getResources().getString(R.string.submit_total), mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal());
+            String deliveryTime = mEstimateTime;
+            String address = "";
+            String phone = "";
+            try {
+                address = Encryption.desEncrypt(mAddressData.getAddress());
+                phone = Encryption.desEncrypt(mAddressData.getUser_phone());
+                if (phone.length() > 3) phone = phone.substring(phone.length() - 4, phone.length());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String str = String.format(getString(R.string.submit_order), name, total, deliveryTime, address, phone);
+            VoiceTouchUtils.setVoicesTouchSupport(mBackImg, R.array.cancle_order);
+            VoiceTouchUtils.setVoiceTouchTTSSupport(mBackImg, str);
+
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        ArrayList<String> prefix = new ArrayList<>();
+        prefix.add("选择");
+        AccessibilityClient.getInstance().register(this, true, prefix, null);
         GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getSubmut());
     }
 
@@ -296,7 +333,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             case R.id.back_action:
                 Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY,EventType.TOUCH_TYPE);
-                onBackPressed();
+                finish();
+//                onBackPressed();
                 break;
             case R.id.address_info:
                 Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG,EventType.TOUCH_TYPE);
@@ -317,21 +355,26 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 if (mAddressData == null) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT);
                 }
-                if(!isFastClick()){
-                    if (NetUtil.getNetWorkState(this)) {
-                        if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
-                            List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
-                            wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
-                            mToPayTv.setEnabled(false);
-                            loadingView.setVisibility(View.VISIBLE);
-                            getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime,this);
+                if (mAddressData.getCanShipping()!=1){
+                    ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
+                }else {
+                    if(!isFastClick()){
+                        if (NetUtil.getNetWorkState(this)) {
+                            if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
+                                List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
+                                wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
+                                mToPayTv.setEnabled(false);
+                                loadingView.setVisibility(View.VISIBLE);
+                                getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime,this);
+                            }
+                        } else {
+                            netDataReque();
+                            ToastUtils.show(this, getResources().getString(R.string.net_unconnect), Toast.LENGTH_LONG);
                         }
-                    } else {
-                        netDataReque();
-                        ToastUtils.show(this, getResources().getString(R.string.net_unconnect), Toast.LENGTH_LONG);
+
                     }
-                    break;
                 }
+                break;
             case R.id.no_internet_btn:
                 netDataReque();
                 break;
@@ -487,18 +530,23 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     isChoiceAddressBack = true;
                     mAddressData = (AddressListBean.IovBean.DataBean) data.getSerializableExtra(ADDRESS_DATA);
                     getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData,SubmitOrderActivity.this);
-
                     boolean isNeedVoice = data.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
                     try {
+                        if (mAddressData.getCanShipping()!=1){
+                            mAddressTv.setTextColor(0x99ffffff);
+                            mUserNameTv.setTextColor(0x99ffffff);
+                            mTypeTipTv.setTextColor(0x99ffffff);
+                        }
                         String address = Encryption.desEncrypt(mAddressData.getAddress());
-                        mAddressTv.setText(address);
                         if (isNeedVoice) {
                             VoiceManager.getInstance().playTTS(SubmitOrderActivity.this,
                                     String.format(getString(R.string.commodity_address), address));
                         }
                         String name = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
                                 + Encryption.desEncrypt(mAddressData.getUser_phone());
+                        mAddressTv.setText(address);
                         mUserNameTv.setText(name);
+
                         Intent intent = new Intent(Constant.PULL_LOCATION);
                         intent.setPackage(BuildConfig.APPLICATION_ID);
                         sendBroadcast(intent);

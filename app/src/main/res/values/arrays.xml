@@ -28,4 +28,28 @@
         <item>删除第%d个</item>
         <item>删掉第%d个</item>
     </string-array>
+
+    <string-array name="cancle_order">
+        <item>取消订单</item>
+        <item>取消支付</item>
+    </string-array>
+
+    <string-array name="update_time">
+        <item>修改时间</item>
+        <item>换个时间</item>
+    </string-array>
+
+    <string-array name="update_address">
+        <item>修改地址</item>
+        <item>换个地址</item>
+    </string-array>
+
+    <string-array name="check_order_detail">
+        <item>查看订单详情</item>
+        <item>订单详情</item>
+        <item>查看详情</item>
+    </string-array>
+
+
+
 </resources>
