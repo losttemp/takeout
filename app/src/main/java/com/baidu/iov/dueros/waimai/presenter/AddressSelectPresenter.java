@@ -304,7 +304,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                     mDesBean.setType(context.getResources().getString(R.string.address_destination));
                     mDataBeans.add(0, mDesBean);
                 }
-                if (null != getUi()) {
+                if (null != getUi()&& mDataBeans.size() > 0) {
                     getUi().onSuccess(mDataBeans);
                 }
             } else if (intent.getAction() == Constant.OPEN_API_EXIT_NAVI) {

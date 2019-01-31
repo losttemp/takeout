@@ -12,10 +12,13 @@ import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 
 import java.util.ArrayList;
 
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NEXT;
 import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
+import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_PRE;
 import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_SELECT;
 
 public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi> {
@@ -37,6 +40,12 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
             case CMD_NO:
                 getUi().close();
                 break;
+            case VoiceManager.CMD_NEXT:
+                getUi().nextPage(true);
+                break;
+            case VoiceManager.CMD_PRE:
+                getUi().nextPage(false);
+                break;
             default:
                 break;
         }
@@ -49,6 +58,8 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
             ArrayList<String> cmdList = new ArrayList<String>();
             cmdList.add(CMD_NO);
             cmdList.add(CMD_SELECT);
+            cmdList.add(CMD_NEXT);
+            cmdList.add(CMD_PRE);
             //mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
             mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
         }
@@ -137,6 +148,8 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
         void close();
 
         void selectListItem(int i);
+
+        void nextPage(boolean isNextPage);
     }
 
 }

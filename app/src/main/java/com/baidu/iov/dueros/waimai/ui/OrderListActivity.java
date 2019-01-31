@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.OrderListAdaper;
+import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
@@ -37,6 +38,7 @@ import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
+import com.baidu.iov.dueros.waimai.utils.ResUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
@@ -70,6 +72,8 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private SmartRefreshLayout mRefreshLayout;
     private View networkView;
 
+    private boolean initTTS = false;
+
     @Override
     OrderListPresenter createPresenter() {
         return new OrderListPresenter();
@@ -102,7 +106,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             networkView.setVisibility(View.GONE);
             GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getOrder().getOrder());
         } else {
-            if (null!=networkView){
+            if (null != networkView) {
                 networkView.setVisibility(View.VISIBLE);
             }
         }
@@ -125,9 +129,17 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     }
 
     private void initData() {
-        Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL_VOICE,EventType.TOUCH_TYPE);
-        Entry.getInstance().onEvent(Constant.ORDERLIST_REFRESH_VOICE,EventType.TOUCH_TYPE);
-        mOrderListAdaper = new OrderListAdaper(mOrderList, this);
+        Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL_VOICE, EventType.TOUCH_TYPE);
+        Entry.getInstance().onEvent(Constant.ORDERLIST_REFRESH_VOICE, EventType.TOUCH_TYPE);
+        mOrderListAdaper = new OrderListAdaper(mOrderList, this) {
+            @Override
+            public void ttsCancelOrder(int position) {
+                initTTS = true;
+                pos = position;
+                mOrderCancelReq = new OrderCancelReq(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
+                getPresenter().requestOrderCancel(mOrderCancelReq);
+            }
+        };
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRvOrder.setLayoutManager(layoutManager);
@@ -149,7 +161,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         startActivity(storeintent);
                         break;
                     case R.id.one_more_order:
-                        Entry.getInstance().onEvent(Constant.ORDERLIST_TO_REPEAT_VOCIE,EventType.TOUCH_TYPE);
+                        Entry.getInstance().onEvent(Constant.ORDERLIST_TO_REPEAT_VOCIE, EventType.TOUCH_TYPE);
                         Intent onemoreintent = new Intent(OrderListActivity.this, FoodListActivity.class);
                         onemoreintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         onemoreintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(position).getExtra());
@@ -158,12 +170,12 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         startActivity(onemoreintent);
                         break;
                     case R.id.pay_order:
-                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY,EventType.TOUCH_TYPE);
+                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY, EventType.TOUCH_TYPE);
                         Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
                         double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
                         payintent.putExtra("total_cost", total_price);
                         payintent.putExtra("order_id", Long.parseLong(mOrderList.get(position).getOut_trade_no()));
-                        payintent.putExtra(Constant.STORE_ID,payloadBean.getWm_ordering_list().getWm_poi_id());
+                        payintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         payintent.putExtra("shop_name", mOrderList.get(position).getOrder_name());
                         payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
                         payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
@@ -200,14 +212,14 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         dialog.show();
                         break;
                     default:
-                        Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL_VOICE,EventType.TOUCH_TYPE);
-                        Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL,EventType.TOUCH_TYPE);
+                        Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL_VOICE, EventType.TOUCH_TYPE);
+                        Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL, EventType.TOUCH_TYPE);
                         Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
                         intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
-                        intent.putExtra(Constant.STORE_ID,Long.parseLong(payloadBean.getWm_ordering_list().getWm_poi_id()));
+                        intent.putExtra(Constant.STORE_ID, Long.parseLong(payloadBean.getWm_ordering_list().getWm_poi_id()));
                         intent.putExtra(Constant.EXPECTED_TIME, payloadBean.getWm_ordering_list().getDelivery_time());
-                        String status=  mOrderList.get(position).getOut_trade_status();
-                        if (IOV_STATUS_ZERO.equals(status) || IOV_STATUS_WAITING.equals(status)){
+                        String status = mOrderList.get(position).getOut_trade_status();
+                        if (IOV_STATUS_ZERO.equals(status) || IOV_STATUS_WAITING.equals(status)) {
                             intent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
                             intent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
                         }
@@ -264,7 +276,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                                     Uri uri = Uri.fromParts("package", getPackageName(), null);
                                     intent.setData(uri);
                                     startActivity(intent);
-                                }else{
+                                } else {
                                     ActivityCompat.requestPermissions(OrderListActivity.this,
                                             new String[]{Manifest.permission.CALL_PHONE},
                                             REQUEST_CODE_CALL_PHONE);
@@ -292,7 +304,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back:
-                Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY, EventType.TOUCH_TYPE);
                 onBackPressed();
                 break;
             case R.id.no_internet_btn:
@@ -340,11 +352,19 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
         if (data.getMeituan().getCode() == 0) {
-            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancelled),Toast.LENGTH_LONG);
+            sendTTS(R.string.close_order_success_text);
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancelled), Toast.LENGTH_LONG);
             mOrderList.get(pos).setOut_trade_status(IOV_STATUS_CANCELED);
             mOrderListAdaper.notifyItemChanged(pos);
         } else {
             showCancelDialog();
+        }
+    }
+
+    private void sendTTS(int stringId) {
+        if (initTTS) {
+            initTTS = false;
+            VoiceManager.getInstance().playTTS(mContext, getString(stringId));
         }
     }
 
@@ -384,6 +404,36 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 viewHolder.autoClick();
             }
         }
+    }
+
+    @Override
+    public void nextPage(boolean isNextPage) {
+        if (mTvNoOrder.getVisibility() == View.GONE) {
+            LinearLayoutManager manager = (LinearLayoutManager) mRvOrder.getLayoutManager();
+            assert manager != null;
+            int currentItemPosition = manager.findFirstVisibleItemPosition();
+            int last = manager.findLastCompletelyVisibleItemPosition();
+            if (isNextPage) {
+                VoiceManager.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
+                if (currentItemPosition + getPageNum() * 2 > mOrderList.size()) {
+                    manager.scrollToPositionWithOffset(mOrderList.size()-1, 0);
+                    mRefreshLayout.autoLoadmore(1000);
+                    return;
+                }
+                manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
+            } else {
+                if (currentItemPosition == 0) {
+                    VoiceManager.getInstance().playTTS(mContext, getString(R.string.first_page));
+                } else {
+                    VoiceManager.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
+                }
+                manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
+            }
+        }
+    }
+
+    private int getPageNum() {
+        return 5;
     }
 
     @Override

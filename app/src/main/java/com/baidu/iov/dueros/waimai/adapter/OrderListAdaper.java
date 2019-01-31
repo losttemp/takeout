@@ -2,14 +2,15 @@ package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
@@ -19,7 +20,6 @@ import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.bumptech.glide.Glide;
-import com.domain.multipltextview.MultiplTextView;
 
 import java.util.List;
 
@@ -109,7 +109,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvStoreName.setCompoundDrawables(null, null, drawable, null);  //设置到哪个控件的位置（）
         }
 
-        public void bindData(int position, OrderListResponse.IovBean.DataBean order) {
+        public void bindData(final int position, OrderListResponse.IovBean.DataBean order) {
             tvOneMore.setText(mContext.getResources().getString(R.string.one_more_order));
             tvCancelOrder.setText(mContext.getResources().getString(R.string.order_cancel));
             tvPayOrder.setText(mContext.getResources().getString(R.string.pay_order));
@@ -181,7 +181,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             int food_num = mOrderInfosfood_list.getCount();
             String wm_pic_url = extraBean.getOrderInfos().getWm_pic_url();
 
-            tvFood.setText(food_name+"x" + String.valueOf(food_num));
+            tvFood.setText(food_name + "x" + String.valueOf(food_num));
             tvPrice.setText("¥" + String.valueOf(total_price));
             tvTotalCount.setText(String.format(mContext.getResources().getString(R.string
                     .goods_total_count), total_count));
@@ -195,15 +195,27 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvPayOrder.setTag(position);
 
             VoiceTouchUtils.setItemVoicesTouchSupport(itemView, position, R.array.look_order_details);
-            VoiceTouchUtils.setVoiceTouchTTSSupport(itemView,mContext.getString(R.string.look_order_details_success_text));
+            VoiceTouchUtils.setVoiceTouchTTSSupport(itemView, mContext.getString(R.string.look_order_details_success_text));
 
-            if (tvCancelOrder.getVisibility()==View.VISIBLE){
+            if (tvCancelOrder.getVisibility() == View.VISIBLE) {
                 VoiceTouchUtils.setItemVoicesTouchSupport(tvCancelOrder, position, R.array.close_order);
-                VoiceTouchUtils.setVoiceTouchTTSSupport(tvCancelOrder,mContext.getString(R.string.close_order_success_text));
+                tvCancelOrder.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+                    @Override
+                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                        switch (action) {
+                            case AccessibilityNodeInfo.ACTION_CLICK:
+                                ttsCancelOrder(position);
+                                break;
+                            default:
+                                break;
+                        }
+                        return true;
+                    }
+                });
             }
-            if (tvOneMore.getVisibility()==View.VISIBLE){
+            if (tvOneMore.getVisibility() == View.VISIBLE) {
                 VoiceTouchUtils.setItemVoicesTouchSupport(tvOneMore, position, R.array.one_more_order);
-                VoiceTouchUtils.setVoiceTouchTTSSupport(tvOneMore,String.format(mContext.getString(R.string.sure_order), order.getOrder_name()));
+                VoiceTouchUtils.setVoiceTouchTTSSupport(tvOneMore, String.format(mContext.getString(R.string.sure_order), order.getOrder_name()));
             }
         }
 
@@ -243,6 +255,8 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             }
         }
     }
+
+    public void ttsCancelOrder(int position){}
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean, boolean isNeedVoice);

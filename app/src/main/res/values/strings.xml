@@ -304,7 +304,7 @@
 
     <string name="tts_add_new_address">好的，请选择你的收货地址</string>
     <string name="tts_delete_address">好的，已删除</string>
-    <string name="tts_save_address_error">请输入你的必填信息后保存</string>
+    <string name="tts_save_address_error">请输入必填信息后保存</string>
     <string name="tts_save_address_success">好的，已为你保存地址</string>
     <string name="save_address_text">保存地址</string>addadd
     <string name="add_address_text">新增地址^添加地址</string>
