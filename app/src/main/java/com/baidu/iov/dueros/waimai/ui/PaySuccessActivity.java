@@ -18,6 +18,7 @@ import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
+import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 import com.bumptech.glide.Glide;
@@ -126,6 +127,11 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
         mCountDownTv.setOnClickListener(this);
         mFinishImg = findViewById(R.id.finish_img);
         mFinishImg.setOnClickListener(this);
+
+        VoiceTouchUtils.setVoicesTouchSupport(mOrderDetailsTv, R.array.check_order_detail);
+        VoiceTouchUtils.setVoiceTouchTTSSupport(mOrderDetailsTv, getString(R.string.tts_show_order_detail));
+
+
     }
 
     @Override
