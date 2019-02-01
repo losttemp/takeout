@@ -185,7 +185,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 if (mAddressData.getCanShipping()!=1){
                     mAddressTv.setTextColor(0x99ffffff);
                     mUserNameTv.setTextColor(0x99ffffff);
-                    mTypeTipTv.setTextColor(0x99ffffff);
+                    mArriveTimeTv.setTextColor(0x99ffffff);
                 }
                 mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
                 String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
@@ -535,7 +535,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         if (mAddressData.getCanShipping()!=1){
                             mAddressTv.setTextColor(0x99ffffff);
                             mUserNameTv.setTextColor(0x99ffffff);
-                            mTypeTipTv.setTextColor(0x99ffffff);
+                            mArriveTimeTv.setTextColor(0x99ffffff);
+                        }else {
+                            mAddressTv.setTextColor(this.getResources().getColor(R.color.white));
+                            mUserNameTv.setTextColor(this.getResources().getColor(R.color.white));
+                            mArriveTimeTv.setTextColor(this.getResources().getColor(R.color.white));
                         }
                         String address = Encryption.desEncrypt(mAddressData.getAddress());
                         if (isNeedVoice) {
