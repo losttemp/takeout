@@ -72,7 +72,7 @@ public class ApiInstance {
                 return chain.proceed(request);
             }
         });
-//        httpClient.addInterceptor(logging);
+        httpClient.addInterceptor(logging);
         return httpClient.build();
     }
 

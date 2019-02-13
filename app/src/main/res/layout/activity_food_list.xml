@@ -258,7 +258,8 @@
             android:id="@+id/shopping_cart"
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
-            android:src="@drawable/icon120" />
+            android:src="@drawable/icon120"
+            android:contentDescription="@string/open_the_shopping_cart"/>
 
         <LinearLayout
             android:id="@+id/ll_shoppingNum_layout"

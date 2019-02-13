@@ -2,6 +2,8 @@ package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.os.Bundle;
+import android.speech.tts.Voice;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.text.NumberFormat;
@@ -19,6 +22,7 @@ import java.util.List;
 
 public class ShoppingCartAdapter extends BaseAdapter {
 
+    private final Context context;
     private IShoppingCartToDetailListener shopToDetailListener;
 
     public void setShopToDetailListener(IShoppingCartToDetailListener callBackListener) {
@@ -30,6 +34,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
 
     public ShoppingCartAdapter(Context context, List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeans) {
         this.spusBeans = spusBeans;
+        this.context = context;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -65,6 +70,16 @@ public class ShoppingCartAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        convertView.setContentDescription(String.format(context.getString(R.string.cancel_position),String.valueOf(position)));
+        convertView.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+            @Override
+            public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                spusBeans.remove(position);
+                notifyDataSetChanged();
+                VoiceManager.getInstance().playTTS(context,context.getString(R.string.already_cancel)+spusBeans.get(position).getName());
+                return true;
+            }
+        });
         viewHolder.commodityName.setText(spusBeans.get(position).getName());
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBeans.get(position).getSkus();
         if (skus != null) {

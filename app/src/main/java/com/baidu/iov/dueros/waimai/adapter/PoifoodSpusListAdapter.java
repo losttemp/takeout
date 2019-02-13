@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -298,6 +299,22 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     viewHolder.prise.setText(NumberFormat.getInstance().format(spusBean.getMin_price()));
                 }
                 viewHolder.shoppingNum.setText("" + spusBean.getNumber());
+                viewHolder.add.setContentDescription(String.format(context.getString(R.string.to_eat_position),viewHolder.storeIndex.getText().toString()));
+                viewHolder.increase.setContentDescription(String.format(context.getString(R.string.to_eat_position),viewHolder.storeIndex.getText().toString()));
+                viewHolder.add.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+                    @Override
+                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                        viewHolder.autoClick(Integer.parseInt(viewHolder.storeIndex.getText().toString()));
+                        return true;
+                    }
+                });
+                viewHolder.increase.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+                    @Override
+                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                        viewHolder.autoClick(Integer.parseInt(viewHolder.storeIndex.getText().toString()));
+                        return true;
+                    }
+                });
 
                 viewHolder.specifications.setOnClickListener(new View.OnClickListener() {
                     @Override

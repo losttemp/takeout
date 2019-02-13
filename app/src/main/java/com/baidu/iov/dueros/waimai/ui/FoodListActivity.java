@@ -60,6 +60,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.PoifoodListPresenter;
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
@@ -240,6 +241,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     protected void onResume() {
         super.onResume();
+        ArrayList<String> prefix = new ArrayList<>();
+        prefix.add(getString(R.string.open));
+        AccessibilityClient.getInstance().register(this,
+                true,	prefix,	null);
         GuidingAppear.INSTANCE.init(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail());
     }
 
@@ -273,6 +278,15 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mLoading = (LinearLayout) findViewById(R.id.ll_loading);
         mShopCartPic = (RelativeLayout) findViewById(R.id.rl_shop_cart);
         mTextOpenCart = (TextView) findViewById(R.id.tv_open_shop_cart);
+
+        shopping_cart.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+            @Override
+            public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                openShopCart();
+                VoiceManager.getInstance().playTTS(FoodListActivity.this,"BUBBLE");
+                return true;
+            }
+        });
     }
 
     @Override
@@ -775,6 +789,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mCartClose = (MultiplTextView) v.findViewById(R.id.tv_close_cart);
         mCartDiscount = (TextView) v.findViewById(R.id.tv_discount);
         mCartSettlement = (Button) v.findViewById(R.id.settlement);
+        mClearshopCart.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+            @Override
+            public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                clearShopCart();
+                VoiceManager.getInstance().playTTS(FoodListActivity.this,getString(R.string.already_clear_shop_cart));
+                return true;
+            }
+        });
         mCartSettlement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -794,6 +816,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             public void onClick(View view) {
                 Entry.getInstance().onEvent(Constant.POIFOODLIST_CLOSE_THE_SHOPPING_CART, EventType.TOUCH_TYPE);
                 mBottomDialog.dismiss();
+            }
+        });
+        mCartClose.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+            @Override
+            public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                mBottomDialog.dismiss();
+                VoiceManager.getInstance().playTTS(FoodListActivity.this,"BUBBLE");
+                return true;
             }
         });
         shoppingListView.setAdapter(shoppingCartAdapter);
@@ -821,10 +851,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             case R.id.shopping_cart:
             case R.id.tv_open_shop_cart:
                 Entry.getInstance().onEvent(Constant.POIFOODLIST_CHECK_THE_SHOPPING_CART, EventType.TOUCH_TYPE);
-                if (productList == null || productList.size() == 0) {
-                    return;
-                }
-                showShopCartDialog();
+                openShopCart();
                 break;
 
             case R.id.settlement:
@@ -844,30 +871,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
             case R.id.tv_clear:
                 Entry.getInstance().onEvent(Constant.POIFOODLIST_EMPTY_CART, EventType.TOUCH_TYPE);
-                if (productList != null && productList.size() > 0) {
-                    productList.clear();
-                    for (int i = 0; i < foodSpuTagsBeans.size(); i++) {
-                        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spus = foodSpuTagsBeans.get(i).getSpus();
-                        for (int j = 0; j < spus.size(); j++) {
-                            spus.get(j).setNumber(0);
-                            spus.get(j).setSpecificationsNumber(0);
-                        }
-                    }
-                    mPoifoodSpusListAdapter.notifyDataSetChanged();
-                    shoppingCartAdapter.notifyDataSetChanged();
-                    if (mBottomDialog != null && mBottomDialog.isShowing()) {
-                        setDialogHeight(mBottomDialog);
-                    }
-                    for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
-                        poifoodSpusTagsBeans.get(i).setNumber(number);
-                    }
-                    mFoodSpuTagsListAdapter.notifyDataSetChanged();
-                    setPrise(false);
-                }
-                if (mBottomDialog != null && mBottomDialog.isShowing()) {
-                    mBottomDialog.dismiss();
-                }
-                alreadyToast = false;
+                clearShopCart();
                 break;
             case R.id.iv_finish:
                 finish();
@@ -908,6 +912,40 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 netDataReque();
                 break;
         }
+    }
+
+    private void clearShopCart() {
+        if (productList != null && productList.size() > 0) {
+            productList.clear();
+            for (int i = 0; i < foodSpuTagsBeans.size(); i++) {
+                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spus = foodSpuTagsBeans.get(i).getSpus();
+                for (int j = 0; j < spus.size(); j++) {
+                    spus.get(j).setNumber(0);
+                    spus.get(j).setSpecificationsNumber(0);
+                }
+            }
+            mPoifoodSpusListAdapter.notifyDataSetChanged();
+            shoppingCartAdapter.notifyDataSetChanged();
+            if (mBottomDialog != null && mBottomDialog.isShowing()) {
+                setDialogHeight(mBottomDialog);
+            }
+            for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
+                poifoodSpusTagsBeans.get(i).setNumber(number);
+            }
+            mFoodSpuTagsListAdapter.notifyDataSetChanged();
+            setPrise(false);
+        }
+        if (mBottomDialog != null && mBottomDialog.isShowing()) {
+            mBottomDialog.dismiss();
+        }
+        alreadyToast = false;
+    }
+
+    private void openShopCart() {
+        if (productList == null || productList.size() == 0) {
+            return;
+        }
+        showShopCartDialog();
     }
 
     private FrameLayout createAnimLayout() {

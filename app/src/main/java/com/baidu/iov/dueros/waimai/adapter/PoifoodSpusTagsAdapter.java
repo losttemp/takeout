@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
+import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
+import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 
 import java.util.List;
 
@@ -54,6 +57,18 @@ public class PoifoodSpusTagsAdapter extends RecyclerView.Adapter<PoifoodSpusTags
                 if (mItemClickListener != null) {
                     mItemClickListener.OnItemClick(view, position);
                 }
+            }
+        });
+
+        viewHolder.foodSpuTagsBeanName.setContentDescription(context.getString(R.string.to_eat_something)+poifoodSpusTagsBeans.get(position).getFoodSpuTagsBeanName());
+        viewHolder.foodSpuTagsBeanName.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+            @Override
+            public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.OnItemClick(host, position);
+                }
+                VoiceManager.getInstance().playTTS(context, context.getString(R.string.already_choice));
+                return true;
             }
         });
 
