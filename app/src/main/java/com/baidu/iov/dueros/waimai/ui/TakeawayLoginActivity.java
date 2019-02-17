@@ -92,6 +92,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         webSettings.setDomStorageEnabled(true);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setSupportZoom(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setLoadsImagesAutomatically(true);
@@ -100,6 +102,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         }
 
         mWVMeituan.setVisibility(View.GONE);
+
         networkView = findViewById(R.id.network_view);
         networkView.setBackground(getResources().getDrawable(R.drawable.app_bg));
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
@@ -198,6 +201,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             }
         } else {
             syncCookie(this, Config.getHost());
+            mWVMeituan.clearHistory();
             mWVMeituan.setVisibility(View.VISIBLE);
             mWVMeituan.loadUrl(data.getIov().getAuthorizeUrl());
         }
@@ -209,7 +213,11 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         cookieManager.setCookie(url, Config.COOKIE_VALUE);
     }
 
+    private boolean init = false;
+
     private void startIntent() {
+        if (init) return;
+        init = true;
         long time = CacheUtils.getAddrTime();
         if (time == 0 || (System.currentTimeMillis() - time > SIX_HOUR)) {
             Intent addressIntent = new Intent(this, AddressSelectActivity.class);

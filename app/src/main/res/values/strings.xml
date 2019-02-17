@@ -136,7 +136,7 @@
 
     <string name="goods_total_count">共%d件商品</string>
     <string name="one_more_order">再来一单</string>
-    <string name="no_order">没有订单</string>
+    <string name="no_order">您暂无外卖订单，快来下单吧</string>
     <string name="order_cancelled">订单已取消</string>
     <string name="order_expired">订单已失效</string>
     <string name="cancel">取消</string>

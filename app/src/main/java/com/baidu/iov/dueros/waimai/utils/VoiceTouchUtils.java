@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.ui.WaiMaiApplication;
 
 /**
