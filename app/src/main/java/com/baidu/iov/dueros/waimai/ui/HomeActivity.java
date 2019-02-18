@@ -49,6 +49,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
     private boolean init = false;
 
+	public static boolean  fromLogin=false;
+
 	private ArrayList<String> prefix = new ArrayList<>();
 	
 
@@ -67,10 +69,12 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Lg.getInstance().e(TAG, "onCreate");
+		fromLogin=getIntent().getBooleanExtra(Constant.IS_FROME_TAKEAWAYLOGIN,false);
         if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
             VoiceManager.getInstance().playTTS(HomeActivity.this, getString(R.string.please_choice_commodity));
         }
         iniView();
+		setAddress();
         if (savedInstanceState != null) {
             mStoreListFragment = (StoreListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_KEY);
         } else {
@@ -101,12 +105,11 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     protected void onResume() {
         super.onResume();
         Lg.getInstance().e(TAG, "onResume");
-		setAddress();
         GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getList());
 		AccessibilityClient.getInstance().register(this,true,prefix, null);
 	}
 	
-	private void setAddress(){
+	public void setAddress(){
 		if (!CacheUtils.getAddress().isEmpty()) {
 			address = CacheUtils.getAddress();
 		}

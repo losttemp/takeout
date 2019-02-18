@@ -91,7 +91,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private FilterConditionReq filterConditionReq;
 
 	private LinearLayout mLoading;
-	
+
+	private int  shopTotalNum;
 
 
 
@@ -226,7 +227,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreReq.setLatitude(Constant.GOODS_LATITUDE);
 		mStoreReq.setLongitude(Constant.GOODS_LONGITUDE );
 		mStoreReq.setSortType(Constant.COMPREHENSIVE);
-		
+		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME&!HomeActivity.fromLogin) {
+			getLocation(mContext);
+			homeLoadFirstPage();
+		}
 		filterConditionReq = new FilterConditionReq();
 		getFilterList();
 	}
@@ -406,6 +410,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	public void update(StoreResponse data) {
 		Lg.getInstance().d(TAG, "data:" + data);
 		mStoreData = data.getMeituan().getData();
+		shopTotalNum=mStoreData.getPoi_total_num();
 		if (mStoreData.getCurrent_page_index() <= 1) {
 			mStoreList.clear();
 		}
@@ -564,12 +569,14 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			LinearLayoutManager manager = (LinearLayoutManager) mRvStore.getLayoutManager();
 			assert manager != null;
 			int currentItemPosition = manager.findFirstVisibleItemPosition();
-			int last = manager.findLastCompletelyVisibleItemPosition();
 			if (isNextPage) {
 				if (currentItemPosition + getPageNum() * 2 > mStoreList.size() && mRefreshLayout != null) {
 					mRefreshLayout.autoLoadmore(100);
 				}
 				manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
+				if (currentItemPosition==shopTotalNum){
+					VoiceManager.getInstance().playTTS(mContext, getString(R.string.last_page));
+				}
 			} else {
 				if (currentItemPosition == 0) {
 					VoiceManager.getInstance().playTTS(mContext, getString(R.string.first_page));
@@ -719,6 +726,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mTvSort.setTextColor(getResources().getColor(R.color.white_60));
 					mStoreReq.setMigFilter("");
 					mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
+					if (mContext instanceof HomeActivity){
+						((HomeActivity)mContext).setAddress();
+					}
 					refresh();
 				}
 			  
