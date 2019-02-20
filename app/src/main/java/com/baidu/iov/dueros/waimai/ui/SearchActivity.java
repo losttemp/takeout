@@ -248,9 +248,9 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					String keyword= mEtSearch.getText().toString();
+					String keyword= mEtSearch.getText().toString().trim();
 					if (!keyword.isEmpty()) {
-						searchKeyword(mEtSearch.getText().toString());
+						searchKeyword(keyword);
 						return true;
 					}
 				}
