@@ -102,14 +102,16 @@
 			android:layout_width="match_parent"
 			android:layout_height="@dimen/px96dp">
 
-			<android.support.v7.widget.AppCompatTextView
+			<com.domain.multipltextview.MultiplTextView
 				android:id="@+id/tv_history"
 				android:layout_width="wrap_content"
-				android:layout_height="@dimen/px64dp"
-				android:layout_alignParentBottom="true"
+				android:layout_height="@dimen/px32dp"
+				android:layout_centerVertical="true"
 				android:text="@string/search_history"
 				android:textColor="@color/white_60"
 				android:textSize="@dimen/px30sp" />
+
+
 
 			<android.support.v7.widget.AppCompatImageView
 				android:id="@+id/iv_delete"
