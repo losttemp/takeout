@@ -73,6 +73,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SearchActivity"
+            android:windowSoftInputMode="adjustPan"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
