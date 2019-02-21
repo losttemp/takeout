@@ -24,9 +24,19 @@
         <item>再来一份第%d个</item>
     </string-array>
 
-    <string-array name="search_histroy">
+    <string-array name="delete_histroy">
         <item>删除第%d个</item>
         <item>删掉第%d个</item>
+    </string-array>
+
+    <string-array name="checkout_histroy">
+        <item>搜索第%d个</item>
+        <item>查看第%d个</item>
+    </string-array>
+
+    <string-array name="open_shop">
+        <item>第%d个</item>
+        <item>第%家</item>
     </string-array>
 
     <string-array name="cancle_order">

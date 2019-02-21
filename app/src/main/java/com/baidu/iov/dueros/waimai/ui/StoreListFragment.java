@@ -201,7 +201,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			public boolean performAccessibilityAction(View host, int action, Bundle args) {
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
-						showFilterPop();
+						showSortPop();
 						VoiceManager.getInstance().playTTS(mContext,"BUBBLE");
 						break;
 					default:
@@ -222,6 +222,13 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				}
 				return true;
 			}});
+
+		mStoreAdaper.setItemAccessibilityDelegate(new StoreAdaper.ItemAccessibilityDelegate() {
+			@Override
+			public void onItemAccessibilityDelegate(int position) {
+				selectListItem(position);
+			}
+		});
 
 		mStoreReq = new StoreReq();
 		mStoreReq.setLatitude(Constant.GOODS_LATITUDE);
