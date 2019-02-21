@@ -172,6 +172,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isStartPermissions = false;
                 getGPSAddressFail();
                 dialog.dismiss();
             }
