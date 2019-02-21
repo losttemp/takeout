@@ -201,13 +201,14 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						deleteAll();
-						VoiceManager.getInstance().playTTS(mContext, mContext.getString(R.string.yes));
+						VoiceManager.getInstance().playTTS(mContext, mContext.getString(R.string.tts_delete_address));
 						break;
 					default:
 						break;
 				}
 				return true;
 			}});
+
 		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

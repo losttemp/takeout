@@ -3,6 +3,7 @@ import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
@@ -19,6 +21,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean.DiscountsBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
+import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.domain.multipltextview.MultiplTextView;
@@ -38,6 +41,8 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 	private List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean> mStoreList;
 	private Context mContext;
 	private OnItemClickListener mItemClickListener;
+
+	private  ItemAccessibilityDelegate mItemAccessibilityDelegate;
 
 	public StoreAdaper(List<StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean> storeList,
 					   Context context,int mFromPageType) {
@@ -193,6 +198,19 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		}
 
 		viewHolder.itemView.setTag(position);
+		VoiceTouchUtils.setItemVoicesTouchSupport(viewHolder.itemView, position, R.array.checkout_histroy);
+		viewHolder.itemView.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						mItemAccessibilityDelegate.onItemAccessibilityDelegate(position);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
 
 	}
 	
@@ -213,6 +231,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
             }
         }
     }
+
 
 	@Override
 	public int getItemCount() {
@@ -314,6 +333,14 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
 		return filter;
 		
+	}
+
+	public interface ItemAccessibilityDelegate {
+		void onItemAccessibilityDelegate(int position);
+	}
+
+	public void setItemAccessibilityDelegate(ItemAccessibilityDelegate itemAccessibilityDelegate) {
+		mItemAccessibilityDelegate = itemAccessibilityDelegate;
 	}
 	
 	

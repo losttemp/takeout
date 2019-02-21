@@ -65,28 +65,43 @@ public class SearchHistroyAdapter extends BaseAdapter {
 
 		viewHolder.tvHistoryNum.setText(position + 1 + "");
 		viewHolder.tvHistoryName.setText(mHistorys.get(position));
-		VoiceTouchUtils.setItemVoicesTouchSupport(viewHolder.ivDelete, position, R.array.search_histroy);
-		viewHolder.ivDelete.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+
+		VoiceTouchUtils.setItemVoicesTouchSupport(convertView, position, R.array.checkout_histroy);
+		convertView.setAccessibilityDelegate(new View.AccessibilityDelegate(){
 			@Override
 			public boolean performAccessibilityAction(View host, int action, Bundle args) {
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
-						removeHistory(position);
-						VoiceManager.getInstance().playTTS(mContext, mContext.getString(R.string.yes));
+						((SearchActivity)mContext).selectListItem(position);
 						break;
 					default:
 						break;
 				}
 				return true;
 			}});
+
 		viewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				removeHistory(position);
 			}
 		});
-		
 
+
+		VoiceTouchUtils.setItemVoicesTouchSupport(viewHolder.ivDelete, position, R.array.delete_histroy);
+		viewHolder.ivDelete.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						removeHistory(position);
+						VoiceManager.getInstance().playTTS(mContext, mContext.getString(R.string.tts_delete_address));
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
 		return convertView;
 	}
 	
