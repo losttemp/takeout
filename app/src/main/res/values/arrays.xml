@@ -3,7 +3,7 @@
     <string-array name="address_edit">
         <item>编辑第%d个</item>
         <item>更新第%d个</item>
-        <item>修改地址第%d个</item>
+        <item>修改第%d个</item>
     </string-array>
 
     <string-array name="look_order_details">
