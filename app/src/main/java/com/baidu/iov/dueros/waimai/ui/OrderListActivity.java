@@ -387,6 +387,9 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void selectListItem(int i) {
+        if (i > 0) {
+            i = i - 1;
+        }
         if (mOrderList == null || mOrderList.size() == 0) {
             StandardCmdClient.getInstance().playTTS(OrderListActivity.this, getString(R.string.have_no_order));
         }
@@ -414,7 +417,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             if (isNextPage) {
                 StandardCmdClient.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
                 if (currentItemPosition + getPageNum() * 2 > mOrderList.size()) {
-                    manager.scrollToPositionWithOffset(mOrderList.size()-1, 0);
+                    manager.scrollToPositionWithOffset(mOrderList.size() - 1, 0);
                     mRefreshLayout.autoLoadmore(1000);
                     return;
                 }

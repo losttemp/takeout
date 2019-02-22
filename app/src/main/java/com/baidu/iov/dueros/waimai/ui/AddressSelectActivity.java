@@ -230,6 +230,9 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
 
     @Override
     public void selectListItem(int i) {
+        if (i > 0) {
+            i = i - 1;
+        }
         if (null != mDataList && mDataList.size() >= i) {
             String databeanStr = GsonUtil.toJson(mDataList.get(i));
             CacheUtils.saveAddressBean(databeanStr);
@@ -263,7 +266,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             if (isNextPage) {
                 if (last == mDataList.size() - 1) {
                     StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.last_page));
-                }else{
+                } else {
                     StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, Config.DEFAULT_TTS);
                 }
                 if (currentItemPosition + getPageNum() * 2 > mDataList.size()) {
@@ -274,7 +277,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             } else {
                 if (currentItemPosition == 0) {
                     StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.first_page));
-                }else{
+                } else {
                     StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, Config.DEFAULT_TTS);
                 }
                 manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
