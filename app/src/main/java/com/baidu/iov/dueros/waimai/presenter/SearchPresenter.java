@@ -27,7 +27,7 @@ public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 
 		switch (cmd) {
 			case StandardCmdClient.CMD_SELECT:
-				getUi().selectListItem(Integer.parseInt(extra));
+				getUi().selectListItem(Integer.parseInt(extra)-1);
 				break;
 			case StandardCmdClient.CMD_NO:
 				getUi().close();

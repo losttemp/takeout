@@ -357,6 +357,12 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	@Override
 	public void selectListItem(int index) {
+		if (index>=0) {
+			VoicesSelectListItem(index);
+		}
+	}
+
+	public void VoicesSelectListItem(int index){
 		if (mCurrentStatus == Constant.SEARCH_STATUS_HISTORY && mHistorys.size() > index) {
 			Entry.getInstance().onEvent(Constant.EVENT_HISTORY_ITEM_VOIVE,EventType.VOICE_TYPE);
 			StandardCmdClient.getInstance().playTTS(SearchActivity.this, getString(R.string.tts_search_for_you));

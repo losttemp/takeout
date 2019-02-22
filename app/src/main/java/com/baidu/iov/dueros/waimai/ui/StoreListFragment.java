@@ -226,7 +226,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreAdaper.setItemAccessibilityDelegate(new StoreAdaper.ItemAccessibilityDelegate() {
 			@Override
 			public void onItemAccessibilityDelegate(int position) {
-				selectListItem(position);
+				VoicesSelectListItem(position);
 			}
 		});
 
@@ -556,12 +556,20 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	@Override
 	public void selectListItem(int index) {
+		if (index>=0) {
+			VoicesSelectListItem(index);
+		}
+	}
+
+	public void VoicesSelectListItem(int index){
 		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_SEARCH && ((SearchActivity) mContext)
 				.getStatus() != Constant.SEARCH_STATUS_FRAGMENT) {
 			return;
 		}
 		addStoreItemVoiceEvent();
-		jumpPage(index, true);
+		if (index-1>=0) {
+			jumpPage(index, true);
+		}
 	}
 
 	@Override

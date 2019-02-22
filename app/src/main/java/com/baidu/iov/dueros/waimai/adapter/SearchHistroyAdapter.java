@@ -69,9 +69,7 @@ public class SearchHistroyAdapter extends BaseAdapter {
 			public boolean performAccessibilityAction(View host, int action, Bundle args) {
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
-						((SearchActivity)mContext).selectListItem(position);
-//						removeHistory(position);
-//						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.yes));
+						((SearchActivity)mContext).VoicesSelectListItem(position);
 						break;
 					default:
 						break;
