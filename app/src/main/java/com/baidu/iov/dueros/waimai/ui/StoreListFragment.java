@@ -201,7 +201,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			public boolean performAccessibilityAction(View host, int action, Bundle args) {
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
-						showFilterPop();
+						showSortPop();
 						StandardCmdClient.getInstance().playTTS(mContext,"BUBBLE");
 						break;
 					default:
