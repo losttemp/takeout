@@ -106,6 +106,7 @@
     <string name="already_cancel">好的，已删除</string>
     <string name="open">打开</string>
     <string name="already_clear_shop_cart">好的，已为你清空购物车</string>
+    <string name="welcome_to_use_next_time">欢迎下次使用</string>
 
     <!--tools:text-->
     <string name="tools_text_location">送至：未来科技大厦</string>

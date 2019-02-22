@@ -3,9 +3,11 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.Manifest;
 import android.app.StatusBarsManager;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.location.BDLocation;
 
@@ -72,6 +75,10 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
         mPresenter.onUiReady(getUi());
         mContext = this;
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(StandardCmdClient.ACTION_EXIT_APK);
+        registerReceiver(exitReceiver, filter);
     }
 
     @Override
@@ -98,6 +105,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         AtyContainer.getInstance().removeActivity(this);
         LocationManager.getInstance(this).stopLocation();
         mPresenter.onUiDestroy(getUi());
+        unregisterReceiver(exitReceiver);
     }
 
     protected void initLocationCity() {
@@ -246,4 +254,10 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
 
     public void getGPSAddressFail() {}
 
+    public BroadcastReceiver exitReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            BaseActivity.this.finish();
+        }
+    };
 }

@@ -310,13 +310,6 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         return true;
                     }
                 });
-//                viewHolder.increase.setAccessibilityDelegate(new View.AccessibilityDelegate(){
-//                    @Override
-//                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
-//                        viewHolder.autoClick(Integer.parseInt(viewHolder.storeIndex.getText().toString()));
-//                        return true;
-//                    }
-//                });
 
                 viewHolder.specifications.setOnClickListener(new View.OnClickListener() {
                     @Override
