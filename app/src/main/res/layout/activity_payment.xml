@@ -150,31 +150,31 @@
         android:gravity="center_vertical"
         >
 
-        <com.domain.multipltextview.MultiplTextView
-
+        <TextView
             android:id="@+id/name_summary"
             android:layout_width="@dimen/px246dp"
             android:layout_height="@dimen/px36dp"
             android:layout_marginBottom="@dimen/px46dp"
-            android:layout_marginStart="@dimen/px84dp"
+            android:layout_marginStart="@dimen/px40dp"
             android:layout_marginTop="@dimen/px44dp"
             android:gravity="center"
             android:text="@string/pay_shop_name"
             android:alpha="0.6"
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp"
-            app:removeDefaultPadding="true" />
+            android:includeFontPadding="false"
+            />
 
         <TextView
             android:id="@+id/shop_name"
             android:layout_width="@dimen/px740dp"
-            android:layout_height="@dimen/px40dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="@dimen/px38dp"
+            android:layout_marginTop="@dimen/px44dp"
             android:layout_marginEnd="@dimen/px86dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_marginStart="@dimen/px40dp"
-            android:layout_marginTop="@dimen/px50dp"
-            android:gravity="right"
             android:textColor="@color/payment_orcer_color"
             android:textSize="@dimen/px36sp"
             android:includeFontPadding="false"
