@@ -51,7 +51,8 @@ public class AccountManager {
     public void getAuthInfo(AccountCallBack callBack) {
         Lg.getInstance().d(TAG, "getAuthInfo");
         this.callback = callBack;
-        mClient.getAccountSender().sendRequestUnifyAuthBotService();
+//        mClient.getAccountSender().sendRequestUnifyAuthBotService();
+        FaceOSClient.instance().getAccountSender().sendGetAuthData(ExAuthData.KEY_OUT_ORDER);
     }
 
     public interface AccountCallBack {

@@ -11,7 +11,8 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
+
 import java.util.List;
 public class SortTypeTagListView extends LinearLayout implements View.OnClickListener{
     private int mTextSize = getResources().getDimensionPixelSize(R.dimen.px30sp);;
@@ -68,7 +69,7 @@ public class SortTypeTagListView extends LinearLayout implements View.OnClickLis
                     switch (action) {
                         case AccessibilityNodeInfo.ACTION_CLICK:
                             itemclick(textView);
-                            VoiceManager.getInstance().playTTS(mContext,"BUBBLE");
+                            StandardCmdClient.getInstance().playTTS(mContext,"BUBBLE");
                             break;
                         default:
                             break;

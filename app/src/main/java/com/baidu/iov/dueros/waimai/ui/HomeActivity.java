@@ -18,7 +18,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 
@@ -71,7 +71,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         Lg.getInstance().e(TAG, "onCreate");
 		fromLogin=getIntent().getBooleanExtra(Constant.IS_FROME_TAKEAWAYLOGIN,false);
         if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
-            VoiceManager.getInstance().playTTS(HomeActivity.this, getString(R.string.please_choice_commodity));
+            StandardCmdClient.getInstance().playTTS(HomeActivity.this, getString(R.string.please_choice_commodity));
         }
         iniView();
 		setAddress();

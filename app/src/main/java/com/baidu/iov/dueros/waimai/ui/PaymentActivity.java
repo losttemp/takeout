@@ -1,6 +1,5 @@
 package com.baidu.iov.dueros.waimai.ui;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -9,7 +8,6 @@ import android.os.CountDownTimer;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,9 +19,8 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.SubmitOrderPresenter;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -175,7 +172,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             });
 
             if (isNeedVoice) {
-                VoiceManager.getInstance().playTTS(PaymentActivity.this, getString(R.string.pay));
+                StandardCmdClient.getInstance().playTTS(PaymentActivity.this, getString(R.string.pay));
             }
             if (amount != 0) {
                 mAmountTv.setText(String.format(getResources().getString(R.string.cost_text), nf.format(amount)));

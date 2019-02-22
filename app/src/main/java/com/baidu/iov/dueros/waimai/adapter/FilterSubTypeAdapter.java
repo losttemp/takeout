@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.R;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
-import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 
 import java.util.List;
 
@@ -75,7 +74,7 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						if (mItemAccessibilityDelegate != null) {
 							mItemAccessibilityDelegate.onItemAccessibilityDelegate(position);
-							VoiceManager.getInstance().playTTS(mContext,"BUBBLE");
+							StandardCmdClient.getInstance().playTTS(mContext,"BUBBLE");
 						}
 						break;
 					default:

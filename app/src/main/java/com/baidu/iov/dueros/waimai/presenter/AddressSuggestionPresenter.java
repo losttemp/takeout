@@ -6,7 +6,7 @@ import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 
 import java.util.ArrayList;
 
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_SELECT;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_SELECT;
 
 public class AddressSuggestionPresenter extends Presenter<AddressSuggestionPresenter.AddressSuggestionUi>  {
 
@@ -28,17 +28,17 @@ public class AddressSuggestionPresenter extends Presenter<AddressSuggestionPrese
 
     @Override
     public void registerCmd(Context context) {
-        if (null != mVoiceManager) {
+        if (null != mStandardCmdClient) {
             ArrayList<String> cmdList = new ArrayList<String>();
             cmdList.add(CMD_SELECT);
-            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+            mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
         }
     }
 
     @Override
     public void unregisterCmd(Context context) {
-        if (null != mVoiceManager) {
-            mVoiceManager.unregisterCmd(context, mVoiceCallback);
+        if (null != mStandardCmdClient) {
+            mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
         }
     }
 

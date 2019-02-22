@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
@@ -19,17 +18,17 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.StringUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_SELECT;
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NEXT;
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_PRE;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_SELECT;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_NEXT;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_PRE;
 
 public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.AddressSelectUi> {
     private static final String TAG = AddressSelectPresenter.class.getSimpleName();
@@ -54,10 +53,10 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
             case CMD_SELECT:
                 getUi().selectListItem(Integer.parseInt(extra));
                 break;
-            case VoiceManager.CMD_NEXT:
+            case StandardCmdClient.CMD_NEXT:
                 getUi().nextPage(true);
                 break;
-            case VoiceManager.CMD_PRE:
+            case StandardCmdClient.CMD_PRE:
                 getUi().nextPage(false);
                 break;
             default:
@@ -67,19 +66,19 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
 
     @Override
     public void registerCmd(Context context) {
-        if (null != mVoiceManager) {
+        if (null != mStandardCmdClient) {
             ArrayList<String> cmdList = new ArrayList<String>();
             cmdList.add(CMD_SELECT);
             cmdList.add(CMD_NEXT);
             cmdList.add(CMD_PRE);
-            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+            mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
         }
     }
 
     @Override
     public void unregisterCmd(Context context) {
-        if (null != mVoiceManager) {
-            mVoiceManager.unregisterCmd(context, mVoiceCallback);
+        if (null != mStandardCmdClient) {
+            mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
         }
     }
 

@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="@dimen/px126dp">
+    android:layout_height="@dimen/px126dp"
+    android:clickable="true">
 
 
     <LinearLayout
@@ -14,21 +15,22 @@
 
         <TextView
             android:id="@+id/commodityName"
-            android:layout_width="@dimen/px500dp"
+            android:layout_width="@dimen/px450dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp" />
 
-        <com.domain.multipltextview.MultiplTextView
+        <TextView
             android:id="@+id/tv_shop_specifications"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/px450dp"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp"
-            android:visibility="gone"
-            app:removeDefaultPadding="true" />
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout
@@ -38,18 +40,18 @@
         android:layout_marginRight="@dimen/px40dp"
         android:layout_toLeftOf="@+id/choiceLayout">
 
-        <com.domain.multipltextview.MultiplTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="¥"
-            android:layout_gravity="bottom"
+            android:layout_gravity="center_vertical"
             android:textColor="@color/full_subtraction_bg"
-            android:textSize="@dimen/px40sp"
-            app:removeDefaultPadding="true" />
+            android:textSize="@dimen/px40sp"/>
 
         <TextView
             android:id="@+id/commodityPrise"
             android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:textColor="@color/full_subtraction_bg"
             android:textSize="@dimen/px40sp"/>

@@ -16,7 +16,7 @@ android {
         minSdkVersion 22
         targetSdkVersion 28
         versionCode 1
-        versionName "_P_01.04"
+        versionName "_P_02.18_A"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -80,6 +80,6 @@ dependencies {
     implementation files('libs/syncclient-0.2.5.jar')
     implementation 'me.yokeyword:indexablerecyclerview:1.3.0'
     implementation files('libs/sdk.jar')
-    implementation files('libs/faceos-client-sdk-v1.0.5.jar')
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    implementation files('libs/faceos-client-sdk-v1.0.6.jar')
 }

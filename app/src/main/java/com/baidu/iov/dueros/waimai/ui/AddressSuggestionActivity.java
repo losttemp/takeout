@@ -10,9 +10,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,15 +20,13 @@ import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressHintListAdapter;
 import com.baidu.iov.dueros.waimai.adapter.AddressSuggestionAdapter;
-import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressSuggestionPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
-import com.baidu.iov.dueros.waimai.view.ClearEditText;
 import com.baidu.iov.dueros.waimai.view.RollTextView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
@@ -331,7 +327,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         if (null != mAllSuggestions && mAllSuggestions.size() >= i) {
             Intent intent = new Intent(AddressSuggestionActivity.this, AddressEditActivity.class);
             intent.putExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR, mAllSuggestions.get(i));
-            VoiceManager.getInstance().playTTS(AddressSuggestionActivity.this, String.format(getString(R.string.address_harvest), mAllSuggestions.get(i).getName()));
+            StandardCmdClient.getInstance().playTTS(AddressSuggestionActivity.this, String.format(getString(R.string.address_harvest), mAllSuggestions.get(i).getName()));
             if (isEditModle) {
                 setResult(Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE, intent);
             } else {

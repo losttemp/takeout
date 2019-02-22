@@ -184,7 +184,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         Intent intent = new Intent();
         intent.putExtra("com.baidu.bodyguard-Query.Location", "map.query");
         intent.putExtra("query_action", "Location");
-        intent.setComponent(new ComponentName("com.baidu.bodyguard", "com.baidu.bodyguard.ui.activity.PrivacyDetailsActivity"));
+        intent.setComponent(new ComponentName("com.baidu.bodyguard", "com.baidu.bodyguard.ui.activity.MainActivity"));
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException exception) {

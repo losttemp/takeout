@@ -34,12 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
-import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
-import com.baidu.iov.dueros.waimai.utils.ResUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.xiaoduos.syncclient.Entry;
@@ -364,7 +362,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private void sendTTS(int stringId) {
         if (initTTS) {
             initTTS = false;
-            VoiceManager.getInstance().playTTS(mContext, getString(stringId));
+            StandardCmdClient.getInstance().playTTS(mContext, getString(stringId));
         }
     }
 
@@ -390,7 +388,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     public void selectListItem(int i) {
         if (mOrderList == null || mOrderList.size() == 0) {
-            VoiceManager.getInstance().playTTS(OrderListActivity.this, getString(R.string.have_no_order));
+            StandardCmdClient.getInstance().playTTS(OrderListActivity.this, getString(R.string.have_no_order));
         }
         LinearLayoutManager manager = (LinearLayoutManager) mRvOrder.getLayoutManager();
         assert manager != null;
@@ -414,7 +412,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             int currentItemPosition = manager.findFirstVisibleItemPosition();
             int last = manager.findLastCompletelyVisibleItemPosition();
             if (isNextPage) {
-                VoiceManager.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
+                StandardCmdClient.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
                 if (currentItemPosition + getPageNum() * 2 > mOrderList.size()) {
                     manager.scrollToPositionWithOffset(mOrderList.size()-1, 0);
                     mRefreshLayout.autoLoadmore(1000);
@@ -423,9 +421,9 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
             } else {
                 if (currentItemPosition == 0) {
-                    VoiceManager.getInstance().playTTS(mContext, getString(R.string.first_page));
+                    StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.first_page));
                 } else {
-                    VoiceManager.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
+                    StandardCmdClient.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
                 }
                 manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
             }

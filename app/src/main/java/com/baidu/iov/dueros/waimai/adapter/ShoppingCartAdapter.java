@@ -3,7 +3,6 @@ package com.baidu.iov.dueros.waimai.adapter;
 import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.speech.tts.Voice;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.R;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.text.NumberFormat;
@@ -64,19 +63,23 @@ public class ShoppingCartAdapter extends BaseAdapter {
             viewHolder.increase = (ImageView) convertView.findViewById(R.id.increase);
             viewHolder.reduce = (ImageView) convertView.findViewById(R.id.reduce);
             viewHolder.shoppingNum = (MultiplTextView) convertView.findViewById(R.id.shoppingNum);
-            viewHolder.shopSpecifications = (MultiplTextView) convertView.findViewById(R.id.tv_shop_specifications);
+            viewHolder.shopSpecifications = (TextView) convertView.findViewById(R.id.tv_shop_specifications);
             viewHolder.shopDiscountPrice = (TextView) convertView.findViewById(R.id.tv_discount_price);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        convertView.setContentDescription(String.format(context.getString(R.string.cancel_position),String.valueOf(position)));
+
+        convertView.setContentDescription(String.format(context.getString(R.string.cancel_position),String.valueOf(position+1)));
         convertView.setAccessibilityDelegate(new View.AccessibilityDelegate(){
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                spusBeans.remove(position);
-                notifyDataSetChanged();
-                VoiceManager.getInstance().playTTS(context,context.getString(R.string.already_cancel)+spusBeans.get(position).getName());
+                StandardCmdClient.getInstance().playTTS(context,context.getString(R.string.already_cancel)+spusBeans.get(position).getName());
+                spusBeans.get(position).setNumber(0);
+                if (shopToDetailListener != null && spusBeans.size() > 0) {
+                    shopToDetailListener.onRemovePriduct(spusBeans.get(position),spusBeans.get(position).getTag(),
+                            spusBeans.get(position).getSection(), false);
+                }
                 return true;
             }
         });
@@ -177,7 +180,8 @@ public class ShoppingCartAdapter extends BaseAdapter {
                     } else {
                     }
                     if (num == 0) {
-                        shopToDetailListener.onRemovePriduct(spusBeans.get(position));
+                        shopToDetailListener.onRemovePriduct(spusBeans.get(position),spusBeans.get(position).getTag(),
+                                spusBeans.get(position).getSection(), false);
                     }
                 }
             }
@@ -192,7 +196,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
         public ImageView increase;
         public ImageView reduce;
         public MultiplTextView shoppingNum;
-        public MultiplTextView shopSpecifications;
+        public TextView shopSpecifications;
         public TextView shopDiscountPrice;
     }
 

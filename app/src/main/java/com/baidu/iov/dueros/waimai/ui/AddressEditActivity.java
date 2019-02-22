@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AutoCompleteTextView;
@@ -35,9 +34,9 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.ResUtils;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.StringUtils;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -470,7 +469,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private void sendTTS(int stringId){
         if (initTTS){
             initTTS=false;
-            VoiceManager.getInstance().playTTS(mContext, ResUtils.getString(stringId));
+            StandardCmdClient.getInstance().playTTS(mContext, ResUtils.getString(stringId));
         }
     }
 

@@ -3,7 +3,6 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -39,7 +38,7 @@ import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -241,7 +240,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
             }
             String str = String.format(getString(R.string.submit_order), oneFood, allPrice, deliveryTime, address, phone);
-            VoiceManager.getInstance().playTTS(SubmitOrderActivity.this, str);
+            StandardCmdClient.getInstance().playTTS(SubmitOrderActivity.this, str);
         }
     }
 
@@ -548,7 +547,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                             if (mAddressData.getCanShipping()!=1){
                                 ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
                             }
-                            VoiceManager.getInstance().playTTS(SubmitOrderActivity.this,
+                            StandardCmdClient.getInstance().playTTS(SubmitOrderActivity.this,
                                     String.format(getString(R.string.commodity_address), address));
                         }
                         String name = Encryption.desEncrypt(mAddressData.getUser_name()) + " "

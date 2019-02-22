@@ -1,7 +1,6 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -12,14 +11,14 @@ import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 
 import java.util.ArrayList;
 
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NEXT;
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_PRE;
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_SELECT;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_NEXT;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_NO;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_PRE;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_SELECT;
 
 public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi> {
 
@@ -40,10 +39,10 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
             case CMD_NO:
                 getUi().close();
                 break;
-            case VoiceManager.CMD_NEXT:
+            case StandardCmdClient.CMD_NEXT:
                 getUi().nextPage(true);
                 break;
-            case VoiceManager.CMD_PRE:
+            case StandardCmdClient.CMD_PRE:
                 getUi().nextPage(false);
                 break;
             default:
@@ -54,22 +53,22 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
     @Override
     public void registerCmd(Context context) {
         Lg.getInstance().d(TAG, "registerCmd");
-        if (null != mVoiceManager) {
+        if (null != mStandardCmdClient) {
             ArrayList<String> cmdList = new ArrayList<String>();
             cmdList.add(CMD_NO);
             cmdList.add(CMD_SELECT);
             cmdList.add(CMD_NEXT);
             cmdList.add(CMD_PRE);
             //mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
-            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+            mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
         }
     }
 
     @Override
     public void unregisterCmd(Context context) {
         Lg.getInstance().d(TAG, "registerCmd");
-        if (null != mVoiceManager) {
-            mVoiceManager.unregisterCmd(context, mVoiceCallback);
+        if (null != mStandardCmdClient) {
+            mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
         }
     }
 

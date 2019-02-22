@@ -1,7 +1,6 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -10,7 +9,7 @@ import com.baidu.iov.dueros.waimai.model.SearchModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.SearchSuggestReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 
 import java.util.ArrayList;
 
@@ -27,10 +26,10 @@ public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 		}
 
 		switch (cmd) {
-			case VoiceManager.CMD_SELECT:
+			case StandardCmdClient.CMD_SELECT:
 				getUi().selectListItem(Integer.parseInt(extra));
 				break;
-			case VoiceManager.CMD_NO:
+			case StandardCmdClient.CMD_NO:
 				getUi().close();
 				break;
 			default:
@@ -41,19 +40,19 @@ public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 	@Override
 	public void registerCmd(Context context) {
 		Lg.getInstance().d(TAG, "registerCmd");
-		if (null != mVoiceManager) {
+		if (null != mStandardCmdClient) {
 			ArrayList<String> cmdList = new ArrayList<String>();
-			cmdList.add(VoiceManager.CMD_NO);
-			cmdList.add(VoiceManager.CMD_SELECT);
-			mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+			cmdList.add(StandardCmdClient.CMD_NO);
+			cmdList.add(StandardCmdClient.CMD_SELECT);
+			mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
 		}
 	}
 
 	@Override
 	public void unregisterCmd(Context context) {
 		Lg.getInstance().d(TAG, "registerCmd");
-		if (null != mVoiceManager) {
-			mVoiceManager.unregisterCmd(context, mVoiceCallback);
+		if (null != mStandardCmdClient) {
+			mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
 		}
 	}
 

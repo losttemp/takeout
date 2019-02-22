@@ -14,8 +14,7 @@ import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
-import com.baidu.iov.dueros.waimai.utils.ResUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 
@@ -77,9 +76,9 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
             secondCategoryType=(int)intent.getLongExtra("secondCategoryType",0);
             if (intent.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
                 if (getResources().getString(R.string.stroe_type_flower).equals(title)){
-                    VoiceManager.getInstance().playTTS(RecommendShopActivity.this, getString(R.string.tts_into_flower));
+                    StandardCmdClient.getInstance().playTTS(RecommendShopActivity.this, getString(R.string.tts_into_flower));
                 }else if (getResources().getString(R.string.stroe_type_cake).equals(title)){
-                    VoiceManager.getInstance().playTTS(RecommendShopActivity.this, getString(R.string.tts_into_cake));
+                    StandardCmdClient.getInstance().playTTS(RecommendShopActivity.this, getString(R.string.tts_into_cake));
                 }
             }
         }

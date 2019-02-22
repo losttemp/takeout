@@ -15,7 +15,7 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import java.util.ArrayList;
 
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_NO;
 
 public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.OrderDetailsUi> {
 
@@ -33,19 +33,19 @@ public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.Order
     @Override
     public void registerCmd(Context context) {
         Lg.getInstance().d(TAG, "registerCmd");
-        if (null != mVoiceManager) {
+        if (null != mStandardCmdClient) {
             ArrayList<String> cmdList = new ArrayList<String>();
             cmdList.add(CMD_NO);
             //mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
-            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+            mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
         }
     }
 
     @Override
     public void unregisterCmd(Context context) {
         Lg.getInstance().d(TAG, "unregisterCmd");
-        if (null != mVoiceManager) {
-            mVoiceManager.unregisterCmd(context, mVoiceCallback);
+        if (null != mStandardCmdClient) {
+            mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
         }
     }
 

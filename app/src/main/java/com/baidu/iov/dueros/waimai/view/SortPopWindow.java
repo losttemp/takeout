@@ -2,10 +2,8 @@ package com.baidu.iov.dueros.waimai.view;
 
 import android.app.ActionBar;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -16,7 +14,6 @@ import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
 		.DataBean.SortTypeListBean;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 
 
 import java.util.ArrayList;

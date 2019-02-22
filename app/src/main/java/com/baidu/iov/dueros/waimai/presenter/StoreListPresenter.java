@@ -1,7 +1,6 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -12,7 +11,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 
 import java.util.ArrayList;
 
@@ -29,13 +28,13 @@ public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi
 		}
 
 		switch (cmd) {
-			case VoiceManager.CMD_SELECT:
+			case StandardCmdClient.CMD_SELECT:
 				getUi().selectListItem(Integer.parseInt(extra));
 				break;
-			case VoiceManager.CMD_NEXT:
+			case StandardCmdClient.CMD_NEXT:
 				getUi().nextPage(true);
 				break;
-			case VoiceManager.CMD_PRE:
+			case StandardCmdClient.CMD_PRE:
 				getUi().nextPage(false);
 				break;
 			default:
@@ -46,21 +45,21 @@ public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi
 	@Override
 	public void registerCmd(Context context) {
 		Lg.getInstance().d(TAG, "registerCmd");
-		if (null != mVoiceManager) {
+		if (null != mStandardCmdClient) {
 			ArrayList<String> cmdList = new ArrayList<String>();
-			cmdList.add(VoiceManager.CMD_NO);
-			cmdList.add(VoiceManager.CMD_SELECT);
-			cmdList.add(VoiceManager.CMD_NEXT);
-			cmdList.add(VoiceManager.CMD_PRE);
-			mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+			cmdList.add(StandardCmdClient.CMD_NO);
+			cmdList.add(StandardCmdClient.CMD_SELECT);
+			cmdList.add(StandardCmdClient.CMD_NEXT);
+			cmdList.add(StandardCmdClient.CMD_PRE);
+			mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
 		}
 	}
 
 	@Override
 	public void unregisterCmd(Context context) {
 		Lg.getInstance().d(TAG, "registerCmd");
-		if (null != mVoiceManager) {
-			mVoiceManager.unregisterCmd(context, mVoiceCallback);
+		if (null != mStandardCmdClient) {
+			mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
 		}
 	}
 

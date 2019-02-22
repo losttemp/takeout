@@ -32,8 +32,8 @@ import com.baidu.iov.dueros.waimai.presenter.StoreListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortTypeTagListView;
@@ -201,8 +201,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			public boolean performAccessibilityAction(View host, int action, Bundle args) {
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
-						showSortPop();
-						VoiceManager.getInstance().playTTS(mContext,"BUBBLE");
+						showFilterPop();
+						StandardCmdClient.getInstance().playTTS(mContext,"BUBBLE");
 						break;
 					default:
 						break;
@@ -215,7 +215,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						showFilterPop();
-						VoiceManager.getInstance().playTTS(mContext,"BUBBLE");
+						StandardCmdClient.getInstance().playTTS(mContext,"BUBBLE");
 						break;
 					default:
 						break;
@@ -582,11 +582,11 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				}
 				manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
 				if (currentItemPosition==shopTotalNum){
-					VoiceManager.getInstance().playTTS(mContext, getString(R.string.last_page));
+					StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.last_page));
 				}
 			} else {
 				if (currentItemPosition == 0) {
-					VoiceManager.getInstance().playTTS(mContext, getString(R.string.first_page));
+					StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.first_page));
 				}
 				manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
 			}

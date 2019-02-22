@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +16,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,12 +28,11 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.dueros.waimai.view.ConstraintHeightListView;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
-import com.bumptech.glide.Glide;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.text.NumberFormat;
@@ -299,22 +295,28 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     viewHolder.prise.setText(NumberFormat.getInstance().format(spusBean.getMin_price()));
                 }
                 viewHolder.shoppingNum.setText("" + spusBean.getNumber());
-                viewHolder.add.setContentDescription(String.format(context.getString(R.string.to_eat_position),viewHolder.storeIndex.getText().toString()));
-                viewHolder.increase.setContentDescription(String.format(context.getString(R.string.to_eat_position),viewHolder.storeIndex.getText().toString()));
-                viewHolder.add.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+                viewHolder.view.setContentDescription(String.format(context.getString(R.string.to_eat_position),viewHolder.storeIndex.getText().toString()));
+                viewHolder.view.setAccessibilityDelegate(new View.AccessibilityDelegate(){
                     @Override
                     public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                        viewHolder.autoClick(Integer.parseInt(viewHolder.storeIndex.getText().toString()));
+                        int index = 0;
+                        for (int i = 0; i < spusBeans.size(); i++) {
+                            if (viewHolder.name.equals(spusBeans.get(i).getName())) {
+                                index = i;
+                                break;
+                            }
+                        }
+                        viewHolder.autoClick(index);
                         return true;
                     }
                 });
-                viewHolder.increase.setAccessibilityDelegate(new View.AccessibilityDelegate(){
-                    @Override
-                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                        viewHolder.autoClick(Integer.parseInt(viewHolder.storeIndex.getText().toString()));
-                        return true;
-                    }
-                });
+//                viewHolder.increase.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+//                    @Override
+//                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
+//                        viewHolder.autoClick(Integer.parseInt(viewHolder.storeIndex.getText().toString()));
+//                        return true;
+//                    }
+//                });
 
                 viewHolder.specifications.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -520,7 +522,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         increase.performClick();
                         int count = getMinOrderCount(spusBeans.get(position));
                         String n = spusBeans.get(position).getName();
-                        VoiceManager.getInstance().playTTS(context, String.format(context.getString(R.string.add_commodity), count, n));
+                        StandardCmdClient.getInstance().playTTS(context, String.format(context.getString(R.string.add_commodity), count, n));
                     }
 
                     if (add.getVisibility() == View.VISIBLE
@@ -528,13 +530,13 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         add.performClick();
                         int count = getMinOrderCount(spusBeans.get(position));
                         String n = spusBeans.get(position).getName();
-                        VoiceManager.getInstance().playTTS(context, String.format(context.getString(R.string.add_commodity), count, n));
+                        StandardCmdClient.getInstance().playTTS(context, String.format(context.getString(R.string.add_commodity), count, n));
                     }
 
                     if (specifications.getVisibility() == View.VISIBLE) {
                         specifications.performClick();
                         String n = spusBeans.get(position).getName();
-                        VoiceManager.getInstance().playTTS(context, String.format(context.getString(R.string.choice_specifications), n));
+                        StandardCmdClient.getInstance().playTTS(context, String.format(context.getString(R.string.choice_specifications), n));
                     }
                 }
             }

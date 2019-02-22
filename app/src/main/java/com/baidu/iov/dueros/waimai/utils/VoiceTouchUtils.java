@@ -128,7 +128,7 @@ public final class VoiceTouchUtils {
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 if (action == AccessibilityNodeInfo.ACTION_CLICK) {
-                    VoiceManager.getInstance().playTTS(WaiMaiApplication.getInstance().getApplicationContext(), tts);
+                    StandardCmdClient.getInstance().playTTS(WaiMaiApplication.getInstance().getApplicationContext(), tts);
                 }
                 return super.performAccessibilityAction(host, action, args);
             }

@@ -27,7 +27,6 @@ import android.view.KeyEvent;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.Config;
-import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.MeituanAuthorizeReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
@@ -38,8 +37,8 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.KeyBoardListener;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 
@@ -69,7 +68,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        isNeedVoice = getIntent().getBooleanExtra(VoiceManager.NEED_TTS, false);
+        isNeedVoice = getIntent().getBooleanExtra(StandardCmdClient.NEED_TTS, false);
         if (isNeedVoice) {
             AtyContainer.getInstance().finishAllActivity();
         }

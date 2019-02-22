@@ -17,15 +17,15 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_NO;
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_SELECT;
-import static com.baidu.iov.dueros.waimai.utils.VoiceManager.CMD_YES;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_NO;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_SELECT;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_YES;
 
 /**
  * Created by ubuntu on 18-10-18.
@@ -48,10 +48,10 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
             case CMD_SELECT:
                 getUi().selectListItem(Integer.parseInt(extra));
                 break;
-            case VoiceManager.CMD_NEXT:
+            case StandardCmdClient.CMD_NEXT:
                 getUi().nextPage(true);
                 break;
-            case VoiceManager.CMD_PRE:
+            case StandardCmdClient.CMD_PRE:
                 getUi().nextPage(false);
                 break;
             default:
@@ -61,21 +61,21 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
     @Override
     public void registerCmd(Context context) {
-        if (null != mVoiceManager) {
+        if (null != mStandardCmdClient) {
             ArrayList<String> cmdList = new ArrayList<String>();
             cmdList.add(CMD_NO);
             cmdList.add(CMD_SELECT);
             cmdList.add(CMD_YES);
-            cmdList.add(VoiceManager.CMD_NEXT);
-            cmdList.add(VoiceManager.CMD_PRE);
-            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+            cmdList.add(StandardCmdClient.CMD_NEXT);
+            cmdList.add(StandardCmdClient.CMD_PRE);
+            mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
         }
     }
 
     @Override
     public void unregisterCmd(Context context) {
-        if (null != mVoiceManager) {
-            mVoiceManager.unregisterCmd(context, mVoiceCallback);
+        if (null != mStandardCmdClient) {
+            mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
         }
     }
 

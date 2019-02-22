@@ -12,14 +12,14 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.adapter.FilterSubTypeAdapter;
-import com.baidu.iov.dueros.waimai.adapter.SortPopWindowAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +95,7 @@ public class FilterPopWindow extends PopupWindow {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
                         toFilter(listener);
-						VoiceManager.getInstance().playTTS(mContext,"BUBBLE");
+						StandardCmdClient.getInstance().playTTS(mContext,"BUBBLE");
                         break;
                     default:
                         break;

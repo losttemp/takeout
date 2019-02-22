@@ -8,16 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseAdapter;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
-import com.baidu.iov.dueros.waimai.ui.FoodActivity;
 import com.baidu.iov.dueros.waimai.ui.SearchActivity;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
-import com.domain.multipltextview.MultiplTextView;
 
 import java.util.List;
 
@@ -73,6 +70,8 @@ public class SearchHistroyAdapter extends BaseAdapter {
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						((SearchActivity)mContext).selectListItem(position);
+//						removeHistory(position);
+//						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.yes));
 						break;
 					default:
 						break;
@@ -95,7 +94,7 @@ public class SearchHistroyAdapter extends BaseAdapter {
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						removeHistory(position);
-						VoiceManager.getInstance().playTTS(mContext, mContext.getString(R.string.tts_delete_address));
+						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.tts_delete_address));
 						break;
 					default:
 						break;

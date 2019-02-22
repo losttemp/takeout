@@ -1,7 +1,6 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -22,8 +21,8 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceManager;
 import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.ArrayList;
@@ -57,10 +56,10 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         }
 
         switch (cmd) {
-            case VoiceManager.CMD_YES:
+            case StandardCmdClient.CMD_YES:
                 getUi().toPay();
                 break;
-            case VoiceManager.CMD_NO:
+            case StandardCmdClient.CMD_NO:
                 getUi().close();
                 break;
             default:
@@ -70,18 +69,18 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
     @Override
     public void registerCmd(Context context) {
-        if (null != mVoiceManager) {
+        if (null != mStandardCmdClient) {
             ArrayList<String> cmdList = new ArrayList<String>();
-            cmdList.add(VoiceManager.CMD_YES);
-            cmdList.add(VoiceManager.CMD_NO);
-            mVoiceManager.registerCmd(context, cmdList, mVoiceCallback);
+            cmdList.add(StandardCmdClient.CMD_YES);
+            cmdList.add(StandardCmdClient.CMD_NO);
+            mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
         }
     }
 
     @Override
     public void unregisterCmd(Context context) {
-        if (null != mVoiceManager) {
-            mVoiceManager.unregisterCmd(context, mVoiceCallback);
+        if (null != mStandardCmdClient) {
+            mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
         }
     }
 
