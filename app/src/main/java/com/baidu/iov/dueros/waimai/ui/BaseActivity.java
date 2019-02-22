@@ -60,6 +60,11 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
 
     private  boolean isStartPermissions =false;
 
+    private String targetPath = "com.baidu.bodyguard.ui.activity.MainActivity";
+    private String targetPackage = "com.baidu.bodyguard";
+    private String locationFlag = "com.baidu.bodyguard-Location";
+    private String intentKey = "privacy_action";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,9 +187,8 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     public void startPrivacyActivity() {
         isStartPermissions = true;
         Intent intent = new Intent();
-        intent.putExtra("com.baidu.bodyguard-Query.Location", "map.query");
-        intent.putExtra("query_action", "Location");
-        intent.setComponent(new ComponentName("com.baidu.bodyguard", "com.baidu.bodyguard.ui.activity.MainActivity"));
+        intent.putExtra(intentKey, locationFlag);
+        intent.setComponent(new ComponentName(targetPackage, targetPath));
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException exception) {
