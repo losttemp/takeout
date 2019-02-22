@@ -237,7 +237,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            if (mAddressData.getCanShipping()!=1){
+                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
+            }
             String str = String.format(getString(R.string.submit_order), oneFood, allPrice, deliveryTime, address, phone);
             VoiceManager.getInstance().playTTS(SubmitOrderActivity.this, str);
         }
@@ -543,6 +545,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         }
                         String address = Encryption.desEncrypt(mAddressData.getAddress());
                         if (isNeedVoice) {
+                            if (mAddressData.getCanShipping()!=1){
+                                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
+                            }
                             VoiceManager.getInstance().playTTS(SubmitOrderActivity.this,
                                     String.format(getString(R.string.commodity_address), address));
                         }
@@ -630,9 +635,14 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             int estimate = mOrderPreviewData.getWm_ordering_preview_order_vo().getEstimate_arrival_time();
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             mEstimateTime = sdf.format(new Date(Long.valueOf(String.valueOf(estimate)) * 1000L/* + 8 * 60 * 60 * 1000L*/));
-            if (mUnixtime == 0) {
+            if (mEstimateTime == null){
                 mTypeTipTv.setText(getString(R.string.delivery_immediately));
-                mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
+                mArriveTimeTv.setText(getString(R.string.choose_arrive_time));
+            }else{
+                if (mUnixtime == 0) {
+                    mTypeTipTv.setText(getString(R.string.delivery_immediately));
+                    mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
+                }
             }
 
         } else {
