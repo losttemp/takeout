@@ -227,13 +227,13 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         });
     }
 
-    private void citySearch(String city,String key) {
-        if (TextUtils.isEmpty(key)){
-            ToastUtils.show(mContext,getResources().getString(R.string.poi_search_hint_text),Toast.LENGTH_SHORT);
+    private void citySearch(String city, String key) {
+        if (TextUtils.isEmpty(key)) {
+            ToastUtils.show(mContext, getResources().getString(R.string.poi_search_hint_text), Toast.LENGTH_SHORT);
             return;
         }
-        if (getResources().getString(R.string.city_error).equals(city)){
-            ToastUtils.show(mContext,getResources().getString(R.string.poi_select_hint_text),Toast.LENGTH_SHORT);
+        if (getResources().getString(R.string.city_error).equals(city)) {
+            ToastUtils.show(mContext, getResources().getString(R.string.poi_select_hint_text), Toast.LENGTH_SHORT);
             return;
         }
         PoiCitySearchOption citySearchOption = new PoiCitySearchOption();
@@ -324,6 +324,9 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
 
     @Override
     public void selectListItem(int i) {
+        if (i > 0) {
+            i = i - 1;
+        }
         if (null != mAllSuggestions && mAllSuggestions.size() >= i) {
             Intent intent = new Intent(AddressSuggestionActivity.this, AddressEditActivity.class);
             intent.putExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR, mAllSuggestions.get(i));
