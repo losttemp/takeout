@@ -59,7 +59,7 @@ public class PoifoodSpusTagsAdapter extends RecyclerView.Adapter<PoifoodSpusTags
             }
         });
 
-        viewHolder.view.setContentDescription(context.getString(R.string.to_eat_something)+poifoodSpusTagsBeans.get(position).getFoodSpuTagsBeanName());
+        viewHolder.view.setContentDescription(String.format(context.getString(R.string.to_eat_something),poifoodSpusTagsBeans.get(position).getFoodSpuTagsBeanName()));
         viewHolder.view.setAccessibilityDelegate(new View.AccessibilityDelegate(){
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {

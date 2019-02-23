@@ -1189,10 +1189,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         parentLayout.setVisibility(View.VISIBLE);
         mShopCartPic.setVisibility(View.VISIBLE);
 
-        int status = mPoiInfoBean.getStatus();
-        if (status == 1) {
-            getPresenter().requestArriveTimeData(mWmPoiId);
-        }
+//        int status = mPoiInfoBean.getStatus();
+//        if (status == 1) {
+//            getPresenter().requestArriveTimeData(mWmPoiId);
+//        }
     }
 
     private void oneMoreOrder(int section) {
