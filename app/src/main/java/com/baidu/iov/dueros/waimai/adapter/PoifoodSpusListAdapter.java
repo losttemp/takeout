@@ -301,7 +301,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     public boolean performAccessibilityAction(View host, int action, Bundle args) {
                         int index = 0;
                         for (int i = 0; i < spusBeans.size(); i++) {
-                            if (viewHolder.name.equals(spusBeans.get(i).getName())) {
+                            if (viewHolder.name.getText().equals(spusBeans.get(i).getName())) {
                                 index = i;
                                 break;
                             }
