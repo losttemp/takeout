@@ -231,6 +231,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        isNeedVoice = false;
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mInnerReceiver);
@@ -1167,8 +1173,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             foodSpuTagsBeans.add(foodSpuTagsBean);
             oneMoreOrder(i);
         }
-        Lg.getInstance().d(TAG, "foodSpuTagsBeanName = " + foodSpuTagsBeanName.toString());
-        Lg.getInstance().d(TAG, "spusBeanName = " + spusBeanList.toString());
+//        Lg.getInstance().d(TAG, "foodSpuTagsBeanName = " + foodSpuTagsBeanName.toString());
+//        Lg.getInstance().d(TAG, "spusBeanName = " + spusBeanList.toString());
         if (mOneMoreOrder) {
             showShopCartDialog();
         }

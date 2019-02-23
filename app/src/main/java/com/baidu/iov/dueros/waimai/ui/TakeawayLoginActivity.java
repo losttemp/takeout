@@ -158,7 +158,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            handler.proceed();
+//            handler.proceed();
+            handler.cancel();
             super.onReceivedSslError(view, handler, error);
         }
     };

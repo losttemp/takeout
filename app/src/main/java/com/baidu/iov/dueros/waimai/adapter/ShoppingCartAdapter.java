@@ -97,6 +97,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                     viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
                     viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getSkus().get(0).getOrigin_price())));
                     viewHolder.shopDiscountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    viewHolder.shopDiscountPrice.getPaint().setAntiAlias(true); //去掉锯齿
                 } else {
                     viewHolder.shopDiscountPrice.setVisibility(View.GONE);
                 }
@@ -108,6 +109,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                     viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
                     viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getChoiceSkus().get(0).getOrigin_price())));
                     viewHolder.shopDiscountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    viewHolder.shopDiscountPrice.getPaint().setAntiAlias(true); //去掉锯齿
                 } else {
                     viewHolder.shopDiscountPrice.setVisibility(View.GONE);
                 }

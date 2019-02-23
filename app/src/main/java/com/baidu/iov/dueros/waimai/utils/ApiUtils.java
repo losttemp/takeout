@@ -171,6 +171,7 @@ public class ApiUtils {
      */
     private static <D extends RequestBase> Map<String, String> requestPrepare(D request) {
         Lg.getInstance().d(TAG, "LONGITUDE===" + Constant.LONGITUDE + "LATITUDE===" + Constant.LATITUDE);
+        Lg.getInstance().d(TAG, "Constant.UUID = " + Constant.UUID);
         request.uuid = Constant.UUID;
         request.sign = CommonUtils.sign(request);
         return CommonUtils.getAllFields(request);

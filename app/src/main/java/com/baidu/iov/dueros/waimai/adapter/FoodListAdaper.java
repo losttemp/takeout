@@ -47,6 +47,7 @@ public class FoodListAdaper extends RecyclerView.Adapter<FoodListAdaper.ViewHold
         if (price < originPrice) {
             holder.tvfoodOriginPrice.setText(String.format(mContext.getResources().getString(R.string.cost_text), numberFormat.format(originPrice)));
             holder.tvfoodOriginPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tvfoodOriginPrice.getPaint().setAntiAlias(true); //去掉锯齿
             holder.tvfoodOriginPrice.setVisibility(View.VISIBLE);
         } else {
             holder.tvfoodOriginPrice.setVisibility(View.INVISIBLE);
