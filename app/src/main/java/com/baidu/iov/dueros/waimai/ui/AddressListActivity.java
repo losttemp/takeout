@@ -163,6 +163,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 nameTv.setTextColor(0x99ffffff);
             }
             addressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
+            String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
+            nameTv.setText(userInfo);
             if (addressTv.getText().length() > 16) {
                 addressTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
             }
@@ -178,14 +180,19 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 typeTv.setBackgroundResource(R.drawable.tag_bg);
                 typeTv.setText(mAddressData.getType());
 
-            } else {
+            }else if (mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
+                typeTv.setBackgroundResource(R.drawable.tag_bg_mudidi);
+                if (MyApplicationAddressBean.USER_PHONES.get(0)!=null&&MyApplicationAddressBean.USER_NAMES.get(0)!=null){
+                    nameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0)+"  "+MyApplicationAddressBean.USER_NAMES.get(0));
+                }
+            }
+            else {
                 typeTv.setBackgroundResource(R.drawable.tag_bg);
                 typeTv.setText(getString(R.string.address_tag_other));
 
             }
 
-            String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
-            nameTv.setText(userInfo);
+
 
         } catch (Exception e) {
             e.printStackTrace();

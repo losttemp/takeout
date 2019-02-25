@@ -25,6 +25,7 @@ import com.baidu.iov.dueros.waimai.BuildConfig;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryDateAdapter;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryTimeAdapter;
 
+import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
@@ -189,7 +190,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
                 String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
                         + Encryption.desEncrypt(mAddressData.getUser_phone());
-                mUserNameTv.setText(address);
+                if (mAddressData.getUser_name()!=null&&mAddressData.getUser_phone()!=null){
+                    mUserNameTv.setText(address);
+                }else {
+                    if (MyApplicationAddressBean.USER_PHONES.get(0)!=null&&MyApplicationAddressBean.USER_NAMES.get(0)!=null){
+                        mUserNameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0)+"  "+MyApplicationAddressBean.USER_NAMES.get(0));
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
