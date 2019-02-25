@@ -72,7 +72,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AtyContainer.getInstance().addActivity(this);
-        setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
+        setStatusBar(false, ContextCompat.getColor(this, R.color.notification_bar_bg));
         mPresenter.onUiReady(getUi());
         mContext = this;
 

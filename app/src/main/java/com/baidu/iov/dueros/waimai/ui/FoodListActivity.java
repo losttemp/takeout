@@ -475,6 +475,30 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         setPrise(increase);
     }
 
+    @Override
+    public void removeProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int section, boolean increase) {
+        String spusBeanTag = product.getTag();
+        if (tag.equals(spusBeanTag)) {
+            for (int i = 0; i < foodSpuTagsBeans.size(); i++) {
+                spusBeanList = foodSpuTagsBeans.get(i).getSpus();
+                for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : spusBeanList) {
+                    if (product.getId() == shopProduct.getId()) {
+                        productList.remove(product);
+                        shoppingCartAdapter.notifyDataSetChanged();
+                        refreshSpusTagNum(section, increase, shopProduct, false, true);
+                        shopProduct.setNumber(0);
+                        mPoifoodSpusListAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+            }
+        }
+        if (mBottomDialog != null && mBottomDialog.isShowing()) {
+            setDialogHeight(mBottomDialog);
+        }
+        setPrise(false);
+    }
+
     private void refreshSpusTagNum(int selection, boolean increase,
                                    PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                    boolean firstAdd,boolean remove) {
@@ -772,9 +796,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 settlement.setBackgroundResource(R.drawable.btn_grey);
                 settlement.setEnabled(false);
 
-                mCartSettlement.setText(String.format(getString(R.string.not_distribution), NumberFormat.getInstance().format(mPoidetailinfoBean.getMeituan().getData().getMin_price())));
-                mCartSettlement.setBackgroundResource(R.drawable.btn_grey);
-                mCartSettlement.setEnabled(false);
+                if (mCartSettlement != null) {
+                    mCartSettlement.setText(String.format(getString(R.string.not_distribution), NumberFormat.getInstance().format(mPoidetailinfoBean.getMeituan().getData().getMin_price())));
+                    mCartSettlement.setBackgroundResource(R.drawable.btn_grey);
+                    mCartSettlement.setEnabled(false);
+                }
             }
         }
     }

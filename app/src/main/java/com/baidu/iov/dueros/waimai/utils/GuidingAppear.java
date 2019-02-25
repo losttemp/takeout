@@ -31,11 +31,11 @@ public enum GuidingAppear {
             return;
         if (strings.size() == 1) {
             Lg.getInstance().e("GuidingAppear", strings.get(0));
-//            StatusBarsManager.conversationByApp(context, APP_NAME, strings.get(0));
+            StatusBarsManager.conversationByApp(context, APP_NAME, strings.get(0));
             return;
         }
 
-//        StatusBarsManager.conversationByApp(context, APP_NAME, strings.get(times % strings.size()));
+        StatusBarsManager.conversationByApp(context, APP_NAME, strings.get(times % strings.size()));
         Lg.getInstance().e("GuidingAppear", strings.get(times % strings.size()));
         times++;
         mHandler.postDelayed(mRunnable, 10000);

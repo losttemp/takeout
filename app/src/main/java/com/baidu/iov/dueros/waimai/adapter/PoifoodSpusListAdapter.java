@@ -105,6 +105,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
 
     public interface onCallBackListener {
         void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection, boolean increase);
+        void removeProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection, boolean increase);
     }
 
     public void showFoodListActivityDialog(View view, View contentView, final PopupWindow window) {
@@ -299,18 +300,33 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     viewHolder.prise.setText(NumberFormat.getInstance().format(spusBean.getMin_price()));
                 }
                 viewHolder.shoppingNum.setText("" + spusBean.getNumber());
-                viewHolder.view.setContentDescription(String.format(context.getString(R.string.to_eat_position),viewHolder.storeIndex.getText().toString()));
-                viewHolder.view.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+                viewHolder.add.setContentDescription(String.format(context.getString(R.string.to_eat_position),viewHolder.storeIndex.getText().toString()));
+                viewHolder.increase.setContentDescription(String.format(context.getString(R.string.to_eat_position),viewHolder.storeIndex.getText().toString()));
+                viewHolder.add.setAccessibilityDelegate(new View.AccessibilityDelegate(){
                     @Override
                     public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                        int index = 0;
-                        for (int i = 0; i < spusBeans.size(); i++) {
-                            if (viewHolder.name.getText().equals(spusBeans.get(i).getName())) {
-                                index = i;
-                                break;
-                            }
-                        }
+                        int index = getIndex(viewHolder);
                         viewHolder.autoClick(index);
+                        return true;
+                    }
+                });
+                viewHolder.increase.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+                    @Override
+                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                        int index = getIndex(viewHolder);
+                        viewHolder.autoClick(index);
+                        return true;
+                    }
+                });
+                viewHolder.reduce.setContentDescription(String.format(context.getString(R.string.cancel_position),viewHolder.storeIndex.getText().toString()));
+                viewHolder.reduce.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+                    @Override
+                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                        int index = getIndex(viewHolder);
+                        StandardCmdClient.getInstance().playTTS(context,context.getString(R.string.already_cancel)+spusBeans.get(index).getName());
+                        if (callBackListener != null) {
+                            callBackListener.removeProduct(spusBeans.get(index), spusBeans.get(index).getTag(), section, false);
+                        }
                         return true;
                     }
                 });
@@ -460,6 +476,17 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         }
                     }
                 });
+            }
+
+            private int getIndex(@NonNull ViewHolder viewHolder) {
+                int index = 0;
+                for (int i = 0; i < spusBeans.size(); i++) {
+                    if (viewHolder.name.getText().equals(spusBeans.get(i).getName())) {
+                        index = i;
+                        break;
+                    }
+                }
+                return index;
             }
 
             @Override

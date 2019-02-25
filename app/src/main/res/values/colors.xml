@@ -68,6 +68,7 @@
     <color name="list_bg">#414A55</color>
     <color name="shop_cart_bg">#3C4650</color>
     <color name="title_bg">#29303A</color>
+    <color name="notification_bar_bg">#2B333C</color>
 
     <!--8f9194-->
     <color name="split_view_color">#1AFFFFFF</color>
