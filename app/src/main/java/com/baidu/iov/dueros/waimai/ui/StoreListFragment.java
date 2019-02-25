@@ -590,7 +590,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mRefreshLayout.autoLoadmore(100);
 				}
 				manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
-				if (currentLastPosition + 1 == shopTotalNum) {
+				if (currentLastPosition+1==shopTotalNum){
 					StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.last_page));
 				}
 			} else {
@@ -681,6 +681,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mPresenter.requestStoreList(storeReq);
 		}
 	}
+	
 
 	public void searchLoadFirstPage(StoreReq storeReq) {
 		if (!netDataReque()) {
