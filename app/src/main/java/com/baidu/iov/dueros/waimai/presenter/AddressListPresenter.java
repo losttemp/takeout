@@ -17,6 +17,9 @@ import com.baidu.iov.dueros.waimai.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_NEXT;
+import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_PRE;
+
 public class AddressListPresenter extends Presenter<AddressListPresenter.AddressListUi> {
     private static final String TAG = AddressListPresenter.class.getSimpleName();
 
@@ -83,6 +86,12 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
             case StandardCmdClient.CMD_SELECT:
                 getUi().selectListItem(Integer.parseInt(extra));
                 break;
+            case StandardCmdClient.CMD_NEXT:
+                getUi().nextPage(true);
+                break;
+            case StandardCmdClient.CMD_PRE:
+                getUi().nextPage(false);
+                break;
             default:
                 break;
         }
@@ -94,6 +103,8 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
         if (null != mStandardCmdClient) {
             ArrayList<String> cmdList = new ArrayList<String>();
             cmdList.add(StandardCmdClient.CMD_SELECT);
+            cmdList.add(CMD_NEXT);
+            cmdList.add(CMD_PRE);
             mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
         }
     }
@@ -113,6 +124,8 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
         void onGetAddressListFailure(String msg);
 
         void selectListItem(int i);
+
+        void nextPage(boolean isNextPage);
     }
 
     private void setAutocompleteData(AddressListBean data){

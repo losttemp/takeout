@@ -23,12 +23,14 @@ import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressListAdapter;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
+import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressListPresenter;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
@@ -269,6 +271,39 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             }
             finish();
         }
+    }
+
+    @Override
+    public void nextPage(boolean isNextPage) {
+        if (mDataListBean.size() > 0) {
+            LinearLayoutManager manager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+            assert manager != null;
+            int currentItemPosition = manager.findFirstVisibleItemPosition();
+            int last = manager.findLastCompletelyVisibleItemPosition();
+            if (isNextPage) {
+                if (last == mDataListBean.size()) {
+                    StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.last_page));
+                } else {
+                    StandardCmdClient.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
+                }
+                if (currentItemPosition + getPageNum() * 2 > mDataListBean.size()) {
+                    manager.scrollToPositionWithOffset(mDataListBean.size(), 0);
+                    return;
+                }
+                manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
+            } else {
+                if (currentItemPosition == 0) {
+                    StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.first_page));
+                } else {
+                    StandardCmdClient.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
+                }
+                manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
+            }
+        }
+    }
+
+    private int getPageNum() {
+        return 4;
     }
 
     private int getStateBar() {
