@@ -71,6 +71,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private View networkView;
 
     private boolean initTTS = false;
+    private int oldListSize;
 
     @Override
     OrderListPresenter createPresenter() {
@@ -338,12 +339,15 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         if (null != data.getIov() && null != data.getIov().getData() && data.getIov().getData().size() != 0) {
             mOrderList.addAll(data.getIov().getData());
             mOrderListAdaper.notifyDataSetChanged();
-        } else {
-            mRefreshLayout.setEnableLoadmore(false);
         }
         if (mOrderList.size() == 0) {
             mTvNoOrder.setVisibility(View.VISIBLE);
             mRvOrder.setVisibility(View.GONE);
+        }
+        if (mTvNoOrder.getVisibility() != View.VISIBLE && initTTS && oldListSize == mOrderList.size()) {
+            sendTTS(R.string.last_page);
+        } else {
+            initTTS = false;
         }
     }
 
@@ -387,6 +391,9 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void selectListItem(int i) {
+        if (i > 0) {
+            i = i - 1;
+        }
         if (mOrderList == null || mOrderList.size() == 0) {
             StandardCmdClient.getInstance().playTTS(OrderListActivity.this, getString(R.string.have_no_order));
         }
@@ -410,12 +417,13 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             LinearLayoutManager manager = (LinearLayoutManager) mRvOrder.getLayoutManager();
             assert manager != null;
             int currentItemPosition = manager.findFirstVisibleItemPosition();
-            int last = manager.findLastCompletelyVisibleItemPosition();
             if (isNextPage) {
                 StandardCmdClient.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
                 if (currentItemPosition + getPageNum() * 2 > mOrderList.size()) {
-                    manager.scrollToPositionWithOffset(mOrderList.size()-1, 0);
+                    manager.scrollToPositionWithOffset(mOrderList.size() - 1, 0);
                     mRefreshLayout.autoLoadmore(1000);
+                    oldListSize = mOrderList.size();
+                    initTTS = true;
                     return;
                 }
                 manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);

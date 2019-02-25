@@ -73,7 +73,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         viewById.setLayoutParams(lp);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.px962dp));
         getWindow().setGravity(Gravity.TOP);
-        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG,EventType.TOUCH_TYPE);
+        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG, EventType.TOUCH_TYPE);
 
     }
 
@@ -106,7 +106,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             public void onItemClick(View view, int position) {
                 switch (view.getId()) {
                     case R.id.img_select:
-                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_UPDATE_ADDRESS,EventType.TOUCH_TYPE);
+                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_UPDATE_ADDRESS, EventType.TOUCH_TYPE);
                         Intent intent = new Intent(getApplicationContext(), AddressEditActivity.class);
                         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
                         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS, mDataListBean.get(position));
@@ -117,8 +117,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                         break;
 
                     default:
-                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_ADDRESS_VOICE,EventType.VOICE_TYPE);
-                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_ADDRESS,EventType.TOUCH_TYPE);
+                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_ADDRESS_VOICE, EventType.VOICE_TYPE);
+                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_ADDRESS, EventType.TOUCH_TYPE);
                         AddressListBean.IovBean.DataBean addressData = mDataListBean.get(position);
                         Intent data = new Intent();
                         data.putExtra(ADDRESS_DATA, addressData);
@@ -158,7 +158,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         TextView nameTv = header.findViewById(R.id.tv_name_title);
 
         try {
-            if (mAddressData.getCanShipping()!=1){
+            if (mAddressData.getCanShipping() != 1) {
                 addressTv.setTextColor(0x99ffffff);
                 nameTv.setTextColor(0x99ffffff);
             }
@@ -216,7 +216,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 break;
 
             case R.id.img_add:
-                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ALERT_ADDRESS,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ALERT_ADDRESS, EventType.TOUCH_TYPE);
                 doSearchAddress(false);
                 break;
 
@@ -247,17 +247,19 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     @Override
     public void selectListItem(int i) {
         if (null != mDataListBean && mDataListBean.size() > i) {
-            AddressListBean.IovBean.DataBean addressData = mDataListBean.get(i);
-            Intent data = new Intent();
-            data.putExtra(ADDRESS_DATA, addressData);
-            data.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, true);
-            SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
-                    ("_cache", AddressSelectActivity.MODE_PRIVATE);
-            String databeanStr = GsonUtil.toJson(addressData);
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putString(Constant.ADDRESS_DATA, databeanStr);
-            editor.commit();
-            setResult(RESULT_OK, data);
+            if (i >= 1) {
+                AddressListBean.IovBean.DataBean addressData = mDataListBean.get(i - 1);
+                Intent data = new Intent();
+                data.putExtra(ADDRESS_DATA, addressData);
+                data.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, true);
+                SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
+                        ("_cache", AddressSelectActivity.MODE_PRIVATE);
+                String databeanStr = GsonUtil.toJson(addressData);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(Constant.ADDRESS_DATA, databeanStr);
+                editor.commit();
+                setResult(RESULT_OK, data);
+            }
             finish();
         }
     }

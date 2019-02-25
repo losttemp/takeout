@@ -52,7 +52,7 @@ public class FilterPopWindow extends PopupWindow {
 		mContentView = inflater.inflate(R.layout.pop_window_filter, linearLayout);
 		setContentView(mContentView);
 		gvFilterType =  mContentView.findViewById(R.id.gv_subType);
-		AppCompatTextView tvOk = mContentView.findViewById(R.id.tv_ok);
+		TextView tvOk = mContentView.findViewById(R.id.tv_ok);
 
 		setWidth(ActionBar.LayoutParams.MATCH_PARENT);
 		setHeight(ActionBar.LayoutParams.WRAP_CONTENT);

@@ -285,6 +285,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             if (price < origin_price) {
                 tv_origin_price.setText(String.format(getResources().getString(R.string.cost_text), nf.format(origin_price)));
                 tv_origin_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                tv_origin_price.getPaint().setAntiAlias(true); //去掉锯齿
                 tv_origin_price.setVisibility(View.VISIBLE);
 //                tv_discounts.setVisibility(View.VISIBLE);
             } else {

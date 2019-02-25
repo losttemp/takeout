@@ -583,7 +583,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			addNextPageEvent();
 			LinearLayoutManager manager = (LinearLayoutManager) mRvStore.getLayoutManager();
 			assert manager != null;
-			int currentItemPosition  = manager.findFirstVisibleItemPosition();
+			int currentItemPosition = manager.findFirstVisibleItemPosition();
 			int currentLastPosition  = manager.findLastVisibleItemPosition();
 			if (isNextPage) {
 				if (currentItemPosition + getPageNum() * 2 > mStoreList.size() && mRefreshLayout != null) {
@@ -681,6 +681,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mPresenter.requestStoreList(storeReq);
 		}
 	}
+	
 
 	public void searchLoadFirstPage(StoreReq storeReq) {
 		if (!netDataReque()) {

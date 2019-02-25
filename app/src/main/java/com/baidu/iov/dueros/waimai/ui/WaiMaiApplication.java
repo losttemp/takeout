@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.GuidingReq;
@@ -39,7 +40,10 @@ public class WaiMaiApplication extends Application {
 		entry.init(getApplicationContext(), new Entry.Callback() {
 			@Override
 			public void onSuccess() {
-				Constant.UUID = entry.getUUID();
+                String uuid = entry.getUUID();
+                if (!TextUtils.isEmpty(uuid)){
+                    Constant.UUID = entry.getUUID();
+                }
 			}
 
 			@Override

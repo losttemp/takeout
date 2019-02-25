@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="WaimaiTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--将Activity的Theme设置成透明-->
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <!--waimai delivery time dialog Activity style-->
     <style name="NoTitleDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="windowNoTitle">true</item>

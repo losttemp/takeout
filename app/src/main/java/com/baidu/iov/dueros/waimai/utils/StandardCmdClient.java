@@ -20,6 +20,7 @@ public class StandardCmdClient {
     private static final String ACTION_UNREGISTER = "com.baidu.duerosauto.standard_cmd.unregister";
     private static final String ACTION_CALLBACK = "com.baidu.duerosauto.standard_cmd.callback";
     private static final String ACTION_TTS = "com.baidu.duerosauto.standard_cmd.tts";
+    public static final String ACTION_EXIT_APK = "com.baidu.iov.dueros.waimai.action.close";
     private static final String KEY_CMD = "cmd";
     private static final String KEY_PKG_NAME = "pkg_name";
     public static final String KEY_EXTRA = "extra";

@@ -87,6 +87,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private final int IOV_STATUS_REFUND_FAILED = 11; //退款失败
     private View networkView;
     private View contentView;
+    private boolean isTimeEnd;
 
     @Override
     OrderDetailsPresenter createPresenter() {
@@ -497,6 +498,9 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
             @Override
             public void onFinish() {
+                isTimeEnd  = true;
+                mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId());
+                getPresenter().requestOrderCancel(mOrderCancelReq);
                 mArrivalTime.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
                 mPayStatus = mOrderDetails.getPay_status();
                 if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
@@ -596,6 +600,14 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
+        if (isTimeEnd){
+            timerCancel();
+            loadData();
+            isTimeEnd = false;
+            return;
+        }
+
+
         if (data.getMeituan().getCode() == 0) {
             ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancel_toast), Toast.LENGTH_SHORT);
             timerCancel();

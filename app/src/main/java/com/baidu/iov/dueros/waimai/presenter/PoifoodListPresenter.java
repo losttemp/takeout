@@ -46,7 +46,9 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
                 getUi().sureOrder();
                 break;
             case CMD_SELECT:
-                getUi().selectListItem(Integer.parseInt(extra));
+                if (Integer.parseInt(extra) >= 1) {
+                    getUi().selectListItem(Integer.parseInt(extra) - 1);
+                }
                 break;
             case StandardCmdClient.CMD_NEXT:
                 getUi().nextPage(true);

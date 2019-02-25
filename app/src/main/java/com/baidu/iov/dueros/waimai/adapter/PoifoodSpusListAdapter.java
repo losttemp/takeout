@@ -55,6 +55,8 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
     private View mVeiw;
     private boolean mInList;
     private Window mWindow;
+    private PopupWindow mDetailDialog;
+    private PopupWindow specificationDialog;
 
     public void setCallBackListener(onCallBackListener callBackListener) {
         this.callBackListener = callBackListener;
@@ -260,6 +262,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         viewHolder.discountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(originPrice)));
                         viewHolder.discountPrice.setVisibility(View.VISIBLE);
                         viewHolder.discountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        viewHolder.discountPrice.getPaint().setAntiAlias(true); //去掉锯齿
                         if (skusBeans.get(0).getRestrict() != 0 && skusBeans.get(0).getRestrict() > 0) {
                             viewHolder.limitBuy.setVisibility(View.VISIBLE);
                             viewHolder.limitBuy.setText(String.format(context.getString(R.string.limit_buy), NumberFormat.getInstance().format(skusBeans.get(0).getRestrict())));
@@ -291,6 +294,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         viewHolder.discountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(minOriginPrice)));
                         viewHolder.discountPrice.setVisibility(View.VISIBLE);
                         viewHolder.discountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        viewHolder.discountPrice.getPaint().setAntiAlias(true); //去掉锯齿
                     }
                     viewHolder.prise.setText(NumberFormat.getInstance().format(spusBean.getMin_price()));
                 }
@@ -301,7 +305,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     public boolean performAccessibilityAction(View host, int action, Bundle args) {
                         int index = 0;
                         for (int i = 0; i < spusBeans.size(); i++) {
-                            if (viewHolder.name.equals(spusBeans.get(i).getName())) {
+                            if (viewHolder.name.getText().equals(spusBeans.get(i).getName())) {
                                 index = i;
                                 break;
                             }
@@ -310,13 +314,6 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         return true;
                     }
                 });
-//                viewHolder.increase.setAccessibilityDelegate(new View.AccessibilityDelegate(){
-//                    @Override
-//                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
-//                        viewHolder.autoClick(Integer.parseInt(viewHolder.storeIndex.getText().toString()));
-//                        return true;
-//                    }
-//                });
 
                 viewHolder.specifications.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -380,10 +377,10 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                             action.setVisibility(View.GONE);
                             detailSpecifications.setVisibility(View.GONE);
                         }
-                        final PopupWindow window = new PopupWindow(popView,
+                        mDetailDialog = new PopupWindow(popView,
                                 WindowManager.LayoutParams.MATCH_PARENT,
                                 WindowManager.LayoutParams.WRAP_CONTENT, true);
-                        showFoodListActivityDialog(view, popView, window);
+                        showFoodListActivityDialog(view, popView, mDetailDialog);
                         if (viewHolder.specifications.getVisibility() == View.VISIBLE) {
                             addToCart.setVisibility(View.GONE);
                             action.setVisibility(View.GONE);
@@ -392,7 +389,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         detailSpecifications.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                window.dismiss();
+                                mDetailDialog.dismiss();
                                 spcificationsOnclick(mVeiw, spusBean, viewHolder, section);
                             }
                         });
@@ -405,6 +402,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                             spusOriginPrice.setVisibility(View.VISIBLE);
                             spusOriginPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBean.getSkus().get(0).getOrigin_price())));
                             spusOriginPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                            spusOriginPrice.getPaint().setAntiAlias(true); //去掉锯齿
                         } else {
                             spusOriginPrice.setVisibility(View.GONE);
                         }
@@ -517,6 +515,12 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 }
 
                 public void autoClick(int position) {
+                    if (mDetailDialog != null && mDetailDialog.isShowing()) {
+                        mDetailDialog.dismiss();
+                    }
+                    if (specificationDialog != null && specificationDialog.isShowing()) {
+                        specificationDialog.dismiss();
+                    }
                     if (increase.getVisibility() == View.VISIBLE && add.getVisibility() == View.GONE
                             && specifications.getVisibility() == View.GONE) {
                         increase.performClick();
@@ -707,10 +711,10 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         setSpecificationNumber(finalSpusBean, viewHolder);
                     }
                 });
-                final PopupWindow window = new PopupWindow(popView,
+                specificationDialog = new PopupWindow(popView,
                         WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.WRAP_CONTENT, true);
-                showFoodListActivityDialog(view, popView, window);
+                showFoodListActivityDialog(view, popView, specificationDialog);
             }
 
             private void setSpecificationNumber(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, ViewHolder viewHolder) {
