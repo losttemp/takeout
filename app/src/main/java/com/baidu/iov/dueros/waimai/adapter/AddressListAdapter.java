@@ -127,7 +127,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 String ttsAddress = Encryption.desEncrypt(mData.get(realPosition).getAddress());
                 String str = String.format(mContext.getString(R.string.delivery_an_address), ttsAddress);
                 VoiceTouchUtils.setItemVoicesTouchSupport(((ViewHolder) holder).itemView, realPosition, mContext.getString(R.string.choose_an_address));
-                VoiceTouchUtils.setVoiceTouchTTSSupport(((ViewHolder) holder).itemView,str);
+                VoiceTouchUtils.setVoiceTouchTTSSupport(((ViewHolder) holder).itemView, str);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -143,7 +143,8 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             ((ViewHolder) holder).img_edit.setTag(realPosition);
 
-
+            VoiceTouchUtils.setItemVoicesTouchSupport(((ViewHolder) holder).img_edit, realPosition, R.array.address_edit);
+            VoiceTouchUtils.setVoiceTouchTTSSupport(((ViewHolder) holder).img_edit, mContext.getString(R.string.start_edit_address_success_text));
         }
     }
 
