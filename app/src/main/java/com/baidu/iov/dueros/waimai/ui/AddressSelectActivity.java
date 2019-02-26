@@ -194,6 +194,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getEmpty_result());
             mNoAddress.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
+            addBtnView.setVisibility(View.GONE);
             if (isNeedPlayTTS) {
                 StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.choice_no_address_voice));
                 isNeedPlayTTS = false;
