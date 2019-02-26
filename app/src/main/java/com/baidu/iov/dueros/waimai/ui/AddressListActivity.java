@@ -26,6 +26,7 @@ import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressListPresenter;
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
@@ -36,6 +37,7 @@ import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -206,7 +208,16 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     @Override
     public void onResume() {
         super.onResume();
+        ArrayList<String> prefix = new ArrayList<>();
+        prefix.add("选择");
+        AccessibilityClient.getInstance().register(this, true, prefix, null);
         initView();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AccessibilityClient.getInstance().unregister(this);
     }
 
     @Override
