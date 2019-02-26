@@ -1452,49 +1452,23 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void nextPage(boolean isNextPage) {
         Entry.getInstance().onEvent(Constant.POIFOODLIST_VOICE_PAGING, EventType.TOUCH_TYPE);
-        LinearLayoutManager manager = (LinearLayoutManager) mSpusList.getLayoutManager();
-        assert manager != null;
-        int currentItemPosition = manager.findFirstVisibleItemPosition();
-        int flag = currentItemPosition + 1;
-        int section = 0;
-        int position = 0;
-        boolean ok = true;
-//        while (ok) {
-//            int oldFlag = flag;
-//            flag -= foodSpuTagsBeans.get(section).getSpus().size();
-//            if (flag <= 0 && section == 0) {
-//                position = currentItemPosition;
-//                ok = false;
-//                continue;
-//            }
-//            if (flag <= 0) {
-//                position = oldFlag - 1;
-//                ok = false;
-//                continue;
-//            }
-//            section++;
-//        }
-//        if (null != manager) {
-//            int firstItemPosition = manager.findFirstVisibleItemPosition();
-//            int lastItemPosition = manager.findLastVisibleItemPosition();
-//
-//            if (firstItemPosition <= section && lastItemPosition >= section) {
-//                View view = mSpusList.getChildAt(section - firstItemPosition);
-//                if (null != mSpusList.getChildViewHolder(view)) {
-//                    PoifoodSpusListAdapter.MyViewHolder viewHolder = (PoifoodSpusListAdapter.MyViewHolder) mSpusList.getChildViewHolder(view);
-//                    RecyclerView recyclerView = viewHolder.getRecyclerView();
-//                    LinearLayoutManager m = (LinearLayoutManager) recyclerView.getLayoutManager();
-//                    if (null != m) {
-//                        int f = m.findLastVisibleItemPosition();
-//                        if (isNextPage) {
-//                            m.scrollToPositionWithOffset(f + VOICE_STEP, 0);
-//                        } else {
-//                            m.scrollToPositionWithOffset(f - VOICE_STEP > 0 ? f - VOICE_STEP : 0, 0);
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        if (isNextPage) {
+            mSpusList.scrollBy(0, getResources().getDimensionPixelSize(R.dimen.px828dp));
+            if (mSpusList.canScrollVertically(1)) {
+                Lg.getInstance().d(TAG, "direction 1: true");
+            } else {
+                Lg.getInstance().d(TAG, "direction 1: false");//滑动到底部
+                StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.last_page));
+            }
+        }else {
+            mSpusList.scrollBy(0, - getResources().getDimensionPixelSize(R.dimen.px966dp));
+            if (mSpusList.canScrollVertically(-1)) {
+                Lg.getInstance().d(TAG, "direction -1: true");
+            } else {
+                Lg.getInstance().d(TAG, "direction -1: false");//滑动到顶部 }
+                StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.first_page));
+            }
+        }
     }
 
     @Override
