@@ -468,7 +468,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                             mArriveTimeTv.setText(date +" "+time);
                             mTypeTipTv.setText(type);
                         }else {
-                            mArriveTimeTv.setText(time);
+                            mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), time));
                             mTypeTipTv.setText(type);
                         }
                     }
@@ -646,10 +646,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 mTypeTipTv.setText(getString(R.string.delivery_immediately));
                 mArriveTimeTv.setText(getString(R.string.choose_arrive_time));
             }else{
-                if (mUnixtime == 0) {
-                    mTypeTipTv.setText(getString(R.string.delivery_immediately));
-                    mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
-                }
+//                if (mUnixtime == 0) {
+//                }
+                mTypeTipTv.setText(getString(R.string.delivery_immediately));
+                mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
             }
 
         } else {
