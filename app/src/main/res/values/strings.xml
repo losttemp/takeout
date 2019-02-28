@@ -322,9 +322,9 @@
     <string name="first_page">当前已是第一页</string>
     <string name="last_page">当前已是最后一页</string>
     <string name="start_edit_address_success_text">好的，现在可以编辑你的地址</string>
-    <string name="send_to_destination">送到目的地</string>
-    <string name="send_to_company">送到公司</string>
-    <string name="send_to_home">送到家里</string>
+    <string name="send_to_destination">送到目的地^送到第%d个</string>
+    <string name="send_to_company">送到公司^送到第%d个</string>
+    <string name="send_to_home">送到家里^送到第%d个</string>
     <string name="city_error">失败</string>
     <string name="city_loading">定位中</string>
     <string name="poi_search_hint_text">搜索内容不能为空</string>
