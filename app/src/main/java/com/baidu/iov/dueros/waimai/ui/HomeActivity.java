@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatImageView;
@@ -308,8 +309,14 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 	private void intentToAddress(boolean isNeedVoice){
 		Intent addressIntent = new Intent(HomeActivity.this, AddressSelectActivity.class);
-		addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
 		startActivity(addressIntent);
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				StandardCmdClient.getInstance().playTTS(HomeActivity.this, getString(R.string.tts_add_new_address));
+			}
+		}, 100);
 	}
 
 	

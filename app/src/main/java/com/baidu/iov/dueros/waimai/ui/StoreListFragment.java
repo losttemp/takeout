@@ -681,7 +681,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mPresenter.requestStoreList(storeReq);
 		}
 	}
-	
+
 
 	public void searchLoadFirstPage(StoreReq storeReq) {
 		if (!netDataReque()) {
