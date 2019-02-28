@@ -69,7 +69,7 @@ public class SortTypeTagListView extends LinearLayout implements View.OnClickLis
                     switch (action) {
                         case AccessibilityNodeInfo.ACTION_CLICK:
                             itemclick(textView);
-                            StandardCmdClient.getInstance().playTTS(mContext,"BUBBLE");
+                            StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.tts_rescheduling));
                             break;
                         default:
                             break;
