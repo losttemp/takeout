@@ -49,9 +49,9 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolderHelper viewHolder, int position) {
-            AddressViewHolder addressViewHolder = (AddressViewHolder) viewHolder;
-            AddressListBean.IovBean.DataBean dataBean = mAddressList.get(position);
-            addressViewHolder.bindData(position, dataBean);
+        AddressViewHolder addressViewHolder = (AddressViewHolder) viewHolder;
+        AddressListBean.IovBean.DataBean dataBean = mAddressList.get(position);
+        addressViewHolder.bindData(position, dataBean);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
         private ImageView ivType;
         private ImageView edit;
         private AddressListBean.IovBean.DataBean mDataBean;
-        private View contentView;
+        private View item_content;
 
         private AddressViewHolder(View view) {
             super(view);
@@ -84,8 +84,8 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             phone = view.findViewById(R.id.address_select_phone);
             edit = view.findViewById(R.id.address_select_edit);
             edit.setOnClickListener(this);
-            contentView = view.findViewById(R.id.address_select_details_container);
-            contentView.setOnClickListener(this);
+            item_content = view.findViewById(R.id.address_select_details_container);
+            item_content.setOnClickListener(this);
         }
 
         public void bindData(int position, AddressListBean.IovBean.DataBean dataBean) {
@@ -93,7 +93,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             num.setText((position + 1) + "");
             name.setText("");
             phone.setText("");
-            String detail="";
+            String detail = "";
             try {
                 detail = Encryption.desEncrypt(dataBean.getAddress());
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) details.getLayoutParams();
@@ -117,24 +117,28 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             String type = dataBean.getType();
             if (TextUtils.isEmpty(type)) {
                 tvType.setBackgroundResource(R.drawable.tag_bg);
+                VoiceTouchUtils.setVoicesTouchSupport(item_content, String.format(mContext.getString(R.string.choose_an_address), position + 1));
+                VoiceTouchUtils.setVoiceTouchTTSSupport(item_content, String.format(mContext.getString(R.string.harvest_address), detail));
             } else if (mContext.getString(R.string.address_home).equals(type)) {
+                VoiceTouchUtils.setVoicesTouchSupport(item_content, String.format(mContext.getString(R.string.send_to_home), position + 1));
+                VoiceTouchUtils.setVoiceTouchTTSSupport(item_content, String.format(mContext.getString(R.string.harvest_address), detail));
                 tvType.setBackgroundResource(R.drawable.tag_bg_green);
-                VoiceTouchUtils.setVoicesTouchSupport(contentView,mContext.getString(R.string.send_to_home));
-                VoiceTouchUtils.setVoiceTouchTTSSupport(contentView,String.format(mContext.getString(R.string.harvest_address), detail));
             } else if (mContext.getString(R.string.address_company).equals(type)) {
+                VoiceTouchUtils.setVoicesTouchSupport(item_content, String.format(mContext.getString(R.string.send_to_company), position + 1));
+                VoiceTouchUtils.setVoiceTouchTTSSupport(item_content, String.format(mContext.getString(R.string.harvest_address), detail));
                 tvType.setBackgroundResource(R.drawable.tag_bg_blue);
-                VoiceTouchUtils.setVoicesTouchSupport(contentView,mContext.getString(R.string.send_to_company));
-                VoiceTouchUtils.setVoiceTouchTTSSupport(contentView,String.format(mContext.getString(R.string.harvest_address), detail));
             } else if (mContext.getString(R.string.address_tag_other).equals(type)) {
                 tvType.setBackgroundResource(R.drawable.tag_bg);
+                VoiceTouchUtils.setVoicesTouchSupport(item_content, String.format(mContext.getString(R.string.choose_an_address), position + 1));
+                VoiceTouchUtils.setVoiceTouchTTSSupport(item_content, String.format(mContext.getString(R.string.harvest_address), detail));
             } else if (mContext.getString(R.string.address_destination).equals(type)) {
+                VoiceTouchUtils.setVoicesTouchSupport(item_content, String.format(mContext.getString(R.string.send_to_destination), position + 1));
+                VoiceTouchUtils.setVoiceTouchTTSSupport(item_content, String.format(mContext.getString(R.string.harvest_address), detail));
                 tvType.setBackgroundResource(R.drawable.tag_bg_mudidi);
-                VoiceTouchUtils.setVoicesTouchSupport(contentView,mContext.getString(R.string.send_to_destination));
-                VoiceTouchUtils.setVoiceTouchTTSSupport(contentView,String.format(mContext.getString(R.string.harvest_address), detail));
             }
             tvType.setText(!TextUtils.isEmpty(type) ? type : mContext.getString(R.string.address_tag_other));
             VoiceTouchUtils.setItemVoicesTouchSupport(edit, position, R.array.address_edit);
-            VoiceTouchUtils.setVoiceTouchTTSSupport(edit,mContext.getString(R.string.start_edit_address_success_text));
+            VoiceTouchUtils.setVoiceTouchTTSSupport(edit, mContext.getString(R.string.start_edit_address_success_text));
         }
 
         @Override
