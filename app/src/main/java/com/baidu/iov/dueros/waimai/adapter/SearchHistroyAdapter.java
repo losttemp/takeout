@@ -1,5 +1,4 @@
 package com.baidu.iov.dueros.waimai.adapter;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
@@ -8,17 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.ui.SearchActivity;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
-
 import java.util.List;
-
 public class SearchHistroyAdapter extends BaseAdapter {
 
 	private List<String> mHistorys;
@@ -56,7 +51,6 @@ public class SearchHistroyAdapter extends BaseAdapter {
 			viewHolder.tvHistoryNum = convertView.findViewById(R.id.tv_history_num);
 			viewHolder.tvHistoryName =  convertView.findViewById(R.id.tv_history_name);
 			viewHolder.ivDelete =  convertView.findViewById(R.id.iv_delete);
-			viewHolder.rlHistory =  convertView.findViewById(R.id.rl_history);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -65,8 +59,8 @@ public class SearchHistroyAdapter extends BaseAdapter {
 		viewHolder.tvHistoryNum.setText(position + 1 + "");
 		viewHolder.tvHistoryName.setText(mHistorys.get(position));
 
-		VoiceTouchUtils.setItemVoicesTouchSupport(viewHolder.rlHistory, position, R.array.checkout_histroy);
-		viewHolder.rlHistory.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+		VoiceTouchUtils.setItemVoicesTouchSupport(viewHolder.tvHistoryName, position, R.array.checkout_histroy);
+		viewHolder.tvHistoryName.setAccessibilityDelegate(new View.AccessibilityDelegate(){
 			@Override
 			public boolean performAccessibilityAction(View host, int action, Bundle args) {
 				switch (action) {
@@ -117,6 +111,5 @@ public class SearchHistroyAdapter extends BaseAdapter {
 		private TextView tvHistoryNum;
 		private TextView tvHistoryName;
 		private AppCompatImageView ivDelete;
-		private RelativeLayout rlHistory;
 	}
 }
