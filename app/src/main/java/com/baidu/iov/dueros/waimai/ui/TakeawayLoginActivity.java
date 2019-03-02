@@ -28,7 +28,6 @@ import android.view.KeyEvent;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.request.MeituanAuthorizeReq;
-import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.presenter.MeituanAuthPresenter;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
@@ -41,8 +40,6 @@ import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
-
-import java.util.List;
 
 public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, MeituanAuthPresenter.MeituanLoginUi> implements
         MeituanAuthPresenter.MeituanLoginUi, View.OnClickListener {
@@ -238,59 +235,40 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     public void failure(String msg) {
         Lg.getInstance().e(TAG, "Meituan Auth Fail Activity Finish");
-        ToastUtils.show(this,getString(R.string.http_error),Toast.LENGTH_SHORT);
+        ToastUtils.show(this, getString(R.string.http_error), Toast.LENGTH_SHORT);
         finish();
     }
 
     @Override
     public void accountSuccess(String msg) {
-        if (Constant.ACCOUNT_LOGIN_SUCCESS.equals(msg)) {
-            Lg.getInstance().d(TAG, "account login success");
-            if (mMeituanAuthReq != null) {
-                mMeituanAuthReq.setBduss(CacheUtils.getBduss());
-            }
-            getPresenter().requestMeituanAuth(mMeituanAuthReq);
-        }
+        Message message = handler.obtainMessage();
+        message.obj = msg;
+        message.what = HANDLER_MEITUAN_AUTH;
+        handler.sendMessage(message);
     }
 
     @Override
     public void accountFailure(String msg) {
-        if (Constant.ACCOUNT_LOGIN_FAIL.equals(msg)) {
-            Lg.getInstance().d(TAG, "account login fail");
-            finish();
-        }
+        Message message = handler.obtainMessage();
+        message.obj = msg;
+        message.what = HANDLER_POST_FAIL;
+        handler.sendMessage(message);
     }
 
     @Override
     public void authSuccess(String msg) {
-        if (Constant.ACCOUNT_AUTH_SUCCESS.equals(msg)) {
-            Lg.getInstance().d(TAG, "account auth success");
-            startIntent();
-        }
+        Message message = handler.obtainMessage();
+        message.obj = msg;
+        message.what = HANDLER_START;
+        handler.sendMessage(message);
     }
 
     @Override
     public void authFailure(String msg) {
-        if (Constant.ACCOUNT_AUTH_FAIL.equals(msg)) {
-            Lg.getInstance().d(TAG, "account auth fail");
-            finish();
-        }
-    }
-
-    @Override
-    public void getAddressListSuccess(List<AddressListBean.IovBean.DataBean> data) {
-        Lg.getInstance().d(TAG, "get addresslist success");
-        Intent addressIntent = new Intent(this, AddressSelectActivity.class);
-        addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-        startActivity(addressIntent);
-        finish();
-    }
-
-    @Override
-    public void getAddressListFail(String msg) {
-        Lg.getInstance().d(TAG, "get addresslist fail");
-        ToastUtils.show(this, msg, Toast.LENGTH_LONG);
-        finish();
+        Message message = handler.obtainMessage();
+        message.obj = msg;
+        message.what = HANDLER_POST_FAIL;
+        handler.sendMessage(message);
     }
 
     @Override
@@ -305,10 +283,10 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (handler!=null){
+        if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
-        if (mWVMeituan != null){
+        if (mWVMeituan != null) {
             CookieSyncManager.createInstance(getApplicationContext());
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookie();
@@ -338,12 +316,15 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     private final int HANDLER_FINISH_ACT = 0;
     private final int HANDLER_POST_HTTP = 1;
+    private final int HANDLER_POST_FAIL = 2;
+    private final int HANDLER_START = 3;
+    private final int HANDLER_MEITUAN_AUTH = 4;
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case HANDLER_FINISH_ACT:
                     finish();
                     break;
@@ -353,6 +334,31 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                     mWVMeituan.clearHistory();
                     mWVMeituan.destroy();
                     initPostHttp();
+                    break;
+                case HANDLER_POST_FAIL:
+                    if (Constant.ACCOUNT_LOGIN_FAIL.equals(msg.obj)) {
+                        Lg.getInstance().d(TAG, "account login fail");
+                        finish();
+                    }
+                    if (Constant.ACCOUNT_AUTH_FAIL.equals(msg.obj)) {
+                        Lg.getInstance().d(TAG, "account auth fail");
+                        finish();
+                    }
+                    break;
+                case HANDLER_START:
+                    if (Constant.ACCOUNT_AUTH_SUCCESS.equals(msg.obj)) {
+                        Lg.getInstance().d(TAG, "account auth success");
+                        startIntent();
+                    }
+                    break;
+                case HANDLER_MEITUAN_AUTH:
+                    if (Constant.ACCOUNT_LOGIN_SUCCESS.equals(msg.obj)) {
+                        Lg.getInstance().d(TAG, "account login success");
+                        if (mMeituanAuthReq != null) {
+                            mMeituanAuthReq.setBduss(CacheUtils.getBduss());
+                        }
+                        getPresenter().requestMeituanAuth(mMeituanAuthReq);
+                    }
                     break;
                 default:
                     break;

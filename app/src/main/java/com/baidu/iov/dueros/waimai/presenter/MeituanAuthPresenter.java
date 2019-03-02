@@ -1,21 +1,15 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.MeituanAuthModel;
 import com.baidu.iov.dueros.waimai.model.IMeituanAuthModel;
-import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.MeituanAuthorizeReq;
-import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ubuntu on 18-10-27.
@@ -116,33 +110,6 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
         });
     }
 
-    public void requestAddressListData(AddressListReqBean reqBean) {
-        mModel.requestAdressList(reqBean, new RequestCallback<AddressListBean>() {
-
-            @Override
-            public void onSuccess(AddressListBean data) {
-                List<AddressListBean.IovBean.DataBean> dataBeans = data.getIov().getData();
-                if (null != getUi()) {
-                    getUi().getAddressListSuccess(dataBeans);
-                }
-            }
-
-            @Override
-            public void onFailure(String msg) {
-
-                if (null != getUi()) {
-                    getUi().getAddressListFail(msg);
-                }
-            }
-
-            @Override
-            public void getLogid(String id) {
-                Lg.getInstance().d(TAG, "requestAddressListData getLogid: "+id);
-            }
-        });
-
-    }
-
     public interface MeituanLoginUi extends Ui {
         void update(MeituanAuthorizeResponse data);
 
@@ -156,9 +123,6 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
 
         void authFailure(String msg);
 
-        void getAddressListSuccess(List<AddressListBean.IovBean.DataBean> data);
-
-        void getAddressListFail(String msg);
     }
 
 }
