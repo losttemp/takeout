@@ -206,4 +206,6 @@ public class Constant {
     public static Integer GOODS_LATITUDE = -1;
     public static Integer GOODS_LONGITUDE = -1;
 
+    public static boolean ANIMATION_END = false;
+
 }

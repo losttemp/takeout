@@ -157,7 +157,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
                 if (shopToDetailListener != null) {
                     shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag(),
-                            spusBeans.get(position).getSection(), true);
+                            spusBeans.get(position).getSection(), true, false);
                 } else {
                 }
             }
@@ -168,17 +168,20 @@ public class ShoppingCartAdapter extends BaseAdapter {
             public void onClick(View v) {
                 int num = spusBeans.get(position).getNumber();
                 int minOrderCount = getMinOrderCount(spusBeans.get(position));
+                boolean isMinOrderCount = false;
                 if (num > 0) {
                     if (minOrderCount == num) {
                         num -= minOrderCount;
+                        isMinOrderCount = true;
                     } else {
                         num--;
+                        isMinOrderCount =false;
                     }
                     spusBeans.get(position).setNumber(num);
                     viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
                     if (shopToDetailListener != null) {
                         shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag(),
-                                spusBeans.get(position).getSection(), false);
+                                spusBeans.get(position).getSection(), false, isMinOrderCount);
                     } else {
                     }
                     if (num == 0) {

@@ -239,6 +239,7 @@
                 android:background="@drawable/btn_grey"
                 android:enabled="false"
                 android:text="@string/confirmation_of_the_order"
+                android:contentDescription="@string/confirmation_of_the_order"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px36sp" />
         </RelativeLayout>
