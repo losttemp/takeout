@@ -1,9 +1,8 @@
 package com.baidu.iov.dueros.waimai.view;
-
 import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatTextView;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +11,14 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.baidu.iov.dueros.waimai.adapter.FilterSubTypeAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +32,11 @@ public class FilterPopWindow extends PopupWindow {
 
 	private GridView gvFilterType;
 
+	private RelativeLayout rlParent;
+
     private ArrayList<String> prefix = new ArrayList<>();
+
+	private Handler handler = new Handler();
 
 	private FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean mActivityFilterListBean;
 	private List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean> itemsBeans= new ArrayList<>();
@@ -53,7 +55,7 @@ public class FilterPopWindow extends PopupWindow {
 		setContentView(mContentView);
 		gvFilterType =  mContentView.findViewById(R.id.gv_subType);
 		TextView tvOk = mContentView.findViewById(R.id.tv_ok);
-
+		rlParent =  mContentView.findViewById(R.id.rl_parent);
 		setWidth(ActionBar.LayoutParams.MATCH_PARENT);
 		setHeight(ActionBar.LayoutParams.WRAP_CONTENT);
 		setFocusable(true);
@@ -177,13 +179,33 @@ public class FilterPopWindow extends PopupWindow {
     @Override
     public void showAsDropDown(View anchor) {
         super.showAsDropDown(anchor);
+		//
+
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				rlParent.setBackgroundResource(R.drawable.bg_filter_pop);
+				rlParent.setVisibility(View.VISIBLE);
+			}
+		}, 300);
         AccessibilityClient.getInstance().register(mContext,true,prefix, null);
     }
+
+	public final void parentDismiss(){
+		super.dismiss();
+	}
 
     @Override
     public void dismiss() {
         AccessibilityClient.getInstance().unregister(mContext);
-        super.dismiss();
+		rlParent.setBackground(null);
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				rlParent.setVisibility(View.GONE);
+				parentDismiss();
+			}
+		}, 50);
     }
 }
 
