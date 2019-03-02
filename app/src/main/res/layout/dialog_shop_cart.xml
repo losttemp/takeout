@@ -139,6 +139,7 @@
                     android:layout_marginRight="@dimen/px84dp"
                     android:background="@drawable/btn_blue"
                     android:text="@string/confirmation_of_the_order"
+                    android:contentDescription="@string/confirmation_of_the_order"
                     android:textColor="@color/white"
                     android:textSize="@dimen/px36sp" />
             </RelativeLayout>

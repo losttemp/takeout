@@ -105,7 +105,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
 
     public interface onCallBackListener {
         void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection, boolean increase);
-        void removeProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection, boolean increase);
+        void removeProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection, boolean increase,boolean spec);
     }
 
     public void showFoodListActivityDialog(View view, View contentView, final PopupWindow window) {
@@ -208,6 +208,12 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     viewHolder.specifications.setVisibility(View.VISIBLE);
                     viewHolder.add.setVisibility(View.GONE);
                     viewHolder.action.setVisibility(View.GONE);
+                    if (spusBean.getSpecificationsNumber() > 0) {
+                        viewHolder.specificationsNumber.setVisibility(View.VISIBLE);
+                        viewHolder.specificationsNumber.setText("" + spusBean.getSpecificationsNumber());
+                    } else {
+                        viewHolder.specificationsNumber.setVisibility(View.GONE);
+                    }
                 } else if (spusBean.getNumber() == 0) {
                     viewHolder.specifications.setVisibility(View.GONE);
                     viewHolder.add.setVisibility(View.VISIBLE);
@@ -325,7 +331,19 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         int index = getIndex(viewHolder);
                         StandardCmdClient.getInstance().playTTS(context,context.getString(R.string.already_cancel)+spusBeans.get(index).getName());
                         if (callBackListener != null) {
-                            callBackListener.removeProduct(spusBeans.get(index), spusBeans.get(index).getTag(), section, false);
+                            callBackListener.removeProduct(spusBeans.get(index), spusBeans.get(index).getTag(), section, false,false);
+                        }
+                        return true;
+                    }
+                });
+                viewHolder.specifications.setContentDescription(String.format(context.getString(R.string.cancel_position), viewHolder.storeIndex.getText().toString()));
+                viewHolder.specifications.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+                    @Override
+                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                        int index = getIndex(viewHolder);
+                        StandardCmdClient.getInstance().playTTS(context, context.getString(R.string.already_cancel) + spusBeans.get(index).getName());
+                        if (callBackListener != null) {
+                            callBackListener.removeProduct(spusBeans.get(index), spusBeans.get(index).getTag(), section, false, true);
                         }
                         return true;
                     }
@@ -348,7 +366,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 viewHolder.increase.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        increaseOnClick(spusBean, viewHolder, section, true, null);
+                        if (Constant.ANIMATION_END) {
+                            increaseOnClick(spusBean, viewHolder, section, true, null);
+                        }
                     }
                 });
                 viewHolder.reduce.setOnClickListener(new View.OnClickListener() {
@@ -721,7 +741,6 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         inProductList(finalSpusBean);
                         increaseOnClick(finalSpusBean, viewHolder, section, true, shoppingNum);
                         shoppingNum.setText(finalSpusBean.getNumber() + "");
-
                         setSpecificationNumber(finalSpusBean, viewHolder);
                     }
                 });
@@ -856,6 +875,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 }
                 return min_order_count;
             }
+
         }
     }
 }
