@@ -190,7 +190,13 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         }
 
         mContact.setText(name + " " + phone);
+        if (mContact.getText().length() > 17) {
+            mContact.setWidth((int) getResources().getDimension(R.dimen.px520dp));
+        }
         mAddress.setText(address);
+        if (mAddress.getText().length() > 17) {
+            mAddress.setWidth((int) getResources().getDimension(R.dimen.px520dp));
+        }
         mBusinessName.setText(shopName);
         mDistributionFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
         if (discount != 0) {

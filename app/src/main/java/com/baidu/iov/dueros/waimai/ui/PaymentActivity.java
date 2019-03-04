@@ -182,6 +182,9 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
             mOrderIdTv.setText(String.valueOf(mOrderId));
             mShopNameTv.setText(shopName);
+            if (mShopNameTv.getText().length() > 15) {
+                mShopNameTv.setWidth((int) getResources().getDimension(R.dimen.px500dp));
+            }
             createQRImage(payUrl, 200, 200, mPayUrlImg);
             Lg.getInstance().d("PaymentActivity", "payUrl = " + payUrl);
 
