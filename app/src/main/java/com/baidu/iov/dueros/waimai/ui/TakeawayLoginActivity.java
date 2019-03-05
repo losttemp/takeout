@@ -16,6 +16,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
+import android.webkit.ValueCallback;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -140,6 +141,18 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private WebViewClient webViewClient = new WebViewClient() {
         @Override
         public void onPageFinished(WebView view, String url) {
+            if(url.startsWith("https://h5.waimai.meituan.com/login?back_url")){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    String JS_SCRIPT="var script = document.createElement('script');" +
+                            "script.src = 'https://iov-www.cdn.bcebos.com/waimai/index.js';" +
+                            "document.head.appendChild(script);";
+                    view.evaluateJavascript("javascript:" + JS_SCRIPT, new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String value) {
+                        }
+                    });
+                }
+            }
             view.loadUrl("javascript:window.java_obj.showSource("
                     + "document.getElementsByTagName('html')[0].innerHTML);");
             view.loadUrl("javascript:window.java_obj.showDescription("
