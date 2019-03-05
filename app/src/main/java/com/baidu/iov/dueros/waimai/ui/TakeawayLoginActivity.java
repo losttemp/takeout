@@ -16,6 +16,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -52,6 +53,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     Bundle savedInstanceState;
     private View networkView;
     private boolean isNeedVoice;
+    private View login_bg;
 
     @Override
     MeituanAuthPresenter createPresenter() {
@@ -73,6 +75,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         this.savedInstanceState = savedInstanceState;
         init();
         setContentView(R.layout.activity_meituan_login);
+        login_bg = findViewById(R.id.login_bg);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mWVMeituan = (WebView) findViewById(R.id.meituan_login);
 
@@ -89,6 +92,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setSupportZoom(true);
         webSettings.setBuiltInZoomControls(true);
+        webSettings.setAppCacheEnabled(false);
+        webSettings.setAllowContentAccess(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
@@ -97,12 +102,12 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
-        mWVMeituan.setVisibility(View.GONE);
-
         networkView = findViewById(R.id.network_view);
         networkView.setBackground(getResources().getDrawable(R.drawable.app_bg));
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
+        findViewById(R.id.webview_back).setOnClickListener(this);
         KeyBoardListener.getInstance(this).init();
+        login_bg.setVisibility(View.GONE);
     }
 
     @Override
@@ -120,6 +125,11 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onPause() {
         super.onPause();
+        login_bg.setVisibility(View.GONE);
+        if (mWVMeituan!=null){
+            mWVMeituan.loadUrl("about:blank");
+            mWVMeituan.clearHistory();
+        }
     }
 
     private void init() {
@@ -198,8 +208,9 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             }
         } else {
             syncCookie(this, Config.getHost());
+            mWVMeituan.clearCache(true);
             mWVMeituan.clearHistory();
-            mWVMeituan.setVisibility(View.VISIBLE);
+            login_bg.setVisibility(View.VISIBLE);
             mWVMeituan.loadUrl(data.getIov().getAuthorizeUrl());
         }
     }
@@ -291,7 +302,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookie();
             CookieSyncManager.getInstance().sync();
-            mWVMeituan.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+//            mWVMeituan.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
             mWVMeituan.clearHistory();
             ((ViewGroup) mWVMeituan.getParent()).removeView(mWVMeituan);
             mWVMeituan.destroy();
@@ -309,8 +320,24 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                     ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
                 }
                 break;
+            case R.id.webview_back:
+                if (mWVMeituan.canGoBack()) {
+                    goBack();
+                } else {
+                    finish();
+                }
+                break;
             default:
                 break;
+        }
+    }
+
+    public void goBack() {
+        WebBackForwardList mWebBackForwardList = mWVMeituan.copyBackForwardList();
+        if (mWebBackForwardList.getCurrentIndex() == 1) {
+            finish();
+        } else {
+            mWVMeituan.goBack();
         }
     }
 

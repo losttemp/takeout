@@ -55,8 +55,8 @@
             android:lineSpacingMultiplier="1.2"
             android:paddingTop="@dimen/px50dp"
             android:text="@string/no_order"
-            android:textSize="@dimen/px36sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="@dimen/px36sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -92,6 +92,15 @@
         <include
             android:id="@+id/network_view"
             layout="@layout/warn_no_internet"
+            android:visibility="gone" />
+
+
+        <include
+            android:id="@+id/loading_view"
+            layout="@layout/dialog_loading_toast"
+            android:layout_width="@dimen/px500dp"
+            android:layout_height="@dimen/px140dp"
+            android:layout_centerInParent="true"
             android:visibility="gone" />
     </RelativeLayout>
 </LinearLayout>

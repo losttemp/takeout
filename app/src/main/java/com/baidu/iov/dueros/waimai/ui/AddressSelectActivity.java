@@ -234,7 +234,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         if (i > 0) {
             i = i - 1;
         }
-        if (null != mDataList && mDataList.size() >= i) {
+        if (null != mDataList && mDataList.size() > i) {
             String databeanStr = GsonUtil.toJson(mDataList.get(i));
             CacheUtils.saveAddressBean(databeanStr);
             Intent intent = new Intent(Constant.PULL_LOCATION);
