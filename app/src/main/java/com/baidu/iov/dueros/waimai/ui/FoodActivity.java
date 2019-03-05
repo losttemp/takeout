@@ -97,8 +97,8 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
 
     private void initData (){
         filterConditionReq =new FilterConditionReq();
-        filterConditionReq.setLatitude(latitude);
-        filterConditionReq.setLongitude(longitude);
+        filterConditionReq.setLatitude(Constant.GOODS_LATITUDE);
+        filterConditionReq.setLongitude( Constant.GOODS_LONGITUDE);
         netDataReque();
 
     }

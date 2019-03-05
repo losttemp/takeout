@@ -330,8 +330,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	private void intentToFood(boolean isNeedVoice){
 		Intent foodIntent = new Intent(this, FoodActivity.class);
 		foodIntent.putExtra("title", mTvFood.getText().toString());
-		foodIntent.putExtra("latitude", Constant.GOODS_LATITUDE);
-		foodIntent.putExtra("longitude", Constant.GOODS_LONGITUDE);
 		foodIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
 		startActivity(foodIntent);
 	}
