@@ -125,11 +125,11 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onPause() {
         super.onPause();
-        login_bg.setVisibility(View.GONE);
-        if (mWVMeituan!=null){
+        if (mWVMeituan != null && login_bg.getVisibility() == View.VISIBLE) {
             mWVMeituan.loadUrl("about:blank");
             mWVMeituan.clearHistory();
         }
+        login_bg.setVisibility(View.GONE);
     }
 
     private void init() {
