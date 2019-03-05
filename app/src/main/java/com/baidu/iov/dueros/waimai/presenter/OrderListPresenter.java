@@ -7,8 +7,10 @@ import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.OrderListModel;
 import com.baidu.iov.dueros.waimai.model.IOrderListModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
@@ -135,6 +137,29 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
         });
     }
 
+    public void requestOrderDetails(OrderDetailsReq orderDetailsReq) {
+        mModel.requestOrderDetails(orderDetailsReq, new RequestCallback<OrderDetailsResponse>() {
+            @Override
+            public void onSuccess(OrderDetailsResponse data) {
+                if (getUi() != null) {
+                    getUi().orderDetailsSuccess(data);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if (getUi() != null) {
+                    getUi().orderDetailsFailure(msg);
+                }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Lg.getInstance().d(TAG, "requestOrderDetails getLogid: "+id);
+            }
+        });
+    }
+
     public interface OrderListUi extends Ui {
         void updateOrderCancel(OrderCancelResponse data);
 
@@ -149,6 +174,10 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
         void selectListItem(int i);
 
         void nextPage(boolean isNextPage);
+
+        void orderDetailsSuccess(OrderDetailsResponse data);
+
+        void orderDetailsFailure(String msg);
     }
 
 }

@@ -24,6 +24,15 @@
         <item>再来一份第%d个</item>
     </string-array>
 
+    <string-array name="one_more_order_other">
+        <item>第%d个再来一单</item>
+        <item>第%d个再来一份</item>
+        <item>再来一单第%d个</item>
+        <item>再来一份第%d个</item>
+        <item>再来一单</item>
+        <item>再来一份</item>
+    </string-array>
+
     <string-array name="delete_histroy">
         <item>删除第%d个</item>
         <item>删掉第%d个</item>

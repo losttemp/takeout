@@ -214,7 +214,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
                 });
             }
             if (tvOneMore.getVisibility() == View.VISIBLE) {
-                VoiceTouchUtils.setItemVoicesTouchSupport(tvOneMore, position, R.array.one_more_order);
+                VoiceTouchUtils.setItemVoicesTouchSupport(tvOneMore, position, position == 0 ? R.array.one_more_order_other : R.array.one_more_order);
                 VoiceTouchUtils.setVoiceTouchTTSSupport(tvOneMore, String.format(mContext.getString(R.string.sure_order), order.getOrder_name()));
             }
         }

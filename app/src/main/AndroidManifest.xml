@@ -26,6 +26,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.TakeawayLoginActivity"
+            android:hardwareAccelerated="false"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
             <intent-filter>

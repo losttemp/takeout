@@ -23,8 +23,10 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.OrderListAdaper;
 import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
@@ -35,11 +37,13 @@ import java.util.List;
 
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
+import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -71,7 +75,9 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private View networkView;
 
     private boolean initTTS = false;
-    private int oldListSize;
+    private boolean isNeedVoice = false;
+    private int oldListSize, selectPosition;
+    private View loadingView;
 
     @Override
     OrderListPresenter createPresenter() {
@@ -125,6 +131,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         networkView = findViewById(R.id.network_view);
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
         mTvNoOrder.setVisibility(View.GONE);
+        loadingView = findViewById(R.id.loading_view);
     }
 
     private void initData() {
@@ -153,6 +160,8 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mOrderListAdaper.setOnItemClickListener(new OrderListAdaper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean, boolean isNeedVoice) {
+                OrderListActivity.this.selectPosition = position;
+                OrderListActivity.this.isNeedVoice = isNeedVoice;
                 switch (view.getId()) {
                     case R.id.tv_store_name:
                         Intent storeintent = new Intent(OrderListActivity.this, FoodListActivity.class);
@@ -169,18 +178,10 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         startActivity(onemoreintent);
                         break;
                     case R.id.pay_order:
-                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY, EventType.TOUCH_TYPE);
-                        Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
-                        double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
-                        payintent.putExtra("total_cost", total_price);
-                        payintent.putExtra("order_id", Long.parseLong(mOrderList.get(position).getOut_trade_no()));
-                        payintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
-                        payintent.putExtra("shop_name", mOrderList.get(position).getOrder_name());
-                        payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
-                        payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
-                        payintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-                        payintent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(payintent);
+                        loadingView.setVisibility(View.VISIBLE);
+                        OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
+                        mOrderDetailsReq.setId(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
+                        getPresenter().requestOrderDetails(mOrderDetailsReq);
                         break;
                     case R.id.cancel_order:
                         pos = position;
@@ -396,17 +397,23 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         }
         if (mOrderList == null || mOrderList.size() == 0) {
             StandardCmdClient.getInstance().playTTS(OrderListActivity.this, getString(R.string.have_no_order));
+            return;
         }
-        LinearLayoutManager manager = (LinearLayoutManager) mRvOrder.getLayoutManager();
-        assert manager != null;
-        int firstItemPosition = manager.findFirstVisibleItemPosition();
-        int lastItemPosition = manager.findLastVisibleItemPosition();
-
-        if (firstItemPosition <= i && lastItemPosition >= i) {
-            View view = mRvOrder.getChildAt(i - firstItemPosition);
-            if (null != mRvOrder.getChildViewHolder(view)) {
-                OrderListAdaper.ViewHolder viewHolder = (OrderListAdaper.ViewHolder) mRvOrder.getChildViewHolder(view);
-                viewHolder.autoClick();
+        if (mOrderList.size() > i) {
+            try {
+                OrderListResponse.IovBean.DataBean order = mOrderList.get(i);
+                String extra = order.getExtra();
+                OrderListExtraBean extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
+                String payload = Encryption.desEncrypt(extraBean.getPayload());
+                OrderListExtraPayloadBean payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
+                Intent onemoreintent = new Intent(OrderListActivity.this, FoodListActivity.class);
+                onemoreintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
+                onemoreintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(i).getExtra());
+                onemoreintent.putExtra(Constant.ONE_MORE_ORDER, true);
+                onemoreintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, true);
+                startActivity(onemoreintent);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -436,6 +443,46 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
             }
         }
+    }
+
+    @Override
+    public void orderDetailsSuccess(OrderDetailsResponse data) {
+        loadingView.setVisibility(View.GONE);
+        OrderDetailsResponse.MeituanBean.DataBean mOrderDetails = data.getMeituan().getData();
+        int status = mOrderDetails.getOut_trade_status();
+        if (status == 0 || status == 1) {
+            try {
+                OrderListResponse.IovBean.DataBean order = mOrderList.get(selectPosition);
+                String extra = order.getExtra();
+                OrderListExtraBean extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
+                String payload = Encryption.desEncrypt(extraBean.getPayload());
+                OrderListExtraPayloadBean payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY, EventType.TOUCH_TYPE);
+                Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
+                double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
+                payintent.putExtra("total_cost", total_price);
+                payintent.putExtra("order_id", Long.parseLong(mOrderList.get(selectPosition).getOut_trade_no()));
+                payintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
+                payintent.putExtra("shop_name", mOrderList.get(selectPosition).getOrder_name());
+                payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
+                payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
+                payintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+                payintent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(payintent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            ToastUtils.show(mContext, "订单已过期", Toast.LENGTH_SHORT);
+            mRefreshLayout.autoRefresh();
+        }
+    }
+
+    @Override
+    public void orderDetailsFailure(String msg) {
+        loadingView.setVisibility(View.GONE);
+        ToastUtils.show(mContext, "订单已过期", Toast.LENGTH_SHORT);
+        mRefreshLayout.autoRefresh();
     }
 
     private int getPageNum() {
