@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
@@ -167,7 +168,11 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
                 startOtherActivity();
                 break;
             case R.id.finish_img:
-                finish();
+                if (getIntent().getBooleanExtra("flag",false)){
+                    finish();
+                }else {
+                    AtyContainer.getInstance().finishAllActivity();
+                }
 
             default:
                 break;
