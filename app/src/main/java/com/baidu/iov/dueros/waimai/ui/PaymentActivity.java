@@ -18,6 +18,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.presenter.SubmitOrderPresenter;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
+import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
@@ -196,6 +197,15 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     @Override
     public void onClick(View v) {
         onBackPressed();
+        switch (v.getId()) {
+            case R.id.back:
+                if (getIntent().getBooleanExtra("flag",false)){
+                    finish();
+                }else {
+                    AtyContainer.getInstance().finishAllActivity();
+                }
+                break;
+        }
     }
 
     @Override

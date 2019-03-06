@@ -416,6 +416,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 intentPayment.putExtra("shop_name", mOrderDetails.getPoi_name());
                 intentPayment.putExtra("pay_url", getIntent().getStringExtra("pay_url"));
                 intentPayment.putExtra("pic_url", getIntent().getStringExtra("pic_url"));
+                intentPayment.putExtra("flag",true);
                 intentPayment.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentPayment);
                 finish();
