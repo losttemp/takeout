@@ -774,10 +774,17 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 }
                 if (specificationsNumber == 0) {
                     viewHolder.specificationsNumber.setVisibility(View.GONE);
-                    spusBean.setSpecificationsNumber(specificationsNumber);
                 } else {
                     viewHolder.specificationsNumber.setText(specificationsNumber + "");
-                    spusBean.setSpecificationsNumber(specificationsNumber);
+                }
+                spusBean.setSpecificationsNumber(specificationsNumber);
+                spusBean.setSpecificationsNumber(specificationsNumber);
+                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList = foodSpuTagsBeans.get(section).getSpus();
+                for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : spusBeanList) {
+                    if (spusBean.getId() == shopProduct.getId()) {
+                        shopProduct.setSpecificationsNumber(specificationsNumber);
+                        break;
+                    }
                 }
             }
 
