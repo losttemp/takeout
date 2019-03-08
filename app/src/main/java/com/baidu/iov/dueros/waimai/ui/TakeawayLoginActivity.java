@@ -54,7 +54,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     Bundle savedInstanceState;
     private View networkView;
     private boolean isNeedVoice;
-    private View login_bg;
+    private View login_bg, loadingView;
 
     @Override
     MeituanAuthPresenter createPresenter() {
@@ -77,6 +77,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         init();
         setContentView(R.layout.activity_meituan_login);
         login_bg = findViewById(R.id.login_bg);
+        loadingView = findViewById(R.id.loading_view);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mWVMeituan = (WebView) findViewById(R.id.meituan_login);
 
@@ -115,9 +116,11 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     protected void onResume() {
         super.onResume();
         if (NetUtil.getNetWorkState(this)) {
+            loadingView.setVisibility(View.VISIBLE);
             initPostHttp();
             networkView.setVisibility(View.GONE);
         } else {
+            loadingView.setVisibility(View.GONE);
             networkView.setVisibility(View.VISIBLE);
         }
 
@@ -141,9 +144,9 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private WebViewClient webViewClient = new WebViewClient() {
         @Override
         public void onPageFinished(WebView view, String url) {
-            if(url.startsWith("https://h5.waimai.meituan.com/login?back_url")){
+            if (url.startsWith("https://h5.waimai.meituan.com/login?back_url")) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    String JS_SCRIPT="var script = document.createElement('script');" +
+                    String JS_SCRIPT = "var script = document.createElement('script');" +
                             "script.src = 'https://iov-www.cdn.bcebos.com/waimai/index.js';" +
                             "document.head.appendChild(script);";
                     view.evaluateJavascript("javascript:" + JS_SCRIPT, new ValueCallback<String>() {
@@ -215,11 +218,13 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         Entry.getInstance().onEvent(Constant.ENTRY_LOGIN_MEITUAN, EventType.TOUCH_TYPE);
         if (data.getIov().getAuthorizedState()) {
             if (CacheUtils.getAuth()) {
+                loadingView.setVisibility(View.GONE);
                 startIntent();
             } else {
                 getPresenter().requestAuthInfo();
             }
         } else {
+            loadingView.setVisibility(View.GONE);
             syncCookie(this, Config.getHost());
             mWVMeituan.clearCache(true);
             mWVMeituan.clearHistory();
@@ -376,6 +381,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                     initPostHttp();
                     break;
                 case HANDLER_POST_FAIL:
+                    loadingView.setVisibility(View.GONE);
                     if (Constant.ACCOUNT_LOGIN_FAIL.equals(msg.obj)) {
                         Lg.getInstance().d(TAG, "account login fail");
                         finish();
@@ -386,6 +392,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                     }
                     break;
                 case HANDLER_START:
+                    loadingView.setVisibility(View.GONE);
                     if (Constant.ACCOUNT_AUTH_SUCCESS.equals(msg.obj)) {
                         Lg.getInstance().d(TAG, "account auth success");
                         startIntent();
