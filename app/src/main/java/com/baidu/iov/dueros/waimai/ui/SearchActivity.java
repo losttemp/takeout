@@ -127,7 +127,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	public void setmEtTipNoResult(){
 		mEtSearch.setHint(getResources().getString(R.string.this_keyword_is_complicated));
 		mEtSearch.setText("");
-		mEtSearch.setSelection(mEtSearch.getText().toString().length());
 		mLlHistory.setVisibility(View.GONE);
 		mLvSuggest.setVisibility(View.GONE);
 		mFragmentStoreList.setVisibility(View.VISIBLE);
@@ -230,7 +229,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 						 SharedPreferencesUtils.saveSearchHistory(suggest.getSuggest_query(), mHistorys);
 						 mSearchHistroyAdapter.notifyDataSetChanged();
 						 mEtSearch.setText(name);
-						 mEtSearch.setSelection(name.length());
 						 changeStatus(Constant.SEARCH_STATUS_HISTORY);
 						 Intent intent = new Intent(SearchActivity.this, FoodListActivity.class);
 						 intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id());
@@ -385,7 +383,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	public void searchKeyword(String keyword) {
 		mEtSearch.setText(keyword);
-		mEtSearch.setSelection(keyword.length());
 		mStoreReq.setSortType(null);
 		if (!TextUtils.isEmpty(keyword)) {
 			mStoreReq.setKeyword(keyword);
