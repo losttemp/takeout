@@ -315,7 +315,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookie();
             CookieSyncManager.getInstance().sync();
-//            mWVMeituan.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            mWVMeituan.loadUrl("about:blank");
             mWVMeituan.clearHistory();
             ((ViewGroup) mWVMeituan.getParent()).removeView(mWVMeituan);
             mWVMeituan.destroy();
