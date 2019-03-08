@@ -79,12 +79,10 @@
 
         <TextView
             android:id="@+id/amount"
-            android:layout_width="@dimen/px500dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="@dimen/px46dp"
             android:layout_marginEnd="@dimen/px86dp"
-            android:layout_marginStart="@dimen/px40dp"
             android:layout_marginTop="@dimen/px44dp"
             android:textColor="@color/payment_amount_color"
             android:textSize="@dimen/px36sp"

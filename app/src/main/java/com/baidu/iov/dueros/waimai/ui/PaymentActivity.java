@@ -196,7 +196,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
     @Override
     public void onClick(View v) {
-        onBackPressed();
         switch (v.getId()) {
             case R.id.back:
                 if (getIntent().getBooleanExtra("flag",false)){

@@ -748,6 +748,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             intent.putExtra(Constant.SHOP_NAME, poiName);
             intent.putExtra(Constant.PAY_URL, payUrl);
             intent.putExtra(Constant.PIC_URL, mPoiInfo.getPic_url());
+            intent.putExtra("flag", true);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
