@@ -39,4 +39,9 @@
         android:id="@+id/network_view"
         layout="@layout/warn_no_internet"
         android:visibility="gone" />
+
+    <include
+        android:id="@+id/loading_view"
+        layout="@layout/dialog_loading_toast"
+        android:visibility="gone" />
 </FrameLayout>

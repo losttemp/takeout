@@ -344,6 +344,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     @Override
     public void onGetSuggestionResult(SuggestionResult res) {
         if (res == null || res.getAllSuggestions() == null) {
+            mErrorLL.setVisibility(View.VISIBLE);
             return;
         }
 
@@ -358,6 +359,11 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         sugAdapter = new AddressHintListAdapter(this, suggest);
         mSearchEdit.setAdapter(sugAdapter);
         sugAdapter.notifyDataSetChanged();
+        if (suggest.size() > 0) {
+            mErrorLL.setVisibility(View.GONE);
+        } else {
+            mErrorLL.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
