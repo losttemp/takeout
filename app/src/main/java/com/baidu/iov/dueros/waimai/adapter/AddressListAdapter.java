@@ -134,6 +134,9 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
 
             if (mData.get(realPosition).getCanShipping() == 1) {
+                ((ViewHolder) holder).tv_address.setTextColor(mContext.getResources().getColor(R.color.white));
+                ((ViewHolder) holder).tv_address_type.setTextColor(mContext.getResources().getColor(R.color.white));
+                ((ViewHolder) holder).tv_name.setTextColor(mContext.getResources().getColor(R.color.white));
                 holder.itemView.setBackground(null);
             } else {
                 ((ViewHolder) holder).tv_address.setTextColor(0x99ffffff);
