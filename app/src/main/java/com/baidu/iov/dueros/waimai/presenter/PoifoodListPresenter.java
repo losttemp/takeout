@@ -199,7 +199,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
             }
             foodListBean.setFood_spu_attr_ids(food_spu_attr_ids);
             foodListBean.setCount(spusBean.getNumber());
-            foodListBean.setWm_food_sku_id(spusBean.getChoiceSkus().get(0).getId());
+            foodListBean.setWm_food_sku_id(spusBean.getSkus().get(0).getId());
             foodListBeans.add(foodListBean);
         }
         wmOrderingListBean.setFood_list(foodListBeans);
