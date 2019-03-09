@@ -346,5 +346,6 @@
     <string name="tts_search_for_you">好的，现在开始为你检索</string>
     <string name="tts_topay_text">请打开微信或支付宝扫描二维码进行付款</string>
     <string name="tts_show_order_detail">好的，为你展示订单详情</string>
+    <string name="unopened_location_service">未开启定位服务</string>
 
 </resources>
