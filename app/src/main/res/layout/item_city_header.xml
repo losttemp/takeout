@@ -55,7 +55,7 @@
                     android:id="@+id/current_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/position_fail"
+                    android:text="@string/city_loading"
                     android:layout_centerInParent="true"
                     android:layout_marginStart="@dimen/px14dp"
                     android:layout_toEndOf="@+id/try_city"
@@ -103,6 +103,6 @@
             android:horizontalSpacing="@dimen/px56dp"
             android:listSelector="@android:color/transparent"
             android:numColumns="4"
-            android:verticalSpacing="@dimen/px68dp" />
+            android:verticalSpacing="@dimen/px56dp" />
     </LinearLayout>
 </LinearLayout>

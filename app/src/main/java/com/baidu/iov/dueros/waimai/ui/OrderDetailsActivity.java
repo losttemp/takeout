@@ -423,30 +423,56 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.cancel_order:
                 mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId());
-                ConfirmDialog dialog = new ConfirmDialog.Builder(this)
-                        .setTitle(R.string.order_cancel_title)
-                        .setMessage(R.string.order_cancel_message)
-                        .setNegativeButton(R.string.delete_address_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                getPresenter().requestOrderCancel(mOrderCancelReq);
-                                dialog.dismiss();
-                            }
-                        })
-                        .setPositiveButton(R.string.order_cancel_positive, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setCloseButton(new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .create();
-                dialog.show();
+                if (mRepeatOrder.getVisibility() == View.VISIBLE){
+                    ConfirmDialog dialog = new ConfirmDialog.Builder(this)
+                            .setTitle(R.string.order_cancel_title)
+                            .setMessage(R.string.order_cancel_message)
+                            .setNegativeButton(R.string.order_cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getPresenter().requestOrderCancel(mOrderCancelReq);
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setPositiveButton(R.string.order_cancel_positive, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setCloseButton(new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .create();
+                    dialog.show();
+                }else {
+                    ConfirmDialog dialog = new ConfirmDialog.Builder(this)
+                            .setTitle(R.string.order_cancel_title)
+                            .setNegativeButton(R.string.order_cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getPresenter().requestOrderCancel(mOrderCancelReq);
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setPositiveButton(R.string.order_cancel_positive, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setCloseButton(new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .create();
+                    dialog.show();
+                }
                 break;
             case R.id.phone:
                 Entry.getInstance().onEvent(Constant.CALL_FOR_CANCLE_ORDER, EventType.TOUCH_TYPE);

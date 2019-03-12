@@ -45,7 +45,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     private ImageView mPayUrlImg;
     private ImageView mBackBtn;
     private int mCount = 0;
-    private Long mStoreId;
+    private String mStoreId;
     private Long mOrderId;
     private String mPicUrl;
     private int mExpectedTime;
@@ -85,7 +85,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         Intent intent = getIntent();
         if (intent != null) {
             double amount = intent.getDoubleExtra(Constant.TOTAL_COST, 0);
-            mStoreId = intent.getLongExtra(Constant.STORE_ID, 0);
+            mStoreId = intent.getStringExtra(Constant.STORE_ID);
             mOrderId = intent.getLongExtra(Constant.ORDER_ID, 0);
             mPicUrl = intent.getStringExtra(Constant.PIC_URL);
             mExpectedTime = intent.getIntExtra(Constant.EXPECTED_TIME, 0);
@@ -196,7 +196,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
     @Override
     public void onClick(View v) {
-        onBackPressed();
         switch (v.getId()) {
             case R.id.back:
                 if (getIntent().getBooleanExtra("flag",false)){

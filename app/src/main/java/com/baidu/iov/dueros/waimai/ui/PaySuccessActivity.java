@@ -86,6 +86,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
             CommonUtils.setStatusBarColor(this, color);
         }
     }
+
     public void initView() {
 
         Intent intent = getIntent();
@@ -155,7 +156,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.order_details_tv:
                 isGo2OrderDetail = true;
-                Entry.getInstance().onEvent(Constant.PAYSUCCESS_TO_ORDERDETAIL,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.PAYSUCCESS_TO_ORDERDETAIL, EventType.TOUCH_TYPE);
                 Intent intent = new Intent(this, OrderDetailsActivity.class);
                 intent.putExtra(Constant.ORDER_ID, mOrderId);
                 intent.putExtra(Constant.EXPECTED_TIME, mExpectedTime);
@@ -168,12 +169,12 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
                 startOtherActivity();
                 break;
             case R.id.finish_img:
-                if (getIntent().getBooleanExtra("flag",false)){
+                if (getIntent().getBooleanExtra("flag", false)) {
                     finish();
-                }else {
+                } else {
                     AtyContainer.getInstance().finishAllActivity();
                 }
-
+                break;
             default:
                 break;
         }
