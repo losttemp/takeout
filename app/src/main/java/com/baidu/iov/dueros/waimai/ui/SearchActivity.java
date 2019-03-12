@@ -135,6 +135,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	}
 
+
 	public void setmEtTipNoResult(){
 		mEtSearch.setHint(getResources().getString(R.string.this_keyword_is_complicated));
 		mEtSearch.setText("");
