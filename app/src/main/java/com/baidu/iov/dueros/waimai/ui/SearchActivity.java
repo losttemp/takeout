@@ -17,6 +17,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -121,6 +122,16 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+	}
+
+	private void setEtSelection(EditText et){
+
+		if (et!=null){
+			String text=et.getText().toString();
+			int index =et.length()>20?20:et.length();
+			et.setSelection(index);
+		}
 
 	}
 
@@ -229,6 +240,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 						 SharedPreferencesUtils.saveSearchHistory(suggest.getSuggest_query(), mHistorys);
 						 mSearchHistroyAdapter.notifyDataSetChanged();
 						 mEtSearch.setText(name);
+						 setEtSelection(mEtSearch);
 						 changeStatus(Constant.SEARCH_STATUS_HISTORY);
 						 Intent intent = new Intent(SearchActivity.this, FoodListActivity.class);
 						 intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id());
@@ -383,6 +395,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	public void searchKeyword(String keyword) {
 		mEtSearch.setText(keyword);
+		setEtSelection(mEtSearch);
 		mStoreReq.setSortType(null);
 		if (!TextUtils.isEmpty(keyword)) {
 			mStoreReq.setKeyword(keyword);
