@@ -132,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/px60dp"
             android:layout_above="@+id/toolBar"
-            android:background="@drawable/youhuixinxi_bg"
+            android:background="@color/preferential_information_product_list"
             android:visibility="gone">
 
             <TextView
