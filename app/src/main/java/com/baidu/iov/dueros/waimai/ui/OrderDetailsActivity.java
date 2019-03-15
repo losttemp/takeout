@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -475,6 +476,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 }
                 break;
             case R.id.phone:
+                if (!checkBluetooth()) return;
                 Entry.getInstance().onEvent(Constant.CALL_FOR_CANCLE_ORDER, EventType.TOUCH_TYPE);
                 String mMessage = getResources().getString(R.string.contact_meituan_message);
                 SpannableString spanColor = new SpannableString(mMessage);
@@ -517,6 +519,22 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             default:
                 break;
         }
+    }
+
+    private boolean checkBluetooth() {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter == null) {
+            ToastUtils.show(this, getResources().getString(R.string.bluetooth_adapter_not_found), Toast.LENGTH_SHORT);
+            return false;
+        }
+        if (!bluetoothAdapter.isEnabled()) {
+            Intent enableIntent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+//            BluetoothAdapter.ACTION_REQUEST_ENABLE
+            enableIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(enableIntent);
+            return false;
+        }
+        return true;
     }
 
     @Override
