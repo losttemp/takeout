@@ -22,11 +22,9 @@ import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
-
 import java.util.ArrayList;
-
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
-        HomePresenter.HomeUi, View.OnClickListener{
+        HomePresenter.HomeUi, View.OnClickListener {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private RelativeLayout mRlFood;
@@ -50,10 +48,16 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
     private boolean init = false;
 
-	public static boolean  fromLogin=false;
+    public static boolean fromLogin = false;
 
-	private ArrayList<String> prefix = new ArrayList<>();
-	
+    private ArrayList<String> prefix = new ArrayList<>();
+
+    private String[] tts = {"全力以赴的你，别忘了让自己吃好一点哦",
+            "工作辛苦啦，来份美食，犒劳一下自己吧",
+            "不吃饱哪有力气减肥啊，来份美食吧",
+            "所有人都关心你飞得高不高，只有我关心你吃得好不好,来份美食吧",
+            "唯美食与爱不可辜负，客官，来份美食呗"};
+
 
     @Override
     HomePresenter createPresenter() {
@@ -70,12 +74,13 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Lg.getInstance().e(TAG, "onCreate");
-		fromLogin=getIntent().getBooleanExtra(Constant.IS_FROME_TAKEAWAYLOGIN,false);
+        fromLogin = getIntent().getBooleanExtra(Constant.IS_FROME_TAKEAWAYLOGIN, false);
         if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
-            StandardCmdClient.getInstance().playTTS(HomeActivity.this, getString(R.string.please_choice_commodity));
+            int index = (int) (Math.random() * 5);
+            StandardCmdClient.getInstance().playTTS(HomeActivity.this, tts[index]);
         }
         iniView();
-		setAddress();
+        setAddress();
         if (savedInstanceState != null) {
             mStoreListFragment = (StoreListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_KEY);
         } else {
@@ -84,7 +89,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
         if (getIntent().getIntExtra(Constant.START_APP, -1) == Constant.START_APP_CODE) {
             requestPermission();
-         }
+        }
     }
 
     @Override
@@ -349,11 +354,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 		cakeIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
 		startActivity(cakeIntent);
 	}
-	
-	
 
-
-    }
+}
 
 
 
