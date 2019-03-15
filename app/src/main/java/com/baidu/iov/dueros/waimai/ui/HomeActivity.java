@@ -1,5 +1,4 @@
 package com.baidu.iov.dueros.waimai.ui;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
@@ -24,9 +22,7 @@ import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
-
 import java.util.ArrayList;
-
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
         HomePresenter.HomeUi, View.OnClickListener {
 
@@ -116,251 +112,248 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         super.onResume();
         Lg.getInstance().e(TAG, "onResume");
         GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getList());
-        AccessibilityClient.getInstance().register(this, true, prefix, null);
-    }
+		AccessibilityClient.getInstance().register(this,true,prefix, null);
+	}
+	
+	public void setAddress(){
+		if (!CacheUtils.getAddress().isEmpty()) {
+			address = CacheUtils.getAddress();
+		}
+		mTvTitle.setText(address);
+	}
+	
 
-    public void setAddress() {
-        if (!CacheUtils.getAddress().isEmpty()) {
-            address = CacheUtils.getAddress();
-        }
-        mTvTitle.setText(address);
-    }
+	@Override
+	protected void onPause() {
+		super.onPause();
+		AccessibilityClient.getInstance().unregister(this);
+		
+	}
 
+	private void iniView() {
+		mRlFood = findViewById(R.id.rl_food);
+		mRlFlower = findViewById(R.id.rl_flower);
+		mRlCake =  findViewById(R.id.rl_cake);
+		mTvFood = findViewById(R.id.tv_food);
+		mTvFlower = findViewById(R.id.tv_flower);
+		mTvCake =  findViewById(R.id.tv_cake);
+		mIvBack =  findViewById(R.id.iv_back);
+		mIvRight =  findViewById(R.id.iv_right);
+		mTvTitle =  findViewById(R.id.tv_title);
+		mRlSearch = findViewById(R.id.rl_search);
+		mIvTitle = findViewById(R.id.iv_title);
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        AccessibilityClient.getInstance().unregister(this);
+		mIvBack.setOnClickListener(this);
+		mIvRight.setOnClickListener(this);
+		mRlFlower.setOnClickListener(this);
+		mRlFood.setOnClickListener(this);
+		mRlCake.setOnClickListener(this);
+		mTvTitle.setOnClickListener(this);
+		mRlSearch.setOnClickListener(this);
+		mIvTitle.setOnClickListener(this);
+		prefix.add(getResources().getString(R.string.prefix_choice));
+		prefix.add(getResources().getString(R.string.prefix_check));
+		prefix.add(getResources().getString(R.string.prefix_open));
+		mTvTitle.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						intentToAddress(true);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
+		mIvRight.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						intentToOrderList(true);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
+		mRlFood.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+		@Override
+		public boolean performAccessibilityAction(View host, int action, Bundle args) {
+			switch (action) {
+				case AccessibilityNodeInfo.ACTION_CLICK:
+					intentToFood(true);
+					break;
+				default:
+					break;
+			}
+			return true;
+		}});
 
-    }
+		mRlFlower.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						intentToFlower(true);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
 
-    private void iniView() {
-        mRlFood = findViewById(R.id.rl_food);
-        mRlFlower = findViewById(R.id.rl_flower);
-        mRlCake = findViewById(R.id.rl_cake);
-        mTvFood = findViewById(R.id.tv_food);
-        mTvFlower = findViewById(R.id.tv_flower);
-        mTvCake = findViewById(R.id.tv_cake);
-        mIvBack = findViewById(R.id.iv_back);
-        mIvRight = findViewById(R.id.iv_right);
-        mTvTitle = findViewById(R.id.tv_title);
-        mRlSearch = findViewById(R.id.rl_search);
-        mIvTitle = findViewById(R.id.iv_title);
+		mRlCake.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						intentToCake(true);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
+		
+	}
 
-        mIvBack.setOnClickListener(this);
-        mIvRight.setOnClickListener(this);
-        mRlFlower.setOnClickListener(this);
-        mRlFood.setOnClickListener(this);
-        mRlCake.setOnClickListener(this);
-        mTvTitle.setOnClickListener(this);
-        mRlSearch.setOnClickListener(this);
-        mIvTitle.setOnClickListener(this);
-        prefix.add(getResources().getString(R.string.prefix_choice));
-        prefix.add(getResources().getString(R.string.prefix_check));
-        prefix.add(getResources().getString(R.string.prefix_open));
-        mTvTitle.setAccessibilityDelegate(new View.AccessibilityDelegate() {
-            @Override
-            public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                switch (action) {
-                    case AccessibilityNodeInfo.ACTION_CLICK:
-                        intentToAddress(true);
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
-        mIvRight.setAccessibilityDelegate(new View.AccessibilityDelegate() {
-            @Override
-            public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                switch (action) {
-                    case AccessibilityNodeInfo.ACTION_CLICK:
-                        intentToOrderList(true);
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
-        mRlFood.setAccessibilityDelegate(new View.AccessibilityDelegate() {
-            @Override
-            public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                switch (action) {
-                    case AccessibilityNodeInfo.ACTION_CLICK:
-                        intentToFood(true);
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
+	private void initFragment() {
+		//fragment
+			mStoreListFragment = new StoreListFragment();
+			Bundle bundle = new Bundle();
+			bundle.putInt(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_HOME);
+			mStoreListFragment.setArguments(bundle);
+			FragmentManager manager = getSupportFragmentManager();
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.add(R.id.fragment_store_list, mStoreListFragment);
+			transaction.commit();
+	}
 
-        mRlFlower.setAccessibilityDelegate(new View.AccessibilityDelegate() {
-            @Override
-            public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                switch (action) {
-                    case AccessibilityNodeInfo.ACTION_CLICK:
-                        intentToFlower(true);
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
+	@Override
+	public void getGPSAddressSuccess() {
+		Lg.getInstance().e(TAG, "getGPSAddressSuccess:");
+		if (mBDLocation!=null&&!init){
+			address=mBDLocation.getAddress().district+mBDLocation.getAddress().street+mBDLocation.getAddress().streetNumber;
+			mTvTitle.setText(address);
+			Constant.GOODS_LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
+			Constant.GOODS_LONGITUDE  = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
+			if (mStoreListFragment==null){
+				initFragment();
+			}
+			mStoreListFragment.getFilterList();
+			mStoreListFragment.homeLoadFirstPage();
+			init=true;
+		}
+	}
 
-        mRlCake.setAccessibilityDelegate(new View.AccessibilityDelegate() {
-            @Override
-            public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                switch (action) {
-                    case AccessibilityNodeInfo.ACTION_CLICK:
-                        intentToCake(true);
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
+	@Override
+	public void getGPSAddressFail() {
+		super.getGPSAddressFail();
+		Lg.getInstance().e(TAG, "getGPSAddressFail:");
+		setAddress();
+		StoreListFragment.getLocation(this);
+		if (mStoreListFragment==null){
+			initFragment();
+		}
+		mStoreListFragment.getFilterList();
+		mStoreListFragment.homeLoadFirstPage();
+	}
 
-    }
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.iv_back:
+				Entry.getInstance().onEvent(Constant.EVENT_EXIT,EventType.TOUCH_TYPE);
+				MyApplicationAddressBean.USER_NAMES.clear();
+				MyApplicationAddressBean.USER_PHONES.clear();
+				AtyContainer.getInstance().finishAllActivity();
+				finish();
+				break;
 
-    private void initFragment() {
-        //fragment
-        mStoreListFragment = new StoreListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_HOME);
-        mStoreListFragment.setArguments(bundle);
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.fragment_store_list, mStoreListFragment);
-        transaction.commit();
-    }
+			case R.id.tv_title:
+			case R.id.iv_title:
+				Entry.getInstance().onEvent(Constant.EVENT_OPEN_ADDRESS_SELECT,EventType.TOUCH_TYPE);
+				intentToAddress(false);
+				break;
 
-    @Override
-    public void getGPSAddressSuccess() {
-        Lg.getInstance().e(TAG, "getGPSAddressSuccess:");
-        if (mBDLocation != null && !init) {
-            address = mBDLocation.getAddress().district + mBDLocation.getAddress().street + mBDLocation.getAddress().streetNumber;
-            mTvTitle.setText(address);
-            Constant.GOODS_LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
-            Constant.GOODS_LONGITUDE = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
-            if (mStoreListFragment == null) {
-                initFragment();
-            }
-            mStoreListFragment.getFilterList();
-            mStoreListFragment.homeLoadFirstPage();
-            init = true;
-        }
-    }
+			case R.id.iv_right:
+				Entry.getInstance().onEvent(Constant.EVENT_OPEN_ORDER_LIST,EventType.TOUCH_TYPE);
+				intentToOrderList(false);
+				break;
 
-    @Override
-    public void getGPSAddressFail() {
-        super.getGPSAddressFail();
-        Lg.getInstance().e(TAG, "getGPSAddressFail:");
-        setAddress();
-        StoreListFragment.getLocation(this);
-        if (mStoreListFragment == null) {
-            initFragment();
-        }
-        mStoreListFragment.getFilterList();
-        mStoreListFragment.homeLoadFirstPage();
-    }
+			case R.id.rl_search:
+				Entry.getInstance().onEvent(Constant.EVENT_OPEN_SEARCH_FROM_HOME,EventType.TOUCH_TYPE);
+				Intent searchIntent = new Intent(HomeActivity.this, SearchActivity.class);
+				searchIntent.putExtra(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_HOME);
+				startActivity(searchIntent);
+				break;
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_back:
-                Entry.getInstance().onEvent(Constant.EVENT_EXIT, EventType.TOUCH_TYPE);
-                MyApplicationAddressBean.USER_NAMES.clear();
-                MyApplicationAddressBean.USER_PHONES.clear();
-                AtyContainer.getInstance().finishAllActivity();
-                finish();
-                break;
+			case R.id.rl_flower:
+				Entry.getInstance().onEvent(Constant.EVENT_FLOWER_CLICK,EventType.TOUCH_TYPE);
+				intentToFlower(false);
+				break;
 
-            case R.id.tv_title:
-            case R.id.iv_title:
-                Entry.getInstance().onEvent(Constant.EVENT_OPEN_ADDRESS_SELECT, EventType.TOUCH_TYPE);
-                intentToAddress(false);
-                break;
+			case R.id.rl_cake:
+				Entry.getInstance().onEvent(Constant.EVENT_CAKE_CLICK,EventType.TOUCH_TYPE);
+				intentToCake(false);
+				break;
 
-            case R.id.iv_right:
-                Entry.getInstance().onEvent(Constant.EVENT_OPEN_ORDER_LIST, EventType.TOUCH_TYPE);
-                intentToOrderList(false);
-                break;
+			case R.id.rl_food:
+				Entry.getInstance().onEvent(Constant.EVENT_FOOD_CLICK,EventType.TOUCH_TYPE);
+				intentToFood(false);
+				break;
 
-            case R.id.rl_search:
-                Entry.getInstance().onEvent(Constant.EVENT_OPEN_SEARCH_FROM_HOME, EventType.TOUCH_TYPE);
-                Intent searchIntent = new Intent(HomeActivity.this, SearchActivity.class);
-                searchIntent.putExtra(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_HOME);
-                startActivity(searchIntent);
-                break;
+			default:
+				break;
+		}
 
-            case R.id.rl_flower:
-                Entry.getInstance().onEvent(Constant.EVENT_FLOWER_CLICK, EventType.TOUCH_TYPE);
-                intentToFlower(false);
-                break;
-
-            case R.id.rl_cake:
-                Entry.getInstance().onEvent(Constant.EVENT_CAKE_CLICK, EventType.TOUCH_TYPE);
-                intentToCake(false);
-                break;
-
-            case R.id.rl_food:
-                Entry.getInstance().onEvent(Constant.EVENT_FOOD_CLICK, EventType.TOUCH_TYPE);
-                intentToFood(false);
-                break;
-
-            default:
-                break;
-        }
-
-    }
+	}
 
 
-    private void intentToAddress(boolean isNeedVoice) {
-        Intent addressIntent = new Intent(HomeActivity.this, AddressSelectActivity.class);
-        startActivity(addressIntent);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                StandardCmdClient.getInstance().playTTS(HomeActivity.this, getString(R.string.tts_add_new_address));
-            }
-        }, 100);
-    }
+	private void intentToAddress(boolean isNeedVoice) {
+		Intent addressIntent = new Intent(HomeActivity.this, AddressSelectActivity.class);
+		startActivity(addressIntent);
+		Handler handler = new Handler();
+		if (isNeedVoice){
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					StandardCmdClient.getInstance().playTTS(HomeActivity.this, getString(R.string.tts_add_new_address));
+				}
+			}, 100);
+	 }
+	}
 
+	
+	
+	private void intentToOrderList(boolean isNeedVoice){
+		Intent orderListIntent = new Intent(this, OrderListActivity.class);
+		orderListIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+		startActivity(orderListIntent);
+	}
+	
+	private void intentToFood(boolean isNeedVoice){
+		Intent foodIntent = new Intent(this, FoodActivity.class);
+		foodIntent.putExtra("title", mTvFood.getText().toString());
+		foodIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+		startActivity(foodIntent);
+	}
 
-    private void intentToOrderList(boolean isNeedVoice) {
-        Intent orderListIntent = new Intent(this, OrderListActivity.class);
-        orderListIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-        startActivity(orderListIntent);
-    }
+	private void intentToFlower( boolean isNeedVoice){
+		Intent flowerIntent = new Intent(this, RecommendShopActivity.class);
+		flowerIntent.putExtra("title", mTvFlower.getText().toString());
+		flowerIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+		startActivity(flowerIntent);
+	}
 
-    private void intentToFood(boolean isNeedVoice) {
-        Intent foodIntent = new Intent(this, FoodActivity.class);
-        foodIntent.putExtra("title", mTvFood.getText().toString());
-        foodIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-        startActivity(foodIntent);
-    }
-
-    private void intentToFlower(boolean isNeedVoice) {
-        Intent flowerIntent = new Intent(this, RecommendShopActivity.class);
-        flowerIntent.putExtra("title", mTvFlower.getText().toString());
-        flowerIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-        startActivity(flowerIntent);
-    }
-
-    private void intentToCake(boolean isNeedVoice) {
-        Intent cakeIntent = new Intent(this, RecommendShopActivity.class);
-        cakeIntent.putExtra("title", mTvCake.getText().toString());
-        cakeIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-        startActivity(cakeIntent);
-    }
-
+	private void intentToCake(boolean isNeedVoice){
+		Intent cakeIntent = new Intent(this, RecommendShopActivity.class);
+		cakeIntent.putExtra("title", mTvCake.getText().toString());
+		cakeIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+		startActivity(cakeIntent);
+	}
 
 }
 

@@ -255,7 +255,7 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
             case R.id.no_internet_btn:
                 if (NetUtil.getNetWorkState(this)) {
                     mWarnNoInternet.setVisibility(View.GONE);
-                    rlCenter.setVisibility(View.VISIBLE);
+                    rlCenter.setVisibility(View.GONE);
                     getPresenter().requestFilterConditions(filterConditionReq);
                 }else{
                     ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
