@@ -307,16 +307,18 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 	}
 
 
-	private void intentToAddress(boolean isNeedVoice){
+	private void intentToAddress(boolean isNeedVoice) {
 		Intent addressIntent = new Intent(HomeActivity.this, AddressSelectActivity.class);
 		startActivity(addressIntent);
 		Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				StandardCmdClient.getInstance().playTTS(HomeActivity.this, getString(R.string.tts_add_new_address));
-			}
-		}, 100);
+		if (isNeedVoice){
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					StandardCmdClient.getInstance().playTTS(HomeActivity.this, getString(R.string.tts_add_new_address));
+				}
+			}, 100);
+	 }
 	}
 
 	
