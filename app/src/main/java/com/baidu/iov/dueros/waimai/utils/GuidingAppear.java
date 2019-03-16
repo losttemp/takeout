@@ -24,6 +24,8 @@ public enum GuidingAppear {
             }
         };
         mHandler.post(mRunnable);
+
+
     }
 
     private void showString(@NonNull Context context, @NonNull List<String> strings) {
