@@ -409,7 +409,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.repeat_order:
                 Intent intentFoodList = new Intent(OrderDetailsActivity.this, FoodListActivity.class);
-                intentFoodList.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id());
+                intentFoodList.putExtra(Constant.STORE_ID, String.valueOf(mOrderDetails.getWm_poi_id()));
                 intentFoodList.putExtra(Constant.ORDER_LSIT_BEAN, mOrderDetails);
                 intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
                 startActivity(intentFoodList);
