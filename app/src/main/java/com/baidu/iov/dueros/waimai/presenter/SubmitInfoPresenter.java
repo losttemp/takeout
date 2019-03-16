@@ -1,9 +1,11 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.ISubmitInfoModel;
@@ -22,6 +24,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
+import com.baidu.iov.dueros.waimai.utils.StringUtils;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 
@@ -82,6 +85,44 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         if (null != mStandardCmdClient) {
             mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
         }
+    }
+
+    /**
+     * 此处增加了从网上获取地址列表的逻辑, 主要用于显示是否在配送范围内
+     */
+    public void requestAddressList(long wm_poi_id) {
+        mSubmitInfo.requestAddressList(wm_poi_id, new RequestCallback<AddressListBean>() {
+
+            @Override
+            public void onSuccess(AddressListBean data) {
+                if (null != getUi()) {
+                    if (data != null && data.getIov().getData().size() > 0) {
+                        for (int i = 0; i < data.getIov().getData().size(); i++) {
+                            if (data.getIov().getData().get(i).isIs_hint()){
+                                data.getIov().getData().remove(i);
+                                i--;
+                            }
+                        }
+                        setAutocompleteData(data);
+                        getUi().onGetAddressListSuccess(data);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+                if (null != getUi()) {
+                    getUi().onGetAddressListFailure(msg);
+                }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Lg.getInstance().d(TAG, "getLogid: " + id);
+            }
+        });
+
     }
 
     public void requestArriveTimeData(Long wm_poi_id) {
@@ -149,6 +190,101 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             }
         });
 
+    }
+
+    private void setAutocompleteData(AddressListBean data){
+        List<AddressListBean.IovBean.DataBean>  mDataListBean = data.getIov().getData();
+        MyApplicationAddressBean.USER_NAMES.clear();
+        MyApplicationAddressBean.USER_PHONES.clear();
+        StringBuilder baiduName = new StringBuilder();
+        StringBuilder baiduPhone = new StringBuilder();
+        for (int i = 0; i < mDataListBean.size(); i++) {
+            try {
+                AddressListBean.IovBean.DataBean dataInfo = mDataListBean.get(i);
+                if (!TextUtils.isEmpty(dataInfo.getUser_name())) {
+                    String user_name = Encryption.desEncrypt(dataInfo.getUser_name());
+                    if (TextUtils.isEmpty(user_name))break;
+                    if (null != dataInfo.getMt_address_id() &&
+                            null == dataInfo.getAddress_id()) {
+                        if (MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
+                            MyApplicationAddressBean.USER_NAMES.remove(user_name);
+                        }
+                        //mt
+                        MyApplicationAddressBean.USER_NAMES.add(0, user_name);
+                    } else if (null == dataInfo.getMt_address_id() &&
+                            null != dataInfo.getAddress_id()) {
+                        //baidu
+                        baiduName.append(user_name);
+                    } else if (null == dataInfo.getMt_address_id() &&
+                            null == dataInfo.getAddress_id()) {
+                        //baidu
+                        baiduName.append(user_name);
+                    } else {
+                        if (!MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
+                            //app
+                            MyApplicationAddressBean.USER_NAMES.add(user_name);
+                        }
+                    }
+                }
+                if (!TextUtils.isEmpty(dataInfo.getUser_phone())) {
+                    String user_phone = Encryption.desEncrypt(dataInfo.getUser_phone());
+                    if (TextUtils.isEmpty(user_phone))break;
+                    if (!user_phone.contains("*")) {
+                        if (null != dataInfo.getMt_address_id() &&
+                                null == dataInfo.getAddress_id()) {
+                            if (MyApplicationAddressBean.USER_PHONES.contains(user_phone)) {
+                                MyApplicationAddressBean.USER_PHONES.remove(user_phone);
+                            }
+                            //mt
+                            MyApplicationAddressBean.USER_PHONES.add(0, user_phone);
+                        } else if (null == dataInfo.getMt_address_id() &&
+                                null != dataInfo.getAddress_id()) {
+                            //baidu
+                            baiduPhone.append(user_phone);
+                        } else if (null == dataInfo.getMt_address_id() &&
+                                null == dataInfo.getAddress_id()) {
+                            //baidu
+                            baiduPhone.append(user_phone);
+                        } else {
+                            if (!MyApplicationAddressBean.USER_PHONES.contains(user_phone)) {
+                                //app
+                                MyApplicationAddressBean.USER_PHONES.add(user_phone);
+                            }
+
+                        }
+                    }
+                }
+                if (!TextUtils.isEmpty(baiduName)) {
+                    if (MyApplicationAddressBean.USER_NAMES.contains(baiduName.toString())) {
+                        MyApplicationAddressBean.USER_NAMES.remove(baiduName.toString());
+                    }
+                    MyApplicationAddressBean.USER_NAMES.add(0, baiduName.toString());
+                }
+                if (!TextUtils.isEmpty(baiduPhone)) {
+                    if (MyApplicationAddressBean.USER_PHONES.contains(baiduPhone.toString())) {
+                        MyApplicationAddressBean.USER_PHONES.remove(baiduPhone.toString());
+                    }
+                    MyApplicationAddressBean.USER_PHONES.add(0, baiduPhone.toString());
+                }
+                baiduName.delete(0, baiduName.length());
+                baiduPhone.delete(0, baiduPhone.length());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (!TextUtils.isEmpty(data.getIov().getUser_phone())) {
+            try {
+                String personalPhone = Encryption.desEncrypt(data.getIov().getUser_phone());
+                if (StringUtils.isChinaPhoneLegal(personalPhone)) {
+                    if (MyApplicationAddressBean.USER_PHONES.contains(personalPhone)) {
+                        MyApplicationAddressBean.USER_PHONES.remove(personalPhone);
+                    }
+                    MyApplicationAddressBean.USER_PHONES.add(0, personalPhone);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private String OnCreateOrderPayLoad(AddressListBean.IovBean.DataBean addressData,
@@ -301,6 +437,10 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
     }
 
     public interface SubmitInfoUi extends Ui {
+
+        void onGetAddressListSuccess(AddressListBean data);
+
+        void onGetAddressListFailure(String msg);
 
         void onArriveTimeSuccess(ArriveTimeBean data);
 

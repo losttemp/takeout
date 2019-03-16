@@ -17,4 +17,8 @@ public interface ISubmitInfoModel extends IModel {
 
     void requestOrderSubmitData(OrderSubmitReq orderSubmitReq, final RequestCallback<OrderSubmitBean> callback);
 
+    /**
+     * 此处增加了从网上获取地址列表的逻辑, 主要获取当前默认地址是否在配送范围内
+     */
+    void requestAddressList(long wm_poi_id, final RequestCallback callback);
 }
