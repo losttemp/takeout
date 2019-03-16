@@ -31,12 +31,12 @@ public class SortPopWindowAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mSortList.size();
+		return mSortList == null ? 0 : mSortList.size();
 	}
 
 	@Override
 	public SortTypeListBean getItem(int position) {
-		return mSortList.get(position);
+		return mSortList== null ? null : mSortList.get(position);
 	}
 
 	@Override

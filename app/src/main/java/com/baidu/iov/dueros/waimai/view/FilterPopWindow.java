@@ -128,6 +128,7 @@ public class FilterPopWindow extends PopupWindow {
 	
 	private  void  toFilter(OnClickOkListener listener){
         StringBuffer migFilter = new StringBuffer();
+        if(mActivityFilterListBean!=null&&mActivityFilterListBean.getItems()!=null){
         for (ActivityFilterListBean.ItemsBean subtype : mActivityFilterListBean.getItems()) {
             if (subtype.isChcked()) {
                 if (!TextUtils.isEmpty(migFilter)) {
@@ -135,7 +136,7 @@ public class FilterPopWindow extends PopupWindow {
                 }
                 migFilter.append(subtype.getCode());
             }
-        }
+        }}
         if (listener != null) {
             listener.onClickOk(migFilter.toString());
         }

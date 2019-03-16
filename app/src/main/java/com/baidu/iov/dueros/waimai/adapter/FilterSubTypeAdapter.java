@@ -33,13 +33,13 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mItemsBeans.size();
+		return mItemsBeans == null ? 0 : mItemsBeans.size();
 	}
 
 	@Override
 	public FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean getItem
 			(int position) {
-		return mItemsBeans.get(position);
+		return mItemsBeans == null ? null :mItemsBeans.get(position);
 	}
 
 	@Override
