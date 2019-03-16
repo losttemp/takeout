@@ -235,6 +235,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         super.onPause();
         isNeedVoice = false;
         Constant.ANIMATION_END = true;
+        mmHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -307,6 +308,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
     }
 
+    private Handler mmHandler = new Handler();
+
     public void initData() {
         Integer latitude = 0;
         Integer longitude = 0;
@@ -316,8 +319,16 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mPoifoodSpusListAdapter = new PoifoodSpusListAdapter(this, productList, foodSpuTagsBeans, getWindow());
         mPoifoodSpusListAdapter.SetOnSetHolderClickListener(new PoifoodSpusListAdapter.HolderClickListener() {
             @Override
-            public void onHolderClick(Drawable drawable, int[] start_location) {
-                doAnim(drawable, start_location);
+            public void onHolderClick(final Drawable drawable, final int[] start_location) {
+                // 数据量较大时，由于遍历导致主线程阻塞
+                mmHandler.removeCallbacksAndMessages(null);
+                mmHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doAnim(drawable, start_location);
+                    }
+                }, 0);
+//                doAnim(drawable, start_location);
             }
         });
 
