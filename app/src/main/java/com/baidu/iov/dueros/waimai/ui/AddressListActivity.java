@@ -150,6 +150,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         });
 
         if (getIntent() != null) {
+            mLoading.setVisibility(View.VISIBLE);
             long wmPoiId = getIntent().getLongExtra(Constant.WM_POI_ID, 0);
             getPresenter().requestData(wmPoiId);
         }
@@ -193,7 +194,6 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             else {
                 typeTv.setBackgroundResource(R.drawable.tag_bg);
                 typeTv.setText(getString(R.string.address_tag_other));
-
             }
 
 
