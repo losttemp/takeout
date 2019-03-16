@@ -318,7 +318,7 @@ public class OrderPreviewBean {
                 private double food_price;
                 private String unit;
                 private int count;
-                private int box_num;
+                private double box_num;
                 private double box_price;
                 private String food_name;
                 private double origin_food_price;
@@ -359,11 +359,11 @@ public class OrderPreviewBean {
                     this.count = count;
                 }
 
-                public int getBox_num() {
+                public double getBox_num() {
                     return box_num;
                 }
 
-                public void setBox_num(int box_num) {
+                public void setBox_num(double box_num) {
                     this.box_num = box_num;
                 }
 

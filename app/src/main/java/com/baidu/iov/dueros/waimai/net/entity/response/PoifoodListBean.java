@@ -628,7 +628,7 @@ public class PoifoodListBean {
                         private String picture;
                         private double price;
                         private double origin_price;
-                        private int box_num;
+                        private double box_num;
                         private double box_price;
                         private int min_order_count;
                         private int status;
@@ -691,11 +691,11 @@ public class PoifoodListBean {
                             this.origin_price = origin_price;
                         }
 
-                        public int getBox_num() {
+                        public double getBox_num() {
                             return box_num;
                         }
 
-                        public void setBox_num(int box_num) {
+                        public void setBox_num(double box_num) {
                             this.box_num = box_num;
                         }
 

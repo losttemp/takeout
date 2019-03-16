@@ -234,7 +234,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     protected void onPause() {
         super.onPause();
         isNeedVoice = false;
-        Constant.ANIMATION_END = false;
     }
 
     @Override
@@ -251,6 +250,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         AccessibilityClient.getInstance().register(this,
                 true,	prefix,	null);
         GuidingAppear.INSTANCE.init(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail());
+        Constant.ANIMATION_END = true;
     }
 
     private void initView() {

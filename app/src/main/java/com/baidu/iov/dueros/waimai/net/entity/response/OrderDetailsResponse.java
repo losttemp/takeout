@@ -556,7 +556,7 @@ public class OrderDetailsResponse {
                 private double original_price;
                 private int count;
                 private String spec;
-                private int box_num;
+                private double box_num;
                 private double box_price;
                 private List<String> attrIds;
                 private List<String> attrValues;
@@ -617,11 +617,11 @@ public class OrderDetailsResponse {
                     this.spec = spec;
                 }
 
-                public int getBox_num() {
+                public double getBox_num() {
                     return box_num;
                 }
 
-                public void setBox_num(int box_num) {
+                public void setBox_num(double box_num) {
                     this.box_num = box_num;
                 }
 
