@@ -234,6 +234,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     protected void onPause() {
         super.onPause();
         isNeedVoice = false;
+        Constant.ANIMATION_END = true;
     }
 
     @Override

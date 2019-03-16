@@ -607,7 +607,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 final RelativeLayout action = (RelativeLayout) popView.findViewById(R.id.action);
                 specificationsList.setmMaxHeight(296);
                 spusName.setText(spusBean.getName());
-                specificationsPrice.setText("¥" + spusBean.getMin_price());
+                specificationsPrice.setText("¥" + NumberFormat.getInstance().format(spusBean.getMin_price()));
                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus = new ArrayList<>();
@@ -654,6 +654,17 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         action.setVisibility(View.VISIBLE);
                         mInList = true;
                         shoppingNum.setText(spusBean.getNumber() + "");
+                        if (skus != null) {
+                            if (skus.size() == 0) {
+                                specificationsPrice.setText("¥" + NumberFormat.getInstance().format(spusBean.getMin_price()));
+                            } else if (skus.size() == 1) {
+                                specificationsPrice.setText("¥" + NumberFormat.getInstance().format(spusBean.getSkus().get(0).getPrice()));
+                            } else if (skus.size() > 1) {
+                                specificationsPrice.setText("¥" + NumberFormat.getInstance().format(spusBean.getChoiceSkus().get(0).getPrice()));
+                            }
+                        } else {
+                            specificationsPrice.setText("¥" + NumberFormat.getInstance().format(spusBean.getMin_price()));
+                        }
                     }
                 }else {
                     if (attrs != null) {

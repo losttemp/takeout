@@ -37,6 +37,7 @@ import java.util.List;
 
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.DeviceUtils;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
@@ -186,9 +187,21 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     case R.id.cancel_order:
                         pos = position;
                         mOrderCancelReq = new OrderCancelReq(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
+                        String message;
+                        int trade_status = -99;
+                        try {
+                            trade_status = Integer.parseInt(mOrderList.get(position).getOut_trade_status());
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                        if (trade_status >= 2) {
+                            message = getResources().getString(R.string.order_cancel_message);
+                        } else {
+                            message = "";
+                        }
                         ConfirmDialog dialog = new ConfirmDialog.Builder(OrderListActivity.this)
                                 .setTitle(R.string.order_cancel_title)
-                                .setMessage(R.string.order_cancel_message)
+                                .setMessage(message)
                                 .setNegativeButton(R.string.order_cancel, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -282,6 +295,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                                             REQUEST_CODE_CALL_PHONE);
                                 }
                             } else {
+                                if (!DeviceUtils.checkBluetooth(OrderListActivity.this)) return;
                                 Intent intent = new Intent(Intent.ACTION_CALL);
                                 Uri data = Uri.parse("tel:" + "10109777");
                                 intent.setData(data);
@@ -501,6 +515,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         if (requestCode == REQUEST_CODE_CALL_PHONE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //permission was granted, yay! Do the contacts-related task you need to do.
+                if (!DeviceUtils.checkBluetooth(OrderListActivity.this)) return;
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 Uri data = Uri.parse("tel:" + "10109777");
                 intent.setData(data);
@@ -515,4 +530,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             }
         }
     }
+
+
 }

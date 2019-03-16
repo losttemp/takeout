@@ -95,6 +95,24 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
             viewHolder.attrsName.setText(attrsBeans.get(position).getName());
             final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> values = attrsBeans.get(position).getValues();
             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> lastChoiceAttrs = attrsBeans.get(position).getChoiceAttrs();
+
+            // 初始化未选择
+            if (choiseAttrs != null) {
+                boolean hasAttrSelect = false;
+                for (boolean ca: choiseAttrs) {
+                    if (ca) {
+                        hasAttrSelect = true;
+                        break;
+                    }
+                }
+                if (!hasAttrSelect) {
+                    choiceAttrs = new ArrayList<>();
+                    choiceAttrs.add(attrsBeans.get(position).getValues().get(0));
+                    spusBean.getAttrs().get(position).setChoiceAttrs(choiceAttrs);
+                    choiseAttrs[position] = true;
+                }
+            }
+
             final SpecificationAdapter specificationAdapter = new SpecificationAdapter(lastChoiceAttrs, null, values, null);
             viewHolder.recyclerview.setAdapter(specificationAdapter);
             specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {
@@ -132,6 +150,17 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
             if (skusBeans.size() > 1) {
                 viewHolder.attrsName.setText(context.getString(R.string.specification));
                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> lastChoiceSkus = spusBean.getChoiceSkus();
+
+                if (choiceSkus != null && choiceSkus.size() == 0) {
+                    choiceSkus.clear();
+                    choiceSkus.add(skusBeans.get(0));
+                    spusBean.setChoiceSkus(choiceSkus);
+                    double price = skusBeans.get(0).getPrice();
+                    if (setPriceListener != null) {
+                        setPriceListener.setPrice("" + price);
+                    }
+                }
+
                 final SpecificationAdapter specificationAdapter = new SpecificationAdapter(null, lastChoiceSkus, null, skusBeans);
                 viewHolder.recyclerview.setAdapter(specificationAdapter);
                 specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {

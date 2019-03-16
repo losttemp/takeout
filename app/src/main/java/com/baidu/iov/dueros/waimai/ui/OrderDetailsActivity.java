@@ -36,6 +36,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.DeviceUtils;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
@@ -476,7 +477,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 }
                 break;
             case R.id.phone:
-                if (!checkBluetooth()) return;
                 Entry.getInstance().onEvent(Constant.CALL_FOR_CANCLE_ORDER, EventType.TOUCH_TYPE);
                 String mMessage = getResources().getString(R.string.contact_meituan_message);
                 SpannableString spanColor = new SpannableString(mMessage);
@@ -519,22 +519,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             default:
                 break;
         }
-    }
-
-    private boolean checkBluetooth() {
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (bluetoothAdapter == null) {
-            ToastUtils.show(this, getResources().getString(R.string.bluetooth_adapter_not_found), Toast.LENGTH_SHORT);
-            return false;
-        }
-        if (!bluetoothAdapter.isEnabled()) {
-            Intent enableIntent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
-//            BluetoothAdapter.ACTION_REQUEST_ENABLE
-            enableIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(enableIntent);
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -738,6 +722,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void startActionCall(){
+        if (!DeviceUtils.checkBluetooth(OrderDetailsActivity.this)) return;
         Intent intent = new Intent(Intent.ACTION_CALL);
         Uri data = Uri.parse("tel:" + "10109777");
         intent.setData(data);
