@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -85,7 +86,9 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         Intent intent = getIntent();
         if (intent != null) {
             double amount = intent.getDoubleExtra(Constant.TOTAL_COST, 0);
-            mStoreId = intent.getStringExtra(Constant.STORE_ID);
+            if (!TextUtils.isEmpty(intent.getStringExtra(Constant.STORE_ID))) {
+                mStoreId = intent.getStringExtra(Constant.STORE_ID);
+            }
             mOrderId = intent.getLongExtra(Constant.ORDER_ID, 0);
             mPicUrl = intent.getStringExtra(Constant.PIC_URL);
             mExpectedTime = intent.getIntExtra(Constant.EXPECTED_TIME, 0);

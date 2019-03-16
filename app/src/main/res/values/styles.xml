@@ -27,8 +27,8 @@
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowAnimationStyle">@style/AnimSlideBottom</item>
     </style>
+    <!--<item name="android:windowAnimationStyle">@style/AnimSlideBottom</item>-->
 
     <style name="AnimSlideBottom" parent="Animation.AppCompat.Dialog">
         <item name="android:windowEnterAnimation">@anim/anim_fade_in</item>

@@ -31,6 +31,7 @@ import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -54,7 +55,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     private AddressListBean.IovBean.DataBean mAddressData;
     private RelativeLayout viewById;
     private View mLoading;
-
+    private LinearLayout mNoNet;
+    private Button mNoInternetButton;
 
     @Override
     AddressListPresenter createPresenter() {
@@ -78,7 +80,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.px962dp));
         getWindow().setGravity(Gravity.TOP);
         Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG, EventType.TOUCH_TYPE);
-
+        initView();
     }
 
     public void initView() {
@@ -89,11 +91,14 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
         }
 
+        mNoNet = (LinearLayout) findViewById(R.id.no_net);
+        mNoInternetButton = (Button) findViewById(R.id.no_internet_btn);
         mLoading = findViewById(R.id.ll_loading);
         mCancelImg = findViewById(R.id.cancel_action);
         mAddBtn = findViewById(R.id.img_add);
         mCancelImg.setOnClickListener(this);
         mAddBtn.setOnClickListener(this);
+        mNoInternetButton.setOnClickListener(this);
 
         mRecyclerView = findViewById(R.id.address_list);
         int orientation = RecyclerView.VERTICAL;
@@ -154,6 +159,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             long wmPoiId = getIntent().getLongExtra(Constant.WM_POI_ID, 0);
             getPresenter().requestData(wmPoiId);
         }
+        netDataReque();
     }
 
     private void setHeader() {
@@ -211,7 +217,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         ArrayList<String> prefix = new ArrayList<>();
         prefix.add("选择");
         AccessibilityClient.getInstance().register(this, true, prefix, null);
-        initView();
+//        initView();
     }
 
     @Override
@@ -239,9 +245,27 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ALERT_ADDRESS, EventType.TOUCH_TYPE);
                 doSearchAddress(false);
                 break;
-
+            case R.id.no_internet_btn:
+                netDataReque();
+                break;
             default:
                 break;
+        }
+    }
+
+    private void netDataReque() {
+        if (NetUtil.getNetWorkState(this)) {
+            mNoNet.setVisibility(View.GONE);
+            viewById.setVisibility(View.GONE);
+            mLoading.setVisibility(View.VISIBLE);
+            if (getIntent() != null) {
+                long wmPoiId = getIntent().getLongExtra(Constant.WM_POI_ID, 0);
+                getPresenter().requestData(wmPoiId);
+//                sendUpdataBroadcast();
+            }
+        } else {
+            mNoNet.setVisibility(View.VISIBLE);
+            viewById.setVisibility(View.GONE);
         }
     }
 
@@ -254,6 +278,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             viewById.setVisibility(View.VISIBLE);
             mLoading.setVisibility(View.GONE);
         } else {
+            mLoading.setVisibility(View.GONE);
             Lg.getInstance().d(TAG, "not find data !");
         }
     }

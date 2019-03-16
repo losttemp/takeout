@@ -2,6 +2,9 @@ package com.baidu.iov.dueros.waimai.ui;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,10 +16,12 @@ import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -534,8 +539,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             @Override
             public void onFinish() {
                 isTimeEnd  = true;
-                mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId());
-                getPresenter().requestOrderCancel(mOrderCancelReq);
+//                mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId());
+//                getPresenter().requestOrderCancel(mOrderCancelReq);
                 mArrivalTime.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
                 mPayStatus = mOrderDetails.getPay_status();
                 if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
@@ -575,7 +580,10 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                             })
                             .create();
                     dialog.setCanceledOnTouchOutside(false);
-                    dialog.show();
+                    if (isForeground(OrderDetailsActivity.this)
+                            &&!OrderDetailsActivity.this.isFinishing()) {
+                        dialog.show();
+                    }
                 }
             }
 
@@ -592,6 +600,29 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             mExpectedTime.setText(format1.format(date) + " (" + getWeek(time) + ") " + format2.format(date));
         }
 
+    }
+
+    /**
+     * 判断某个activity是否在前台显示
+     */
+    public static boolean isForeground(AppCompatActivity activity) {
+        return isForeground(activity, activity.getClass().getName());
+    }
+
+    /**
+     * 判断某个界面是否在前台,返回true，为显示,否则不是
+     */
+    public static boolean isForeground(AppCompatActivity context, String className) {
+        if (context == null || TextUtils.isEmpty(className))
+            return false;
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
+        if (list != null && list.size() > 0) {
+            ComponentName cpn = list.get(0).topActivity;
+            if (className.equals(cpn.getClassName()))
+                return true;
+        }
+        return false;
     }
 
     public static String getWeek(long time) {
