@@ -31,6 +31,7 @@ import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -55,7 +56,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     private AddressListBean.IovBean.DataBean mAddressData;
     private RelativeLayout viewById;
     private View mLoading;
-
+    private LinearLayout mNoNet;
+    private Button mNoInternetButton;
 
     @Override
     AddressListPresenter createPresenter() {
@@ -95,12 +97,14 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
             }
         }
-
+        mNoNet = findViewById(R.id.no_net);
+        mNoInternetButton = findViewById(R.id.no_internet_btn);
         mLoading = findViewById(R.id.ll_loading);
         mCancelImg = findViewById(R.id.cancel_action);
         mAddBtn = findViewById(R.id.img_add);
         mCancelImg.setOnClickListener(this);
         mAddBtn.setOnClickListener(this);
+        mNoInternetButton.setOnClickListener(this);
 
         mRecyclerView = findViewById(R.id.address_list);
         int orientation = RecyclerView.VERTICAL;
@@ -155,12 +159,9 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 }
             }
         });
-
-        if (getIntent() != null) {
-            long wmPoiId = getIntent().getLongExtra(Constant.WM_POI_ID, 0);
-            getPresenter().requestData(wmPoiId);
-        }
+        netDataReque();
     }
+
 
     private void setHeader() {
         View header = LayoutInflater.from(this).inflate(R.layout.address_title_item, mRecyclerView, false);
@@ -191,24 +192,36 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 typeTv.setBackgroundResource(R.drawable.tag_bg);
                 typeTv.setText(mAddressData.getType());
 
-            }else if (mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
+            } else if (mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
                 typeTv.setBackgroundResource(R.drawable.tag_bg_mudidi);
-                if (MyApplicationAddressBean.USER_PHONES.get(0)!=null&&MyApplicationAddressBean.USER_NAMES.get(0)!=null){
-                    nameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0)+"  "+MyApplicationAddressBean.USER_NAMES.get(0));
+                if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
+                    nameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0) + "  " + MyApplicationAddressBean.USER_NAMES.get(0));
                 }
-            }
-            else {
+            } else {
                 typeTv.setBackgroundResource(R.drawable.tag_bg);
                 typeTv.setText(getString(R.string.address_tag_other));
 
             }
 
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         mAddressListAdapter.setHeaderView(header);
+    }
+
+    private void netDataReque() {
+        if (NetUtil.getNetWorkState(this)) {
+            mNoNet.setVisibility(View.GONE);
+            mLoading.setVisibility(View.VISIBLE);
+            if (getIntent() != null) {
+                long wmPoiId = getIntent().getLongExtra(Constant.WM_POI_ID, 0);
+                getPresenter().requestData(wmPoiId);
+            }
+        } else {
+            mNoNet.setVisibility(View.VISIBLE);
+            viewById.setVisibility(View.GONE);
+        }
     }
 
 
@@ -246,7 +259,9 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ALERT_ADDRESS, EventType.TOUCH_TYPE);
                 doSearchAddress(false);
                 break;
-
+            case R.id.no_internet_btn:
+                netDataReque();
+                break;
             default:
                 break;
         }
@@ -258,17 +273,19 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             mDataListBean = data.getIov().getData();
             Collections.sort(mDataListBean);
             mAddressListAdapter.setData(mDataListBean);
-            viewById.setVisibility(View.VISIBLE);
-            mLoading.setVisibility(View.GONE);
         } else {
             Lg.getInstance().d(TAG, "not find data !");
         }
+        mLoading.setVisibility(View.GONE);
+        mNoNet.setVisibility(View.GONE);
+        viewById.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onGetAddressListFailure(String msg) {
-        viewById.setVisibility(View.VISIBLE);
+        viewById.setVisibility(View.GONE);
         mLoading.setVisibility(View.GONE);
+        mNoNet.setVisibility(View.VISIBLE);
     }
 
     @Override
