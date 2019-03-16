@@ -56,6 +56,11 @@ public class CacheUtils {
         shared().edit().putString(Constant.ADDRESS_DATA, addressbean).apply();
     }
 
+    public static String getAddressBean() {
+        String address = shared().getString(Constant.ADDRESS_DATA, "");
+        return address;
+    }
+
     public static void saveAddress(String address) {
         shared().edit().putString(Constant.ADDRESS_SELECTED, address).apply();
     }

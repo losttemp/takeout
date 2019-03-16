@@ -69,6 +69,12 @@
         <item>查看详情</item>
     </string-array>
 
-
+    <string-array name="waimai_watch">
+        <item>全力以赴的你，别忘了让自己吃好一点哦</item>
+        <item>工作辛苦啦，来份美食，犒劳一下自己吧</item>
+        <item>不吃饱哪有力气减肥啊，来份美食吧</item>
+        <item>所有人都关心你飞得高不高，只有我关心你吃得好不好,来份美食吧</item>
+        <item>唯美食与爱不可辜负，客官，来份美食呗</item>
+    </string-array>
 
 </resources>

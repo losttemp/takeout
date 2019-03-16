@@ -11,6 +11,11 @@
     <style name="WaimaiTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!--将Activity的Theme设置成透明-->
         <item name="android:windowIsTranslucent">true</item>
+        <item name="colorAccent">@color/delivery_type_color</item>
+    </style>
+
+    <style name="StartingWindowTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/app_bg</item>
     </style>
 
     <!--waimai delivery time dialog Activity style-->

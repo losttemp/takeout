@@ -20,6 +20,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
+import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
@@ -125,9 +126,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                         }
                         String databeanStr = GsonUtil.toJson(dataBean);
                         CacheUtils.saveAddressBean(databeanStr);
-                        Intent intent = new Intent(Constant.PULL_LOCATION);
-                        intent.setPackage(BuildConfig.APPLICATION_ID);
-                        sendBroadcast(intent);
+                        sendBroadcastAPP();
                         if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
                             CacheUtils.saveAddrTime(System.currentTimeMillis());
                         }
@@ -222,6 +221,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         loadingView.setVisibility(View.GONE);
     }
 
+
     @Override
     public void onFailure(String msg) {
         loadingView.setVisibility(View.GONE);
@@ -237,9 +237,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         if (null != mDataList && mDataList.size() > i) {
             String databeanStr = GsonUtil.toJson(mDataList.get(i));
             CacheUtils.saveAddressBean(databeanStr);
-            Intent intent = new Intent(Constant.PULL_LOCATION);
-            intent.setPackage(BuildConfig.APPLICATION_ID);
-            sendBroadcast(intent);
+            sendBroadcastAPP();
             if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
                 CacheUtils.saveAddrTime(System.currentTimeMillis());
             }
@@ -301,7 +299,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.address_back:
-                finish();
+                finishAct();
                 break;
             case R.id.add_no_address:
             case R.id.address_select_add:
@@ -321,6 +319,44 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             default:
                 break;
         }
+    }
+
+
+    private void finishAct() {
+        if (mDataList.size() == 0) {
+            //地址删除完后,直接退出应用
+            CacheUtils.saveAddrTime(0);
+            CacheUtils.saveAddressBean(null);
+            CacheUtils.saveAddress(null);
+            AtyContainer.getInstance().finishAllActivity();
+        } else if (TextUtils.isEmpty(CacheUtils.getAddressBean())) {
+            //当删除的地址是缓存的地址的时候,默认给第一个地址
+            AddressListBean.IovBean.DataBean dataBean = mDataList.get(0);
+            String databeanStr = GsonUtil.toJson(dataBean);
+            CacheUtils.saveAddressBean(databeanStr);
+            Constant.GOODS_LATITUDE = dataBean.getLatitude();
+            Constant.GOODS_LONGITUDE = dataBean.getLongitude();
+            sendBroadcastAPP();
+            Intent homeintent = new Intent(AddressSelectActivity.this, HomeActivity.class);
+            try {
+                String address = Encryption.desEncrypt(dataBean.getAddress());
+                CacheUtils.saveAddress(address);
+                HomeActivity.address = address;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            startActivity(homeintent);
+            finish();
+        } else {
+            finish();
+        }
+    }
+
+    private void sendBroadcastAPP() {
+        //统一发送
+        Intent intent = new Intent(Constant.PULL_LOCATION);
+        intent.setPackage(BuildConfig.APPLICATION_ID);
+        sendBroadcast(intent);
     }
 
     private void sendDestination() {
