@@ -32,6 +32,7 @@ import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.ResUtils;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
@@ -47,6 +48,8 @@ import com.baidu.xiaoduos.syncclient.EventType;
 import java.util.ArrayList;
 
 public class AddressEditActivity extends BaseActivity<AddressEditPresenter, AddressEditPresenter.AddressEditUi> implements AddressEditPresenter.AddressEditUi, View.OnClickListener {
+    private static final String TAG = AddressEditActivity.class.getSimpleName();
+
     private TextView address_title;
     private TextView address_tv;
     private ImageView address_arrow;
@@ -70,7 +73,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private ImageView houseCloseView;
     private final int nameMaxLength = 10;
     private final int houseMaxLength = 30;
-
+    //因为网络请求保存收货地址是异步的, 在网络请求完成之前不允许重复点击的
+    private boolean isDealWidthSaveRequest = false;
     @Override
     AddressEditPresenter createPresenter() {
         return new AddressEditPresenter();
@@ -388,6 +392,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void addAddressSuccess(AddressAddBean data) {
+        isDealWidthSaveRequest = false; // 因为requestUpdateAddressData 是网络请求, 异步处理的, 完成上次请求后要还原标记位
         if (isEditMode && !getString(R.string.address_destination).equals(dataBean.getType())) {
             if (data.getMeituan().getCode() == 0) {
                 if (data.getIov().getErrno() == 0) {
@@ -416,6 +421,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void addAddressFail(String msg) {
+        isDealWidthSaveRequest = false; // 因为requestUpdateAddressData 是网络请求, 异步处理的, 完成上次请求后要还原标记位
         ToastUtils.show(this, getResources().getString(R.string.address_save_fail), Toast.LENGTH_LONG);
     }
 
@@ -445,7 +451,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 doSearchAddress(true);
                 break;
             case R.id.address_edit_save:
-                doSave();
+                if (isDealWidthSaveRequest) {
+                    Lg.getInstance().d(TAG, "isDealWidthSaveRequest");
+                } else {
+                    doSave();
+                }
                 break;
             case R.id.address_del:
                 Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_DELETE, EventType.TOUCH_TYPE);
@@ -543,6 +553,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                         mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
                     }
                     Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_SAVE, EventType.TOUCH_TYPE);
+                    isDealWidthSaveRequest = true; // 因为requestUpdateAddressData 是网络请求, 异步处理的, 在完成请求前是不应该相应点击事件的
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
                     if (null != dataBean.getMt_address_id()) {
@@ -557,6 +568,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     mAddrAddReq.setLatitude(latitude);
                     mAddrAddReq.setLongitude(longitude);
                     Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_SAVE, EventType.TOUCH_TYPE);
+                    isDealWidthSaveRequest = true; // 因为requestUpdateAddressData 是网络请求, 异步处理的, 在完成请求前是不应该相应点击事件的
                     getPresenter().requestAddAddressData(mAddrAddReq);
                 }
             } else {
@@ -574,6 +586,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrAddReq.setLongitude(longitude);
                 Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_SAVE, EventType.TOUCH_TYPE);
                 Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_NEWACT_EDIT_DATA, EventType.TOUCH_TYPE);
+                isDealWidthSaveRequest = true; // 因为requestUpdateAddressData 是网络请求, 异步处理的, 在完成请求前是不应该相应点击事件的
                 getPresenter().requestAddAddressData(mAddrAddReq);
             }
         }
