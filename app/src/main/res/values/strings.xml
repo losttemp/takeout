@@ -306,9 +306,9 @@
     <string name="choice_no_address_voice">你离美食只差一步了，快去添加收货地址吧</string>
     <string name="choice_address_voice">你离美食只差一步了，选个收货地址呗</string>
     <string name="address_phone_error_hint_text">您输入的手机号格式有误，请重新输入 ～</string>
-    <string name= "contacts_hint_text">请填写收货人姓名</string>
-    <string name= "phone_hint_text">请填写收货人手机号</string>
-    <string name= "address_details_hint_text">详细地址：例：3楼3层303室</string>
+    <string name="contacts_hint_text">请填写收货人姓名</string>
+    <string name="phone_hint_text">请填写收货人手机号</string>
+    <string name="address_details_hint_text">详细地址：例：3楼3层303室</string>
     <string name="http_error">网络服务器错误</string>
 
     <string name="tts_add_new_time">好的，请选择你的配送时间</string>

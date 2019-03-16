@@ -55,6 +55,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private View networkView;
     private boolean isNeedVoice;
     private View login_bg, loadingView;
+    private String oldBudss = null;//记录budss 与上次不同则跳转到地址界面
 
     @Override
     MeituanAuthPresenter createPresenter() {
@@ -110,6 +111,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         findViewById(R.id.webview_back).setOnClickListener(this);
         KeyBoardListener.getInstance(this).init();
         login_bg.setVisibility(View.GONE);
+        oldBudss = CacheUtils.getBduss();
     }
 
     @Override
@@ -242,23 +244,30 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private boolean init = false;
 
     private void startIntent() {
+        //接口返回不知道为什么会多次调用,init限制多次跳转界面
         if (init) return;
         init = true;
+        //与上次budss 不同则跳转到地址界面
         long time = CacheUtils.getAddrTime();
-        if (time == 0 || (System.currentTimeMillis() - time > SIX_HOUR)) {
-            Intent addressIntent = new Intent(this, AddressSelectActivity.class);
-            addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-            addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
-            startActivity(addressIntent);
-            finish();
-        } else {
+        if (CacheUtils.getBduss().equals(oldBudss) &&
+                time != 0 && System.currentTimeMillis() - time <= SIX_HOUR) {
             Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
             intent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
             intent.putExtra(Constant.IS_FROME_TAKEAWAYLOGIN, true);
             startActivity(intent);
-            finish();
+        } else {
+            Intent addressIntent = new Intent(this, AddressSelectActivity.class);
+            addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+            addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
+            startActivity(addressIntent);
         }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                TakeawayLoginActivity.this.finish();
+            }
+        }, 500);
     }
 
     @Override
@@ -436,4 +445,5 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         Entry.getInstance().onEvent(Constant.ENTRY_LOGIN_OS, EventType.TOUCH_TYPE);
         getPresenter().requestAccountInfo();
     }
+
 }

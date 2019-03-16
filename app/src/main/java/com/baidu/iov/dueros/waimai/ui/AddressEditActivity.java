@@ -307,7 +307,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
                         Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_DELETE, EventType.TOUCH_TYPE);
-                        initTTS=true;
+                        initTTS = true;
                         deleteAddressData();
                         break;
                     default:
@@ -321,7 +321,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
-                        initTTS=true;
+                        initTTS = true;
                         doSave();
                         break;
                     default:
@@ -340,9 +340,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         AccessibilityClient.getInstance().register(this, true, null, null);
     }
 
-    private void deleteAddressData(){
+    private void deleteAddressData() {
         mAddressDelReq.setAddress_id(dataBean.getAddress_id());
-        if (dataBean.getMt_address_id()!=null){
+        if (dataBean.getMt_address_id() != null) {
             mAddressDelReq.setMt_address_id(dataBean.getMt_address_id());
         }
         getPresenter().requestDeleteAddressData(mAddressDelReq);
@@ -353,7 +353,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE) {
             mLocationBean = data.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
-            address_tv.setText(TextUtils.isEmpty(mLocationBean.getName())?"":mLocationBean.getName());
+            address_tv.setText(TextUtils.isEmpty(mLocationBean.getName()) ? "" : mLocationBean.getName());
         }
     }
 
@@ -361,8 +361,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     public void updateAddressSuccess(AddressEditBean data, AddressEditReq addressEditreq) {
         if (data.getMeituan().getCode() == 0) {
             sendTTS(R.string.tts_save_address_success);
-            ToastUtils.show(this, getResources().getString(R.string.address_update_success), Toast.LENGTH_SHORT);
-            if (dataBean.getAddress_id()!=null&&getIntent().getLongExtra(Constant.ADDRESS_SELECT_ID, 0) == dataBean.getAddress_id()) {
+            showToast(R.string.address_update_success);
+            if (dataBean.getAddress_id() != null && getIntent().getLongExtra(Constant.ADDRESS_SELECT_ID, 0) == dataBean.getAddress_id()) {
                 AddressListBean.IovBean.DataBean bean = new AddressListBean.IovBean.DataBean();
                 bean.setAddress(addressEditreq.getAddress());
                 bean.setAddress_id(addressEditreq.getAddress_id());
@@ -376,12 +376,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 bean.setAddressRangeTip(dataBean.getAddressRangeTip());
                 bean.setCanShipping(dataBean.getCanShipping());
                 bean.setIs_hint(dataBean.isIs_hint());
-                CacheUtils.saveAddressBean( GsonUtil.toJson(bean));
+                CacheUtils.saveAddressBean(GsonUtil.toJson(bean));
             }
             finish();
         } else {
-            String msg = data.getMeituan().getMsg();
-            ToastUtils.show(this, msg, Toast.LENGTH_SHORT);
+            ToastUtils.show(this, getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
         }
     }
 
@@ -392,7 +391,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void addAddressSuccess(AddressAddBean data) {
-        isDealWidthSaveRequest = false; // 因为requestUpdateAddressData 是网络请求, 异步处理的, 完成上次请求后要还原标记位
         if (isEditMode && !getString(R.string.address_destination).equals(dataBean.getType())) {
             if (data.getMeituan().getCode() == 0) {
                 if (data.getIov().getErrno() == 0) {
@@ -402,18 +400,18 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                             0 : dataBean.getMt_address_id());
                     getPresenter().requestUpdateAddressData(mAddrEditReq);
                 } else {
-                    ToastUtils.show(this, getResources().getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
+                    ToastUtils.show(this, getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
                 }
             } else {
-                ToastUtils.show(this, getResources().getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
             }
         } else {
             if (data.getMeituan().getCode() == 0) {
                 sendTTS(R.string.tts_save_address_success);
-                ToastUtils.show(this, getResources().getString(R.string.address_save_success), Toast.LENGTH_SHORT);
+                showToast(R.string.address_save_success);
                 finish();
             } else {
-                ToastUtils.show(this, getResources().getString(R.string.address_save_fail), Toast.LENGTH_LONG);
+                ToastUtils.show(this, getString(R.string.address_save_fail), Toast.LENGTH_LONG);
             }
         }
 
@@ -421,25 +419,23 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void addAddressFail(String msg) {
-        isDealWidthSaveRequest = false; // 因为requestUpdateAddressData 是网络请求, 异步处理的, 完成上次请求后要还原标记位
-        ToastUtils.show(this, getResources().getString(R.string.address_save_fail), Toast.LENGTH_LONG);
+        ToastUtils.show(this, getString(R.string.address_save_fail), Toast.LENGTH_LONG);
     }
 
     @Override
     public void deleteAddressSuccess(AddressDeleteBean data) {
         if (data.getIov().getErrno() == 0) {
-            ToastUtils.show(this, getResources().getString(R.string.address_delete_success), Toast.LENGTH_SHORT);
+            showToast(R.string.address_delete_success);
             sendTTS(R.string.tts_delete_address);
             finish();
         } else {
-            String msg = data.getIov().getErrmsg();
-            ToastUtils.show(this, msg, Toast.LENGTH_SHORT);
+            ToastUtils.show(this, getString(R.string.address_delete_fail), Toast.LENGTH_SHORT);
         }
     }
 
     @Override
     public void deleteAddressFail(String msg) {
-        ToastUtils.show(this, getResources().getString(R.string.address_delete_fail), Toast.LENGTH_SHORT);
+        ToastUtils.show(this, getString(R.string.address_delete_fail), Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -476,9 +472,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         }
     }
 
-    private void sendTTS(int stringId){
-        if (initTTS){
-            initTTS=false;
+    private void sendTTS(int stringId) {
+        if (initTTS) {
+            initTTS = false;
             StandardCmdClient.getInstance().playTTS(mContext, ResUtils.getString(stringId));
         }
     }
@@ -617,5 +613,10 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 })
                 .create();
         dialog.show();
+    }
+
+    //统一toast
+    private void showToast(int stringId) {
+        ToastUtils.customTime(this, getString(stringId), 500);
     }
 }
