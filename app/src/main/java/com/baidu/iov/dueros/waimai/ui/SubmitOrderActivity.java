@@ -107,6 +107,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private RelativeLayout mParentsLayout;
     private LinearLayout mNoNet;
     private Button mNoInternetButton;
+    private String date_type_tip,date_time,view_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -461,20 +462,20 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_TIME,EventType.TOUCH_TYPE);
                 isChoiceAddressBack = true;
                 if (mDataBean != null) {
-                    String type = mDataBean.get(mCurDateItem).getTimelist().get(position).getDate_type_tip();
-                    String time = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_time();
+                    date_type_tip = mDataBean.get(mCurDateItem).getTimelist().get(position).getDate_type_tip();
+                    view_time = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_time();
+                    date_time = mDataBean.get(mCurDateItem).getDate();
                     mUnixtime = mDataBean.get(mCurDateItem).getTimelist().get(position).getUnixtime();
                     if (mUnixtime == 0) {
                         mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
                         mTypeTipTv.setText(getString(R.string.delivery_immediately));
                     } else {
                         if (mCurDateItem != 0){
-                            String date = mDataBean.get(mCurDateItem).getDate();
-                            mArriveTimeTv.setText(date +" "+time);
-                            mTypeTipTv.setText(type);
+                            mArriveTimeTv.setText(date_time +" "+view_time);
+                            mTypeTipTv.setText(date_type_tip);
                         }else {
-                            mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), time));
-                            mTypeTipTv.setText(type);
+                            mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), view_time));
+                            mTypeTipTv.setText(date_type_tip);
                         }
                     }
 
@@ -682,15 +683,15 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 mWarnTipParent.setVisibility(View.GONE);
             }
 
-            int estimate = mOrderPreviewData.getWm_ordering_preview_order_vo().getEstimate_arrival_time();
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-            mEstimateTime = sdf.format(new Date(Long.valueOf(String.valueOf(estimate)) * 1000L/* + 8 * 60 * 60 * 1000L*/));
-            if (mEstimateTime == null){
-                mTypeTipTv.setText(getString(R.string.delivery_immediately));
-                mArriveTimeTv.setText(getString(R.string.choose_arrive_time));
-            }else{
-//                if (mUnixtime == 0) {
-//                }
+            if (date_type_tip != null) {
+                mTypeTipTv.setText(date_type_tip);
+                if (date_time != null || view_time != null) {
+                    mArriveTimeTv.setText(date_time + " " + view_time);
+                }
+            } else {
+                int estimate = mOrderPreviewData.getWm_ordering_preview_order_vo().getEstimate_arrival_time();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                mEstimateTime = sdf.format(new Date(Long.valueOf(String.valueOf(estimate)) * 1000L/* + 8 * 60 * 60 * 1000L*/));
                 mTypeTipTv.setText(getString(R.string.delivery_immediately));
                 mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
             }
