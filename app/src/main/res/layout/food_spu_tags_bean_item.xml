@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/tv_store_index"
-            android:layout_width="@dimen/px100dp"
+            android:layout_width="@dimen/px110dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/px34dp"
             android:textColor="@color/white"
