@@ -59,6 +59,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView tv_address;
         TextView tv_address_type;
         TextView tv_name;
+        TextView tv_phone;
         ImageView img_edit;
         RelativeLayout address_item;
 
@@ -69,6 +70,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             tv_address = itemView.findViewById(R.id.tv_address);
             tv_address_type = itemView.findViewById(R.id.tv_address_type);
             tv_name = itemView.findViewById(R.id.tv_name);
+            tv_phone = itemView.findViewById(R.id.tv_phone);
             img_edit = itemView.findViewById(R.id.img_select);
             address_item = itemView.findViewById(R.id.address_item);
 
@@ -121,7 +123,11 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
                 String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
                 String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
-                ((ViewHolder) holder).tv_name.setText(name + " " + phone);
+                if (address.length() > 14) {
+                    ((ViewHolder) holder).tv_address.setWidth((int) mContext.getResources().getDimension(R.dimen.px450dp));
+                }
+                ((ViewHolder) holder).tv_name.setText(name);
+                ((ViewHolder) holder).tv_phone.setText(phone);
 
                 holder.itemView.setTag(realPosition);
                 String ttsAddress = Encryption.desEncrypt(mData.get(realPosition).getAddress());

@@ -65,18 +65,30 @@
 
     </RelativeLayout>
 
-    <com.domain.multipltextview.MultiplTextView
+    <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/address_panel"
         android:layout_marginTop="@dimen/px26dp"
-        android:alpha="0.6"
         android:layout_alignStart="@+id/address_panel"
-        android:textColor="@color/white"
+        android:textColor="@color/white_60"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textSize="@dimen/px30sp"
-        app:removeDefaultPadding="true" />
+        android:includeFontPadding="false" />
 
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white_60"
+        android:textSize="@dimen/px30sp"
+        android:layout_toEndOf="@+id/tv_name"
+        android:layout_marginStart="@dimen/px20dp"
+        android:layout_marginTop="@dimen/px26dp"
+        android:layout_below="@+id/address_panel"
+        />
     <ImageView
         android:id="@+id/img_select"
         android:layout_width="@dimen/px64dp"
