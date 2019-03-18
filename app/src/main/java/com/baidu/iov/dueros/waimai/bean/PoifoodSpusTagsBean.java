@@ -6,15 +6,15 @@ package com.baidu.iov.dueros.waimai.bean;
 
 public class PoifoodSpusTagsBean {
     private String foodSpuTagsBeanName;
-    private Integer index;
+    private Integer tag;
     private Integer number;
 
-    public Integer getIndex() {
-        return index;
+    public Integer getTag() {
+        return tag;
     }
 
-    public void setIndex(Integer index) {
-        this.index = index;
+    public void setTag(Integer index) {
+        this.tag = index;
     }
 
     public String getFoodSpuTagsBeanName() {

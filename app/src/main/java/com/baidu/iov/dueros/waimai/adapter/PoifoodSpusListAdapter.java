@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
@@ -104,7 +105,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
     }
 
     public interface onCallBackListener {
-        void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection, boolean increase);
+        void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, boolean increase,boolean refreshList);
         void removeProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection, boolean increase,boolean spec);
     }
 
@@ -189,7 +190,13 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
 
             @Override
             public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
-                final PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean = spusBeans.get(position);
+                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean1 = spusBeans.get(position);
+                if (FoodListActivity.selectFoods.containsKey(spusBean1.getId())) {
+                    spusBeans.remove(spusBean1);
+                    spusBeans.add(position, FoodListActivity.selectFoods.get(spusBean1.getId()));
+                    spusBean1 = spusBeans.get(position);
+                }
+                final PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean = spusBean1;
                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusBeans = spusBean.getSkus();
                 Lg.getInstance().d(TAG, "spusBean.getName() = " + spusBean.getName());
                 viewHolder.name.setText(spusBean.getName());
@@ -461,7 +468,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                                 viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
                                 if (callBackListener != null) {
                                     Lg.getInstance().d("FoodListActivity", "spusBean.getNumber() = " + spusBean.getNumber());
-                                    callBackListener.updateProduct(spusBean, spusBean.getTag(), section, true);
+                                    callBackListener.updateProduct(spusBean, spusBean.getTag(), true,false);
                                 }
                                 addToCart.setVisibility(View.GONE);
                                 action.setVisibility(View.VISIBLE);
@@ -735,7 +742,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         }
                         finalSpusBean.setNumber(num);
                         if (callBackListener != null) {
-                            callBackListener.updateProduct(finalSpusBean, finalSpusBean.getTag(), section, true);
+                            callBackListener.updateProduct(finalSpusBean, finalSpusBean.getTag(), true,true);
                         }
                         addToCart.setVisibility(View.GONE);
                         action.setVisibility(View.VISIBLE);
@@ -744,6 +751,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
 
                         viewHolder.specificationsNumber.setVisibility(View.VISIBLE);
                         setSpecificationNumber(finalSpusBean, viewHolder);
+                        if (foodSpuTagsBeans != null && foodSpuTagsBeans.size() > 0 && context.getString(R.string.heat_text).equals(foodSpuTagsBeans.get(0).getName())) {
+                            FoodListActivity.selectFoods.put(finalSpusBean.getId(), finalSpusBean);
+                        }
                     }
                 });
                 increase.setOnClickListener(new View.OnClickListener() {
@@ -840,8 +850,11 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         }
                     }
                     if (callBackListener != null) {
-                        callBackListener.updateProduct(spusBean, spusBean.getTag(), section, false);
+                        callBackListener.updateProduct(spusBean, spusBean.getTag(), false,true);
                     } else {
+                    }
+                    if (foodSpuTagsBeans != null && foodSpuTagsBeans.size() > 0 && context.getString(R.string.heat_text).equals(foodSpuTagsBeans.get(0).getName())) {
+                        FoodListActivity.selectFoods.put(spusBean.getId(), spusBean);
                     }
                 }
             }
@@ -867,7 +880,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 spusBean.setNumber(num);
                 viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
                 if (callBackListener != null) {
-                    callBackListener.updateProduct(spusBean, spusBean.getTag(), section, true);
+                    callBackListener.updateProduct(spusBean, spusBean.getTag(), true,true);
                 } else {
                 }
                 if (mHolderClickListener != null) {
@@ -879,6 +892,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     }
                     Drawable drawable = context.getResources().getDrawable(R.drawable.adddetail);
                     mHolderClickListener.onHolderClick(drawable, start_location);
+                }
+                if (foodSpuTagsBeans != null && foodSpuTagsBeans.size() > 0 && context.getString(R.string.heat_text).equals(foodSpuTagsBeans.get(0).getName())) {
+                    FoodListActivity.selectFoods.put(spusBean.getId(), spusBean);
                 }
             }
 
