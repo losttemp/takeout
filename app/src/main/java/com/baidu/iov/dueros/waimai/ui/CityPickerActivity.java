@@ -220,9 +220,12 @@ public class CityPickerActivity extends AppCompatActivity {
                 case LocationManager.TypeNetWorkLocation:
                     //Constant.LATITUDE = bdLocation.getLatitude();
                     //Constant.LONGITUDE = bdLocation.getLongitude();
-                    mlocation = String.valueOf(bdLocation.getCity());
-//                    getPresenter().requestData(null);
-                    mBannerHeaderAdapter.notifyDataSetChanged();
+                    if ("null".equalsIgnoreCase(String.valueOf(bdLocation.getCity()))) {
+                        mlocationManager.requestLocation();
+                    } else {
+                        mlocation = String.valueOf(bdLocation.getCity());
+                        mBannerHeaderAdapter.notifyDataSetChanged();
+                    }
                     break;
                 default:
                     break;
@@ -241,7 +244,7 @@ public class CityPickerActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mlocationManager!=null){
+        if (mlocationManager != null) {
             mlocationManager.stopLocation();
             mlocationManager = null;
         }
@@ -261,7 +264,7 @@ public class CityPickerActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Lg.getInstance().e("LocationManager","AndPermission true");
+            Lg.getInstance().e("LocationManager", "AndPermission true");
             getLocationCity();
         }
     }

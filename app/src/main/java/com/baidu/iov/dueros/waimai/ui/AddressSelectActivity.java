@@ -48,6 +48,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private View loadingView;
     private boolean isNeedPlayTTS;
     private Button addressAddBtn;
+    private int startApp;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -66,7 +67,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         isNeedPlayTTS = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
         getPresenter().initDesBeans();
         initView();
-        if (getIntent().getIntExtra(Constant.START_APP, -1) == Constant.START_APP_CODE) {
+        startApp = getIntent().getIntExtra(Constant.START_APP, -1);
+        if (startApp == Constant.START_APP_CODE) {
             requestPermission();
         }
     }
@@ -329,7 +331,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             CacheUtils.saveAddressBean(null);
             CacheUtils.saveAddress(null);
             AtyContainer.getInstance().finishAllActivity();
-        } else if (TextUtils.isEmpty(CacheUtils.getAddressBean())) {
+        } else if (startApp != Constant.START_APP_CODE && TextUtils.isEmpty(CacheUtils.getAddressBean())) {
             //当删除的地址是缓存的地址的时候,默认给第一个地址
             AddressListBean.IovBean.DataBean dataBean = mDataList.get(0);
             String databeanStr = GsonUtil.toJson(dataBean);

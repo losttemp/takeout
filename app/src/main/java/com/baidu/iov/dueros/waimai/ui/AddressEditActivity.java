@@ -427,6 +427,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         if (data.getIov().getErrno() == 0) {
             showToast(R.string.address_delete_success);
             sendTTS(R.string.tts_delete_address);
+            String json = CacheUtils.getAddressBean();
+            AddressListBean.IovBean.DataBean bean = GsonUtil.fromJson(json, AddressListBean.IovBean.DataBean.class);
+            getPresenter().isDeteleCache(dataBean.getAddress(),dataBean.getUser_phone(),bean.getAddress(),bean.getUser_phone());
             finish();
         } else {
             ToastUtils.show(this, getString(R.string.address_delete_fail), Toast.LENGTH_SHORT);

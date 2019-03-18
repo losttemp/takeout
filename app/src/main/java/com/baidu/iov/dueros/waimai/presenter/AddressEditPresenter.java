@@ -1,8 +1,7 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
-import android.util.ArrayMap;
-import android.util.Log;
+import android.text.TextUtils;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -13,6 +12,8 @@ import com.baidu.iov.dueros.waimai.net.entity.request.AddressEditReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressAddBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressDeleteBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
+import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
 public class AddressEditPresenter extends Presenter<AddressEditPresenter.AddressEditUi> {
@@ -131,5 +132,25 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
         void addAddressFail(String msg);
         void deleteAddressSuccess(AddressDeleteBean data);
         void deleteAddressFail(String msg);
+    }
+
+    public void isDeteleCache(String address, String phone, String cacheAddress, String cachePhone) {
+        //判断删除的地址是否属于缓存地址,属于则清空缓存地址
+        try {
+            String newaddress = Encryption.desEncrypt(address);
+            String newphone = Encryption.desEncrypt(phone);
+            String oldaddress = Encryption.desEncrypt(cacheAddress);
+            String oldphone = Encryption.desEncrypt(cachePhone);
+            if (!TextUtils.isEmpty(newaddress) &&
+                    !TextUtils.isEmpty(newphone) &&
+                    !TextUtils.isEmpty(oldaddress) &&
+                    !TextUtils.isEmpty(oldphone) &&
+                    newaddress.equals(oldaddress) &&
+                    newphone.equals(oldphone)) {
+                CacheUtils.saveAddressBean(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
