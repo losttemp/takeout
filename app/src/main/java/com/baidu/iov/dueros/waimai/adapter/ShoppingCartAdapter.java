@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.domain.multipltextview.MultiplTextView;
 
@@ -173,9 +174,11 @@ public class ShoppingCartAdapter extends BaseAdapter {
                     if (minOrderCount == num) {
                         num -= minOrderCount;
                         isMinOrderCount = true;
+                        Constant.MIN_COUNT = true;
                     } else {
                         num--;
                         isMinOrderCount =false;
+                        Constant.MIN_COUNT = false;
                     }
                     spusBeans.get(position).setNumber(num);
                     viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");

@@ -838,8 +838,10 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 if (num > 0) {
                     if (minOrderCount == spusBean.getNumber()) {
                         num -= minOrderCount;
+                        Constant.MIN_COUNT = true;
                     } else {
                         num--;
+                        Constant.MIN_COUNT = false;
                     }
                     spusBean.setNumber(num);
                     viewHolder.shoppingNum.setText(spusBean.getNumber() + "");

@@ -559,7 +559,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     if (remove){
                         number -= spusBean.getNumber();
                     }else {
-                        if (minOrderCount > 1 && minOrderCount == spusBean.getNumber()) {
+                        if (minOrderCount > 1 && Constant.MIN_COUNT) {
                             number -= minOrderCount;
                         } else {
                             number--;

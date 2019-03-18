@@ -208,4 +208,6 @@ public class Constant {
 
     public static boolean ANIMATION_END = true;
 
+    public static boolean MIN_COUNT = false;//bug 1331
+
 }
