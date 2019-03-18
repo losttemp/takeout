@@ -185,7 +185,7 @@ public class FilterPopWindow extends PopupWindow {
 		handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				rlParent.setBackgroundResource(R.drawable.bg_filter_pop);
+				rlParent.setBackgroundResource(R.drawable.shape_filter_pop);
 				rlParent.setVisibility(View.VISIBLE);
 			}
 		}, 300);
