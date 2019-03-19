@@ -225,6 +225,10 @@ public class CityPickerActivity extends AppCompatActivity {
                     } else {
                         mlocation = String.valueOf(bdLocation.getCity());
                         mBannerHeaderAdapter.notifyDataSetChanged();
+                        if (mlocationManager != null) {
+                            mlocationManager.stopLocation();
+                            mlocationManager = null;
+                        }
                     }
                     break;
                 default:
