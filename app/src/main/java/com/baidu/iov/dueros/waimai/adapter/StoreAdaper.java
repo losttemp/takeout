@@ -198,19 +198,6 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		}
 
 		viewHolder.itemView.setTag(position);
-		VoiceTouchUtils.setItemVoicesTouchSupport(viewHolder.rl, position, R.array.open_shop);
-		viewHolder.rl.setAccessibilityDelegate(new View.AccessibilityDelegate(){
-			@Override
-			public boolean performAccessibilityAction(View host, int action, Bundle args) {
-				switch (action) {
-					case AccessibilityNodeInfo.ACTION_CLICK:
-						mItemAccessibilityDelegate.onItemAccessibilityDelegate(position);
-						break;
-					default:
-						break;
-				}
-				return true;
-			}});
 
 	}
 	
