@@ -45,7 +45,7 @@
 
     <string-array name="open_shop">
         <item>第%d个</item>
-        <item>第%家</item>
+        <item>第%d家</item>
     </string-array>
 
     <string-array name="cancle_order">
