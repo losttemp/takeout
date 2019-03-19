@@ -29,7 +29,7 @@ public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi
 
 		switch (cmd) {
 			case StandardCmdClient.CMD_SELECT:
-				getUi().selectListItem(Integer.parseInt(extra)-1);
+				getUi().selectListItem(Integer.parseInt(extra));
 				break;
 			case StandardCmdClient.CMD_NEXT:
 				getUi().nextPage(true);

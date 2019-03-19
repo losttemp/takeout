@@ -561,6 +561,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	@Override
 	public void selectListItem(int index) {
 		if (index>=0) {
+		    index=index-1;
 			VoicesSelectListItem(index);
 		}
 	}
@@ -571,7 +572,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			return;
 		}
 		addStoreItemVoiceEvent();
-		if (index-1>=0) {
+		if (index>=0) {
 			jumpPage(index, true);
 		}
 	}
