@@ -225,10 +225,12 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     viewHolder.specifications.setVisibility(View.GONE);
                     viewHolder.add.setVisibility(View.VISIBLE);
                     viewHolder.action.setVisibility(View.GONE);
+                    viewHolder.discountPrice.setVisibility(View.VISIBLE);
                 } else {
                     viewHolder.specifications.setVisibility(View.GONE);
                     viewHolder.add.setVisibility(View.GONE);
                     viewHolder.action.setVisibility(View.VISIBLE);
+                    viewHolder.discountPrice.setVisibility(View.GONE);
                     viewHolder.shoppingNum.setText("" + spusBean.getNumber());
                 }
                 if (spusBean.getStatus() == 0) {
@@ -465,6 +467,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                                     num++;
                                 }
                                 spusBean.setNumber(num);
+                                if (num>0){
+                                    viewHolder.discountPrice.setVisibility(View.GONE);
+                                }
                                 viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
                                 if (callBackListener != null) {
                                     Lg.getInstance().d("FoodListActivity", "spusBean.getNumber() = " + spusBean.getNumber());
@@ -844,6 +849,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         Constant.MIN_COUNT = false;
                     }
                     spusBean.setNumber(num);
+                    if (num==0){
+                        viewHolder.discountPrice.setVisibility(View.VISIBLE);
+                    }
                     viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
                     if (spusBean.getNumber() == 0) {
                         viewHolder.action.setVisibility(View.GONE);
@@ -854,6 +862,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     if (callBackListener != null) {
                         callBackListener.updateProduct(spusBean, spusBean.getTag(), false,true);
                     } else {
+//                        callBackListener.updateProduct(spusBean, spusBean.getTag(), section, false);
                     }
                     if (foodSpuTagsBeans != null && foodSpuTagsBeans.size() > 0 && context.getString(R.string.heat_text).equals(foodSpuTagsBeans.get(0).getName())) {
                         FoodListActivity.selectFoods.put(spusBean.getId(), spusBean);
@@ -870,6 +879,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                             min_order_count + context.getString(R.string.share_buy), Toast.LENGTH_SHORT);
                 }
                 int num = spusBean.getNumber();
+
                 if (alreadyToast) {
                     num++;
                 } else {
@@ -881,6 +891,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 }
                 spusBean.setNumber(num);
                 viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
+                if (num>0){
+                    viewHolder.discountPrice.setVisibility(View.GONE);
+                }
                 if (callBackListener != null) {
                     callBackListener.updateProduct(spusBean, spusBean.getTag(), true,true);
                 } else {

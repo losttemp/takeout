@@ -412,6 +412,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 intentFoodList.putExtra(Constant.STORE_ID, String.valueOf(mOrderDetails.getWm_poi_id()));
                 intentFoodList.putExtra(Constant.ORDER_LSIT_BEAN, mOrderDetails);
                 intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
+                intentFoodList.putExtra("flag",true);
                 startActivity(intentFoodList);
                 finish();
                 break;

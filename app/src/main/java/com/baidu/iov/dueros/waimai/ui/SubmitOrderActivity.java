@@ -294,6 +294,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             int count = wmOrderingPreviewDetailVoListBean.getCount();
             double price = wmOrderingPreviewDetailVoListBean.getFood_price();
             double origin_price = wmOrderingPreviewDetailVoListBean.getOrigin_food_price();
+            double total_pricie = price*count;
             if (price < origin_price) {
                 tv_origin_price.setText(String.format(getResources().getString(R.string.cost_text), nf.format(origin_price)));
                 tv_origin_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -307,7 +308,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             Glide.with(this).load(pictureUrl).into(img_photo);
             tv_name.setText(name);
             tv_count.setText(String.format(getResources().getString(R.string.count_char), count));
-            tv_price.setText(String.format(getResources().getString(R.string.cost_text), nf.format(price)));
+            tv_price.setText(String.format(getResources().getString(R.string.cost_text), nf.format(total_pricie)));
 
             mProductInfoListview.addView(viewItem, params);
 
@@ -473,7 +474,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         if (mCurDateItem != 0){
                             mArriveTimeTv.setText(date_time +" "+view_time);
                             mTypeTipTv.setText(date_type_tip);
-                        }else {
+                        }
+                        else {
                             mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), view_time));
                             mTypeTipTv.setText(date_type_tip);
                         }
@@ -683,7 +685,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 mWarnTipParent.setVisibility(View.GONE);
             }
 
-            if (date_type_tip != null) {
+            if (mCurDateItem != 0) {
                 mTypeTipTv.setText(date_type_tip);
                 if (date_time != null || view_time != null) {
                     mArriveTimeTv.setText(date_time + " " + view_time);

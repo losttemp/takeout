@@ -175,6 +175,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         onemoreintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         onemoreintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(position).getExtra());
                         onemoreintent.putExtra(Constant.ONE_MORE_ORDER, true);
+                        onemoreintent.putExtra("flag",true);
                         onemoreintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                         startActivity(onemoreintent);
                         break;
