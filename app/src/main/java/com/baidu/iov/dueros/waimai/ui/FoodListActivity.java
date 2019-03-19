@@ -90,7 +90,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public static final String PRODUCT_LIST_BEAN = "product_list_bean";
     public static final String DISCOUNT = "discount";
 
-    public static Map<Integer, PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> selectFoods = null;
+    public static Map<Integer, PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> selectFoods = new HashMap<>();
 
     private boolean isScroll = true;
     private RecyclerView mFoodSpuTagsList;
@@ -200,7 +200,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_list);
-        selectFoods = new HashMap<>();
         map = new ArrayMap<>();
         initView();
         initData();
@@ -247,7 +246,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mInnerReceiver);
-        selectFoods = null;
+        selectFoods.clear();
     }
 
     @Override
