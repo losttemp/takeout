@@ -59,6 +59,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.PoifoodListPresenter;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
+import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
@@ -174,7 +175,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private List<Boolean> mIsDiscountList;
     private boolean alreadyToast;
     private boolean isNeedVoice;
-    private long mWmPoiId;
+    private String mWmPoiId;
     private LinearLayout mNoNet;
     private Button mNoInternetButton;
     private LinearLayout mLoading;
@@ -417,7 +418,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
         Bundle extras = getIntent().getExtras();
         if (extras.containsKey(Constant.STORE_ID)) {
-            mWmPoiId = Long.parseLong(String.valueOf(getIntent().getExtras().get(Constant.STORE_ID)));
+            mWmPoiId = String.valueOf(getIntent().getExtras().get(Constant.STORE_ID));
         }
         if (extras.containsKey("latitude")) {
             latitude = (Integer) getIntent().getExtras().get("latitude");
@@ -983,7 +984,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 clearShopCart();
                 break;
             case R.id.iv_finish:
-                finish();
+                if (getIntent().getBooleanExtra("flag",false)){
+                    finish();
+                }else {
+                    AtyContainer.getInstance().finishAllActivity();
+                }
                 Entry.getInstance().onEvent(Constant.POIFOODLIST_FINISH, EventType.TOUCH_TYPE);
                 break;
             case R.id.rl_store_details:
