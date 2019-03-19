@@ -660,6 +660,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			Intent intent = new Intent(mContext, FoodListActivity.class);
 			intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());
 			intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+			intent.putExtra("flag",true);
 			intent.putExtra("latitude", Constant.GOODS_LATITUDE);
 			intent.putExtra("longitude", Constant.GOODS_LONGITUDE);
 			startActivity(intent);
