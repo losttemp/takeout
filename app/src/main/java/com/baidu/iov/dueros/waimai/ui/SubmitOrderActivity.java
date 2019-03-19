@@ -475,10 +475,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                             mArriveTimeTv.setText(date_time +" "+view_time);
                             mTypeTipTv.setText(date_type_tip);
                         }
-                        else {
-                            mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), view_time));
-                            mTypeTipTv.setText(date_type_tip);
-                        }
+//                        else {
+//                            mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), view_time));
+//                            mTypeTipTv.setText(date_type_tip);
+//                        }
                     }
 
                     String shippingFee = mDataBean.get(mCurDateItem).getTimelist().get(position).getView_shipping_fee().trim();
