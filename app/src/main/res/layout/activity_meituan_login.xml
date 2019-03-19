@@ -10,17 +10,19 @@
     <RelativeLayout
         android:id="@+id/login_bg"
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
         <WebView
             android:id="@+id/meituan_login"
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/px88dp"
             android:layout_height="match_parent" />
 
         <ImageView
             android:id="@+id/webview_back"
-            android:layout_width="@dimen/px64dp"
-            android:layout_height="@dimen/px64dp"
+            android:layout_width="@dimen/px48dp"
+            android:layout_height="@dimen/px48dp"
             android:layout_marginLeft="@dimen/px24dp"
             android:layout_marginTop="@dimen/px24dp"
             android:src="@drawable/webview_back" />
