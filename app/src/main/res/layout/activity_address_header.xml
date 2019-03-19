@@ -10,6 +10,7 @@
         android:layout_width="@dimen/px96dp"
         android:layout_height="@dimen/px96dp"
         android:layout_marginTop="@dimen/px16dp"
+        android:foreground="@drawable/fg_ripple"
         android:src="@drawable/icon_back" />
 
     <TextView

@@ -28,6 +28,7 @@
                 android:layout_height="@dimen/px96dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/px54dp"
+                android:foreground="@drawable/fg_ripple"
                 android:background="@drawable/icon_back" />
 
             <com.domain.multipltextview.MultiplTextView

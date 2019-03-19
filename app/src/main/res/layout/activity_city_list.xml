@@ -13,6 +13,7 @@
             android:id="@+id/list_iv_back"
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
+            android:foreground="@drawable/fg_ripple"
             android:layout_marginLeft="@dimen/px50dp"
             android:src="@drawable/icon_back" />
 

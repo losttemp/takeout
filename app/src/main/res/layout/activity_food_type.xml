@@ -21,6 +21,7 @@
             android:layout_marginLeft="@dimen/px54dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
+            android:foreground="@drawable/fg_ripple"
             android:background="@drawable/icon_back"
             />
         <com.domain.multipltextview.MultiplTextView

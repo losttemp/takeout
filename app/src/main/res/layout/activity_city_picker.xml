@@ -16,6 +16,7 @@
             android:layout_height="@dimen/px96dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/px50dp"
+            android:foreground="@drawable/fg_ripple"
             android:src="@drawable/icon_back" />
 
         <TextView
