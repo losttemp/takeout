@@ -95,7 +95,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 double origin_price = spusBeans.get(position).getSkus().get(0).getOrigin_price();
                 double price = spusBeans.get(position).getSkus().get(0).getPrice();
                 if (origin_price > price) {
-                    viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
+//                    viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
                     viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getSkus().get(0).getOrigin_price())));
                     viewHolder.shopDiscountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     viewHolder.shopDiscountPrice.getPaint().setAntiAlias(true); //去掉锯齿
@@ -107,7 +107,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 double origin_price = spusBeans.get(position).getSkus().get(0).getOrigin_price();
                 double price = spusBeans.get(position).getSkus().get(0).getPrice();
                 if (origin_price > price) {
-                    viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
+//                    viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
                     viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getChoiceSkus().get(0).getOrigin_price())));
                     viewHolder.shopDiscountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     viewHolder.shopDiscountPrice.getPaint().setAntiAlias(true); //去掉锯齿

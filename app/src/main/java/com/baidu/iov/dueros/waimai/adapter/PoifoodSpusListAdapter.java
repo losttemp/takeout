@@ -508,6 +508,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         }
                     }
                 });
+                if (viewHolder.action.getVisibility()==View.VISIBLE){
+                    viewHolder.discountPrice.setVisibility(View.GONE);
+                }
             }
 
             private int getIndex(@NonNull ViewHolder viewHolder) {
