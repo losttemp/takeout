@@ -97,7 +97,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             try {
                 detail = Encryption.desEncrypt(dataBean.getAddress());
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) details.getLayoutParams();
-                if (detail.length() > 20) {
+                if (detail.length() > 18) {
                     lp.width = 586;
                 } else {
                     lp.width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -137,7 +137,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
                 tvType.setBackgroundResource(R.drawable.tag_bg_mudidi);
             }
             tvType.setText(!TextUtils.isEmpty(type) ? type : mContext.getString(R.string.address_tag_other));
-            VoiceTouchUtils.setItemVoicesTouchSupport(edit, position, R.array.address_edit);
+            VoiceTouchUtils.setItemVoicesTouchSupport(edit, position, position == 0 ? R.array.address_edit_other : R.array.address_edit);
             VoiceTouchUtils.setVoiceTouchTTSSupport(edit, mContext.getString(R.string.start_edit_address_success_text));
         }
 
