@@ -430,7 +430,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         }
 
         orderPreviewJsonBean.setWm_ordering_user(wmOrderingUserBean);
-        if (null != addressData.getMt_address_id()) {
+        if (null != addressData&&null != addressData.getMt_address_id()) {
             orderPreviewJsonBean.setAddress_id(addressData.getMt_address_id());
         }
         return GsonUtil.toJson(orderPreviewJsonBean);
