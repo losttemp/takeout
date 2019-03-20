@@ -333,7 +333,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     public void run() {
                         doAnim(drawable, start_location);
                     }
-                }, 0);
+                }, 50);
 //                doAnim(drawable, start_location);
             }
         });
