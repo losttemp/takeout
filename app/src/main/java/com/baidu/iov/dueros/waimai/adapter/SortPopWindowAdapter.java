@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseAdapter;
 
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
 		.DataBean.SortTypeListBean;
 import com.baidu.iov.dueros.waimai.R;
@@ -27,6 +28,11 @@ public class SortPopWindowAdapter extends BaseAdapter {
 		this.mLayoutInflater = LayoutInflater.from(context);
 		mContext = context;
 		mSortList = sortList;
+	}
+
+	public void setData(List<SortTypeListBean>  data){
+		mSortList = data;
+		notifyDataSetChanged();
 	}
 
 	@Override

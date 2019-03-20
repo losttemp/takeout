@@ -348,6 +348,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		if (mSortPopWindow==null||!mSortPopWindow.isShowing()) {
 			mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
 			mIvFilter.setImageResource(R.drawable.arrow_up);
+			Lg.getInstance().e(TAG,  " size:" + mFilterList.size() );
 			if (mFilterList!=null&&mFilterList.size()!=0) {
 				mFilterPopWindow.showAsDropDown(mView);
 				mViewBg.setVisibility(View.VISIBLE);
@@ -527,7 +528,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mSortList.clear();
 		mSortList.addAll(getSortTypeList(data.getMeituan().getData().getSort_type_list()));
 		if (mSortPopWindow != null) {
-			mSortPopWindow.updateList();
+			mSortPopWindow.updateList(mSortList);
 		}
 
 		mSortTypeTabs.clear();
@@ -537,7 +538,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mFilterList.clear();
 		mFilterList.addAll(data.getMeituan().getData().getActivity_filter_list());
 		if (mFilterPopWindow != null) {
-			mFilterPopWindow.updateList();
+			mFilterPopWindow.updateList(mFilterList);
 		}
 
 	}

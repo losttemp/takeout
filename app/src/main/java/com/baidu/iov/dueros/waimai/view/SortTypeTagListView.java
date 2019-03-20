@@ -51,7 +51,7 @@ public class SortTypeTagListView extends LinearLayout implements View.OnClickLis
         for (int i = 0; i < tags.size(); i++) {
             final TextView textView = new TextView(getContext());
             textView.setText(tags.get(i).getShort_name());
-            textView.setContentDescription(tags.get(i).getShort_name());
+            textView.setContentDescription(tags.get(i).getName());
             textView.getPaint().setTextSize(mTextSize);
             textView.setTextColor(mTextColor);
             int width = LayoutParams.WRAP_CONTENT;

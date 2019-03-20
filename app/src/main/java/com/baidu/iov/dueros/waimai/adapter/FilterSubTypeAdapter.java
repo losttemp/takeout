@@ -31,6 +31,11 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 		mItemsBeans = itemsBeans;
 	}
 
+	public void setData(List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean> data){
+		mItemsBeans = data;
+		notifyDataSetChanged();
+	}
+
 	@Override
 	public int getCount() {
 		return mItemsBeans == null ? 0 : mItemsBeans.size();

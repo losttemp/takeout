@@ -71,8 +71,8 @@ public class SortPopWindow extends PopupWindow {
 		
 	}
 
-	public void updateList() {
-		mAdapter.notifyDataSetChanged();
+	public void updateList(List<SortTypeListBean>  data) {
+		mAdapter.setData(data);
 	}
 
 	public interface OnSelectedSortListener {
