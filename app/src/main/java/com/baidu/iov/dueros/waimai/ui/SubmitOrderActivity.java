@@ -213,8 +213,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         VoiceTouchUtils.setVoicesTouchSupport(mAddressUpdateLayout, R.array.update_address);
         VoiceTouchUtils.setVoiceTouchTTSSupport(mAddressUpdateLayout, mContext.getString(R.string.tts_add_new_address));
 
-        VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
-        VoiceTouchUtils.setVoiceTouchTTSSupport(mToPayTv, mContext.getString(R.string.tts_topay_text));
+
         netDataReque();
 
     }
@@ -376,6 +375,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 }else {
                     if(!isFastClick()){
                         if (NetUtil.getNetWorkState(this)) {
+                            VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
+                            VoiceTouchUtils.setVoiceTouchTTSSupport(mToPayTv, mContext.getString(R.string.tts_topay_text));
                             if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
                                 List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
                                 wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
@@ -695,7 +696,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                 mEstimateTime = sdf.format(new Date(Long.valueOf(String.valueOf(estimate)) * 1000L/* + 8 * 60 * 60 * 1000L*/));
                 mTypeTipTv.setText(getString(R.string.delivery_immediately));
-                mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
+                if(mEstimateTime!=null){
+                    mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
+                }else {
+                    mArriveTimeTv.setText("请选择配送时间");
+                }
             }
 
         } else {
