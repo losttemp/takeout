@@ -169,8 +169,10 @@ public class FilterPopWindow extends PopupWindow {
 		return mActivityFilterListBean;
 	}
 
-	public void updateList() {
-		mFilterSubTypeAdapter.notifyDataSetChanged();
+	public void updateList( List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean> mFilterList) {
+		mActivityFilterListBean =getActivityFilterListBean(mFilterList);
+		itemsBeans=mActivityFilterListBean.getItems();
+		mFilterSubTypeAdapter.setData(itemsBeans);
 	}
 
 	public interface OnClickOkListener {

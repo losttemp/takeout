@@ -67,7 +67,7 @@
 
 			<TextView
 				android:id="@+id/tv_store_name"
-				android:layout_width="@dimen/px380dp"
+				android:layout_width="@dimen/px350dp"
 				android:layout_height="wrap_content"
 				android:textColor="@color/white"
 				android:layout_marginRight="@dimen/px10dp"
