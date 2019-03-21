@@ -700,7 +700,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mTvSort.setText(getResources().getString(R.string.store_sort));
 			mStoreReq.setSortType(Constant.COMPREHENSIVE);
 			mTagLv.setTextViewDefaultColor();
-
+			mStoreReq.setMigFilter("");
 			storeReq.setPage_index(1);
 			storeReq.setLatitude(Constant.GOODS_LATITUDE);
 			storeReq.setLongitude(Constant.GOODS_LONGITUDE);
@@ -741,7 +741,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				if (!Constant.GOODS_LATITUDE.equals(mStoreReq.getLatitude())){
 					filterConditionReq.setLatitude(Constant.GOODS_LATITUDE);
 					filterConditionReq.setLongitude(Constant.GOODS_LONGITUDE);
-					
+
 					mStoreReq.setLatitude(Constant.GOODS_LATITUDE);
 					mStoreReq.setLongitude(Constant.GOODS_LONGITUDE);
 					mStoreReq.setSortType(Constant.COMPREHENSIVE);
