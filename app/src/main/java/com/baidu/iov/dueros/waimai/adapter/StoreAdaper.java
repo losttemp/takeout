@@ -21,6 +21,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean.DiscountsBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
@@ -59,7 +60,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout
 				.layout_store_item, viewGroup, false);
 		final ViewHolder holder = new ViewHolder(view);
-
+		holder.setIsRecyclable(false);
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -151,7 +152,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 				viewHolder.rvStoreDiscount.addItemDecoration(new SpaceItemDecoration(space));
 			}
 			viewHolder.rvStoreDiscount.setLayoutManager(mFlowLayoutManager);
-			DiscountAdaper discountAdaper = new DiscountAdaper(mContext,discounts);
+			final DiscountAdaper discountAdaper = new DiscountAdaper(mContext,discounts);
 			viewHolder.rvStoreDiscount.setAdapter(discountAdaper);
 			viewHolder.rlDiscount.setVisibility(View.VISIBLE);
 
@@ -210,11 +211,12 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
             int lines = mFlowLayoutManager.getLineRows();
             if (lines > 1) {
                 viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_up);
-                store.setDiscountsDown(true);
                 setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT
                         * lines);
+				store.setDiscountsDown(true);
             } else {
                 setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
+				store.setDiscountsDown(false);
             }
         }
     }

@@ -72,9 +72,11 @@ public class PoifoodSpusTagsAdapter extends RecyclerView.Adapter<PoifoodSpusTags
         });
 
         if (position == selectedPosition) {
-            viewHolder.view.setBackgroundResource(R.color.list_bg);
+            viewHolder.foodSpuTagsBeanName.setTextColor(context.getResources().getColor(R.color.white));
+            viewHolder.view.setBackgroundColor(context.getResources().getColor(R.color.refresh_layout));
         } else {
-            viewHolder.view.setBackgroundColor(Color.TRANSPARENT);
+            viewHolder.foodSpuTagsBeanName.setTextColor(context.getResources().getColor(R.color.white_60));
+            viewHolder.view.setBackgroundColor(context.getResources().getColor(R.color.zuobianlan_bg));
         }
         viewHolder.itemView.setTag(position);
     }

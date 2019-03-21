@@ -202,7 +202,7 @@ public class StoreResponse {
 				private String average_price_tip;
 				private List<ProductListBean> product_list;
 				private List<DiscountsBean> discounts;
-				private boolean isDiscountsDown;
+				private boolean isDiscountsDown=false;
 
 				public long getWm_poi_id() {
 					return wm_poi_id;
