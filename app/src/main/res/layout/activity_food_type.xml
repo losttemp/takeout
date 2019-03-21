@@ -101,8 +101,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:divider="@null"
-            android:dividerHeight="0dp"
-            android:background="@drawable/zuobianlan_bg" />
+            android:dividerHeight="0dp"/>
 
         <com.domain.multipltextview.MultiplTextView
             app:removeDefaultPadding="true"

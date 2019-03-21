@@ -110,7 +110,6 @@
                 android:id="@+id/classify_mainlist"
                 android:layout_width="@dimen/px286dp"
                 android:layout_height="match_parent"
-                android:background="@color/base_color"
                 android:scrollbars="none" />
 
             <android.support.v7.widget.RecyclerView
