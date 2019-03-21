@@ -15,7 +15,7 @@
             android:id="@+id/rl_discount"
             android:layout_width="match_parent"
             android:layout_height="@dimen/px60dp"
-            android:background="@drawable/youhuixinxi_bg">
+            android:background="@color/shop_top_cart_bg">
 
             <TextView
                 android:id="@+id/tv_discount"
@@ -155,7 +155,7 @@
             android:id="@+id/shopping_cart"
             android:layout_width="@dimen/px94dp"
             android:layout_height="@dimen/px94dp"
-            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
             android:src="@drawable/icon_gouwuche" />
 
         <TextView
