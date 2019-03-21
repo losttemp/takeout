@@ -266,6 +266,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 final String pictureUrl = spusBean.getPicture();
                 GlideApp.with(context)
                         .load(pictureUrl)
+                        .skipMemoryCache(true)
                         .into(viewHolder.head);
 
                 if (skusBeans.size() == 1) {
@@ -454,6 +455,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         spusName.setText(spusBean.getName());
                         GlideApp.with(context)
                                 .load(pictureUrl)
+                                .skipMemoryCache(true)
                                 .into(spusPicture);
                         addToCart.setOnClickListener(new View.OnClickListener() {
                             @Override

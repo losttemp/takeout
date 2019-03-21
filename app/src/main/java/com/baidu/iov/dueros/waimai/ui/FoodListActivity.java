@@ -115,26 +115,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private ListView shoppingListView;
     private ShoppingCartAdapter shoppingCartAdapter;
     private ArrayMap<String, String> map;
-
-    private Handler myHandler = new Handler(new Handler.Callback() {
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    try {
-                        animation_viewGroup.removeAllViews();
-                    } catch (Exception e) {
-
-                    }
-                    isClean = false;
-
-                    break;
-                default:
-                    break;
-            }
-            return true;
-        }
-    });
-
     private PoifoodSpusTagsAdapter mFoodSpuTagsListAdapter;
     private RelativeLayout mStoreDetails;
     private MultiplTextView mClearshopCart;
@@ -1152,7 +1132,17 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 number--;
                 if (number == 0) {
                     isClean = true;
-                    myHandler.sendEmptyMessage(0);
+                    mFoodSpuTagsList.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                animation_viewGroup.removeAllViews();
+                            } catch (Exception e) {
+
+                            }
+                            isClean = false;
+                        }
+                    });
                 }
                 ObjectAnimator.ofFloat(shopping_cart, "translationY", 0, 4, -2, 0).setDuration(400).start();
                 ObjectAnimator.ofFloat(shoppingNum, "translationY", 0, 4, -2, 0).setDuration(400).start();

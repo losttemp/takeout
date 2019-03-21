@@ -369,15 +369,16 @@ public class PoifoodListBean {
                     }
 
                     public Object deepClone() throws Exception {
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        ObjectOutputStream oos = new ObjectOutputStream(bos);
-
-                        oos.writeObject(this);
-
-                        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-                        ObjectInputStream ois = new ObjectInputStream(bis);
-
-                        return ois.readObject();
+                        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                             ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+                            oos.writeObject(this);
+                            try (ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+                                 ObjectInputStream ois = new ObjectInputStream(bis)) {
+                                return ois.readObject();
+                            }
+                        } catch (Exception e) {
+                            throw new Exception(e);
+                        }
                     }
 
                     @Override
