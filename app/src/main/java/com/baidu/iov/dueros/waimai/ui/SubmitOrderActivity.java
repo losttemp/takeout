@@ -131,7 +131,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData,SubmitOrderActivity.this);
             }
         }
-
         initView();
     }
 

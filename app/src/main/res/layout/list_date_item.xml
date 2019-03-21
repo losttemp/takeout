@@ -14,7 +14,6 @@
         android:layout_marginBottom="@dimen/px46dp"
         android:layout_marginEnd="@dimen/px64dp"
         android:textColor="@color/white"
-        android:alpha="0.6"
         android:textSize="@dimen/px32sp"
         app:removeDefaultPadding="true" />
 
