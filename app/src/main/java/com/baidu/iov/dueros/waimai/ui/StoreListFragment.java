@@ -701,6 +701,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			mStoreReq.setSortType(Constant.COMPREHENSIVE);
 			mTagLv.setTextViewDefaultColor();
 			mStoreReq.setMigFilter("");
+			mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
+			getFilterList();
 			storeReq.setPage_index(1);
 			storeReq.setLatitude(Constant.GOODS_LATITUDE);
 			storeReq.setLongitude(Constant.GOODS_LONGITUDE);
