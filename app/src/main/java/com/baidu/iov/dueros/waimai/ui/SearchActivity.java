@@ -244,6 +244,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 						 changeStatus(Constant.SEARCH_STATUS_HISTORY);
 						 Intent intent = new Intent(SearchActivity.this, FoodListActivity.class);
 						 intent.putExtra(Constant.STORE_ID, suggest.getPoi_addition_info().getWm_poi_id());
+						 intent.putExtra("flag",true);
 						 intent.putExtra("latitude", Constant.GOODS_LATITUDE);
 						 intent.putExtra("longitude", Constant.GOODS_LONGITUDE);
 						 startActivity(intent);
