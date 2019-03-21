@@ -42,7 +42,7 @@ public class CommonUtils {
 						continue;
 					}
 					dataStr.append(entry.getKey()).append("=").append(URLEncoder.encode(entry
-                            .getValue(), "utf-8"));
+                            .getValue(), "utf-8").replace("*", "%2A"));
 				} catch (UnsupportedEncodingException e) {
 					return "sign error!";
 				}
