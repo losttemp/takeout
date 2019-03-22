@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -1000,6 +1001,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 final PopupWindow window = new PopupWindow(popView,
                         WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.WRAP_CONTENT, true);
+                window.setBackgroundDrawable(new ColorDrawable(0x9a000000));
                 mPoifoodSpusListAdapter.showFoodListActivityDialog(v, popView, window);
                 break;
             case R.id.no_internet_btn:
