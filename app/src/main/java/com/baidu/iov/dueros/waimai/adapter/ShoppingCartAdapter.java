@@ -165,10 +165,14 @@ public class ShoppingCartAdapter extends BaseAdapter {
         });
 
         viewHolder.reduce.setOnClickListener(new View.OnClickListener() {
+            int num=0;
+            int minOrderCount =0 ;
             @Override
             public void onClick(View v) {
-                int num = spusBeans.get(position).getNumber();
-                int minOrderCount = getMinOrderCount(spusBeans.get(position));
+                if (spusBeans.size()>0){
+                    num = spusBeans.get(position).getNumber();
+                    minOrderCount = getMinOrderCount(spusBeans.get(position));
+                }
                 boolean isMinOrderCount = false;
                 if (num > 0) {
                     if (minOrderCount == num) {

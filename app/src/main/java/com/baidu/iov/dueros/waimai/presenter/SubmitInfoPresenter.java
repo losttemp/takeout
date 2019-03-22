@@ -313,7 +313,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                         long id = wmOrderingPreviewFoodSpuAttrListBean.getId();
                         food_spu_attr_ids.add(id);
                     }else {
-                        ToastUtils.show(context,context.getString(R.string.error_nullpoint),Toast.LENGTH_LONG);
+//                        ToastUtils.show(context,context.getString(R.string.error_nullpoint),Toast.LENGTH_LONG);
                     }
                 }
                 foodListBean.setFood_spu_attr_ids(food_spu_attr_ids);
@@ -329,7 +329,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             if (addressData.getUser_phone()!=null){
                 wmOrderingUserBean.setUser_phone(Encryption.desEncrypt(addressData.getUser_phone()));
             }else {
-                ToastUtils.show(context,context.getString(R.string.error_nullpoint),Toast.LENGTH_LONG);
+                ToastUtils.show(context,"收货人联系方式不能为空！",Toast.LENGTH_LONG);
             }
             if (addressData.getUser_name()!=null){
                 wmOrderingUserBean.setUser_name(Encryption.desEncrypt(addressData.getUser_name()));
@@ -403,7 +403,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                     long id = attrsBean.getChoiceAttrs().get(0).getId();
                     food_spu_attr_ids.add(id);
                 }else {
-                    ToastUtils.show(context,"商品列表不能为空",Toast.LENGTH_LONG);
+//                    ToastUtils.show(context,"商品列表不能为空",Toast.LENGTH_LONG);
                 }
             }
             foodListBean.setFood_spu_attr_ids(food_spu_attr_ids);
