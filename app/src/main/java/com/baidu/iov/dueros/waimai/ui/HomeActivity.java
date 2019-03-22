@@ -244,9 +244,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
     @Override
     public void getGPSAddressSuccess() {
-        Lg.getInstance().e(TAG, "getGPSAddressSuccess:");
         if (isInitData() && mBDLocation != null) {
-            Lg.getInstance().e(TAG, "getGPSAddressSuccess2");
             address = mBDLocation.getAddress().district + mBDLocation.getAddress().street + mBDLocation.getAddress().streetNumber;
             mTvTitle.setText(address);
             Constant.GOODS_LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);

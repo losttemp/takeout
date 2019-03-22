@@ -60,7 +60,6 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout
 				.layout_store_item, viewGroup, false);
 		final ViewHolder holder = new ViewHolder(view);
-		holder.setIsRecyclable(false);
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -71,6 +70,11 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		});
 
 		return holder;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
 	}
 
 	@Override
@@ -143,9 +147,9 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 	
 
 		//Discounts
-		List<String> discounts = getDiscountList(store.getDiscounts());
+		final List<String> discounts = getDiscountList(store.getDiscounts());
 		final FlowLayoutManager mFlowLayoutManager = new FlowLayoutManager();
-		if (discounts == null || discounts.size() == 0) {
+		if (store.getDiscounts() == null || store.getDiscounts().size() == 0) {
 			viewHolder.rlDiscount.setVisibility(View.GONE);
 		} else {
 			if (viewHolder.rvStoreDiscount.getItemDecorationCount() == 0) {
@@ -156,28 +160,31 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			viewHolder.rvStoreDiscount.setAdapter(discountAdaper);
 			viewHolder.rlDiscount.setVisibility(View.VISIBLE);
 
-			viewHolder.itemView.getViewTreeObserver().addOnGlobalLayoutListener(new
-																						ViewTreeObserver
-					.OnGlobalLayoutListener() {
+
+			viewHolder.itemView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 				@Override
 				public void onGlobalLayout() {
 					int lines = mFlowLayoutManager.getLineRows();
+					Lg.getInstance().d("StoreAdaper:", "pos:" + position+"  lines:"+lines+"   store.isDiscountsDown:"+store.isDiscountsDown());
 					if (lines > 1) {
 						viewHolder.ivStoreDiscount.setVisibility(View.VISIBLE);
-					} else {
-						viewHolder.ivStoreDiscount.setVisibility(View.GONE);
-					}
-
-					if (store.isDiscountsDown()) {
-						viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_up);
-						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT *
-								lines);
+						if (store.isDiscountsDown()) {
+							viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_up);
+							setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT *
+									lines);
+						} else {
+							viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
+							setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
+						}
 					} else {
 						viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
+						viewHolder.ivStoreDiscount.setVisibility(View.GONE);
 						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
 					}
 
-					viewHolder.itemView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+
+					//viewHolder.itemView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
 				}
 			});
@@ -217,7 +224,11 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
             } else {
                 setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
 				store.setDiscountsDown(false);
+				viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
+				viewHolder.ivStoreDiscount.setVisibility(View.GONE);
             }
+
+
         }
     }
 

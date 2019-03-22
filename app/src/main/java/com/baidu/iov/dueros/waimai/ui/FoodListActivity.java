@@ -983,7 +983,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
                     List<String> discountList = getDiscountList(discounts, true);
                     if (mDetailsDiscount.getItemDecorationCount() == 0) {
-                        mDetailsDiscount.addItemDecoration(new SpaceItemDecoration(dp2px(3)));
+                        mDetailsDiscount.addItemDecoration(new SpaceItemDecoration(mContext.getResources().getDimensionPixelSize(R.dimen.px10dp)));
                     }
                     final FlowLayoutManager layoutManager = new FlowLayoutManager();
                     mDetailsDiscount.setLayoutManager(layoutManager);
