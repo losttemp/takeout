@@ -697,6 +697,34 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     }
                 }
 
+                // 由于RecyclerView加载问题,需要将初始化商品放在此处
+                // 初始化未选择
+                if (choiseAttrs != null) {
+                    try {
+                        for (int k = 0; k < spusBean.getAttrs().size(); k++) {
+                            if (!choiseAttrs[k]) {
+                                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs = new ArrayList<>();
+                                choiceAttrs.add(attrs.get(k).getValues().get(0));
+                                spusBean.getAttrs().get(k).setChoiceAttrs(choiceAttrs);
+                                choiseAttrs[k] = true;
+                            }
+                        }
+                    } catch (Exception e) {
+                        // 防止数组越界
+                        e.printStackTrace();
+                    }
+                }
+
+                if (choiceSkus != null && choiceSkus.size() == 0) {
+                    choiceSkus.clear();
+                    choiceSkus.add(skus.get(0));
+                    spusBean.setChoiceSkus(choiceSkus);
+                    String price = String.valueOf(skus.get(0).getPrice());
+                    if (specificationsPrice != null) {
+                        specificationsPrice.setText(String.format("¥%1$s", price));
+                    }
+                }
+
                 PoifoodSpusAttrsAdapter poifoodSpusAttrsAdapter = new PoifoodSpusAttrsAdapter(context, attrs, skus, spusBean,
                         choiceSkus, productList, choiseAttrs);
                 specificationsList.setAdapter(poifoodSpusAttrsAdapter);
