@@ -109,9 +109,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private boolean isClean = false;
     private FrameLayout animation_viewGroup;
     private MultiplTextView defaultText;
+    //商品分类信息
     private List<PoifoodSpusTagsBean> poifoodSpusTagsBeans;
     private RelativeLayout parentLayout;
+    //商铺整体数据(分类>分类中的商品)
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans = new ArrayList<>();
+    //某分类下的商品
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList;
     private ListView shoppingListView;
     private ShoppingCartAdapter shoppingCartAdapter;
@@ -147,6 +150,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private RelativeLayout mRlDiscount;
     private MultiplTextView mNoProduct;
     private RelativeLayout mLlPrice;
+    //分类的名称列表
     private List<String> foodSpuTagsBeanName;
     private RelativeLayout mToolBar;
     private String mFirstDiscount;
@@ -1243,6 +1247,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         GlideApp.with(this)
                 .load(mPoiInfoBean.getPic_url())
                 .into(mShopPicture);
+        //商品分类
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> food_spu_tags = data.getMeituan().getData().getFood_spu_tags();
         for (int i = 0; i < food_spu_tags.size(); i++) {
             PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean foodSpuTagsBean = food_spu_tags.get(i);
@@ -1255,13 +1260,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             foodSpuTagsBeanName.add(foodSpuTagsName);
             Lg.getInstance().d(TAG, "foodSpuTagsBeanName = " + foodSpuTagsName);
             spusBeanList = new ArrayList<>();
-            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spus = foodSpuTagsBean.getSpus();
-            for (int j = 0; j < spus.size(); j++) {
-                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean = spus.get(j);
-                String spusName = spusBean.getName();
-                spusBeanList.add(spusBean);
-                Lg.getInstance().d(TAG, "spusBeanName = " + spusName);
-            }
+            //获取各个分类下的商品列表
+            spusBeanList.addAll(foodSpuTagsBean.getSpus());
             Lg.getInstance().d(TAG, "spusBeanList = " + spusBeanList.size());
             foodSpuTagsBean.setSpus(spusBeanList);
             foodSpuTagsBeans.add(foodSpuTagsBean);
@@ -1314,12 +1314,18 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         e.printStackTrace();
                     }
                     List<OrderListExtraBean.OrderInfos.Food_list> spusFoodList = orderInfos.getFood_list();
+                    //循环购买的商品
                     for (OrderListExtraBean.OrderInfos.Food_list spusFood : spusFoodList) {
                         long spuId = spusFood.getSpu_id();
+                        //循环商品列表的商品
                         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
+                            //如果再来一单的商品ID 等于  商品列表的ID
                             if (spusBean.getId() == spuId) {
+                                //给商品列表设置默认数量
                                 spusBean.setNumber(spusBean.getNumber() + spusFood.getCount());
+                                //商品的规格
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
+                                //商品的价格
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
                                 List<String> attrIds = spusFood.getAttrIds();
                                 List<String> attrValues = spusFood.getAttrValues();
@@ -1506,13 +1512,17 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public void sureOrder() {
         if (null != mBottomDialog && mBottomDialog.isShowing() && null != mCartSettlement) {
             isNeedVoice = true;
-            mCartSettlement.performClick();
+            if (mCartSettlement.isEnabled()) {
+                mCartSettlement.performClick();
+            }
             return;
         }
 
         if (null == mBottomDialog || (null != mBottomDialog && !mBottomDialog.isShowing() && null != settlement)) {
             isNeedVoice = true;
-            settlement.performClick();
+            if (settlement.isEnabled()) {
+                settlement.performClick();
+            }
         }
 
     }
@@ -1580,6 +1590,19 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                             View v = recyclerView.getChildAt(position - f);
                             if (null != recyclerView.getChildViewHolder(v)) {
                                 PoifoodSpusListAdapter.MyViewHolder.GridViewAdapter.ViewHolder holder = (PoifoodSpusListAdapter.MyViewHolder.GridViewAdapter.ViewHolder) recyclerView.getChildViewHolder(v);
+                                View canNotBuy = holder.itemView.findViewById(R.id.ll_not_buy_time);
+                                TextView tv_sold_out = holder.itemView.findViewById(R.id.tv_sold_out);
+                                //判断是否卖完
+                                if (tv_sold_out.getVisibility() == View.VISIBLE
+                                        && (getString(R.string.sold_out).equals(tv_sold_out.getText().toString()) ||
+                                        getString(R.string.looting).equals(tv_sold_out.getText().toString()))) {
+                                    return;
+                                }
+                                //非可售时间
+                                if (canNotBuy.getVisibility() != View.VISIBLE) {
+                                    ToastUtils.show(mContext, getString(R.string.not_buy_time), Toast.LENGTH_SHORT);
+                                    return;
+                                }
                                 holder.autoClick(position);
                             }
                         }

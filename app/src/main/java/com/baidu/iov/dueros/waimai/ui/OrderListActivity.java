@@ -165,11 +165,13 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 OrderListActivity.this.isNeedVoice = isNeedVoice;
                 switch (view.getId()) {
                     case R.id.tv_store_name:
+                        //进入店铺
                         Intent storeintent = new Intent(OrderListActivity.this, FoodListActivity.class);
                         storeintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         startActivity(storeintent);
                         break;
                     case R.id.one_more_order:
+                        //再来一单
                         Entry.getInstance().onEvent(Constant.ORDERLIST_TO_REPEAT_VOCIE, EventType.TOUCH_TYPE);
                         Intent onemoreintent = new Intent(OrderListActivity.this, FoodListActivity.class);
                         onemoreintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
@@ -180,12 +182,14 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         startActivity(onemoreintent);
                         break;
                     case R.id.pay_order:
+                        //去支付
                         loadingView.setVisibility(View.VISIBLE);
                         OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
                         mOrderDetailsReq.setId(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         getPresenter().requestOrderDetails(mOrderDetailsReq);
                         break;
                     case R.id.cancel_order:
+                        //取消订单
                         pos = position;
                         mOrderCancelReq = new OrderCancelReq(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         String message;
@@ -226,6 +230,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         dialog.show();
                         break;
                     default:
+                        //订单详情
                         Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL_VOICE, EventType.TOUCH_TYPE);
                         Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL, EventType.TOUCH_TYPE);
                         Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);

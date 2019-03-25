@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.ui;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, AddressSelectPresenter.AddressSelectUi> implements AddressSelectPresenter.AddressSelectUi, View.OnClickListener {
+
+    private final int START_ACTIVITY = 0x789;
     private List<AddressListBean.IovBean.DataBean> mDataList;
     private RecyclerView mRecyclerView;
     private LinearLayout mNoAddress;
@@ -46,7 +49,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private View addBtnView;
     private View networkView;
     private View loadingView;
-    private boolean isNeedPlayTTS;
+    private boolean isNeedPlayTTS, isDelay;
     private Button addressAddBtn;
     private int startApp;
 
@@ -81,19 +84,16 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         AccessibilityClient.getInstance().register(this, true, prefix, null);
         if (NetUtil.getNetWorkState(this)) {
             sendDestination();
-            addBtnView.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.GONE);
-            if (null != networkView) {
+            if (mDataList == null || mDataList.size() < 1)
+                addBtnView.setVisibility(View.GONE);
+            if (null != networkView)
                 networkView.setVisibility(View.GONE);
-            }
             initData();
             GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getMe());
         } else {
-            if (null != networkView) {
+            if (null != networkView)
                 networkView.setVisibility(View.VISIBLE);
-            }
         }
-
     }
 
     @Override
@@ -103,9 +103,16 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     }
 
     private void initData() {
-        mNoAddress.setVisibility(View.GONE);
-        loadingView.setVisibility(View.VISIBLE);
-        getPresenter().requestData(new AddressListReqBean());
+        //加500ms延迟是为了loadingView与编辑界面编辑操作成功后的toast提示错改
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isDelay = false;
+                mNoAddress.setVisibility(View.GONE);
+                loadingView.setVisibility(View.VISIBLE);
+                getPresenter().requestData(new AddressListReqBean());
+            }
+        }, isDelay ? 500 : 0);
     }
 
     private void initListener() {
@@ -159,7 +166,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         Intent intent = new Intent(AddressSelectActivity.this, AddressEditActivity.class);
         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_EDIT_ADDRESS, dataBean);
-        AddressSelectActivity.this.startActivity(intent);
+        startActivityForResult(intent, START_ACTIVITY);
     }
 
     private void initView() {
@@ -323,6 +330,13 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == START_ACTIVITY && resultCode == RESULT_OK) {
+            isDelay = true;
+        }
+    }
 
     private void finishAct() {
         if (mDataList.size() == 0) {
