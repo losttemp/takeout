@@ -75,6 +75,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private final int houseMaxLength = 30;
     //因为网络请求保存收货地址是异步的, 在网络请求完成之前不允许重复点击的
     private boolean isDealWidthSaveRequest = false;
+
     @Override
     AddressEditPresenter createPresenter() {
         return new AddressEditPresenter();
@@ -92,7 +93,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         initView();
         initData();
     }
-
 
 
     @Override
@@ -378,6 +378,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 bean.setIs_hint(dataBean.isIs_hint());
                 CacheUtils.saveAddressBean(GsonUtil.toJson(bean));
             }
+            setResult(RESULT_OK);
             finish();
         } else {
             ToastUtils.show(this, getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
@@ -409,6 +410,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             if (data.getMeituan().getCode() == 0) {
                 sendTTS(R.string.tts_save_address_success);
                 showToast(R.string.address_save_success);
+                setResult(RESULT_OK);
                 finish();
             } else {
                 ToastUtils.show(this, getString(R.string.address_save_fail), Toast.LENGTH_LONG);
@@ -429,9 +431,10 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             sendTTS(R.string.tts_delete_address);
             String json = CacheUtils.getAddressBean();
             AddressListBean.IovBean.DataBean bean = GsonUtil.fromJson(json, AddressListBean.IovBean.DataBean.class);
-            if (bean!=null){
-                getPresenter().isDeteleCache(dataBean.getAddress(),dataBean.getUser_phone(),bean.getAddress(),bean.getUser_phone());
+            if (bean != null) {
+                getPresenter().isDeteleCache(dataBean.getAddress(), dataBean.getUser_phone(), bean.getAddress(), bean.getUser_phone());
             }
+            setResult(RESULT_OK);
             finish();
         } else {
             ToastUtils.show(this, getString(R.string.address_delete_fail), Toast.LENGTH_SHORT);
