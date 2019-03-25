@@ -306,6 +306,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	}
 
+
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -318,6 +320,10 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				break;
 
 			case R.id.iv_clean:
+				View currentFocus = this.getCurrentFocus();
+				if (currentFocus != null) {
+					currentFocus.clearFocus();
+				}
 				mEtSearch.setText("");
 				break;
 
@@ -432,8 +438,9 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		} else {
 			setmLlHistoryVisibility();
 			mLvSuggest.setVisibility(View.GONE);
-			 
-			mFragmentStoreList.setVisibility(View.GONE);
+			 if(mFragmentStoreList!=null) {
+				 mFragmentStoreList.setVisibility(View.GONE);
+			 }
 			if (mSuggests.size() > 0) {
 				mSuggests.clear();
 				mSearchSuggestAdapter.notifyDataSetChanged();

@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.iov.dueros.waimai.BuildConfig;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressListAdapter;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
@@ -147,6 +148,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                             String address = Encryption.desEncrypt(addressData.getAddress());
                             CacheUtils.saveAddress(address);
                             HomeActivity.address = address;
+                            sendBroadcastAPP();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -303,6 +305,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 editor.putString(Constant.ADDRESS_DATA, databeanStr);
                 editor.commit();
                 setResult(RESULT_OK, data);
+                sendBroadcastAPP();
             }
             finish();
         }
@@ -348,6 +351,13 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             result = this.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    private void sendBroadcastAPP() {
+        //统一发送
+        Intent intent = new Intent(Constant.PULL_LOCATION);
+        intent.setPackage(BuildConfig.APPLICATION_ID);
+        sendBroadcast(intent);
     }
 
 }
