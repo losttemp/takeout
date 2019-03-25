@@ -305,7 +305,6 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 editor.putString(Constant.ADDRESS_DATA, databeanStr);
                 editor.commit();
                 setResult(RESULT_OK, data);
-                sendBroadcastAPP();
             }
             finish();
         }
