@@ -1633,7 +1633,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         }
     }
 
-    
+
     class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 

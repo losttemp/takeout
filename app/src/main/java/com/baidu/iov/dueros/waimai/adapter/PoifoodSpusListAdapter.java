@@ -105,8 +105,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
     }
 
     public interface onCallBackListener {
-        void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, boolean increase,boolean refreshList);
-        void removeProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection, boolean increase,boolean spec);
+        void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, boolean increase, boolean refreshList);
+
+        void removeProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean product, String tag, int selection, boolean increase, boolean spec);
     }
 
     public void showFoodListActivityDialog(View view, View contentView, final PopupWindow window) {
@@ -193,6 +194,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean1 = spusBeans.get(position);
                 if (FoodListActivity.selectFoods.containsKey(spusBean1.getId())) {
                     spusBeans.remove(spusBean1);
+                    PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean cache = FoodListActivity.selectFoods.get(spusBean1.getId());
+                    cache.setNumber(spusBean1.getNumber());
+                    cache.setSpecificationsNumber(spusBean1.getSpecificationsNumber());
                     spusBeans.add(position, FoodListActivity.selectFoods.get(spusBean1.getId()));
                     spusBean1 = spusBeans.get(position);
                 }
@@ -316,9 +320,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     viewHolder.prise.setText(NumberFormat.getInstance().format(spusBean.getMin_price()));
                 }
                 viewHolder.shoppingNum.setText("" + spusBean.getNumber());
-                viewHolder.add.setContentDescription(String.format(context.getString(R.string.to_eat_position),viewHolder.storeIndex.getText().toString()));
-                viewHolder.increase.setContentDescription(String.format(context.getString(R.string.to_eat_position),viewHolder.storeIndex.getText().toString()));
-                viewHolder.add.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+                viewHolder.add.setContentDescription(String.format(context.getString(R.string.to_eat_position), viewHolder.storeIndex.getText().toString()));
+                viewHolder.increase.setContentDescription(String.format(context.getString(R.string.to_eat_position), viewHolder.storeIndex.getText().toString()));
+                viewHolder.add.setAccessibilityDelegate(new View.AccessibilityDelegate() {
                     @Override
                     public boolean performAccessibilityAction(View host, int action, Bundle args) {
                         int index = getIndex(viewHolder);
@@ -326,7 +330,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         return true;
                     }
                 });
-                viewHolder.increase.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+                viewHolder.increase.setAccessibilityDelegate(new View.AccessibilityDelegate() {
                     @Override
                     public boolean performAccessibilityAction(View host, int action, Bundle args) {
                         int index = getIndex(viewHolder);
@@ -334,14 +338,14 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         return true;
                     }
                 });
-                viewHolder.reduce.setContentDescription(String.format(context.getString(R.string.cancel_position),viewHolder.storeIndex.getText().toString()));
-                viewHolder.reduce.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+                viewHolder.reduce.setContentDescription(String.format(context.getString(R.string.cancel_position), viewHolder.storeIndex.getText().toString()));
+                viewHolder.reduce.setAccessibilityDelegate(new View.AccessibilityDelegate() {
                     @Override
                     public boolean performAccessibilityAction(View host, int action, Bundle args) {
                         int index = getIndex(viewHolder);
-                        StandardCmdClient.getInstance().playTTS(context,context.getString(R.string.already_cancel)+spusBeans.get(index).getName());
+                        StandardCmdClient.getInstance().playTTS(context, context.getString(R.string.already_cancel) + spusBeans.get(index).getName());
                         if (callBackListener != null) {
-                            callBackListener.removeProduct(spusBeans.get(index), spusBeans.get(index).getTag(), section, false,false);
+                            callBackListener.removeProduct(spusBeans.get(index), spusBeans.get(index).getTag(), section, false, false);
                         }
                         return true;
                     }
@@ -469,13 +473,13 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                                     num++;
                                 }
                                 spusBean.setNumber(num);
-                                if (num>0){
+                                if (num > 0) {
                                     viewHolder.discountPrice.setVisibility(View.GONE);
                                 }
                                 viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
                                 if (callBackListener != null) {
                                     Lg.getInstance().d("FoodListActivity", "spusBean.getNumber() = " + spusBean.getNumber());
-                                    callBackListener.updateProduct(spusBean, spusBean.getTag(), true,false);
+                                    callBackListener.updateProduct(spusBean, spusBean.getTag(), true, false);
                                 }
                                 addToCart.setVisibility(View.GONE);
                                 action.setVisibility(View.VISIBLE);
@@ -510,7 +514,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         }
                     }
                 });
-                if (viewHolder.action.getVisibility()==View.VISIBLE){
+                if (viewHolder.action.getVisibility() == View.VISIBLE) {
                     viewHolder.discountPrice.setVisibility(View.GONE);
                 }
             }
@@ -683,7 +687,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                             specificationsPrice.setText("¥" + NumberFormat.getInstance().format(spusBean.getMin_price()));
                         }
                     }
-                }else {
+                } else {
                     if (attrs != null) {
                         for (int i = 0; i < attrs.size(); i++) {
                             if (attrs.get(i).getChoiceAttrs() != null) {
@@ -775,12 +779,12 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                             ToastUtils.show(context, context.getString(R.string.must_buy) +
                                     min_order_count + context.getString(R.string.share_buy), Toast.LENGTH_SHORT);
                             num += min_order_count;
-                        }else {
+                        } else {
                             num++;
                         }
                         finalSpusBean.setNumber(num);
                         if (callBackListener != null) {
-                            callBackListener.updateProduct(finalSpusBean, finalSpusBean.getTag(), true,true);
+                            callBackListener.updateProduct(finalSpusBean, finalSpusBean.getTag(), true, true);
                         }
                         addToCart.setVisibility(View.GONE);
                         action.setVisibility(View.VISIBLE);
@@ -882,7 +886,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         Constant.MIN_COUNT = false;
                     }
                     spusBean.setNumber(num);
-                    if (num==0){
+                    if (num == 0) {
                         viewHolder.discountPrice.setVisibility(View.VISIBLE);
                     }
                     viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
@@ -893,7 +897,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         }
                     }
                     if (callBackListener != null) {
-                        callBackListener.updateProduct(spusBean, spusBean.getTag(), false,true);
+                        callBackListener.updateProduct(spusBean, spusBean.getTag(), false, true);
                     } else {
 //                        callBackListener.updateProduct(spusBean, spusBean.getTag(), section, false);
                     }
@@ -904,7 +908,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
             }
 
             private void increaseOnClick(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
-                                         ViewHolder viewHolder, int section, boolean alreadyToast,MultiplTextView detailShopNum) {
+                                         ViewHolder viewHolder, int section, boolean alreadyToast, MultiplTextView detailShopNum) {
                 Entry.getInstance().onEvent(Constant.POIFOODLIST_CLICK_ON_INCREASE_OR_DECREASE, EventType.TOUCH_TYPE);
                 int min_order_count = getMinOrderCount(spusBean);
                 if (min_order_count > 1 && !alreadyToast) {
@@ -924,11 +928,11 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 }
                 spusBean.setNumber(num);
                 viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
-                if (num>0){
+                if (num > 0) {
                     viewHolder.discountPrice.setVisibility(View.GONE);
                 }
                 if (callBackListener != null) {
-                    callBackListener.updateProduct(spusBean, spusBean.getTag(), true,true);
+                    callBackListener.updateProduct(spusBean, spusBean.getTag(), true, true);
                 } else {
                 }
                 if (mHolderClickListener != null) {
