@@ -18,25 +18,26 @@
 		android:src="@drawable/icon_back" />
 
 	<ImageView
-		android:id="@+id/exit_login"
+		android:id="@+id/iv_right"
 		android:layout_width="@dimen/px48dp"
 		android:layout_height="@dimen/px48dp"
 		android:layout_alignParentEnd="true"
 		android:layout_centerVertical="true"
 		android:layout_marginRight="@dimen/px78dp"
 		android:layout_marginBottom="@dimen/px22dp"
-		android:src="@drawable/tuichu" />
+		android:src="@drawable/icon_dingdan" />
 
 
 	<ImageView
-		android:id="@+id/iv_right"
+		android:id="@+id/exit_login"
 		android:layout_width="@dimen/px48dp"
 		android:layout_height="@dimen/px48dp"
 		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/exit_login"
+		android:layout_toLeftOf="@+id/iv_right"
 		android:layout_marginBottom="@dimen/px22dp"
 		android:layout_marginRight="@dimen/px36dp"
-		android:src="@drawable/icon_dingdan" />
+		android:visibility="gone"
+		android:src="@drawable/tuichu" />
 
 	<TextView
 		android:id="@+id/tv_title"
