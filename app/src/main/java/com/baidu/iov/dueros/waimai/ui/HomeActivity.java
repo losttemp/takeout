@@ -1,5 +1,4 @@
 package com.baidu.iov.dueros.waimai.ui;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,12 +8,17 @@ import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
@@ -28,9 +32,7 @@ import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
-
 import java.util.ArrayList;
-
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
         HomePresenter.HomeUi, View.OnClickListener {
 
@@ -42,11 +44,13 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     private TextView mTvFood;
     private TextView mTvFlower;
     private TextView mTvCake;
-    private AppCompatImageView mIvBack;
-    private AppCompatImageView mIvRight;
+    private ImageView mIvBack;
+    private ImageView mIvRight;
     private TextView mTvTitle;
     private RelativeLayout mRlSearch;
-    private AppCompatImageView mIvTitle;
+    private ImageView mIvTitle;
+
+    private ImageView mExitLogin;
 
     private StoreListFragment mStoreListFragment;
 
@@ -148,6 +152,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         mTvTitle = findViewById(R.id.tv_title);
         mRlSearch = findViewById(R.id.rl_search);
         mIvTitle = findViewById(R.id.iv_title);
+        mExitLogin=findViewById(R.id.exit_login);
 
         mIvBack.setOnClickListener(this);
         mIvRight.setOnClickListener(this);
@@ -157,6 +162,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         mTvTitle.setOnClickListener(this);
         mRlSearch.setOnClickListener(this);
         mIvTitle.setOnClickListener(this);
+        mExitLogin.setOnClickListener(this);
         prefix.add(getResources().getString(R.string.prefix_choice));
         prefix.add(getResources().getString(R.string.prefix_check));
         prefix.add(getResources().getString(R.string.prefix_open));
@@ -315,11 +321,47 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
                 Entry.getInstance().onEvent(Constant.EVENT_FOOD_CLICK, EventType.TOUCH_TYPE);
                 intentToFood(false);
                 break;
-
+            case R.id.exit_login:
+               // exitLogin();
+                break;
             default:
                 break;
         }
 
+    }
+
+    private void exitLogin() {
+            LayoutInflater inflater = LayoutInflater.from(this);
+            RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.exit_login_dialog, null);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(layout);
+            Button btnOk = layout.findViewById(R.id.ok);
+            Button btnCancel = layout.findViewById(R.id.cancel);
+            final AlertDialog dialog = builder.create();
+            dialog.show();
+            if (dialog.getWindow() != null) {
+                Window window = dialog.getWindow();
+                window.setLayout((int) getResources().getDimension(R.dimen.px912dp), (int) getResources().getDimension(R.dimen.px516dp));
+                window.setBackgroundDrawableResource(R.drawable.permission_dialog_bg);
+                WindowManager.LayoutParams lp = window.getAttributes();
+                window.setGravity(Gravity.CENTER_HORIZONTAL);
+                window.setGravity(Gravity.TOP);
+                lp.y = (int) getResources().getDimension(R.dimen.px480dp);
+                window.setAttributes(lp);
+            }
+            btnOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
     }
 
 

@@ -7,7 +7,7 @@
 	android:layout_marginBottom="@dimen/px14dp"
 	android:layout_height="@dimen/px96dp">
 
-	<android.support.v7.widget.AppCompatImageView
+	<ImageView
 		android:id="@+id/iv_back"
 		android:layout_width="@dimen/px96dp"
 		android:layout_height="@dimen/px96dp"
@@ -17,15 +17,25 @@
 		android:foreground="@drawable/fg_ripple"
 		android:src="@drawable/icon_back" />
 
-	<android.support.v7.widget.AppCompatImageView
-		android:id="@+id/iv_right"
+	<ImageView
+		android:id="@+id/exit_login"
 		android:layout_width="@dimen/px48dp"
 		android:layout_height="@dimen/px48dp"
 		android:layout_alignParentEnd="true"
 		android:layout_centerVertical="true"
 		android:layout_marginRight="@dimen/px78dp"
-		android:contentDescription="@string/content_order_form"
 		android:layout_marginBottom="@dimen/px22dp"
+		android:src="@drawable/tuichu" />
+
+
+	<ImageView
+		android:id="@+id/iv_right"
+		android:layout_width="@dimen/px48dp"
+		android:layout_height="@dimen/px48dp"
+		android:layout_centerVertical="true"
+		android:layout_toLeftOf="@+id/exit_login"
+		android:layout_marginBottom="@dimen/px22dp"
+		android:layout_marginRight="@dimen/px36dp"
 		android:src="@drawable/icon_dingdan" />
 
 	<TextView
@@ -43,7 +53,7 @@
 		android:textColor="@color/white"
 		android:textSize="@dimen/px40sp" />
 	
-	<android.support.v7.widget.AppCompatImageView
+	<ImageView
 		android:id="@+id/iv_title"
 		android:layout_width="@dimen/px48dp"
 		android:layout_height="@dimen/px48dp"

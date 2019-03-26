@@ -203,6 +203,9 @@ public class Constant {
     public final static int ORDERLIST_REFRESH_VOICE=31300076;
     public final static int GOBACK_TO_PREACTIVITY=31300077;
 
+
+
+
     public static Integer GOODS_LATITUDE = -1;
     public static Integer GOODS_LONGITUDE = -1;
 

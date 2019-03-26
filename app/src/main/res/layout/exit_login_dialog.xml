@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px164dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/exit_login_message"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px42sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px2dp"
+        android:background="@color/split_view_color"
+        android:layout_above="@+id/click_layout"/>
+
+   <LinearLayout
+       android:id="@+id/click_layout"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true">
+
+       <Button
+           android:id="@+id/cancel"
+           android:layout_width="0dp"
+           android:layout_height="@dimen/px150dp"
+           android:layout_weight="1"
+           android:textSize="@dimen/px42sp"
+           android:textColor="@color/white"
+           android:text="@string/exit_login_cancel"
+           android:background="@null"/>
+
+       <View
+           android:layout_width="@dimen/px2dp"
+           android:layout_height="@dimen/px150dp"
+           android:background="@color/split_view_color"
+           app:layout_constraintLeft_toRightOf="@+id/cancel"
+           app:layout_constraintLeft_toLeftOf="@+id/ok"
+           app:layout_constraintBottom_toBottomOf="parent"/>
+
+       <Button
+           android:id="@+id/ok"
+           android:layout_width="0dp"
+           android:layout_height="@dimen/px150dp"
+           android:layout_weight="1"
+           android:text="@string/exit_login_ok"
+           android:textSize="@dimen/px42sp"
+           android:textColor="@color/white"
+           android:background="@null"/>
+   </LinearLayout>
+
+</RelativeLayout>

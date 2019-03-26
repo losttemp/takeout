@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.net;
 
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -73,6 +74,7 @@ public class ApiInstance {
             }
         });
         httpClient.addInterceptor(logging);
+        httpClient.connectTimeout(10, TimeUnit.SECONDS); //连接超时
         return httpClient.build();
     }
 

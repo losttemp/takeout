@@ -54,6 +54,10 @@
     <string name="new_bus">新商家</string>
     <string name="booking">跨天预订</string>
 
+    <string name="exit_login_message">你确定要退出登录？</string>
+    <string name="exit_login_cancel">取消</string>
+    <string name="exit_login_ok">确定</string>
+
 
     <!--FilterPopWindow-->
     <string name="ok">确定</string>
