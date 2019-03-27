@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,216 +8,235 @@
     android:orientation="vertical"
     tools:context="com.baidu.iov.dueros.waimai.ui.PaymentActivity">
 
-    <RelativeLayout
-        android:id="@+id/submit_header"
+    <LinearLayout
+        android:id="@+id/payment_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px120dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/submit_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px120dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="@dimen/px96dp"
+                android:layout_height="@dimen/px96dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/px54dp"
+                android:foreground="@drawable/fg_ripple"
+                android:background="@drawable/icon_back" />
+
+            <com.domain.multipltextview.MultiplTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/payment_header"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px40sp"
+                app:removeDefaultPadding="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/time_panel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px126dp"
+            android:background="@drawable/tagbg3"
+            >
+
+            <ImageView
+                android:id="@+id/img_clock"
+                android:layout_width="@dimen/px96dp"
+                android:layout_height="@dimen/px96dp"
+                android:layout_marginStart="@dimen/px60dp"
+                android:layout_marginTop="@dimen/px16dp"
+                android:layout_marginBottom="@dimen/px14dp"
+                android:background="@drawable/time" />
+
+            <com.domain.multipltextview.MultiplTextView
+                android:id="@+id/tv_pay_time"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/px36dp"
+                android:layout_toEndOf="@+id/img_clock"
+                android:layout_marginTop="@dimen/px46dp"
+                android:layout_marginBottom="@dimen/px44dp"
+                android:textColor="@color/payment_text_color"
+                android:textSize="@dimen/px36sp"
+                app:removeDefaultPadding="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px126dp">
+
+            <TextView
+                android:id="@+id/amount_summary"
+                android:layout_width="@dimen/px246dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/px46dp"
+                android:layout_marginStart="@dimen/px84dp"
+                android:layout_marginTop="@dimen/px44dp"
+                android:text="@string/pay_amount"
+                android:textColor="@color/white_60"
+                android:textSize="@dimen/px36sp"
+                android:includeFontPadding="false" />
+
+            <TextView
+                android:id="@+id/amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/px86dp"
+                android:layout_marginTop="@dimen/px44dp"
+                android:textColor="@color/payment_amount_color"
+                android:textSize="@dimen/px36sp"
+                android:includeFontPadding="false" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2dp"
+            android:layout_marginEnd="@dimen/px86dp"
+            android:layout_marginStart="@dimen/px84dp"
+            android:alpha="0.06"
+            android:background="@color/white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px126dp"
+            >
+
+            <TextView
+                android:id="@+id/number_summary"
+                android:layout_width="@dimen/px246dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/px84dp"
+                android:layout_centerVertical="true"
+                android:text="@string/pay_order_id"
+                android:textColor="@color/white_60"
+                android:textSize="@dimen/px36sp"
+                android:includeFontPadding="false" />
+
+            <TextView
+                android:id="@+id/order_id"
+                android:layout_width="@dimen/px500dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="end"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/px86dp"
+                android:layout_marginStart="@dimen/px40dp"
+                android:textColor="@color/payment_orcer_color"
+                android:textSize="@dimen/px36sp"
+                android:includeFontPadding="false" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2dp"
+            android:layout_marginEnd="@dimen/px86dp"
+            android:layout_marginStart="@dimen/px84dp"
+            android:alpha="0.06"
+            android:background="@color/white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px126dp"
+            >
+
+            <TextView
+                android:id="@+id/name_summary"
+                android:layout_width="@dimen/px246dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/px84dp"
+                android:layout_centerVertical="true"
+                android:text="@string/pay_shop_name"
+                android:textColor="@color/white_60"
+                android:textSize="@dimen/px36sp"
+                android:includeFontPadding="false"
+                />
+
+            <TextView
+                android:id="@+id/shop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/px86dp"
+                android:layout_centerVertical="true"
+                android:gravity="end"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginStart="@dimen/px40dp"
+                android:textColor="@color/payment_orcer_color"
+                android:textSize="@dimen/px36sp"
+                android:includeFontPadding="false"
+                />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2dp"
+            android:layout_marginEnd="@dimen/px86dp"
+            android:layout_marginStart="@dimen/px84dp"
+            android:alpha="0.06"
+            android:background="@color/white" />
 
         <ImageView
-            android:id="@+id/back"
-            android:layout_width="@dimen/px96dp"
-            android:layout_height="@dimen/px96dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/px54dp"
-            android:foreground="@drawable/fg_ripple"
-            android:background="@drawable/icon_back" />
+            android:id="@+id/qr_code"
+            android:layout_width="@dimen/px340dp"
+            android:layout_height="@dimen/px340dp"
+            android:layout_marginEnd="@dimen/px370dp"
+            android:layout_marginStart="@dimen/px370dp"
+            android:layout_marginTop="@dimen/px164dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/px412dp"
+            android:layout_marginTop="@dimen/px36dp">
+
+            <ImageView
+                android:id="@+id/pay_type_img1"
+                android:layout_width="@dimen/px96dp"
+                android:layout_height="@dimen/px96dp"
+                android:background="@drawable/wechat" />
+
+            <ImageView
+                android:id="@+id/pay_type_img2"
+                android:layout_width="@dimen/px96dp"
+                android:layout_height="@dimen/px96dp"
+                android:layout_toEndOf="@+id/pay_type_img1"
+                android:layout_marginStart="@dimen/px64dp"
+                android:background="@drawable/zhifubao" />
+        </RelativeLayout>
+
 
         <com.domain.multipltextview.MultiplTextView
+            app:removeDefaultPadding="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/payment_header"
+            android:layout_marginStart="@dimen/px350dp"
+            android:layout_marginTop="@dimen/px34dp"
             android:textColor="@color/white"
-            android:textSize="@dimen/px40sp"
-            app:removeDefaultPadding="true" />
-    </RelativeLayout>
+            android:text="@string/pay_hint"
+            android:alpha="0.6"
+            android:textSize="@dimen/px30sp" />
+    </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/time_panel"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px126dp"
-        android:background="@drawable/tagbg3"
-        >
-
-        <ImageView
-            android:id="@+id/img_clock"
-            android:layout_width="@dimen/px96dp"
-            android:layout_height="@dimen/px96dp"
-            android:layout_marginStart="@dimen/px60dp"
-            android:layout_marginTop="@dimen/px16dp"
-            android:layout_marginBottom="@dimen/px14dp"
-            android:background="@drawable/time" />
-
-        <com.domain.multipltextview.MultiplTextView
-            android:id="@+id/tv_pay_time"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/px36dp"
-            android:layout_toEndOf="@+id/img_clock"
-            android:layout_marginTop="@dimen/px46dp"
-            android:layout_marginBottom="@dimen/px44dp"
-            android:textColor="@color/payment_text_color"
-            android:textSize="@dimen/px36sp"
-            app:removeDefaultPadding="true" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px126dp">
-
-        <TextView
-            android:id="@+id/amount_summary"
-            android:layout_width="@dimen/px246dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/px46dp"
-            android:layout_marginStart="@dimen/px84dp"
-            android:layout_marginTop="@dimen/px44dp"
-            android:text="@string/pay_amount"
-            android:textColor="@color/white_60"
-            android:textSize="@dimen/px36sp"
-            android:includeFontPadding="false" />
-
-        <TextView
-            android:id="@+id/amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/px86dp"
-            android:layout_marginTop="@dimen/px44dp"
-            android:textColor="@color/payment_amount_color"
-            android:textSize="@dimen/px36sp"
-            android:includeFontPadding="false" />
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px2dp"
-        android:layout_marginEnd="@dimen/px86dp"
-        android:layout_marginStart="@dimen/px84dp"
-        android:alpha="0.06"
-        android:background="@color/white" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px126dp"
-        >
-
-        <TextView
-            android:id="@+id/number_summary"
-            android:layout_width="@dimen/px246dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/px84dp"
-            android:layout_centerVertical="true"
-            android:text="@string/pay_order_id"
-            android:textColor="@color/white_60"
-            android:textSize="@dimen/px36sp"
-            android:includeFontPadding="false" />
-
-        <TextView
-            android:id="@+id/order_id"
-            android:layout_width="@dimen/px500dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:gravity="end"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/px86dp"
-            android:layout_marginStart="@dimen/px40dp"
-            android:textColor="@color/payment_orcer_color"
-            android:textSize="@dimen/px36sp"
-            android:includeFontPadding="false" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px2dp"
-        android:layout_marginEnd="@dimen/px86dp"
-        android:layout_marginStart="@dimen/px84dp"
-        android:alpha="0.06"
-        android:background="@color/white" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px126dp"
-        >
-
-        <TextView
-            android:id="@+id/name_summary"
-            android:layout_width="@dimen/px246dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/px84dp"
-            android:layout_centerVertical="true"
-            android:text="@string/pay_shop_name"
-            android:textColor="@color/white_60"
-            android:textSize="@dimen/px36sp"
-            android:includeFontPadding="false"
-            />
-
-        <TextView
-            android:id="@+id/shop_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/px86dp"
-            android:layout_centerVertical="true"
-            android:gravity="end"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:layout_marginStart="@dimen/px40dp"
-            android:textColor="@color/payment_orcer_color"
-            android:textSize="@dimen/px36sp"
-            android:includeFontPadding="false"
-            />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px2dp"
-        android:layout_marginEnd="@dimen/px86dp"
-        android:layout_marginStart="@dimen/px84dp"
-        android:alpha="0.06"
-        android:background="@color/white" />
-
-    <ImageView
-        android:id="@+id/qr_code"
-        android:layout_width="@dimen/px340dp"
-        android:layout_height="@dimen/px340dp"
-        android:layout_marginEnd="@dimen/px370dp"
-        android:layout_marginStart="@dimen/px370dp"
-        android:layout_marginTop="@dimen/px164dp" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/px412dp"
-        android:layout_marginTop="@dimen/px36dp">
-
-        <ImageView
-            android:id="@+id/pay_type_img1"
-            android:layout_width="@dimen/px96dp"
-            android:layout_height="@dimen/px96dp"
-            android:background="@drawable/wechat" />
-
-        <ImageView
-            android:id="@+id/pay_type_img2"
-            android:layout_width="@dimen/px96dp"
-            android:layout_height="@dimen/px96dp"
-            android:layout_toEndOf="@+id/pay_type_img1"
-            android:layout_marginStart="@dimen/px64dp"
-            android:background="@drawable/zhifubao" />
-    </RelativeLayout>
-
-
-    <com.domain.multipltextview.MultiplTextView
-        app:removeDefaultPadding="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/px350dp"
-        android:layout_marginTop="@dimen/px34dp"
-        android:textColor="@color/white"
-        android:text="@string/pay_hint"
-        android:alpha="0.6"
-        android:textSize="@dimen/px30sp" />
-
-</LinearLayout>
+    <include
+        android:id="@+id/no_net"
+        layout="@layout/warn_no_internet"
+        android:visibility="gone" />
+    <include
+        android:id="@+id/submit_order_loading"
+        layout="@layout/dialog_loading_toast"
+        android:layout_width="@dimen/px500dp"
+        android:layout_height="@dimen/px140dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="@dimen/px148dp"
+        android:visibility="visible" />
+</FrameLayout>

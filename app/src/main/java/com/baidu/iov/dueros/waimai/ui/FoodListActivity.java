@@ -171,7 +171,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private TextView mTextOpenCart;
     private boolean mTagsListOnclick;
     private int mTagsOnclicPosition;
-
+    private boolean booleanExtra;
     @Override
     PoifoodListPresenter createPresenter() {
         return new PoifoodListPresenter();
@@ -244,6 +244,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 true, prefix, null);
         GuidingAppear.INSTANCE.init(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail());
         Constant.ANIMATION_END = true;
+//        if (getIntent() != null) {
+//            boolean IsShowShopCart = getIntent().getBooleanExtra(Constant.TO_SHOW_SHOP_CART, false);
+//            if (IsShowShopCart) {
+//                showShopCartDialog();
+//            }
+//        }
     }
 
     private void initView() {
@@ -404,6 +410,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         Bundle extras = getIntent().getExtras();
         if (extras.containsKey(Constant.STORE_ID)) {
             mWmPoiId = String.valueOf(getIntent().getExtras().get(Constant.STORE_ID));
+            booleanExtra = getIntent().getBooleanExtra("flag", false);
         }
         if (extras.containsKey("latitude")) {
             latitude = (Integer) getIntent().getExtras().get("latitude");
@@ -969,7 +976,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 clearShopCart();
                 break;
             case R.id.iv_finish:
-                if (getIntent().getBooleanExtra("flag", false)) {
+                if (booleanExtra) {
                     finish();
                 } else {
                     AtyContainer.getInstance().finishAllActivity();

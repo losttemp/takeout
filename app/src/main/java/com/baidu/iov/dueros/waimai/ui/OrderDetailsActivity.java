@@ -40,6 +40,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
+import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.BackgroundUtils;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
@@ -407,7 +408,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         switch (v.getId()) {
             case R.id.back:
                 Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY, EventType.TOUCH_TYPE);
-                finish();
+                if (getIntent().getBooleanExtra("flag",false)){
+                    finish();
+                }else {
+                    AtyContainer.getInstance().finishAllActivity();
+                }
+//                finish();
                 break;
             case R.id.repeat_order:
                 Intent intentFoodList = new Intent(OrderDetailsActivity.this, FoodListActivity.class);
@@ -525,7 +531,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     private void orderSubmit() {
         Intent intentPayment = new Intent(OrderDetailsActivity.this, PaymentActivity.class);
-        intentPayment.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id());
+        intentPayment.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id()+"");
         intentPayment.putExtra("total_cost", mOrderDetails.getTotal());
         intentPayment.putExtra("order_id", mOrderDetails.getOrder_id());
         intentPayment.putExtra("shop_name", mOrderDetails.getPoi_name());
@@ -567,6 +573,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                                     intent.setClass(OrderDetailsActivity.this, FoodListActivity.class);
                                     intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
                                     intent.putExtra(Constant.STORE_ID, mStoreId);
+                                    intent.putExtra("flag", true);
                                     startActivity(intent);
                                     dialog.dismiss();
                                     finish();
@@ -578,6 +585,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                                     Intent intent = new Intent();
                                     intent.setClass(OrderDetailsActivity.this, FoodListActivity.class);
                                     intent.putExtra(Constant.STORE_ID, mStoreId);
+                                    intent.putExtra("flag", true);
                                     startActivity(intent);
                                     dialog.dismiss();
                                     finish();
@@ -687,6 +695,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
         if (data.getMeituan().getCode() == 0) {
             ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancel_toast), Toast.LENGTH_SHORT);
+            mArrivalTime.setText("");
             timerCancel();
             loadData();
         } else {

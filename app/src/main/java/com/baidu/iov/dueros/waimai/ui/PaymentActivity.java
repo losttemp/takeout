@@ -10,7 +10,10 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -22,6 +25,7 @@ import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.google.zxing.BarcodeFormat;
@@ -52,6 +56,10 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     private int mExpectedTime;
     private int mPayStatus;
     private OrderDetailsReq mOrderDetailsReq;
+    private LinearLayout mNoNet;
+    private Button mNoInternetButton;
+    private View loadingView;
+    private LinearLayout mParentsLayout;
 
     @Override
     SubmitOrderPresenter createPresenter() {
@@ -78,9 +86,13 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         mPayUrlImg = findViewById(R.id.qr_code);
         mTimerTv = findViewById(R.id.tv_pay_time);
         mBackBtn = findViewById(R.id.back);
+        mNoNet = findViewById(R.id.no_net);
+        mNoInternetButton = (Button) findViewById(R.id.no_internet_btn);
+        loadingView = findViewById(R.id.submit_order_loading);
+        mParentsLayout = findViewById(R.id.payment_layout);
 
         mBackBtn.setOnClickListener(this);
-
+        mNoInternetButton.setOnClickListener(this);
 
         NumberFormat nf = new DecimalFormat("##.##");
         Intent intent = getIntent();
@@ -132,6 +144,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                                                 intent.setClass(PaymentActivity.this, FoodListActivity.class);
                                                 intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
                                                 intent.putExtra(Constant.STORE_ID, mStoreId);
+                                                intent.putExtra("flag", true);
                                                 startActivity(intent);
                                                 dialog.dismiss();
                                                 finish();
@@ -143,6 +156,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                                                 Intent intent = new Intent();
                                                 intent.setClass(PaymentActivity.this, FoodListActivity.class);
                                                 intent.putExtra(Constant.STORE_ID, mStoreId);
+                                                intent.putExtra("flag", true);
                                                 startActivity(intent);
                                                 dialog.dismiss();
                                                 finish();
@@ -190,10 +204,13 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                 mShopNameTv.setWidth((int) getResources().getDimension(R.dimen.px500dp));
             }
             createQRImage(payUrl, 200, 200, mPayUrlImg);
+//            mParentsLayout.setVisibility(View.VISIBLE);
+//            mNoNet.setVisibility(View.GONE);
+//            loadingView.setVisibility(View.GONE);
             Lg.getInstance().d("PaymentActivity", "payUrl = " + payUrl);
 
         }
-
+        netDataReque();
 
     }
 
@@ -207,6 +224,23 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                     AtyContainer.getInstance().finishAllActivity();
                 }
                 break;
+            case R.id.no_internet_btn:
+                netDataReque();
+                break;
+        }
+    }
+
+    private void netDataReque() {
+        if (NetUtil.getNetWorkState(this)) {
+            loadingView.setVisibility(View.GONE);
+            mNoNet.setVisibility(View.GONE);
+            mParentsLayout.setVisibility(View.VISIBLE);
+//            OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
+//            mOrderDetailsReq.setId(mOrderId);
+//            getPresenter().requestOrderDetails(mOrderDetailsReq);
+        } else {
+            mNoNet.setVisibility(View.VISIBLE);
+            mParentsLayout.setVisibility(View.GONE);
         }
     }
 
@@ -295,8 +329,10 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
     @Override
     public void onOrderSubmitSuccess(OrderDetailsResponse data) {
+        mParentsLayout.setVisibility(View.VISIBLE);
+        mNoNet.setVisibility(View.GONE);
+        loadingView.setVisibility(View.GONE);
         if (data != null) {
-
             OrderDetailsResponse.MeituanBean.DataBean dataBean = data.getMeituan().getData();
             mPayStatus = dataBean.getPay_status();
 
@@ -331,6 +367,10 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
     @Override
     public void onSubmitFailure(String msg) {
-
+        loadingView.setVisibility(View.GONE);
+        if (!NetUtil.getNetWorkState(this)) {
+            mParentsLayout.setVisibility(View.GONE);
+            mNoNet.setVisibility(View.VISIBLE);
+        }
     }
 }

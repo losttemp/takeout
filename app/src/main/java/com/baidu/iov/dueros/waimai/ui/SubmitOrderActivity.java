@@ -804,7 +804,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             Long poiId = mOrderPreviewData.getWm_ordering_preview_order_vo().getWm_poi_id();
             String payUrl = mOrderSubmitData.getPayUrl();
             Intent intent = new Intent(this, PaymentActivity.class);
-            intent.putExtra(Constant.STORE_ID, poiId);
+            intent.putExtra(Constant.STORE_ID, poiId+"");
             intent.putExtra(Constant.EXPECTED_TIME, mUnixtime);
             intent.putExtra(Constant.TOTAL_COST, total);
             intent.putExtra(Constant.ORDER_ID, orderId);
