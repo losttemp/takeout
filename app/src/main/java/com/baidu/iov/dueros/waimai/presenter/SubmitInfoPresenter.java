@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
+import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.ISubmitInfoModel;
@@ -154,6 +155,24 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             }
         });
 
+    }
+
+    public void requestAuthInfo() {
+        mSubmitInfo.requestAuthInfo(new AccountCallback() {
+            @Override
+            public void onSuccess(String msg) {
+                if (null != getUi()) {
+                    getUi().authSuccess(msg);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if (null != getUi()) {
+                    getUi().authFailure(msg);
+                }
+            }
+        });
     }
 
 
@@ -447,6 +466,10 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         void onOrderPreviewSuccess(OrderPreviewBean data);
 
         void onOrderSubmitSuccess(OrderSubmitBean data);
+
+        void authFailure(String msg);
+
+        void authSuccess(String msg);
 
         void onFailure(String msg);
 

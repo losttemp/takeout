@@ -33,6 +33,8 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitInfoPresenter;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
+import com.baidu.iov.dueros.waimai.utils.BackgroundUtils;
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
@@ -373,20 +375,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
                 }else {
                     if(!isFastClick()){
-                        if (NetUtil.getNetWorkState(this)) {
-                            VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
-                            VoiceTouchUtils.setVoiceTouchTTSSupport(mToPayTv, mContext.getString(R.string.tts_topay_text));
-                            if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
-                                List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
-                                wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
-                                mToPayTv.setEnabled(false);
-                                loadingView.setVisibility(View.VISIBLE);
-                                getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime,this);
+                            if (CacheUtils.getAuth()) {
+                                orderSubmit();
+                            } else {
+                                getPresenter().requestAuthInfo();
                             }
-                        } else {
-                            netDataReque();
-                            ToastUtils.show(this, getResources().getString(R.string.net_unconnect), Toast.LENGTH_LONG);
-                        }
 
                     }
                 }
@@ -398,6 +391,24 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 break;
         }
     }
+
+    private void orderSubmit() {
+        if (NetUtil.getNetWorkState(this)) {
+            VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
+            VoiceTouchUtils.setVoiceTouchTTSSupport(mToPayTv, mContext.getString(R.string.tts_topay_text));
+            if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
+                List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
+                wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
+                mToPayTv.setEnabled(false);
+                loadingView.setVisibility(View.VISIBLE);
+                getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime,this);
+            }
+        } else {
+            netDataReque();
+            ToastUtils.show(this, getResources().getString(R.string.net_unconnect), Toast.LENGTH_LONG);
+        }
+    }
+
 
     private static final int MIN_DELAY_TIME = 1000; // 两次点击间隔不能少于1000ms
     private static long lastClickTime;
@@ -764,6 +775,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         }
     }
 
+
+
     @Override
     public void toPay() {
         mToPayTv.performClick();
@@ -811,4 +824,16 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         }
     }
 
+    @Override
+    public void authSuccess(String msg) {
+        boolean isBackground = BackgroundUtils.isBackground(getBaseContext());
+        if (!isBackground){
+            orderSubmit();
+        }
+    }
+
+    @Override
+    public void authFailure(String msg) {
+        ToastUtils.show(this,"授权失败，请开启服务授权",Toast.LENGTH_SHORT);
+    }
 }

@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
 
+import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.OrderListModel;
@@ -137,6 +138,24 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
         });
     }
 
+    public void requestAuthInfo() {
+        mModel.requestAuthInfo(new AccountCallback() {
+            @Override
+            public void onSuccess(String msg) {
+                if (null != getUi()) {
+                    getUi().authSuccess(msg);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if (null != getUi()) {
+                    getUi().authFailure(msg);
+                }
+            }
+        });
+    }
+
     public void requestOrderDetails(OrderDetailsReq orderDetailsReq) {
         mModel.requestOrderDetails(orderDetailsReq, new RequestCallback<OrderDetailsResponse>() {
             @Override
@@ -168,6 +187,10 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
         void failure(String msg);
 
         void orderCancelfail(String msg);
+
+        void authFailure(String msg);
+
+        void authSuccess(String msg);
 
         void close();
 

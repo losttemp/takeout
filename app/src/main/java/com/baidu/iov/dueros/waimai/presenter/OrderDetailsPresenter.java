@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.IOrderDetailsModel;
@@ -89,6 +90,24 @@ public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.Order
         });
     }
 
+    public void requestAuthInfo() {
+        mModel.requestAuthInfo(new AccountCallback() {
+            @Override
+            public void onSuccess(String msg) {
+                if (null != getUi()) {
+                    getUi().authSuccess(msg);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if (null != getUi()) {
+                    getUi().authFailure(msg);
+                }
+            }
+        });
+    }
+
     public void requestOrderCancel(OrderCancelReq orderCancelReq) {
         mModel.requestOrderCancel(orderCancelReq, new RequestCallback<OrderCancelResponse>() {
             @Override
@@ -120,6 +139,10 @@ public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.Order
         void failure(String msg);
 
         void close();
+
+        void authFailure(String msg);
+
+        void authSuccess(String msg);
     }
 
 }

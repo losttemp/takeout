@@ -1,6 +1,7 @@
 package com.baidu.iov.dueros.waimai.model;
 
 
+import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
@@ -17,6 +18,7 @@ public interface ISubmitInfoModel extends IModel {
 
     void requestOrderSubmitData(OrderSubmitReq orderSubmitReq, final RequestCallback<OrderSubmitBean> callback);
 
+    void requestAuthInfo(final AccountCallback callback);
     /**
      * 此处增加了从网上获取地址列表的逻辑, 主要获取当前默认地址是否在配送范围内
      */

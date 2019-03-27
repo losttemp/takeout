@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
+import com.baidu.iov.dueros.waimai.utils.BackgroundUtils;
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DeviceUtils;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
@@ -183,10 +185,11 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         break;
                     case R.id.pay_order:
                         //去支付
-                        loadingView.setVisibility(View.VISIBLE);
-                        OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
-                        mOrderDetailsReq.setId(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
-                        getPresenter().requestOrderDetails(mOrderDetailsReq);
+                        if (CacheUtils.getAuth()) {
+                            orderSubmit(position);
+                        } else {
+                            getPresenter().requestAuthInfo();
+                        }
                         break;
                     case R.id.cancel_order:
                         //取消订单
@@ -247,6 +250,13 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 }
             }
         });
+    }
+
+    private void orderSubmit(int position) {
+        loadingView.setVisibility(View.VISIBLE);
+        OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
+        mOrderDetailsReq.setId(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
+        getPresenter().requestOrderDetails(mOrderDetailsReq);
     }
 
     private void setRefreshView() {
@@ -403,6 +413,19 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void orderCancelfail(String msg) {
+    }
+
+    @Override
+    public void authFailure(String msg) {
+        ToastUtils.show(this,"授权失败，请开启服务授权",Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void authSuccess(String msg) {
+        boolean isBackground = BackgroundUtils.isBackground(getBaseContext());
+        if (!isBackground){
+            orderSubmit(pos);
+        }
     }
 
     @Override

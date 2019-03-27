@@ -40,6 +40,8 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
+import com.baidu.iov.dueros.waimai.utils.BackgroundUtils;
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DeviceUtils;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
@@ -417,17 +419,11 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 finish();
                 break;
             case R.id.pay_order:
-                Intent intentPayment = new Intent(OrderDetailsActivity.this, PaymentActivity.class);
-                intentPayment.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id());
-                intentPayment.putExtra("total_cost", mOrderDetails.getTotal());
-                intentPayment.putExtra("order_id", mOrderDetails.getOrder_id());
-                intentPayment.putExtra("shop_name", mOrderDetails.getPoi_name());
-                intentPayment.putExtra("pay_url", getIntent().getStringExtra("pay_url"));
-                intentPayment.putExtra("pic_url", getIntent().getStringExtra("pic_url"));
-                intentPayment.putExtra("flag",true);
-                intentPayment.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentPayment);
-                finish();
+                if (CacheUtils.getAuth()) {
+                    orderSubmit();
+                } else {
+                    getPresenter().requestAuthInfo();
+                }
                 break;
             case R.id.cancel_order:
                 mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId());
@@ -525,6 +521,20 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             default:
                 break;
         }
+    }
+
+    private void orderSubmit() {
+        Intent intentPayment = new Intent(OrderDetailsActivity.this, PaymentActivity.class);
+        intentPayment.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id());
+        intentPayment.putExtra("total_cost", mOrderDetails.getTotal());
+        intentPayment.putExtra("order_id", mOrderDetails.getOrder_id());
+        intentPayment.putExtra("shop_name", mOrderDetails.getPoi_name());
+        intentPayment.putExtra("pay_url", getIntent().getStringExtra("pay_url"));
+        intentPayment.putExtra("pic_url", getIntent().getStringExtra("pic_url"));
+        intentPayment.putExtra("flag",true);
+        intentPayment.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentPayment);
+        finish();
     }
 
     @Override
@@ -733,6 +743,19 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     @Override
     public void close() {
         finish();
+    }
+
+    @Override
+    public void authFailure(String msg) {
+        ToastUtils.show(this,"授权失败，请开启服务授权",Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void authSuccess(String msg) {
+        boolean isBackground = BackgroundUtils.isBackground(getBaseContext());
+        if (!isBackground){
+            orderSubmit();
+        }
     }
 
     @Override
