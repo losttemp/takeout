@@ -10,18 +10,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
-import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
+import com.baidu.iov.dueros.waimai.presenter.ShopPresenter;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
-
 import java.util.ArrayList;
-
-public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
-        HomePresenter.HomeUi, View.OnClickListener {
+public class RecommendShopActivity extends BaseActivity<ShopPresenter, ShopPresenter.ShopUi> implements
+        ShopPresenter.ShopUi, View.OnClickListener {
 
     private Button btnBack;
     
@@ -48,12 +46,12 @@ public class RecommendShopActivity extends BaseActivity<HomePresenter, HomePrese
     private ArrayList<String> prefix = new ArrayList<>();
 
     @Override
-    HomePresenter createPresenter() {
-        return new HomePresenter();
+    ShopPresenter createPresenter() {
+        return new ShopPresenter();
     }
 
     @Override
-    HomePresenter.HomeUi getUi() {
+    ShopPresenter.ShopUi getUi() {
         return this;
     }
 
