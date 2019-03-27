@@ -12,6 +12,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.GuidingBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
@@ -142,4 +143,9 @@ public interface TakeawayApi {
     @FormUrlEncoded
     @POST("/iovservice/waimai/orderpreview")
     Call<ResponseBase<OrderPreviewBean>> getOrderPreview(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("/iovservice/waimai/logout")
+    Call<ResponseBase<LogoutBean>> logout(@FieldMap Map<String, String> map);
+
 }

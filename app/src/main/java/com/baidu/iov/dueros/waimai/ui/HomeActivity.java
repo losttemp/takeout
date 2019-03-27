@@ -19,8 +19,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.presenter.HomePresenter;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
@@ -30,6 +33,7 @@ import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 import java.util.ArrayList;
@@ -322,13 +326,16 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
                 intentToFood(false);
                 break;
             case R.id.exit_login:
-               // exitLogin();
+               exitLogin();
                 break;
             default:
                 break;
         }
 
     }
+
+
+     AlertDialog dialog;
 
     private void exitLogin() {
             LayoutInflater inflater = LayoutInflater.from(this);
@@ -338,7 +345,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
             builder.setView(layout);
             Button btnOk = layout.findViewById(R.id.ok);
             Button btnCancel = layout.findViewById(R.id.cancel);
-            final AlertDialog dialog = builder.create();
+            dialog = builder.create();
             dialog.show();
             if (dialog.getWindow() != null) {
                 Window window = dialog.getWindow();
@@ -353,6 +360,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
             btnOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    getPresenter().requesLogout();
                     dialog.dismiss();
                 }
             });
@@ -455,6 +463,20 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         }
     }
 
+    @Override
+    public void update(LogoutBean data) {
+        Intent intent = new Intent(HomeActivity.this, TakeawayLoginActivity.class);
+        intent.putExtra(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_HOME);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void failure(String msg) {
+        ToastUtils.show(HomeActivity.this, getResources().getText(R.string.logout_failed), Toast.LENGTH_SHORT);
+        Lg.getInstance().e(TAG, "msg:"+msg);
+        dialog.dismiss();
+    }
 }
 
 

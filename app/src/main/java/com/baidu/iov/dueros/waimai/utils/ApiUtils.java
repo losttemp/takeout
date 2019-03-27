@@ -14,6 +14,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.GuidingBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
@@ -320,5 +321,17 @@ public class ApiUtils {
     public static <D extends RequestBase> void getOrderPreview(D request, ApiCallBack<OrderPreviewBean> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getOrderPreview(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * get order preview request
+     *
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void logout(D request, ApiCallBack<LogoutBean> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().logout(requestMap).enqueue(callBack);
     }
 }
