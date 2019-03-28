@@ -234,7 +234,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		mStoreReq.setLatitude(Constant.GOODS_LATITUDE);
 		mStoreReq.setLongitude(Constant.GOODS_LONGITUDE );
 		mStoreReq.setSortType(Constant.COMPREHENSIVE);
-		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME&!HomeActivity.fromLogin) {
+		if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
 			getLocation(mContext);
 			homeLoadFirstPage();
 		}
