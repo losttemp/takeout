@@ -105,6 +105,7 @@ public class Constant {
     public static final String IS_FROME_TAKEAWAYLOGIN = "TakeawayLoginActivity";
 
     public static final String START_APP = "start_app";
+    public static final String LOGOUT = "logout";
     public static final int START_APP_CODE = 0x123;
     public static final String GET_CITY_ERROR = "失败";
     public static String UUID = "uuid";

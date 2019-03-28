@@ -1,69 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:id="@+id/rl_layout_header"
-	android:layout_width="match_parent"
-	android:layout_marginTop="@dimen/px16dp"
-	android:layout_marginBottom="@dimen/px14dp"
-	android:layout_height="@dimen/px96dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_layout_header"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/px96dp"
+    android:layout_marginTop="@dimen/px16dp"
+    android:layout_marginBottom="@dimen/px14dp">
 
-	<ImageView
-		android:id="@+id/iv_back"
-		android:layout_width="@dimen/px96dp"
-		android:layout_height="@dimen/px96dp"
-		android:layout_marginLeft="@dimen/px54dp"
-		android:layout_centerVertical="true"
-		android:layout_alignParentLeft="true"
-		android:foreground="@drawable/fg_ripple"
-		android:src="@drawable/icon_back" />
-
-	<ImageView
-		android:id="@+id/iv_right"
-		android:layout_width="@dimen/px48dp"
-		android:layout_height="@dimen/px48dp"
-		android:layout_alignParentEnd="true"
-		android:layout_centerVertical="true"
-		android:layout_marginRight="@dimen/px78dp"
-		android:layout_marginBottom="@dimen/px22dp"
-		android:src="@drawable/icon_dingdan" />
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="@dimen/px96dp"
+        android:layout_height="@dimen/px96dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/px54dp"
+        android:foreground="@drawable/fg_ripple"
+        android:src="@drawable/icon_back" />
 
 
-	<ImageView
-		android:id="@+id/exit_login"
-		android:layout_width="@dimen/px48dp"
-		android:layout_height="@dimen/px48dp"
-		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/iv_right"
-		android:layout_marginBottom="@dimen/px22dp"
-		android:layout_marginRight="@dimen/px36dp"
-		android:visibility="gone"
-		android:src="@drawable/tuichu" />
+    <ImageView
+        android:id="@+id/exit_login"
+        android:layout_width="@dimen/px48dp"
+        android:layout_height="@dimen/px48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/px78dp"
+        android:layout_marginBottom="@dimen/px22dp"
+        android:src="@drawable/tuichu"/>
 
-	<TextView
-		android:id="@+id/tv_title"
-		android:maxWidth="@dimen/px600dp"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_centerInParent="true"
-		android:layout_marginLeft="@dimen/px282dp"
-		android:layout_marginBottom="@dimen/px28dp"
-		android:contentDescription="@string/content_update_address"
-		android:text="@string/takeaway"
-		android:ellipsize="end"
-		android:maxLines="1"
-		android:textColor="@color/white"
-		android:textSize="@dimen/px40sp" />
-	
-	<ImageView
-		android:id="@+id/iv_title"
-		android:layout_width="@dimen/px48dp"
-		android:layout_height="@dimen/px48dp"
-		android:layout_toRightOf="@+id/tv_title"
-		android:layout_centerVertical="true"
-		android:layout_marginLeft="@dimen/px16dp"
-		android:layout_marginRight="@dimen/px182dp"
-		android:src="@drawable/arrow_right" />
+    <ImageView
+        android:id="@+id/iv_right"
+        android:layout_width="@dimen/px48dp"
+        android:layout_height="@dimen/px48dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/px34dp"
+        android:layout_marginBottom="@dimen/px22dp"
+        android:layout_toLeftOf="@+id/exit_login"
+        android:src="@drawable/icon_dingdan" />
 
-	
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/px282dp"
+        android:layout_marginBottom="@dimen/px28dp"
+        android:contentDescription="@string/content_update_address"
+        android:ellipsize="end"
+        android:maxWidth="@dimen/px600dp"
+        android:maxLines="1"
+        android:text="@string/takeaway"
+        android:textColor="@color/white"
+        android:textSize="@dimen/px40sp" />
+
+    <ImageView
+        android:id="@+id/iv_title"
+        android:layout_width="@dimen/px48dp"
+        android:layout_height="@dimen/px48dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/px16dp"
+        android:layout_marginRight="@dimen/px182dp"
+        android:layout_toRightOf="@+id/tv_title"
+        android:src="@drawable/arrow_right" />
+
 
 </RelativeLayout>
