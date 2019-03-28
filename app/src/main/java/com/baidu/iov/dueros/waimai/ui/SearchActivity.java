@@ -211,7 +211,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						deleteAll();
-						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.tts_delete_address));
+						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.yes));
 						break;
 					default:
 						break;
