@@ -246,6 +246,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         if (getIntent().getBooleanExtra(Constant.LOGOUT, false)) {
             CacheUtils.saveAddrTime(0);
             Intent addressIntent = new Intent(this, AddressSelectActivity.class);
+            addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
             startActivity(addressIntent);
             TakeawayLoginActivity.this.finish();
             return;
