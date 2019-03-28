@@ -225,7 +225,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                 }
                 break;
             case R.id.no_internet_btn:
-                netDataReque();
+                initView();
                 break;
         }
     }
