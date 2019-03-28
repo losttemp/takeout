@@ -180,7 +180,7 @@
     <string name="order_meituan">美团专送</string>
     <string name="order_not_meituan">非美团专送</string>
     <string name="pay_shop_name">店铺名称</string>
-    <string name="pay_hint">请使用微信或支付宝扫码支付</string>
+    <string name="pay_hint">扫描完成支付</string>
     <string name="total">合计：</string>
     <string name="submit_total">%2.2f元</string>
     <string name="submit_discount">已优惠 \&#165;%s</string>
@@ -314,6 +314,7 @@
     <string name="phone_hint_text">请填写收货人手机号</string>
     <string name="address_details_hint_text">详细地址：例：3楼3层303室</string>
     <string name="http_error">网络服务器错误</string>
+    <string name="tip_message">请确保手机美团账号与当前账号一致，否则无法支付成功</string>
 
     <string name="tts_add_new_time">好的，请选择你的配送时间</string>
     <string name="tts_add_new_address">好的，请选择你的收货地址</string>
