@@ -16,6 +16,8 @@ import com.baidu.iov.dueros.waimai.ui.WaiMaiApplication;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.AccountManager;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.faceos.client.GsonUtil;
+
 /**
  * Created by ubuntu on 18-10-27.
  */
@@ -51,7 +53,7 @@ public class MeituanAuthModel implements IMeituanAuthModel {
         ApiUtils.getGuiding(new GuidingReq(), new ApiCallBack<GuidingBean>() {
             @Override
             public void onSuccess(GuidingBean data) {
-                Lg.getInstance().d("GuidingAppear", data.getList() + "");
+                Lg.getInstance().d("GuidingAppear", GsonUtil.toJson(data.getList().getWaimai()));
                 if (data.getList().getWaimai() != null) {
                     WaiMaiApplication.getInstance().setmWaimaiBean(data.getList().getWaimai());
                     Lg.getInstance().d("GuidingAppear", data.getList().getWaimai().getAddress().getMe().get(0));

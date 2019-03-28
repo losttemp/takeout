@@ -89,7 +89,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             if (null != networkView)
                 networkView.setVisibility(View.GONE);
             initData();
-            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getMe());
         } else {
             if (null != networkView)
                 networkView.setVisibility(View.VISIBLE);
@@ -199,7 +198,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
         if (data.size() == 0) {
-            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getEmpty_result());
+            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getEmpty_result(),Constant.TTS_ADDRESS_EMPTY_RESULT);
             mNoAddress.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
             addBtnView.setVisibility(View.GONE);
@@ -208,6 +207,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 isNeedPlayTTS = false;
             }
         } else {
+            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getMe(),Constant.TTS_ADDRESS_ME);
             mNoAddress.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
             if (isNeedPlayTTS) {

@@ -1,4 +1,5 @@
 package com.baidu.iov.dueros.waimai.ui;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -34,7 +35,9 @@ import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
+
 import java.util.ArrayList;
+
 public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.HomeUi> implements
         HomePresenter.HomeUi, View.OnClickListener {
 
@@ -123,7 +126,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     protected void onResume() {
         super.onResume();
         Lg.getInstance().e(TAG, "onResume");
-        GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getList());
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getList(), Constant.TTS_SHOP_LIST);
         AccessibilityClient.getInstance().register(this, true, prefix, null);
     }
 
@@ -154,7 +157,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         mTvTitle = findViewById(R.id.tv_title);
         mRlSearch = findViewById(R.id.rl_search);
         mIvTitle = findViewById(R.id.iv_title);
-        mExitLogin=findViewById(R.id.exit_login);
+        mExitLogin = findViewById(R.id.exit_login);
 
         mIvBack.setOnClickListener(this);
         mIvRight.setOnClickListener(this);
@@ -325,7 +328,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
                 intentToFood(false);
                 break;
             case R.id.exit_login:
-               exitLogin();
+                exitLogin();
                 break;
             default:
                 break;
@@ -334,41 +337,41 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     }
 
 
-     AlertDialog dialog;
+    AlertDialog dialog;
 
     private void exitLogin() {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.exit_login_dialog, null);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.exit_login_dialog, null);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(layout);
-            Button btnOk = layout.findViewById(R.id.ok);
-            Button btnCancel = layout.findViewById(R.id.cancel);
-            dialog = builder.create();
-            dialog.show();
-            if (dialog.getWindow() != null) {
-                Window window = dialog.getWindow();
-                window.setLayout((int) getResources().getDimension(R.dimen.px912dp), (int) getResources().getDimension(R.dimen.px516dp));
-                window.setBackgroundDrawableResource(R.drawable.permission_dialog_bg);
-                WindowManager.LayoutParams lp = window.getAttributes();
-                window.setGravity(Gravity.CENTER_HORIZONTAL);
-                window.setGravity(Gravity.TOP);
-                lp.y = (int) getResources().getDimension(R.dimen.px480dp);
-                window.setAttributes(lp);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(layout);
+        Button btnOk = layout.findViewById(R.id.ok);
+        Button btnCancel = layout.findViewById(R.id.cancel);
+        dialog = builder.create();
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            Window window = dialog.getWindow();
+            window.setLayout((int) getResources().getDimension(R.dimen.px912dp), (int) getResources().getDimension(R.dimen.px516dp));
+            window.setBackgroundDrawableResource(R.drawable.permission_dialog_bg);
+            WindowManager.LayoutParams lp = window.getAttributes();
+            window.setGravity(Gravity.CENTER_HORIZONTAL);
+            window.setGravity(Gravity.TOP);
+            lp.y = (int) getResources().getDimension(R.dimen.px480dp);
+            window.setAttributes(lp);
+        }
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPresenter().requesLogout();
+                dialog.dismiss();
             }
-            btnOk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getPresenter().requesLogout();
-                    dialog.dismiss();
-                }
-            });
-            btnCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
 
@@ -473,7 +476,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     @Override
     public void failure(String msg) {
         ToastUtils.show(HomeActivity.this, getResources().getText(R.string.logout_failed), Toast.LENGTH_SHORT);
-        Lg.getInstance().e(TAG, "msg:"+msg);
+        Lg.getInstance().e(TAG, "msg:" + msg);
         dialog.dismiss();
     }
 }

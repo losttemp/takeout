@@ -164,7 +164,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     @Override
     protected void onResume() {
         super.onResume();
-        GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getSearch_result());
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getSearch_result(),Constant.TTS_ADDRESS_SEARCH_RESULT);
     }
 
     private void initPoiInfo() {

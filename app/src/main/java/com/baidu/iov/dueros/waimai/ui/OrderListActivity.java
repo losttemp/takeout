@@ -112,7 +112,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             mOrderListReq.setPage(START_PAGE);
             mRefreshLayout.autoRefresh();
             networkView.setVisibility(View.GONE);
-            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getOrder().getOrder());
         } else {
             if (null != networkView) {
                 networkView.setVisibility(View.VISIBLE);
@@ -355,7 +354,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void update(OrderListResponse data) {
-
         mRefreshLayout.setEnableLoadmore(true);
         mRefreshLayout.setEnableRefresh(true);
 
@@ -367,7 +365,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             mRefreshLayout.finishLoadmore();
         }
 
-
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getOrder().getOrder(),Constant.TTS_ORDER_LIST);
         if (null != data.getIov() && null != data.getIov().getData() && data.getIov().getData().size() != 0) {
             mOrderList.addAll(data.getIov().getData());
             mOrderListAdaper.notifyDataSetChanged();

@@ -19,10 +19,15 @@ import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.xiaoduos.syncclient.Entry;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class WaiMaiApplication extends Application {
 
 	private static WaiMaiApplication mInstance = null;
 	private GuidingBean.ListBean.WaimaiBean mWaimaiBean;
+
+    private HashMap<String, ArrayList<Integer>> tipsMap=new HashMap<>();
 
 	@Override
 	public void onCreate() {
@@ -185,4 +190,12 @@ public class WaiMaiApplication extends Application {
     public static WaiMaiApplication getInstance() {
 		return mInstance;
 	}
+
+    public HashMap<String, ArrayList<Integer>> getTipsMap() {
+        return tipsMap;
+    }
+
+    public void setTipsMap(HashMap<String, ArrayList<Integer>> tipsMap) {
+        this.tipsMap = tipsMap;
+    }
 }

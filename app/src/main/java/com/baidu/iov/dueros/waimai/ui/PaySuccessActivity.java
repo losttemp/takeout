@@ -77,7 +77,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getPayment_success());
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getPayment_success(),Constant.TTS_PAY_PAYMENT_SUCCESS);
     }
 
     public void setStatusBar(boolean translucent, @ColorInt int color) {

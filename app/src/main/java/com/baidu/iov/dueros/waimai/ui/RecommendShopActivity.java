@@ -143,9 +143,9 @@ public class RecommendShopActivity extends BaseActivity<ShopPresenter, ShopPrese
     protected void onResume() {
         super.onResume();
         if (getResources().getString(R.string.stroe_type_cake).equals(title)){
-            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getCake());
+            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getCake(),Constant.TTS_SHOP_CAKE);
         }else if (getResources().getString(R.string.stroe_type_flower).equals(title)){
-            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getFlower());
+            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getFlower(),Constant.TTS_SHOP_FLOWER);
         }
         AccessibilityClient.getInstance().register(this,true,prefix, null);
     }

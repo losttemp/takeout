@@ -218,13 +218,17 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     public void update(MeituanAuthorizeResponse data) {
         Entry.getInstance().onEvent(Constant.ENTRY_LOGIN_MEITUAN, EventType.TOUCH_TYPE);
-        startIntent();
-        loadingView.setVisibility(View.GONE);
-        syncCookie(this, Config.getHost());
-        mWVMeituan.clearCache(true);
-        mWVMeituan.clearHistory();
-        login_bg.setVisibility(View.VISIBLE);
-        mWVMeituan.loadUrl(data.getIov().getAuthorizeUrl());
+        if (data.getIov().getAuthorizedState()) {
+            loadingView.setVisibility(View.GONE);
+            startIntent();
+        } else {
+            loadingView.setVisibility(View.GONE);
+            syncCookie(this, Config.getHost());
+            mWVMeituan.clearCache(true);
+            mWVMeituan.clearHistory();
+            login_bg.setVisibility(View.VISIBLE);
+            mWVMeituan.loadUrl(data.getIov().getAuthorizeUrl());
+        }
     }
 
     private void syncCookie(Context context, String url) {

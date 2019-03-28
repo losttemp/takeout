@@ -133,7 +133,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             contentView.setVisibility(View.VISIBLE);
             networkView.setVisibility(View.GONE);
             loadData();
-            GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getDetail());
+            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getDetail(),Constant.TTS_PAY_DETAIL);
         } else {
             if (null != networkView) {
                 contentView.setVisibility(View.GONE);

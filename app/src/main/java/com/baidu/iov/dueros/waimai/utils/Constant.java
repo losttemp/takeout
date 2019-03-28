@@ -213,4 +213,18 @@ public class Constant {
 
     public static boolean MIN_COUNT = false;//bug 1331
 
+    public static final String TTS_ADDRESS_ME = "tts_address_me";
+    public static final String TTS_ADDRESS_EMPTY_RESULT = "tts_address_empty_result";
+    public static final String TTS_ADDRESS_SEARCH_RESULT = "tts_address_search_result";
+    public static final String TTS_CART_SHOP_DETAIL= "tts_cart_shop_detail";
+    public static final String TTS_CART_VIEW= "tts_cart_view";
+    public static final String TTS_SHOP_LIST= "tts_shop_list";
+    public static final String TTS_SHOP_CAKE= "tts_shop_cake";
+    public static final String TTS_SHOP_FLOWER= "tts_shop_flower";
+    public static final String TTS_PAY_DETAIL= "tts_pay_detail";
+    public static final String TTS_PAY_PAYMENT_SUCCESS= "tts_pay_payment_success";
+    public static final String TTS_PAY_SUBMUT= "tts_pay_submut";
+    public static final String TTS_ORDER_LIST= "tts_order_list";
+    public static final String TTS_SEARCH_LIST= "tts_search_list";
+    public static final String TTS_SEARCH_RESULT= "tts_search_result";
 }

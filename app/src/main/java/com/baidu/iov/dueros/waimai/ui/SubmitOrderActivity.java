@@ -109,7 +109,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private RelativeLayout mParentsLayout;
     private LinearLayout mNoNet;
     private Button mNoInternetButton;
-    private String date_type_tip,date_time,view_time;
+    private String date_type_tip, date_time, view_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +130,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             if (mProductList != null && mPoiInfo != null) {
                 getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData,SubmitOrderActivity.this);
+                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData, SubmitOrderActivity.this);
             }
         }
         initView();
@@ -172,11 +172,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mShopNameTv.setText(shopName);
             String deliveryType = mPoiInfo.getDelivery_type() == 1 ? getString(R.string.delivery_type1_text)
                     : getString(R.string.delivery_type2_text);
-            if (mPoiInfo.getDelivery_type()==1){
+            if (mPoiInfo.getDelivery_type() == 1) {
                 mDeliveryTypeTv.setText(deliveryType);
-            }else {
+            } else {
                 RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mDeliveryTypeTv.getLayoutParams();
-                lp.width=142;
+                lp.width = 142;
                 mDeliveryTypeTv.setLayoutParams(lp);
                 mDeliveryTypeTv.setText(deliveryType);
             }
@@ -225,7 +225,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mParentsLayout.setVisibility(View.VISIBLE);
             getPresenter().requestAddressList(mPoiInfo.getWm_poi_id());
             getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
-            getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData,SubmitOrderActivity.this);
+            getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData, SubmitOrderActivity.this);
         } else {
             mNoNet.setVisibility(View.VISIBLE);
             mParentsLayout.setVisibility(View.GONE);
@@ -248,7 +248,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (mAddressData.getCanShipping()!=1){
+            if (mAddressData.getCanShipping() != 1) {
                 ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
             }
             String str = String.format(getString(R.string.submit_order), oneFood, allPrice, deliveryTime, address, phone);
@@ -294,7 +294,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             int count = wmOrderingPreviewDetailVoListBean.getCount();
             double price = wmOrderingPreviewDetailVoListBean.getFood_price();
             double origin_price = wmOrderingPreviewDetailVoListBean.getOrigin_food_price();
-            double total_pricie = price*count;
+            double total_pricie = price * count;
             if (price < origin_price) {
                 tv_origin_price.setText(String.format(getResources().getString(R.string.cost_text), nf.format(origin_price)));
                 tv_origin_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -337,7 +337,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         ArrayList<String> prefix = new ArrayList<>();
         prefix.add("选择");
         AccessibilityClient.getInstance().register(this, true, prefix, null);
-        GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getSubmut());
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getSubmut(), Constant.TTS_PAY_SUBMUT);
     }
 
 
@@ -347,12 +347,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         switch (v.getId()) {
 
             case R.id.back_action:
-                Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY, EventType.TOUCH_TYPE);
                 finish();
 //                onBackPressed();
                 break;
             case R.id.address_info:
-                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG, EventType.TOUCH_TYPE);
                 Intent intent = new Intent(this, AddressListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Constant.WM_POI_ID, mPoiInfo.getWm_poi_id());
@@ -361,25 +361,25 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 break;
 
             case R.id.delivery_info:
-                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TIME_DIALOG,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TIME_DIALOG, EventType.TOUCH_TYPE);
                 showPopwindow();
                 backgroundAlpha(0.5f);
                 break;
 
             case R.id.to_pay:
-                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY, EventType.TOUCH_TYPE);
                 if (mAddressData == null) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT);
                 }
-                if (mAddressData.getCanShipping()!=1){
+                if (mAddressData.getCanShipping() != 1) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
-                }else {
-                    if(!isFastClick()){
-                            if (CacheUtils.getAuth()) {
-                                orderSubmit();
-                            } else {
-                                getPresenter().requestAuthInfo();
-                            }
+                } else {
+                    if (!isFastClick()) {
+                        if (CacheUtils.getAuth()) {
+                            orderSubmit();
+                        } else {
+                            getPresenter().requestAuthInfo();
+                        }
 
                     }
                 }
@@ -401,7 +401,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
                 mToPayTv.setEnabled(false);
                 loadingView.setVisibility(View.VISIBLE);
-                getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime,this);
+                getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this);
             }
         } else {
             netDataReque();
@@ -451,7 +451,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mListViewDate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_TIME,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_TIME, EventType.TOUCH_TYPE);
                 mCurDateItem = position;
                 List<ArriveTimeBean.MeituanBean.DataBean.TimelistBean> timelistBeans = mDataBean.get(position).getTimelist();
                 mTimeAdapter.setData(timelistBeans, mCurDateItem);
@@ -471,7 +471,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mListViewTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_TIME,EventType.TOUCH_TYPE);
+                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_TIME, EventType.TOUCH_TYPE);
                 isChoiceAddressBack = true;
                 if (mDataBean != null) {
                     date_type_tip = mDataBean.get(mCurDateItem).getTimelist().get(position).getDate_type_tip();
@@ -482,8 +482,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
                         mTypeTipTv.setText(getString(R.string.delivery_immediately));
                     } else {
-                        if (mCurDateItem != 0){
-                            mArriveTimeTv.setText(date_time +" "+view_time);
+                        if (mCurDateItem != 0) {
+                            mArriveTimeTv.setText(date_time + " " + view_time);
                             mTypeTipTv.setText(date_type_tip);
                         }
 //                        else {
@@ -500,7 +500,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     }
 
                 }
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData,SubmitOrderActivity.this);
+                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData, SubmitOrderActivity.this);
                 mCurTimeItem = position;
                 mPreDateItem = mCurDateItem;
                 mTimeAdapter.setCurrentItem(mCurTimeItem, mPreDateItem);
@@ -557,21 +557,21 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 if (data != null) {
                     isChoiceAddressBack = true;
                     mAddressData = (AddressListBean.IovBean.DataBean) data.getSerializableExtra(ADDRESS_DATA);
-                    getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData,SubmitOrderActivity.this);
+                    getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData, SubmitOrderActivity.this);
                     boolean isNeedVoice = data.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
                     try {
-                        if (mAddressData.getCanShipping()!=1){
+                        if (mAddressData.getCanShipping() != 1) {
                             mAddressTv.setTextColor(0x99ffffff);
                             mUserNameTv.setTextColor(0x99ffffff);
                             mArriveTimeTv.setTextColor(0x99ffffff);
-                        }else {
+                        } else {
                             mAddressTv.setTextColor(this.getResources().getColor(R.color.white));
                             mUserNameTv.setTextColor(this.getResources().getColor(R.color.white));
                             mArriveTimeTv.setTextColor(this.getResources().getColor(R.color.white));
                         }
                         String address = Encryption.desEncrypt(mAddressData.getAddress());
                         if (isNeedVoice) {
-                            if (mAddressData.getCanShipping()!=1){
+                            if (mAddressData.getCanShipping() != 1) {
                                 ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
                             }
                             StandardCmdClient.getInstance().playTTS(SubmitOrderActivity.this,
@@ -611,7 +611,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     public void onGetAddressListSuccess(AddressListBean data) {
         List<AddressListBean.IovBean.DataBean> mDataListBean = data.getIov().getData();
         for (AddressListBean.IovBean.DataBean addressDataBean : mDataListBean) {
-            if(addressDataBean.getAddress_id().equals(mAddressData.getAddress_id())) {
+            if (addressDataBean.getAddress_id().equals(mAddressData.getAddress_id())) {
                 mAddressData.setCanShipping(addressDataBean.getCanShipping());
                 try {
                     if (mAddressData.getCanShipping() != 1) {
@@ -689,10 +689,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             double original_price = mOrderPreviewData.getWm_ordering_preview_order_vo().getOriginal_price();
             double reduced = original_price - total;
-            if (reduced==0){
+            if (reduced == 0) {
                 mDiscountTv.setVisibility(View.GONE);
                 mDiscountsLayout.setVisibility(View.GONE);
-            }else {
+            } else {
                 showAllDiscountItem();
                 mDiscountTv.setText(String.format(getResources().getString(R.string.submit_discount), mNumberFormat.format(reduced)));
             }
@@ -716,9 +716,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                 mEstimateTime = sdf.format(new Date(Long.valueOf(String.valueOf(estimate)) * 1000L/* + 8 * 60 * 60 * 1000L*/));
                 mTypeTipTv.setText(getString(R.string.delivery_immediately));
-                if(mEstimateTime!=null){
+                if (mEstimateTime != null) {
                     mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
-                }else {
+                } else {
                     mArriveTimeTv.setText("请选择配送时间");
                 }
             }
@@ -735,9 +735,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         for (OrderPreviewBean.MeituanBean.DataBean.DiscountsBean discountsBean : discountsBeanList) {
             LayoutInflater inflater = this.getLayoutInflater();
             final RelativeLayout discountItem = (RelativeLayout) inflater.inflate(R.layout.discount_list_item, mDiscountsLayout, false);
-            if (discountsBean.getReduceFree()==0){
+            if (discountsBean.getReduceFree() == 0) {
                 discountItem.setVisibility(View.INVISIBLE);
-            }else {
+            } else {
                 TextView discount_name_tv = discountItem.findViewById(R.id.discount_name);
                 discount_name_tv.setText(discountsBean.getName());
                 TextView discount_info_tv = discountItem.findViewById(R.id.discount);
@@ -786,7 +786,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     }
 
 
-
     @Override
     public void toPay() {
         mToPayTv.performClick();
@@ -814,7 +813,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             Long poiId = mOrderPreviewData.getWm_ordering_preview_order_vo().getWm_poi_id();
             String payUrl = mOrderSubmitData.getPayUrl();
             Intent intent = new Intent(this, PaymentActivity.class);
-            intent.putExtra(Constant.STORE_ID, poiId+"");
+            intent.putExtra(Constant.STORE_ID, poiId + "");
             intent.putExtra(Constant.EXPECTED_TIME, mUnixtime);
             intent.putExtra(Constant.TOTAL_COST, total);
             intent.putExtra(Constant.ORDER_ID, orderId);
@@ -837,13 +836,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     @Override
     public void authSuccess(String msg) {
         boolean isBackground = BackgroundUtils.isBackground(getBaseContext());
-        if (!isBackground){
+        if (!isBackground) {
             orderSubmit();
         }
     }
 
     @Override
     public void authFailure(String msg) {
-        ToastUtils.show(this,"授权失败，请开启服务授权",Toast.LENGTH_SHORT);
+        ToastUtils.show(this, "授权失败，请开启服务授权", Toast.LENGTH_SHORT);
     }
 }

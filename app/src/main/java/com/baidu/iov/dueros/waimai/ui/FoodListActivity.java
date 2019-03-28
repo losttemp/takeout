@@ -172,6 +172,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private boolean mTagsListOnclick;
     private int mTagsOnclicPosition;
     private boolean booleanExtra;
+
     @Override
     PoifoodListPresenter createPresenter() {
         return new PoifoodListPresenter();
@@ -243,7 +244,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         prefix.add(getString(R.string.open));
         AccessibilityClient.getInstance().register(this,
                 true, prefix, null);
-        GuidingAppear.INSTANCE.init(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail());
+        GuidingAppear.INSTANCE.showtTips(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail(), Constant.TTS_CART_SHOP_DETAIL);
         Constant.ANIMATION_END = true;
 //        if (getIntent() != null) {
 //            boolean IsShowShopCart = getIntent().getBooleanExtra(Constant.TO_SHOW_SHOP_CART, false);
@@ -944,7 +945,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     private void showShopCartDialog() {
-        GuidingAppear.INSTANCE.init(this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getCart_view());
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getCart_view(), Constant.TTS_CART_VIEW);
         mBottomDialog = new Dialog(this, R.style.DialogTheme);
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_shop_cart, null);
         mBottomDialog.setContentView(v);
@@ -953,12 +954,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         v.setLayoutParams(layoutParams);
         mBottomDialog.getWindow().setGravity(Gravity.BOTTOM);
         mBottomDialog.show();
-        mBottomDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                GuidingAppear.INSTANCE.init(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail());
-            }
-        });
+//        mBottomDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialog) {
+//                GuidingAppear.INSTANCE.showtTips(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail(), Constant.TTS_CART_SHOP_DETAIL);
+//            }
+//        });
         setDialogHeight(mBottomDialog);
         cardShopLayout = (LinearLayout) v.findViewById(R.id.cardShopLayout);
         mClearshopCart = (MultiplTextView) v.findViewById(R.id.tv_clear);
@@ -1693,10 +1694,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 if (tv_sold_out.getVisibility() == View.VISIBLE
                                         && (getString(R.string.sold_out).equals(tv_sold_out.getText().toString()) ||
                                         getString(R.string.looting).equals(tv_sold_out.getText().toString()))) {
+                                    ToastUtils.show(mContext, getString(R.string.looting), Toast.LENGTH_SHORT);
                                     return;
                                 }
                                 //非可售时间
-                                if (canNotBuy.getVisibility() != View.VISIBLE) {
+                                if (canNotBuy.getVisibility() == View.VISIBLE) {
                                     ToastUtils.show(mContext, getString(R.string.not_buy_time), Toast.LENGTH_SHORT);
                                     return;
                                 }
