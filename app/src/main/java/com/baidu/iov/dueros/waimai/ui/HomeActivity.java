@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
@@ -272,7 +273,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
     @Override
     public void getGPSAddressFail() {
-       Lg.getInstance().e(TAG, "getGPSAddressFail:");
+        Lg.getInstance().e(TAG, "getGPSAddressFail:");
 //        if (isInitData()) {
 //            setAddress();
 //            StoreListFragment.getLocation(this);
@@ -467,8 +468,10 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
     @Override
     public void update(LogoutBean data) {
+        CacheUtils.saveAddressBean(null);
+        CacheUtils.saveAddress(null);
         Intent intent = new Intent(HomeActivity.this, TakeawayLoginActivity.class);
-        intent.putExtra(Constant.STORE_FRAGMENT_FROM_PAGE_TYPE, Constant.STORE_FRAGMENT_FROM_HOME);
+        intent.putExtra(Constant.LOGOUT, true);
         startActivity(intent);
         finish();
     }
