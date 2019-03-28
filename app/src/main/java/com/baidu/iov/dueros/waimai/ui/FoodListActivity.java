@@ -154,7 +154,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private List<String> foodSpuTagsBeanName;
     private RelativeLayout mToolBar;
     private String mFirstDiscount;
-    private boolean mOneMoreOrder;
+    public static boolean mOneMoreOrder;
     private MultiplTextView mMtDistributionFee;
     private RelativeLayout mRlNoProduct;
     private List<Boolean> mIsDiscountList;
@@ -231,6 +231,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mOneMoreOrder = false;
         unregisterReceiver(mInnerReceiver);
         selectFoods.clear();
     }
@@ -455,8 +456,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void updateProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag, boolean increase, boolean refreshList) {
         String spusBeanTag = spusBean.getTag();
-        boolean firstAdd = false;
         boolean inList = false;
+        boolean firstAdd = false;
+        FoodListActivity.this.refreshList = refreshList;
         Lg.getInstance().d(TAG, "updateProduct tag = " + tag + "; spusBeanTag = " + spusBeanTag);
         if (tag.equals(spusBeanTag)) {
             Lg.getInstance().d(TAG, "productList.contains(spusBean) = " + productList.contains(spusBean));
@@ -467,12 +469,97 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : productList) {
                         Lg.getInstance().d(TAG, "shopProduct.getId() = " + shopProduct.getId() + "; spusBean.getId() = " + spusBean.getId());
                         if (spusBean.equals(shopProduct)) {
-                            shopProduct.setNumber(spusBean.getNumber());
+                            if (mOneMoreOrder) {
+                                shopProduct.setNumber(spusBean.getNumber());
+                                Lg.getInstance().e(TAG, spusBean.getNumber() + "Number");
+                            } else {
+                                if (increase) {
+                                    shopProduct.setNumber(shopProduct.getNumber() + 1);
+                                } else {
+                                    if (shopProduct.getNumber() == getMinOrderCount(spusBean)) {
+                                        shopProduct.setNumber(0);
+                                    } else {
+                                        shopProduct.setNumber(shopProduct.getNumber() - 1);
+                                    }
+                                }
+                            }
                             inList = true;
                             break;
                         }
                     }
                 }
+                firstAdd = false;
+            } else {
+                //判断再来一单 是否有同一商品
+                if (FoodListActivity.mOneMoreOrder) {
+                    for (int i = 0; i < productList.size(); i++) {
+                        PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct = productList.get(i);
+                        if (shopProduct.getId() == spusBean.getId() && shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0 && shopProduct.getAttrs().get(0).getChoiceAttrs() != null
+                                && shopProduct.getAttrs().get(0).getChoiceAttrs().size() > 0 &&
+                                spusBean.getAttrs().get(0).getChoiceAttrs().get(0).getId() == shopProduct.getAttrs().get(0).getChoiceAttrs().get(0).getId()) {
+                            productList.remove(shopProduct);
+                            break;
+                        }
+                    }
+
+                }
+                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBeanNew = null;
+                try {
+                    spusBeanNew = (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean) spusBean.deepClone();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Lg.getInstance().d(TAG, "shopProduct else");
+                productList.add(spusBeanNew);
+                inList = false;
+                firstAdd = true;
+                alreadyToast = false;
+            }
+        }
+        shoppingCartAdapter.notifyDataSetChanged();
+        if (mBottomDialog != null && mBottomDialog.isShowing()) {
+            setDialogHeight(mBottomDialog);
+        }
+        refreshSpusTagNum(increase, spusBean, firstAdd, false);
+        setPrise(increase);
+    }
+
+    public void updateoneMoreOrder(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, String tag,
+                                   OrderListExtraBean.OrderInfos.Food_list spusFood, boolean increase, boolean refreshList) {
+        String spusBeanTag = spusBean.getTag();
+        boolean inList = false;
+        boolean firstAdd = false;
+        FoodListActivity.this.refreshList = refreshList;
+        Lg.getInstance().d(TAG, "updateoneMoreOrder tag = " + tag + "; spusBeanTag = " + spusBeanTag);
+        if (tag.equals(spusBeanTag)) {
+            Lg.getInstance().d(TAG, "productList.contains(spusBean) = " + productList.contains(spusBean));
+            if (productList.contains(spusBean)) {
+                if (spusBean.getNumber() == 0) {
+                    productList.remove(spusBean);
+                } else {
+                    for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : productList) {
+                        Lg.getInstance().d(TAG, "shopProduct.getId() = " + shopProduct.getId() + "; spusBean.getId() = " + spusBean.getId());
+                        if (spusBean.equals(shopProduct)) {
+                            if (mOneMoreOrder) {
+                                shopProduct.setNumber(spusBean.getNumber());
+                                Lg.getInstance().e(TAG, spusBean.getNumber() + "Number");
+                            } else {
+                                if (increase) {
+                                    shopProduct.setNumber(shopProduct.getNumber() + 1);
+                                } else {
+                                    if (shopProduct.getNumber() == getMinOrderCount(spusBean)) {
+                                        shopProduct.setNumber(0);
+                                    } else {
+                                        shopProduct.setNumber(shopProduct.getNumber() - 1);
+                                    }
+                                }
+                            }
+                            inList = true;
+                            break;
+                        }
+                    }
+                }
+                firstAdd = false;
             } else {
                 PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBeanNew = null;
                 try {
@@ -481,12 +568,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     e.printStackTrace();
                 }
                 Lg.getInstance().d(TAG, "shopProduct else");
-                if (productList.size() == 0) {
-                    alreadyToast = false;
+                if (spusFood.getAttrIds() != null && spusFood.getAttrIds().size() > 0) {
+                    spusBeanNew.setSpecificationsNumber(spusFood.getCount());
+                    spusBeanNew.setNumber(spusFood.getCount());
                 }
                 productList.add(spusBeanNew);
                 inList = false;
                 firstAdd = true;
+                alreadyToast = false;
             }
         }
         shoppingCartAdapter.notifyDataSetChanged();
@@ -1267,8 +1356,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             foodSpuTagsBeanName.add(foodSpuTagsName);
             Lg.getInstance().d(TAG, "foodSpuTagsBeanName = " + foodSpuTagsName);
             spusBeanList = new ArrayList<>();
-            //获取各个分类下的商品列表
-            spusBeanList.addAll(foodSpuTagsBean.getSpus());
+            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spus = foodSpuTagsBean.getSpus();
+            for (int j = 0; j < spus.size(); j++) {
+                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean = spus.get(j);
+                String spusName = spusBean.getName();
+                spusBeanList.add(spusBean);
+                Lg.getInstance().d(TAG, "spusBeanName = " + spusName);
+            }
             Lg.getInstance().d(TAG, "spusBeanList = " + spusBeanList.size());
             foodSpuTagsBean.setSpus(spusBeanList);
             foodSpuTagsBeans.add(foodSpuTagsBean);
@@ -1304,7 +1398,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     private void oneMoreOrder() {
         Bundle extras = getIntent().getExtras();
-        if (extras.containsKey(Constant.ONE_MORE_ORDER)) {
+        if (extras != null && extras.containsKey(Constant.ONE_MORE_ORDER)) {
             mOneMoreOrder = (boolean) getIntent().getExtras().get(Constant.ONE_MORE_ORDER);
             if (mOneMoreOrder) {
                 if (extras.containsKey(Constant.ORDER_LSIT_EXTRA_STRING)) {
@@ -1321,41 +1415,37 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         e.printStackTrace();
                     }
                     List<OrderListExtraBean.OrderInfos.Food_list> spusFoodList = orderInfos.getFood_list();
-                    //循环购买的商品
                     for (OrderListExtraBean.OrderInfos.Food_list spusFood : spusFoodList) {
                         long spuId = spusFood.getSpu_id();
-                        //循环商品列表的商品
                         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
-                            //如果再来一单的商品ID 等于  商品列表的ID
                             if (spusBean.getId() == spuId) {
-                                //给商品列表设置默认数量
                                 spusBean.setNumber(spusBean.getNumber() + spusFood.getCount());
-                                //商品的规格
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
-                                //商品的价格
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
                                 List<String> attrIds = spusFood.getAttrIds();
                                 List<String> attrValues = spusFood.getAttrValues();
                                 String spec = spusFood.getSpec();
                                 SetAttrsAndSkus(spusBean, attrs, skus, attrIds, attrValues, spec);
-                                int number = spusBean.getNumber();
+                                if (attrIds != null && attrIds.size() > 0)
+                                    spusBean.setSpecificationsNumber(spusBean.getSpecificationsNumber() + spusFood.getCount());
+                                int number = spusFood.getCount();
                                 int minOrderCount = getMinOrderCount(spusBean);
                                 if (number > 1) {
                                     if (minOrderCount > 1) {
                                         spusBean.setNumber(minOrderCount);
-                                        updateProduct(spusBean, spusBean.getTag(), true, false);
+                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood, true, false);
                                         for (int i = minOrderCount; i <= number; i++) {
                                             spusBean.setNumber(i + 1);
-                                            updateProduct(spusBean, spusBean.getTag(), true, false);
+                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood, true, false);
                                         }
                                     } else {
                                         for (int i = minOrderCount; i <= number; i++) {
                                             spusBean.setNumber(i);
-                                            updateProduct(spusBean, spusBean.getTag(), true, false);
+                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood, true, false);
                                         }
                                     }
                                 } else {
-                                    updateProduct(spusBean, spusBean.getTag(), true, false);
+                                    updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood, true, false);
                                 }
                             }
                         }
@@ -1370,8 +1460,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 spusBean.setNumber(spusBean.getNumber() + spusFood.getCount());
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
-                                List<String> attrIds = spusFood.getAttrIds();
-                                List<String> attrValues = spusFood.getAttrValues();
+                                List<String> attrIds = (List<String>) spusFood.getAttrIds();
+                                List<String> attrValues = (List<String>) spusFood.getAttrValues();
                                 String spec = spusFood.getSpec();
                                 SetAttrsAndSkus(spusBean, attrs, skus, attrIds, attrValues, spec);
                                 int number = spusBean.getNumber();
