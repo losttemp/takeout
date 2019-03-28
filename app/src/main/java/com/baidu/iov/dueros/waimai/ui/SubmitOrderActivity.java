@@ -632,16 +632,26 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-                break;
+            }else {
+                try {
+                    mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
+                    String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
+                            + Encryption.desEncrypt(mAddressData.getUser_phone());
+                    if (mAddressData.getUser_name() != null && mAddressData.getUser_phone() != null) {
+                        mUserNameTv.setText(address);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+            break;
         }
 
     }
 
     @Override
     public void onGetAddressListFailure(String msg) {
-        mAddressTv.setText(R.string.no_internet);
+//        mAddressTv.setText(R.string.no_internet);
     }
 
     @Override

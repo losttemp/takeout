@@ -240,6 +240,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         intent.putExtra(Constant.STORE_ID, Long.parseLong(payloadBean.getWm_ordering_list().getWm_poi_id()));
                         intent.putExtra(Constant.EXPECTED_TIME, payloadBean.getWm_ordering_list().getDelivery_time());
+                        intent.putExtra("flag",true);
                         String status = mOrderList.get(position).getOut_trade_status();
                         if (IOV_STATUS_ZERO.equals(status) || IOV_STATUS_WAITING.equals(status)) {
                             intent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
