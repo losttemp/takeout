@@ -192,11 +192,8 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
             @Override
             public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
                 PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean1 = spusBeans.get(position);
-                if (FoodListActivity.selectFoods.containsKey(spusBean1.getId())) {
+                if (spusBean1 != null && FoodListActivity.selectFoods.containsKey(spusBean1.getId())) {
                     spusBeans.remove(spusBean1);
-                    PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean cache = FoodListActivity.selectFoods.get(spusBean1.getId());
-                    cache.setNumber(spusBean1.getNumber());
-                    cache.setSpecificationsNumber(spusBean1.getSpecificationsNumber());
                     spusBeans.add(position, FoodListActivity.selectFoods.get(spusBean1.getId()));
                     spusBean1 = spusBeans.get(position);
                 }
@@ -219,12 +216,21 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     viewHolder.specifications.setVisibility(View.VISIBLE);
                     viewHolder.add.setVisibility(View.GONE);
                     viewHolder.action.setVisibility(View.GONE);
-                    if (spusBean.getSpecificationsNumber() > 0) {
+
+                    int count = 0;
+                    for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : productList) {
+                        if (spusBean.getId() == shopProduct.getId()) {
+                            count += shopProduct.getNumber();
+                        }
+
+                    }
+                    if (count > 0) {
+                        viewHolder.specificationsNumber.setText(String.valueOf(count));
                         viewHolder.specificationsNumber.setVisibility(View.VISIBLE);
-                        viewHolder.specificationsNumber.setText("" + spusBean.getSpecificationsNumber());
                     } else {
                         viewHolder.specificationsNumber.setVisibility(View.GONE);
                     }
+
                 } else if (spusBean.getNumber() == 0) {
                     viewHolder.specifications.setVisibility(View.GONE);
                     viewHolder.add.setVisibility(View.VISIBLE);
@@ -866,8 +872,27 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         spusBean.setNumber(0);
                     }
                 } else {
-                    inList = false;
-                    spusBean.setNumber(0);
+                    //判断再来一单 是否有同一商品
+                    if (FoodListActivity.mOneMoreOrder) {
+                        for (int i = 0; i < productList.size(); i++) {
+                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct = productList.get(i);
+                            if (shopProduct.getId() == spusBean.getId() && shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0 && shopProduct.getAttrs().get(0).getChoiceAttrs() != null
+                                    && shopProduct.getAttrs().get(0).getChoiceAttrs().size() > 0 &&
+                                    spusBean.getAttrs().get(0).getChoiceAttrs().get(0).getId() == shopProduct.getAttrs().get(0).getChoiceAttrs().get(0).getId()) {
+                                spusBean.setNumber(shopProduct.getNumber());
+                                spusBean.setSpecificationsNumber(shopProduct.getNumber());
+                                inList = true;
+                                break;
+                            }
+                        }
+                        if (!inList) {
+                            inList = false;
+                            spusBean.setNumber(0);
+                        }
+                    } else {
+                        inList = false;
+                        spusBean.setNumber(0);
+                    }
                 }
                 return inList;
             }

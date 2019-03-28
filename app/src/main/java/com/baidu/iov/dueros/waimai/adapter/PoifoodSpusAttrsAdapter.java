@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,15 +88,12 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-
         GridLayoutManager layoutManage = new GridLayoutManager(context, 3);
         viewHolder.recyclerview.setLayoutManager(layoutManage);
-
         if (attrsBeans.size() > 0 && position != attrsBeans.size()) {
             viewHolder.attrsName.setText(attrsBeans.get(position).getName());
             final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> values = attrsBeans.get(position).getValues();
             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> lastChoiceAttrs = attrsBeans.get(position).getChoiceAttrs();
-
             final SpecificationAdapter specificationAdapter = new SpecificationAdapter(lastChoiceAttrs, null, values, null);
             viewHolder.recyclerview.setAdapter(specificationAdapter);
             specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {
@@ -131,7 +129,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
 
         } else {
             if (skusBeans.size() > 1) {
-                viewHolder.attrsName.setText(context.getString(R.string.specification));
+                viewHolder.attrsName.setText(context.getString(R.string.specification) + ":");
                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> lastChoiceSkus = spusBean.getChoiceSkus();
 
                 final SpecificationAdapter specificationAdapter = new SpecificationAdapter(null, lastChoiceSkus, null, skusBeans);
@@ -190,9 +188,29 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                 }
             }
         } else {
-            if (setPriceListener != null) {
-                inList = false;
-                setPriceListener.setNumber(0);
+            //判断再来一单 是否有同一商品
+            if (FoodListActivity.mOneMoreOrder) {
+                for (int i = 0; i < productList.size(); i++) {
+                    PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct = productList.get(i);
+                    if (shopProduct.getId() == spusBean.getId() && shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0 && shopProduct.getAttrs().get(0).getChoiceAttrs() != null
+                            && shopProduct.getAttrs().get(0).getChoiceAttrs().size() > 0 &&
+                            spusBean.getAttrs().get(0).getChoiceAttrs().get(0).getId() == shopProduct.getAttrs().get(0).getChoiceAttrs().get(0).getId()) {
+                        setPriceListener.setNumber(shopProduct.getNumber());
+                        inList = true;
+                        break;
+                    }
+                }
+                if (!inList) {
+                    if (setPriceListener != null) {
+                        inList = false;
+                        setPriceListener.setNumber(0);
+                    }
+                }
+            } else {
+                if (setPriceListener != null) {
+                    inList = false;
+                    setPriceListener.setNumber(0);
+                }
             }
         }
     }
