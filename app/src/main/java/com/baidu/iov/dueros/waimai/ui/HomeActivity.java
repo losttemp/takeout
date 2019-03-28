@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
@@ -31,7 +30,6 @@ import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.xiaoduos.syncclient.Entry;
@@ -101,7 +99,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         }
 
         if (getIntent().getIntExtra(Constant.START_APP, -1) == Constant.START_APP_CODE) {
-            initDataTime();
+            //initDataTime();
             requestPermission();
         }
     }
@@ -254,32 +252,33 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
     @Override
     public void getGPSAddressSuccess() {
-        if (isInitData() && mBDLocation != null) {
-            address = mBDLocation.getAddress().district + mBDLocation.getAddress().street + mBDLocation.getAddress().streetNumber;
-            mTvTitle.setText(address);
-            Constant.GOODS_LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
-            Constant.GOODS_LONGITUDE = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
-            Lg.getInstance().e(TAG, " Constant.GOODS_LATITUDE：" + Constant.GOODS_LATITUDE + "  Constant.GOODS_LONGITUDE:" + Constant.GOODS_LONGITUDE);
-            if (mStoreListFragment == null) {
-                initFragment();
-            }
-            mStoreListFragment.getFilterList();
-            mStoreListFragment.homeLoadFirstPage();
-        }
+        Lg.getInstance().e(TAG, "getGPSAddressSuccess:");
+//        if (isInitData() && mBDLocation != null) {
+//            address = mBDLocation.getAddress().district + mBDLocation.getAddress().street + mBDLocation.getAddress().streetNumber;
+//            mTvTitle.setText(address);
+//            Constant.GOODS_LATITUDE = (int) (mBDLocation.getLatitude() * LocationManager.SPAN);
+//            Constant.GOODS_LONGITUDE = (int) (mBDLocation.getLongitude() * LocationManager.SPAN);
+//            Lg.getInstance().e(TAG, " Constant.GOODS_LATITUDE：" + Constant.GOODS_LATITUDE + "  Constant.GOODS_LONGITUDE:" + Constant.GOODS_LONGITUDE);
+//            if (mStoreListFragment == null) {
+//                initFragment();
+//            }
+//            mStoreListFragment.getFilterList();
+//            mStoreListFragment.homeLoadFirstPage();
+//        }
     }
 
     @Override
     public void getGPSAddressFail() {
-        Lg.getInstance().e(TAG, "getGPSAddressFail:");
-        if (isInitData()) {
-            setAddress();
-            StoreListFragment.getLocation(this);
-            if (mStoreListFragment == null) {
-                initFragment();
-            }
-            mStoreListFragment.getFilterList();
-            mStoreListFragment.homeLoadFirstPage();
-        }
+       Lg.getInstance().e(TAG, "getGPSAddressFail:");
+//        if (isInitData()) {
+//            setAddress();
+//            StoreListFragment.getLocation(this);
+//            if (mStoreListFragment == null) {
+//                initFragment();
+//            }
+//            mStoreListFragment.getFilterList();
+//            mStoreListFragment.homeLoadFirstPage();
+//        }
     }
 
     @Override
