@@ -198,7 +198,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     public void onSuccess(List<AddressListBean.IovBean.DataBean> data) {
         if (data.size() == 0) {
-            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getEmpty_result(),Constant.TTS_ADDRESS_EMPTY_RESULT);
+            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getEmpty_result(), Constant.TTS_ADDRESS_EMPTY_RESULT);
             mNoAddress.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
             addBtnView.setVisibility(View.GONE);
@@ -207,7 +207,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 isNeedPlayTTS = false;
             }
         } else {
-            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getMe(),Constant.TTS_ADDRESS_ME);
+            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getMe(), Constant.TTS_ADDRESS_ME);
             mNoAddress.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
             if (isNeedPlayTTS) {
@@ -278,7 +278,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                     StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, Config.DEFAULT_TTS);
                 }
                 if (currentItemPosition + getPageNum() * 2 > mDataList.size()) {
-                    manager.scrollToPositionWithOffset(mDataList.size(), 0);
+                    manager.scrollToPositionWithOffset(mDataList.size() - 1, 0);
                     return;
                 }
                 manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
