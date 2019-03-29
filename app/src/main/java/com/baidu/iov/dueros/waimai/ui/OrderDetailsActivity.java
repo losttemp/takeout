@@ -437,7 +437,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                     ConfirmDialog dialog = new ConfirmDialog.Builder(this)
                             .setTitle(R.string.order_cancel_title)
                             .setMessage(R.string.order_cancel_message)
-                            .setNegativeButton(R.string.order_cancel, new DialogInterface.OnClickListener() {
+                            .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     getPresenter().requestOrderCancel(mOrderCancelReq);
@@ -461,7 +461,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 }else {
                     ConfirmDialog dialog = new ConfirmDialog.Builder(this)
                             .setTitle(R.string.order_cancel_title)
-                            .setNegativeButton(R.string.order_cancel, new DialogInterface.OnClickListener() {
+                            .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     getPresenter().requestOrderCancel(mOrderCancelReq);

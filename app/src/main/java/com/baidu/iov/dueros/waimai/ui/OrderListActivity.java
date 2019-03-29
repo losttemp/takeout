@@ -209,7 +209,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         ConfirmDialog dialog = new ConfirmDialog.Builder(OrderListActivity.this)
                                 .setTitle(R.string.order_cancel_title)
                                 .setMessage(message)
-                                .setNegativeButton(R.string.order_cancel, new DialogInterface.OnClickListener() {
+                                .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         getPresenter().requestOrderCancel(mOrderCancelReq);
