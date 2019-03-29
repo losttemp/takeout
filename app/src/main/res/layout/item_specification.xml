@@ -4,7 +4,7 @@
     android:layout_height="@dimen/px60dp"
     android:layout_marginLeft="@dimen/px24dp"
     android:layout_marginTop="@dimen/px26dp"
-    android:background="@drawable/tag_bg_01"
+    android:background="@drawable/shape_filter_unselected_bg"
     android:orientation="horizontal">
 
     <TextView

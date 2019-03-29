@@ -102,13 +102,13 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                     List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> valuesBeans = attrsBeans.get(position).getValues();
                     for (int i = 0; i < viewHolder.recyclerview.getChildCount(); i++) {
                         if (i == p) {
-                            viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.tag_on);
+                            viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.shape_filter_selected_bg);
                             choiceAttrs = new ArrayList<>();
                             choiceAttrs.add(valuesBeans.get(i));
                             spusBean.getAttrs().get(position).setChoiceAttrs(choiceAttrs);
                             choiseAttrs[position] = true;
                         } else {
-                            viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.tag_bg_01);
+                            viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.shape_filter_unselected_bg);
                         }
                     }
                     if (spusBean.getSkus().size() >= 2) {
@@ -139,7 +139,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                     public void OnItemClick(View view, int p) {
                         for (int i = 0; i < viewHolder.recyclerview.getChildCount(); i++) {
                             if (i == p) {
-                                viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.tag_on);
+                                viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.shape_filter_selected_bg);
                                 choiceSkus.clear();
                                 choiceSkus.add(skusBeans.get(i));
                                 spusBean.setChoiceSkus(choiceSkus);
@@ -148,7 +148,7 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                                     setPriceListener.setPrice("" + price);
                                 }
                             } else {
-                                viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.tag_bg_01);
+                                viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.shape_filter_unselected_bg);
                             }
                         }
                         if (spusBean.getSkus().size() >= 2) {

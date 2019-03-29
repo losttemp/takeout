@@ -56,13 +56,13 @@ public class SpecificationAdapter extends RecyclerView.Adapter<SpecificationAdap
         if (choiceAttrs != null && choiceAttrs.size() > 0) {
             String value = choiceAttrs.get(0).getValue();
             if (value.equals(holder.text.getText())){
-                holder.item.setBackgroundResource(R.drawable.tag_on);
+                holder.item.setBackgroundResource(R.drawable.shape_filter_selected_bg);
             }
         }
         if (choiceSkus!=null&& choiceSkus.size() > 0){
             String value = choiceSkus.get(0).getSpec();
             if (value.equals(holder.text.getText())){
-                holder.item.setBackgroundResource(R.drawable.tag_on);
+                holder.item.setBackgroundResource(R.drawable.shape_filter_selected_bg);
             }
         }
 
