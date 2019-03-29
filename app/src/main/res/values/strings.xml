@@ -226,8 +226,8 @@
     <string name="close">取消</string>
     <string name="order_details">订单详情</string>
     <string name="order_cancel">取消订单</string>
-    <string name="order_cancel_title">现在就取消订单吗?</string>
-    <string name="order_cancel_message">退款将原路回到您的支付账户</string>
+    <string name="order_cancel_title">现在取消订单吗?</string>
+    <string name="order_cancel_message">退款将原路退回到您的支付账户</string>
     <string name="order_cancel_positive">再想想</string>
     <string name="remind_title">温馨提醒</string>
     <string name="remind_message">拨打电话:10109777取消订单吗？\n该订单需要联系美团客服取消</string>
