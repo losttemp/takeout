@@ -47,7 +47,7 @@
         android:layout_marginBottom="@dimen/px28dp"
         android:contentDescription="@string/content_update_address"
         android:ellipsize="end"
-        android:maxWidth="@dimen/px600dp"
+        android:maxWidth="@dimen/px540dp"
         android:maxLines="1"
         android:text="@string/takeaway"
         android:textColor="@color/white"
