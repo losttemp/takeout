@@ -225,14 +225,6 @@
                 android:layout_marginStart="@dimen/px64dp"
                 android:layout_toEndOf="@+id/pay_type_img1"
                 android:background="@drawable/zhifubao" />
-
-            <ImageView
-                android:id="@+id/pay_type_img3"
-                android:layout_width="@dimen/px96dp"
-                android:layout_height="@dimen/px96dp"
-                android:layout_marginStart="@dimen/px64dp"
-                android:layout_toEndOf="@+id/pay_type_img2"
-                android:background="@drawable/duxiaoman" />
         </RelativeLayout>
 
 

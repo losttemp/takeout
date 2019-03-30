@@ -39,8 +39,7 @@
         android:layout_alignStart="@+id/tv_address_title"
         android:layout_below="@+id/tv_address_title"
         android:layout_marginTop="@dimen/px26dp"
-        android:textColor="@color/white"
-        android:alpha="0.6"
+        android:textColor="@color/white_60"
         android:textSize="@dimen/px30sp" />
 
     <ImageView

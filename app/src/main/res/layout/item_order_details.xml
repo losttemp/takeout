@@ -11,7 +11,7 @@
         android:layout_width="@dimen/px690dp"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
-        android:layout_marginTop="@dimen/px36dp"
+        android:layout_marginTop="@dimen/px28dp"
         android:ellipsize="end"
         android:maxLines="1"/>
 

@@ -1,18 +1,27 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.text.TextUtils;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.AddressListImpl;
 import com.baidu.iov.dueros.waimai.model.IAddressList;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressEndBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
+import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.StringUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +33,14 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
     private static final String TAG = AddressListPresenter.class.getSimpleName();
 
     private IAddressList mAddressList;
+    private List<AddressListBean.IovBean.DataBean> mDataBeans;
+    private AddressListBean.IovBean.DataBean mDesBean;
+    private boolean isOnSuccess;
+    private MReceiver mReceiver;
 
     public AddressListPresenter() {
         mAddressList = new AddressListImpl();
+        mDesBean = new AddressListBean.IovBean.DataBean();
     }
 
     @Override
@@ -46,6 +60,13 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
 
             @Override
             public void onSuccess(AddressListBean data) {
+                if (mDataBeans.contains(mDesBean)) {
+                    mDataBeans.clear();
+                    mDataBeans.add(mDesBean);
+                } else {
+                    mDataBeans.clear();
+                }
+                mDataBeans.addAll(data.getIov().getData());
                 if (null != getUi()) {
                     if (data != null && data.getIov().getData().size() > 0) {
                         for (int i = 0; i < data.getIov().getData().size(); i++) {
@@ -55,7 +76,8 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
                             }
                         }
                         setAutocompleteData(data);
-                        getUi().onGetAddressListSuccess(data);
+                        isOnSuccess = true;
+                        getUi().onGetAddressListSuccess(mDataBeans);
                     }
                 }
             }
@@ -119,13 +141,78 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
 
     public interface AddressListUi extends Ui {
 
-        void onGetAddressListSuccess(AddressListBean data);
+        void onRegisterReceiver(BroadcastReceiver mReceiver, IntentFilter intentFilter);
+
+        void onGetAddressListSuccess(List<AddressListBean.IovBean.DataBean> data);
 
         void onGetAddressListFailure(String msg);
 
         void selectListItem(int i);
 
         void nextPage(boolean isNextPage);
+    }
+
+    public class MReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() == Constant.OPEN_API_BAIDU_MAP) {
+                String s = intent.getStringExtra("dest_json");
+                Lg.getInstance().d(TAG, "onReceive open baidu map mDataBeans:" + mDataBeans);
+                if (mDataBeans.contains(mDesBean)) {
+                    mDataBeans.remove(mDesBean);
+                }
+                if (!TextUtils.isEmpty(s)) {
+                    AddressEndBean addressEndBean = parseJSON(s);
+                    mDesBean.setAddress(Encryption.encrypt(addressEndBean.getName()));
+                    if (MyApplicationAddressBean.USER_PHONES.size() > 0) {
+                        mDesBean.setUser_phone(Encryption.encrypt(MyApplicationAddressBean.USER_PHONES.get(0)));
+                    }
+                    if (MyApplicationAddressBean.USER_NAMES.size() > 0) {
+                        mDesBean.setUser_name(Encryption.encrypt(MyApplicationAddressBean.USER_NAMES.get(0)));
+                    }
+                    mDesBean.setLatitude((int) (Double.parseDouble(addressEndBean.getLat()) * LocationManager.SPAN));
+                    mDesBean.setLongitude((int) (Double.parseDouble(addressEndBean.getLng()) * LocationManager.SPAN));
+                    mDesBean.setType(context.getResources().getString(R.string.address_destination));
+                    mDesBean.setCanShipping(1);
+                    mDataBeans.add(0, mDesBean);
+                }
+                if (mDataBeans != null && null != getUi() && mDataBeans.size() > 0 && isOnSuccess) {
+                    getUi().onGetAddressListSuccess(mDataBeans);
+                }
+            } else if (intent.getAction() == Constant.OPEN_API_EXIT_NAVI) {
+//                Lg.getInstance().d(TAG, "onReceive exit navi mDataBeans:" + mDataBeans);
+                removeDesBean();
+            }
+        }
+
+    }
+
+    public void initDesBeans() {
+        mDataBeans = new ArrayList<>();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constant.OPEN_API_BAIDU_MAP);
+        intentFilter.addAction(Constant.OPEN_API_EXIT_NAVI);
+        mReceiver = new MReceiver();
+        if (null != getUi()) {
+            getUi().onRegisterReceiver(mReceiver, intentFilter);
+        }
+    }
+
+    private void removeDesBean() {
+        if (mDataBeans.contains(mDesBean)) {
+            mDataBeans.remove(mDesBean);
+            if (null != getUi()) {
+                getUi().onGetAddressListSuccess(mDataBeans);
+            }
+        }
+    }
+
+    private AddressEndBean parseJSON(String jsonData) {
+        Gson gson = new Gson();
+        AddressEndBean natiBean = gson.fromJson(jsonData,
+                new TypeToken<AddressEndBean>() {
+                }.getType());
+        return natiBean;
     }
 
     private void setAutocompleteData(AddressListBean data){

@@ -104,8 +104,11 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     ((ViewHolder) holder).tv_address.setWidth((int) mContext.getResources().getDimension(R.dimen.px550dp));
                 }
                 String address_type = mData.get(realPosition).getType();
-
-                if (mContext.getString(R.string.address_home).equals(address_type)) {
+                if (mContext.getString(R.string.address_destination).equals(address_type)) {
+                    ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_mudidi);
+                    ((ViewHolder) holder).tv_address_type.setText(address_type);
+                }
+                else if (mContext.getString(R.string.address_home).equals(address_type)) {
                     ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_green);
                     ((ViewHolder) holder).tv_address_type.setText(address_type);
 
@@ -142,7 +145,6 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (mData.get(realPosition).getCanShipping() == 1) {
                 ((ViewHolder) holder).tv_address.setTextColor(mContext.getResources().getColor(R.color.white));
                 ((ViewHolder) holder).tv_address_type.setTextColor(mContext.getResources().getColor(R.color.white));
-                ((ViewHolder) holder).tv_name.setTextColor(mContext.getResources().getColor(R.color.white));
                 holder.itemView.setBackground(null);
             } else {
                 ((ViewHolder) holder).tv_address.setTextColor(0x99ffffff);

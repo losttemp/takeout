@@ -60,9 +60,6 @@
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp" />
 
-
-
-
     </RelativeLayout>
 
     <TextView
@@ -86,7 +83,7 @@
         android:textSize="@dimen/px30sp"
         android:layout_toEndOf="@+id/tv_name"
         android:layout_marginStart="@dimen/px20dp"
-        android:layout_marginTop="@dimen/px26dp"
+        android:layout_marginTop="@dimen/px20dp"
         android:layout_below="@+id/address_panel"
         />
     <ImageView

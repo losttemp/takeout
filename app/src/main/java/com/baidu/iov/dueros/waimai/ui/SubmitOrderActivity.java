@@ -611,34 +611,43 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     public void onGetAddressListSuccess(AddressListBean data) {
         List<AddressListBean.IovBean.DataBean> mDataListBean = data.getIov().getData();
         for (AddressListBean.IovBean.DataBean addressDataBean : mDataListBean) {
-            if (addressDataBean.getAddress_id().equals(mAddressData.getAddress_id())) {
-                mAddressData.setCanShipping(addressDataBean.getCanShipping());
-                try {
-                    if (mAddressData.getCanShipping() != 1) {
-                        mAddressTv.setTextColor(0x99ffffff);
-                        mUserNameTv.setTextColor(0x99ffffff);
-                        mArriveTimeTv.setTextColor(0x99ffffff);
+            if (addressDataBean.getAddress_id() != null && mAddressData.getAddress_id() != null) {
+                if (addressDataBean.getAddress_id().equals(mAddressData.getAddress_id())) {
+                    mAddressData.setCanShipping(addressDataBean.getCanShipping());
+                    try {
+                        if (mAddressData.getCanShipping() != 1) {
+                            mAddressTv.setTextColor(0x99ffffff);
+                            mUserNameTv.setTextColor(0x99ffffff);
+                            mArriveTimeTv.setTextColor(0x99ffffff);
+                        }
+                        mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
+                        String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
+                                + Encryption.desEncrypt(mAddressData.getUser_phone());
+                        if (mAddressData.getUser_name() != null && mAddressData.getUser_phone() != null) {
+                            mUserNameTv.setText(address);
+                        } else {
+                            if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
+                                mUserNameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0) + "  " + MyApplicationAddressBean.USER_NAMES.get(0));
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+
+                }
+            } else {
+                try {
                     mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
-                    String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
-                            + Encryption.desEncrypt(mAddressData.getUser_phone());
                     if (mAddressData.getUser_name() != null && mAddressData.getUser_phone() != null) {
+                        String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
+                                + Encryption.desEncrypt(mAddressData.getUser_phone());
                         mUserNameTv.setText(address);
                     } else {
-                        if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
-                            mUserNameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0) + "  " + MyApplicationAddressBean.USER_NAMES.get(0));
+                        if (mAddressData.getType().equals(mContext.getString(R.string.address_destination))) {
+                            if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
+                                mUserNameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0) + "  " + MyApplicationAddressBean.USER_PHONES.get(0));
+                            }
                         }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else {
-                try {
-                    mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
-                    String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
-                            + Encryption.desEncrypt(mAddressData.getUser_phone());
-                    if (mAddressData.getUser_name() != null && mAddressData.getUser_phone() != null) {
-                        mUserNameTv.setText(address);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -651,7 +660,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     @Override
     public void onGetAddressListFailure(String msg) {
-//        mAddressTv.setText(R.string.no_internet);
+        mAddressTv.setText(R.string.no_internet);
     }
 
     @Override

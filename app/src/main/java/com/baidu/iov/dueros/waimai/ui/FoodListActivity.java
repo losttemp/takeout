@@ -70,6 +70,7 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
+import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.ConstraintHeightListView;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.faceos.client.GsonUtil;
@@ -1312,7 +1313,18 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
 
             case Constant.FOOD_LACK_NOT_BUY:
-                ToastUtils.show(getApplicationContext(), data.getMeituan().getData().getMsg(), Toast.LENGTH_SHORT);
+                ConfirmDialog dialog = new ConfirmDialog.Builder(this)
+                        .setTitle(R.string.bit_tip)
+                        .setMessage(data.getMeituan().getData().getMsg())
+                        .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                dialog.show();
+//                ToastUtils.show(getApplicationContext(), data.getMeituan().getData().getMsg(), Toast.LENGTH_SHORT);
                 break;
             case Constant.SERVICE_ERROR:
                 ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg26), Toast.LENGTH_SHORT);

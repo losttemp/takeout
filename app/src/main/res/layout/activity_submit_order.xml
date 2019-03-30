@@ -75,16 +75,16 @@
                     <RelativeLayout
                         android:id="@+id/modify_address"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/px84dp"
                         android:layout_centerVertical="true">
 
                         <TextView
                             android:id="@+id/tv_address"
                             android:layout_width="@dimen/px826dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/px84dp"
                             android:includeFontPadding="false"
-                            android:layout_marginTop="@dimen/px30dp"
+                            android:layout_marginTop="@dimen/px34dp"
                             android:textColor="@color/white"
                             android:textSize="@dimen/px40sp"
                             android:ellipsize="end"
@@ -95,7 +95,6 @@
                             android:layout_width="@dimen/px800dp"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/tv_address"
-                            android:layout_marginStart="@dimen/px84dp"
                             android:layout_marginTop="@dimen/px20dp"
                             android:maxLines="1"
                             android:ellipsize="end"
@@ -277,6 +276,7 @@
                         android:id="@+id/discounts_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/px14dp"
                         android:orientation="vertical" />
 
                     <View
@@ -418,5 +418,5 @@
         android:layout_height="@dimen/px140dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="@dimen/px148dp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 </FrameLayout>

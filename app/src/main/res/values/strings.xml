@@ -291,8 +291,11 @@
     <string name="hot_city">热门城市</string>
     <string name="edit_text_view_max_length_hint">您输入的信息已超出最大限制长度,请重新编辑</string>
     <string name="no_internet">加载失败,请检查网络后重试</string>
+    <string name="no_address">加载失败,请手动选择地址</string>
     <string name="no_internet_reload">重新加载</string>
     <string name="error_nullpoint">商品列表不能为空</string>
+    <string name="bit_tip">温馨提示</string>
+
     <!--tts-->
     <string name="yes">好的</string>
     <string name="choose_you_commodity">好的，请依次选择你想要的商品，点完后对我说确认下单</string>
