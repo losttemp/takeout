@@ -57,12 +57,14 @@ public class CityPickerActivity extends AppCompatActivity {
     private ImageView pic_contact_back;
     private LocationManager mlocationManager;
     private String mlocation;
+    private String city;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
+        setStatusBar(false, ContextCompat.getColor(this, R.color.notification_bar_bg));
         setContentView(R.layout.activity_city_picker);
+        city = getString(R.string.city_loading);
         requestPermission();
         initview();
         initAdapter();
@@ -160,8 +162,8 @@ public class CityPickerActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                linearParams.width = (int) getResources().getDimension(R.dimen.px430dp);
-                vh.item_header_city_dw.setText(R.string.position_try);
+                linearParams.width = (int) getResources().getDimension(city.equals(getString(R.string.city_loading)) ? R.dimen.px200dp : R.dimen.px430dp);
+                vh.item_header_city_dw.setText(city);
                 vh.try_city.setVisibility(View.VISIBLE);
                 vh.layout.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -232,6 +234,8 @@ public class CityPickerActivity extends AppCompatActivity {
                     }
                     break;
                 default:
+                    city = getString(R.string.position_try);
+                    mBannerHeaderAdapter.notifyDataSetChanged();
                     break;
 
             }
