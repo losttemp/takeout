@@ -37,6 +37,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
     private List<AddressListBean.IovBean.DataBean> mDataBeans;
     private AddressListBean.IovBean.DataBean mDesBean;
     private MReceiver mReceiver;
+    private boolean isOnSuccess;
 
     public AddressSelectPresenter() {
         this.mAdressSelectModel = new AddressSelectModel();
@@ -93,7 +94,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
     }
 
     public void requestData(AddressListReqBean reqBean) {
-
+        isOnSuccess = false;
         mAdressSelectModel.requestAdressList(reqBean, new RequestCallback<AddressListBean>() {
 
             @Override
@@ -239,6 +240,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                     }
                 }
                 if (null != getUi()) {
+                    isOnSuccess = true;
                     getUi().onSuccess(mDataBeans);
                 }
             }
@@ -303,7 +305,8 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                     mDesBean.setType(context.getResources().getString(R.string.address_destination));
                     mDataBeans.add(0, mDesBean);
                 }
-                if (null != getUi()&& mDataBeans.size() > 0) {
+                if (null != getUi() && mDataBeans.size() > 0 && isOnSuccess) {
+                    isOnSuccess = false;
                     getUi().onSuccess(mDataBeans);
                 }
             } else if (intent.getAction() == Constant.OPEN_API_EXIT_NAVI) {

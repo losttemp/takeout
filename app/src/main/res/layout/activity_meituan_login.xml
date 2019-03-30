@@ -7,17 +7,17 @@
     android:background="@drawable/app_bg"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/login_bg"
         android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <WebView
             android:id="@+id/meituan_login"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/px88dp"
-            android:layout_height="match_parent" />
+            android:layout_height="@dimen/px1594dp"
+            android:layout_marginTop="@dimen/px88dp" />
 
         <ImageView
             android:id="@+id/webview_back"
@@ -27,7 +27,7 @@
             android:layout_marginTop="@dimen/px24dp"
             android:foreground="@drawable/fg_ripple"
             android:src="@drawable/webview_back" />
-    </RelativeLayout>
+    </FrameLayout>
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -43,11 +43,10 @@
         layout="@layout/warn_no_internet"
         android:visibility="gone" />
 
-
     <include
         android:id="@+id/loading_view"
         layout="@layout/dialog_loading_toast"
         android:layout_width="@dimen/px500dp"
         android:layout_height="@dimen/px140dp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 </RelativeLayout>

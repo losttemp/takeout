@@ -504,5 +504,6 @@
     <dimen name="px998dp">332.666dp</dimen>
     <dimen name="px1000dp">333.333dp</dimen>
     <dimen name="px1432dp">477.333dp</dimen>
+    <dimen name="px1594dp">1010dp</dimen>
     <dimen name="pxminus30dp">-10.0dp</dimen>
 </resources>
