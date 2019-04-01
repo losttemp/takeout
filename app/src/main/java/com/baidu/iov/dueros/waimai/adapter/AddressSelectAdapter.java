@@ -97,7 +97,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             try {
                 detail = Encryption.desEncrypt(dataBean.getAddress());
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) details.getLayoutParams();
-                if (detail.length() > 18) {
+                if (detail.length() > 16) {
                     lp.width = 586;
                 } else {
                     lp.width = LinearLayout.LayoutParams.WRAP_CONTENT;
