@@ -814,32 +814,32 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 //        loadingView.setVisibility(View.GONE);
         if (data != null) {
             mOrderSubmitData = data.getMeituan().getData();
-        }
-        int submitCode = mOrderSubmitData.getCode();
-        if (submitCode == Constant.SUBMIT_ORDER_SUCCESS) {
-            double total = mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal();
-            long orderId = mOrderSubmitData.getOrder_id();
-            String poiName = mOrderPreviewData.getWm_ordering_preview_order_vo().getPoi_name();
-            Long poiId = mOrderPreviewData.getWm_ordering_preview_order_vo().getWm_poi_id();
-            String payUrl = mOrderSubmitData.getPayUrl();
-            Intent intent = new Intent(this, PaymentActivity.class);
-            intent.putExtra(Constant.STORE_ID, poiId + "");
-            intent.putExtra(Constant.EXPECTED_TIME, mUnixtime);
-            intent.putExtra(Constant.TOTAL_COST, total);
-            intent.putExtra(Constant.ORDER_ID, orderId);
-            intent.putExtra(Constant.SHOP_NAME, poiName);
-            intent.putExtra(Constant.PAY_URL, payUrl);
-            intent.putExtra(Constant.PIC_URL, mPoiInfo.getPic_url());
-            intent.putExtra("flag", true);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        } else if (submitCode == Constant.SERVICE_ERROR) {
+            int submitCode = mOrderSubmitData.getCode();
+            if (submitCode == Constant.SUBMIT_ORDER_SUCCESS) {
+                double total = mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal();
+                long orderId = mOrderSubmitData.getOrder_id();
+                String poiName = mOrderPreviewData.getWm_ordering_preview_order_vo().getPoi_name();
+                Long poiId = mOrderPreviewData.getWm_ordering_preview_order_vo().getWm_poi_id();
+                String payUrl = mOrderSubmitData.getPayUrl();
+                Intent intent = new Intent(this, PaymentActivity.class);
+                intent.putExtra(Constant.STORE_ID, poiId + "");
+                intent.putExtra(Constant.EXPECTED_TIME, mUnixtime);
+                intent.putExtra(Constant.TOTAL_COST, total);
+                intent.putExtra(Constant.ORDER_ID, orderId);
+                intent.putExtra(Constant.SHOP_NAME, poiName);
+                intent.putExtra(Constant.PAY_URL, payUrl);
+                intent.putExtra(Constant.PIC_URL, mPoiInfo.getPic_url());
+                intent.putExtra("flag", true);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            } else if (submitCode == Constant.SERVICE_ERROR) {
 
-            ToastUtils.show(this, getString(R.string.service_error), Toast.LENGTH_SHORT);
-            finish();
-        } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
-            ToastUtils.show(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getString(R.string.service_error), Toast.LENGTH_SHORT);
+                finish();
+            } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
+                ToastUtils.show(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
+            }
         }
     }
 
