@@ -305,12 +305,12 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 
 		if (mFilterPopWindow==null||!mFilterPopWindow.isShowing()) {
-			mTagLv.setTextViewDefaultColor();
-			mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
-			mIvSort.setImageResource(R.drawable.arrow_up);
 			if (mSortList!=null&&mSortList.size()!=0) {
 				mSortPopWindow.showAsDropDown(mView);
 				mViewBg.setVisibility(View.VISIBLE);
+				mTagLv.setTextViewDefaultColor();
+				mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
+				mIvSort.setImageResource(R.drawable.arrow_up);
 			}
 		}
 	}
@@ -346,12 +346,12 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 
 		if (mSortPopWindow==null||!mSortPopWindow.isShowing()) {
-			mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
-			mIvFilter.setImageResource(R.drawable.arrow_up);
 			Lg.getInstance().e(TAG,  " size:" + mFilterList.size() );
 			if (mFilterList!=null&&mFilterList.size()!=0) {
 				mFilterPopWindow.showAsDropDown(mView);
 				mViewBg.setVisibility(View.VISIBLE);
+				mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
+				mIvFilter.setImageResource(R.drawable.arrow_up);
 			}
 		}
 	}
