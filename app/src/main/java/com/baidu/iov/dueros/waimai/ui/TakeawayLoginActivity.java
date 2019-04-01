@@ -281,7 +281,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     public void failure(String msg) {
         Lg.getInstance().e(TAG, "Meituan Auth Fail Activity Finish");
         ToastUtils.show(this, getString(R.string.http_error), Toast.LENGTH_SHORT);
-//        finish();
+        finish();
     }
 
     @Override
