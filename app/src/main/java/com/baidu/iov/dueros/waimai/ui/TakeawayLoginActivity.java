@@ -54,7 +54,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     Bundle savedInstanceState;
     private View networkView;
     private boolean isNeedVoice;
-    private View login_bg, loadingView;
+    private View login_bg, loadingView, act_back;
     private String oldBudss = null;//记录budss 与上次不同则跳转到地址界面
 
     @Override
@@ -78,6 +78,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         init();
         setContentView(R.layout.activity_meituan_login);
         login_bg = findViewById(R.id.login_bg);
+        act_back = findViewById(R.id.login_back);
         loadingView = findViewById(R.id.loading_view);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mWVMeituan = (WebView) findViewById(R.id.meituan_login);
@@ -109,8 +110,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         networkView.setBackground(getResources().getDrawable(R.drawable.app_bg));
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
         findViewById(R.id.webview_back).setOnClickListener(this);
+        findViewById(R.id.login_back).setOnClickListener(this);
         KeyBoardListener.getInstance(this).init();
-        login_bg.setVisibility(View.GONE);
         oldBudss = CacheUtils.getBduss();
     }
 
@@ -136,6 +137,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             mWVMeituan.clearHistory();
         }
         login_bg.setVisibility(View.GONE);
+        act_back.setVisibility(View.VISIBLE);
     }
 
     private void init() {
@@ -227,6 +229,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             mWVMeituan.clearCache(true);
             mWVMeituan.clearHistory();
             login_bg.setVisibility(View.VISIBLE);
+            act_back.setVisibility(View.GONE);
             mWVMeituan.loadUrl(data.getIov().getAuthorizeUrl());
         }
     }
@@ -357,6 +360,9 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                 } else {
                     finish();
                 }
+                break;
+            case R.id.login_back:
+                finish();
                 break;
             default:
                 break;

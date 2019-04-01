@@ -947,7 +947,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     private void showShopCartDialog() {
         GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getCart_view(), Constant.TTS_CART_VIEW);
-        mBottomDialog = new Dialog(this, R.style.DialogTheme);
+        mBottomDialog = new Dialog(this, R.style.NoTitleDialog);
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_shop_cart, null);
         mBottomDialog.setContentView(v);
         ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
