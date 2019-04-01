@@ -17,34 +17,34 @@
         android:visibility="gone" />
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px126dp">
+
+        <ImageView
+            android:id="@+id/iv_finish"
+            android:layout_width="@dimen/px96dp"
+            android:layout_height="@dimen/px96dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/px54dp"
+            android:foreground="@drawable/fg_ripple"
+            android:src="@drawable/icon_back" />
+
+        <com.domain.multipltextview.MultiplTextView
+            android:id="@+id/tv_shop_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px40sp"
+            app:removeDefaultPadding="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/parentLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:visibility="gone">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/px126dp">
-
-            <ImageView
-                android:id="@+id/iv_finish"
-                android:layout_width="@dimen/px96dp"
-                android:layout_height="@dimen/px96dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/px54dp"
-                android:foreground="@drawable/fg_ripple"
-                android:src="@drawable/icon_back" />
-
-            <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/tv_shop_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/white"
-                android:textSize="@dimen/px40sp"
-                app:removeDefaultPadding="true" />
-        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_store_details"
@@ -140,10 +140,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:textColor="@color/preferential_information"
                 android:textSize="@dimen/px30sp"
-                android:gravity="center"
-                android:visibility="visible"/>
+                android:visibility="visible" />
         </RelativeLayout>
 
 
@@ -159,8 +159,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/px22dp"
                 android:layout_marginLeft="@dimen/px68dp"
+                android:layout_marginBottom="@dimen/px22dp"
                 android:text="@string/open_the_shopping_cart"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px26sp" />
@@ -237,9 +237,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/px84dp"
                 android:background="@drawable/btn_grey"
+                android:contentDescription="@string/confirmation_of_the_order"
                 android:enabled="false"
                 android:text="@string/confirmation_of_the_order"
-                android:contentDescription="@string/confirmation_of_the_order"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px36sp" />
         </RelativeLayout>
@@ -251,24 +251,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/px84dp"
         android:layout_marginLeft="@dimen/px84dp"
+        android:layout_marginBottom="@dimen/px84dp"
         android:visibility="gone">
 
         <ImageView
             android:id="@+id/shopping_cart"
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
+            android:contentDescription="@string/open_the_shopping_cart"
             android:scaleType="fitCenter"
-            android:src="@drawable/icon_gouwuche"
-            android:contentDescription="@string/open_the_shopping_cart"/>
+            android:src="@drawable/icon_gouwuche" />
 
         <LinearLayout
             android:id="@+id/ll_shoppingNum_layout"
             android:layout_width="@dimen/px30dp"
             android:layout_height="@dimen/px30dp"
-            android:layout_alignRight="@+id/shopping_cart"
             android:layout_alignTop="@+id/shopping_cart"
+            android:layout_alignRight="@+id/shopping_cart"
             android:background="@drawable/point"
             android:gravity="center"
             android:visibility="gone">
@@ -278,10 +278,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/px2dp"
-                android:gravity="center"
                 android:autoSizeMaxTextSize="@dimen/px24sp"
                 android:autoSizeMinTextSize="@dimen/px2sp"
                 android:autoSizeTextType="uniform"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px24sp"
                 android:visibility="gone" />
