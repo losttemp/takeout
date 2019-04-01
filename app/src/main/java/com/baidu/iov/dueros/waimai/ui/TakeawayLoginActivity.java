@@ -111,6 +111,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         networkView.setBackground(getResources().getDrawable(R.drawable.app_bg));
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
         findViewById(R.id.webview_back).setOnClickListener(this);
+        findViewById(R.id.login_back).setOnClickListener(this);
         KeyBoardListener.getInstance(this).init();
         oldBudss = CacheUtils.getBduss();
     }
