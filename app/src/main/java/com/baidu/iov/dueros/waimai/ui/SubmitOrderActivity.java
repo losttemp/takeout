@@ -221,6 +221,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     private void netDataReque() {
         if (NetUtil.getNetWorkState(this)) {
+            loadingView.setVisibility(View.GONE);
             mNoNet.setVisibility(View.GONE);
             mParentsLayout.setVisibility(View.VISIBLE);
             getPresenter().requestAddressList(mPoiInfo.getWm_poi_id());
@@ -400,7 +401,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
                 wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
                 mToPayTv.setEnabled(false);
-                loadingView.setVisibility(View.VISIBLE);
+//                loadingView.setVisibility(View.VISIBLE);
                 getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this);
             }
         } else {
@@ -810,7 +811,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mToPayTv.setEnabled(true);
         mParentsLayout.setVisibility(View.VISIBLE);
         mNoNet.setVisibility(View.GONE);
-        loadingView.setVisibility(View.GONE);
+//        loadingView.setVisibility(View.GONE);
         if (data != null) {
             mOrderSubmitData = data.getMeituan().getData();
         }

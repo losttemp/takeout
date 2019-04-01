@@ -23,6 +23,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.view.KeyEvent;
@@ -110,7 +111,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         networkView.setBackground(getResources().getDrawable(R.drawable.app_bg));
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
         findViewById(R.id.webview_back).setOnClickListener(this);
-        findViewById(R.id.login_back).setOnClickListener(this);
         KeyBoardListener.getInstance(this).init();
         oldBudss = CacheUtils.getBduss();
     }
@@ -281,7 +281,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     public void failure(String msg) {
         Lg.getInstance().e(TAG, "Meituan Auth Fail Activity Finish");
         ToastUtils.show(this, getString(R.string.http_error), Toast.LENGTH_SHORT);
-        finish();
+//        finish();
     }
 
     @Override

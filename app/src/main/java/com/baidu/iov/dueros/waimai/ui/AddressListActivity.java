@@ -118,7 +118,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         mAddressListAdapter = new AddressListAdapter(this);
         mRecyclerView.setAdapter(mAddressListAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        setHeader();
+
 
 
         mAddressListAdapter.setOnItemClickListener(new AddressListAdapter.OnItemClickListener() {
@@ -187,14 +187,26 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 addressTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
             }
            if (mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
+               for (AddressListBean.IovBean.DataBean mAddressData :mDataListBean){
+                   if (mAddressData.getCanShipping() == 1) {
+                       addressTv.setTextColor(0xffffffff);
+                       typeTv.setTextColor(0xffffffff);
+                   }
+               }
                 typeTv.setBackgroundResource(R.drawable.tag_bg_mudidi);
                 typeTv.setText(mAddressData.getType());
                 if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
                     nameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0) + "  " + MyApplicationAddressBean.USER_PHONES.get(0));
+                    if (nameTv.getText().length() > 16) {
+                        nameTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
+                    }
                 }
             }else{
                String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
                nameTv.setText(userInfo);
+               if (nameTv.getText().length() > 16) {
+                   nameTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
+               }
                if (getString(R.string.address_home).equals(mAddressData.getType())) {
                    typeTv.setBackgroundResource(R.drawable.tag_bg_green);
                    typeTv.setText(mAddressData.getType());
@@ -299,6 +311,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         if (data != null) {
 //            mDataListBean = data.getIov().getData();
             this.mDataListBean = data;
+            setHeader();
             Collections.sort(mDataListBean);
             mAddressListAdapter.setData(mDataListBean);
         } else {

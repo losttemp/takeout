@@ -414,7 +414,7 @@
     <include
         android:id="@+id/submit_order_loading"
         layout="@layout/dialog_loading_toast"
-        android:layout_width="@dimen/px500dp"
+        android:layout_width="162dp"
         android:layout_height="@dimen/px140dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="@dimen/px148dp"

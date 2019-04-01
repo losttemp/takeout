@@ -75,6 +75,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+
     }
 
 
@@ -90,7 +91,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         mNoInternetButton = (Button) findViewById(R.id.no_internet_btn);
         loadingView = findViewById(R.id.submit_order_loading);
         mParentsLayout = findViewById(R.id.payment_layout);
-
         mBackBtn.setOnClickListener(this);
         mNoInternetButton.setOnClickListener(this);
 
@@ -204,9 +204,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                 mShopNameTv.setWidth((int) getResources().getDimension(R.dimen.px500dp));
             }
             createQRImage(payUrl, 200, 200, mPayUrlImg);
-//            mParentsLayout.setVisibility(View.VISIBLE);
-//            mNoNet.setVisibility(View.GONE);
-//            loadingView.setVisibility(View.GONE);
             Lg.getInstance().d("PaymentActivity", "payUrl = " + payUrl);
 
         }
