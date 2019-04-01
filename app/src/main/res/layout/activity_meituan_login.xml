@@ -58,12 +58,4 @@
         android:layout_width="@dimen/px500dp"
         android:layout_height="@dimen/px140dp"
         android:layout_centerInParent="true" />
-    <ImageView
-        android:id="@+id/login_back"
-        android:layout_width="@dimen/px48dp"
-        android:layout_height="@dimen/px48dp"
-        android:layout_marginLeft="@dimen/px24dp"
-        android:layout_marginTop="@dimen/px24dp"
-        android:background="@drawable/webview_back"
-        />
 </RelativeLayout>
