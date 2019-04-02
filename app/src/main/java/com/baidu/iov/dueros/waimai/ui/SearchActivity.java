@@ -129,7 +129,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 		if (et!=null){
 			String text=et.getText().toString();
-			int index =et.length()>20?20:et.length();
+			int index =text.length()>20?20:text.length();
 			et.setSelection(index);
 		}
 
@@ -210,6 +210,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			public boolean performAccessibilityAction(View host, int action, Bundle args) {
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
+						Lg.getInstance().d(TAG,"mIvDelete");
 						deleteAll();
 						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.yes));
 						break;
@@ -344,7 +345,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	}
 
 	private void deleteAll() {
-		ConfirmDialog dialog = new ConfirmDialog.Builder(this)
+		final ConfirmDialog dialog = new ConfirmDialog.Builder(this)
 				.setTitle(R.string.delete_history_title)
 				.setMessage(R.string.delete_history_message)
 				.setNegativeButton(R.string.delete_history_ok, new DialogInterface.OnClickListener() {
@@ -364,7 +365,41 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					}
 				})
 				.create();
+		dialog.negativeBtn.setContentDescription(mContext.getString(R.string.delete_history_ok));
+		dialog.negativeBtn.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						SharedPreferencesUtils.clearSearchHistory();
+						SharedPreferencesUtils.getSearchHistory(mHistorys);
+						mSearchHistroyAdapter.notifyDataSetChanged();
+						mLlHistory.setVisibility(View.GONE);
+						dialog.dismiss();
+						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.tts_delete_address));
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
+
+		dialog.positiveBtn.setContentDescription(mContext.getString(R.string.delete_history_cancel));
+		dialog.positiveBtn.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+			@Override
+			public boolean performAccessibilityAction(View host, int action, Bundle args) {
+				switch (action) {
+					case AccessibilityNodeInfo.ACTION_CLICK:
+						dialog.dismiss();
+						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.yes));
+						break;
+					default:
+						break;
+				}
+				return true;
+			}});
 		dialog.show();
+
 	}
 
 	@Override

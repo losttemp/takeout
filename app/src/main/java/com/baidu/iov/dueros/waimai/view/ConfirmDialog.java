@@ -13,13 +13,27 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 
 import android.view.ViewGroup.LayoutParams;
+
+import java.util.ArrayList;
 
 public class ConfirmDialog extends Dialog {
     public ConfirmDialog(@NonNull Context context) {
         super(context);
+        prefix.add(context.getResources().getString(R.string.prefix_choice));
+        prefix.add(context.getResources().getString(R.string.prefix_check));
+        prefix.add(context.getResources().getString(R.string.prefix_open));
     }
+
+    private Context mContext;
+
+    public static Button positiveBtn;
+
+    public static Button negativeBtn;
+
+    private ArrayList<String> prefix = new ArrayList<>();
 
     public static class Builder {
         private Context context;
@@ -136,11 +150,10 @@ public class ConfirmDialog extends Dialog {
             }
 
             if (positiveButtonText != null) {
-                ((Button) layout.findViewById(R.id.dialog_positive))
-                        .setText(positiveButtonText);
+                positiveBtn =  layout.findViewById(R.id.dialog_positive);
+                positiveBtn .setText(positiveButtonText);
                 if (positiveButtonClickListener != null) {
-                    ((Button) layout.findViewById(R.id.dialog_positive))
-                            .setOnClickListener(new View.OnClickListener() {
+                    positiveBtn.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
                                     positiveButtonClickListener.onClick(dialog,
                                             DialogInterface.BUTTON_NEUTRAL);
@@ -153,11 +166,10 @@ public class ConfirmDialog extends Dialog {
             }
 
             if (negativeButtonText != null) {
-                ((Button) layout.findViewById(R.id.dialog_negative))
-                        .setText(negativeButtonText);
+                negativeBtn =  layout.findViewById(R.id.dialog_negative);
+                negativeBtn .setText(negativeButtonText);
                 if (negativeButtonClickListener != null) {
-                    ((Button) layout.findViewById(R.id.dialog_negative))
-                            .setOnClickListener(new View.OnClickListener() {
+                    negativeBtn.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
                                     negativeButtonClickListener.onClick(dialog,
                                             DialogInterface.BUTTON_NEGATIVE);
@@ -172,5 +184,17 @@ public class ConfirmDialog extends Dialog {
             dialog.setContentView(layout);
             return dialog;
         }
+    }
+
+    @Override
+    public void dismiss() {
+        AccessibilityClient.getInstance().register(mContext,true,prefix, null);
+        super.dismiss();
+    }
+
+    @Override
+    public void show() {
+        AccessibilityClient.getInstance().unregister(mContext);
+        super.show();
     }
 }
