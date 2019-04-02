@@ -160,7 +160,13 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             }
             try {
                 address_tv.setText(Encryption.desEncrypt(dataBean.getAddress()));
-                et_name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
+                String name = Encryption.desEncrypt(dataBean.getUser_name());
+                if (!TextUtils.isEmpty(name)) {
+                    if (name.length() > 10) {
+                        name = name.substring(0, 10);
+                    }
+                    et_name.setText(name);
+                }
                 et_phone.setText(Encryption.desEncrypt(dataBean.getUser_phone()));
                 et_house_num.setText((dataBean.getHouse() == null) ? "" : Encryption.desEncrypt(dataBean.getHouse()));
             } catch (Exception e) {
