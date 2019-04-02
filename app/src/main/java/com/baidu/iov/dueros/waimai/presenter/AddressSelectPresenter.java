@@ -303,6 +303,7 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                     mDesBean.setLatitude((int) (Double.parseDouble(addressEndBean.getLat()) * LocationManager.SPAN));
                     mDesBean.setLongitude((int) (Double.parseDouble(addressEndBean.getLng()) * LocationManager.SPAN));
                     mDesBean.setType(context.getResources().getString(R.string.address_destination));
+                    mDesBean.setCanShipping(1);
                     mDataBeans.add(0, mDesBean);
                 }
                 if (null != getUi() && mDataBeans.size() > 0 && isOnSuccess) {

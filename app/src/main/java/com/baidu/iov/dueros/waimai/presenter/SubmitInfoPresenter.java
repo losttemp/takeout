@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -9,6 +10,7 @@ import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
+import com.baidu.iov.dueros.waimai.model.IPoifoodListModel;
 import com.baidu.iov.dueros.waimai.model.ISubmitInfoModel;
 import com.baidu.iov.dueros.waimai.model.SubmitInfoImpl;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
@@ -20,6 +22,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
@@ -33,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInfoUi> {
+
+    private IPoifoodListModel mPoifoodListModel;
 
     private ISubmitInfoModel mSubmitInfo;
 
@@ -182,32 +187,36 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                                        int unixtime,Context context) {
 
 
-        OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
-        String payload = OnCreateOrderPayLoad(addressData, poiInfoBean, wmOrderingPreviewDetailVoListBean, unixtime,context);
-        orderSubmitReq.setPayload(Encryption.encrypt(payload));
-        orderSubmitReq.setWm_pic_url(poiInfoBean.getPic_url());
-        mSubmitInfo.requestOrderSubmitData(orderSubmitReq, new RequestCallback<OrderSubmitBean>() {
+        if (addressData.getUser_name()==null||addressData.getUser_phone()==null){
+            ToastUtils.show(context,"收货人姓名或联系方式不能为空！",Toast.LENGTH_LONG);
+        }else {
+            OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
+            String payload = OnCreateOrderPayLoad(addressData, poiInfoBean, wmOrderingPreviewDetailVoListBean, unixtime,context);
+            orderSubmitReq.setPayload(Encryption.encrypt(payload));
+            orderSubmitReq.setWm_pic_url(poiInfoBean.getPic_url());
+            mSubmitInfo.requestOrderSubmitData(orderSubmitReq, new RequestCallback<OrderSubmitBean>() {
 
-            @Override
-            public void onSuccess(OrderSubmitBean data) {
-                if (null != getUi()) {
-                    getUi().onOrderSubmitSuccess(data);
+                @Override
+                public void onSuccess(OrderSubmitBean data) {
+                    if (null != getUi()) {
+                        getUi().onOrderSubmitSuccess(data);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(String msg) {
+                @Override
+                public void onFailure(String msg) {
 
-                if (null != getUi()) {
-                    getUi().onFailure(msg);
+                    if (null != getUi()) {
+                        getUi().onFailure(msg);
+                    }
                 }
-            }
 
-            @Override
-            public void getLogid(String id) {
-                Lg.getInstance().d(TAG, "requestOrderSubmitData getLogid: "+id);
-            }
-        });
+                @Override
+                public void getLogid(String id) {
+                    Lg.getInstance().d(TAG, "requestOrderSubmitData getLogid: "+id);
+                }
+            });
+        }
 
     }
 
@@ -315,7 +324,9 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             orderSubmitJsonBean.setPay_source(3);
             orderSubmitJsonBean.setReturn_url("www.meituan.com");
-            orderSubmitJsonBean.setAddress_id(addressData.getMt_address_id());
+            if (addressData.getMt_address_id() != 0){
+                orderSubmitJsonBean.setAddress_id(addressData.getMt_address_id());
+            }
             OrderSubmitJsonBean.WmOrderingListBean wmOrderingListBean = new OrderSubmitJsonBean.WmOrderingListBean();
             wmOrderingListBean.setWm_poi_id(poiInfoBean.getWm_poi_id());
             wmOrderingListBean.setDelivery_time(unixtime);
@@ -345,21 +356,9 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             orderSubmitJsonBean.setWm_ordering_list(wmOrderingListBean);
 
             OrderSubmitJsonBean.WmOrderingUserBean wmOrderingUserBean = new OrderSubmitJsonBean.WmOrderingUserBean();
-            if (addressData.getUser_phone()!=null){
-                wmOrderingUserBean.setUser_phone(Encryption.desEncrypt(addressData.getUser_phone()));
-            }else {
-                ToastUtils.show(context,"收货人联系方式不能为空！",Toast.LENGTH_LONG);
-            }
-            if (addressData.getUser_name()!=null){
-                wmOrderingUserBean.setUser_name(Encryption.desEncrypt(addressData.getUser_name()));
-            }else {
-                ToastUtils.show(context,"收货人姓名不能为空！",Toast.LENGTH_LONG);
-            }
-            if (addressData.getAddress()!=null){
-                wmOrderingUserBean.setUser_address(Encryption.desEncrypt(addressData.getAddress()));
-            }else {
-                ToastUtils.show(context,"收货人地址不能为空！",Toast.LENGTH_LONG);
-            }
+            wmOrderingUserBean.setUser_phone(Encryption.desEncrypt(addressData.getUser_phone()));
+            wmOrderingUserBean.setUser_name(Encryption.desEncrypt(addressData.getUser_name()));
+            wmOrderingUserBean.setUser_address(Encryption.desEncrypt(addressData.getAddress()));
             wmOrderingUserBean.setAddr_longitude(addressData.getLongitude());
             wmOrderingUserBean.setAddr_latitude(addressData.getLatitude());
             orderSubmitJsonBean.setWm_ordering_user(wmOrderingUserBean);
@@ -455,7 +454,37 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         return GsonUtil.toJson(orderPreviewJsonBean);
     }
 
+    public void requestPoidetailinfo(ArrayMap<String, String> map) {
+        mPoifoodListModel.requestPoidetailinfo(map, new RequestCallback<PoidetailinfoBean>() {
+
+            @Override
+            public void onSuccess(PoidetailinfoBean data) {
+                if (getUi() != null) {
+                    getUi().onPoidetailinfoSuccess(data);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                if (getUi() != null) {
+                    getUi().onPoidetailinfoError(msg);
+                }
+
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Lg.getInstance().d(TAG, "requestPoidetailinfo getLogid: "+id);
+            }
+        });
+    }
+
+
     public interface SubmitInfoUi extends Ui {
+
+        void onPoidetailinfoSuccess(PoidetailinfoBean data);
+
+        void onPoidetailinfoError(String error);
 
         void onGetAddressListSuccess(AddressListBean data);
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
@@ -56,7 +57,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     private AddressListAdapter mAddressListAdapter;
     private List<AddressListBean.IovBean.DataBean> mDataListBean;
     public final static String ADDRESS_DATA = "address_data";
-    private AddressListBean.IovBean.DataBean mAddressData;
+    private AddressListBean.IovBean.DataBean mAddressData, cacheData;
     private RelativeLayout viewById;
     private View mLoading;
     private LinearLayout mNoNet;
@@ -79,28 +80,28 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_list);
         viewById = findViewById(R.id.rv_activity_address_list);
-        getPresenter().initDesBeans();
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) viewById.getLayoutParams();
         lp.topMargin = getStateBar();
         viewById.setLayoutParams(lp);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.px962dp));
         getWindow().setGravity(Gravity.TOP);
+//        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG, EventType.TOUCH_TYPE);
         Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG, EventType.TOUCH_TYPE);
+        SharedPreferences sharedPreferences = getSharedPreferences("_cache", MODE_PRIVATE);
+        String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
+        if (addressDataJson != null) {
+            cacheData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
+        }
+        getPresenter().initDesBeans();
 
     }
 
     public void initView() {
-
         //此处优先从Intent中取值; 如果直接从本地读取,getCanShipping可能获取的值不对
         Intent intent = getIntent();
         mAddressData = (AddressListBean.IovBean.DataBean) intent.getSerializableExtra(Constant.ADDRESS_DATA);
-
-        if (mAddressData == null) {
-            SharedPreferences sharedPreferences = getSharedPreferences("_cache", MODE_PRIVATE);
-            String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
-            if (addressDataJson != null) {
-                mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
-            }
+        if (mAddressData == null&&cacheData!=null) {
+            mAddressData=cacheData;
         }
         mNoNet = findViewById(R.id.no_net);
         mNoInternetButton = findViewById(R.id.no_internet_btn);
@@ -118,8 +119,6 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         mAddressListAdapter = new AddressListAdapter(this);
         mRecyclerView.setAdapter(mAddressListAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
-
 
         mAddressListAdapter.setOnItemClickListener(new AddressListAdapter.OnItemClickListener() {
             @Override
@@ -140,22 +139,29 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                         Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_ADDRESS_VOICE, EventType.VOICE_TYPE);
                         Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_ADDRESS, EventType.TOUCH_TYPE);
                         AddressListBean.IovBean.DataBean addressData = mDataListBean.get(position);
+
+//                        SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
+//                                ("_cache", AddressSelectActivity.MODE_PRIVATE);
+//                        String databeanStr = GsonUtil.toJson(addressData);
+//                        SharedPreferences.Editor editor = sp.edit();
+//                        editor.putString(Constant.ADDRESS_DATA, databeanStr);
+//                        editor.commit();
+//                        try {
+//                            String address = Encryption.desEncrypt(addressData.getAddress());
+//                            CacheUtils.saveAddress(address);
+//                            HomeActivity.address = address;
+//                            sendBroadcastAPP();
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+                        if (addressData.getType().equals(mContext.getString(R.string.address_destination)) &&
+                                addressData.getCanShipping() != 1) {
+                            ToastUtils.show(getApplicationContext(), getResources().getString(R.string.order_submit_msg10), Toast.LENGTH_LONG);
+                            finish();
+                            return;
+                        }
                         Intent data = new Intent();
                         data.putExtra(ADDRESS_DATA, addressData);
-                        SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
-                                ("_cache", AddressSelectActivity.MODE_PRIVATE);
-                        String databeanStr = GsonUtil.toJson(addressData);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString(Constant.ADDRESS_DATA, databeanStr);
-                        editor.commit();
-                        try {
-                            String address = Encryption.desEncrypt(addressData.getAddress());
-                            CacheUtils.saveAddress(address);
-                            HomeActivity.address = address;
-                            sendBroadcastAPP();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
                         setResult(RESULT_OK, data);
                         if (mDataListBean.get(position).getCanShipping() != 1) {
                             ToastUtils.show(getApplicationContext(), getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_LONG);
@@ -183,16 +189,10 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             }
             addressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
 
-            if (addressTv.getText().length() > 16) {
+            if (addressTv.getText().length() > 40) {
                 addressTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
             }
-           if (mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
-               for (AddressListBean.IovBean.DataBean mAddressData :mDataListBean){
-                   if (mAddressData.getCanShipping() == 1) {
-                       addressTv.setTextColor(0xffffffff);
-                       typeTv.setTextColor(0xffffffff);
-                   }
-               }
+            if (mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
                 typeTv.setBackgroundResource(R.drawable.tag_bg_mudidi);
                 typeTv.setText(mAddressData.getType());
                 if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
@@ -201,31 +201,31 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                         nameTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
                     }
                 }
-            }else{
-               String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
-               nameTv.setText(userInfo);
-               if (nameTv.getText().length() > 16) {
-                   nameTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
-               }
-               if (getString(R.string.address_home).equals(mAddressData.getType())) {
-                   typeTv.setBackgroundResource(R.drawable.tag_bg_green);
-                   typeTv.setText(mAddressData.getType());
+            } else {
+                String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
+                nameTv.setText(userInfo);
+                if (nameTv.getText().length() > 16) {
+                    nameTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
+                }
+                if (getString(R.string.address_home).equals(mAddressData.getType())) {
+                    typeTv.setBackgroundResource(R.drawable.tag_bg_green);
+                    typeTv.setText(mAddressData.getType());
 
-               } else if (getString(R.string.address_company).equals(mAddressData.getType())) {
-                   typeTv.setBackgroundResource(R.drawable.tag_bg_blue);
-                   typeTv.setText(mAddressData.getType());
+                } else if (getString(R.string.address_company).equals(mAddressData.getType())) {
+                    typeTv.setBackgroundResource(R.drawable.tag_bg_blue);
+                    typeTv.setText(mAddressData.getType());
 
-               } else if (getString(R.string.address_tag_other).equals(mAddressData.getType())) {
-                   typeTv.setBackgroundResource(R.drawable.tag_bg);
-                   typeTv.setText(mAddressData.getType());
+                } else if (getString(R.string.address_tag_other).equals(mAddressData.getType())) {
+                    typeTv.setBackgroundResource(R.drawable.tag_bg);
+                    typeTv.setText(mAddressData.getType());
 
-               } else {
-                   typeTv.setBackgroundResource(R.drawable.tag_bg);
-                   typeTv.setText(getString(R.string.address_tag_other));
+                } else {
+                    typeTv.setBackgroundResource(R.drawable.tag_bg);
+                    typeTv.setText(getString(R.string.address_tag_other));
 
-               }
+                }
 
-           }
+            }
 
 
         } catch (Exception e) {
@@ -312,7 +312,28 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 //            mDataListBean = data.getIov().getData();
             this.mDataListBean = data;
             setHeader();
+            for (int i = 0; i < mDataListBean.size(); i++) {
+                if (mDataListBean.get(i).getMt_address_id() != null && mAddressData.getMt_address_id() != null) {
+                    if (mDataListBean.get(i).getMt_address_id().equals(mAddressData.getMt_address_id())) {
+                        mDataListBean.remove(i);
+                        i--;
+                    }
+                }
+                if (i >= 0 && !TextUtils.isEmpty(mDataListBean.get(i).getType()) &&
+                        mContext.getString(R.string.address_destination).equals(mDataListBean.get(i).getType()) &&
+                        !TextUtils.isEmpty(mAddressData.getType()) &&
+                        mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
+//                    mAddressData = mDataListBean.get(i);
+                    mDataListBean.remove(i);
+                    i--;
+                }
+            }
             Collections.sort(mDataListBean);
+            if (mDataListBean.get(0).getType().equals(mContext.getString(R.string.address_destination))) {
+                if (!cacheData.getType().equals(mContext.getString(R.string.address_destination))) {
+                    mDataListBean.get(0).setCanShipping(0);
+                }
+            }
             mAddressListAdapter.setData(mDataListBean);
         } else {
             Lg.getInstance().d(TAG, "not find data !");

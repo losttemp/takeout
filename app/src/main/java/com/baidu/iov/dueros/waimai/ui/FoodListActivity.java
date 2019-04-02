@@ -1324,7 +1324,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         })
                         .create();
                 dialog.show();
-//                ToastUtils.show(getApplicationContext(), data.getMeituan().getData().getMsg(), Toast.LENGTH_SHORT);
                 break;
             case Constant.SERVICE_ERROR:
                 ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg26), Toast.LENGTH_SHORT);

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitInfoPresenter;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
@@ -57,6 +59,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 
 import static com.baidu.iov.dueros.waimai.ui.AddressListActivity.ADDRESS_DATA;
 import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.POI_INFO;
@@ -85,6 +88,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private TextView mDiscountWarnTipTv;
     private RelativeLayout mWarnTipParent;
     private ImageView mBackImg;
+    private ArrayMap<String, String> map;
+    private PoidetailinfoBean mPoidetailinfoBean;
 
     private List<ArriveTimeBean.MeituanBean.DataBean> mDataBean;
     private AddressListBean.IovBean.DataBean mAddressData;
@@ -185,27 +190,39 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         if (mAddressData != null) {
             //此处不直接显示本地保存的地址, 因为配送范围不能够本地保存, 要从从网上实时获取,  默认显示加载中
             mAddressTv.setText(R.string.loading);
-
-//            try {
-//                if (mAddressData.getCanShipping()!=1){
-//                    mAddressTv.setTextColor(0x99ffffff);
-//                    mUserNameTv.setTextColor(0x99ffffff);
-//                    mArriveTimeTv.setTextColor(0x99ffffff);
-//                }
-//                mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
-//                String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
-//                        + Encryption.desEncrypt(mAddressData.getUser_phone());
-//                if (mAddressData.getUser_name()!=null&&mAddressData.getUser_phone()!=null){
-//                    mUserNameTv.setText(address);
-//                }else {
-//                    if (MyApplicationAddressBean.USER_PHONES.get(0)!=null&&MyApplicationAddressBean.USER_NAMES.get(0)!=null){
-//                        mUserNameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0)+"  "+MyApplicationAddressBean.USER_NAMES.get(0));
-//                    }
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
+            if (mAddressData.getAddress_id() != null) {
+                try {
+                    mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
+                    String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
+                            + Encryption.desEncrypt(mAddressData.getUser_phone());
+                    if (mAddressData.getUser_name() != null && mAddressData.getUser_phone() != null) {
+                        mUserNameTv.setText(address);
+                    } else {
+                        if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
+                            mUserNameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0) + "  " + MyApplicationAddressBean.USER_NAMES.get(0));
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
+                    if (mAddressData.getUser_name() != null && mAddressData.getUser_phone() != null) {
+                        String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
+                                + Encryption.desEncrypt(mAddressData.getUser_phone());
+                        mUserNameTv.setText(address);
+                    } else {
+                        if (mAddressData.getType().equals(mContext.getString(R.string.address_destination))) {
+                            if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
+                                mUserNameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0) + "  " + MyApplicationAddressBean.USER_PHONES.get(0));
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         VoiceTouchUtils.setVoicesTouchSupport(mArrivetimeLayout, R.array.update_time);
@@ -223,8 +240,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         if (NetUtil.getNetWorkState(this)) {
             loadingView.setVisibility(View.GONE);
             mNoNet.setVisibility(View.GONE);
-            mParentsLayout.setVisibility(View.VISIBLE);
-            getPresenter().requestAddressList(mPoiInfo.getWm_poi_id());
+//            mParentsLayout.setVisibility(View.VISIBLE);
+//            getPresenter().requestAddressList(mPoiInfo.getWm_poi_id());
             getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
             getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData, SubmitOrderActivity.this);
         } else {
@@ -373,8 +390,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT);
                 }
                 if (mAddressData.getCanShipping() != 1) {
-                    ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
-                } else {
+                    ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg9), Toast.LENGTH_SHORT);
+                }
+                else {
                     if (!isFastClick()) {
                         if (CacheUtils.getAuth()) {
                             orderSubmit();
@@ -396,7 +414,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private void orderSubmit() {
         if (NetUtil.getNetWorkState(this)) {
             VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
-            VoiceTouchUtils.setVoiceTouchTTSSupport(mToPayTv, mContext.getString(R.string.tts_topay_text));
             if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
                 List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
                 wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
@@ -410,6 +427,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         }
     }
 
+    private void macketDetail(){
+        map = new ArrayMap<>();
+        map.put(Constant.STORE_ID, String.valueOf(mPoiInfo.getWm_poi_id()));
+        map.put("latitude", String.valueOf(mAddressData.getLatitude()));
+        map.put("longitude", String.valueOf(mAddressData.getLongitude()));
+        getPresenter().requestPoidetailinfo(map);
+    }
 
     private static final int MIN_DELAY_TIME = 1000; // 两次点击间隔不能少于1000ms
     private static long lastClickTime;
@@ -607,6 +631,27 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         return this;
     }
 
+
+    @Override
+    public void onPoidetailinfoSuccess(PoidetailinfoBean data) {
+        mPoidetailinfoBean = data;
+        if (mPoidetailinfoBean != null) {
+            int status = mPoidetailinfoBean.getMeituan().getData().getStatus();
+            switch (status){
+                case 1:
+                    break;
+                case 2:
+                break;
+                case 3:
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onPoidetailinfoError(String error) {
+
+    }
 
     @Override
     public void onGetAddressListSuccess(AddressListBean data) {
@@ -813,6 +858,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mNoNet.setVisibility(View.GONE);
 //        loadingView.setVisibility(View.GONE);
         if (data != null) {
+            VoiceTouchUtils.setVoiceTouchTTSSupport(mToPayTv, mContext.getString(R.string.tts_topay_text));
             mOrderSubmitData = data.getMeituan().getData();
             int submitCode = mOrderSubmitData.getCode();
             if (submitCode == Constant.SUBMIT_ORDER_SUCCESS) {
@@ -834,10 +880,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 startActivity(intent);
                 finish();
             } else if (submitCode == Constant.SERVICE_ERROR) {
-
                 ToastUtils.show(this, getString(R.string.service_error), Toast.LENGTH_SHORT);
                 finish();
-            } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
+            } else if (submitCode == Constant.SUBMIT_ORDER_FAIL) {
+                ToastUtils.show(this, getString(R.string.order_submit_error), Toast.LENGTH_SHORT);
+            }
+            else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
                 ToastUtils.show(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
             }
         }
