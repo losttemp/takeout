@@ -105,7 +105,15 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
                 details.setLayoutParams(lp);
                 details.setText(detail);
                 if (!TextUtils.isEmpty(dataBean.getUser_name())) {
-                    name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
+                    String nameText = Encryption.desEncrypt(dataBean.getUser_name());
+                    LinearLayout.LayoutParams namelp = (LinearLayout.LayoutParams) name.getLayoutParams();
+                    if (nameText.length() > 10) {
+                        namelp.width = 300;
+                    } else {
+                        namelp.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                    }
+                    name.setLayoutParams(namelp);
+                    name.setText(nameText);
                 }
                 if (!TextUtils.isEmpty(dataBean.getUser_phone())) {
                     phone.setText(Encryption.desEncrypt(dataBean.getUser_phone()));

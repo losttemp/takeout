@@ -173,7 +173,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             address_tv.setText(mLocationBean.getName());
             mTagListView.setTags(tags, "");
             if (null != MyApplicationAddressBean.USER_NAMES && MyApplicationAddressBean.USER_NAMES.size() > 0) {
-                et_name.setText(MyApplicationAddressBean.USER_NAMES.get(0));
+                String name = MyApplicationAddressBean.USER_NAMES.get(0);
+                if (name.length() > 10) {
+                    name = name.substring(0, 10);
+                }
+                et_name.setText(name);
             } else {
                 nameCloseView.setVisibility(View.GONE);
             }

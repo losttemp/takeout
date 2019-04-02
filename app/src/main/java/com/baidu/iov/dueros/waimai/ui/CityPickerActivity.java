@@ -162,7 +162,10 @@ public class CityPickerActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                linearParams.width = (int) getResources().getDimension(city.equals(getString(R.string.city_loading)) ? R.dimen.px200dp : R.dimen.px430dp);
+                linearParams.width = (int) getResources().getDimension(city.equals(getString(R.string.position_try)) ? R.dimen.px430dp : R.dimen.px300dp);
+                if (city.equals(getString(R.string.city_loading))) {
+                    linearParams.width = (int) getResources().getDimension(R.dimen.px200dp);
+                }
                 vh.item_header_city_dw.setText(city);
                 vh.try_city.setVisibility(View.VISIBLE);
                 vh.layout.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +229,9 @@ public class CityPickerActivity extends AppCompatActivity {
                         mlocationManager.requestLocation();
                     } else {
                         mlocation = String.valueOf(bdLocation.getCity());
-                        mBannerHeaderAdapter.notifyDataSetChanged();
+                        if (mBannerHeaderAdapter != null) {
+                            mBannerHeaderAdapter.notifyDataSetChanged();
+                        }
                         if (mlocationManager != null) {
                             mlocationManager.stopLocation();
                             mlocationManager = null;
@@ -235,7 +240,9 @@ public class CityPickerActivity extends AppCompatActivity {
                     break;
                 default:
                     city = getString(R.string.position_try);
-                    mBannerHeaderAdapter.notifyDataSetChanged();
+                    if (mBannerHeaderAdapter != null) {
+                        mBannerHeaderAdapter.notifyDataSetChanged();
+                    }
                     break;
 
             }
@@ -274,6 +281,11 @@ public class CityPickerActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Lg.getInstance().e("LocationManager", "AndPermission true");
             getLocationCity();
+        } else {
+            city = getString(R.string.city_no_permission);
+            if (mBannerHeaderAdapter != null) {
+                mBannerHeaderAdapter.notifyDataSetChanged();
+            }
         }
     }
 
