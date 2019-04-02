@@ -62,6 +62,8 @@
                     android:id="@+id/address_select_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textColor="#99ffffff"
                     android:textSize="@dimen/px30sp" />
 

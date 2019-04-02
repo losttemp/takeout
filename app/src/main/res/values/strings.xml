@@ -358,6 +358,7 @@
     <string name="bluetooth_adapter_not_found">该设备上找不到蓝牙</string>
     <string name="heat_text">热销</string>
     <string name="logout_failed">退出登录失败</string>
+    <string name="city_no_permission">暂无定位权限</string>
     Logout failed
 
 </resources>
