@@ -48,16 +48,6 @@ public class SortPopWindow extends PopupWindow {
 		ListView lvSortClass = (ListView) mContentView.findViewById(R.id.lv_sort_class);
 		mAdapter = new SortPopWindowAdapter(mSortList, context);
 		lvSortClass.setAdapter(mAdapter);
-		lvSortClass.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (listener != null) {
-					listener.OnSelectedSort(mSortList.get(position));
-				}
-				dismiss();
-			}
-		});
-
 		mAdapter.setItemAccessibilityDelegate(new SortPopWindowAdapter.ItemAccessibilityDelegate() {
 			@Override
 			public void onItemAccessibilityDelegate(int position) {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
@@ -58,33 +59,44 @@ public class SortPopWindowAdapter extends BaseAdapter {
 					false);
 			viewHolder = new ViewHolder();
 			viewHolder.tvSortName = (MultiplTextView) convertView.findViewById(R.id.tv_sort_name);
+			viewHolder.rl= (RelativeLayout) convertView.findViewById(R.id.rl);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
 		viewHolder.tvSortName.setText(mSortList.get(position).getName());
-		viewHolder.tvSortName.setContentDescription(mSortList.get(position).getName());
-		viewHolder.tvSortName.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+		viewHolder.rl.setContentDescription(mSortList.get(position).getName());
+		viewHolder.rl.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mItemAccessibilityDelegate != null) {
+					mItemAccessibilityDelegate.onItemAccessibilityDelegate(position);
+				}
+			}
+		});
+		viewHolder.rl.setAccessibilityDelegate(new View.AccessibilityDelegate(){
 			@Override
 			public boolean performAccessibilityAction(View host, int action, Bundle args) {
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						if (mItemAccessibilityDelegate != null) {
 							mItemAccessibilityDelegate.onItemAccessibilityDelegate(position);
-							StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.tts_rescheduling));
 						}
-						break;
+						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.tts_rescheduling));
+						return true;
 					default:
 						break;
 				}
-				return true;
+				return false;
 			}});
+
 		return convertView;
 	}
 
 	public static class ViewHolder {
 		private MultiplTextView tvSortName;
+		private RelativeLayout rl;
 	}
 
 	public void updateSelected(int positon) {

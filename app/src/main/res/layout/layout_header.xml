@@ -36,6 +36,7 @@
         android:layout_marginRight="@dimen/px34dp"
         android:layout_marginBottom="@dimen/px22dp"
         android:layout_toLeftOf="@+id/exit_login"
+        android:contentDescription="@string/content_order_form"
         android:src="@drawable/icon_dingdan" />
 
     <TextView

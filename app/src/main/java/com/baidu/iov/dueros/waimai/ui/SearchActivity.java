@@ -220,12 +220,12 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				return true;
 			}});
 
-		mLvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		mSearchHistroyAdapter.setItemAccessibilityDelegate(new SearchHistroyAdapter.ItemAccessibilityDelegate() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemAccessibilityDelegate(int position) {
 				Entry.getInstance().onEvent(Constant.EVENT_HISTORY_ITEM_CLICK,EventType.TOUCH_TYPE);
-				searchKeyword(mHistorys.get(position-HEAD_NUM));
-                GuidingAppear.INSTANCE.showtTips(SearchActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getSearch().getResult(),Constant.TTS_SEARCH_RESULT);
+				GuidingAppear.INSTANCE.showtTips(SearchActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getSearch().getResult(),Constant.TTS_SEARCH_RESULT);
+				searchKeyword(mHistorys.get(position));
 			}
 		});
 
