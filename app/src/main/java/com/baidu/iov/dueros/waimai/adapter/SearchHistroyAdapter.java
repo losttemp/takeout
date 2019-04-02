@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.ui.SearchActivity;
@@ -19,6 +20,8 @@ public class SearchHistroyAdapter extends BaseAdapter {
 	private List<String> mHistorys;
 	private Context mContext;
 	private LayoutInflater mLayoutInflater;
+
+	private ItemAccessibilityDelegate mItemAccessibilityDelegate;
 
 	public SearchHistroyAdapter(List<String> historys, Context context) {
 		this.mLayoutInflater = LayoutInflater.from(context);
@@ -51,6 +54,7 @@ public class SearchHistroyAdapter extends BaseAdapter {
 			viewHolder.tvHistoryNum = convertView.findViewById(R.id.tv_history_num);
 			viewHolder.tvHistoryName =  convertView.findViewById(R.id.tv_history_name);
 			viewHolder.ivDelete =  convertView.findViewById(R.id.iv_delete);
+			viewHolder.rlHistory= (RelativeLayout) convertView.findViewById(R.id.rl_history);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -59,8 +63,16 @@ public class SearchHistroyAdapter extends BaseAdapter {
 		viewHolder.tvHistoryNum.setText(position + 1 + "");
 		viewHolder.tvHistoryName.setText(mHistorys.get(position));
 
-		VoiceTouchUtils.setItemVoicesTouchSupport(viewHolder.tvHistoryName, position, R.array.checkout_histroy);
-		viewHolder.tvHistoryName.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+		VoiceTouchUtils.setItemVoicesTouchSupport(viewHolder.rlHistory, position, R.array.checkout_histroy);
+		viewHolder.rlHistory.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mItemAccessibilityDelegate != null) {
+					mItemAccessibilityDelegate.onItemAccessibilityDelegate(position);
+				}
+			}
+		});
+		viewHolder.rlHistory.setAccessibilityDelegate(new View.AccessibilityDelegate(){
 			@Override
 			public boolean performAccessibilityAction(View host, int action, Bundle args) {
 				switch (action) {
@@ -107,9 +119,18 @@ public class SearchHistroyAdapter extends BaseAdapter {
 		}
 	}
 
+	public interface ItemAccessibilityDelegate {
+		void onItemAccessibilityDelegate(int position);
+	}
+
+	public void setItemAccessibilityDelegate(ItemAccessibilityDelegate itemAccessibilityDelegate) {
+		mItemAccessibilityDelegate = itemAccessibilityDelegate;
+	}
+
 	public static class ViewHolder {
 		private TextView tvHistoryNum;
 		private TextView tvHistoryName;
 		private AppCompatImageView ivDelete;
+		private RelativeLayout rlHistory;
 	}
 }
