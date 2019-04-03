@@ -57,8 +57,8 @@ public class AddressListBean {
             private Integer latitude;
             private Integer longitude;
             private boolean is_hint;
-            private Long address_id;
-            private Long mt_address_id;
+            private Long address_id = 0l;
+            private Long mt_address_id = 0l;
             private String house;
             private String user_phone;
             private String user_name;

@@ -202,6 +202,9 @@
     <string name="order_preview_msg20">缺少必选菜品</string>
     <string name="order_preview_msg26">商家不支持此配送类型</string>
     <string name="order_submit_msg8">该地址不在配送范围内，请重新选择</string>
+    <string name="order_submit_msg9">超出配送范围</string>
+    <string name="order_submit_msg10">收货地址不为目的地 ，请重新选择</string>
+    <string name="order_submit_error">订单提交失败</string>
     <string name="service_error">服务器异常</string>
     <string name="please_select_address">请选择配送地址</string>
     <string name="address_select_title">我的收货地址</string>
@@ -358,6 +361,7 @@
     <string name="bluetooth_adapter_not_found">该设备上找不到蓝牙</string>
     <string name="heat_text">热销</string>
     <string name="logout_failed">退出登录失败</string>
+    <string name="city_no_permission">暂无定位权限</string>
     Logout failed
 
 </resources>

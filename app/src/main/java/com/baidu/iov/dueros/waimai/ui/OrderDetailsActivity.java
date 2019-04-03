@@ -81,6 +81,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private long mStoreId;
     private int mPayStatus;
     private NumberFormat mNumberFormat;
+    private View loadingView;
     private OrderDetailsResponse.MeituanBean.DataBean mOrderDetails = new OrderDetailsResponse.MeituanBean.DataBean();
     private static final int REQUEST_CODE_CALL_PHONE = 600;
     private final int IOV_STATUS_ZERO = 0; //待支付
@@ -130,8 +131,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     protected void onResume() {
         super.onResume();
         if (NetUtil.getNetWorkState(this)) {
-            contentView.setVisibility(View.VISIBLE);
-            networkView.setVisibility(View.GONE);
+            loadingView.setVisibility(View.VISIBLE);
             loadData();
             GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getDetail(),Constant.TTS_PAY_DETAIL);
         } else {
@@ -173,6 +173,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         networkView = findViewById(R.id.network_view);
         contentView = findViewById(R.id.order_details_content_layout);
         mDiscountsLayout = findViewById(R.id.discounts_layout);
+        loadingView = findViewById(R.id.submit_order_loading);
     }
 
     private void setTextView() {
@@ -517,8 +518,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.no_internet_btn:
                 if (NetUtil.getNetWorkState(this)) {
-                    contentView.setVisibility(View.VISIBLE);
-                    networkView.setVisibility(View.GONE);
                     loadData();
                 } else {
                     ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
@@ -618,6 +617,9 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             format2 = new SimpleDateFormat("HH:mm");
             mExpectedTime.setText(format1.format(date) + " (" + getWeek(time) + ") " + format2.format(date));
         }
+        loadingView.setVisibility(View.GONE);
+        contentView.setVisibility(View.VISIBLE);
+        networkView.setVisibility(View.GONE);
 
     }
 

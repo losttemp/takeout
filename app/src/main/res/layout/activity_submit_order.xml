@@ -5,7 +5,30 @@
     android:layout_height="match_parent"
     android:background="@drawable/app_bg">
 
+    <RelativeLayout
+        android:id="@+id/submit_order_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px96dp">
 
+        <ImageView
+            android:id="@+id/back_action"
+            android:layout_width="@dimen/px96dp"
+            android:layout_height="@dimen/px96dp"
+            android:layout_marginStart="@dimen/px54dp"
+            android:foreground="@drawable/fg_ripple"
+            android:background="@drawable/icon_back" />
+
+        <com.domain.multipltextview.MultiplTextView
+            android:id="@+id/select_shipping_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:text="@string/submit_order_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px40sp"
+            app:removeDefaultPadding="true" />
+
+    </RelativeLayout>
     <include
         android:id="@+id/no_net"
         layout="@layout/warn_no_internet"
@@ -15,41 +38,13 @@
         android:id="@+id/order_submit_rl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:layout_marginTop="@dimen/px120dp"
+        android:visibility="visible"
         >
-        <RelativeLayout
-            android:id="@+id/submit_order_title"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/px120dp">
-
-            <ImageView
-                android:id="@+id/back_action"
-                android:layout_width="@dimen/px96dp"
-                android:layout_height="@dimen/px96dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/px54dp"
-                android:foreground="@drawable/fg_ripple"
-                android:background="@drawable/icon_back" />
-
-            <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/select_shipping_address"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:text="@string/submit_order_title"
-                android:textColor="@color/white"
-                android:textSize="@dimen/px40sp"
-                app:removeDefaultPadding="true" />
-
-        </RelativeLayout>
-
-
         <ScrollView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/pay_panel"
-            android:layout_below="@+id/submit_order_title"
             android:scrollbars="none">
 
             <RelativeLayout
@@ -64,7 +59,6 @@
                     android:layout_marginStart="@dimen/px84dp"
                     android:alpha="0.06"
                     android:background="@color/white" />
-
 
                 <RelativeLayout
                     android:id="@+id/address_info"
@@ -186,15 +180,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/px70dp">
 
-                        <com.domain.multipltextview.MultiplTextView
+                        <TextView
                             android:id="@+id/store_name"
-                            android:layout_width="wrap_content"
+                            android:layout_width="@dimen/px700dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/px84dp"
                             android:layout_marginTop="@dimen/px30dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:textColor="@color/white"
                             android:textSize="@dimen/px36sp"
-                            app:removeDefaultPadding="true" />
+                            android:includeFontPadding="false" />
 
                         <TextView
                             android:id="@+id/delivery_type"

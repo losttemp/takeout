@@ -160,7 +160,13 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             }
             try {
                 address_tv.setText(Encryption.desEncrypt(dataBean.getAddress()));
-                et_name.setText(Encryption.desEncrypt(dataBean.getUser_name()));
+                String name = Encryption.desEncrypt(dataBean.getUser_name());
+                if (!TextUtils.isEmpty(name)) {
+                    if (name.length() > 10) {
+                        name = name.substring(0, 10);
+                    }
+                    et_name.setText(name);
+                }
                 et_phone.setText(Encryption.desEncrypt(dataBean.getUser_phone()));
                 et_house_num.setText((dataBean.getHouse() == null) ? "" : Encryption.desEncrypt(dataBean.getHouse()));
             } catch (Exception e) {
@@ -173,7 +179,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             address_tv.setText(mLocationBean.getName());
             mTagListView.setTags(tags, "");
             if (null != MyApplicationAddressBean.USER_NAMES && MyApplicationAddressBean.USER_NAMES.size() > 0) {
-                et_name.setText(MyApplicationAddressBean.USER_NAMES.get(0));
+                String name = MyApplicationAddressBean.USER_NAMES.get(0);
+                if (name.length() > 10) {
+                    name = name.substring(0, 10);
+                }
+                et_name.setText(name);
             } else {
                 nameCloseView.setVisibility(View.GONE);
             }

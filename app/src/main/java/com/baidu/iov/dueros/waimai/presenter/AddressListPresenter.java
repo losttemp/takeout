@@ -308,5 +308,13 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
                 e.printStackTrace();
             }
         }
+        if (mDataBeans.contains(mDesBean)) {
+            if (MyApplicationAddressBean.USER_PHONES.size() > 0) {
+                mDataBeans.get(0).setUser_phone(Encryption.encrypt(MyApplicationAddressBean.USER_PHONES.get(0)));
+            }
+            if (MyApplicationAddressBean.USER_NAMES.size() > 0) {
+                mDataBeans.get(0).setUser_name(Encryption.encrypt(MyApplicationAddressBean.USER_NAMES.get(0)));
+            }
+        }
     }
 }

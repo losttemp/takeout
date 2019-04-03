@@ -42,32 +42,7 @@
         layout="@layout/warn_no_internet"
         android:visibility="gone" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px126dp">
 
-        <ImageView
-            android:id="@+id/iv_finish"
-            android:layout_width="@dimen/px96dp"
-            android:layout_height="@dimen/px96dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/px54dp"
-            android:foreground="@drawable/fg_ripple"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/icon_back" />
-
-        <TextView
-            android:id="@+id/tv_shop_title"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="@dimen/px54dp"
-            android:layout_marginLeft="@dimen/px200dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px40sp" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/parentLayout"
