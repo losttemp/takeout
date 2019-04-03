@@ -168,6 +168,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     case R.id.tv_store_name:
                         //进入店铺
                         Intent storeintent = new Intent(OrderListActivity.this, FoodListActivity.class);
+                        storeintent.putExtra("flag",true);
                         storeintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         startActivity(storeintent);
                         break;
