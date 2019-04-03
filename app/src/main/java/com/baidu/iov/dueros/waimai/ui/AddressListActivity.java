@@ -308,7 +308,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 
     @Override
     public void onGetAddressListSuccess(List<AddressListBean.IovBean.DataBean> data) {
-        if (data != null) {
+        if (data != null&&data.size()>0) {
 //            mDataListBean = data.getIov().getData();
             this.mDataListBean = data;
             setHeader();

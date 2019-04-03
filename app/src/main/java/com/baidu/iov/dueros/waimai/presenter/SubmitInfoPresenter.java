@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.presenter;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.ArrayMap;
+import android.view.View;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -12,6 +13,7 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.IPoifoodListModel;
 import com.baidu.iov.dueros.waimai.model.ISubmitInfoModel;
+import com.baidu.iov.dueros.waimai.model.PoifoodListModel;
 import com.baidu.iov.dueros.waimai.model.SubmitInfoImpl;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewJsonBean;
@@ -57,6 +59,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         super.onUiUnready(ui);
         mSubmitInfo.onDestroy();
     }
+
 
     @Override
     public void onCommandCallback(String cmd, String extra) {
@@ -184,11 +187,12 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
     public void requestOrderSubmitData(AddressListBean.IovBean.DataBean addressData,
                                        PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean,
                                        List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean,
-                                       int unixtime,Context context) {
-
-
-        if (addressData.getUser_name()==null||addressData.getUser_phone()==null){
-            ToastUtils.show(context,"收货人姓名或联系方式不能为空！",Toast.LENGTH_LONG);
+                                       int unixtime, Context context, View loadingView) {
+        if (context.getString(R.string.address_destination).equals(addressData.getType())
+                &&TextUtils.isEmpty(addressData.getUser_name())
+                &&TextUtils.isEmpty(addressData.getUser_phone())){
+            loadingView.setVisibility(View.GONE);
+            ToastUtils.show(context,"收货人信息不全，请完善信息",Toast.LENGTH_SHORT);
         }else {
             OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
             String payload = OnCreateOrderPayLoad(addressData, poiInfoBean, wmOrderingPreviewDetailVoListBean, unixtime,context);
@@ -324,9 +328,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             orderSubmitJsonBean.setPay_source(3);
             orderSubmitJsonBean.setReturn_url("www.meituan.com");
-            if (addressData.getMt_address_id() != 0){
-                orderSubmitJsonBean.setAddress_id(addressData.getMt_address_id());
-            }
+            orderSubmitJsonBean.setAddress_id(null==addressData.getMt_address_id()?0:addressData.getMt_address_id());
             OrderSubmitJsonBean.WmOrderingListBean wmOrderingListBean = new OrderSubmitJsonBean.WmOrderingListBean();
             wmOrderingListBean.setWm_poi_id(poiInfoBean.getWm_poi_id());
             wmOrderingListBean.setDelivery_time(unixtime);
@@ -357,10 +359,15 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             OrderSubmitJsonBean.WmOrderingUserBean wmOrderingUserBean = new OrderSubmitJsonBean.WmOrderingUserBean();
             wmOrderingUserBean.setUser_phone(Encryption.desEncrypt(addressData.getUser_phone()));
-            wmOrderingUserBean.setUser_name(Encryption.desEncrypt(addressData.getUser_name()));
+            wmOrderingUserBean.setUser_name(TextUtils.isEmpty(addressData.getUser_name())?"":Encryption.desEncrypt(addressData.getUser_name()));
             wmOrderingUserBean.setUser_address(Encryption.desEncrypt(addressData.getAddress()));
             wmOrderingUserBean.setAddr_longitude(addressData.getLongitude());
             wmOrderingUserBean.setAddr_latitude(addressData.getLatitude());
+            if (context.getString(R.string.address_destination).equals(addressData.getType())
+                    &&TextUtils.isEmpty(addressData.getUser_name())
+                    &&!TextUtils.isEmpty(addressData.getUser_phone())){
+                wmOrderingUserBean.setUser_name(wmOrderingUserBean.getUser_phone());
+            }
             orderSubmitJsonBean.setWm_ordering_user(wmOrderingUserBean);
         } catch (Exception e) {
             e.printStackTrace();

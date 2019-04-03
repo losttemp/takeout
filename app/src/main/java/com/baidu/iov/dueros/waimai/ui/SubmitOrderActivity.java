@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -188,41 +189,23 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         }
 
         if (mAddressData != null) {
-            //此处不直接显示本地保存的地址, 因为配送范围不能够本地保存, 要从从网上实时获取,  默认显示加载中
-            mAddressTv.setText(R.string.loading);
-            if (mAddressData.getAddress_id() != null) {
-                try {
-                    mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
-                    String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
-                            + Encryption.desEncrypt(mAddressData.getUser_phone());
-                    if (mAddressData.getUser_name() != null && mAddressData.getUser_phone() != null) {
-                        mUserNameTv.setText(address);
-                    } else {
-                        if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
-                            mUserNameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0) + "  " + MyApplicationAddressBean.USER_NAMES.get(0));
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+            try {
+                mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
+                String name="";
+                String phone="";
+                if (!TextUtils.isEmpty(mAddressData.getUser_name())){
+                    name = Encryption.desEncrypt(mAddressData.getUser_name())+"  ";
                 }
-            } else {
-                try {
-                    mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
-                    if (mAddressData.getUser_name() != null && mAddressData.getUser_phone() != null) {
-                        String address = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
-                                + Encryption.desEncrypt(mAddressData.getUser_phone());
-                        mUserNameTv.setText(address);
-                    } else {
-                        if (mAddressData.getType().equals(mContext.getString(R.string.address_destination))) {
-                            if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
-                                mUserNameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0) + "  " + MyApplicationAddressBean.USER_PHONES.get(0));
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (!TextUtils.isEmpty(mAddressData.getUser_phone())){
+                    phone = Encryption.desEncrypt(mAddressData.getUser_phone());
                 }
+                if (!TextUtils.isEmpty(name)||!TextUtils.isEmpty(phone)) {
+                    mUserNameTv.setText(name+phone);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
         }
 
         VoiceTouchUtils.setVoicesTouchSupport(mArrivetimeLayout, R.array.update_time);
@@ -419,7 +402,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
                 mToPayTv.setEnabled(false);
 //                loadingView.setVisibility(View.VISIBLE);
-                getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this);
+//                macketDetail();
+                getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this,loadingView);
             }
         } else {
             netDataReque();
@@ -639,10 +623,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             int status = mPoidetailinfoBean.getMeituan().getData().getStatus();
             switch (status){
                 case 1:
+                    ToastUtils.show(mContext,"可配送",Toast.LENGTH_SHORT);
                     break;
                 case 2:
+                    ToastUtils.show(mContext,"不可配送",Toast.LENGTH_SHORT);
                     break;
                 case 3:
+                    ToastUtils.show(mContext,"不可配送",Toast.LENGTH_SHORT);
                     break;
             }
         }
