@@ -52,6 +52,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private boolean isNeedPlayTTS, isDelay;
     private Button addressAddBtn;
     private int startApp;
+    private View listLayout;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -84,14 +85,17 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         AccessibilityClient.getInstance().register(this, true, prefix, null);
         if (NetUtil.getNetWorkState(this)) {
             sendDestination();
+            listLayout.setVisibility(View.VISIBLE);
             if (mDataList == null || mDataList.size() < 1)
                 addBtnView.setVisibility(View.GONE);
             if (null != networkView)
                 networkView.setVisibility(View.GONE);
             initData();
         } else {
-            if (null != networkView)
+            if (null != networkView) {
+                listLayout.setVisibility(View.GONE);
                 networkView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -176,6 +180,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         findViewById(R.id.address_back).setOnClickListener(this);
         findViewById(R.id.add_no_address).setOnClickListener(this);
         addBtnView = findViewById(R.id.address_select_btn_layout);
+        listLayout = findViewById(R.id.list_layout);
         networkView = findViewById(R.id.network_view);
         loadingView = findViewById(R.id.loading_view);
         findViewById(R.id.no_internet_btn).setOnClickListener(this);
@@ -234,7 +239,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     public void onFailure(String msg) {
         loadingView.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.GONE);
+        listLayout.setVisibility(View.VISIBLE);
         networkView.setVisibility(View.VISIBLE);
     }
 
@@ -319,6 +324,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             case R.id.no_internet_btn:
                 if (NetUtil.getNetWorkState(this)) {
                     sendDestination();
+                    listLayout.setVisibility(View.VISIBLE);
                     networkView.setVisibility(View.GONE);
                     initData();
                 } else {
