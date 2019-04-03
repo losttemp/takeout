@@ -15,6 +15,7 @@
         android:layout_below="@id/address_list_title" />
 
     <LinearLayout
+        android:id="@+id/list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/split_view"
