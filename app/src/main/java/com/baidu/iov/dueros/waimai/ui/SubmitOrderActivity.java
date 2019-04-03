@@ -641,7 +641,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 case 1:
                     break;
                 case 2:
-                break;
+                    break;
                 case 3:
                     break;
             }

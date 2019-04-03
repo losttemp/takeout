@@ -45,8 +45,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/px50dp"
         android:layout_marginLeft="@dimen/px84dp"
-        android:layout_marginRight="@dimen/px84dp"
-        android:scrollbars="none" />
+        android:layout_marginRight="@dimen/px64dp"
+        android:scrollbarStyle="outsideInset"
+
+        android:scrollbarThumbVertical="@color/white"
+        android:scrollbars="vertical" />
 
     <LinearLayout
         android:layout_width="match_parent"

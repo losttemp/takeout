@@ -126,7 +126,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private PoidetailinfoBean mPoidetailinfoBean;
     private PoifoodListBean.MeituanBean.DataBean.PoiInfoBean mPoiInfoBean;
     private ImageView mFinish;
-    private MultiplTextView mShopTitle;
+    private TextView mShopTitle;
     private MultiplTextView mDelivery;
     private TextView mBulletin;
     private RecyclerView mDiscounts;
@@ -267,7 +267,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         shopping_cart = (ImageView) findViewById(R.id.shopping_cart);
         mStoreDetails = (RelativeLayout) findViewById(R.id.rl_store_details);
         mFinish = (ImageView) findViewById(R.id.iv_finish);
-        mShopTitle = (MultiplTextView) findViewById(R.id.tv_shop_title);
+        mShopTitle = (TextView) findViewById(R.id.tv_shop_title);
         mDelivery = (MultiplTextView) findViewById(R.id.tv_delivery);
         mBulletin = (TextView) findViewById(R.id.tv_bulletin);
         mDiscounts = (RecyclerView) findViewById(R.id.tv_discounts);

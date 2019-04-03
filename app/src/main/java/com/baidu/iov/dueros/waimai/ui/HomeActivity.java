@@ -395,6 +395,15 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         Intent orderListIntent = new Intent(this, OrderListActivity.class);
         orderListIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
         startActivity(orderListIntent);
+        Handler handler = new Handler();
+        if (isNeedVoice) {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    StandardCmdClient.getInstance().playTTS(HomeActivity.this, getString(R.string.tts_look_order_list));
+                }
+            }, 100);
+        }
     }
 
     private void intentToFood(boolean isNeedVoice) {
