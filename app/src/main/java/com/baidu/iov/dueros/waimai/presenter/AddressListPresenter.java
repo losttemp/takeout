@@ -60,25 +60,25 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
 
             @Override
             public void onSuccess(AddressListBean data) {
-                if (mDataBeans.contains(mDesBean)) {
-                    mDataBeans.clear();
-                    mDataBeans.add(mDesBean);
-                } else {
-                    mDataBeans.clear();
-                }
-                mDataBeans.addAll(data.getIov().getData());
                 if (null != getUi()) {
                     if (data != null && data.getIov().getData().size() > 0) {
                         for (int i = 0; i < data.getIov().getData().size(); i++) {
-                            if (data.getIov().getData().get(i).isIs_hint()){
+                            if (data.getIov().getData().get(i).isIs_hint()) {
                                 data.getIov().getData().remove(i);
                                 i--;
                             }
                         }
                         setAutocompleteData(data);
-                        isOnSuccess = true;
-                        getUi().onGetAddressListSuccess(mDataBeans);
                     }
+                    if (mDataBeans.contains(mDesBean)) {
+                        mDataBeans.clear();
+                        mDataBeans.add(mDesBean);
+                    } else {
+                        mDataBeans.clear();
+                    }
+                    mDataBeans.addAll(data.getIov().getData());
+                    isOnSuccess = true;
+                    getUi().onGetAddressListSuccess(mDataBeans);
                 }
             }
 

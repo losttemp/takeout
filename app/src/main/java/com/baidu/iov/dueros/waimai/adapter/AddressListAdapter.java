@@ -127,7 +127,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
                 String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
                 String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
-                if (address.length() > 14) {
+                if (name.length() > 14) {
                     ((ViewHolder) holder).tv_name.setWidth((int) mContext.getResources().getDimension(R.dimen.px400dp));
                 }
                 ((ViewHolder) holder).tv_name.setText(name);
