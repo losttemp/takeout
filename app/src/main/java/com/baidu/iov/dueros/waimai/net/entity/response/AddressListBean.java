@@ -62,7 +62,7 @@ public class AddressListBean {
             private String house;
             private String user_phone;
             private String user_name;
-            private Integer canShipping =0;
+            private Integer canShipping = 0;
             private String addressRangeTip;
             private Integer sex;
             private int item_type;
@@ -76,6 +76,9 @@ public class AddressListBean {
             }
 
             public String getType() {
+                if (type == null) {
+                    type = "";
+                }
                 return type;
             }
 
@@ -183,37 +186,36 @@ public class AddressListBean {
 
             @Override
             public int compareTo(DataBean o) {
-                if ((int)o.getCanShipping() != this.getCanShipping()) {
-                    return  o.getCanShipping() - this.getCanShipping();
+                if ((int) o.getCanShipping() != this.getCanShipping()) {
+                    return o.getCanShipping() - this.getCanShipping();
                 } else {
 
-                    if ((o.getType() == null || o.getType().equals("")) && (this.getType() == null || this.getType().equals(""))){
+                    if ((o.getType() == null || o.getType().equals("")) && (this.getType() == null || this.getType().equals(""))) {
                         return 0;
                     }
 
-                    if ((o.getType() == null || o.getType().equals("")) && this.getType().equals("家里")){
+                    if ((o.getType() == null || o.getType().equals("")) && this.getType().equals("家里")) {
                         return -1;
                     }
 
-                    if ((o.getType() == null || o.getType().equals("")) && this.getType().equals("公司")){
+                    if ((o.getType() == null || o.getType().equals("")) && this.getType().equals("公司")) {
                         return -1;
                     }
 
-                    if (o.getType().equals("公司") && (this.getType() == null || this.getType().equals(""))){
+                    if (o.getType().equals("公司") && (this.getType() == null || this.getType().equals(""))) {
                         return 1;
                     }
 
-                    if (o.getType().equals("家里") && (this.getType() == null || this.getType().equals(""))){
+                    if (o.getType().equals("家里") && (this.getType() == null || this.getType().equals(""))) {
                         return 1;
                     }
-                    if (o.getType().equals("公司") && this.getType().equals("家里")){
+                    if (o.getType().equals("公司") && this.getType().equals("家里")) {
                         return 1;
                     }
 
-                    if (o.getType().equals("家里") && this.getType().equals("公司")){
+                    if (o.getType().equals("家里") && this.getType().equals("公司")) {
                         return -1;
                     }
-
 
 
                 }
