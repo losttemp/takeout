@@ -141,6 +141,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mLlHistory.setVisibility(View.GONE);
 		mLvSuggest.setVisibility(View.GONE);
 		mFragmentStoreList.setVisibility(View.VISIBLE);
+		mIvClean.setVisibility(View.VISIBLE);
 	}
 
 	private void iniView() {
@@ -326,6 +327,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					currentFocus.clearFocus();
 				}
 				mEtSearch.setText("");
+				mEtSearch.setHint("");
 				break;
 
 			case R.id.rl_search:
