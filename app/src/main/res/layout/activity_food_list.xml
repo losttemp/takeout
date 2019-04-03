@@ -19,19 +19,18 @@
             android:foreground="@drawable/fg_ripple"
             android:src="@drawable/icon_back" />
 
-        <com.domain.multipltextview.MultiplTextView
+        <TextView
             android:id="@+id/tv_shop_title"
-            android:layout_toRightOf="@+id/iv_finish"
-            android:layout_marginLeft="@dimen/px150dp"
-            android:layout_marginRight="@dimen/px54dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="@dimen/px54dp"
+            android:layout_marginLeft="@dimen/px200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/px40sp"
-            app:removeDefaultPadding="true" />
+            android:textSize="@dimen/px40sp" />
     </RelativeLayout>
     <include
         android:id="@+id/ll_loading"
@@ -57,20 +56,17 @@
             android:layout_alignParentLeft="true"
             android:src="@drawable/icon_back" />
 
-        <com.domain.multipltextview.MultiplTextView
+        <TextView
             android:id="@+id/tv_shop_title"
-            android:layout_marginLeft="@dimen/px150dp"
+            android:layout_width="wrap_content"
             android:layout_marginRight="@dimen/px54dp"
-            android:maxWidth="@dimen/px500dp"
-            android:layout_toRightOf="@+id/iv_finish"
+            android:layout_marginLeft="@dimen/px200dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/px40sp"
-            app:removeDefaultPadding="true" />
+            android:textSize="@dimen/px40sp" />
     </RelativeLayout>
 
     <RelativeLayout
