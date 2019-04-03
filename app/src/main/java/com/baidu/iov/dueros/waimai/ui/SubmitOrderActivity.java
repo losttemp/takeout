@@ -71,6 +71,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     private static final String TAG = SubmitOrderActivity.class.getSimpleName();
 
+    public static final int CAN_SHIPPING = 1;
+    public static final int CANNOT_SHIPPING = 2;
+    public static final int STOP_SHIPPING = 3;
+
     private RelativeLayout mArrivetimeLayout;
     private RelativeLayout mAddressUpdateLayout;
     private LinearLayout mDiscountsLayout;
@@ -89,8 +93,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private TextView mDiscountWarnTipTv;
     private RelativeLayout mWarnTipParent;
     private ImageView mBackImg;
-    private ArrayMap<String, String> map;
-    private PoidetailinfoBean mPoidetailinfoBean;
 
     private List<ArriveTimeBean.MeituanBean.DataBean> mDataBean;
     private AddressListBean.IovBean.DataBean mAddressData;
@@ -375,6 +377,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 if (mAddressData.getCanShipping() != 1) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg9), Toast.LENGTH_SHORT);
                 }
+                if (mAddressData.getType().equals(R.string.address_destination)){
+                    if (!TextUtils.isEmpty(getIntent().getStringExtra("status"))){
+                        switch (Integer.parseInt(getIntent().getStringExtra("status"))){
+                            case SubmitOrderActivity.CAN_SHIPPING:
+                        }
+                    }
+                }
                 else {
                     if (!isFastClick()) {
                         if (CacheUtils.getAuth()) {
@@ -402,7 +411,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
                 mToPayTv.setEnabled(false);
 //                loadingView.setVisibility(View.VISIBLE);
-//                macketDetail();
                 getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this,loadingView);
             }
         } else {
@@ -411,13 +419,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         }
     }
 
-    private void macketDetail(){
-        map = new ArrayMap<>();
-        map.put(Constant.STORE_ID, String.valueOf(mPoiInfo.getWm_poi_id()));
-        map.put("latitude", String.valueOf(mAddressData.getLatitude()));
-        map.put("longitude", String.valueOf(mAddressData.getLongitude()));
-        getPresenter().requestPoidetailinfo(map);
-    }
 
     private static final int MIN_DELAY_TIME = 1000; // 两次点击间隔不能少于1000ms
     private static long lastClickTime;
@@ -571,11 +572,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     try {
                         if (mAddressData.getCanShipping() != 1) {
                             mAddressTv.setTextColor(0x99ffffff);
-                            mUserNameTv.setTextColor(0x99ffffff);
                             mArriveTimeTv.setTextColor(0x99ffffff);
                         } else {
                             mAddressTv.setTextColor(this.getResources().getColor(R.color.white));
-                            mUserNameTv.setTextColor(this.getResources().getColor(R.color.white));
                             mArriveTimeTv.setTextColor(this.getResources().getColor(R.color.white));
                         }
                         String address = Encryption.desEncrypt(mAddressData.getAddress());
@@ -617,30 +616,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
 
     @Override
-    public void onPoidetailinfoSuccess(PoidetailinfoBean data) {
-        mPoidetailinfoBean = data;
-        if (mPoidetailinfoBean != null) {
-            int status = mPoidetailinfoBean.getMeituan().getData().getStatus();
-            switch (status){
-                case 1:
-                    ToastUtils.show(mContext,"可配送",Toast.LENGTH_SHORT);
-                    break;
-                case 2:
-                    ToastUtils.show(mContext,"不可配送",Toast.LENGTH_SHORT);
-                    break;
-                case 3:
-                    ToastUtils.show(mContext,"不可配送",Toast.LENGTH_SHORT);
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void onPoidetailinfoError(String error) {
-
-    }
-
-    @Override
     public void onGetAddressListSuccess(AddressListBean data) {
         List<AddressListBean.IovBean.DataBean> mDataListBean = data.getIov().getData();
         for (AddressListBean.IovBean.DataBean addressDataBean : mDataListBean) {
@@ -650,7 +625,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     try {
                         if (mAddressData.getCanShipping() != 1) {
                             mAddressTv.setTextColor(0x99ffffff);
-                            mUserNameTv.setTextColor(0x99ffffff);
                             mArriveTimeTv.setTextColor(0x99ffffff);
                         }
                         mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));

@@ -9,12 +9,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 
 import java.util.List;
+
+import static com.baidu.iov.dueros.waimai.utils.ResUtils.getResources;
 
 public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
@@ -104,10 +107,17 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     ((ViewHolder) holder).tv_address.setWidth((int) mContext.getResources().getDimension(R.dimen.px550dp));
                 }
                 String address_type = mData.get(realPosition).getType();
+                String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
+                String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
+                ((ViewHolder) holder).tv_name.setText(name);
+                ((ViewHolder) holder).tv_phone.setText(phone);
                 if (mContext.getString(R.string.address_destination).equals(address_type)) {
                     ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_mudidi);
                     ((ViewHolder) holder).tv_address_type.setText(address_type);
                     ((ViewHolder) holder).img_edit.setVisibility(View.GONE);
+                    if (MyApplicationAddressBean.USER_PHONES.get(0) != null) {
+                        ((ViewHolder) holder).tv_name.setText(MyApplicationAddressBean.USER_PHONES.get(0));
+                    }
                 }
                 else if (mContext.getString(R.string.address_home).equals(address_type)) {
                     ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_green);
@@ -125,13 +135,11 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     ((ViewHolder) holder).tv_address_type.setText(mContext.getString(R.string.address_tag_other));
                     ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg);
                 }
-                String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
-                String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
-                if (name.length() > 14) {
-                    ((ViewHolder) holder).tv_name.setWidth((int) mContext.getResources().getDimension(R.dimen.px400dp));
+                if (((ViewHolder) holder).tv_name.getText().length() > 16) {
+                    ((ViewHolder) holder).tv_name.setWidth((int) getResources().getDimension(R.dimen.px400dp));
                 }
-                ((ViewHolder) holder).tv_name.setText(name);
-                ((ViewHolder) holder).tv_phone.setText(phone);
+
+
 
                 holder.itemView.setTag(realPosition);
                 String ttsAddress = Encryption.desEncrypt(mData.get(realPosition).getAddress());

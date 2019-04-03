@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/px120dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <LinearLayout
@@ -318,32 +318,46 @@
                     android:layout_marginRight="@dimen/px84dp"
                     android:orientation="vertical">
 
-                    <TextView
+                    <RelativeLayout
                         android:id="@+id/contact"
-                        android:includeFontPadding="false"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="@dimen/px28dp"
-                        android:maxLines="1"
-                        android:ellipsize="end"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/px84dp"
-                        android:layout_marginStart="@dimen/px20dp"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/px30sp"
-                        />
+                        android:gravity="center"
+                        android:layout_gravity="end"
+                        >
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:includeFontPadding="false"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px30sp"
+                            />
+                        <TextView
+                            android:id="@+id/tv_phone"
+                            android:includeFontPadding="false"
+                            android:layout_toEndOf="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/px12dp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px30sp"/>
+                    </RelativeLayout>
+
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         >
-
                         <TextView
                             style="@style/OrderDetailsText"
                             android:includeFontPadding="false"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginTop="@dimen/px18dp"
                             android:alpha="0.6"
                             android:text="@string/pay_succuess_address" />
 

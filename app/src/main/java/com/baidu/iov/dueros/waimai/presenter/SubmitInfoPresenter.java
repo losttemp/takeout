@@ -39,8 +39,6 @@ import java.util.List;
 
 public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInfoUi> {
 
-    private IPoifoodListModel mPoifoodListModel;
-
     private ISubmitInfoModel mSubmitInfo;
 
     public SubmitInfoPresenter() {
@@ -461,37 +459,8 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         return GsonUtil.toJson(orderPreviewJsonBean);
     }
 
-    public void requestPoidetailinfo(ArrayMap<String, String> map) {
-        mPoifoodListModel.requestPoidetailinfo(map, new RequestCallback<PoidetailinfoBean>() {
-
-            @Override
-            public void onSuccess(PoidetailinfoBean data) {
-                if (getUi() != null) {
-                    getUi().onPoidetailinfoSuccess(data);
-                }
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                if (getUi() != null) {
-                    getUi().onPoidetailinfoError(msg);
-                }
-
-            }
-
-            @Override
-            public void getLogid(String id) {
-                Lg.getInstance().d(TAG, "requestPoidetailinfo getLogid: "+id);
-            }
-        });
-    }
-
 
     public interface SubmitInfoUi extends Ui {
-
-        void onPoidetailinfoSuccess(PoidetailinfoBean data);
-
-        void onPoidetailinfoError(String error);
 
         void onGetAddressListSuccess(AddressListBean data);
 

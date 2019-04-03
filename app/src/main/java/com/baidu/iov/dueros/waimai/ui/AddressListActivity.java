@@ -189,23 +189,28 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             }
             addressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
 
-            if (addressTv.getText().length() > 40) {
-                addressTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
+            if (addressTv.getText().length() > 16) {
+                addressTv.setWidth((int) getResources().getDimension(R.dimen.px400dp));
+            }
+            String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + "  " + Encryption.desEncrypt(mAddressData.getUser_phone());
+            nameTv.setText(userInfo);
+            if (nameTv.getText().length() > 16) {
+                nameTv.setWidth((int) getResources().getDimension(R.dimen.px400dp));
             }
             if (mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
                 typeTv.setBackgroundResource(R.drawable.tag_bg_mudidi);
                 typeTv.setText(mAddressData.getType());
-                if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
-                    nameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0) + "  " + MyApplicationAddressBean.USER_PHONES.get(0));
+                if (MyApplicationAddressBean.USER_PHONES.get(0) != null) {
+                    nameTv.setText(MyApplicationAddressBean.USER_PHONES.get(0));
                     if (nameTv.getText().length() > 16) {
-                        nameTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
+                        nameTv.setWidth((int) getResources().getDimension(R.dimen.px400dp));
                     }
                 }
             } else {
-                String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
+//                String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
                 nameTv.setText(userInfo);
-                if (nameTv.getText().length() > 16) {
-                    nameTv.setWidth((int) getResources().getDimension(R.dimen.px600dp));
+                if (nameTv.getText().length() > 14) {
+                    nameTv.setWidth((int) getResources().getDimension(R.dimen.px300dp));
                 }
                 if (getString(R.string.address_home).equals(mAddressData.getType())) {
                     typeTv.setBackgroundResource(R.drawable.tag_bg_green);

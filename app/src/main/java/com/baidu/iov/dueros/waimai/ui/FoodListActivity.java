@@ -92,6 +92,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public static final String POI_INFO = "poi_info";
     public static final String PRODUCT_LIST_BEAN = "product_list_bean";
     public static final String DISCOUNT = "discount";
+    public static final String STATUS = "status";
 
     public static Map<Integer, PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> selectFoods = new HashMap<>();
 
@@ -110,6 +111,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private boolean isClean = false;
     private FrameLayout animation_viewGroup;
     private MultiplTextView defaultText;
+    private int status = 1;
     //商品分类信息
     private List<PoifoodSpusTagsBean> poifoodSpusTagsBeans;
     private RelativeLayout parentLayout;
@@ -1289,6 +1291,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         switch (data.getMeituan().getData().getCode()) {
             case Constant.SUBMIT_ORDER_SUCCESS:
                 Intent intent = new Intent(this, SubmitOrderActivity.class);
+                intent.putExtra(STATUS,status);
                 intent.putExtra(POI_INFO, mPoiInfoBean);
                 intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
                 intent.putExtra(DISCOUNT, mDiscountNumber);
@@ -1553,6 +1556,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mPoidetailinfoBean = data;
         if (mPoidetailinfoBean != null) {
             List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts = mPoidetailinfoBean.getMeituan().getData().getDiscounts();
+            status = mPoidetailinfoBean.getMeituan().getData().getStatus();
             List<String> discountList = getDiscountList(discounts, false);
             if (mDiscounts.getItemDecorationCount() == 0) {
                 mDiscounts.addItemDecoration(new SpaceItemDecoration(dp2px(3)));

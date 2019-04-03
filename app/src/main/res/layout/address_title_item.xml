@@ -40,6 +40,8 @@
         android:layout_below="@+id/tv_address_title"
         android:layout_marginTop="@dimen/px26dp"
         android:textColor="@color/white_60"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textSize="@dimen/px30sp" />
 
     <ImageView

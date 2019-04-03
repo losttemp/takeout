@@ -69,7 +69,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     /**
      *
      */
-    private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod, mTimerTv, mDeliveryType;
+    private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod, mTimerTv, mDeliveryType,mPhone,mName;
     private NoClikRecyclerView mFoodListView;
     private Button mRepeatOrder, mPayOrder, mCancelOrder;
     private FoodListAdaper mFoodListAdaper;
@@ -159,7 +159,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         mDistributionFee = findViewById(R.id.distribution_fee);
         mDiscount = findViewById(R.id.discount);
         mRealPay = findViewById(R.id.real_pay);
-        mContact = findViewById(R.id.contact);
+        mPhone = findViewById(R.id.tv_phone);
+        mName = findViewById(R.id.tv_name);
         mAddress = findViewById(R.id.address);
         mExpectedTime = findViewById(R.id.expected_time);
         mOrderId = findViewById(R.id.order_id);
@@ -199,10 +200,10 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        mContact.setText(name + " " + phone);
-        if (mContact.getText().length() > 17) {
-            mContact.setWidth((int) getResources().getDimension(R.dimen.px520dp));
+        mName.setText(name);
+        mPhone.setText(phone);
+        if (mName.getText().length() > 17) {
+            mName.setWidth((int) getResources().getDimension(R.dimen.px400dp));
         }
         mAddress.setText(address);
         if (mAddress.getText().length() > 17) {
