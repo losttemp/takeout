@@ -15,9 +15,13 @@ android {
         applicationId "com.baidu.iov.dueros.waimai"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 1
-        versionName "_P_02.18_A"
+        versionCode 2
+        versionName "2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     sourceSets {
