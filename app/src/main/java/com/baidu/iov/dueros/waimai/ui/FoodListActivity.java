@@ -175,6 +175,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private boolean mTagsListOnclick;
     private int mTagsOnclicPosition;
     private boolean booleanExtra;
+    private List<String> tags = new ArrayList<>();
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -236,6 +237,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     protected void onDestroy() {
         super.onDestroy();
         mOneMoreOrder = false;
+        tags = null;
         unregisterReceiver(mInnerReceiver);
         selectFoods.clear();
     }
@@ -524,6 +526,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (mBottomDialog != null && mBottomDialog.isShowing()) {
             setDialogHeight(mBottomDialog);
         }
+        tags.clear();
         refreshSpusTagNum(increase, spusBean, firstAdd, false);
         setPrise(increase);
     }
@@ -620,6 +623,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     }
                 }
             }
+            tags.clear();
         }
         if (mBottomDialog != null && mBottomDialog.isShowing()) {
             setDialogHeight(mBottomDialog);
@@ -631,7 +635,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                    PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                    boolean firstAdd, boolean remove) {
         for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
-            if (Integer.parseInt(spusBean.getTag()) == poifoodSpusTagsBeans.get(i).getTag()) {
+            if (Integer.parseInt(spusBean.getTag()) == poifoodSpusTagsBeans.get(i).getTag()
+                    && !tags.contains(spusBean.getTag())) {
                 Integer number = poifoodSpusTagsBeans.get(i).getNumber();
                 int minOrderCount = getMinOrderCount(spusBean);
                 if (increase) {
@@ -649,6 +654,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         } else {
                             number--;
                         }
+                    }
+                    if (number == 0) {
+                        tags.add(spusBean.getTag());
                     }
                 }
                 poifoodSpusTagsBeans.get(i).setNumber(number);
@@ -1291,7 +1299,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         switch (data.getMeituan().getData().getCode()) {
             case Constant.SUBMIT_ORDER_SUCCESS:
                 Intent intent = new Intent(this, SubmitOrderActivity.class);
-                intent.putExtra(Constant.STATUS,status);
+                intent.putExtra(Constant.STATUS, status);
                 intent.putExtra(POI_INFO, mPoiInfoBean);
                 intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
                 intent.putExtra(DISCOUNT, mDiscountNumber);
@@ -1433,7 +1441,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     for (OrderListExtraBean.OrderInfos.Food_list spusFood : spusFoodList) {
                         long spuId = spusFood.getSpu_id();
                         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
-                            if (spusBean.getId() == spuId) {
+                            if (spusBean.getStatus() == 1 || spusBean.getStatus() == 2) {
+                                ToastUtils.show(mContext, spusBean.getName() + getString(R.string.sold_out), Toast.LENGTH_SHORT);
+                            } else if (spusBean.getId() == spuId) {
                                 spusBean.setNumber(spusBean.getNumber() + spusFood.getCount());
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
