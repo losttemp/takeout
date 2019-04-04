@@ -356,18 +356,18 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         return true;
                     }
                 });
-                viewHolder.specifications.setContentDescription(String.format(context.getString(R.string.cancel_position), viewHolder.storeIndex.getText().toString()));
-                viewHolder.specifications.setAccessibilityDelegate(new View.AccessibilityDelegate() {
-                    @Override
-                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                        int index = getIndex(viewHolder);
-                        StandardCmdClient.getInstance().playTTS(context, context.getString(R.string.already_cancel) + spusBeans.get(index).getName());
-                        if (callBackListener != null) {
-                            callBackListener.removeProduct(spusBeans.get(index), spusBeans.get(index).getTag(), section, false, true);
-                        }
-                        return true;
-                    }
-                });
+//                viewHolder.specifications.setContentDescription(String.format(context.getString(R.string.cancel_position), viewHolder.storeIndex.getText().toString()));
+//                viewHolder.specifications.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+//                    @Override
+//                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
+//                        int index = getIndex(viewHolder);
+//                        StandardCmdClient.getInstance().playTTS(context, context.getString(R.string.already_cancel) + spusBeans.get(index).getName());
+//                        if (callBackListener != null) {
+//                            callBackListener.removeProduct(spusBeans.get(index), spusBeans.get(index).getTag(), section, false, true);
+//                        }
+//                        return true;
+//                    }
+//                });
 
                 viewHolder.specifications.setOnClickListener(new View.OnClickListener() {
                     @Override
