@@ -282,7 +282,11 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				String keyWord =mEtSearch.getText().toString().trim();
 				if (TextUtils.isEmpty(keyWord)) {
-					mIvClean.setVisibility(View.GONE);
+					if (TextUtils.isEmpty(mEtSearch.getText().toString())) {
+						mIvClean.setVisibility(View.GONE);
+					}else{
+						mIvClean.setVisibility(View.VISIBLE);
+					}
 					changeStatus(Constant.SEARCH_STATUS_HISTORY);
 				} else {
 					Entry.getInstance().onEvent(Constant.EVENT_INPUT_SEARCH, EventType.TOUCH_TYPE);
