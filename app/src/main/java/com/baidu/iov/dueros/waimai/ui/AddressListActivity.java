@@ -180,38 +180,45 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         TextView addressTv = header.findViewById(R.id.tv_address_title);
         TextView typeTv = header.findViewById(R.id.tv_address_type_title);
         TextView nameTv = header.findViewById(R.id.tv_name_title);
+        TextView phoneTv = header.findViewById(R.id.tv_phone_title);
 
         try {
             if (mAddressData.getCanShipping() != 1) {
                 addressTv.setTextColor(0x99ffffff);
                 nameTv.setTextColor(0x99ffffff);
+                phoneTv.setTextColor(0x99ffffff);
                 typeTv.setTextColor(0x99ffffff);
             }
-            addressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
 
-            if (addressTv.getText().length() > 16) {
+            addressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
+            String nameInfo = Encryption.desEncrypt(mAddressData.getUser_name());
+            String phoneInfo = Encryption.desEncrypt(mAddressData.getUser_phone());
+            nameTv.setText(nameInfo);
+            phoneTv.setText(phoneInfo);
+            if (addressTv.getText().length() > 18) {
                 addressTv.setWidth((int) getResources().getDimension(R.dimen.px400dp));
             }
-            String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + "  " + Encryption.desEncrypt(mAddressData.getUser_phone());
-            nameTv.setText(userInfo);
-            if (nameTv.getText().length() > 16) {
-                nameTv.setWidth((int) getResources().getDimension(R.dimen.px400dp));
-            }
+//            if (nameTv.getText().length() > 11) {
+//                nameTv.setWidth((int) getResources().getDimension(R.dimen.px400dp));
+//            }
+
             if (mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
                 typeTv.setBackgroundResource(R.drawable.tag_bg_mudidi);
                 typeTv.setText(mAddressData.getType());
-                if (MyApplicationAddressBean.USER_PHONES.get(0) != null) {
-                    nameTv.setText(MyApplicationAddressBean.USER_PHONES.get(0));
-                    if (nameTv.getText().length() > 16) {
-                        nameTv.setWidth((int) getResources().getDimension(R.dimen.px400dp));
-                    }
+                if (MyApplicationAddressBean.USER_PHONES.get(0) != null&&MyApplicationAddressBean.USER_NAMES.get(0) != null) {
+                    nameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0));
+                    phoneTv.setText(MyApplicationAddressBean.USER_PHONES.get(0));
+//                    if (nameTv.getText().length() > 11) {
+//                        nameTv.setWidth((int) getResources().getDimension(R.dimen.px300dp));
+//                    }
                 }
             } else {
 //                String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
-                nameTv.setText(userInfo);
-                if (nameTv.getText().length() > 14) {
-                    nameTv.setWidth((int) getResources().getDimension(R.dimen.px300dp));
-                }
+//                nameTv.setText(nameInfo);
+//                phoneTv.setText(phoneInfo);
+//                if (nameTv.getText().length() > 14) {
+//                    nameTv.setWidth((int) getResources().getDimension(R.dimen.px300dp));
+//                }
                 if (getString(R.string.address_home).equals(mAddressData.getType())) {
                     typeTv.setBackgroundResource(R.drawable.tag_bg_green);
                     typeTv.setText(mAddressData.getType());

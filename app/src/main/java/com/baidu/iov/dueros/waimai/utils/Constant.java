@@ -11,6 +11,8 @@ public class Constant {
     public static final String EXTRA_ID = "extra";
     public static final int SPECIAL_HALL_ID = 5;
 
+    public static final String STATUS = "status";
+
     public static final int CINEMA = 1024;
     public static final String ADDRESS_SELECT_ID = "address_select_id";
     public static String ORDER_TIME = "order_time";

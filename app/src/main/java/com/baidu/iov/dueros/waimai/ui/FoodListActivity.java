@@ -92,7 +92,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     public static final String POI_INFO = "poi_info";
     public static final String PRODUCT_LIST_BEAN = "product_list_bean";
     public static final String DISCOUNT = "discount";
-    public static final String STATUS = "status";
+//    public static final String STATUS = "status";
 
     public static Map<Integer, PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> selectFoods = new HashMap<>();
 
@@ -1291,7 +1291,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         switch (data.getMeituan().getData().getCode()) {
             case Constant.SUBMIT_ORDER_SUCCESS:
                 Intent intent = new Intent(this, SubmitOrderActivity.class);
-                intent.putExtra(STATUS,status);
+                intent.putExtra(Constant.STATUS,status);
                 intent.putExtra(POI_INFO, mPoiInfoBean);
                 intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
                 intent.putExtra(DISCOUNT, mDiscountNumber);

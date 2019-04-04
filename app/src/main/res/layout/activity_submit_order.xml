@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/px120dp"
-        android:visibility="visible"
+        android:visibility="gone"
         >
         <ScrollView
             android:id="@+id/content"
@@ -84,18 +84,34 @@
                             android:ellipsize="end"
                             android:maxLines="1"/>
 
-                        <TextView
-                            android:id="@+id/tv_name"
-                            android:layout_width="@dimen/px800dp"
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_address"
                             android:layout_marginTop="@dimen/px20dp"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            android:textColor="@color/white_60"
-                            android:textSize="@dimen/px30sp"
-                            android:includeFontPadding="false"
-                            />
+                            android:layout_below="@+id/tv_address">
+                            <TextView
+                                android:id="@+id/tv_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:maxEms="9"
+                                android:ellipsize="end"
+                                android:textColor="@color/white_60"
+                                android:textSize="@dimen/px30sp"
+                                android:includeFontPadding="false"
+                                />
+                            <TextView
+                                android:id="@+id/tv_phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/tv_name"
+                                android:textColor="@color/white_60"
+                                android:layout_marginStart="@dimen/px20dp"
+                                android:textSize="@dimen/px30sp"
+                                android:includeFontPadding="false"
+                                />
+                        </RelativeLayout>
+
                     </RelativeLayout>
 
                     <ImageView

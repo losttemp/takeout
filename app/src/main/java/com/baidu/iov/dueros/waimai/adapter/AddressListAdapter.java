@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -103,20 +104,24 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ((ViewHolder) holder).img_edit.setVisibility(View.VISIBLE);
                 String address = Encryption.desEncrypt(mData.get(realPosition).getAddress());
                 ((ViewHolder) holder).tv_address.setText(address);
-                if (address.length() > 17) {
+                if (address.length() > 18) {
                     ((ViewHolder) holder).tv_address.setWidth((int) mContext.getResources().getDimension(R.dimen.px550dp));
                 }
                 String address_type = mData.get(realPosition).getType();
                 String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
                 String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
+//                if (name.length() > 10) {
+//                    name= name.substring(0,10)+"...";
+//                }
                 ((ViewHolder) holder).tv_name.setText(name);
                 ((ViewHolder) holder).tv_phone.setText(phone);
                 if (mContext.getString(R.string.address_destination).equals(address_type)) {
                     ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_mudidi);
                     ((ViewHolder) holder).tv_address_type.setText(address_type);
                     ((ViewHolder) holder).img_edit.setVisibility(View.GONE);
-                    if (MyApplicationAddressBean.USER_PHONES.get(0) != null) {
-                        ((ViewHolder) holder).tv_name.setText(MyApplicationAddressBean.USER_PHONES.get(0));
+                    if (MyApplicationAddressBean.USER_NAMES.get(0) != null&&MyApplicationAddressBean.USER_PHONES.get(0) != null) {
+                        ((ViewHolder) holder).tv_name.setText(MyApplicationAddressBean.USER_NAMES.get(0));
+                        ((ViewHolder) holder).tv_phone.setText(MyApplicationAddressBean.USER_PHONES.get(0));
                     }
                 }
                 else if (mContext.getString(R.string.address_home).equals(address_type)) {
@@ -135,10 +140,6 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     ((ViewHolder) holder).tv_address_type.setText(mContext.getString(R.string.address_tag_other));
                     ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg);
                 }
-                if (((ViewHolder) holder).tv_name.getText().length() > 16) {
-                    ((ViewHolder) holder).tv_name.setWidth((int) getResources().getDimension(R.dimen.px400dp));
-                }
-
 
 
                 holder.itemView.setTag(realPosition);
