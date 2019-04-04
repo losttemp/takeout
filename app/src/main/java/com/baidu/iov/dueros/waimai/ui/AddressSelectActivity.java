@@ -239,8 +239,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     public void onFailure(String msg) {
         loadingView.setVisibility(View.GONE);
-        listLayout.setVisibility(View.GONE);
         mNoAddress.setVisibility(View.GONE);
+        listLayout.setVisibility(View.GONE);
         networkView.setVisibility(View.VISIBLE);
     }
 
