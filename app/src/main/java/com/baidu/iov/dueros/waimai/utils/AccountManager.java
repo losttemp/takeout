@@ -64,12 +64,12 @@ public class AccountManager {
     private AbsAccountReceiver mAbsAccountReceiver = new AbsAccountReceiver() {
         @Override
         public void receiveGetAccountData(ExAccountData exAccountData) {
-            Lg.getInstance().d(TAG, "receiveGetAccountData : " + exAccountData);
             if (exAccountData != null && exAccountData.isLogin()) {
                 if (mClient.isServiceBinded()) {
                     CacheUtils.saveBduss(exAccountData.getBduss());
-                    if (!TextUtils.isEmpty(exAccountData.getBduss())){
+                    if (!TextUtils.isEmpty(exAccountData.getBduss())) {
                         Config.COOKIE_VALUE = "BDUSS=" + exAccountData.getBduss();
+//                        Lg.getInstance().d(TAG, Config.COOKIE_VALUE);
                     }
                     callback.onAccountSuccess(Constant.ACCOUNT_LOGIN_SUCCESS);
                 } else {

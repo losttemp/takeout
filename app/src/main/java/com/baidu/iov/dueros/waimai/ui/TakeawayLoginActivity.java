@@ -54,7 +54,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private final long SIX_HOUR = 6 * 60 * 60 * 1000;
     Bundle savedInstanceState;
     private View networkView;
-    private boolean isNeedVoice;
+    private boolean isNeedVoice, isFinish;
     private View login_bg, loadingView, act_back;
     private String oldBudss = null;//记录budss 与上次不同则跳转到地址界面
 
@@ -150,6 +150,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         @Override
         public void onPageFinished(WebView view, String url) {
             if (url.startsWith("https://h5.waimai.meituan.com/login?back_url")) {
+                isFinish = true;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     String JS_SCRIPT = "var script = document.createElement('script');" +
                             "script.src = 'https://iov-www.cdn.bcebos.com/waimai/index.js';" +
@@ -160,6 +161,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                         }
                     });
                 }
+            } else {
+                isFinish = false;
             }
             view.loadUrl("javascript:window.java_obj.showSource("
                     + "document.getElementsByTagName('html')[0].innerHTML);");
@@ -357,7 +360,9 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                 }
                 break;
             case R.id.webview_back:
-                if (mWVMeituan.canGoBack()) {
+                //快速点击会导致白屏
+                if (!allowBack()) return;
+                if (!isFinish && mWVMeituan.canGoBack()) {
                     goBack();
                 } else {
                     finish();
@@ -369,6 +374,16 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             default:
                 break;
         }
+    }
+
+    private long backTime;
+
+    public boolean allowBack() {
+        if (System.currentTimeMillis() - backTime > 2000) {
+            backTime = System.currentTimeMillis();
+            return true;
+        }
+        return false;
     }
 
     public void goBack() {
