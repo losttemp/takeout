@@ -294,6 +294,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					loadFirstPage(mStoreReq);
 				}
 			}));
+			mSortPopWindow.setAnimationStyle(R.style.notAnimation);
 			mSortPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 				@Override
 				public void onDismiss() {
@@ -331,6 +332,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 							loadFirstPage(mStoreReq);
 						}
 					});
+			mFilterPopWindow.setAnimationStyle(R.style.notAnimation);
 			mFilterPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 				@Override
 				public void onDismiss() {
