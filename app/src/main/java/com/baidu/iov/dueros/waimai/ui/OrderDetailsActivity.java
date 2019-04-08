@@ -23,6 +23,7 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DeviceUtils;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
+import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
@@ -69,6 +71,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     /**
      *
      */
+    private static final String TAG = OrderDetailsActivity.class.getSimpleName();
+
     private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod, mTimerTv, mDeliveryType,mPhone,mName;
     private NoClikRecyclerView mFoodListView;
     private Button mRepeatOrder, mPayOrder, mCancelOrder;
@@ -78,7 +82,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private OrderCancelReq mOrderCancelReq;
     private long order_id;
     private long expectedTime;
-    private long mStoreId;
+    private String mStoreId ="";
     private int mPayStatus;
     private NumberFormat mNumberFormat;
     private View loadingView;
@@ -202,13 +206,13 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         }
         mName.setText(name);
         mPhone.setText(phone);
-        if (mName.getText().length() > 17) {
-            mName.setWidth((int) getResources().getDimension(R.dimen.px400dp));
-        }
+//        if (mName.getText().length() > 17) {
+//            mName.setWidth((int) getResources().getDimension(R.dimen.px400dp));
+//        }
         mAddress.setText(address);
-        if (mAddress.getText().length() > 17) {
-            mAddress.setWidth((int) getResources().getDimension(R.dimen.px520dp));
-        }
+//        if (mAddress.getText().length() > 17) {
+//            mAddress.setWidth((int) getResources().getDimension(R.dimen.px520dp));
+//        }
         mBusinessName.setText(shopName);
         mDistributionFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
         if (discount != 0) {
@@ -350,7 +354,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void initData() {
-        mStoreId = getIntent().getLongExtra(Constant.STORE_ID, 0);
+        mStoreId = getIntent().getStringExtra(Constant.STORE_ID);
         order_id = getIntent().getLongExtra(Constant.ORDER_ID, -1);
         if (null != getIntent().getStringExtra("extra") && !getIntent().getStringExtra("extra").equals("")) {
             try {
@@ -360,7 +364,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 e.printStackTrace();
             }
         }
-        expectedTime = getIntent().getLongExtra(Constant.EXPECTED_TIME, 0);
+        expectedTime = Long.parseLong(String.valueOf(getIntent().getIntExtra(Constant.EXPECTED_TIME, 0)));
         mOrderDetailsReq = new OrderDetailsReq();
         mOrderDetailsReq.setId(order_id);
     }
@@ -545,79 +549,84 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     @Override
     public void update(OrderDetailsResponse data) {
-        mOrderDetails = data.getMeituan().getData();
-        long orderTime = (long) mOrderDetails.getOrder_time() * 1000L;
-        mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mArrivalTime.setText(String.format(getResources().getString(R.string.count_down_timer), formatCountDownTime(millisUntilFinished)));
-            }
+        if(data!=null){
+            mOrderDetails = data.getMeituan().getData();
+            long orderTime = (long) mOrderDetails.getOrder_time() * 1000L;
+            mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    mArrivalTime.setText(String.format(getResources().getString(R.string.count_down_timer), formatCountDownTime(millisUntilFinished)));
+                }
 
-            @Override
-            public void onFinish() {
-                isTimeEnd  = true;
+                @Override
+                public void onFinish() {
+                    isTimeEnd  = true;
 //                mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId());
 //                getPresenter().requestOrderCancel(mOrderCancelReq);
-                mArrivalTime.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
-                mPayStatus = mOrderDetails.getPay_status();
-                if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
+                    mArrivalTime.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
+                    mPayStatus = mOrderDetails.getPay_status();
+                    if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
 
-                    ConfirmDialog dialog = new ConfirmDialog.Builder(OrderDetailsActivity.this)
-                            .setTitle(R.string.pay_title)
-                            .setMessage(R.string.pay_time_out)
-                            .setNegativeButton(R.string.anew_submit, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                        ConfirmDialog dialog = new ConfirmDialog.Builder(OrderDetailsActivity.this)
+                                .setTitle(R.string.pay_title)
+                                .setMessage(R.string.pay_time_out)
+                                .setNegativeButton(R.string.anew_submit, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                    Intent intent = new Intent();
-                                    intent.setClass(OrderDetailsActivity.this, FoodListActivity.class);
-                                    intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
-                                    intent.putExtra(Constant.STORE_ID, mStoreId);
-                                    intent.putExtra("flag", true);
-                                    startActivity(intent);
-                                    dialog.dismiss();
-                                    finish();
-                                }
-                            })
-                            .setPositiveButton(R.string.back_store, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent();
-                                    intent.setClass(OrderDetailsActivity.this, FoodListActivity.class);
-                                    intent.putExtra(Constant.STORE_ID, mStoreId);
-                                    intent.putExtra("flag", true);
-                                    startActivity(intent);
-                                    dialog.dismiss();
-                                    finish();
-                                }
-                            })
-                            .setCloseButton(new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .create();
-                    dialog.setCanceledOnTouchOutside(false);
-                    if (isForeground(OrderDetailsActivity.this)
-                            &&!OrderDetailsActivity.this.isFinishing()) {
-                        dialog.show();
+                                        Intent intent = new Intent();
+                                        intent.setClass(OrderDetailsActivity.this, FoodListActivity.class);
+                                        intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
+                                        intent.putExtra(Constant.STORE_ID, mStoreId);
+                                        intent.putExtra("flag", true);
+                                        startActivity(intent);
+                                        dialog.dismiss();
+                                        finish();
+                                    }
+                                })
+                                .setPositiveButton(R.string.back_store, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent();
+                                        intent.setClass(OrderDetailsActivity.this, FoodListActivity.class);
+                                        intent.putExtra(Constant.STORE_ID, mStoreId);
+                                        intent.putExtra("flag", true);
+                                        startActivity(intent);
+                                        dialog.dismiss();
+                                        finish();
+                                    }
+                                })
+                                .setCloseButton(new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .create();
+                        dialog.setCanceledOnTouchOutside(false);
+                        if (isForeground(OrderDetailsActivity.this)
+                                &&!OrderDetailsActivity.this.isFinishing()) {
+                            dialog.show();
+                        }
                     }
                 }
+
+            };
+
+            setTextView();
+            if (null != mOrderDetails && mOrderDetails.getEstimate_arrival_time() != 0) {
+                long time = mOrderDetails.getEstimate_arrival_time();
+                time = time * 1000L;
+                Date date = new Date(time);
+                SimpleDateFormat format1, format2;
+                format1 = new SimpleDateFormat("yyyy-MM-dd");
+                format2 = new SimpleDateFormat("HH:mm");
+                mExpectedTime.setText(format1.format(date) + " (" + getWeek(time) + ") " + format2.format(date));
             }
-
-        };
-
-        setTextView();
-        if (null != mOrderDetails && mOrderDetails.getEstimate_arrival_time() != 0) {
-            long time = mOrderDetails.getEstimate_arrival_time();
-            time = time * 1000L;
-            Date date = new Date(time);
-            SimpleDateFormat format1, format2;
-            format1 = new SimpleDateFormat("yyyy-MM-dd");
-            format2 = new SimpleDateFormat("HH:mm");
-            mExpectedTime.setText(format1.format(date) + " (" + getWeek(time) + ") " + format2.format(date));
+        }else {
+            Lg.getInstance().d(TAG, "no find data !");
         }
+
         loadingView.setVisibility(View.GONE);
         contentView.setVisibility(View.VISIBLE);
         networkView.setVisibility(View.GONE);

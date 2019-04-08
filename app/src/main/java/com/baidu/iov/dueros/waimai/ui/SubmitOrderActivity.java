@@ -221,6 +221,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         VoiceTouchUtils.setVoicesTouchSupport(mAddressUpdateLayout, R.array.update_address);
         VoiceTouchUtils.setVoiceTouchTTSSupport(mAddressUpdateLayout, mContext.getString(R.string.tts_add_new_address));
 
+        VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
+        VoiceTouchUtils.setVoiceTouchTTSSupport(mToPayTv, mContext.getString(R.string.tts_topay_text));
 
         netDataReque();
 
@@ -403,8 +405,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     private void orderSubmit() {
         if (NetUtil.getNetWorkState(this)) {
-            VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
-
             if (mAddressData.getType().equals(getResources().getString(R.string.address_destination))){
                 switch (getIntent().getIntExtra(Constant.STATUS,1)){
                     case SubmitOrderActivity.CAN_SHIPPING:
@@ -842,7 +842,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mNoNet.setVisibility(View.GONE);
 //        loadingView.setVisibility(View.GONE);
         if (data != null) {
-            VoiceTouchUtils.setVoiceTouchTTSSupport(mToPayTv, mContext.getString(R.string.tts_topay_text));
             mOrderSubmitData = data.getMeituan().getData();
             int submitCode = mOrderSubmitData.getCode();
             if (submitCode == Constant.SUBMIT_ORDER_SUCCESS) {
