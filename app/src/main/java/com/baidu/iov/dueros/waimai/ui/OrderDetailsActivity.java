@@ -140,6 +140,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getDetail(),Constant.TTS_PAY_DETAIL);
         } else {
             if (null != networkView) {
+                loadingView.setVisibility(View.GONE);
                 contentView.setVisibility(View.GONE);
                 networkView.setVisibility(View.VISIBLE);
             }
