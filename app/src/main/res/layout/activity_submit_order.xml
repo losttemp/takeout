@@ -75,12 +75,13 @@
 
                         <TextView
                             android:id="@+id/tv_address"
-                            android:layout_width="@dimen/px826dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:includeFontPadding="false"
                             android:layout_marginTop="@dimen/px34dp"
                             android:textColor="@color/white"
                             android:textSize="@dimen/px40sp"
+                            android:maxEms="13"
                             android:ellipsize="end"
                             android:maxLines="1"/>
 

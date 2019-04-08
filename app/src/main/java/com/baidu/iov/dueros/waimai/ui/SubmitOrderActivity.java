@@ -778,7 +778,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 discountItem.setVisibility(View.INVISIBLE);
             } else {
                 TextView discount_name_tv = discountItem.findViewById(R.id.discount_name);
-                discount_name_tv.setText(discountsBean.getName());
+//                discount_name_tv.setText(discountsBean.getName());
+                discount_name_tv.setText("满减优惠");
                 TextView discount_info_tv = discountItem.findViewById(R.id.discount);
                 discount_info_tv.setText(String.format(getString(R.string.discount_money), mNumberFormat.format(discountsBean.getReduceFree())));
                 mDiscountsLayout.addView(discountItem);
