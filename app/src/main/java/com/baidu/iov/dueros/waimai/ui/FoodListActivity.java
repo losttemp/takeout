@@ -548,7 +548,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         Lg.getInstance().d(TAG, "shopProduct.getId() = " + shopProduct.getId() + "; spusBean.getId() = " + spusBean.getId());
                         if (spusBean.equals(shopProduct)) {
                             if (mOneMoreOrder) {
-                                shopProduct.setNumber(spusBean.getNumber());
+                                shopProduct.setNumber(shopProduct.getNumber() + 1);
+                                spusBean.setNumber(shopProduct.getNumber());
                                 Lg.getInstance().e(TAG, spusBean.getNumber() + "Number");
                             } else {
                                 if (increase) {
