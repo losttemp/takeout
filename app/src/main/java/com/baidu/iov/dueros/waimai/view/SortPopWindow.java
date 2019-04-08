@@ -45,7 +45,7 @@ public class SortPopWindow extends PopupWindow {
 		prefix.add(mContext.getResources().getString(R.string.prefix_choice));
 		prefix.add(mContext.getResources().getString(R.string.prefix_check));
 		prefix.add(mContext.getResources().getString(R.string.prefix_open));
-		ListView lvSortClass = (ListView) mContentView.findViewById(R.id.lv_sort_class);
+		ListView lvSortClass = mContentView.findViewById(R.id.lv_sort_class);
 		mAdapter = new SortPopWindowAdapter(mSortList, context);
 		lvSortClass.setAdapter(mAdapter);
 		mAdapter.setItemAccessibilityDelegate(new SortPopWindowAdapter.ItemAccessibilityDelegate() {
