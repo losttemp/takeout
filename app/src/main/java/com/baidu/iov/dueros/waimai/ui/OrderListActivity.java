@@ -108,12 +108,14 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         prefix.add("选择");
         AccessibilityClient.getInstance().register(this, true, prefix, null);
         if (NetUtil.getNetWorkState(this)) {
+            mRefreshLayout.setVisibility(View.VISIBLE);
             mRefreshLayout.setEnableLoadmore(false);
             mOrderListReq.setPage(START_PAGE);
             mRefreshLayout.autoRefresh();
             networkView.setVisibility(View.GONE);
         } else {
             if (null != networkView) {
+                mRefreshLayout.setVisibility(View.GONE);
                 networkView.setVisibility(View.VISIBLE);
             }
         }
@@ -168,7 +170,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     case R.id.tv_store_name:
                         //进入店铺
                         Intent storeintent = new Intent(OrderListActivity.this, FoodListActivity.class);
-                        storeintent.putExtra("flag",true);
+                        storeintent.putExtra("flag", true);
                         storeintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         startActivity(storeintent);
                         break;
@@ -179,7 +181,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         onemoreintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         onemoreintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(position).getExtra());
                         onemoreintent.putExtra(Constant.ONE_MORE_ORDER, true);
-                        onemoreintent.putExtra("flag",true);
+                        onemoreintent.putExtra("flag", true);
                         onemoreintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                         startActivity(onemoreintent);
                         break;
@@ -240,7 +242,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         intent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
                         intent.putExtra(Constant.EXPECTED_TIME, payloadBean.getWm_ordering_list().getDelivery_time());
-                        intent.putExtra("flag",true);
+                        intent.putExtra("flag", true);
                         String status = mOrderList.get(position).getOut_trade_status();
                         if (IOV_STATUS_ZERO.equals(status) || IOV_STATUS_WAITING.equals(status)) {
                             intent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
@@ -366,7 +368,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             mRefreshLayout.finishLoadmore();
         }
 
-        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getOrder().getOrder(),Constant.TTS_ORDER_LIST);
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getOrder().getOrder(), Constant.TTS_ORDER_LIST);
         if (null != data.getIov() && null != data.getIov().getData() && data.getIov().getData().size() != 0) {
             mOrderList.addAll(data.getIov().getData());
             mOrderListAdaper.notifyDataSetChanged();
@@ -417,13 +419,13 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void authFailure(String msg) {
-        ToastUtils.show(this,"授权失败，请开启服务授权",Toast.LENGTH_SHORT);
+        ToastUtils.show(this, "授权失败，请开启服务授权", Toast.LENGTH_SHORT);
     }
 
     @Override
     public void authSuccess(String msg) {
         boolean isBackground = BackgroundUtils.isBackground(getBaseContext());
-        if (!isBackground){
+        if (!isBackground) {
             orderSubmit(pos);
         }
     }

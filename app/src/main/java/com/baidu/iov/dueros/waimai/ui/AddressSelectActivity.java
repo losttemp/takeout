@@ -83,6 +83,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         ArrayList<String> prefix = new ArrayList<>();
         prefix.add("选择");
         AccessibilityClient.getInstance().register(this, true, prefix, null);
+        mNoAddress.setVisibility(View.GONE);
         if (NetUtil.getNetWorkState(this)) {
             sendDestination();
             listLayout.setVisibility(View.VISIBLE);
