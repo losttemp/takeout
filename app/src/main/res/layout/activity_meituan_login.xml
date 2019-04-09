@@ -26,7 +26,8 @@
             android:id="@+id/meituan_login"
             android:layout_width="match_parent"
             android:layout_height="@dimen/px1594dp"
-            android:layout_marginTop="@dimen/px88dp" />
+            android:layout_marginTop="@dimen/px88dp"
+            android:layout_marginBottom="@dimen/px30dp" />
 
         <ImageView
             android:id="@+id/webview_back"
