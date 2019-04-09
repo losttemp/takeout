@@ -575,12 +575,13 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
-                                        Intent intent = new Intent();
-                                        intent.setClass(OrderDetailsActivity.this, FoodListActivity.class);
-                                        intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
-                                        intent.putExtra(Constant.STORE_ID, mStoreId);
-                                        intent.putExtra("flag", true);
-                                        startActivity(intent);
+                                        Intent intentFoodList = new Intent(OrderDetailsActivity.this, FoodListActivity.class);
+                                        intentFoodList.putExtra(Constant.STORE_ID, String.valueOf(mOrderDetails.getWm_poi_id()));
+                                        intentFoodList.putExtra(Constant.ORDER_LSIT_BEAN, mOrderDetails);
+                                        intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
+                                        intentFoodList.putExtra(Constant.TO_SHOW_SHOP_CART, true);
+                                        intentFoodList.putExtra("flag",true);
+                                        startActivity(intentFoodList);
                                         dialog.dismiss();
                                         finish();
                                     }
