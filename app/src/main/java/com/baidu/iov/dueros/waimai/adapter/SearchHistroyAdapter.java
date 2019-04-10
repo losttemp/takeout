@@ -31,17 +31,17 @@ public class SearchHistroyAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mHistorys.size();
+		return mHistorys == null ? 0 : mHistorys.size();
 	}
 
 	@Override
 	public String getItem(int position) {
-		return mHistorys.get(position);
+		return mHistorys == null ?null:mHistorys.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return position;
+		return mHistorys == null ? 0 :position;
 	}
 
 	@Override
