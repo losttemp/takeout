@@ -108,25 +108,44 @@
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp"
             app:removeDefaultPadding="true" />
-
-        <com.domain.multipltextview.MultiplTextView
-            android:id="@+id/user_info_tv"
+        <RelativeLayout
+            android:id="@+id/user_info_rl"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/px34dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/px84dp"
             android:layout_marginTop="@dimen/px34dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px36sp"
-            app:removeDefaultPadding="true" />
+            >
+            <TextView
+                android:id="@+id/user_info_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+                android:maxEms="9"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="@dimen/px36sp"
+                android:includeFontPadding="false" />
+            <TextView
+                android:id="@+id/user_info_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+                android:layout_toEndOf="@+id/user_info_tv"
+                android:layout_marginStart="@dimen/px20dp"
+                android:textSize="@dimen/px36sp"
+                android:includeFontPadding="false" />
+        </RelativeLayout>
+
 
         <com.domain.multipltextview.MultiplTextView
             android:id="@+id/recipient_address"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/px34dp"
-            android:layout_alignEnd="@+id/user_info_tv"
-            android:layout_below="@+id/user_info_tv"
+            android:layout_alignEnd="@+id/user_info_rl"
+            android:layout_below="@+id/user_info_rl"
             android:layout_marginBottom="@dimen/px40dp"
             android:layout_marginTop="@dimen/px26dp"
             android:alpha="0.6"

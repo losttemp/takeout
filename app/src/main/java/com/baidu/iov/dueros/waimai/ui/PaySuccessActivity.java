@@ -31,7 +31,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
     private ImageView mStorePhotoImg;
     private TextView mStoreNameTv;
     private TextView mProductInfoTv;
-    private TextView mUserInfoTv;
+    private TextView mUserInfoTv,mUserInfoPhone;
     private TextView mDeliveryAddressTv;
     private ImageView mFinishImg;
 
@@ -105,6 +105,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
             mStoreNameTv = findViewById(R.id.store_name_tv);
             mProductInfoTv = findViewById(R.id.product_info_tv);
             mUserInfoTv = findViewById(R.id.user_info_tv);
+            mUserInfoPhone = findViewById(R.id.user_info_phone);
             mDeliveryAddressTv = findViewById(R.id.recipient_address);
             Glide.with(this).load(picUrl).into(mStorePhotoImg);
             mStoreNameTv.setText(storeName);
@@ -117,7 +118,8 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            mUserInfoTv.setText(recipient_name + " " + recipientPhone);
+            mUserInfoTv.setText(recipient_name);
+            mUserInfoPhone.setText(recipientPhone);
             mDeliveryAddressTv.setText(recipientAddress);
 
         }
