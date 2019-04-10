@@ -164,6 +164,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mOrderListAdaper.setOnItemClickListener(new OrderListAdaper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean, boolean isNeedVoice) {
+                pos = position;
                 OrderListActivity.this.selectPosition = position;
                 OrderListActivity.this.isNeedVoice = isNeedVoice;
                 switch (view.getId()) {
@@ -195,7 +196,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         break;
                     case R.id.cancel_order:
                         //取消订单
-                        pos = position;
                         mOrderCancelReq = new OrderCancelReq(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                         String message;
                         int trade_status = -99;
@@ -511,6 +511,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 payintent.putExtra("shop_name", mOrderList.get(selectPosition).getOrder_name());
                 payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
                 payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
+                payintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(pos).getExtra());
                 payintent.putExtra("flag", true);
                 payintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                 payintent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);

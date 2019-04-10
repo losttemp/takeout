@@ -253,12 +253,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 true, prefix, null);
         GuidingAppear.INSTANCE.showtTips(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail(), Constant.TTS_CART_SHOP_DETAIL);
         Constant.ANIMATION_END = true;
-//        if (getIntent() != null) {
-//            boolean IsShowShopCart = getIntent().getBooleanExtra(Constant.TO_SHOW_SHOP_CART, false);
-//            if (IsShowShopCart) {
-//                showShopCartDialog();
-//            }
-//        }
+        if (getIntent() != null) {
+            boolean IsShowShopCart = getIntent().getBooleanExtra(Constant.TO_SHOW_SHOP_CART, false);
+            if (IsShowShopCart) {
+                showShopCartDialog();
+            }
+        }
     }
 
     private void initView() {

@@ -129,7 +129,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
                         @Override
                         public void onFinish() {
-
+                            final Object orderListExtraPayLoadStr = getIntent().getExtras().get(Constant.ORDER_LSIT_EXTRA_STRING);
                             mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
                             if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
 
@@ -143,6 +143,8 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                                                 Intent intent = new Intent();
                                                 intent.setClass(PaymentActivity.this, FoodListActivity.class);
                                                 intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
+                                                intent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, String.valueOf(orderListExtraPayLoadStr));
+                                                intent.putExtra(Constant.ONE_MORE_ORDER, true);
                                                 intent.putExtra(Constant.STORE_ID, mStoreId);
                                                 intent.putExtra("flag", true);
                                                 startActivity(intent);

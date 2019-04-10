@@ -162,6 +162,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
                 Intent intent = new Intent(this, OrderDetailsActivity.class);
                 intent.putExtra(Constant.ORDER_ID, mOrderId);
                 intent.putExtra(Constant.EXPECTED_TIME, mExpectedTime);
+                intent.putExtra("flag",true);
                 startActivity(intent);
                 finish();
                 break;

@@ -706,16 +706,15 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             return;
         }
 
-
         if (data.getMeituan().getCode() == 0) {
             ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancel_toast), Toast.LENGTH_SHORT);
-            mArrivalTime.setText("");
+            mArrivalTime.setVisibility(View.GONE);
             timerCancel();
             loadData();
         } else {
             String mMessage = getResources().getString(R.string.remind_message);
             SpannableString spanColor = new SpannableString(mMessage);
-            spanColor.setSpan(new ForegroundColorSpan(Color.parseColor("#10CBE5")), 5, 12, 0);
+            spanColor.setSpan(new ForegroundColorSpan(Color.parseColor("#10CBE5")), 5, 13, 0);
             ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
                     .setTitle(R.string.order_cancel)
                     .setSpannableMessage(spanColor)
