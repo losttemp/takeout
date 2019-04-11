@@ -35,13 +35,11 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setData(List<AddressListBean.IovBean.DataBean> data) {
         mData = data;
-        notifyDataSetChanged();
     }
 
     public void setHeaderView(View headerView) {
         mHeaderView = headerView;
         notifyItemInserted(1);
-
 //        notifyDataSetChanged();
     }
 

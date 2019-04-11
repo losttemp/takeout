@@ -55,7 +55,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private AddressListAdapter mAddressListAdapter;
-    private List<AddressListBean.IovBean.DataBean> mDataListBean;
+    private List<AddressListBean.IovBean.DataBean> mDataListBean = new ArrayList<>();
     public final static String ADDRESS_DATA = "address_data";
     private AddressListBean.IovBean.DataBean mAddressData, cacheData;
     private RelativeLayout viewById;
@@ -300,8 +300,9 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 
     @Override
     public void onGetAddressListSuccess(List<AddressListBean.IovBean.DataBean> data) {
+        mDataListBean.clear();
         if (data != null&&data.size()>0) {
-            this.mDataListBean = data;
+            mDataListBean.addAll(data);
             if (mDataListBean.get(0).getType().equals(mContext.getString(R.string.address_destination))) {
                 if (!cacheData.getType().equals(mContext.getString(R.string.address_destination))) {
                     mDataListBean.get(0).setCanShipping(0);
@@ -325,10 +326,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             }
             Collections.sort(mDataListBean);
             mAddressListAdapter.setData(mDataListBean);
-        } else {
-            mAddressListAdapter.setData(null);
-            Lg.getInstance().d(TAG, "not find data !");
         }
+        mAddressListAdapter.notifyDataSetChanged();
         mLoading.setVisibility(View.GONE);
         mNoNet.setVisibility(View.GONE);
         viewById.setVisibility(View.VISIBLE);
