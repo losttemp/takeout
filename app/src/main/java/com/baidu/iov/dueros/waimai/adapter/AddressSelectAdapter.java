@@ -121,7 +121,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            edit.setVisibility(View.VISIBLE);
             String type = dataBean.getType();
             if (TextUtils.isEmpty(type)) {
                 tvType.setBackgroundResource(R.drawable.tag_bg);
@@ -143,6 +143,7 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
                 VoiceTouchUtils.setVoicesTouchSupport(item_content, String.format(mContext.getString(R.string.send_to_destination), position + 1));
                 VoiceTouchUtils.setVoiceTouchTTSSupport(item_content, String.format(mContext.getString(R.string.harvest_address), detail));
                 tvType.setBackgroundResource(R.drawable.tag_bg_mudidi);
+                edit.setVisibility(View.GONE);
             }
             tvType.setText(!TextUtils.isEmpty(type) ? type : mContext.getString(R.string.address_tag_other));
             VoiceTouchUtils.setItemVoicesTouchSupport(edit, position, position == 0 ? R.array.address_edit_other : R.array.address_edit);

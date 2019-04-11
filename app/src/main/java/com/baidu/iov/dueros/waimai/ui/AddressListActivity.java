@@ -100,8 +100,8 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         //此处优先从Intent中取值; 如果直接从本地读取,getCanShipping可能获取的值不对
         Intent intent = getIntent();
         mAddressData = (AddressListBean.IovBean.DataBean) intent.getSerializableExtra(Constant.ADDRESS_DATA);
-        if (mAddressData == null&&cacheData!=null) {
-            mAddressData=cacheData;
+        if (mAddressData == null && cacheData != null) {
+            mAddressData = cacheData;
         }
         mNoNet = findViewById(R.id.no_net);
         mNoInternetButton = findViewById(R.id.no_internet_btn);
@@ -205,7 +205,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             if (mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
                 typeTv.setBackgroundResource(R.drawable.tag_bg_mudidi);
                 typeTv.setText(mAddressData.getType());
-                if (MyApplicationAddressBean.USER_PHONES.get(0) != null&&MyApplicationAddressBean.USER_NAMES.get(0) != null) {
+                if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
                     nameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0));
                     phoneTv.setText(MyApplicationAddressBean.USER_PHONES.get(0));
 //                    if (nameTv.getText().length() > 11) {
@@ -320,7 +320,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 
     @Override
     public void onGetAddressListSuccess(List<AddressListBean.IovBean.DataBean> data) {
-        if (data != null&&data.size()>0) {
+        if (data != null && data.size() > 0) {
 //            mDataListBean = data.getIov().getData();
             this.mDataListBean = data;
             setHeader();
@@ -364,20 +364,21 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 
     @Override
     public void selectListItem(int i) {
+        if (i > 0) {
+            i = i - 1;
+        }
         if (null != mDataListBean && mDataListBean.size() > i) {
-            if (i >= 1) {
-                AddressListBean.IovBean.DataBean addressData = mDataListBean.get(i - 1);
-                Intent data = new Intent();
-                data.putExtra(ADDRESS_DATA, addressData);
-                data.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, true);
-                SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
-                        ("_cache", AddressSelectActivity.MODE_PRIVATE);
-                String databeanStr = GsonUtil.toJson(addressData);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString(Constant.ADDRESS_DATA, databeanStr);
-                editor.commit();
-                setResult(RESULT_OK, data);
-            }
+            AddressListBean.IovBean.DataBean addressData = mDataListBean.get(i);
+            Intent data = new Intent();
+            data.putExtra(ADDRESS_DATA, addressData);
+            data.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, true);
+            SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
+                    ("_cache", AddressSelectActivity.MODE_PRIVATE);
+            String databeanStr = GsonUtil.toJson(addressData);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString(Constant.ADDRESS_DATA, databeanStr);
+            editor.commit();
+            setResult(RESULT_OK, data);
             finish();
         }
     }

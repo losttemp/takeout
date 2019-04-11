@@ -155,7 +155,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 type = getResources().getString(R.string.address_tag_other);
             }
             mTagListView.setTags(tags, type);
-            if (null != dataBean.getAddress_id()) {
+            if (null != dataBean.getAddress_id() && dataBean.getAddress_id() != 0) {
                 iv_del_button.setVisibility(View.VISIBLE);
             }
             try {
@@ -175,7 +175,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         } else {
             mLocationBean = intent.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
             address_title.setText(getResources().getString(R.string.add_address));
-            iv_del_button.setVisibility(View.INVISIBLE);
+            iv_del_button.setVisibility(View.GONE);
             address_tv.setText(mLocationBean.getName());
             mTagListView.setTags(tags, "");
             if (null != MyApplicationAddressBean.USER_NAMES && MyApplicationAddressBean.USER_NAMES.size() > 0) {
@@ -316,9 +316,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
-                        Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_DELETE, EventType.TOUCH_TYPE);
-                        initTTS = true;
-                        deleteAddressData();
+                        if (iv_del_button.getVisibility() == View.VISIBLE) {
+                            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_DELETE, EventType.TOUCH_TYPE);
+                            initTTS = true;
+                            deleteAddressData();
+                        }
                         break;
                     default:
                         break;
