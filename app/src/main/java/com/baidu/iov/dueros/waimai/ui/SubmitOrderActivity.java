@@ -118,6 +118,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private LinearLayout mNoNet;
     private Button mNoInternetButton;
     private String date_type_tip, date_time, view_time;
+    boolean clicked = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -380,11 +381,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY, EventType.TOUCH_TYPE);
                 if (mAddressData == null) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT);
-                }
-                if (mAddressData.getCanShipping() != 1) {
+                    break;
+                }else if (mAddressData.getCanShipping() != 1) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg9), Toast.LENGTH_SHORT);
+                    break;
                 }
                 else {
+
                     if (!isFastClick()) {
                         if (CacheUtils.getAuth()) {
                             orderSubmit();
@@ -404,34 +407,41 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     }
 
     private void orderSubmit() {
-        if (NetUtil.getNetWorkState(this)) {
-            if (mAddressData.getType().equals(getResources().getString(R.string.address_destination))){
-                switch (getIntent().getIntExtra(Constant.STATUS,1)){
-                    case SubmitOrderActivity.CAN_SHIPPING:
-                        if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
-                            List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
-                            wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
-                            mToPayTv.setEnabled(false);
-                            getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this,loadingView);
-                        }
-                        break;
-                    case SubmitOrderActivity.CANNOT_SHIPPING:
-                        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg9), Toast.LENGTH_SHORT);
-                        break;
-                    case SubmitOrderActivity.STOP_SHIPPING:
-                        ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg9), Toast.LENGTH_SHORT);
-                        break;
+        if (clicked){
+            if (NetUtil.getNetWorkState(this)) {
+                if (mAddressData.getType().equals(getResources().getString(R.string.address_destination))){
+                    switch (getIntent().getIntExtra(Constant.STATUS,1)){
+                        case SubmitOrderActivity.CAN_SHIPPING:
+                            if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
+                                clicked = false;
+                                List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
+                                wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
+                                mToPayTv.setEnabled(false);
+                                loadingView.setVisibility(View.VISIBLE);
+                                getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this,loadingView);
+                            }
+                            break;
+                        case SubmitOrderActivity.CANNOT_SHIPPING:
+                            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg9), Toast.LENGTH_SHORT);
+                            break;
+                        case SubmitOrderActivity.STOP_SHIPPING:
+                            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg9), Toast.LENGTH_SHORT);
+                            break;
+                    }
+                }else if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
+                    clicked = false;
+                    List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
+                    wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
+                    mToPayTv.setEnabled(false);
+                    loadingView.setVisibility(View.VISIBLE);
+                    getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this,loadingView);
                 }
-            }else if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
-                List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
-                wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
-                mToPayTv.setEnabled(false);
-                getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this,loadingView);
+            } else {
+                netDataReque();
+                ToastUtils.show(this, getResources().getString(R.string.net_unconnect), Toast.LENGTH_LONG);
             }
-        } else {
-            netDataReque();
-            ToastUtils.show(this, getResources().getString(R.string.net_unconnect), Toast.LENGTH_LONG);
         }
+
     }
 
 
@@ -836,7 +846,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mToPayTv.setEnabled(true);
 //        mParentsLayout.setVisibility(View.VISIBLE);
         mNoNet.setVisibility(View.GONE);
-//        loadingView.setVisibility(View.GONE);
+        loadingView.setVisibility(View.GONE);
         if (data != null) {
             mOrderSubmitData = data.getMeituan().getData();
             int submitCode = mOrderSubmitData.getCode();
