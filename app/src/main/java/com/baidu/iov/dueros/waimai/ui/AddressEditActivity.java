@@ -369,6 +369,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void updateAddressSuccess(AddressEditBean data, AddressEditReq addressEditreq) {
+        isDealWidthSaveRequest = false;
         if (data.getMeituan().getCode() == 0) {
             sendTTS(R.string.tts_save_address_success);
             showToast(R.string.address_update_success);
@@ -397,11 +398,13 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
     @Override
     public void updateAddressFail(String msg) {
+        isDealWidthSaveRequest = false;
         ToastUtils.show(this, getResources().getString(R.string.address_update_fail), Toast.LENGTH_SHORT);
     }
 
     @Override
     public void addAddressSuccess(AddressAddBean data) {
+        isDealWidthSaveRequest = false;
         if (isEditMode && !getString(R.string.address_destination).equals(dataBean.getType())) {
             if (data.getMeituan().getCode() == 0) {
                 if (data.getIov().getErrno() == 0) {
@@ -426,11 +429,11 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 ToastUtils.show(this, getString(R.string.address_save_fail), Toast.LENGTH_LONG);
             }
         }
-
     }
 
     @Override
     public void addAddressFail(String msg) {
+        isDealWidthSaveRequest = false;
         ToastUtils.show(this, getString(R.string.address_save_fail), Toast.LENGTH_LONG);
     }
 
