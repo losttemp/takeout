@@ -610,10 +610,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                             StandardCmdClient.getInstance().playTTS(SubmitOrderActivity.this,
                                     String.format(getString(R.string.commodity_address), address));
                         }
-                        String name = Encryption.desEncrypt(mAddressData.getUser_name()) + " "
-                                + Encryption.desEncrypt(mAddressData.getUser_phone());
+                        String name = Encryption.desEncrypt(mAddressData.getUser_name());
+                        String phone = Encryption.desEncrypt(mAddressData.getUser_phone());
                         mAddressTv.setText(address);
                         mUserNameTv.setText(name);
+                        mUserPhoneTv.setText(phone);
 
                         Intent intent = new Intent(Constant.PULL_LOCATION);
                         intent.setPackage(BuildConfig.APPLICATION_ID);

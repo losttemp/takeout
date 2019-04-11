@@ -104,15 +104,9 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ((ViewHolder) holder).img_edit.setVisibility(View.VISIBLE);
                 String address = Encryption.desEncrypt(mData.get(realPosition).getAddress());
                 ((ViewHolder) holder).tv_address.setText(address);
-//                if (address.length() > 18) {
-//                    ((ViewHolder) holder).tv_address.setWidth((int) mContext.getResources().getDimension(R.dimen.px550dp));
-//                }
                 String address_type = mData.get(realPosition).getType();
                 String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
                 String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
-//                if (name.length() > 10) {
-//                    name= name.substring(0,10)+"...";
-//                }
                 ((ViewHolder) holder).tv_name.setText(name);
                 ((ViewHolder) holder).tv_phone.setText(phone);
                 if (mContext.getString(R.string.address_destination).equals(address_type)) {

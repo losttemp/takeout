@@ -132,28 +132,12 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                         intent.putExtra(Constant.ADDRESS_SELECT_ID, mAddressData.getAddress_id());
                         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-
                         break;
 
                     default:
                         Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_ADDRESS_VOICE, EventType.VOICE_TYPE);
                         Entry.getInstance().onEvent(Constant.ORDERSUBMIT_CHANGE_ADDRESS, EventType.TOUCH_TYPE);
                         AddressListBean.IovBean.DataBean addressData = mDataListBean.get(position);
-
-//                        SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
-//                                ("_cache", AddressSelectActivity.MODE_PRIVATE);
-//                        String databeanStr = GsonUtil.toJson(addressData);
-//                        SharedPreferences.Editor editor = sp.edit();
-//                        editor.putString(Constant.ADDRESS_DATA, databeanStr);
-//                        editor.commit();
-//                        try {
-//                            String address = Encryption.desEncrypt(addressData.getAddress());
-//                            CacheUtils.saveAddress(address);
-//                            HomeActivity.address = address;
-//                            sendBroadcastAPP();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
                         if (addressData.getType().equals(mContext.getString(R.string.address_destination)) &&
                                 addressData.getCanShipping() != 1) {
                             ToastUtils.show(getApplicationContext(), getResources().getString(R.string.order_submit_msg10), Toast.LENGTH_LONG);
@@ -191,34 +175,29 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             }
 
             addressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
-            String nameInfo = Encryption.desEncrypt(mAddressData.getUser_name());
-            String phoneInfo = Encryption.desEncrypt(mAddressData.getUser_phone());
-            nameTv.setText(nameInfo);
-            phoneTv.setText(phoneInfo);
             if (addressTv.getText().length() > 18) {
                 addressTv.setWidth((int) getResources().getDimension(R.dimen.px400dp));
             }
-//            if (nameTv.getText().length() > 11) {
-//                nameTv.setWidth((int) getResources().getDimension(R.dimen.px400dp));
-//            }
-
+            String nameInfo="";
+            String phoneInfo="";
+            if (!TextUtils.isEmpty(mAddressData.getUser_name())){
+                nameInfo = Encryption.desEncrypt(mAddressData.getUser_name());
+            }
+            if (!TextUtils.isEmpty(mAddressData.getUser_phone())){
+                phoneInfo = Encryption.desEncrypt(mAddressData.getUser_phone());
+            }
             if (mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
                 typeTv.setBackgroundResource(R.drawable.tag_bg_mudidi);
                 typeTv.setText(mAddressData.getType());
-                if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
-                    nameTv.setText(MyApplicationAddressBean.USER_NAMES.get(0));
-                    phoneTv.setText(MyApplicationAddressBean.USER_PHONES.get(0));
-//                    if (nameTv.getText().length() > 11) {
-//                        nameTv.setWidth((int) getResources().getDimension(R.dimen.px300dp));
-//                    }
-                }
-            } else {
-//                String userInfo = Encryption.desEncrypt(mAddressData.getUser_name()) + " " + Encryption.desEncrypt(mAddressData.getUser_phone());
-//                nameTv.setText(nameInfo);
-//                phoneTv.setText(phoneInfo);
-//                if (nameTv.getText().length() > 14) {
-//                    nameTv.setWidth((int) getResources().getDimension(R.dimen.px300dp));
+                nameTv.setText(nameInfo);
+                phoneTv.setText(phoneInfo);
+//                if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
 //                }
+            }  else {
+                nameInfo = Encryption.desEncrypt(mAddressData.getUser_name());
+                phoneInfo = Encryption.desEncrypt(mAddressData.getUser_phone());
+                nameTv.setText(nameInfo);
+                phoneTv.setText(phoneInfo);
                 if (getString(R.string.address_home).equals(mAddressData.getType())) {
                     typeTv.setBackgroundResource(R.drawable.tag_bg_green);
                     typeTv.setText(mAddressData.getType());
@@ -255,6 +234,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 getPresenter().requestData(wmPoiId);
                 sendUpdataBroadcast();
             }
+            setHeader();
         } else {
             mNoNet.setVisibility(View.VISIBLE);
             viewById.setVisibility(View.GONE);
@@ -320,10 +300,13 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
 
     @Override
     public void onGetAddressListSuccess(List<AddressListBean.IovBean.DataBean> data) {
-        if (data != null && data.size() > 0) {
-//            mDataListBean = data.getIov().getData();
+        if (data != null&&data.size()>0) {
             this.mDataListBean = data;
-            setHeader();
+            if (mDataListBean.get(0).getType().equals(mContext.getString(R.string.address_destination))) {
+                if (!cacheData.getType().equals(mContext.getString(R.string.address_destination))) {
+                    mDataListBean.get(0).setCanShipping(0);
+                }
+            }
             for (int i = 0; i < mDataListBean.size(); i++) {
                 if (mDataListBean.get(i).getMt_address_id() != null && mAddressData.getMt_address_id() != null) {
                     if (mDataListBean.get(i).getMt_address_id().equals(mAddressData.getMt_address_id())) {
@@ -341,13 +324,9 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 }
             }
             Collections.sort(mDataListBean);
-            if (mDataListBean.get(0).getType().equals(mContext.getString(R.string.address_destination))) {
-                if (!cacheData.getType().equals(mContext.getString(R.string.address_destination))) {
-                    mDataListBean.get(0).setCanShipping(0);
-                }
-            }
             mAddressListAdapter.setData(mDataListBean);
         } else {
+            mAddressListAdapter.setData(null);
             Lg.getInstance().d(TAG, "not find data !");
         }
         mLoading.setVisibility(View.GONE);
