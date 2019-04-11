@@ -16,14 +16,13 @@ import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
-import android.webkit.ValueCallback;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.view.KeyEvent;
@@ -58,6 +57,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private View login_bg, loadingView, act_back;
     private String oldBudss = null;//记录budss 与上次不同则跳转到地址界面
 
+    private FrameLayout WV_foreground;
+
     @Override
     MeituanAuthPresenter createPresenter() {
         return new MeituanAuthPresenter();
@@ -83,12 +84,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         loadingView = findViewById(R.id.loading_view);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mWVMeituan = (WebView) findViewById(R.id.meituan_login);
-
-        mWVMeituan.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
-        mWVMeituan.setWebViewClient(webViewClient);
-        mWVMeituan.setWebChromeClient(webChromeClient);
-        mWVMeituan.setHorizontalScrollBarEnabled(false);
-        mWVMeituan.setVerticalScrollBarEnabled(false);
+        WV_foreground = findViewById(R.id.WV_foreground);
 
         WebSettings webSettings = mWVMeituan.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -106,6 +102,12 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
+
+        mWVMeituan.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
+        mWVMeituan.setWebViewClient(webViewClient);
+        mWVMeituan.setWebChromeClient(webChromeClient);
+        mWVMeituan.setHorizontalScrollBarEnabled(false);
+        mWVMeituan.setVerticalScrollBarEnabled(false);
 
         networkView = findViewById(R.id.network_view);
         networkView.setBackground(getResources().getDrawable(R.drawable.app_bg));
@@ -146,35 +148,70 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         mMeituanAuthReq.setBduss(CacheUtils.getBduss());
     }
 
+    /**
+     * 注入js隐藏部分div元素，多个操作用多个js去做才能生效
+     */
+    private void hideHtmlContent(WebView view) {
+        //隐藏元素
+        String javascript = "javascript:function hideOther() {" +
+                "var headers = document.getElementsByClassName('download');" +
+                "for(var i = 0; i < headers.length; i++) {" +
+                "headers[i].style.display = 'none';" +
+                "}" + "}";
+        view.loadUrl(javascript);
+        view.loadUrl("javascript:hideOther();");
+    }
+
+    private void hideAgreement(WebView view) {
+        //隐藏元素
+        String javascript = "javascript:function hideAgreement() {" +
+                "var aEls = document.getElementsByTagName('a');" +
+                "for(var i = 0; i < aEls.length; i++) {" +
+                "if (aEls[i].innerText === '查看美团协议与说明') {" +
+                "aEls[i].style.display = 'none';" +
+                "}" + "}" + "}";
+        view.loadUrl(javascript);
+        view.loadUrl("javascript:hideAgreement();");
+    }
+
+
     private WebViewClient webViewClient = new WebViewClient() {
         @Override
         public void onPageFinished(WebView view, String url) {
-            if (url.startsWith("https://h5.waimai.meituan.com/login?back_url")) {
-                isFinish = true;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    String JS_SCRIPT = "var script = document.createElement('script');" +
-                            "script.src = 'https://iov-www.cdn.bcebos.com/waimai/index.js';" +
-                            "document.head.appendChild(script);";
-                    view.evaluateJavascript("javascript:" + JS_SCRIPT, new ValueCallback<String>() {
-                        @Override
-                        public void onReceiveValue(String value) {
-                        }
-                    });
-                }
-            } else {
-                isFinish = false;
+            hideHtmlContent(view);
+            if (url.contains("https://openapi.waimai.meituan.com/oauth") ||
+                    url.contains("https://h5.waimai.meituan.com/authorize")) {
+                hideAgreement(view);
             }
+
+            isFinish=true;
             view.loadUrl("javascript:window.java_obj.showSource("
                     + "document.getElementsByTagName('html')[0].innerHTML);");
             view.loadUrl("javascript:window.java_obj.showDescription("
                     + "document.querySelector('meta[name=\"share-description\"]').getAttribute('content')"
                     + ");");
+            progressBar.setVisibility(View.GONE);
+
             super.onPageFinished(view, url);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    WV_foreground.setVisibility(View.GONE);
+                    isFinish = false;
+                }
+            }, 1000);
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             progressBar.setVisibility(View.VISIBLE);
+            if (url.contains("i.waimai.meituan.com/node/account/agreement")||
+                    url.contains("i.waimai.meituan.com/c/rules")) {
+                WV_foreground.setVisibility(View.VISIBLE);
+            } else {
+                WV_foreground.setVisibility(View.GONE);
+            }
         }
 
         @Override
@@ -332,7 +369,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
@@ -344,9 +380,11 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             mWVMeituan.loadUrl("about:blank");
             mWVMeituan.clearHistory();
             ((ViewGroup) mWVMeituan.getParent()).removeView(mWVMeituan);
+            mWVMeituan.removeAllViews();
             mWVMeituan.destroy();
             mWVMeituan = null;
         }
+        super.onDestroy();
     }
 
     @Override

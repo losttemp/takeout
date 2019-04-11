@@ -29,6 +29,14 @@
             android:layout_marginTop="@dimen/px88dp"
             android:layout_marginBottom="@dimen/px30dp" />
 
+        <FrameLayout
+            android:id="@+id/WV_foreground"
+            android:visibility="visible"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+
         <ImageView
             android:id="@+id/webview_back"
             android:layout_width="@dimen/px48dp"
@@ -38,6 +46,8 @@
             android:foreground="@drawable/fg_ripple"
             android:src="@drawable/webview_back" />
     </FrameLayout>
+
+
 
     <ProgressBar
         android:id="@+id/progressbar"
