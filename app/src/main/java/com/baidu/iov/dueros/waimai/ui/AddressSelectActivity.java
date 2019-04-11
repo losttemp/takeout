@@ -116,7 +116,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 loadingView.setVisibility(View.VISIBLE);
                 getPresenter().requestData(new AddressListReqBean());
             }
-        }, isDelay ? 500 : 0);
+        }, isDelay ? 1000 : 0);
     }
 
     private void initListener() {
