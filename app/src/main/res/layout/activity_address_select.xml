@@ -101,7 +101,10 @@
         android:gravity="center_horizontal"
         android:visibility="gone">
 
-        <include layout="@layout/dialog_loading_toast" />
+        <include layout="@layout/dialog_loading_toast"
+            android:layout_width="@dimen/px500dp"
+            android:layout_height="@dimen/px140dp"
+            android:layout_gravity="center"/>
     </FrameLayout>
 
 </RelativeLayout>

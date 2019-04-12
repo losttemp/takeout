@@ -240,7 +240,6 @@
         layout="@layout/dialog_loading_toast"
         android:layout_width="@dimen/px500dp"
         android:layout_height="@dimen/px140dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="@dimen/px148dp"
+        android:layout_gravity="center"
         android:visibility="visible" />
 </FrameLayout>
