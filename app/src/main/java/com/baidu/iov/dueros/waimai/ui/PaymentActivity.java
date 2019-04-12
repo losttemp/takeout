@@ -107,7 +107,9 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             String shopName = intent.getStringExtra(Constant.SHOP_NAME);
             String payUrl = intent.getStringExtra(Constant.PAY_URL);
             boolean isNeedVoice = intent.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
-
+            if (isNeedVoice){
+                StandardCmdClient.getInstance().playTTS(PaymentActivity.this, getString(R.string.tts_topay_text));
+            }
             mOrderDetailsReq = new OrderDetailsReq();
             mOrderDetailsReq.setId(mOrderId);
             ApiUtils.getOrderDetails(mOrderDetailsReq, new ApiCallBack<OrderDetailsResponse>() {

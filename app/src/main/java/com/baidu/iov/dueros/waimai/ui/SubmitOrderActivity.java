@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -118,7 +119,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private LinearLayout mNoNet;
     private Button mNoInternetButton;
     private String date_type_tip, date_time, view_time;
-    boolean clicked = true;
+    boolean clicked;
+    private boolean isNeedVoice = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,11 +224,37 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         VoiceTouchUtils.setVoicesTouchSupport(mAddressUpdateLayout, R.array.update_address);
         VoiceTouchUtils.setVoiceTouchTTSSupport(mAddressUpdateLayout, mContext.getString(R.string.tts_add_new_address));
 
-        VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
-        VoiceTouchUtils.setVoiceTouchTTSSupport(mToPayTv, mContext.getString(R.string.tts_topay_text));
+        mToPayTv.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+            @Override
+            public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                switch (action) {
+                    case AccessibilityNodeInfo.ACTION_CLICK:
+                        isNeedVoice = true;
+                        intentToPay();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
 
         netDataReque();
 
+    }
+
+    private void intentToPay() {
+        if (mAddressData == null) {
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT);
+        } else if (mAddressData.getCanShipping() != 1) {
+            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
+        } else {
+            if (CacheUtils.getAuth()) {
+                orderSubmit();
+            } else {
+                getPresenter().requestAuthInfo();
+            }
+        }
     }
 
     private void netDataReque() {
@@ -345,6 +373,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     @Override
     protected void onResume() {
         super.onResume();
+        clicked = true;
         ArrayList<String> prefix = new ArrayList<>();
         prefix.add("选择");
         AccessibilityClient.getInstance().register(this, true, prefix, null);
@@ -379,14 +408,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             case R.id.to_pay:
                 Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY, EventType.TOUCH_TYPE);
+                isNeedVoice = false;
                 if (mAddressData == null) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT);
-                    break;
                 }else if (mAddressData.getCanShipping() != 1) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg9), Toast.LENGTH_SHORT);
-                    break;
-                }
-                else {
+                }else {
 
                     if (!isFastClick()) {
                         if (CacheUtils.getAuth()) {
