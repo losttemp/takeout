@@ -1,14 +1,20 @@
 package com.baidu.iov.dueros.waimai.ui;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -28,6 +34,8 @@ import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.RollTextView;
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -73,6 +81,9 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     private ArrayList<String> suggest = null;
     private AddressHintListAdapter sugAdapter;
 
+    private LocationManager mlocationManager;
+    private int scanSpan = 1000;//请求定位间隔时间直到请求成功
+
     @Override
     AddressSuggestionPresenter createPresenter() {
         return new AddressSuggestionPresenter();
@@ -92,6 +103,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         initData();
         initPoiInfo();
         initListener();
+        requestCity();
     }
 
     private void initView() {
@@ -111,24 +123,15 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
 
     private void initData() {
         tv_title.setText(getResources().getString(R.string.address_title_search));
-        mCity = getIntent().getStringExtra(Constant.ADDRESS_EDIT_INTENT_EXTRE_CITY);
         isEditModle = getIntent().getBooleanExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, true);
-        mCityTV.setText(mCity);
-        if (mCity.length() > 2) {
-            mCityTV.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-            mCityTV.setSingleLine(true);
-            mCityTV.setMarqueeRepeatLimit(-1);
-        }
-        if (mCity.equals(Constant.GET_CITY_ERROR)) {
-            iv_arrow.setVisibility(View.GONE);
-            iv_refresh.setVisibility(View.VISIBLE);
-        } else {
-            iv_arrow.setVisibility(View.VISIBLE);
-            iv_refresh.setVisibility(View.GONE);
-        }
         mAllSuggestions = new ArrayList<>();
         mAdapter = new AddressSuggestionAdapter(mAllSuggestions);
         mRecyclerView.setAdapter(mAdapter);
+
+        mCity = getString(R.string.city_loading);
+        mCityTV.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        mCityTV.setSingleLine(true);
+        mCityTV.setMarqueeRepeatLimit(-1);
     }
 
     private void initListener() {
@@ -164,7 +167,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     @Override
     protected void onResume() {
         super.onResume();
-        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getSearch_result(),Constant.TTS_ADDRESS_SEARCH_RESULT);
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getAddress().getSearch_result(), Constant.TTS_ADDRESS_SEARCH_RESULT);
     }
 
     private void initPoiInfo() {
@@ -255,6 +258,17 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     public void onTextChanged(CharSequence cs, int start, int before, int count) {
         if (cs.length() > 0) {
             closeView.setVisibility(View.VISIBLE);
+            if (TextUtils.isEmpty(cs.toString().trim())) {
+                ToastUtils.show(mContext, getResources().getString(R.string.poi_search_hint_text), Toast.LENGTH_SHORT);
+                return;
+            }
+            if (TextUtils.isEmpty(mCity) ||
+                    getResources().getString(R.string.city_error).equals(mCity) ||
+                    getResources().getString(R.string.city_no_permission).equals(mCity) ||
+                    getResources().getString(R.string.city_loading).equals(mCity)) {
+                ToastUtils.show(mContext, getResources().getString(R.string.poi_select_hint_text), Toast.LENGTH_SHORT);
+                return;
+            }
             mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
                     .keyword(cs.toString())
                     .city(mCity));
@@ -274,6 +288,11 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mlocationManager != null) {
+            mlocationManager.stopLocation();
+            mlocationManager = null;
+        }
+        mLocationListener = null;
         if (poiSearch != null) {
             poiSearch.destroy();
         }
@@ -283,9 +302,19 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.address_back:
-                finish();
+                hideSoftKeyboard();
+                //防止键盘没有收回闪白
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                },200);
                 break;
             case R.id.address_search_city_layout:
+                if (mlocationManager != null) {
+                    mlocationManager.stopLocation();
+                }
                 Intent intent = new Intent(AddressSuggestionActivity.this, CityPickerActivity.class);
                 startActivityForResult(intent, Constant.CITY_REQUEST_CODE_CHOOSE);
                 break;
@@ -370,4 +399,80 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         citySearch(mCity, suggest.get(position));
     }
+
+    private void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context
+                .INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+    }
+
+    //判断定位权限,权限没开给个提示
+    public void requestCity() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Lg.getInstance().e("LocationManager", "AndPermission true");
+            getLocationCity();
+        } else {
+            mCityTV.setText(mContext.getString(R.string.city_no_permission));
+            mCityTV.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            mCityTV.setSingleLine(true);
+            mCityTV.setMarqueeRepeatLimit(-1);
+            Constant.CITY = "city";
+        }
+    }
+
+    private void getLocationCity() {
+        if (mlocationManager == null) {
+            mlocationManager = LocationManager.getInstance(getApplicationContext());
+            mlocationManager.getLcation(null, null, scanSpan, true);
+            mlocationManager.setLocationListener(mLocationListener);
+        }
+        mlocationManager.startLocation();
+    }
+
+    private BDAbstractLocationListener mLocationListener = new BDAbstractLocationListener() {
+        @Override
+        public void onReceiveLocation(BDLocation bdLocation) {
+            if (bdLocation == null) {
+                ToastUtils.show(mContext, "定位失败", Toast.LENGTH_SHORT);
+                return;
+            }
+            int requestCode = bdLocation.getLocType();
+            Lg.getInstance().d(TAG, "LocType:" + requestCode);
+            switch (requestCode) {
+                case LocationManager.TypeGpsLocation:
+                case LocationManager.TypeOffLineLocation:
+                case LocationManager.TypeNetWorkLocation:
+                    Constant.LONGITUDE = (int) (bdLocation.getLongitude() * LocationManager.SPAN);
+                    Constant.LATITUDE = (int) (bdLocation.getLatitude() * LocationManager.SPAN);
+                    Lg.getInstance().d(TAG, "LocationListener success");
+                    Lg.getInstance().d(TAG, "LocationListener success" + " ; bdLocation.getCity() = " + bdLocation.getCity());
+                    String city = String.valueOf(bdLocation.getCity());
+                    if ("null".equalsIgnoreCase(city)) {
+                        city = mContext.getString(R.string.city_error);
+                    }
+                    Constant.CITY = city;
+                    mCity = city;
+                    mCityTV.setText(city);
+                    double span = LocationManager.SPAN + 0.5f;
+                    location = new LatLng(Constant.LATITUDE / span, Constant.LONGITUDE / span);
+                    if (mlocationManager != null && !"null".equalsIgnoreCase(String.valueOf(bdLocation.getCity()))) {
+                        mlocationManager.stopLocation();
+                        mlocationManager = null;
+                    }
+                    break;
+                default:
+                    Lg.getInstance().d(TAG, "LocationListener error" + " : mlocationManager:" + mlocationManager);
+                    if (mlocationManager != null) {
+                        mlocationManager.requestLocation();
+                    }
+                    mCityTV.setText(mContext.getString(R.string.city_error));
+                    iv_arrow.setVisibility(View.GONE);
+                    iv_refresh.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
+    };
 }

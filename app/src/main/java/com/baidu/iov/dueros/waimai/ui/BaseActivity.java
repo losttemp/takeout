@@ -224,32 +224,9 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     }
 
     protected void doSearchAddress(final boolean isEditModle) {
-        final Intent intent = new Intent(this, AddressSuggestionActivity.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                intent.putExtra(Constant.ADDRESS_EDIT_INTENT_EXTRE_CITY, Constant.GET_CITY_ERROR);
-                intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, isEditModle);
-                startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
-                return;
-            }
-        }
-        initLocationCity();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mBDLocation != null) {
-                    intent.putExtra(Constant.ADDRESS_EDIT_INTENT_EXTRE_CITY, mBDLocation.getCity());
-                    intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, isEditModle);
-                    startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
-                } else {
-                    ToastUtils.show(mContext, getApplicationContext().getResources().getString(R.string.location_error_toast), Toast.LENGTH_SHORT);
-                    LocationManager.getInstance(mContext).requestLocation();
-                }
-            }
-        }, 500);
+        Intent intent = new Intent(mContext, AddressSuggestionActivity.class);
+        intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, isEditModle);
+        startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
     }
 
     public void getGPSAddressSuccess() {}
