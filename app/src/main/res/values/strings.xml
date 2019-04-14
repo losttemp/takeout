@@ -363,5 +363,5 @@
     <string name="logout_failed">退出登录失败</string>
     <string name="city_no_permission">暂无定位权限</string>
     <string name="tts_look_order_list">好的，现在可以查看你的外卖订单了</string>
-
+    <string name="can_not_buy_more">已达到最大限购数量</string>
 </resources>

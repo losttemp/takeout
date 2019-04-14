@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.text.NumberFormat;
@@ -71,14 +73,14 @@ public class ShoppingCartAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        convertView.setContentDescription(String.format(context.getString(R.string.cancel_position),String.valueOf(position+1)));
-        convertView.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+        convertView.setContentDescription(String.format(context.getString(R.string.cancel_position), String.valueOf(position + 1)));
+        convertView.setAccessibilityDelegate(new View.AccessibilityDelegate() {
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
-                StandardCmdClient.getInstance().playTTS(context,context.getString(R.string.already_cancel)+spusBeans.get(position).getName());
+                StandardCmdClient.getInstance().playTTS(context, context.getString(R.string.already_cancel) + spusBeans.get(position).getName());
                 spusBeans.get(position).setNumber(0);
                 if (shopToDetailListener != null && spusBeans.size() > 0) {
-                    shopToDetailListener.onRemovePriduct(spusBeans.get(position),spusBeans.get(position).getTag(),
+                    shopToDetailListener.onRemovePriduct(spusBeans.get(position), spusBeans.get(position).getTag(),
                             spusBeans.get(position).getSection(), false);
                 }
                 return true;
@@ -153,23 +155,27 @@ public class ShoppingCartAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int num = spusBeans.get(position).getNumber();
-                num ++;
-                spusBeans.get(position).setNumber(num);
-                viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
-                if (shopToDetailListener != null) {
-                    shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag(),
-                            spusBeans.get(position).getSection(), true, false);
+                if (num >= 99) {
+                    ToastUtils.show(context, context.getString(R.string.can_not_buy_more), Toast.LENGTH_SHORT);
                 } else {
+                    num++;
+                    spusBeans.get(position).setNumber(num);
+                    viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
+                    if (shopToDetailListener != null) {
+                        shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag(),
+                                spusBeans.get(position).getSection(), true, false);
+                    }
                 }
             }
         });
 
         viewHolder.reduce.setOnClickListener(new View.OnClickListener() {
-            int num=0;
-            int minOrderCount =0 ;
+            int num = 0;
+            int minOrderCount = 0;
+
             @Override
             public void onClick(View v) {
-                if (spusBeans.size()>0){
+                if (spusBeans.size() > 0) {
                     num = spusBeans.get(position).getNumber();
                     minOrderCount = getMinOrderCount(spusBeans.get(position));
                 }
@@ -181,7 +187,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                         Constant.MIN_COUNT = true;
                     } else {
                         num--;
-                        isMinOrderCount =false;
+                        isMinOrderCount = false;
                         Constant.MIN_COUNT = false;
                     }
                     spusBeans.get(position).setNumber(num);
@@ -192,7 +198,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                     } else {
                     }
                     if (num == 0) {
-                        shopToDetailListener.onRemovePriduct(spusBeans.get(position),spusBeans.get(position).getTag(),
+                        shopToDetailListener.onRemovePriduct(spusBeans.get(position), spusBeans.get(position).getTag(),
                                 spusBeans.get(position).getSection(), false);
                     }
                 }

@@ -13,7 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -161,6 +163,17 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         mSearchEdit.setOnItemClickListener(this);
         mSuggestionSearch = SuggestionSearch.newInstance();
         mSuggestionSearch.setOnGetSuggestionResultListener(this);
+        mSearchEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    //如果actionId是搜索的id，则进行下一步的操作
+                    hideSoftKeyboard(mSearchEdit);
+                    citySearch(mCity, mSearchEdit.getText().toString().trim());
+                }
+                return false;
+            }
+        });
     }
 
 
@@ -210,6 +223,9 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                         mRecyclerView.setVisibility(View.GONE);
                     }
                     mAdapter.notifyDataSetChanged();
+                } else {
+                    mErrorLL.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
                 }
             }
 
@@ -235,7 +251,10 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
             ToastUtils.show(mContext, getResources().getString(R.string.poi_search_hint_text), Toast.LENGTH_SHORT);
             return;
         }
-        if (getResources().getString(R.string.city_error).equals(city)) {
+        if (TextUtils.isEmpty(city) ||
+                getResources().getString(R.string.city_error).equals(city) ||
+                getResources().getString(R.string.city_no_permission).equals(city) ||
+                getResources().getString(R.string.city_loading).equals(city)) {
             ToastUtils.show(mContext, getResources().getString(R.string.poi_select_hint_text), Toast.LENGTH_SHORT);
             return;
         }
@@ -309,7 +328,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                     public void run() {
                         finish();
                     }
-                },200);
+                }, 200);
                 break;
             case R.id.address_search_city_layout:
                 if (mlocationManager != null) {

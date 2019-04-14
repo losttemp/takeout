@@ -23,7 +23,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -62,7 +64,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     private static final int REQUEST_CODE_ACCESS_COARSE_LOCATION = 400;
     protected Context mContext;
 
-    private  boolean isStartPermissions =false;
+    private boolean isStartPermissions = false;
 
     private String targetPath = "com.baidu.bodyguard.ui.activity.MainActivity";
     private String targetPackage = "com.baidu.bodyguard";
@@ -86,7 +88,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     protected void onResume() {
         super.onResume();
         getPresenter().registerCmd(this);
-        if (isStartPermissions){
+        if (isStartPermissions) {
             requestPermission();
         }
     }
@@ -152,7 +154,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             showPermissionDialog();
         } else {
-            isStartPermissions=false;
+            isStartPermissions = false;
             initLocationCity();
         }
     }
@@ -229,9 +231,11 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         startActivityForResult(intent, Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE);
     }
 
-    public void getGPSAddressSuccess() {}
+    public void getGPSAddressSuccess() {
+    }
 
-    public void getGPSAddressFail() {}
+    public void getGPSAddressFail() {
+    }
 
     public BroadcastReceiver exitReceiver = new BroadcastReceiver() {
         @Override
@@ -239,4 +243,10 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
             BaseActivity.this.finish();
         }
     };
+
+    //隐藏键盘
+    protected void hideSoftKeyboard(EditText editText) {
+        InputMethodManager inputManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
 }
