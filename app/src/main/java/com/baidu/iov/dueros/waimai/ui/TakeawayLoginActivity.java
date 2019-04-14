@@ -90,7 +90,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setDomStorageEnabled(true);
-        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webSettings.setSupportZoom(true);
         webSettings.setBuiltInZoomControls(true);
         webSettings.setAppCacheEnabled(false);
@@ -176,6 +176,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
 
     private WebViewClient webViewClient = new WebViewClient() {
+        private boolean isLoginPage=false;
+        private boolean isFirstOpenAuth=true;
         @Override
         public void onPageFinished(WebView view, String url) {
             hideHtmlContent(view);
@@ -194,22 +196,45 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
             super.onPageFinished(view, url);
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    WV_foreground.setVisibility(View.GONE);
-                    isFinish = false;
-                }
-            }, 1000);
+            int delayMillis;
+            if(isLoginPage){
+                delayMillis=3000;
+            }else{
+                delayMillis=1000;
+            }
+
+            if(isFirstOpenAuth){
+                WV_foreground.setVisibility(View.VISIBLE);
+            }else{
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        WV_foreground.setVisibility(View.GONE);
+                        isFinish = false;
+                    }
+                }, delayMillis);
+            }
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            Lg.getInstance().e(TAG, "onPageStarted " + url);
+
+            if(url.contains("h5.waimai.meituan.com/login?back_url")){
+                isLoginPage=true;
+                isFirstOpenAuth=false;
+            }else{
+                isLoginPage=false;
+            }
+
             progressBar.setVisibility(View.VISIBLE);
-            if (url.contains("i.waimai.meituan.com/node/account/agreement")||
-                    url.contains("i.waimai.meituan.com/c/rules")) {
+            if (url.contains("i.waimai.meituan.com/node/account/agreement") ||
+                    url.contains("i.waimai.meituan.com/c/rules")||
+                    url.contains("h5.waimai.meituan.com/login?back_url")||
+                    url.contains("openapi.waimai.meituan.com/oauth")||
+                    url.contains("h5.waimai.meituan.com/authorize")) {
                 WV_foreground.setVisibility(View.VISIBLE);
-            } else {
+            } else{
                 WV_foreground.setVisibility(View.GONE);
             }
         }
