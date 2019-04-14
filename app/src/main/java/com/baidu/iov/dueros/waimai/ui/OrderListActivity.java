@@ -164,6 +164,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mOrderListAdaper.setOnItemClickListener(new OrderListAdaper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean, boolean isNeedVoice) {
+                if (!allowClick()) return;
                 pos = position;
                 OrderListActivity.this.selectPosition = position;
                 OrderListActivity.this.isNeedVoice = isNeedVoice;
@@ -253,6 +254,16 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 }
             }
         });
+    }
+
+    private long clickTime;
+
+    public boolean allowClick() {
+        if (System.currentTimeMillis() - clickTime > 2000) {
+            clickTime = System.currentTimeMillis();
+            return true;
+        }
+        return false;
     }
 
     private void orderSubmit(int position) {

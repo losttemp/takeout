@@ -242,6 +242,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         cache = null;
         unregisterReceiver(mInnerReceiver);
         selectFoods.clear();
+        //失去焦点时，需要隐藏购物车
+        if (mBottomDialog != null) {
+            mBottomDialog.dismiss();
+            mBottomDialog = null;
+        }
     }
 
     @Override
