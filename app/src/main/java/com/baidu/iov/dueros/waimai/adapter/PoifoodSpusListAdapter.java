@@ -498,8 +498,12 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         increase.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                increaseOnClick(spusBean, viewHolder, section, true, shoppingNum);
-                                shoppingNum.setText(spusBean.getNumber() + "");
+                                if (spusBean.getNumber() >= 99) {
+                                    ToastUtils.show(context, context.getString(R.string.can_not_buy_more), Toast.LENGTH_SHORT);
+                                } else {
+                                    increaseOnClick(spusBean, viewHolder, section, true, shoppingNum);
+                                    shoppingNum.setText(spusBean.getNumber() + "");
+                                }
                             }
                         });
                         reduce.setOnClickListener(new View.OnClickListener() {
@@ -807,9 +811,13 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 increase.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        inProductList(finalSpusBean);
-                        increaseOnClick(finalSpusBean, viewHolder, section, true, shoppingNum);
-                        shoppingNum.setText(finalSpusBean.getNumber() + "");
+                        if (finalSpusBean.getNumber() >= 99) {
+                            ToastUtils.show(context, context.getString(R.string.can_not_buy_more), Toast.LENGTH_SHORT);
+                        } else {
+                            inProductList(finalSpusBean);
+                            increaseOnClick(finalSpusBean, viewHolder, section, true, shoppingNum);
+                            shoppingNum.setText(finalSpusBean.getNumber() + "");
+                        }
                         setSpecificationNumber(finalSpusBean, viewHolder);
                     }
                 });
@@ -941,37 +949,40 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                             min_order_count + context.getString(R.string.share_buy), Toast.LENGTH_SHORT);
                 }
                 int num = spusBean.getNumber();
-
-                if (alreadyToast) {
-                    num++;
+                if (num >= 99) {
+                    ToastUtils.show(context, context.getString(R.string.can_not_buy_more), Toast.LENGTH_SHORT);
                 } else {
-                    if (min_order_count > 1) {
-                        num += min_order_count;
-                    } else {
+                    if (alreadyToast) {
                         num++;
-                    }
-                }
-                spusBean.setNumber(num);
-                viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
-                if (num > 0) {
-                    viewHolder.discountPrice.setVisibility(View.GONE);
-                }
-                if (callBackListener != null) {
-                    callBackListener.updateProduct(spusBean, spusBean.getTag(), true, true);
-                } else {
-                }
-                if (mHolderClickListener != null) {
-                    int[] start_location = new int[2];
-                    if (detailShopNum != null) {
-                        detailShopNum.getLocationInWindow(start_location);
                     } else {
-                        viewHolder.shoppingNum.getLocationInWindow(start_location);
+                        if (min_order_count > 1) {
+                            num += min_order_count;
+                        } else {
+                            num++;
+                        }
                     }
-                    Drawable drawable = context.getResources().getDrawable(R.drawable.adddetail);
-                    mHolderClickListener.onHolderClick(drawable, start_location);
-                }
-                if (foodSpuTagsBeans != null && foodSpuTagsBeans.size() > 0 && context.getString(R.string.heat_text).equals(foodSpuTagsBeans.get(0).getName())) {
-                    FoodListActivity.selectFoods.put(spusBean.getId(), spusBean);
+                    spusBean.setNumber(num);
+                    viewHolder.shoppingNum.setText(spusBean.getNumber() + "");
+                    if (num > 0) {
+                        viewHolder.discountPrice.setVisibility(View.GONE);
+                    }
+                    if (callBackListener != null) {
+                        callBackListener.updateProduct(spusBean, spusBean.getTag(), true, true);
+                    } else {
+                    }
+                    if (mHolderClickListener != null) {
+                        int[] start_location = new int[2];
+                        if (detailShopNum != null) {
+                            detailShopNum.getLocationInWindow(start_location);
+                        } else {
+                            viewHolder.shoppingNum.getLocationInWindow(start_location);
+                        }
+                        Drawable drawable = context.getResources().getDrawable(R.drawable.adddetail);
+                        mHolderClickListener.onHolderClick(drawable, start_location);
+                    }
+                    if (foodSpuTagsBeans != null && foodSpuTagsBeans.size() > 0 && context.getString(R.string.heat_text).equals(foodSpuTagsBeans.get(0).getName())) {
+                        FoodListActivity.selectFoods.put(spusBean.getId(), spusBean);
+                    }
                 }
             }
 
