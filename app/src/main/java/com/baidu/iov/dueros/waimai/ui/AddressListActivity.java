@@ -38,6 +38,7 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
+import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
@@ -110,6 +111,9 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         mAddBtn = findViewById(R.id.img_add);
         mCancelImg.setOnClickListener(this);
         mAddBtn.setOnClickListener(this);
+        VoiceTouchUtils.setVoicesTouchSupport(mAddBtn, mContext.getString(R.string.add_address_text));
+        VoiceTouchUtils.setVoiceTouchTTSSupport(mAddBtn, mContext.getString(R.string.tts_add_new_address));
+
         mNoInternetButton.setOnClickListener(this);
 
         mRecyclerView = findViewById(R.id.address_list);

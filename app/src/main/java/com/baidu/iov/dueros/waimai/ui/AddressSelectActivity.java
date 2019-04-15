@@ -53,6 +53,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private Button addressAddBtn;
     private int startApp;
     private View listLayout;
+    private View add_no_address;
 
     @Override
     AddressSelectPresenter createPresenter() {
@@ -163,6 +164,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
 
         VoiceTouchUtils.setVoicesTouchSupport(addressAddBtn, mContext.getString(R.string.add_address_text));
         VoiceTouchUtils.setVoiceTouchTTSSupport(addressAddBtn, mContext.getString(R.string.tts_add_new_address));
+        VoiceTouchUtils.setVoicesTouchSupport(add_no_address, mContext.getString(R.string.add_address_text));
+        VoiceTouchUtils.setVoiceTouchTTSSupport(add_no_address, mContext.getString(R.string.tts_add_new_address));
     }
 
     private void startEditActivity(AddressListBean.IovBean.DataBean dataBean) {
@@ -179,7 +182,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layout);
         findViewById(R.id.address_back).setOnClickListener(this);
-        findViewById(R.id.add_no_address).setOnClickListener(this);
+        add_no_address = findViewById(R.id.add_no_address);
+        add_no_address.setOnClickListener(this);
         addBtnView = findViewById(R.id.address_select_btn_layout);
         listLayout = findViewById(R.id.list_layout);
         networkView = findViewById(R.id.network_view);
