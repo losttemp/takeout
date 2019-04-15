@@ -173,7 +173,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mAddressUpdateLayout.setOnClickListener(this);
         mNoInternetButton.setOnClickListener(this);
 
-        netDataReque();
+
 
         if (mProductList != null && mPoiInfo != null) {
 
@@ -232,7 +232,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 return true;
             }
         });
-
+        netDataReque();
     }
 
     private void intentToPay() {
@@ -402,14 +402,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 } else if (mAddressData.getCanShipping() != 1) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg9), Toast.LENGTH_SHORT);
                 } else {
-
-                    if (!isFastClick()) {
-                        if (CacheUtils.getAuth()) {
-                            orderSubmit();
-                        } else {
-                            getPresenter().requestAuthInfo();
-                        }
-
+                    if (CacheUtils.getAuth()) {
+                        orderSubmit();
+                    } else {
+                        getPresenter().requestAuthInfo();
                     }
                 }
                 break;
@@ -894,6 +890,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             } else if (submitCode == Constant.SUBMIT_ORDER_FAIL) {
                 ToastUtils.show(this, getString(R.string.order_submit_error), Toast.LENGTH_SHORT);
             } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
+                clicked = true;
                 ToastUtils.show(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
             }
         }
