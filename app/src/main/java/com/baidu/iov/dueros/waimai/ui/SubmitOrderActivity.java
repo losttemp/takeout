@@ -841,6 +841,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     @Override
     public void onFailure(String msg) {
         mToPayTv.setEnabled(true);
+        clicked = true;
         loadingView.setVisibility(View.GONE);
         if (!NetUtil.getNetWorkState(this)) {
             mParentsLayout.setVisibility(View.GONE);
@@ -862,6 +863,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     @Override
     public void onOrderSubmitSuccess(OrderSubmitBean data) {
         mToPayTv.setEnabled(true);
+        clicked = true;
         VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
         mNoNet.setVisibility(View.GONE);
         loadingView.setVisibility(View.GONE);
