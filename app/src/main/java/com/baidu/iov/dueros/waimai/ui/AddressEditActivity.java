@@ -566,7 +566,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 mAddrEditReq.setLatitude(latitude);
                 mAddrEditReq.setLongitude(longitude);
 
-                if (null != dataBean.getAddress_id()) {
+                if (null != dataBean.getAddress_id() && dataBean.getAddress_id() != 0) {
                     mAddrEditReq.setAddress_id(dataBean.getAddress_id());
                     if (null != dataBean.getMt_address_id()) {
                         mAddrEditReq.setMt_address_id(dataBean.getMt_address_id());
