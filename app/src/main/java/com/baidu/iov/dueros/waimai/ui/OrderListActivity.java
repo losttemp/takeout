@@ -370,7 +370,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     public void update(OrderListResponse data) {
         mRefreshLayout.setEnableLoadmore(true);
         mRefreshLayout.setEnableRefresh(true);
-
+        loadingView.setVisibility(View.GONE);
         if (mRefreshLayout.isRefreshing()) {
             mOrderList.clear();
             mRefreshLayout.finishRefresh();
@@ -416,6 +416,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void failure(String msg) {
+        loadingView.setVisibility(View.GONE);
         if (mRefreshLayout.isRefreshing()) {
             mRefreshLayout.finishRefresh(false);
         }
