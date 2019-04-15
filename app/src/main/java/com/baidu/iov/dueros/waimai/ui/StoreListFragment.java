@@ -458,7 +458,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				}
 			}
 			mRlTipNoResult.setVisibility(View.VISIBLE);
-			mRefreshLayout.setVisibility(View.GONE);
+			mRefreshLayout.setVisibility(View.INVISIBLE);
 		} else {
 			mView.setVisibility(View.VISIBLE);
 			mRlTipNoResult.setVisibility(View.GONE);
