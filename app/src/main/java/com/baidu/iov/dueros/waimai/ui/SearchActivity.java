@@ -226,9 +226,10 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			public void onItemAccessibilityDelegate(int position) {
 				Entry.getInstance().onEvent(Constant.EVENT_HISTORY_ITEM_CLICK,EventType.TOUCH_TYPE);
 				GuidingAppear.INSTANCE.showtTips(SearchActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getSearch().getResult(),Constant.TTS_SEARCH_RESULT);
+				clearFocus();
 				searchKeyword(mHistorys.get(position));
-			}
-		});
+	}
+});
 
 		mLvSuggest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -312,6 +313,13 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 	}
 
+	private void clearFocus(){
+		View currentFocus = SearchActivity.this.getCurrentFocus();
+		if (currentFocus != null) {
+			currentFocus.clearFocus();
+		}
+	}
+
 
 
 	@Override
@@ -326,10 +334,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				break;
 
 			case R.id.iv_clean:
-				View currentFocus = this.getCurrentFocus();
-				if (currentFocus != null) {
-					currentFocus.clearFocus();
-				}
+				clearFocus();
 				mEtSearch.setText("");
 				mEtSearch.setHint("");
 				break;
