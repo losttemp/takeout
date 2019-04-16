@@ -139,6 +139,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mProductList = (List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean>) intent.getSerializableExtra(PRODUCT_LIST_BEAN);
             mPoiInfo = (PoifoodListBean.MeituanBean.DataBean.PoiInfoBean) intent.getSerializableExtra(POI_INFO);
         }
+        if(mPoiInfo!=null){
+            getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
+            if (mProductList!=null){
+                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData, SubmitOrderActivity.this);
+            }
+        }
         initView();
     }
 
