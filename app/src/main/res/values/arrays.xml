@@ -18,6 +18,7 @@
     <string-array name="look_order_details">
         <item>查看第%d个</item>
         <item>看下第%d个</item>
+        <item>看一下第%d个</item>
     </string-array>
 
     <string-array name="close_order">
