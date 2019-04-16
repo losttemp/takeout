@@ -140,10 +140,15 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
-        AccessibilityClient.getInstance().unregister(this);
-
+     AccessibilityClient.getInstance().unregister(this);
+       Lg.getInstance().e(TAG, "onPause:");
     }
 
     private void iniView() {
