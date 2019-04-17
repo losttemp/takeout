@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/px500dp"
     android:layout_height="@dimen/px140dp"
-    android:background="#48515D"
+    android:background="@drawable/shape_dialog_toast_bg"
     android:layout_gravity="center"
     android:gravity="center">
 
