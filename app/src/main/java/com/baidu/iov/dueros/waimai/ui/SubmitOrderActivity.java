@@ -845,6 +845,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mToPayTv.setEnabled(true);
         clicked = true;
         loadingView.setVisibility(View.GONE);
+        mNoNet.setVisibility(View.VISIBLE);
         if (!NetUtil.getNetWorkState(this)) {
             mParentsLayout.setVisibility(View.GONE);
             mNoNet.setVisibility(View.VISIBLE);

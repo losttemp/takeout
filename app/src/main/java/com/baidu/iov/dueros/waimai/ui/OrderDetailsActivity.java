@@ -555,9 +555,14 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             if(mOrderDetails.getOut_trade_status() ==IOV_STATUS_CANCELED){
                 mTimerTv.setText(R.string.pay_cancel);
             }else {
-                long orderTime = (long) mOrderDetails.getOrder_time() * 1000L;
-                mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
-                    @Override
+//                long expireTime = (long)data.getIov().getExpire_time();
+//                long sysTime = (long)data.getIov().getSystime();
+//                mTimer = new CountDownTimer(expireTime - sysTime, 1000) {
+
+                    long orderTime = (long)data.getMeituan().getData().getOrder_time() * 1000L;
+                    mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
+
+                        @Override
                     public void onTick(long millisUntilFinished) {
                         mArrivalTime.setText(String.format(getResources().getString(R.string.count_down_timer), formatCountDownTime(millisUntilFinished)));
                     }

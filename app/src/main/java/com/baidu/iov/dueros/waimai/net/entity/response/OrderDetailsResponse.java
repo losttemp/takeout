@@ -657,6 +657,42 @@ public class OrderDetailsResponse {
         private int errno;
         private String errmsg;
         private List<?> data;
+        private long order_id;
+        private long expire_time;
+        private long order_time;
+        private long systime;
+
+        public long getOrder_id() {
+            return order_id;
+        }
+
+        public void setOrder_id(long order_id) {
+            this.order_id = order_id;
+        }
+
+        public long getExpire_time() {
+            return expire_time;
+        }
+
+        public void setExpire_time(long expire_time) {
+            this.expire_time = expire_time;
+        }
+
+        public long getOrder_time() {
+            return order_time;
+        }
+
+        public void setOrder_time(long order_time) {
+            this.order_time = order_time;
+        }
+
+        public long getSystime() {
+            return systime;
+        }
+
+        public void setSystime(long systime) {
+            this.systime = systime;
+        }
 
         public int getErrno() {
             return errno;
