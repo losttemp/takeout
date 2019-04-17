@@ -936,7 +936,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             if (sum > 0) {
                 if (sum < mPoidetailinfoBean.getMeituan().getData().getMin_price()) {
                     double v = min_price - sum;
-                    java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
+                    java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.00");
                     String str = myformat.format(v);
                     settlement.setText(String.format(getString(R.string.not_distribution), NumberFormat.getInstance().format(Double.parseDouble(str))));
                     settlement.setBackgroundResource(R.drawable.btn_grey);
@@ -949,7 +949,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 if (mCartSettlement != null) {
                     if (sum < min_price) {
                         double v = min_price - sum;
-                        java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.0");
+                        java.text.DecimalFormat myformat = new java.text.DecimalFormat("0.00");
                         String str = myformat.format(v);
                         mCartSettlement.setText(String.format(getString(R.string.not_distribution), NumberFormat.getInstance().format(Double.parseDouble(str))));
                         mCartSettlement.setBackgroundResource(R.drawable.btn_grey);
@@ -1460,7 +1460,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     for (OrderListExtraBean.OrderInfos.Food_list spusFood : spusFoodList) {
                         long spuId = spusFood.getSpu_id();
                         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
-                            if (spusBean.getStatus() == 1 || spusBean.getStatus() == 2) {
+                            if (spusBean.getId() == spuId && (spusBean.getStatus() == 1 || spusBean.getStatus() == 2)) {
                                 ToastUtils.show(mContext, spusBean.getName() + getString(R.string.sold_out), Toast.LENGTH_SHORT);
                             } else if (spusBean.getId() == spuId) {
                                 spusBean.setNumber(spusBean.getNumber() + spusFood.getCount());
