@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/address_dialog_bg"
+    android:background="@drawable/shape_gradient_spus_detail_bg"
     tools:context="com.baidu.iov.dueros.waimai.ui.AddressListActivity">
 
     <RelativeLayout
