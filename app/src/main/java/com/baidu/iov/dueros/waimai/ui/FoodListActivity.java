@@ -1015,6 +1015,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 mBottomDialog.dismiss();
                 if (NetUtil.getNetWorkState(FoodListActivity.this)) {
                     if (!isFastClick()) {
+                        mLoading.setVisibility(View.VISIBLE);
                         getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
                     }
                 } else {
@@ -1084,6 +1085,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 }
                 if (NetUtil.getNetWorkState(this)) {
                     if (!isFastClick()) {
+                        mLoading.setVisibility(View.VISIBLE);
                         getPresenter().requestOrderPreview(productList, mPoiInfoBean, 0);
                     }
                 } else {
@@ -1362,6 +1364,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.service_error), Toast.LENGTH_SHORT);
                 break;
         }
+        mLoading.setVisibility(View.GONE);
     }
 
     @Override
