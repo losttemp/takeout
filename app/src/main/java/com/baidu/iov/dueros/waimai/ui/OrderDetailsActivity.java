@@ -415,7 +415,9 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         switch (v.getId()) {
             case R.id.back:
                 Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY, EventType.TOUCH_TYPE);
-                if (getIntent().getBooleanExtra("flag",false)){
+                if (null != getIntent().getStringExtra("extra") && !getIntent().getStringExtra("extra").equals("")){
+                    finish();
+                }else if (getIntent().getBooleanExtra("flag",false)){
                     finish();
                 }else {
                     AtyContainer.getInstance().finishAllActivity();
