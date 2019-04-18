@@ -29,10 +29,6 @@
             app:removeDefaultPadding="true" />
 
     </RelativeLayout>
-    <include
-        android:id="@+id/no_net"
-        layout="@layout/warn_no_internet"
-        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/order_submit_rl"
@@ -423,7 +419,10 @@
         </LinearLayout>
 
     </RelativeLayout>
-
+    <include
+        android:id="@+id/no_net"
+        layout="@layout/warn_no_internet"
+        android:visibility="gone" />
     <include
         android:id="@+id/submit_order_loading"
         layout="@layout/dialog_loading_toast"

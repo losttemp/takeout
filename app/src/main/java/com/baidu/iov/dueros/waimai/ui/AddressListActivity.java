@@ -240,6 +240,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             }
             setHeader();
         } else {
+            mLoading.setVisibility(View.GONE);
             mNoNet.setVisibility(View.VISIBLE);
             viewById.setVisibility(View.GONE);
         }

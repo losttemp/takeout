@@ -7,11 +7,24 @@
     android:background="@drawable/shape_gradient_spus_detail_bg"
     tools:context="com.baidu.iov.dueros.waimai.ui.AddressListActivity">
 
+    <include
+        android:id="@+id/ll_loading"
+        layout="@layout/dialog_loading_toast"
+        android:layout_width="@dimen/px500dp"
+        android:layout_height="@dimen/px140dp"
+        android:layout_gravity="center"
+        android:visibility="visible" />
+
+    <include
+        android:id="@+id/no_net"
+        layout="@layout/warn_no_internet"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:id="@+id/rv_activity_address_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        android:visibility="gone"
         >
         <RelativeLayout
             android:id="@+id/address_title"
@@ -84,17 +97,5 @@
             android:background="@drawable/btn_2" />
     </RelativeLayout>
 
-    <include
-        android:id="@+id/no_net"
-        layout="@layout/warn_no_internet"
-        android:visibility="gone" />
-
-    <include
-        android:id="@+id/ll_loading"
-        layout="@layout/dialog_loading_toast"
-        android:layout_width="@dimen/px500dp"
-        android:layout_height="@dimen/px140dp"
-        android:layout_gravity="center"
-        android:visibility="visible" />
 
 </FrameLayout>
