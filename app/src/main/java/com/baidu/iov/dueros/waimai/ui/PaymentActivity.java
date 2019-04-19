@@ -154,7 +154,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                                                 intent.putExtra(Constant.STORE_ID, mStoreId);
                                                 intent.putExtra("flag", true);
                                                 startActivity(intent);
-                                                dialog.dismiss();
                                                 finish();
                                             }
                                         })
@@ -166,19 +165,11 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                                                 intent.putExtra(Constant.STORE_ID, mStoreId);
                                                 intent.putExtra("flag", true);
                                                 startActivity(intent);
-                                                dialog.dismiss();
                                                 finish();
-                                            }
-                                        })
-                                        .setCloseButton(new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
                                             }
                                         })
                                         .create();
                                 dialog.setCanceledOnTouchOutside(false);
-//                dialog.setCancelable(false);
                                 dialog.show();
                             }
                         }
