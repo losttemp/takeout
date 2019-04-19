@@ -127,8 +127,12 @@ public class AccountManager {
         @Override
         public void receiveResponseAccountLogout(ExAccountData exAccountData) {
             Lg.getInstance().d(TAG, "receiveResponseAccountLogout : " + exAccountData);
+            if (callback != null) {
+                callback.onAccountFailed(Constant.ACCOUNT_LOGIN_FAIL);
+            }
             CacheUtils.saveBduss("");
-            callback.onAccountFailed(Constant.ACCOUNT_LOGIN_FAIL);
+            CacheUtils.saveAddrTime(0);
+            AtyContainer.getInstance().finishAllActivity();
         }
     };
 

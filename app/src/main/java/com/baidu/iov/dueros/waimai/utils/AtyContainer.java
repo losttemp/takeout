@@ -10,7 +10,8 @@ public class AtyContainer {
     }
 
     private static AtyContainer instance = new AtyContainer();
-    private static List<Activity> activityStack = new ArrayList<Activity>();
+    private List<Activity> activityStack = new ArrayList<>();
+    private boolean init = false;
 
     public static AtyContainer getInstance() {
         return instance;
@@ -21,15 +22,20 @@ public class AtyContainer {
     }
 
     public void removeActivity(Activity aty) {
-        activityStack.remove(aty);
+        if (!init && activityStack.size() > 0 && activityStack.contains(aty)) {
+            activityStack.remove(aty);
+        }
     }
 
     public void finishAllActivity() {
-        for (int i = 0, size = activityStack.size(); i < size; i++) {
-            if (null != activityStack.get(i)) {
-                activityStack.get(i).finish();
+        init = true;
+        if (activityStack != null) {
+            for (int i = 0, size = activityStack.size(); i < size; i++) {
+                if (null != activityStack.get(i)) {
+                    activityStack.get(i).finish();
+                }
             }
+            activityStack.clear();
         }
-        activityStack.clear();
     }
 }
