@@ -29,14 +29,28 @@
 
     </RelativeLayout>
 
-    <me.yokeyword.indexablerv.IndexableLayout
-        android:id="@+id/indexableLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:indexBar_layout_width="40dp"
-        app:indexBar_selectedTextColor="@color/address_select_type_color"
-        app:indexBar_textColor="@color/gray1"
-        app:indexBar_textSize="@dimen/px32sp"
-        app:indexBar_textSpace="@dimen/px20sp" />
+        android:layout_height="match_parent">
+
+        <me.yokeyword.indexablerv.IndexableLayout
+            android:id="@+id/indexableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:indexBar_layout_width="40dp"
+            app:indexBar_selectedTextColor="@color/address_select_type_color"
+            app:indexBar_textColor="@color/gray1"
+            app:indexBar_textSize="@dimen/px32sp"
+            app:indexBar_textSpace="@dimen/px20sp" />
+
+        <com.baidu.iov.dueros.waimai.view.LetterListView
+            android:id="@+id/letter_listView"
+            android:layout_width="@dimen/px138dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/px200dp"
+            android:layout_marginBottom="@dimen/px40dp" />
+
+    </RelativeLayout>
 
 </LinearLayout>
