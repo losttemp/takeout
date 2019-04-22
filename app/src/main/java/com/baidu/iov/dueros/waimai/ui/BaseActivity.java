@@ -96,6 +96,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     @Override
     protected void onPause() {
         super.onPause();
+
         getPresenter().unregisterCmd(this);
         GuidingAppear.INSTANCE.exit(mContext);
         StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
@@ -168,6 +169,9 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         Button btn_sure = layout.findViewById(R.id.to_setting);
         Button btn_cancel = layout.findViewById(R.id.i_know);
         dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setType(2026);
+        }
         dialog.show();
         if (dialog.getWindow() != null) {
             Window window = dialog.getWindow();
