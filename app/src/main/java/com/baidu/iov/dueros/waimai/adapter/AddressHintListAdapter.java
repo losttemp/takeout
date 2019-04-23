@@ -27,7 +27,7 @@ public class AddressHintListAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public int getCount() {
-        return strings == null ? 0 : strings.size();
+        return strings == null ? 0 : (strings.size() > 2 ? 2 : strings.size());
     }
 
     @Override
@@ -50,9 +50,10 @@ public class AddressHintListAdapter extends BaseAdapter implements Filterable {
             vh = (ViewHolder) convertView.getTag();
         }
         vh.textView.setText(strings.get(position));
-        if (position==strings.size()-1){
+        //只有2个item
+        if (position == 1) {
             vh.split_view.setVisibility(View.GONE);
-        }else{
+        } else {
             vh.split_view.setVisibility(View.VISIBLE);
         }
         return convertView;

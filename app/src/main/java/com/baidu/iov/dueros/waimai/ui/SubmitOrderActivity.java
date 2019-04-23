@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.Gravity;
@@ -892,7 +893,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                finish();
+                //延迟1S关闭，解决透底的问题
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                },1000);
             } else if (submitCode == Constant.SERVICE_ERROR) {
                 ToastUtils.show(this, getString(R.string.service_error), Toast.LENGTH_SHORT);
                 finish();

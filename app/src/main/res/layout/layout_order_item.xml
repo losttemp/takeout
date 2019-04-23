@@ -79,7 +79,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/px30dp"
+                android:layout_marginTop="@dimen/px20dp"
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatTextView
