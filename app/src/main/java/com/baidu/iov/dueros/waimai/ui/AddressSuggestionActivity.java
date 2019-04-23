@@ -19,6 +19,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -62,9 +63,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPresenter, AddressSuggestionPresenter.AddressSuggestionUi>
-        implements TextWatcher, View.OnClickListener, AddressSuggestionPresenter.AddressSuggestionUi, OnGetSuggestionResultListener, AdapterView.OnItemClickListener {
+        implements TextWatcher, View.OnClickListener, AddressSuggestionPresenter.AddressSuggestionUi {
     private RecyclerView mRecyclerView;
-    private AutoCompleteTextView mSearchEdit;
+    private EditText mSearchEdit;
     private AddressSuggestionAdapter mAdapter;
     private List<PoiInfo> mAllSuggestions;
     private RollTextView mCityTV;
@@ -79,9 +80,6 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     private RelativeLayout selectCityView;
     private PoiSearch poiSearch;
     private LatLng location;
-    private SuggestionSearch mSuggestionSearch = null;
-    private ArrayList<String> suggest = null;
-    private AddressHintListAdapter sugAdapter;
 
     private LocationManager mlocationManager;
     private int scanSpan = 1000;//请求定位间隔时间直到请求成功
@@ -100,7 +98,6 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_search);
-        suggest = new ArrayList<>();
         initView();
         initData();
         initPoiInfo();
@@ -114,7 +111,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
         iv_arrow = (ImageView) findViewById(R.id.arrow);
         iv_refresh = (ImageView) findViewById(R.id.refresh);
         mRecyclerView = (RecyclerView) findViewById(R.id.address_search_rv);
-        mSearchEdit = (AutoCompleteTextView) findViewById(R.id.address_search_edit);
+        mSearchEdit = (EditText) findViewById(R.id.address_search_edit);
         closeView = (ImageView) findViewById(R.id.suggestion_close);
         mCityTV = (RollTextView) findViewById(R.id.address_search_city);
         mErrorLL = (LinearLayout) findViewById(R.id.address_search_error);
@@ -156,24 +153,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                 finish();
             }
         });
-        sugAdapter = new AddressHintListAdapter(this, suggest);
-        mSearchEdit.setThreshold(1);
-        mSearchEdit.setAdapter(sugAdapter);
         mSearchEdit.addTextChangedListener(this);
-        mSearchEdit.setOnItemClickListener(this);
-        mSuggestionSearch = SuggestionSearch.newInstance();
-        mSuggestionSearch.setOnGetSuggestionResultListener(this);
-        mSearchEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //如果actionId是搜索的id，则进行下一步的操作
-                    hideSoftKeyboard(mSearchEdit);
-                    citySearch(mCity, mSearchEdit.getText().toString().trim());
-                }
-                return false;
-            }
-        });
     }
 
 
@@ -217,7 +197,9 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                         });
                         mErrorLL.setVisibility(View.GONE);
                         mRecyclerView.setVisibility(View.VISIBLE);
-                        mAllSuggestions.addAll(poiAddrInfoList);
+                        if (!TextUtils.isEmpty(mSearchEdit.getText().toString())){
+                            mAllSuggestions.addAll(poiAddrInfoList);
+                        }
                     } else {
                         mErrorLL.setVisibility(View.VISIBLE);
                         mRecyclerView.setVisibility(View.GONE);
@@ -281,16 +263,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                 ToastUtils.show(mContext, getResources().getString(R.string.poi_search_hint_text), Toast.LENGTH_SHORT);
                 return;
             }
-            if (TextUtils.isEmpty(mCity) ||
-                    getResources().getString(R.string.city_error).equals(mCity) ||
-                    getResources().getString(R.string.city_no_permission).equals(mCity) ||
-                    getResources().getString(R.string.city_loading).equals(mCity)) {
-                ToastUtils.show(mContext, getResources().getString(R.string.poi_select_hint_text), Toast.LENGTH_SHORT);
-                return;
-            }
-            mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
-                    .keyword(cs.toString())
-                    .city(mCity));
+            citySearch(mCity, mSearchEdit.getText().toString().trim());
         } else {
             mAllSuggestions.clear();
             mAdapter.notifyDataSetChanged();
@@ -387,36 +360,6 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
             }
             finish();
         }
-    }
-
-    @Override
-    public void onGetSuggestionResult(SuggestionResult res) {
-        if (res == null || res.getAllSuggestions() == null) {
-            mErrorLL.setVisibility(View.VISIBLE);
-            return;
-        }
-
-        List<String> s = new ArrayList<>();
-        for (SuggestionResult.SuggestionInfo info : res.getAllSuggestions()) {
-            if (info.key != null) {
-                s.add(info.key);
-            }
-        }
-        suggest.clear();
-        suggest.addAll(s);
-        sugAdapter = new AddressHintListAdapter(this, suggest);
-        mSearchEdit.setAdapter(sugAdapter);
-        sugAdapter.notifyDataSetChanged();
-        if (suggest.size() > 0) {
-            mErrorLL.setVisibility(View.GONE);
-        } else {
-            mErrorLL.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        citySearch(mCity, suggest.get(position));
     }
 
     private void hideSoftKeyboard() {
