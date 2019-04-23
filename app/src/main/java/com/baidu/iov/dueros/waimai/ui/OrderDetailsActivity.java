@@ -606,12 +606,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                                             finish();
                                         }
                                     })
-                                    .setCloseButton(new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    })
                                     .create();
                             dialog.setCanceledOnTouchOutside(false);
                             if (isForeground(OrderDetailsActivity.this)
