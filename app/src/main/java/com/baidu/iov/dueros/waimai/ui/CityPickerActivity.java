@@ -1,18 +1,24 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -28,6 +34,7 @@ import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
+import com.baidu.iov.dueros.waimai.view.LetterListView;
 import com.baidu.iov.dueros.waimai.view.QGridView;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.location.BDAbstractLocationListener;
@@ -38,7 +45,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import me.yokeyword.indexablerv.IndexableAdapter;
 import me.yokeyword.indexablerv.IndexableHeaderAdapter;
@@ -58,6 +67,10 @@ public class CityPickerActivity extends AppCompatActivity {
     private LocationManager mlocationManager;
     private String mlocation;
     private String city;
+    private TextView mOverlay;
+    private LetterListView mLetterListView;
+    private WindowManager mWindowManager;
+    private HashMap<String, Integer> mAlpha;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,9 +79,11 @@ public class CityPickerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_city_picker);
         city = getString(R.string.city_loading);
         requestPermission();
+        mAlpha = new HashMap<>();
         initview();
         initAdapter();
         onlisten();
+        initOverlay();
     }
 
     public void initAdapter() {
@@ -78,10 +93,37 @@ public class CityPickerActivity extends AppCompatActivity {
         indexableLayout.setOverlayStyle_Center();
         mAdapter.setDatas(cityListBean.getAll());
         indexableLayout.setCompareMode(IndexableLayout.MODE_FAST);
+        indexableLayout.setIndexBarVisibility(false);
         List<String> bannerList = new ArrayList<>();
         bannerList.add("");
         mBannerHeaderAdapter = new BannerHeaderAdapter("", null, bannerList);
         indexableLayout.addHeaderAdapter(mBannerHeaderAdapter);
+
+        mLetterListView = findViewById(R.id.letter_listView);
+        mLetterListView.setOnTouchingLetterChangedListener(mLetterlister);
+        //第三方库 下标计算有点问题，因为城市界面是本地的json 所以下标固定
+        mAlpha.put("A", 1);
+        mAlpha.put("B", 9);
+        mAlpha.put("C", 30);
+        mAlpha.put("D", 51);
+        mAlpha.put("E", 76);
+        mAlpha.put("F", 81);
+        mAlpha.put("G", 93);
+        mAlpha.put("H", 108);
+        mAlpha.put("J", 145);
+        mAlpha.put("K", 178);
+        mAlpha.put("L", 188);
+        mAlpha.put("M", 227);
+        mAlpha.put("N", 237);
+        mAlpha.put("P", 252);
+        mAlpha.put("Q", 264);
+        mAlpha.put("R", 283);
+        mAlpha.put("S", 287);
+        mAlpha.put("T", 322);
+        mAlpha.put("W", 345);
+        mAlpha.put("X", 367);
+        mAlpha.put("Y", 391);
+        mAlpha.put("Z", 425);
     }
 
     private void getLocationCity() {
@@ -115,6 +157,41 @@ public class CityPickerActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initOverlay() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        mOverlay = (TextView) inflater.inflate(R.layout.overlay, null);
+        mOverlay.setVisibility(View.INVISIBLE);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                PixelFormat.TRANSLUCENT);
+        mWindowManager = (WindowManager) this
+                .getSystemService(Context.WINDOW_SERVICE);
+        mWindowManager.addView(mOverlay, lp);
+    }
+
+    private LetterListView.OnTouchingLetterChangedListener mLetterlister
+            = new LetterListView.OnTouchingLetterChangedListener() {
+        @Override
+        public void onTouchingLetterChanged(String letter) {
+            mOverlay.setText(letter);
+            mOverlay.setVisibility(View.VISIBLE);
+            if (mAlpha.get(letter) != null) {
+                int position = mAlpha.get(letter);
+                Lg.getInstance().e("TAG", letter + ":" + position);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) indexableLayout.getRecyclerView().getLayoutManager();
+                linearLayoutManager.scrollToPositionWithOffset(position, 0);
+            }
+        }
+
+        @Override
+        public void onTouchexit() {
+            mHandler.sendEmptyMessageDelayed(OVERLAY_GONE, 1000);
+        }
+    };
 
     /**
      * 自定义的Banner Header
@@ -263,8 +340,10 @@ public class CityPickerActivity extends AppCompatActivity {
             mlocationManager.stopLocation();
             mlocationManager = null;
         }
+        mWindowManager.removeViewImmediate(mOverlay);
         mLocationListener = null;
         indexableLayout = null;
+        mAlpha.clear();
     }
 
     public void setStatusBar(boolean translucent, @ColorInt int color) {
@@ -288,6 +367,19 @@ public class CityPickerActivity extends AppCompatActivity {
             }
         }
     }
+
+    private static final int OVERLAY_GONE = 13;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case OVERLAY_GONE:
+                    mOverlay.setVisibility(View.GONE);
+                    break;
+            }
+        }
+    };
 
 }
 
