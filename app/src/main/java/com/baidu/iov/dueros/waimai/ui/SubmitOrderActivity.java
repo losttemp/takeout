@@ -1,18 +1,21 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AdapterView;
@@ -30,6 +33,7 @@ import com.baidu.iov.dueros.waimai.adapter.DeliveryDateAdapter;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryTimeAdapter;
 
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
+import com.baidu.iov.dueros.waimai.model.IFoodModel;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
@@ -49,6 +53,7 @@ import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
+import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
@@ -61,12 +66,15 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CancellationException;
 
 import static com.baidu.iov.dueros.waimai.ui.AddressListActivity.ADDRESS_DATA;
 import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.POI_INFO;
 import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.PRODUCT_LIST_BEAN;
+import static com.baidu.iov.dueros.waimai.ui.OrderDetailsActivity.isForeground;
 
 public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, SubmitInfoPresenter.SubmitInfoUi>
         implements SubmitInfoPresenter.SubmitInfoUi, View.OnClickListener {
@@ -140,12 +148,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mProductList = (List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean>) intent.getSerializableExtra(PRODUCT_LIST_BEAN);
             mPoiInfo = (PoifoodListBean.MeituanBean.DataBean.PoiInfoBean) intent.getSerializableExtra(POI_INFO);
         }
-        if(mPoiInfo!=null){
-            getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
-            if (mProductList!=null){
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData, SubmitOrderActivity.this);
-            }
-        }
+//        if(mPoiInfo!=null){
+//            getPresenter().requestArriveTimeData(mPoiInfo.getWm_poi_id());
+//            if (mProductList!=null){
+//                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData, SubmitOrderActivity.this);
+//            }
+//        }
         initView();
     }
 
@@ -734,64 +742,107 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         } else {
             Lg.getInstance().d(TAG, "not find data !");
         }
+        if (mOrderPreviewData!=null){
+            int code = mOrderPreviewData.getCode();
+            if (code == Constant.ORDER_PREVIEW_SUCCESS) {
+                showAllProductItem(mOrderPreviewData.getWm_ordering_preview_detail_vo_list());
 
-        int code = mOrderPreviewData.getCode();
-        if (code == Constant.ORDER_PREVIEW_SUCCESS) {
-            showAllProductItem(mOrderPreviewData.getWm_ordering_preview_detail_vo_list());
-
-            double shippingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getShipping_fee();
-            mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
-
-
-            double packingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getBox_total_price();
-            mPackingFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(packingFee)));
-
-            double total = mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal();
-            mTotalTv.setText(String.format(getResources().getString(R.string.submit_total), total));
-
-            double original_price = mOrderPreviewData.getWm_ordering_preview_order_vo().getOriginal_price();
-            double reduced = original_price - total;
-            if (reduced == 0) {
-                mDiscountTv.setVisibility(View.GONE);
-                mDiscountsLayout.setVisibility(View.GONE);
-            } else {
-                showAllDiscountItem();
-                mDiscountTv.setText(String.format(getResources().getString(R.string.submit_discount), mNumberFormat.format(reduced)));
-            }
+                double shippingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getShipping_fee();
+                mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
 
 
-            String discount_WarnTip = mOrderPreviewData.getDiscountWarnTip();
-            if (discount_WarnTip != null) {
-                mDiscountWarnTipTv.setText(discount_WarnTip);
-                mWarnTipParent.setVisibility(View.VISIBLE);
-            } else {
-                mWarnTipParent.setVisibility(View.GONE);
-            }
+                double packingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getBox_total_price();
+                mPackingFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(packingFee)));
 
-            if (mCurDateItem != 0) {
-                mTypeTipTv.setText(date_type_tip);
-                if (date_time != null || view_time != null) {
-                    mArriveTimeTv.setText(date_time + " " + view_time);
-                }
-            } else {
-                int estimate = mOrderPreviewData.getWm_ordering_preview_order_vo().getEstimate_arrival_time();
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                mEstimateTime = sdf.format(new Date(Long.valueOf(String.valueOf(estimate)) * 1000L/* + 8 * 60 * 60 * 1000L*/));
-                mTypeTipTv.setText(getString(R.string.delivery_immediately));
-                if (mEstimateTime != null) {
-                    mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
+                double total = mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal();
+                mTotalTv.setText(String.format(getResources().getString(R.string.submit_total), total));
+
+                double original_price = mOrderPreviewData.getWm_ordering_preview_order_vo().getOriginal_price();
+                double reduced = original_price - total;
+                if (reduced == 0) {
+                    mDiscountTv.setVisibility(View.GONE);
+                    mDiscountsLayout.setVisibility(View.GONE);
                 } else {
-                    mArriveTimeTv.setText("请选择配送时间");
+                    showAllDiscountItem();
+                    mDiscountTv.setText(String.format(getResources().getString(R.string.submit_discount), mNumberFormat.format(reduced)));
                 }
-            }
 
-        } else {
-            handlePreviewMsg(code);
+
+                String discount_WarnTip = mOrderPreviewData.getDiscountWarnTip();
+                if (discount_WarnTip != null) {
+                    mDiscountWarnTipTv.setText(discount_WarnTip);
+                    mWarnTipParent.setVisibility(View.VISIBLE);
+                } else {
+                    mWarnTipParent.setVisibility(View.GONE);
+                }
+
+                if (mCurDateItem != 0) {
+                    mTypeTipTv.setText(date_type_tip);
+                    if (date_time != null || view_time != null) {
+                        mArriveTimeTv.setText(date_time + " " + view_time);
+                    }
+                } else {
+                    int estimate = mOrderPreviewData.getWm_ordering_preview_order_vo().getEstimate_arrival_time();
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                    mEstimateTime = sdf.format(new Date(Long.valueOf(String.valueOf(estimate)) * 1000L/* + 8 * 60 * 60 * 1000L*/));
+                    mTypeTipTv.setText(getString(R.string.delivery_immediately));
+                    if (mEstimateTime != null) {
+                        mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
+                    } else {
+                        mArriveTimeTv.setText("请选择配送时间");
+                    }
+                }
+
+            } else {
+                handlePreviewMsg(code);
+            }
+            mParentsLayout.setVisibility(View.VISIBLE);
+            mNoNet.setVisibility(View.GONE);
+            loadingView.setVisibility(View.GONE);
+        }else {
+            if (data.getMeituan().getErrorInfo()!=null){
+                exitLogin();
+                mParentsLayout.setVisibility(View.GONE);
+                mNoNet.setVisibility(View.GONE);
+                loadingView.setVisibility(View.GONE);
+            }
         }
-        mParentsLayout.setVisibility(View.VISIBLE);
-        mNoNet.setVisibility(View.GONE);
-        loadingView.setVisibility(View.GONE);
         playVoice();
+    }
+    AlertDialog dialog;
+
+    private void exitLogin() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.exit_login_dialog, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(layout);
+        TextView tvTitle = layout.findViewById(R.id.tv_title);
+        Button btnOk = layout.findViewById(R.id.ok);
+        Button btnCancel = layout.findViewById(R.id.cancel);
+        tvTitle.setText(getResources().getString(R.string.choose_address_again));
+        btnCancel.setVisibility(View.GONE);
+        dialog = builder.create();
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            Window window = dialog.getWindow();
+            window.setLayout((int) getResources().getDimension(R.dimen.px912dp), (int) getResources().getDimension(R.dimen.px516dp));
+            window.setBackgroundDrawableResource(R.drawable.permission_dialog_bg);
+            WindowManager.LayoutParams lp = window.getAttributes();
+            window.setGravity(Gravity.CENTER_HORIZONTAL);
+            window.setGravity(Gravity.TOP);
+            lp.y = (int) getResources().getDimension(R.dimen.px480dp);
+            window.setAttributes(lp);
+        }
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SubmitOrderActivity.this,AddressSelectActivity.class);
+                startActivity(intent);
+                dialog.dismiss();
+                finish();
+            }
+        });
     }
 
     public void showAllDiscountItem() {
@@ -848,6 +899,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         loadingView.setVisibility(View.GONE);
         mParentsLayout.setVisibility(View.GONE);
         mNoNet.setVisibility(View.VISIBLE);
+
 //        if (!NetUtil.getNetWorkState(this)) {
 //            mParentsLayout.setVisibility(View.GONE);
 //            mNoNet.setVisibility(View.VISIBLE);

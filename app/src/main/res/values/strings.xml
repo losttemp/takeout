@@ -187,6 +187,7 @@
     <string name="actual_payment">实付：\&#165;%s</string>
     <string name="pay_title">支付超时</string>
     <string name="pay_time_out">支付超时,请重新下单。</string>
+    <string name="choose_address_again">地址已删除，请重新选择地址</string>
     <string name="back_store">返回店铺</string>
     <string name="anew_submit">重新下单</string>
     <string name="complete">完成(%ds)</string>

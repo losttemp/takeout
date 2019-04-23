@@ -371,7 +371,7 @@
 
                 <com.domain.multipltextview.MultiplTextView
                     android:id="@+id/discount_exists"
-                    android:layout_width="@dimen/px206dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/px30dp"
                     android:layout_marginStart="@dimen/px84dp"
                     android:layout_marginTop="@dimen/px60dp"
