@@ -3,30 +3,32 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+
+    <RelativeLayout
+        android:id="@+id/rl_discount"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px60dp"
+        android:background="@color/preferential_information_product_list">
+
+        <TextView
+            android:id="@+id/tv_discount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/preferential_information"
+            android:textSize="@dimen/px30sp"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/cardShopLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/px60dp"
         android:background="@color/shop_cart_bg"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/rl_discount"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/px60dp"
-            android:background="@color/shop_top_cart_bg">
-
-            <TextView
-                android:id="@+id/tv_discount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:textColor="@color/preferential_information"
-                android:textSize="@dimen/px30sp"
-                android:visibility="visible"/>
-        </RelativeLayout>
 
 
         <RelativeLayout

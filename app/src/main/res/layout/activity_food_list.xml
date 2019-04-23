@@ -96,13 +96,13 @@
             android:layout_above="@+id/rl_discount"
             android:layout_below="@+id/rl_store_details"
             android:layout_weight="1"
-            android:background="@color/list_bg"
             android:orientation="horizontal">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/classify_mainlist"
                 android:layout_width="@dimen/px286dp"
                 android:layout_height="match_parent"
+                android:background="@color/list_bg"
                 android:scrollbars="none" />
 
             <android.support.v7.widget.RecyclerView
