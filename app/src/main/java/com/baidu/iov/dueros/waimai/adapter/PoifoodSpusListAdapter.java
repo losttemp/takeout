@@ -70,6 +70,8 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
         this.productList = productList;
         this.mWindow = window;
         mInflater = LayoutInflater.from(context);
+
+
     }
 
     @NonNull
@@ -192,6 +194,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
             @Override
             public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
                 PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean1 = spusBeans.get(position);
+                Lg.getInstance().e(TAG, "月售："+ spusBean1.getMonth_saled());
                 if (spusBean1 != null && FoodListActivity.selectFoods.containsKey(spusBean1.getId())) {
                     spusBeans.remove(spusBean1);
                     spusBeans.add(position, FoodListActivity.selectFoods.get(spusBean1.getId()));
