@@ -3,7 +3,6 @@ import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Rect;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
@@ -22,7 +20,6 @@ import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
 import com.domain.multipltextview.MultiplTextView;
@@ -95,7 +92,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		viewHolder.tvExpressPrice.setText(String.format(mContext.getResources().getString(R.string
 				.shipping_fee_s), NumberFormat.getInstance().format(store.getShipping_fee())));
 		viewHolder.tvStoreIndex.setText(String.valueOf(position + 1));
-		GlideApp.with(mContext).load(store.getPic_url()).into(viewHolder.ivStore);
+		GlideApp.with(mContext).load(store.getPic_url()).placeholder(R.drawable.default_shop_icon).into(viewHolder.ivStore);
 
 		viewHolder.ratingBar.setClickable(false);
 		viewHolder.ratingBar.setStar((float) store.getWm_poi_score());
