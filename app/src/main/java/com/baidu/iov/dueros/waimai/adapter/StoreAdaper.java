@@ -92,7 +92,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		viewHolder.tvExpressPrice.setText(String.format(mContext.getResources().getString(R.string
 				.shipping_fee_s), NumberFormat.getInstance().format(store.getShipping_fee())));
 		viewHolder.tvStoreIndex.setText(String.valueOf(position + 1));
-		GlideApp.with(mContext).load(store.getPic_url()).placeholder(R.drawable.default_shop_icon).into(viewHolder.ivStore);
+		GlideApp.with(mContext).load(store.getPic_url()).into(viewHolder.ivStore);
 
 		viewHolder.ratingBar.setClickable(false);
 		viewHolder.ratingBar.setStar((float) store.getWm_poi_score());
