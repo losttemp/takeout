@@ -194,7 +194,6 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
             @Override
             public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
                 PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean1 = spusBeans.get(position);
-                Lg.getInstance().e(TAG, "月售："+ spusBean1.getMonth_saled());
                 if (spusBean1 != null && FoodListActivity.selectFoods.containsKey(spusBean1.getId())) {
                     spusBeans.remove(spusBean1);
                     spusBeans.add(position, FoodListActivity.selectFoods.get(spusBean1.getId()));
@@ -279,6 +278,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 final String pictureUrl = spusBean.getPicture();
                 GlideApp.with(context)
                         .load(pictureUrl)
+                        .placeholder(R.drawable.default_goods_icon)
                         .skipMemoryCache(true)
                         .into(viewHolder.head);
 
