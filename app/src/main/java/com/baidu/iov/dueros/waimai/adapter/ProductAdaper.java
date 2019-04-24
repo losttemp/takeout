@@ -12,9 +12,6 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
-import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 public class ProductAdaper extends RecyclerView.Adapter<ProductAdaper.ViewHolder> {

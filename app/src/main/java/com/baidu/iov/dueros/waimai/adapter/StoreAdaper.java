@@ -18,7 +18,7 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean.DiscountsBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.GlideApp;
+
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
