@@ -702,6 +702,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
+        Entry.getInstance().onEvent(Constant.CALL_FOR_CANCLE_ORDER, EventType.TOUCH_TYPE);
         if (isTimeEnd){
             timerCancel();
             loadData();

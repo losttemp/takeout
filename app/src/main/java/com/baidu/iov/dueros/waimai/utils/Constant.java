@@ -203,6 +203,7 @@ public class Constant {
     public final static int ORDERSUBMIT_CHANGE_ADDRESS_VOICE=31300068;
     public final static int ORDERSUBMIT_CHANGE_TIME=31300069;
     public final static int PAYSUCCESS_TO_ORDERDETAIL=31300070;
+    public final static int PAYSUCCESS_RATE=31300071;
     public final static int CALL_FOR_CANCLE_ORDER=31300072;
     public final static int ORDERLIST_TO_REPEAT_VOCIE=31300073;
     public final static int ORDERLIST_TO_ORDERDETAIL=31300074;

@@ -72,6 +72,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
         setStatusBar(false, ContextCompat.getColor(this, R.color.base_color));
         initView();
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, INTERNAL_TIME);
+        Entry.getInstance().onEvent(Constant.PAYSUCCESS_RATE, EventType.TOUCH_TYPE);
     }
 
     @Override
@@ -166,9 +167,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 finish();
                 break;
-
             case R.id.complete_tv:
-
                 startOtherActivity();
                 break;
             case R.id.finish_img:
