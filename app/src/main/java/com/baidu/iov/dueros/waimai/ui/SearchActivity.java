@@ -336,7 +336,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			case R.id.iv_clean:
 				clearFocus();
 				mEtSearch.setText("");
-				mEtSearch.setHint("");
+				mEtSearch.setHint(getResources().getString(R.string.search_hint_text));
 				break;
 
 			case R.id.rl_search:
