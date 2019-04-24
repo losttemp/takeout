@@ -22,6 +22,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.dueros.waimai.view.RatingBar;
+import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.domain.multipltextview.MultiplTextView;
 import java.text.NumberFormat;
 import java.util.ArrayList;

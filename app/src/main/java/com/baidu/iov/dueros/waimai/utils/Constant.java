@@ -116,6 +116,9 @@ public class Constant {
     public final static int  EVENT_EXIT= 31300078;
     public final static int  EVENT_BACK= 31300077;
 
+    public final static int  EVENT_OPEN_APP_CLICK= 31300011;
+    public final static int  EVENT_OPEN_APP_VOICE= 31300012;
+
     public final static int  EVENT_FOOD_CLICK= 31300039;
     public final static int  EVENT_FLOWER_CLICK= 31300040;
     public final static int  EVENT_CAKE_CLICK= 31300041;

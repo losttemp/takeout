@@ -72,8 +72,12 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedVoice = getIntent().getBooleanExtra(StandardCmdClient.NEED_TTS, false);
+        Lg.getInstance().e(TAG, "isNeedVoice："+isNeedVoice);
         if (isNeedVoice) {
+            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_VOICE,EventType.TOUCH_TYPE);
             AtyContainer.getInstance().finishAllActivity();
+        }else{
+            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_CLICK,EventType.TOUCH_TYPE);
         }
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
