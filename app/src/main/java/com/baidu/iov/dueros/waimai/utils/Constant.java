@@ -174,9 +174,12 @@ public class Constant {
     public final static int ENTRY_ADDRESS_LIST_SELECT_FIRM = 31300022;
     public final static int ENTRY_ADDRESS_LIST_SELECT_HOME = 31300023;
     public final static int ENTRY_ADDRESS_LIST_SELECT_OTHER = 31300024;
+    public final static int ENTRY_ADDRESS_LIST_SELECT_YUYIN = 31300025;
     public final static int ENTRY_ADDRESS_LIST_START_EDIT = 31300026;
     public final static int ENTRY_ADDRESS_LIST_START_ADD_NEW = 31300027;
+    public final static int ENTRY_ADDRESS_LIST_PAGE_TURNING = 31300028;
     public final static int ENTRY_ADDRESS_POIACT_EDIT = 31300033;
+    public final static int ENTRY_ADDRESS_POIACT_YUYIN = 31300034;
     public final static int ENTRY_ADDRESS_POIACT_SELECT = 31300035;
 
     public static final int POIFOODLIST_CLICK_ON_THE_TYPE_OF_GOODS = 31300052;
