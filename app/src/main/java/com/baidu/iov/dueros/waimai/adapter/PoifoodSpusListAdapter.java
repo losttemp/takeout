@@ -194,7 +194,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
             @Override
             public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
                 PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean1 = spusBeans.get(position);
-                Lg.getInstance().e(TAG, "月售："+ spusBean1.getMonth_saled());
+                Lg.getInstance().e(TAG, "月售：" + spusBean1.getMonth_saled());
                 if (spusBean1 != null && FoodListActivity.selectFoods.containsKey(spusBean1.getId())) {
                     spusBeans.remove(spusBean1);
                     spusBeans.add(position, FoodListActivity.selectFoods.get(spusBean1.getId()));
@@ -381,9 +381,14 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 viewHolder.add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        viewHolder.add.setVisibility(View.GONE);
-                        viewHolder.action.setVisibility(View.VISIBLE);
-                        increaseOnClick(spusBean, viewHolder, section, false, null);
+                        //判断库存
+                        if (foodIsMaximum(spusBean)) {
+                            ToastUtils.show(context, String.format(context.getString(R.string.hint_food_maximum), spusBean.getName()), Toast.LENGTH_SHORT);
+                        } else {
+                            viewHolder.add.setVisibility(View.GONE);
+                            viewHolder.action.setVisibility(View.VISIBLE);
+                            increaseOnClick(spusBean, viewHolder, section, false, null);
+                        }
                     }
                 });
                 viewHolder.increase.setOnClickListener(new View.OnClickListener() {
@@ -501,7 +506,10 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         increase.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if (spusBean.getNumber() >= 99) {
+                                //判断库存
+                                if (foodIsMaximum(spusBean)) {
+                                    ToastUtils.show(context, String.format(context.getString(R.string.hint_food_maximum), spusBean.getName()), Toast.LENGTH_SHORT);
+                                } else if (spusBean.getNumber() >= 99) {
                                     ToastUtils.show(context, context.getString(R.string.can_not_buy_more), Toast.LENGTH_SHORT);
                                 } else {
                                     increaseOnClick(spusBean, viewHolder, section, true, shoppingNum);
@@ -814,7 +822,10 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 increase.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (finalSpusBean.getNumber() >= 99) {
+                        //判断库存
+                        if (foodIsMaximum(finalSpusBean)) {
+                            ToastUtils.show(context, String.format(context.getString(R.string.hint_food_maximum), finalSpusBean.getName()), Toast.LENGTH_SHORT);
+                        } else if (finalSpusBean.getNumber() >= 99) {
                             ToastUtils.show(context, context.getString(R.string.can_not_buy_more), Toast.LENGTH_SHORT);
                         } else {
                             inProductList(finalSpusBean);
@@ -841,6 +852,28 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.WRAP_CONTENT, true);
                 showFoodListActivityDialog(view, popView, specificationDialog);
+            }
+
+            private boolean foodIsMaximum(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
+                //判断库存
+                if (spusBean.getChoiceSkus() != null &&
+                        spusBean.getChoiceSkus().size() > 0 && spusBean.getSkus() != null && spusBean.getSkus().size() > 0) {
+                    for (int i = 0; i < spusBean.getChoiceSkus().size(); i++) {
+                        int selectSkusId = spusBean.getChoiceSkus().get(i).getId();
+                        for (int j = 0; j < spusBean.getSkus().size(); j++) {
+                            int skusId = spusBean.getSkus().get(j).getId();
+                            if (selectSkusId != 0 && skusId != 0 && selectSkusId == skusId
+                                    && spusBean.getSkus().get(0).getStock() != -1//-1为无限库存
+                                    && spusBean.getNumber() >= spusBean.getSkus().get(j).getStock()) {
+                                return true;
+                            }
+                        }
+                    }
+                } else if (spusBean.getSkus() != null && spusBean.getSkus().size() > 0
+                        && spusBean.getSkus().get(0).getStock() != -1) {//-1为无限库存
+                    return spusBean.getNumber() >= spusBean.getSkus().get(0).getStock();
+                }
+                return false;
             }
 
             private void setSpecificationNumber(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean, ViewHolder viewHolder) {
@@ -952,7 +985,10 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                             min_order_count + context.getString(R.string.share_buy), Toast.LENGTH_SHORT);
                 }
                 int num = spusBean.getNumber();
-                if (num >= 99) {
+                //判断库存
+                if (foodIsMaximum(spusBean)) {
+                    ToastUtils.show(context, String.format(context.getString(R.string.hint_food_maximum), spusBean.getName()), Toast.LENGTH_SHORT);
+                } else if (num >= 99) {
                     ToastUtils.show(context, context.getString(R.string.can_not_buy_more), Toast.LENGTH_SHORT);
                 } else {
                     if (alreadyToast) {

@@ -155,7 +155,10 @@ public class ShoppingCartAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int num = spusBeans.get(position).getNumber();
-                if (num >= 99) {
+                //判断库存
+                if (foodIsMaximum(spusBeans.get(position))) {
+                    ToastUtils.show(context, String.format(context.getString(R.string.hint_food_maximum), spusBeans.get(position).getName()), Toast.LENGTH_SHORT);
+                } else if (num >= 99) {
                     ToastUtils.show(context, context.getString(R.string.can_not_buy_more), Toast.LENGTH_SHORT);
                 } else {
                     num++;
@@ -216,6 +219,28 @@ public class ShoppingCartAdapter extends BaseAdapter {
         public MultiplTextView shoppingNum;
         public TextView shopSpecifications;
         public TextView shopDiscountPrice;
+    }
+
+    private boolean foodIsMaximum(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
+        //判断库存
+        if (spusBean.getChoiceSkus() != null &&
+                spusBean.getChoiceSkus().size() > 0 && spusBean.getSkus() != null && spusBean.getSkus().size() > 0) {
+            for (int i = 0; i < spusBean.getChoiceSkus().size(); i++) {
+                int selectSkusId = spusBean.getChoiceSkus().get(i).getId();
+                for (int j = 0; j < spusBean.getSkus().size(); j++) {
+                    int skusId = spusBean.getSkus().get(j).getId();
+                    if (selectSkusId != 0 && skusId != 0 && selectSkusId == skusId
+                            && spusBean.getSkus().get(0).getStock() != -1//-1为无限库存
+                            && spusBean.getNumber() >= spusBean.getSkus().get(j).getStock()) {
+                        return true;
+                    }
+                }
+            }
+        } else if (spusBean.getSkus() != null && spusBean.getSkus().size() > 0
+                && spusBean.getSkus().get(0).getStock() != -1) {//-1为无限库存
+            return spusBean.getNumber() >= spusBean.getSkus().get(0).getStock();
+        }
+        return false;
     }
 
     private int getMinOrderCount(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
