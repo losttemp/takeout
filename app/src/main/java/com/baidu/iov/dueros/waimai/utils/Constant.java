@@ -135,7 +135,7 @@ public class Constant {
 
     public final static int  EVENT_SELECTE_STORE_CLICK_FROM_HOME= 31300043;
     public final static int  EVENT_SELECTE_STORE_CLICK_FROM_FLOWER= 31300085;
-    public final static int  EVENT_SELECTE_STORE_CLICK_FROM_CAKE= 31300095;
+    public final static int  EVENT_SELECTE_STORE_CLICK_FROM_CAKE= 31300093;
 
     public final static int  EVENT_SELECTE_STORE_VOICE_FROM_HOME= 31300042;
     public final static int  EVENT_SELECTE_STORE_VOICE_FROM_FLOWER= 31300084;
