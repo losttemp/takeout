@@ -178,7 +178,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                if (spusBeans.size() > 0) {
+                if (spusBeans.size() > 0 && spusBeans.size() > position) {
                     num = spusBeans.get(position).getNumber();
                     minOrderCount = getMinOrderCount(spusBeans.get(position));
                 }

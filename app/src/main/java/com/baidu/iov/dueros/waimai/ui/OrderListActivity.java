@@ -140,7 +140,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     private void initData() {
         Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL_VOICE, EventType.TOUCH_TYPE);
-        Entry.getInstance().onEvent(Constant.ORDERLIST_REFRESH_VOICE, EventType.TOUCH_TYPE);
         mOrderListAdaper = new OrderListAdaper(mOrderList, this) {
             @Override
             public void ttsCancelOrder(int position) {
@@ -479,6 +478,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     public void nextPage(boolean isNextPage) {
         if (mTvNoOrder.getVisibility() == View.GONE) {
+            Entry.getInstance().onEvent(Constant.ORDERLIST_REFRESH_VOICE, EventType.TOUCH_TYPE);
             LinearLayoutManager manager = (LinearLayoutManager) mRvOrder.getLayoutManager();
             assert manager != null;
             int currentItemPosition = manager.findFirstVisibleItemPosition();
