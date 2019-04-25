@@ -416,6 +416,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     public void failure(String msg) {
         loadingView.setVisibility(View.GONE);
+        networkView.setVisibility(View.VISIBLE);
         if (mRefreshLayout.isRefreshing()) {
             mRefreshLayout.finishRefresh(false);
         }
