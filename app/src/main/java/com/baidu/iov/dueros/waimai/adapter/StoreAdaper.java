@@ -163,7 +163,6 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 				@Override
 				public void onGlobalLayout() {
 					int lines = mFlowLayoutManager.getLineRows();
-					Lg.getInstance().d("StoreAdaper:", "pos:" + position+"  lines:"+lines+"   store.isDiscountsDown:"+store.isDiscountsDown());
 					if (lines > 1) {
 						viewHolder.ivStoreDiscount.setVisibility(View.VISIBLE);
 						if (store.isDiscountsDown()) {
