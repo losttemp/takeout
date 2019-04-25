@@ -189,7 +189,7 @@ public class CityPickerActivity extends AppCompatActivity {
 
         @Override
         public void onTouchexit() {
-            mHandler.sendEmptyMessageDelayed(OVERLAY_GONE, 1000);
+            mHandler.sendEmptyMessageDelayed(OVERLAY_GONE, 100);
         }
     };
 
@@ -340,6 +340,7 @@ public class CityPickerActivity extends AppCompatActivity {
             mlocationManager.stopLocation();
             mlocationManager = null;
         }
+        mOverlay.setVisibility(View.GONE);
         mWindowManager.removeViewImmediate(mOverlay);
         mLocationListener = null;
         indexableLayout = null;
