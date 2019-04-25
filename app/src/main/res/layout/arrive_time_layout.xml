@@ -17,7 +17,7 @@
             android:layout_height="@dimen/px96dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/px54dp"
-            android:background="@drawable/icon_close" />
+            android:background="@drawable/icon_back" />
 
         <com.domain.multipltextview.MultiplTextView
             android:id="@+id/select_shipping_address"

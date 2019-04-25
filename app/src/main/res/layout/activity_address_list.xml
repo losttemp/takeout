@@ -24,7 +24,7 @@
         android:id="@+id/rv_activity_address_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         >
         <RelativeLayout
             android:id="@+id/address_title"
@@ -39,7 +39,7 @@
                 android:layout_marginBottom="@dimen/px14dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/px54dp"
-                android:background="@drawable/icon_close" />
+                android:background="@drawable/icon_back" />
 
             <com.domain.multipltextview.MultiplTextView
                 android:id="@+id/select_shipping_address"
