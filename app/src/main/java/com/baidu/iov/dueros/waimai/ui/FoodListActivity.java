@@ -1376,6 +1376,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void onOrderPreviewFailure(String msg) {
         Lg.getInstance().d(TAG, "msg = " + msg);
+        mLoading.setVisibility(View.GONE);
+        ToastUtils.show(mContext, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
     }
 
     @Override
