@@ -87,7 +87,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Lg.getInstance().e(TAG, "onCreate");
         waimaiTts = getResources().getStringArray(R.array.waimai_watch);
         fromLogin = getIntent().getBooleanExtra(Constant.IS_FROME_TAKEAWAYLOGIN, false);
         if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
@@ -117,16 +116,10 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     }
 
 
-    @Override
-    protected void onStart() {
-        Lg.getInstance().e(TAG, "onStart");
-        super.onStart();
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Lg.getInstance().e(TAG, "onResume");
         GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getList(), Constant.TTS_SHOP_LIST);
         AccessibilityClient.getInstance().register(this, true, prefix, null);
     }
@@ -148,7 +141,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     protected void onPause() {
         super.onPause();
      AccessibilityClient.getInstance().unregister(this);
-       Lg.getInstance().e(TAG, "onPause:");
     }
 
     private void iniView() {
