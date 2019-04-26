@@ -166,6 +166,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 
 
 	public void setmLlHistoryVisibility(){
+		clearFocus();
 		if (mHistorys.isEmpty()){
 			mLlHistory.setVisibility(View.GONE);
 		}else{
