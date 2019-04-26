@@ -94,21 +94,28 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
             viewHolder.attrsName.setText(attrsBeans.get(position).getName());
             final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> values = attrsBeans.get(position).getValues();
             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> lastChoiceAttrs = attrsBeans.get(position).getChoiceAttrs();
-            final SpecificationAdapter specificationAdapter = new SpecificationAdapter(lastChoiceAttrs, null, values, null);
+            final SpecificationAdapter specificationAdapter = new SpecificationAdapter(context,lastChoiceAttrs, null, values, null);
             viewHolder.recyclerview.setAdapter(specificationAdapter);
             specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {
                 @Override
                 public void OnItemClick(View view, int p) {
                     List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> valuesBeans = attrsBeans.get(position).getValues();
                     for (int i = 0; i < viewHolder.recyclerview.getChildCount(); i++) {
+                        View rootView =viewHolder.recyclerview.getChildAt(i);
+                        rootView.setBackgroundResource(R.drawable.shape_filter_selected_bg);
+                        TextView textItem =((TextView)rootView.findViewById(R.id.textItem));
+
                         if (i == p) {
-                            viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.shape_filter_selected_bg);
+                            rootView.setBackgroundResource(R.drawable.shape_filter_selected_bg);
+                            textItem.setTextColor(context.getResources().getColor(R.color.specifiction_blue));
                             choiceAttrs = new ArrayList<>();
                             choiceAttrs.add(valuesBeans.get(i));
                             spusBean.getAttrs().get(position).setChoiceAttrs(choiceAttrs);
                             choiseAttrs[position] = true;
                         } else {
-                            viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.shape_filter_unselected_bg);
+                            rootView.setBackgroundResource(R.drawable.shape_filter_unselected_bg);
+                            textItem.setTextColor(context.getResources().getColor(R.color.white));
+
                         }
                     }
                     if (spusBean.getSkus().size() >= 2) {
@@ -132,14 +139,20 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                 viewHolder.attrsName.setText(context.getString(R.string.specification) + ":");
                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> lastChoiceSkus = spusBean.getChoiceSkus();
 
-                final SpecificationAdapter specificationAdapter = new SpecificationAdapter(null, lastChoiceSkus, null, skusBeans);
+                final SpecificationAdapter specificationAdapter = new SpecificationAdapter(context,null, lastChoiceSkus, null, skusBeans);
                 viewHolder.recyclerview.setAdapter(specificationAdapter);
                 specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {
                     @Override
                     public void OnItemClick(View view, int p) {
                         for (int i = 0; i < viewHolder.recyclerview.getChildCount(); i++) {
+                            View rootView =viewHolder.recyclerview.getChildAt(i);
+                            rootView.setBackgroundResource(R.drawable.shape_filter_selected_bg);
+                            TextView textItem =((TextView)rootView.findViewById(R.id.textItem));
+
                             if (i == p) {
-                                viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.shape_filter_selected_bg);
+                                rootView.setBackgroundResource(R.drawable.shape_filter_selected_bg);
+                                textItem.setTextColor(context.getResources().getColor(R.color.specifiction_blue));
+
                                 choiceSkus.clear();
                                 choiceSkus.add(skusBeans.get(i));
                                 spusBean.setChoiceSkus(choiceSkus);
@@ -148,7 +161,8 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                                     setPriceListener.setPrice("" + price);
                                 }
                             } else {
-                                viewHolder.recyclerview.getChildAt(i).setBackgroundResource(R.drawable.shape_filter_unselected_bg);
+                                rootView.setBackgroundResource(R.drawable.shape_filter_unselected_bg);
+                                textItem.setTextColor(context.getResources().getColor(R.color.white));
                             }
                         }
                         if (spusBean.getSkus().size() >= 2) {

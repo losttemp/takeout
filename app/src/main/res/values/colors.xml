@@ -45,7 +45,7 @@
     <color name="white_60">#99ffffff</color>
     <color name="white_10">#1Affffff</color>
     <color name="zuobianlan_bg">#33272e37</color>
-    
+    <color name="specifiction_blue">#0ADFFF</color>
 
     <color name="payment_text_color">#00df7b</color>
     <color name="payment_amount_color">#ffc600</color>

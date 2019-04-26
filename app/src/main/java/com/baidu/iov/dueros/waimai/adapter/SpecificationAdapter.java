@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,16 +20,18 @@ import java.util.List;
 
 public class SpecificationAdapter extends RecyclerView.Adapter<SpecificationAdapter.SpecificationAdapterViewHolder> {
 
+    private Context mContext;
     private final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> valuesBeans;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs;
     private final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusBeans;
     private List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus;
     private OnItemClickListener mItemClickListerner;
 
-    public SpecificationAdapter(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs,
+    public SpecificationAdapter(Context context,List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrs,
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> choiceSkus,
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> valuesBeans,
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusBeans) {
+        mContext=context;
         this.valuesBeans = valuesBeans;
         this.skusBeans = skusBeans;
         this.choiceAttrs = choiceAttrs;
@@ -56,12 +59,14 @@ public class SpecificationAdapter extends RecyclerView.Adapter<SpecificationAdap
         if (choiceAttrs != null && choiceAttrs.size() > 0) {
             String value = choiceAttrs.get(0).getValue();
             if (value.equals(holder.text.getText())){
+                holder.text.setTextColor(mContext.getResources().getColor(R.color.specifiction_blue));
                 holder.item.setBackgroundResource(R.drawable.shape_filter_selected_bg);
             }
         }
         if (choiceSkus!=null&& choiceSkus.size() > 0){
             String value = choiceSkus.get(0).getSpec();
             if (value.equals(holder.text.getText())){
+                holder.text.setTextColor(mContext.getResources().getColor(R.color.specifiction_blue));
                 holder.item.setBackgroundResource(R.drawable.shape_filter_selected_bg);
             }
         }
