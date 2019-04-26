@@ -258,6 +258,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_CLICK_FROM_FLOWER,EventType.TOUCH_TYPE);
 		}else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_CAKE){
 			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_CLICK_FROM_CAKE,EventType.TOUCH_TYPE);
+		}else {
+			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_CLICK_FROM_FOOD,EventType.TOUCH_TYPE);
 		}
 	}
 
@@ -558,6 +560,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_VOICE_FROM_FLOWER,EventType.VOICE_TYPE);
 		}else if (mFromPageType==Constant.STORE_FRAGMENT_FROM_CAKE){
 			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_VOICE_FROM_CAKE,EventType.VOICE_TYPE);
+		}else {
+			Entry.getInstance().onEvent(Constant.EVENT_SELECTE_STORE_VOICE_FROM_FOOD,EventType.VOICE_TYPE);
 		}
 	}
 
