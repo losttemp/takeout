@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -195,6 +198,8 @@ public class ConfirmDialog extends Dialog {
     @Override
     public void show() {
         AccessibilityClient.getInstance().unregister(mContext);
+        Window window = getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         super.show();
     }
 }

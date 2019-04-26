@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -297,7 +299,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private void showCancelDialog() {
         String mMessage = getResources().getString(R.string.remind_message);
         SpannableString spanColor = new SpannableString(mMessage);
-        spanColor.setSpan(new ForegroundColorSpan(Color.parseColor("#10CBE5")), 5, 12, 0);
+        spanColor.setSpan(new ForegroundColorSpan(Color.parseColor("#10CBE5")), 5, 13, 0);
         ConfirmDialog dialog1 = new ConfirmDialog.Builder(this)
                 .setTitle(R.string.order_cancel)
                 .setSpannableMessage(spanColor)
@@ -355,6 +357,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     mRefreshLayout.setEnableLoadmore(false);
                     mOrderListReq.setPage(START_PAGE);
                     mRefreshLayout.autoRefresh();
+                    mRefreshLayout.setVisibility(View.VISIBLE);
                     networkView.setVisibility(View.GONE);
                 } else {
                     ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);

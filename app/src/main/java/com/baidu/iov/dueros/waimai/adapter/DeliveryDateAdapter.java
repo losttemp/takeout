@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.R;
+import com.bumptech.glide.load.resource.gif.GifBitmapProvider;
 
 import java.util.List;
 
@@ -57,14 +58,16 @@ public class DeliveryDateAdapter extends BaseAdapter {
             convertView = View.inflate(mContext, R.layout.list_date_item, null);
             viewHolder = new ViewHolder();
             viewHolder.tv_date = convertView.findViewById(R.id.tv_date);
+            viewHolder.tv_dividerRight = convertView.findViewById(R.id.divider_right);
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
+        viewHolder.tv_dividerRight.setVisibility(View.VISIBLE);
         if (mPreDatePos == position){
             viewHolder.tv_date.setTextColor(mContext.getResources().getColor(R.color.select_date_color));
+            viewHolder.tv_dividerRight.setVisibility(View.GONE);
         }else{
             viewHolder.tv_date.setTextColor(mContext.getResources().getColor(R.color.white));
         }
@@ -78,6 +81,7 @@ public class DeliveryDateAdapter extends BaseAdapter {
     public class ViewHolder {
 
         TextView tv_date;
+        View tv_dividerRight;
 
     }
 }
