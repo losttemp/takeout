@@ -71,7 +71,7 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 			viewHolder.tvSubTypeName.setTextColor(mContext.getResources().getColor(R.color.specifiction_blue));
 		} else {
 			viewHolder.tvSubTypeName.setBackgroundResource(R.drawable.shape_filter_unselected_bg);
-			viewHolder.tvSubTypeName.setBackgroundResource(R.drawable.shape_filter_unselected_bg);
+			viewHolder.tvSubTypeName.setTextColor(mContext.getResources().getColor(R.color.white));
 		}
 		viewHolder.tvSubTypeName.setContentDescription(mItemsBeans.get(position).getName());
 		viewHolder.tvSubTypeName.setAccessibilityDelegate(new View.AccessibilityDelegate(){
