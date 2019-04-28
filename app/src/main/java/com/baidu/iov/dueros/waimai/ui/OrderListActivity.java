@@ -355,10 +355,15 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             case R.id.no_internet_btn:
                 if (NetUtil.getNetWorkState(this)) {
                     mRefreshLayout.setEnableLoadmore(false);
-                    mOrderListReq.setPage(START_PAGE);
-                    mRefreshLayout.autoRefresh();
                     mRefreshLayout.setVisibility(View.VISIBLE);
                     networkView.setVisibility(View.GONE);
+                    loadingView.setVisibility(View.VISIBLE);
+                    mOrderListReq.setPage(START_PAGE);
+                    getPresenter().requestOrderList(mOrderListReq);
+//                    mOrderListReq.setPage(START_PAGE);
+//                    mRefreshLayout.autoRefresh();
+//                    mRefreshLayout.setVisibility(View.VISIBLE);
+//                    networkView.setVisibility(View.GONE);
                 } else {
                     ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
                 }
@@ -418,6 +423,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void failure(String msg) {
+        mRefreshLayout.setVisibility(View.GONE);
         loadingView.setVisibility(View.GONE);
         networkView.setVisibility(View.VISIBLE);
         if (mRefreshLayout.isRefreshing()) {
