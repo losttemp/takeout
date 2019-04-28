@@ -55,7 +55,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	private ListView mLvHistory;
 	private ListView mLvSuggest;
 
-	private  View mDivision;
+	private  View mHistoryDivision,mSuggestDivision;
 
 
 	private SearchPresenter mPresenter;
@@ -155,11 +155,13 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		mLvSuggest =  findViewById(R.id.lv_suggest);
 		mRlSearch=  findViewById(R.id.rl_search);
 
-		mDivision=new View(this);
-		mDivision.setBackgroundColor(getResources().getColor(R.color.split_view_color));
-		mLvHistory.addHeaderView(mDivision);
-		mLvHistory.addFooterView(mDivision);
-		mLvSuggest.addHeaderView(mDivision);
+		mHistoryDivision=new View(this);
+		mSuggestDivision=new View(this);
+		mHistoryDivision.setBackgroundColor(getResources().getColor(R.color.split_view_color));
+		mSuggestDivision.setBackgroundColor(getResources().getColor(R.color.split_view_color));
+		mLvHistory.addHeaderView(mHistoryDivision);
+		mLvHistory.addFooterView(mHistoryDivision);
+		mLvSuggest.addHeaderView(mSuggestDivision);
 		prefix.add(getResources().getString(R.string.prefix_choice));
 	
 	}
