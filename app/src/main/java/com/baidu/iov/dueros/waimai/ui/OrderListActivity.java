@@ -355,7 +355,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             case R.id.no_internet_btn:
                 if (NetUtil.getNetWorkState(this)) {
                     mRefreshLayout.setEnableLoadmore(false);
-                    mRefreshLayout.setVisibility(View.VISIBLE);
                     networkView.setVisibility(View.GONE);
                     loadingView.setVisibility(View.VISIBLE);
                     mOrderListReq.setPage(START_PAGE);
@@ -378,6 +377,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mRefreshLayout.setEnableLoadmore(true);
         mRefreshLayout.setEnableRefresh(true);
         loadingView.setVisibility(View.GONE);
+        mRefreshLayout.setVisibility(View.VISIBLE);
         if (mRefreshLayout.isRefreshing()) {
             mOrderList.clear();
             mRefreshLayout.finishRefresh();
