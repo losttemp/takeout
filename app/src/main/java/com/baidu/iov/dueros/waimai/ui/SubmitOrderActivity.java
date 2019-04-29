@@ -205,7 +205,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 mDeliveryTypeTv.setText(deliveryType);
             }
         }
-
         if (mAddressData != null) {
             try {
                 mAddressTv.setText(Encryption.desEncrypt(mAddressData.getAddress()));
@@ -225,6 +224,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 e.printStackTrace();
             }
 
+        }else {
+            mAddressTv.setText(getApplicationContext().getResources().getString(R.string.please_select_address_again));
         }
 
         VoiceTouchUtils.setVoicesTouchSupport(mArrivetimeLayout, R.array.update_time);
@@ -395,12 +396,20 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 //                onBackPressed();
                 break;
             case R.id.address_info:
-                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG, EventType.TOUCH_TYPE);
-                Intent intent = new Intent(this, AddressListActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra(Constant.WM_POI_ID, mPoiInfo.getWm_poi_id());
-                intent.putExtra(Constant.ADDRESS_DATA, mAddressData);
-                startActivityForResult(intent, Constant.SELECT_DELIVERY_ADDRESS);
+                try {
+                    if (mAddressData == null ||TextUtils.isEmpty(mAddressData.getAddress())){
+                        exitLogin();
+                    }else {
+                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG, EventType.TOUCH_TYPE);
+                        Intent intent = new Intent(this, AddressListActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra(Constant.WM_POI_ID, mPoiInfo.getWm_poi_id());
+                        intent.putExtra(Constant.ADDRESS_DATA, mAddressData);
+                        startActivityForResult(intent, Constant.SELECT_DELIVERY_ADDRESS);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case R.id.delivery_info:

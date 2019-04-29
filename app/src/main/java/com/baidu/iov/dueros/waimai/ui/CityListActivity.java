@@ -381,7 +381,7 @@ public class CityListActivity extends Activity {
 
         @Override
         public void onTouchexit() {
-            mHandler.sendEmptyMessageDelayed(OVERLAY_GONE, 1000);
+            mHandler.sendEmptyMessageDelayed(OVERLAY_GONE, 100);
         }
     };
 
