@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical">
     <ImageView
         android:id="@+id/no_internet_img"
-        android:layout_marginTop="@dimen/px216dp"
+        android:layout_marginTop="@dimen/px516dp"
         android:layout_width="@dimen/px146dp"
         android:layout_height="@dimen/px146dp"
         android:src="@drawable/icon_no_internet"/>

@@ -38,7 +38,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="@dimen/px84dp"
         android:layout_marginRight="@dimen/px84dp"
-        android:scaleType="fitXY" />
+        android:scaleType="center"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
