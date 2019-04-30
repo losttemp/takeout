@@ -210,9 +210,11 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             if(isFirstOpenAuth){
                 WV_foreground.setVisibility(View.VISIBLE);
             }else{
+                loadingView.setVisibility(View.VISIBLE);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        loadingView.setVisibility(View.GONE);
                         WV_foreground.setVisibility(View.GONE);
                         isFinish = false;
                     }
@@ -294,7 +296,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             loadingView.setVisibility(View.GONE);
             startIntent();
         } else {
-            loadingView.setVisibility(View.GONE);
             syncCookie(this, Config.getHost());
             mWVMeituan.clearCache(true);
             mWVMeituan.clearHistory();

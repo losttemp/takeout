@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,7 +157,11 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
                 default:
                     break;
             }
+            tvIndex.setTextSize(TypedValue.COMPLEX_UNIT_PX, 48);
             tvIndex.setText(((position + 1) + ""));
+            if (position+1>=100){
+                tvIndex.setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+            }
             tvStoreName.setText(order.getOrder_name());
             tvOrderStatus.setText(pay_status);
             tvOrderTime.setText(order.getOrder_time().substring(0, order.getOrder_time().lastIndexOf(":")));

@@ -1505,7 +1505,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     for (OrderDetailsResponse.MeituanBean.DataBean.FoodListBean spusFood : food_list) {
                         long spuId = spusFood.getSpu_id();
                         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean : spusBeanList) {
-                            if (spusBean.getId() == spuId) {
+                            if (spusBean.getId() == spuId && (spusBean.getStatus() == 1 || spusBean.getStatus() == 2)) {
+                                ToastUtils.show(mContext, spusBean.getName() + getString(R.string.sold_out), Toast.LENGTH_SHORT);
+                            } else if (spusBean.getId() == spuId) {
                                 spusBean.setNumber(spusBean.getNumber() + spusFood.getCount());
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();

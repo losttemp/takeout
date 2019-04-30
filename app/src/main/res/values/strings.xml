@@ -208,6 +208,7 @@
     <string name="order_submit_error">订单提交失败</string>
     <string name="service_error">服务器异常</string>
     <string name="please_select_address">请选择配送地址</string>
+    <string name="please_select_address_again">地址已被删除，请重新选择地址</string>
     <string name="address_select_title">我的收货地址</string>
     <string name="address_select_add_address">新增地址</string>
     <string name="address_sir">先生</string>
