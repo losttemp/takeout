@@ -346,6 +346,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         Button btnOk = layout.findViewById(R.id.ok);
         Button btnCancel = layout.findViewById(R.id.cancel);
         dialog = builder.create();
+        dialog.getWindow().setWindowAnimations(R.style.notAnimation);
         dialog.show();
         if (dialog.getWindow() != null) {
             Window window = dialog.getWindow();
