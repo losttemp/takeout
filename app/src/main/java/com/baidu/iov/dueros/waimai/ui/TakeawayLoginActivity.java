@@ -317,14 +317,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         //接口返回不知道为什么会多次调用,init限制多次跳转界面
         if (init) return;
         init = true;
-        if (getIntent().getBooleanExtra(Constant.LOGOUT, false)) {
-            CacheUtils.saveAddrTime(0);
-            Intent addressIntent = new Intent(this, AddressSelectActivity.class);
-            addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
-            startActivity(addressIntent);
-            TakeawayLoginActivity.this.finish();
-            return;
-        }
         //与上次budss 不同则跳转到地址界面
         long time = CacheUtils.getAddrTime();
         if (CacheUtils.getBduss().equals(oldBudss) &&

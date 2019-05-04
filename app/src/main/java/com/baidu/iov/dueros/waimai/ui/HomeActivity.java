@@ -474,8 +474,8 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
     @Override
     public void update(LogoutBean data) {
+        CacheUtils.saveAddrTime(0);
         Intent intent = new Intent(HomeActivity.this, TakeawayLoginActivity.class);
-        intent.putExtra(Constant.LOGOUT, true);
         startActivity(intent);
         finish();
     }
