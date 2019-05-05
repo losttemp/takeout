@@ -72,12 +72,12 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         isNeedVoice = getIntent().getBooleanExtra(StandardCmdClient.NEED_TTS, false);
-        Lg.getInstance().e(TAG, "isNeedVoice："+isNeedVoice);
+        Lg.getInstance().e(TAG, "isNeedVoice：" + isNeedVoice);
         if (isNeedVoice) {
-            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_VOICE,EventType.TOUCH_TYPE);
+            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_VOICE, EventType.TOUCH_TYPE);
             AtyContainer.getInstance().finishAllActivity();
-        }else{
-            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_CLICK,EventType.TOUCH_TYPE);
+        } else {
+            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_CLICK, EventType.TOUCH_TYPE);
         }
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
@@ -180,8 +180,9 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
 
     private WebViewClient webViewClient = new WebViewClient() {
-        private boolean isLoginPage=false;
-        private boolean isFirstOpenAuth=true;
+        private boolean isLoginPage = false;
+        private boolean isFirstOpenAuth = true;
+
         @Override
         public void onPageFinished(WebView view, String url) {
             hideHtmlContent(view);
@@ -189,8 +190,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                     url.contains("https://h5.waimai.meituan.com/authorize")) {
                 hideAgreement(view);
             }
-
-            isFinish=true;
+            isFinish = url.startsWith("https://h5.waimai.meituan.com/login?back_url");
             view.loadUrl("javascript:window.java_obj.showSource("
                     + "document.getElementsByTagName('html')[0].innerHTML);");
             view.loadUrl("javascript:window.java_obj.showDescription("
@@ -201,22 +201,21 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             super.onPageFinished(view, url);
 
             int delayMillis;
-            if(isLoginPage){
-                delayMillis=3000;
-            }else{
-                delayMillis=1000;
+            if (isLoginPage) {
+                delayMillis = 3000;
+            } else {
+                delayMillis = 1000;
             }
 
-            if(isFirstOpenAuth){
+            if (isFirstOpenAuth) {
                 WV_foreground.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 loadingView.setVisibility(View.VISIBLE);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         loadingView.setVisibility(View.GONE);
                         WV_foreground.setVisibility(View.GONE);
-                        isFinish = false;
                     }
                 }, delayMillis);
             }
@@ -226,21 +225,21 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             Lg.getInstance().e(TAG, "onPageStarted " + url);
 
-            if(url.contains("h5.waimai.meituan.com/login?back_url")){
-                isLoginPage=true;
-                isFirstOpenAuth=false;
-            }else{
-                isLoginPage=false;
+            if (url.contains("h5.waimai.meituan.com/login?back_url")) {
+                isLoginPage = true;
+                isFirstOpenAuth = false;
+            } else {
+                isLoginPage = false;
             }
 
             progressBar.setVisibility(View.VISIBLE);
             if (url.contains("i.waimai.meituan.com/node/account/agreement") ||
-                    url.contains("i.waimai.meituan.com/c/rules")||
-                    url.contains("h5.waimai.meituan.com/login?back_url")||
-                    url.contains("openapi.waimai.meituan.com/oauth")||
+                    url.contains("i.waimai.meituan.com/c/rules") ||
+                    url.contains("h5.waimai.meituan.com/login?back_url") ||
+                    url.contains("openapi.waimai.meituan.com/oauth") ||
                     url.contains("h5.waimai.meituan.com/authorize")) {
                 WV_foreground.setVisibility(View.VISIBLE);
-            } else{
+            } else {
                 WV_foreground.setVisibility(View.GONE);
             }
         }
