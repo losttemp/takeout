@@ -279,7 +279,7 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 GlideApp.with(context)
                         .load(pictureUrl)
                         .placeholder(R.drawable.default_goods_icon)
-                        .skipMemoryCache(true)
+                        .skipMemoryCache(false)
                         .into(viewHolder.head);
 
                 if (skusBeans.size() == 1) {
