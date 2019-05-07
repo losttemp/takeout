@@ -197,7 +197,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                         });
                         mErrorLL.setVisibility(View.GONE);
                         mRecyclerView.setVisibility(View.VISIBLE);
-                        if (!TextUtils.isEmpty(mSearchEdit.getText().toString())){
+                        if (!TextUtils.isEmpty(mSearchEdit.getText().toString())) {
                             mAllSuggestions.addAll(poiAddrInfoList);
                         }
                     } else {
@@ -306,6 +306,10 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
             case R.id.address_search_city_layout:
                 if (mlocationManager != null) {
                     mlocationManager.stopLocation();
+                }
+                if (mCity.equals(getString(R.string.city_loading))) {
+                    mCity = getString(R.string.city_error);
+                    mCityTV.setText(mCity);
                 }
                 Intent intent = new Intent(AddressSuggestionActivity.this, CityPickerActivity.class);
                 startActivityForResult(intent, Constant.CITY_REQUEST_CODE_CHOOSE);
