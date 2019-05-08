@@ -466,6 +466,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             super.handleMessage(msg);
             switch (msg.what) {
                 case HANDLER_FINISH_ACT:
+                    ToastUtils.show(mContext,"授权失败",Toast.LENGTH_SHORT);
                     finish();
                     break;
                 case HANDLER_POST_HTTP:
@@ -518,6 +519,9 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                 handler.sendEmptyMessage(HANDLER_POST_HTTP);
             }
             if (html.contains("error_code") && html.contains("10002")) {
+                handler.sendEmptyMessage(HANDLER_FINISH_ACT);
+            }
+            if (html.contains("{\"errno\":10003,")) {
                 handler.sendEmptyMessage(HANDLER_FINISH_ACT);
             }
         }
