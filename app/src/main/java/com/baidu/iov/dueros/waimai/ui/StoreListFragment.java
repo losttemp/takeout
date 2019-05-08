@@ -315,6 +315,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				mTvSort.setTextColor(getResources().getColor(R.color.filter_selected));
 				mIvSort.setImageResource(R.drawable.arrow_up);
 			}else{
+				mLoading.setVisibility(View.VISIBLE);
 				mPresenter.requestFilterList(filterConditionReq);
 			}
 		}
@@ -359,6 +360,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
 				mIvFilter.setImageResource(R.drawable.arrow_up);
 			}else{
+				mLoading.setVisibility(View.VISIBLE);
 				mPresenter.requestFilterList(filterConditionReq);
 			}
 		}
