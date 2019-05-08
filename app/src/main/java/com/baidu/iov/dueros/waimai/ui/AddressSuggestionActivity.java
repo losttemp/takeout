@@ -382,6 +382,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
             Lg.getInstance().e("LocationManager", "AndPermission true");
             getLocationCity();
         } else {
+            mCity = getString(R.string.city_no_permission);
             mCityTV.setText(mContext.getString(R.string.city_no_permission));
             mCityTV.setEllipsize(TextUtils.TruncateAt.MARQUEE);
             mCityTV.setSingleLine(true);
