@@ -763,7 +763,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     @Override
     public void failure(String msg) {
-
+        loadingView.setVisibility(View.GONE);
+        ToastUtils.show(OrderDetailsActivity.this,getResources().getString(R.string.no_internet),Toast.LENGTH_SHORT);
     }
 
     @Override
