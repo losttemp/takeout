@@ -738,6 +738,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         if (arriveTimeBean != null) {
             mDataBean = arriveTimeBean.getMeituan().getData();
         } else {
+            ToastUtils.show(SubmitOrderActivity.this,"加载数据失败，请稍后重试",Toast.LENGTH_SHORT);
             Lg.getInstance().d(TAG, "no find data !");
         }
 
@@ -747,7 +748,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     public void onOrderPreviewSuccess(OrderPreviewBean data) {
         if (data != null) {
             mOrderPreviewData = data.getMeituan().getData();
-
         } else {
             Lg.getInstance().d(TAG, "not find data !");
         }
@@ -758,7 +758,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
                 double shippingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getShipping_fee();
                 mShippingFeeTv.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
-
 
                 double packingFee = mOrderPreviewData.getWm_ordering_preview_order_vo().getBox_total_price();
                 mPackingFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(packingFee)));
