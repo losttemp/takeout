@@ -871,6 +871,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 if (mRlDiscount.getVisibility() == View.GONE) {
                     mRlDiscount.setVisibility(View.VISIBLE);
                 }
+                Lg.getInstance().d(TAG, "sum:"+listFull.get(listFull.size() - 1));
                 if (listFull.size() > 0 && sum >= Double.parseDouble(listFull.get(listFull.size() - 1))) {
                     mDiscount.setText(getString(R.string.already_reduced) + listReduce.get(listReduce.size() - 1) + getString(R.string.element));
                     if (mCartDiscount != null) {
@@ -1632,8 +1633,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 Lg.getInstance().d(TAG, "substring = " + substring);
                                 String lastString = splitString.substring(y + 1, splitString.length());
                                 Lg.getInstance().d(TAG, "lastString = " + lastString);
-                                listFull.add(NumberFormat.getInstance().format(Double.parseDouble(substring)));
-                                listReduce.add(NumberFormat.getInstance().format(Double.parseDouble(lastString)));
+                                Lg.getInstance().d(TAG, "lastNumber = " + NumberFormat.getInstance().format(Double.parseDouble(lastString)));
+                                Lg.getInstance().d(TAG, "subNumber = " + NumberFormat.getInstance().format(Double.parseDouble(substring)));
+                               // listFull.add(NumberFormat.getInstance().format(Double.parseDouble(substring)));
+                              //  listReduce.add(NumberFormat.getInstance().format(Double.parseDouble(lastString)));
+                                listFull.add(substring);
+                                listReduce.add(lastString);
                                 mFirstDiscount = getString(R.string.full) + listFull.get(0) + getString(R.string.element) + getString(R.string.reduce)
                                         + listReduce.get(0) + getString(R.string.element);
                                 mDiscount.setText(mFirstDiscount);
