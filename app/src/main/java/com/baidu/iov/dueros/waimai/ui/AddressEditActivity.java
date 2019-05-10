@@ -42,6 +42,7 @@ import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 
@@ -67,7 +68,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     private AddressEditReq mAddrEditReq;
     private AddressAddReq mAddrAddReq;
     AddressListBean.IovBean.DataBean dataBean;
-    private PoiInfo mLocationBean;
+    private SuggestionResult.SuggestionInfo mLocationBean;
     private ImageView nameCloseView;
     private ImageView phoneCloseView;
     private ImageView houseCloseView;
@@ -181,7 +182,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             mLocationBean = intent.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
             address_title.setText(getResources().getString(R.string.add_address));
             iv_del_button.setVisibility(View.GONE);
-            address_tv.setText(mLocationBean.getName());
+            address_tv.setText(mLocationBean.getKey());
             mTagListView.setTags(tags, "");
             if (null != MyApplicationAddressBean.USER_NAMES && MyApplicationAddressBean.USER_NAMES.size() > 0) {
                 String name = MyApplicationAddressBean.USER_NAMES.get(0);
@@ -370,7 +371,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE) {
             mLocationBean = data.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
-            address_tv.setText(TextUtils.isEmpty(mLocationBean.getName()) ? "" : mLocationBean.getName());
+            address_tv.setText(TextUtils.isEmpty(mLocationBean.getKey()) ? "" : mLocationBean.getKey());
         }
     }
 
@@ -541,8 +542,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 latitude = dataBean.getLatitude();
                 longitude = dataBean.getLongitude();
             } else {
-                latitude = (int) (mLocationBean.getLocation().latitude * LocationManager.SPAN);
-                longitude = (int) (mLocationBean.getLocation().longitude * LocationManager.SPAN);
+                latitude = (int) (mLocationBean.getPt().latitude * LocationManager.SPAN);
+                longitude = (int) (mLocationBean.getPt().longitude * LocationManager.SPAN);
             }
 
             if (isEditMode) {
