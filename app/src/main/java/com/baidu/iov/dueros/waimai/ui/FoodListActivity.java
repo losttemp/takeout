@@ -507,14 +507,33 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 if (FoodListActivity.mOneMoreOrder) {
                     for (int i = 0; i < productList.size(); i++) {
                         PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct = productList.get(i);
-                        if (shopProduct.getId() == spusBean.getId() && shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0 && shopProduct.getAttrs().get(0).getChoiceAttrs() != null
-                                && shopProduct.getAttrs().get(0).getChoiceAttrs().size() > 0 &&
-                                spusBean.getAttrs().get(0).getChoiceAttrs().get(0).getId() == shopProduct.getAttrs().get(0).getChoiceAttrs().get(0).getId()) {
-                            productList.remove(shopProduct);
-                            break;
+                        if (shopProduct.getId() == spusBean.getId()) {
+                            boolean isFood = true;
+                            for (int a = 0; a < spusBean.getAttrs().size(); a++) {
+                                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean shopBean = shopProduct.getAttrs().get(a);
+                                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean = spusBean.getAttrs().get(a);
+                                //判断是否为同一规格
+                                if (shopBean.getChoiceAttrs() != null && shopBean.getChoiceAttrs().size() > 0 &&
+                                        attrsBean.getChoiceAttrs() != null && attrsBean.getChoiceAttrs().size() > 0 &&
+                                        shopBean.getChoiceAttrs().get(0).getId() != attrsBean.getChoiceAttrs().get(0).getId()) {
+                                    isFood = false;
+                                    break;
+                                }
+                            }
+                            //规格
+                            for (int b = 0; b < spusBean.getChoiceSkus().size(); b++) {
+                                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean shopBean = shopProduct.getChoiceSkus().get(b);
+                                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean skusBean = spusBean.getChoiceSkus().get(b);
+                                if (shopBean.getId() != skusBean.getId()) {
+                                    isFood = false;
+                                    break;
+                                }
+                            }
+                            if (isFood) {
+                                productList.remove(shopProduct);
+                            }
                         }
                     }
-
                 }
                 PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBeanNew = null;
                 try {
@@ -1549,18 +1568,17 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                  List<String> attrIds, List<String> attrValues, String spec) {
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusList;
         for (int i = 0; i < attrIds.size(); i++) {
+            String attrId = attrIds.get(i);
             for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrs) {
-                List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrsList = attrsBean.getChoiceAttrs();
-                if (choiceAttrsList == null) {
-                    choiceAttrsList = new ArrayList<>();
-                    PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean valuesBean = new PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean();
-                    valuesBean.setId(Long.parseLong(attrIds.get(i)));
-                    valuesBean.setValue(String.valueOf(attrValues.get(i)));
-                    choiceAttrsList.add(valuesBean);
-                    attrsBean.setChoiceAttrs(choiceAttrsList);
-                } else {
-                    choiceAttrsList.get(0).setId(Long.parseLong(attrIds.get(i)));
-                    choiceAttrsList.get(0).setValue(String.valueOf(attrValues.get(i)));
+                for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean valuesBean : attrsBean.getValues()) {
+                    if (attrId.equals(String.valueOf(valuesBean.getId()))) {
+                        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrsList = new ArrayList<>();
+                        PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean attrValuesBean = new PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean();
+                        attrValuesBean.setId(Long.parseLong(attrIds.get(i)));
+                        attrValuesBean.setValue(String.valueOf(attrValues.get(i)));
+                        choiceAttrsList.add(attrValuesBean);
+                        attrsBean.setChoiceAttrs(choiceAttrsList);
+                    }
                 }
             }
         }

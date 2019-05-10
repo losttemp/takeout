@@ -190,9 +190,32 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
         if (productList.contains(spusBean)) {
             for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct : productList) {
                 if (spusBean.equals(shopProduct)) {
-                    setPriceListener.setNumber(shopProduct.getNumber());
-                    inList = true;
-                    break;
+                    boolean isFood = true;
+                    for (int a = 0; a < spusBean.getAttrs().size(); a++) {
+                        PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean shopBean = shopProduct.getAttrs().get(a);
+                        PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean = spusBean.getAttrs().get(a);
+                        //判断是否为同一规格
+                        if (shopBean.getChoiceAttrs() != null && shopBean.getChoiceAttrs().size() > 0 &&
+                                attrsBean.getChoiceAttrs() != null && attrsBean.getChoiceAttrs().size() > 0 &&
+                                shopBean.getChoiceAttrs().get(0).getId() != attrsBean.getChoiceAttrs().get(0).getId()) {
+                            isFood = false;
+                            break;
+                        }
+                    }
+                    //规格
+                    for (int b = 0; b < spusBean.getChoiceSkus().size(); b++) {
+                        PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean shopBean = shopProduct.getChoiceSkus().get(b);
+                        PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean skusBean = spusBean.getChoiceSkus().get(b);
+                        if (shopBean.getId() != skusBean.getId()) {
+                            isFood = false;
+                            break;
+                        }
+                    }
+                    if (isFood) {
+                        setPriceListener.setNumber(shopProduct.getNumber());
+                        inList = true;
+                        break;
+                    }
                 }
             }
             if (!inList) {
@@ -202,16 +225,36 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                 }
             }
         } else {
-            //判断再来一单 是否有同一商品
             if (FoodListActivity.mOneMoreOrder) {
                 for (int i = 0; i < productList.size(); i++) {
                     PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean shopProduct = productList.get(i);
-                    if (shopProduct.getId() == spusBean.getId() && shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0 && shopProduct.getAttrs().get(0).getChoiceAttrs() != null
-                            && shopProduct.getAttrs().get(0).getChoiceAttrs().size() > 0 &&
-                            spusBean.getAttrs().get(0).getChoiceAttrs().get(0).getId() == shopProduct.getAttrs().get(0).getChoiceAttrs().get(0).getId()) {
-                        setPriceListener.setNumber(shopProduct.getNumber());
-                        inList = true;
-                        break;
+                    if (shopProduct.getId() == spusBean.getId()) {
+                        boolean isFood = true;
+                        for (int a = 0; a < spusBean.getAttrs().size(); a++) {
+                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean shopBean = shopProduct.getAttrs().get(a);
+                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean = spusBean.getAttrs().get(a);
+                            //判断是否为同一规格
+                            if (shopBean.getChoiceAttrs() != null && shopBean.getChoiceAttrs().size() > 0 &&
+                                    attrsBean.getChoiceAttrs() != null && attrsBean.getChoiceAttrs().size() > 0 &&
+                                    shopBean.getChoiceAttrs().get(0).getId() != attrsBean.getChoiceAttrs().get(0).getId()) {
+                                isFood = false;
+                                break;
+                            }
+                        }
+                        //规格
+                        for (int b = 0; b < spusBean.getChoiceSkus().size(); b++) {
+                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean shopBean = shopProduct.getChoiceSkus().get(b);
+                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean skusBean = spusBean.getChoiceSkus().get(b);
+                            if (shopBean.getId() != skusBean.getId()) {
+                                isFood = false;
+                                break;
+                            }
+                        }
+                        if (isFood) {
+                            setPriceListener.setNumber(shopProduct.getNumber());
+                            inList = true;
+                            break;
+                        }
                     }
                 }
                 if (!inList) {

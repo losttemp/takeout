@@ -426,12 +426,16 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                     long id = attrsBean.getChoiceAttrs().get(0).getId();
                     food_spu_attr_ids.add(id);
                 }else {
-//                    ToastUtils.show(context,"商品列表不能为空",Toast.LENGTH_LONG);
+//                    ToastUtils.show(context,context.getString(R.string.error_nullpoint),Toast.LENGTH_LONG);
                 }
             }
             foodListBean.setFood_spu_attr_ids(food_spu_attr_ids);
             foodListBean.setCount(spusBean.getNumber());
-            foodListBean.setWm_food_sku_id(spusBean.getSkus().get(0).getId());
+            if (spusBean.getChoiceSkus()!=null){
+                foodListBean.setWm_food_sku_id(spusBean.getChoiceSkus().get(0).getId());
+            }else {
+                foodListBean.setWm_food_sku_id(spusBean.getSkus().get(0).getId());
+            }
             foodListBeans.add(foodListBean);
         }
         wmOrderingListBean.setFood_list(foodListBeans);
@@ -451,7 +455,6 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         orderPreviewJsonBean.setWm_ordering_user(wmOrderingUserBean);
         if (null != addressData&&null != addressData.getMt_address_id()) {
             orderPreviewJsonBean.setAddress_id(addressData.getMt_address_id());
