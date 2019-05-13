@@ -149,6 +149,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private MultiplTextView mCartShoppingPrise;
     private Button mCartSettlement;
     private TextView mCartDiscount;
+    private RelativeLayout mCartDiscountLayout;
     private MultiplTextView mCartClose;
     private MultiplTextView mDistributionFee;
     private RelativeLayout mRlDiscount;
@@ -993,6 +994,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 }
             }
         }
+        if (mBottomDialog != null && mBottomDialog.isShowing() && mCartDiscountLayout != null) {
+            mCartDiscountLayout.setVisibility(TextUtils.isEmpty(mCartDiscount.getText().toString()) ? View.GONE : View.VISIBLE);
+        }
     }
 
     private void showShopCartDialog() {
@@ -1020,6 +1024,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mCartShoppingPrise = (MultiplTextView) v.findViewById(R.id.shoppingPrise);
         mCartClose = (MultiplTextView) v.findViewById(R.id.tv_close_cart);
         mCartDiscount = (TextView) v.findViewById(R.id.tv_discount);
+        mCartDiscountLayout = v.findViewById(R.id.rl_discount);
         mCartSettlement = (Button) v.findViewById(R.id.settlement);
         mClearshopCart.setAccessibilityDelegate(new View.AccessibilityDelegate() {
             @Override
@@ -1585,7 +1590,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrsList = new ArrayList<>();
                         PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean attrValuesBean = new PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean();
                         attrValuesBean.setId(valuesBean.getId());
-                        attrValuesBean.setValue(String.valueOf(attrValues.get(i)));
+                        attrValuesBean.setValue(valuesBean.getValue());
                         choiceAttrsList.add(attrValuesBean);
                         attrsBean.setChoiceAttrs(choiceAttrsList);
                     }

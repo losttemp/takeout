@@ -163,9 +163,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         Button btn_sure = layout.findViewById(R.id.to_setting);
         Button btn_cancel = layout.findViewById(R.id.i_know);
         dialog = builder.create();
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setWindowAnimations(R.style.notAnimation);
-        }
+        dialog.getWindow().setWindowAnimations(R.style.Dialog);
         dialog.show();
         if (dialog.getWindow() != null) {
             Window window = dialog.getWindow();
