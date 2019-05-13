@@ -171,11 +171,11 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
                 startOtherActivity();
                 break;
             case R.id.finish_img:
-                if (getIntent().getBooleanExtra("flag", false)) {
-                    finish();
-                } else {
-                    AtyContainer.getInstance().finishAllActivity();
-                }
+                finish();
+//                if (getIntent().getBooleanExtra("flag", false)) {
+//                } else {
+//                    AtyContainer.getInstance().finishAllActivity();
+//                }
                 break;
             default:
                 break;
