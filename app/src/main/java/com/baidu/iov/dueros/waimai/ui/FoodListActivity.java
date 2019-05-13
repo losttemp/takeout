@@ -79,6 +79,7 @@ import com.baidu.xiaoduos.syncclient.EventType;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1573,12 +1574,17 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skusList;
         for (int i = 0; i < attrIds.size(); i++) {
             String attrId = attrIds.get(i);
+            //科学计数法转成数字
+            if (attrId.contains("E")) {
+                BigDecimal bd1 = new BigDecimal(attrId);
+                attrId = bd1.toPlainString();
+            }
             for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : attrs) {
                 for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean valuesBean : attrsBean.getValues()) {
                     if (attrId.equals(String.valueOf(valuesBean.getId()))) {
                         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> choiceAttrsList = new ArrayList<>();
                         PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean attrValuesBean = new PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean();
-                        attrValuesBean.setId(Long.parseLong(attrIds.get(i)));
+                        attrValuesBean.setId(valuesBean.getId());
                         attrValuesBean.setValue(String.valueOf(attrValues.get(i)));
                         choiceAttrsList.add(attrValuesBean);
                         attrsBean.setChoiceAttrs(choiceAttrsList);
