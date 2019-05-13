@@ -64,8 +64,6 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     private static final int REQUEST_CODE_ACCESS_COARSE_LOCATION = 400;
     protected Context mContext;
 
-    private boolean isStartPermissions = false;
-
     private String targetPath = "com.baidu.bodyguard.ui.activity.MainActivity";
     private String targetPackage = "com.baidu.bodyguard";
     private String locationFlag = "com.baidu.bodyguard-Location";
@@ -88,15 +86,11 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     protected void onResume() {
         super.onResume();
         getPresenter().registerCmd(this);
-        if (isStartPermissions) {
-            requestPermission();
-        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
         getPresenter().unregisterCmd(this);
         GuidingAppear.INSTANCE.exit(mContext);
         StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
@@ -105,8 +99,9 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dialog != null)
+        if (dialog != null) {
             dialog = null;
+        }
         AtyContainer.getInstance().removeActivity(this);
         LocationManager.getInstance(this).stopLocation();
         mPresenter.onUiDestroy(getUi());
@@ -155,7 +150,6 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             showPermissionDialog();
         } else {
-            isStartPermissions = false;
             initLocationCity();
         }
     }
@@ -193,7 +187,6 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isStartPermissions = false;
                 getGPSAddressFail();
                 dialog.dismiss();
             }
@@ -201,7 +194,6 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
     }
 
     public void startPrivacyActivity() {
-        isStartPermissions = true;
         Intent intent = new Intent();
         intent.putExtra(intentKey, locationFlag);
         intent.setComponent(new ComponentName(targetPackage, targetPath));
