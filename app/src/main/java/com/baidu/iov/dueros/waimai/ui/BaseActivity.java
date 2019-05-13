@@ -240,9 +240,4 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         }
     };
 
-    //隐藏键盘
-    protected void hideSoftKeyboard(EditText editText) {
-        InputMethodManager inputManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-    }
 }
