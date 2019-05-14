@@ -10,6 +10,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.GuidingReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.MeituanAuthorizeReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.GuideBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.GuidingBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.ui.WaiMaiApplication;
@@ -50,13 +51,22 @@ public class MeituanAuthModel implements IMeituanAuthModel {
         });
     }
     private void getGuidingData (){
-        ApiUtils.getGuiding(new GuidingReq(), new ApiCallBack<GuidingBean>() {
+        ApiUtils.getGuiding(new GuidingReq(), new ApiCallBack<GuideBean>() {
+//            @Override
+//            public void onSuccess(GuidingBean data) {
+//                Lg.getInstance().d("GuidingAppear", GsonUtil.toJson(data.getList().getWaimai()));
+//                if (data.getList().getWaimai() != null) {
+//                    WaiMaiApplication.getInstance().setmWaimaiBean(data.getList().getWaimai());
+//                    Lg.getInstance().d("GuidingAppear", data.getList().getWaimai().getAddress().getMe().get(0));
+//                }
+//            }
+
             @Override
-            public void onSuccess(GuidingBean data) {
-                Lg.getInstance().d("GuidingAppear", GsonUtil.toJson(data.getList().getWaimai()));
-                if (data.getList().getWaimai() != null) {
-                    WaiMaiApplication.getInstance().setmWaimaiBean(data.getList().getWaimai());
-                    Lg.getInstance().d("GuidingAppear", data.getList().getWaimai().getAddress().getMe().get(0));
+            public void onSuccess(GuideBean data) {
+                Lg.getInstance().d("GuidingAppear", data.getData().getGeneralList() + "");
+                if (data.getData().getGeneralList().getTakeout() != null) {
+                    WaiMaiApplication.getInstance().setmWaimaiBean(data.getData().getGeneralList().getTakeout());
+                    Lg.getInstance().d("GuidingAppear", data.getData().getGeneralList().getTakeout().getTakeout_add().getHints().get(0).getHint());
                 }
             }
 

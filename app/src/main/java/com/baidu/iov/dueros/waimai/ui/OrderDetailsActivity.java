@@ -137,7 +137,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         if (NetUtil.getNetWorkState(this)) {
             loadingView.setVisibility(View.VISIBLE);
             loadData();
-            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getDetail(),Constant.TTS_PAY_DETAIL);
+            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_pay().getHints(),Constant.TTS_PAY_DETAIL);
         } else {
             if (null != networkView) {
                 loadingView.setVisibility(View.GONE);

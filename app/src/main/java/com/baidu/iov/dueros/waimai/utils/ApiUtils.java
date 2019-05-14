@@ -3,6 +3,7 @@ package com.baidu.iov.dueros.waimai.utils;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.ApiInstance;
 import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
+import com.baidu.iov.dueros.waimai.net.entity.request.GuidingReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressAddBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressDeleteBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
@@ -13,6 +14,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.GuideBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.GuidingBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
@@ -44,11 +46,11 @@ public class ApiUtils {
     /**
      * get getGuiding request
      *
+     * @param <D>
      * @param request
      * @param callBack
-     * @param <D>
      */
-    public static <D extends RequestBase> void getGuiding(D request, ApiCallBack<GuidingBean> callBack) {
+    public static <D extends RequestBase> void getGuiding(GuidingReq request, ApiCallBack<GuideBean> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getGuiding(requestMap).enqueue(callBack);
     }

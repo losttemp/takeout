@@ -8,7 +8,7 @@ public class GuidingReq extends RequestBase {
     public long timestamp;
 
     public GuidingReq() {
-        this.app_name = "waimai";
+        this.app_name = "takeout";
         long timeStampSec = System.currentTimeMillis() / 1000;
         String timestamp = String.format("%010d", timeStampSec);
         this.timestamp = Long.parseLong(timestamp);

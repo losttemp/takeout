@@ -101,7 +101,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
     @Override
     protected void onResume() {
         super.onResume();
-        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getSearch().getSearch(),Constant.TTS_SEARCH_LIST);
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_search().getHints(),Constant.TTS_SEARCH_LIST);
 		AccessibilityClient.getInstance().register(this,true,prefix, null);
 	}
 
@@ -228,7 +228,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			@Override
 			public void onItemAccessibilityDelegate(int position) {
 				Entry.getInstance().onEvent(Constant.EVENT_HISTORY_ITEM_CLICK,EventType.TOUCH_TYPE);
-				GuidingAppear.INSTANCE.showtTips(SearchActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getSearch().getResult(),Constant.TTS_SEARCH_RESULT);
+				GuidingAppear.INSTANCE.showtTips(SearchActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_search().getHints(),Constant.TTS_SEARCH_RESULT);
 				clearFocus();
 				searchKeyword(mHistorys.get(position));
 	}

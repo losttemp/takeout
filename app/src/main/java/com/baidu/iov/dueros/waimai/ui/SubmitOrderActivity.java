@@ -381,7 +381,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         ArrayList<String> prefix = new ArrayList<>();
         prefix.add("选择");
         AccessibilityClient.getInstance().register(this, true, prefix, null);
-        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getPay().getSubmut(), Constant.TTS_PAY_SUBMUT);
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_pay().getHints(), Constant.TTS_PAY_SUBMUT);
     }
 
 

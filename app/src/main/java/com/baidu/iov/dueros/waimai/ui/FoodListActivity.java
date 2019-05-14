@@ -258,7 +258,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         prefix.add(getString(R.string.open));
         AccessibilityClient.getInstance().register(this,
                 true, prefix, null);
-        GuidingAppear.INSTANCE.showtTips(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getShop_detail(), Constant.TTS_CART_SHOP_DETAIL);
+        GuidingAppear.INSTANCE.showtTips(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_shopping().getHints(), Constant.TTS_CART_SHOP_DETAIL);
         Constant.ANIMATION_END = true;
 //        if (getIntent() != null) {
 //            boolean IsShowShopCart = getIntent().getBooleanExtra(Constant.TO_SHOW_SHOP_CART, false);
@@ -1000,7 +1000,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     private void showShopCartDialog() {
-        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getCart().getCart_view(), Constant.TTS_CART_VIEW);
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_shopping().getHints(), Constant.TTS_CART_VIEW);
         mBottomDialog = new Dialog(this, R.style.NoTitleDialog);
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_shop_cart, null);
         mBottomDialog.setContentView(v);

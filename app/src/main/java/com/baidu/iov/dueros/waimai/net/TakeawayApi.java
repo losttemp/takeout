@@ -11,6 +11,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.City;
 import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.GuideBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.GuidingBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
@@ -44,7 +45,7 @@ public interface TakeawayApi {
 
     @FormUrlEncoded
     @POST("/iovservice/api/leadwords")
-    Call<ResponseBase<GuidingBean>> getGuiding(@FieldMap Map<String, String> map);
+    Call<ResponseBase<GuideBean>> getGuiding(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("/iovservice/movie/citylist")

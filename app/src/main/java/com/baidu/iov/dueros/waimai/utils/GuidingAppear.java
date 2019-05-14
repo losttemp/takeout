@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 
 import com.baidu.iov.dueros.waimai.net.Config;
+import com.baidu.iov.dueros.waimai.net.entity.response.HintsBean;
 import com.baidu.iov.dueros.waimai.ui.WaiMaiApplication;
 
 import java.util.ArrayList;
@@ -25,12 +26,12 @@ public enum GuidingAppear {
     private static final String UUID = "qa_test_123123";
     ArrayList<String> newList=new ArrayList<>();
 
-    public void init(Context context,String tipsStr){
+    public void init(Context context,HintsBean tipsStr){
         if(tipsStr==null){
             return;
         }
         if (!UUID.equals(Constant.UUID)) {
-            StatusBarsManager.conversationByApp(context, Config.PACKGE_NAME, tipsStr);
+            StatusBarsManager.conversationByApp(context, Config.PACKGE_NAME, tipsStr.getHint());
         }
     }
 
@@ -99,7 +100,7 @@ public enum GuidingAppear {
         Lg.getInstance().d(TAG, "exit");
     }
 
-    public void showtTips(Context context, List<String> allTipsList, String key) {
+    public  void showtTips(Context context, List<HintsBean> allTipsList, String key) {
 
         if (allTipsList == null||allTipsList.size()==0) {
             return;
@@ -112,7 +113,7 @@ public enum GuidingAppear {
             showedIdList.addAll(WaiMaiApplication.getInstance().getTipsMap().get(key));
         }
 
-        ArrayList<String> newList=new ArrayList<>();
+        ArrayList<HintsBean> newList=new ArrayList<>();
         newList.addAll(allTipsList);
         int lastId=-1;
 
@@ -141,7 +142,7 @@ public enum GuidingAppear {
             int length=newList.size();
             int randomNum= random.nextInt(length);
             for (int i = 0; i <allTipsList.size() ; i++) {
-                if(TextUtils.equals(newList.get(randomNum),allTipsList.get(i))){
+                if(TextUtils.equals(newList.get(randomNum).getHint(),allTipsList.get(i).getHint())){
                     showedIdList.add(i);
                     WaiMaiApplication.getInstance().getTipsMap().put(key,showedIdList);
                     break;

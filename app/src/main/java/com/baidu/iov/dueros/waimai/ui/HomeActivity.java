@@ -120,7 +120,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     @Override
     protected void onResume() {
         super.onResume();
-        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getShop().getList(), Constant.TTS_SHOP_LIST);
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_list().getHints(), Constant.TTS_SHOP_LIST);
         AccessibilityClient.getInstance().register(this, true, prefix, null);
     }
 

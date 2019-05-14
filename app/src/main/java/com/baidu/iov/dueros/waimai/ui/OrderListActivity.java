@@ -386,7 +386,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             mRefreshLayout.finishLoadmore();
         }
 
-        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getOrder().getOrder(), Constant.TTS_ORDER_LIST);
+        GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_orderlist().getHints(), Constant.TTS_ORDER_LIST);
         if (null != data.getIov() && null != data.getIov().getData() && data.getIov().getData().size() != 0) {
             mOrderList.addAll(data.getIov().getData());
             mOrderListAdaper.notifyDataSetChanged();
