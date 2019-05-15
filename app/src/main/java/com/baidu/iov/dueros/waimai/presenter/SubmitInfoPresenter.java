@@ -46,6 +46,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
     }
 
     private static final String TAG = SubmitInfoPresenter.class.getSimpleName();
+
     @Override
     public void onUiReady(SubmitInfoUi ui) {
         super.onUiReady(ui);
@@ -105,7 +106,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                 if (null != getUi()) {
                     if (data != null && data.getIov().getData().size() > 0) {
                         for (int i = 0; i < data.getIov().getData().size(); i++) {
-                            if (data.getIov().getData().get(i).isIs_hint()){
+                            if (data.getIov().getData().get(i).isIs_hint()) {
                                 data.getIov().getData().remove(i);
                                 i--;
                             }
@@ -157,7 +158,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             @Override
             public void getLogid(String id) {
-                Lg.getInstance().d(TAG, "requestFilterList getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestFilterList getLogid: " + id);
             }
         });
 
@@ -186,14 +187,25 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                                        PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean,
                                        List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean,
                                        int unixtime, Context context, View loadingView) {
-        if (context.getString(R.string.address_destination).equals(addressData.getType())
-                &&TextUtils.isEmpty(addressData.getUser_name())
-                &&TextUtils.isEmpty(addressData.getUser_phone())){
+        String phone = null;
+        try {
+            phone = Encryption.desEncrypt(addressData.getUser_phone());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (TextUtils.isEmpty(phone) || "null".equals(phone)) {
             loadingView.setVisibility(View.GONE);
-            ToastUtils.show(context,"收货人信息不全，请完善信息",Toast.LENGTH_SHORT);
-        }else {
+            ToastUtils.show(context, "收货人电话信息不全，请完善信息", Toast.LENGTH_SHORT);
+            return;
+        }
+        if (context.getString(R.string.address_destination).equals(addressData.getType())
+                && TextUtils.isEmpty(addressData.getUser_name())
+                && TextUtils.isEmpty(addressData.getUser_phone())) {
+            loadingView.setVisibility(View.GONE);
+            ToastUtils.show(context, "收货人信息不全，请完善信息", Toast.LENGTH_SHORT);
+        } else {
             OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
-            String payload = OnCreateOrderPayLoad(addressData, poiInfoBean, wmOrderingPreviewDetailVoListBean, unixtime,context);
+            String payload = OnCreateOrderPayLoad(addressData, poiInfoBean, wmOrderingPreviewDetailVoListBean, unixtime, context);
             orderSubmitReq.setPayload(Encryption.encrypt(payload));
             orderSubmitReq.setWm_pic_url(poiInfoBean.getPic_url());
             mSubmitInfo.requestOrderSubmitData(orderSubmitReq, new RequestCallback<OrderSubmitBean>() {
@@ -215,15 +227,15 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
                 @Override
                 public void getLogid(String id) {
-                    Lg.getInstance().d(TAG, "requestOrderSubmitData getLogid: "+id);
+                    Lg.getInstance().d(TAG, "requestOrderSubmitData getLogid: " + id);
                 }
             });
         }
 
     }
 
-    private void setAutocompleteData(AddressListBean data){
-        List<AddressListBean.IovBean.DataBean>  mDataListBean = data.getIov().getData();
+    private void setAutocompleteData(AddressListBean data) {
+        List<AddressListBean.IovBean.DataBean> mDataListBean = data.getIov().getData();
         MyApplicationAddressBean.USER_NAMES.clear();
         MyApplicationAddressBean.USER_PHONES.clear();
         StringBuilder baiduName = new StringBuilder();
@@ -233,7 +245,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                 AddressListBean.IovBean.DataBean dataInfo = mDataListBean.get(i);
                 if (!TextUtils.isEmpty(dataInfo.getUser_name())) {
                     String user_name = Encryption.desEncrypt(dataInfo.getUser_name());
-                    if (TextUtils.isEmpty(user_name))break;
+                    if (TextUtils.isEmpty(user_name)) break;
                     if (null != dataInfo.getMt_address_id() &&
                             null == dataInfo.getAddress_id()) {
                         if (MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
@@ -258,7 +270,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
                 }
                 if (!TextUtils.isEmpty(dataInfo.getUser_phone())) {
                     String user_phone = Encryption.desEncrypt(dataInfo.getUser_phone());
-                    if (TextUtils.isEmpty(user_phone))break;
+                    if (TextUtils.isEmpty(user_phone)) break;
                     if (!user_phone.contains("*")) {
                         if (null != dataInfo.getMt_address_id() &&
                                 null == dataInfo.getAddress_id()) {
@@ -320,13 +332,13 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
     private String OnCreateOrderPayLoad(AddressListBean.IovBean.DataBean addressData,
                                         PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean,
                                         List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean,
-                                        int unixtime,Context context) {
+                                        int unixtime, Context context) {
         OrderSubmitJsonBean orderSubmitJsonBean = new OrderSubmitJsonBean();
         try {
 
             orderSubmitJsonBean.setPay_source(3);
             orderSubmitJsonBean.setReturn_url("www.meituan.com");
-            orderSubmitJsonBean.setAddress_id(null==addressData.getMt_address_id()?0:addressData.getMt_address_id());
+            orderSubmitJsonBean.setAddress_id(null == addressData.getMt_address_id() ? 0 : addressData.getMt_address_id());
             OrderSubmitJsonBean.WmOrderingListBean wmOrderingListBean = new OrderSubmitJsonBean.WmOrderingListBean();
             wmOrderingListBean.setWm_poi_id(poiInfoBean.getWm_poi_id());
             wmOrderingListBean.setDelivery_time(unixtime);
@@ -339,10 +351,10 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
                 List<Long> food_spu_attr_ids = new ArrayList<>();
                 for (OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean.WmOrderingPreviewFoodSpuAttrListBean wmOrderingPreviewFoodSpuAttrListBean : previewDetailVoListBean.getWm_ordering_preview_food_spu_attr_list()) {
-                    if (wmOrderingPreviewFoodSpuAttrListBean!=null){
+                    if (wmOrderingPreviewFoodSpuAttrListBean != null) {
                         long id = wmOrderingPreviewFoodSpuAttrListBean.getId();
                         food_spu_attr_ids.add(id);
-                    }else {
+                    } else {
 //                        ToastUtils.show(context,context.getString(R.string.error_nullpoint),Toast.LENGTH_LONG);
                     }
                 }
@@ -357,13 +369,13 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             OrderSubmitJsonBean.WmOrderingUserBean wmOrderingUserBean = new OrderSubmitJsonBean.WmOrderingUserBean();
             wmOrderingUserBean.setUser_phone(Encryption.desEncrypt(addressData.getUser_phone()));
-            wmOrderingUserBean.setUser_name(TextUtils.isEmpty(addressData.getUser_name())?"":Encryption.desEncrypt(addressData.getUser_name()));
+            wmOrderingUserBean.setUser_name(TextUtils.isEmpty(addressData.getUser_name()) ? "" : Encryption.desEncrypt(addressData.getUser_name()));
             wmOrderingUserBean.setUser_address(Encryption.desEncrypt(addressData.getAddress()));
             wmOrderingUserBean.setAddr_longitude(addressData.getLongitude());
             wmOrderingUserBean.setAddr_latitude(addressData.getLatitude());
             if (context.getString(R.string.address_destination).equals(addressData.getType())
-                    &&TextUtils.isEmpty(addressData.getUser_name())
-                    &&!TextUtils.isEmpty(addressData.getUser_phone())){
+                    && TextUtils.isEmpty(addressData.getUser_name())
+                    && !TextUtils.isEmpty(addressData.getUser_phone())) {
                 wmOrderingUserBean.setUser_name(wmOrderingUserBean.getUser_phone());
             }
             orderSubmitJsonBean.setWm_ordering_user(wmOrderingUserBean);
@@ -378,8 +390,8 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
     public void requestOrderPreview(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,
                                     PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean, int delivery_time,
-                                    AddressListBean.IovBean.DataBean addressData,Context context) {
-        String payload = onCreatePayLoadJson(spusBeanList, poiInfoBean, delivery_time, addressData,context);
+                                    AddressListBean.IovBean.DataBean addressData, Context context) {
+        String payload = onCreatePayLoadJson(spusBeanList, poiInfoBean, delivery_time, addressData, context);
         OrderPreviewReqBean orderPreviewReqBean = new OrderPreviewReqBean();
         orderPreviewReqBean.setPayload(Encryption.encrypt(payload));
         mSubmitInfo.requestOrderPreview(orderPreviewReqBean, new RequestCallback<OrderPreviewBean>() {
@@ -400,14 +412,14 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             @Override
             public void getLogid(String id) {
-                Lg.getInstance().d(TAG, "requestOrderPreview getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestOrderPreview getLogid: " + id);
             }
         });
     }
 
     private String onCreatePayLoadJson(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,
                                        PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean, int delivery_time,
-                                       AddressListBean.IovBean.DataBean addressData,Context context) {
+                                       AddressListBean.IovBean.DataBean addressData, Context context) {
 
 
         OrderPreviewJsonBean orderPreviewJsonBean = new OrderPreviewJsonBean();
@@ -422,18 +434,18 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
 
             List<Long> food_spu_attr_ids = new ArrayList<>();
             for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean : spusBean.getAttrs()) {
-                if (attrsBean.getChoiceAttrs()!=null){
+                if (attrsBean.getChoiceAttrs() != null) {
                     long id = attrsBean.getChoiceAttrs().get(0).getId();
                     food_spu_attr_ids.add(id);
-                }else {
+                } else {
 //                    ToastUtils.show(context,context.getString(R.string.error_nullpoint),Toast.LENGTH_LONG);
                 }
             }
             foodListBean.setFood_spu_attr_ids(food_spu_attr_ids);
             foodListBean.setCount(spusBean.getNumber());
-            if (spusBean.getChoiceSkus()!=null){
+            if (spusBean.getChoiceSkus() != null) {
                 foodListBean.setWm_food_sku_id(spusBean.getChoiceSkus().get(0).getId());
-            }else {
+            } else {
                 foodListBean.setWm_food_sku_id(spusBean.getSkus().get(0).getId());
             }
             foodListBeans.add(foodListBean);
@@ -456,7 +468,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             e.printStackTrace();
         }
         orderPreviewJsonBean.setWm_ordering_user(wmOrderingUserBean);
-        if (null != addressData&&null != addressData.getMt_address_id()) {
+        if (null != addressData && null != addressData.getMt_address_id()) {
             orderPreviewJsonBean.setAddress_id(addressData.getMt_address_id());
         }
         return GsonUtil.toJson(orderPreviewJsonBean);
