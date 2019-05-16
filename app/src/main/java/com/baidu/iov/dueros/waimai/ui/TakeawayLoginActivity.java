@@ -9,8 +9,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
@@ -71,25 +73,21 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        isNeedVoice = getIntent().getBooleanExtra(StandardCmdClient.NEED_TTS, false);
-        Lg.getInstance().e(TAG, "isNeedVoice：" + isNeedVoice);
-        if (isNeedVoice) {
-            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_VOICE, EventType.TOUCH_TYPE);
-            AtyContainer.getInstance().finishAllActivity();
-        } else {
-            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_CLICK, EventType.TOUCH_TYPE);
-        }
         super.onCreate(savedInstanceState);
+        View contentView = getLayoutInflater().inflate(R.layout.activity_meituan_login, null);
+        setContentView(contentView);
         this.savedInstanceState = savedInstanceState;
         init();
-        setContentView(R.layout.activity_meituan_login);
+        initView();
+    }
+
+    private void initView() {
         login_bg = findViewById(R.id.login_bg);
         act_back = findViewById(R.id.login_back);
         loadingView = findViewById(R.id.loading_view);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mWVMeituan = (WebView) findViewById(R.id.meituan_login);
         WV_foreground = findViewById(R.id.WV_foreground);
-
         WebSettings webSettings = mWVMeituan.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
@@ -148,6 +146,14 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     }
 
     private void init() {
+        isNeedVoice = getIntent().getBooleanExtra(StandardCmdClient.NEED_TTS, false);
+        Lg.getInstance().e(TAG, "isNeedVoice：" + isNeedVoice);
+        if (isNeedVoice) {
+            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_VOICE, EventType.TOUCH_TYPE);
+            AtyContainer.getInstance().finishAllActivity();
+        } else {
+            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_CLICK, EventType.TOUCH_TYPE);
+        }
         mMeituanAuthReq = new MeituanAuthorizeReq();
         mMeituanAuthReq.setBduss(CacheUtils.getBduss());
     }
@@ -197,7 +203,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                     + "document.querySelector('meta[name=\"share-description\"]').getAttribute('content')"
                     + ");");
             progressBar.setVisibility(View.GONE);
-
             super.onPageFinished(view, url);
 
             int delayMillis;
@@ -256,13 +261,26 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-//            handler.proceed();
-            handler.cancel();
-            super.onReceivedSslError(view, handler, error);
+            Lg.getInstance().e(TAG, "onReceivedSslError sslError=" + error.toString());
+            if (error.getPrimaryError() == android.net.http.SslError.SSL_INVALID) {
+                handler.proceed();
+            } else {
+                handler.cancel();
+            }
         }
     };
 
     private WebChromeClient webChromeClient = new WebChromeClient() {
+
+        @Override
+        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+            Log.d("TakeawayLoginActivity", consoleMessage.message());
+            if (consoleMessage.message().equals("<有效点击>登录按钮")) {
+                hideAgreement(mWVMeituan);
+            }
+            return true;
+        }
+
         @Override
         public boolean onJsAlert(WebView webView, String url, String message, JsResult result) {
             AlertDialog.Builder localBuilder = new AlertDialog.Builder(webView.getContext());
@@ -414,6 +432,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         switch (v.getId()) {
             case R.id.no_internet_btn:
                 if (NetUtil.getNetWorkState(this)) {
+                    loadingView.setVisibility(View.VISIBLE);
+                    networkView.setVisibility(View.GONE);
                     initPostHttp();
                 } else {
                     ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
