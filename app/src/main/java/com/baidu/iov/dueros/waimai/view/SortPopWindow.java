@@ -73,12 +73,10 @@ public class SortPopWindow extends PopupWindow {
 	@Override
 	public void showAsDropDown(View anchor) {
 		super.showAsDropDown(anchor);
-		AccessibilityClient.getInstance().register(mContext,true,prefix, null);
 	}
 
 	@Override
 	public void dismiss() {
-		AccessibilityClient.getInstance().unregister(mContext);
 		super.dismiss();
 	}
 }
