@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:id="@+id/rl_layout_header"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/px96dp"
-    android:layout_marginTop="@dimen/px16dp"
-    android:layout_marginBottom="@dimen/px14dp">
+    android:layout_height="@dimen/px118dp">
 
     <ImageView
         android:id="@+id/iv_back"
@@ -20,21 +19,18 @@
 
     <ImageView
         android:id="@+id/exit_login"
-        android:layout_width="@dimen/px48dp"
-        android:layout_height="@dimen/px48dp"
+        android:layout_width="@dimen/px96dp"
+        android:layout_height="@dimen/px96dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/px78dp"
-        android:layout_marginBottom="@dimen/px22dp"
-        android:src="@drawable/tuichu"/>
+        android:layout_marginRight="@dimen/px54dp"
+        android:src="@drawable/tuichu" />
 
     <ImageView
         android:id="@+id/iv_right"
-        android:layout_width="@dimen/px48dp"
-        android:layout_height="@dimen/px48dp"
+        android:layout_width="@dimen/px96dp"
+        android:layout_height="@dimen/px96dp"
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/px34dp"
-        android:layout_marginBottom="@dimen/px22dp"
         android:layout_toLeftOf="@+id/exit_login"
         android:contentDescription="@string/content_order_form"
         android:src="@drawable/icon_dingdan" />
@@ -50,9 +46,8 @@
         android:ellipsize="end"
         android:maxWidth="@dimen/px500dp"
         android:maxLines="1"
-        android:text="@string/takeaway"
         android:textColor="@color/white"
-        android:textSize="@dimen/px40sp" />
+        android:textSize="@dimen/px42sp" />
 
     <ImageView
         android:id="@+id/iv_title"
