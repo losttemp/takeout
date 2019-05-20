@@ -202,23 +202,6 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_ACCESS_COARSE_LOCATION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                //permission was granted, yay! Do the contacts-related task you need to do.
-                initLocationCity();
-            } else {
-                //permission denied, boo! Disable the functionality that depends on this permission.
-                showPermissionDialog();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
     protected void doSearchAddress(final boolean isEditModle) {
         Intent intent = new Intent(mContext, AddressSuggestionActivity.class);
         intent.putExtra(Constant.ADDRESS_SELECT_INTENT_EXTRE_ADD_OR_EDIT, isEditModle);

@@ -192,6 +192,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         @Override
         public void onPageFinished(WebView view, String url) {
             hideHtmlContent(view);
+            Lg.getInstance().d(TAG, "url:" + url);
             if (url.contains("https://openapi.waimai.meituan.com/oauth") ||
                     url.contains("https://h5.waimai.meituan.com/authorize")) {
                 hideAgreement(view);

@@ -1505,20 +1505,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                     spusBean.setSpecificationsNumber(spusBean.getSpecificationsNumber() + spusFood.getCount());
                                 }
                                 int number = spusFood.getCount();
-                                int minOrderCount = getMinOrderCount(spusBean);
                                 if (number > 1) {
-                                    if (minOrderCount > 1) {
-                                        spusBean.setNumber(minOrderCount);
-                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        for (int i = minOrderCount; i <= number; i++) {
-                                            spusBean.setNumber(i + 1);
-                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        }
-                                    } else {
-                                        for (int i = minOrderCount; i <= number; i++) {
-                                            spusBean.setNumber(i);
-                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        }
+                                    for (int i = 0; i < number; i++) {
+                                        spusBean.setNumber(i + 1);
+                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(), spusFood.getCount(), true, false, groupTag);
                                     }
                                 } else {
                                     updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
@@ -1546,20 +1536,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                     spusBean.setSpecificationsNumber(spusBean.getSpecificationsNumber() + spusFood.getCount());
                                 }
                                 int number = spusFood.getCount();
-                                int minOrderCount = getMinOrderCount(spusBean);
                                 if (number > 1) {
-                                    if (minOrderCount > 1) {
-                                        spusBean.setNumber(minOrderCount);
-                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        for (int i = minOrderCount; i <= number; i++) {
-                                            spusBean.setNumber(i + 1);
-                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        }
-                                    } else {
-                                        for (int i = minOrderCount; i <= number; i++) {
-                                            spusBean.setNumber(i);
-                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        }
+                                    for (int i = 0; i < number; i++) {
+                                        spusBean.setNumber(i + 1);
+                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(), spusFood.getCount(), true, false, groupTag);
                                     }
                                 } else {
                                     updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
