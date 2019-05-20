@@ -11,6 +11,7 @@
         android:layout_marginBottom="@dimen/px30dp"
         android:layout_marginTop="@dimen/px32dp"
         android:layout_marginStart="@dimen/px84dp"
+        android:src="@drawable/default_goods_icon"
         android:scaleType="fitXY" />
 
     <TextView

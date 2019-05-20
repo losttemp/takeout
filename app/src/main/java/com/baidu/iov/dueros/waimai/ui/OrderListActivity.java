@@ -406,7 +406,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     public void updateOrderCancel(OrderCancelResponse data) {
         if (data.getMeituan().getCode() == 0) {
             sendTTS(R.string.close_order_success_text);
-            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_cancelled), Toast.LENGTH_LONG);
+            ToastUtils.customTime(this,getApplicationContext().getResources().getString(R.string.order_cancelled),500);
             mOrderList.get(pos).setOut_trade_status(IOV_STATUS_CANCELED);
             mOrderListAdaper.notifyItemChanged(pos);
         } else {
