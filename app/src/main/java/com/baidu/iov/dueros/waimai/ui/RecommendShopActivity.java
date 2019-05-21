@@ -129,19 +129,20 @@ public class RecommendShopActivity extends BaseActivity<ShopPresenter, ShopPrese
        
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (!isload){
-            isload=true;
-            mStoreListFragment.recommendShopLoadFirstPage(mStoreReq);
-        }
-      
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//
+//    }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (!isload){
+            isload=true;
+            mStoreListFragment.recommendShopLoadFirstPage(mStoreReq);
+        }
         if (getResources().getString(R.string.stroe_type_cake).equals(title)){
             GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_cake().getHints(),Constant.TTS_SHOP_CAKE);
         }else if (getResources().getString(R.string.stroe_type_flower).equals(title)){
@@ -153,8 +154,8 @@ public class RecommendShopActivity extends BaseActivity<ShopPresenter, ShopPrese
     @Override
     protected void onPause() {
         super.onPause();
+        isload = false;
         AccessibilityClient.getInstance().unregister(this);
-
     }
 
    

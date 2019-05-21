@@ -146,11 +146,11 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             public void onSuccess(OrderDetailsResponse data) {
                 loadingView.setVisibility(View.GONE);
                 mParentsLayout.setVisibility(View.VISIBLE);
-//                    long expireTime = (long)data.getIov().getExpire_time();
-//                    long sysTime = (long)data.getIov().getSystime();
-//                    mTimer = new CountDownTimer(expireTime - sysTime, 1000) {
-                long orderTime = (long)data.getMeituan().getData().getOrder_time() * 1000L;
-                mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
+                    long expireTime = (long)data.getIov().getData().getExpire_time();
+                    long sysTime = (long)data.getIov().getData().getSystime();
+                    mTimer = new CountDownTimer((expireTime - sysTime)*1000, 1000) {
+//                long orderTime = (long)data.getMeituan().getData().getOrder_time() * 1000L;
+//                mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
 
                     @Override
                     public void onTick(long millisUntilFinished) {

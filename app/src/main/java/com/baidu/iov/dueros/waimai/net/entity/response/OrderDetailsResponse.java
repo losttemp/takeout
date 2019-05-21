@@ -656,43 +656,8 @@ public class OrderDetailsResponse {
 
         private int errno;
         private String errmsg;
-        private List<?> data;
-        private long order_id;
-        private long expire_time;
-        private long order_time;
-        private long systime;
-
-        public long getOrder_id() {
-            return order_id;
-        }
-
-        public void setOrder_id(long order_id) {
-            this.order_id = order_id;
-        }
-
-        public long getExpire_time() {
-            return expire_time;
-        }
-
-        public void setExpire_time(long expire_time) {
-            this.expire_time = expire_time;
-        }
-
-        public long getOrder_time() {
-            return order_time;
-        }
-
-        public void setOrder_time(long order_time) {
-            this.order_time = order_time;
-        }
-
-        public long getSystime() {
-            return systime;
-        }
-
-        public void setSystime(long systime) {
-            this.systime = systime;
-        }
+        private String logid;
+        private DataBeanTime data;
 
         public int getErrno() {
             return errno;
@@ -710,12 +675,56 @@ public class OrderDetailsResponse {
             this.errmsg = errmsg;
         }
 
-        public List<?> getData() {
+        public String getLogid() {
+            return logid;
+        }
+
+        public void setLogid(String logid) {
+            this.logid = logid;
+        }
+
+        public DataBeanTime getData() {
             return data;
         }
 
-        public void setData(List<?> data) {
+        public void setData(DataBeanTime data) {
             this.data = data;
+        }
+
+        public static class DataBeanTime {
+            /**
+             * expire_time : 1558420059
+             * order_ctime : 1558419159
+             * systime : 1558422312
+             */
+
+            private int expire_time;
+            private int order_ctime;
+            private int systime;
+
+            public int getExpire_time() {
+                return expire_time;
+            }
+
+            public void setExpire_time(int expire_time) {
+                this.expire_time = expire_time;
+            }
+
+            public int getOrder_ctime() {
+                return order_ctime;
+            }
+
+            public void setOrder_ctime(int order_ctime) {
+                this.order_ctime = order_ctime;
+            }
+
+            public int getSystime() {
+                return systime;
+            }
+
+            public void setSystime(int systime) {
+                this.systime = systime;
+            }
         }
     }
 }

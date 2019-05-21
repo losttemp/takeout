@@ -354,11 +354,16 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
 
     private void finishAct() {
         if (mDataList.size() == 0) {
-            //地址删除完后,直接退出应用
-            CacheUtils.saveAddrTime(0);
-            CacheUtils.saveAddressBean(null);
-            CacheUtils.saveAddress(null);
-            AtyContainer.getInstance().finishAllActivity();
+            if (!TextUtils.isEmpty(CacheUtils.getAddressBean())) {
+                //当地址列表没有加载出数据，但是有缓存地址时候返回到首页
+                finish();
+            }else {
+                //地址删除完后,直接退出应用
+                CacheUtils.saveAddrTime(0);
+                CacheUtils.saveAddressBean(null);
+                CacheUtils.saveAddress(null);
+                AtyContainer.getInstance().finishAllActivity();
+            }
         } else if (startApp != Constant.START_APP_CODE && TextUtils.isEmpty(CacheUtils.getAddressBean())) {
             //当删除的地址是缓存的地址的时候,默认给第一个地址
             AddressListBean.IovBean.DataBean dataBean = mDataList.get(0);

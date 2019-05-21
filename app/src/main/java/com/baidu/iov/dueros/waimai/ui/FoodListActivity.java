@@ -629,7 +629,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (mBottomDialog != null && mBottomDialog.isShowing()) {
             setDialogHeight(mBottomDialog);
         }
-        refreshSpusTagNum(increase, spusBean, firstAdd, false);
+        newRefreshSpusTagNum(increase, spusBean, firstAdd, false);
         setPrise(increase);
     }
 
@@ -669,6 +669,36 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             setDialogHeight(mBottomDialog);
         }
         setPrise(false);
+    }
+
+    private void newRefreshSpusTagNum(boolean increase,
+                                      PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
+                                      boolean firstAdd, boolean remove) {
+        for (int i = 0; i < poifoodSpusTagsBeans.size(); i++) {
+            if (Integer.parseInt(spusBean.getTag()) == poifoodSpusTagsBeans.get(i).getTag()
+                    && !tags.contains(spusBean.getTag())) {
+                Integer number = poifoodSpusTagsBeans.get(i).getNumber();
+                int minOrderCount = getMinOrderCount(spusBean);
+                if (increase) {
+                    number++;
+                } else {
+                    if (remove) {
+                        number -= spusBean.getNumber();
+                    } else {
+                        if (minOrderCount > 1 && Constant.MIN_COUNT) {
+                            number -= minOrderCount;
+                        } else {
+                            number--;
+                        }
+                    }
+                    if (number == 0) {
+                        tags.add(spusBean.getTag());
+                    }
+                }
+                poifoodSpusTagsBeans.get(i).setNumber(number);
+            }
+        }
+        mFoodSpuTagsListAdapter.notifyDataSetChanged();
     }
 
     private void refreshSpusTagNum(boolean increase,
@@ -1505,10 +1535,20 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                     spusBean.setSpecificationsNumber(spusBean.getSpecificationsNumber() + spusFood.getCount());
                                 }
                                 int number = spusFood.getCount();
+                                int minOrderCount = getMinOrderCount(spusBean);
                                 if (number > 1) {
-                                    for (int i = 0; i < number; i++) {
-                                        spusBean.setNumber(i + 1);
-                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(), spusFood.getCount(), true, false, groupTag);
+                                    if (minOrderCount > 1) {
+//                                        spusBean.setNumber(minOrderCount);
+//                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
+                                        for (int i = 0; i < number; i++) {
+                                            spusBean.setNumber(i + 1);
+                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
+                                        }
+                                    } else {
+                                        for (int i = minOrderCount; i <= number; i++) {
+                                            spusBean.setNumber(i);
+                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
+                                        }
                                     }
                                 } else {
                                     updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
@@ -1536,10 +1576,20 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                     spusBean.setSpecificationsNumber(spusBean.getSpecificationsNumber() + spusFood.getCount());
                                 }
                                 int number = spusFood.getCount();
+                                int minOrderCount = getMinOrderCount(spusBean);
                                 if (number > 1) {
-                                    for (int i = 0; i < number; i++) {
-                                        spusBean.setNumber(i + 1);
-                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(), spusFood.getCount(), true, false, groupTag);
+                                    if (minOrderCount > 1) {
+                                        spusBean.setNumber(minOrderCount);
+                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
+                                        for (int i = minOrderCount; i <= number; i++) {
+                                            spusBean.setNumber(i + 1);
+                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
+                                        }
+                                    } else {
+                                        for (int i = minOrderCount; i <= number; i++) {
+                                            spusBean.setNumber(i);
+                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
+                                        }
                                     }
                                 } else {
                                     updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
