@@ -1579,9 +1579,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 int minOrderCount = getMinOrderCount(spusBean);
                                 if (number > 1) {
                                     if (minOrderCount > 1) {
-                                        spusBean.setNumber(minOrderCount);
-                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        for (int i = minOrderCount; i <= number; i++) {
+                                        for (int i = 0; i < number; i++) {
                                             spusBean.setNumber(i + 1);
                                             updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
                                         }
