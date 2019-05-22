@@ -207,13 +207,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         }
         mName.setText(name);
         mPhone.setText(phone);
-//        if (mName.getText().length() > 17) {
-//            mName.setWidth((int) getResources().getDimension(R.dimen.px400dp));
-//        }
         mAddress.setText(address);
-//        if (mAddress.getText().length() > 17) {
-//            mAddress.setWidth((int) getResources().getDimension(R.dimen.px520dp));
-//        }
         mBusinessName.setText(shopName);
         mDistributionFee.setText(String.format(getResources().getString(R.string.cost_text), mNumberFormat.format(shippingFee)));
         if (discount != 0) {
@@ -560,10 +554,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 long expireTime = (long)data.getIov().getData().getExpire_time();
                 long sysTime = (long)data.getIov().getData().getSystime();
                 mTimer = new CountDownTimer((expireTime - sysTime)*1000, 1000) {
-
-//                    long orderTime = (long)data.getMeituan().getData().getOrder_time() * 1000L;
-//                    mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
-
                         @Override
                     public void onTick(long millisUntilFinished) {
                         mArrivalTime.setText(String.format(getResources().getString(R.string.count_down_timer), formatCountDownTime(millisUntilFinished)));

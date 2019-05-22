@@ -15,26 +15,27 @@
         android:ellipsize="end"
         android:maxLines="1"/>
 
-    <com.domain.multipltextview.MultiplTextView
+    <TextView
         android:id="@+id/tv_food_origin_price"
         style="@style/OrderDetailsText"
         android:layout_width="@dimen/px182dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/tv_food_name"
+        android:layout_marginTop="@dimen/px28dp"
         android:layout_marginEnd="@dimen/px28dp"
         android:layout_toLeftOf="@+id/tv_food_price"
         android:alpha="0.6"
-        app:removeDefaultPadding="true" />
+        android:includeFontPadding="false" />
 
-    <com.domain.multipltextview.MultiplTextView
+    <TextView
         android:id="@+id/tv_food_price"
         style="@style/OrderDetailsText"
-        android:layout_width="@dimen/px182dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/tv_food_name"
+        android:gravity="end"
+        android:layout_marginTop="@dimen/px28dp"
         android:layout_alignParentEnd="true"
         android:textColor="@color/white"
-        app:removeDefaultPadding="true" />
+        android:includeFontPadding="false" />
 
 
 </RelativeLayout>
