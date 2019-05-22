@@ -354,7 +354,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
 
     private void finishAct() {
         if (mDataList.size() == 0) {
-            if (!TextUtils.isEmpty(CacheUtils.getAddressBean())) {
+            if (startApp != Constant.START_APP_CODE) {
                 //当地址列表没有加载出数据，但是有缓存地址时候返回到首页
                 finish();
             }else {
