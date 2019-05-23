@@ -94,16 +94,16 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
             viewHolder.attrsName.setText(attrsBeans.get(position).getName());
             final List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> values = attrsBeans.get(position).getValues();
             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> lastChoiceAttrs = attrsBeans.get(position).getChoiceAttrs();
-            final SpecificationAdapter specificationAdapter = new SpecificationAdapter(context,lastChoiceAttrs, null, values, null);
+            final SpecificationAdapter specificationAdapter = new SpecificationAdapter(context, lastChoiceAttrs, null, values, null);
             viewHolder.recyclerview.setAdapter(specificationAdapter);
             specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {
                 @Override
                 public void OnItemClick(View view, int p) {
                     List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean.ValuesBean> valuesBeans = attrsBeans.get(position).getValues();
                     for (int i = 0; i < viewHolder.recyclerview.getChildCount(); i++) {
-                        View rootView =viewHolder.recyclerview.getChildAt(i);
+                        View rootView = viewHolder.recyclerview.getChildAt(i);
                         rootView.setBackgroundResource(R.drawable.shape_filter_selected_bg);
-                        TextView textItem =((TextView)rootView.findViewById(R.id.textItem));
+                        TextView textItem = ((TextView) rootView.findViewById(R.id.textItem));
 
                         if (i == p) {
                             rootView.setBackgroundResource(R.drawable.shape_filter_selected_bg);
@@ -139,15 +139,15 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                 viewHolder.attrsName.setText(context.getString(R.string.specification) + ":");
                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> lastChoiceSkus = spusBean.getChoiceSkus();
 
-                final SpecificationAdapter specificationAdapter = new SpecificationAdapter(context,null, lastChoiceSkus, null, skusBeans);
+                final SpecificationAdapter specificationAdapter = new SpecificationAdapter(context, null, lastChoiceSkus, null, skusBeans);
                 viewHolder.recyclerview.setAdapter(specificationAdapter);
                 specificationAdapter.setOnItemClickListerner(new SpecificationAdapter.OnItemClickListener() {
                     @Override
                     public void OnItemClick(View view, int p) {
                         for (int i = 0; i < viewHolder.recyclerview.getChildCount(); i++) {
-                            View rootView =viewHolder.recyclerview.getChildAt(i);
+                            View rootView = viewHolder.recyclerview.getChildAt(i);
                             rootView.setBackgroundResource(R.drawable.shape_filter_selected_bg);
-                            TextView textItem =((TextView)rootView.findViewById(R.id.textItem));
+                            TextView textItem = ((TextView) rootView.findViewById(R.id.textItem));
 
                             if (i == p) {
                                 rootView.setBackgroundResource(R.drawable.shape_filter_selected_bg);
@@ -192,23 +192,27 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                 if (spusBean.equals(shopProduct)) {
                     boolean isFood = true;
                     for (int a = 0; a < spusBean.getAttrs().size(); a++) {
-                        PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean shopBean = shopProduct.getAttrs().get(a);
-                        PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean = spusBean.getAttrs().get(a);
-                        //判断是否为同一规格
-                        if (shopBean.getChoiceAttrs() != null && shopBean.getChoiceAttrs().size() > 0 &&
-                                attrsBean.getChoiceAttrs() != null && attrsBean.getChoiceAttrs().size() > 0 &&
-                                shopBean.getChoiceAttrs().get(0).getId() != attrsBean.getChoiceAttrs().get(0).getId()) {
-                            isFood = false;
-                            break;
+                        if (shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0) {
+                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean shopBean = shopProduct.getAttrs().get(a);
+                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean = spusBean.getAttrs().get(a);
+                            //判断是否为同一规格
+                            if (shopBean.getChoiceAttrs() != null && shopBean.getChoiceAttrs().size() > 0 &&
+                                    attrsBean.getChoiceAttrs() != null && attrsBean.getChoiceAttrs().size() > 0 &&
+                                    shopBean.getChoiceAttrs().get(0).getId() != attrsBean.getChoiceAttrs().get(0).getId()) {
+                                isFood = false;
+                                break;
+                            }
                         }
                     }
                     //规格
                     for (int b = 0; b < spusBean.getChoiceSkus().size(); b++) {
-                        PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean shopBean = shopProduct.getChoiceSkus().get(b);
-                        PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean skusBean = spusBean.getChoiceSkus().get(b);
-                        if (shopBean.getId() != skusBean.getId()) {
-                            isFood = false;
-                            break;
+                        if (shopProduct.getChoiceSkus() != null && shopProduct.getChoiceSkus().size() > 0) {
+                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean shopBean = shopProduct.getChoiceSkus().get(b);
+                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean skusBean = spusBean.getChoiceSkus().get(b);
+                            if (shopBean.getId() != skusBean.getId()) {
+                                isFood = false;
+                                break;
+                            }
                         }
                     }
                     if (isFood) {
@@ -231,23 +235,27 @@ public class PoifoodSpusAttrsAdapter extends BaseAdapter {
                     if (shopProduct.getId() == spusBean.getId()) {
                         boolean isFood = true;
                         for (int a = 0; a < spusBean.getAttrs().size(); a++) {
-                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean shopBean = shopProduct.getAttrs().get(a);
-                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean = spusBean.getAttrs().get(a);
-                            //判断是否为同一规格
-                            if (shopBean.getChoiceAttrs() != null && shopBean.getChoiceAttrs().size() > 0 &&
-                                    attrsBean.getChoiceAttrs() != null && attrsBean.getChoiceAttrs().size() > 0 &&
-                                    shopBean.getChoiceAttrs().get(0).getId() != attrsBean.getChoiceAttrs().get(0).getId()) {
-                                isFood = false;
-                                break;
+                            if (shopProduct.getAttrs() != null && shopProduct.getAttrs().size() > 0) {
+                                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean shopBean = shopProduct.getAttrs().get(a);
+                                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean attrsBean = spusBean.getAttrs().get(a);
+                                //判断是否为同一规格
+                                if (shopBean.getChoiceAttrs() != null && shopBean.getChoiceAttrs().size() > 0 &&
+                                        attrsBean.getChoiceAttrs() != null && attrsBean.getChoiceAttrs().size() > 0 &&
+                                        shopBean.getChoiceAttrs().get(0).getId() != attrsBean.getChoiceAttrs().get(0).getId()) {
+                                    isFood = false;
+                                    break;
+                                }
                             }
                         }
                         //规格
                         for (int b = 0; b < spusBean.getChoiceSkus().size(); b++) {
-                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean shopBean = shopProduct.getChoiceSkus().get(b);
-                            PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean skusBean = spusBean.getChoiceSkus().get(b);
-                            if (shopBean.getId() != skusBean.getId()) {
-                                isFood = false;
-                                break;
+                            if (shopProduct.getChoiceSkus() != null && shopProduct.getChoiceSkus().size() > 0) {
+                                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean shopBean = shopProduct.getChoiceSkus().get(b);
+                                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean skusBean = spusBean.getChoiceSkus().get(b);
+                                if (shopBean.getId() != skusBean.getId()) {
+                                    isFood = false;
+                                    break;
+                                }
                             }
                         }
                         if (isFood) {

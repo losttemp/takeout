@@ -12,6 +12,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -59,7 +60,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private View login_bg, loadingView, act_back;
     private String oldBudss = null;//记录budss 与上次不同则跳转到地址界面
 
-    private FrameLayout WV_foreground;
+    private FrameLayout WV_foreground, webviewLayout;
+    private WebView webView;
 
     @Override
     MeituanAuthPresenter createPresenter() {
@@ -83,10 +85,12 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     private void initView() {
         login_bg = findViewById(R.id.login_bg);
+        webviewLayout = findViewById(R.id.webview_layout);
         act_back = findViewById(R.id.login_back);
         loadingView = findViewById(R.id.loading_view);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
-        mWVMeituan = (WebView) findViewById(R.id.meituan_login);
+        mWVMeituan = new WebView(getApplicationContext());
+        webviewLayout.addView(mWVMeituan);
         WV_foreground = findViewById(R.id.WV_foreground);
         WebSettings webSettings = mWVMeituan.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -139,7 +143,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         super.onPause();
         if (mWVMeituan != null && login_bg.getVisibility() == View.VISIBLE) {
             mWVMeituan.loadUrl("about:blank");
-            mWVMeituan.clearHistory();
         }
         login_bg.setVisibility(View.GONE);
         act_back.setVisibility(View.VISIBLE);
@@ -315,10 +318,10 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             startIntent();
         } else {
             syncCookie(this, Config.getHost());
+            act_back.setVisibility(View.GONE);
+            login_bg.setVisibility(View.VISIBLE);
             mWVMeituan.clearCache(true);
             mWVMeituan.clearHistory();
-            login_bg.setVisibility(View.VISIBLE);
-            act_back.setVisibility(View.GONE);
             mWVMeituan.loadUrl(data.getIov().getAuthorizeUrl());
         }
     }
@@ -418,12 +421,19 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookie();
             CookieSyncManager.getInstance().sync();
-            mWVMeituan.loadUrl("about:blank");
+            ViewParent parent = mWVMeituan.getParent();
+            if (parent != null) {
+                ((ViewGroup) parent).removeView(mWVMeituan);
+            }
+            mWVMeituan.stopLoading();
+            mWVMeituan.getSettings().setJavaScriptEnabled(false);
             mWVMeituan.clearHistory();
-            ((ViewGroup) mWVMeituan.getParent()).removeView(mWVMeituan);
             mWVMeituan.removeAllViews();
-            mWVMeituan.destroy();
-            mWVMeituan = null;
+            try {
+                mWVMeituan.destroy();
+            } catch (Throwable ex) {
+
+            }
         }
         super.onDestroy();
     }
@@ -492,10 +502,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                     finish();
                     break;
                 case HANDLER_POST_HTTP:
-                    mWVMeituan.setVisibility(View.GONE);
-                    mWVMeituan.clearCache(true);
-                    mWVMeituan.clearHistory();
-                    mWVMeituan.destroy();
+                    login_bg.setVisibility(View.GONE);
+                    CacheUtils.saveAddrTime(0);
                     initPostHttp();
                     break;
                 case HANDLER_POST_FAIL:

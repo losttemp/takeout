@@ -15,8 +15,15 @@
         android:background="@color/white"
         android:visibility="gone">
 
-        <WebView
-            android:id="@+id/meituan_login"
+        <!--<WebView-->
+        <!--android:id="@+id/meituan_login"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/px1594dp"-->
+        <!--android:layout_marginTop="@dimen/px88dp"-->
+        <!--android:layout_marginBottom="@dimen/px30dp" />-->
+
+        <FrameLayout
+            android:id="@+id/webview_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/px1594dp"
             android:layout_marginTop="@dimen/px88dp"

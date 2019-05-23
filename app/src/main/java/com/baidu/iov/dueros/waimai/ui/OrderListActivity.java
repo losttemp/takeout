@@ -279,6 +279,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
+                loadingView.setVisibility(View.VISIBLE);
                 mRefreshLayout.setEnableLoadmore(false);
                 mOrderListReq.setPage(START_PAGE);
                 getPresenter().requestOrderList(mOrderListReq);
@@ -288,6 +289,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshLayout) {
+                loadingView.setVisibility(View.VISIBLE);
                 mRefreshLayout.setEnableRefresh(false);
                 mOrderListReq.setPage(mOrderListReq.getPage() + 1);
                 getPresenter().requestOrderList(mOrderListReq);
