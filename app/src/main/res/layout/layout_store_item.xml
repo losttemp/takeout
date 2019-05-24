@@ -3,7 +3,7 @@
 	android:id="@+id/rl"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:focusableInTouchMode="true"    
+	android:focusableInTouchMode="true"
 	android:focusable="true"
 	android:clickable="true"
 	android:layout_width="match_parent"
@@ -86,7 +86,7 @@
 					android:gravity="center_vertical"
 					android:textSize="@dimen/px30sp"
 					tools:text="2.5km" />
-				
+
 			<com.domain.multipltextview.MultiplTextView
 				app:removeDefaultPadding="true"
 				android:id="@+id/tv_time"
@@ -100,8 +100,8 @@
 				android:textSize="@dimen/px30sp"
 				tools:text="@string/delivery_time" />
 
-				
-			
+
+
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -153,7 +153,7 @@
 					android:textSize="14sp"
 					android:visibility="gone"
 					tools:text="@string/month_sale_num" />
-				
+
 			</RelativeLayout>
 
 			<LinearLayout
@@ -254,5 +254,5 @@
 		android:layout_marginRight="@dimen/px84dp"
 		android:layout_below="@+id/rv_store_product"
 		android:background="@color/split_view_color" />
-	
+
 </RelativeLayout>
