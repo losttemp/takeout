@@ -18,7 +18,7 @@
     <TextView
         android:id="@+id/tv_food_origin_price"
         style="@style/OrderDetailsText"
-        android:layout_width="@dimen/px182dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/px28dp"
         android:layout_marginEnd="@dimen/px28dp"
