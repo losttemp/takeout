@@ -663,6 +663,9 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 }
 
                 int specificationsNumber = spusBean.getSpecificationsNumber();
+                if (specificationsNumber == 0 && spusBean.getChoiceSkus() != null && spusBean.getChoiceSkus().size() > 0) {
+                    specificationsNumber = spusBean.getNumber();
+                }
                 List<Integer> list = new ArrayList<>();
                 if (specificationsNumber != 0) {
                     for (int i = 0; i < productList.size(); i++) {

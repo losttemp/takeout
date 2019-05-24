@@ -1538,21 +1538,14 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 if (attrIds != null && attrIds.size() > 0) {
                                     spusBean.setSpecificationsNumber(spusBean.getSpecificationsNumber() + spusFood.getCount());
                                 }
+                                if ((attrIds == null || attrIds.size() == 0) && spusBean.getChoiceSkus() != null && spusBean.getChoiceSkus().size() > 0) {
+                                    spusBean.setNumber(spusFood.getCount());
+                                }
                                 int number = spusFood.getCount();
-                                int minOrderCount = getMinOrderCount(spusBean);
                                 if (number > 1) {
-                                    if (minOrderCount > 1) {
-//                                        spusBean.setNumber(minOrderCount);
-//                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        for (int i = 0; i < number; i++) {
-                                            spusBean.setNumber(i + 1);
-                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        }
-                                    } else {
-                                        for (int i = minOrderCount; i <= number; i++) {
-                                            spusBean.setNumber(i);
-                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        }
+                                    for (int i = 0; i < number; i++) {
+                                        spusBean.setNumber(i + 1);
+                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusBean.getNumber(), true, false, groupTag);
                                     }
                                 } else {
                                     updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
@@ -1576,22 +1569,17 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 List<String> attrValues =  spusFood.getAttrValues();
                                 String spec = spusFood.getSpec();
                                 SetAttrsAndSkus(spusBean, attrs, skus, attrIds, attrValues, spec);
-                                if (attrIds != null && attrIds.size() > 0){
+                                if (attrIds.size() > 0){
                                     spusBean.setSpecificationsNumber(spusBean.getSpecificationsNumber() + spusFood.getCount());
                                 }
+                                if (attrIds.size() == 0 && spusBean.getChoiceSkus() != null && spusBean.getChoiceSkus().size() > 0) {
+                                    spusBean.setNumber(spusFood.getCount());
+                                }
                                 int number = spusFood.getCount();
-                                int minOrderCount = getMinOrderCount(spusBean);
                                 if (number > 1) {
-                                    if (minOrderCount > 1) {
-                                        for (int i = 0; i < number; i++) {
-                                            spusBean.setNumber(i + 1);
-                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        }
-                                    } else {
-                                        for (int i = minOrderCount; i <= number; i++) {
-                                            spusBean.setNumber(i);
-                                            updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
-                                        }
+                                    for (int i = 0; i < number; i++) {
+                                        spusBean.setNumber(i + 1);
+                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusBean.getNumber(), true, false, groupTag);
                                     }
                                 } else {
                                     updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);

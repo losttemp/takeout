@@ -31,7 +31,7 @@
                 android:id="@+id/head"
                 android:layout_width="@dimen/px206dp"
                 android:layout_height="@dimen/px206dp"
-                android:scaleType="fitXY"/>
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/tv_sold_out"

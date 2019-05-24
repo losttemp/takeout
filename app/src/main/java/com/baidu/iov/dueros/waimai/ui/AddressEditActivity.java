@@ -381,17 +381,20 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         if (data.getMeituan().getCode() == 0) {
             sendTTS(R.string.tts_save_address_success);
             showToast(R.string.address_update_success);
-            if (dataBean.getAddress_id() != null && getIntent().getLongExtra(Constant.ADDRESS_SELECT_ID, 0) == dataBean.getAddress_id()) {
+            AddressListBean.IovBean.DataBean cacheAddress = GsonUtil.fromJson(CacheUtils.getAddressBean(), AddressListBean.IovBean.DataBean.class);
+            if (dataBean.getAddress_id() != null && cacheAddress.getAddress_id().longValue() == dataBean.getAddress_id().longValue()) {
                 AddressListBean.IovBean.DataBean bean = new AddressListBean.IovBean.DataBean();
                 bean.setAddress(addressEditreq.getAddress());
                 bean.setAddress_id(addressEditreq.getAddress_id());
                 bean.setHouse(addressEditreq.getHouse());
                 bean.setMt_address_id(addressEditreq.getMt_address_id());
                 bean.setLatitude(addressEditreq.getLatitude());
+                bean.setLongitude(addressEditreq.getLongitude());
                 bean.setSex(addressEditreq.getSex());
                 bean.setType(addressEditreq.getType());
                 bean.setUser_name(addressEditreq.getUser_name());
-                bean.setUser_phone(addressEditreq.getUser_phone());
+                //接口返回的phone没有加密
+                bean.setUser_phone(TextUtils.isEmpty(data.getMeituan().getData().getUser_phone()) ? addressEditreq.getUser_phone() : Encryption.encrypt(data.getMeituan().getData().getUser_phone()));
                 bean.setAddressRangeTip(dataBean.getAddressRangeTip());
                 bean.setCanShipping(dataBean.getCanShipping());
                 bean.setIs_hint(dataBean.isIs_hint());
@@ -542,8 +545,13 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                 latitude = dataBean.getLatitude();
                 longitude = dataBean.getLongitude();
             } else {
-                latitude = (int) (mLocationBean.getPt().latitude * LocationManager.SPAN);
-                longitude = (int) (mLocationBean.getPt().longitude * LocationManager.SPAN);
+                if (mLocationBean.getPt() != null) {
+                    latitude = (int) (mLocationBean.getPt().latitude * LocationManager.SPAN);
+                    longitude = (int) (mLocationBean.getPt().longitude * LocationManager.SPAN);
+                } else {
+                    ToastUtils.show(this, getResources().getString(R.string.address_save_error_pt), Toast.LENGTH_SHORT);
+                    return;
+                }
             }
 
             if (isEditMode) {
