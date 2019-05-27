@@ -217,6 +217,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                                 .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        loadingView.setVisibility(View.VISIBLE);
                                         getPresenter().requestOrderCancel(mOrderCancelReq);
                                         dialog.dismiss();
                                     }
@@ -406,6 +407,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
+        loadingView.setVisibility(View.GONE);
         if (data.getMeituan().getCode() == 0) {
             sendTTS(R.string.close_order_success_text);
             ToastUtils.customTime(this,getApplicationContext().getResources().getString(R.string.order_cancelled),500);
@@ -438,6 +440,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
     @Override
     public void orderCancelfail(String msg) {
+        loadingView.setVisibility(View.GONE);
     }
 
     @Override

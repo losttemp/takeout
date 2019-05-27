@@ -1528,7 +1528,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                             if (spusBean.getId() == spuId && (spusBean.getStatus() == 1 || spusBean.getStatus() == 2 || spusBean.getStatus() == 3)) {
                                 ToastUtils.show(mContext, spusBean.getName() + getString(R.string.sold_out), Toast.LENGTH_SHORT);
                             } else if (spusBean.getId() == spuId) {
-                                spusBean.setNumber(spusBean.getNumber() + spusFood.getCount());
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
                                 List<String> attrIds = spusFood.getAttrIds();
@@ -1536,12 +1535,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 String spec = spusFood.getSpec();
                                 SetAttrsAndSkus(spusBean, attrs, skus, attrIds, attrValues, spec);
                                 if (attrIds != null && attrIds.size() > 0) {
-                                    spusBean.setSpecificationsNumber(spusBean.getSpecificationsNumber() + spusFood.getCount());
-                                }
-                                if ((attrIds == null || attrIds.size() == 0) && spusBean.getChoiceSkus() != null && spusBean.getChoiceSkus().size() > 0) {
-                                    spusBean.setNumber(spusFood.getCount());
+                                    spusBean.setSpecificationsNumber(spusFood.getCount());
                                 }
                                 int number = spusFood.getCount();
+                                spusBean.setNumber(number);
                                 if (number > 1) {
                                     for (int i = 0; i < number; i++) {
                                         spusBean.setNumber(i + 1);
@@ -1562,7 +1559,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                             if (spusBean.getId() == spuId && (spusBean.getStatus() == 1 || spusBean.getStatus() == 2 || spusBean.getStatus() == 3)) {
                                 ToastUtils.show(mContext, spusBean.getName() + getString(R.string.sold_out), Toast.LENGTH_SHORT);
                             } else if (spusBean.getId() == spuId) {
-                                spusBean.setNumber(spusBean.getNumber() + spusFood.getCount());
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
                                 List<String> attrIds =  spusFood.getAttrIds();
@@ -1570,12 +1566,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 String spec = spusFood.getSpec();
                                 SetAttrsAndSkus(spusBean, attrs, skus, attrIds, attrValues, spec);
                                 if (attrIds.size() > 0){
-                                    spusBean.setSpecificationsNumber(spusBean.getSpecificationsNumber() + spusFood.getCount());
-                                }
-                                if (attrIds.size() == 0 && spusBean.getChoiceSkus() != null && spusBean.getChoiceSkus().size() > 0) {
-                                    spusBean.setNumber(spusFood.getCount());
+                                    spusBean.setSpecificationsNumber(spusFood.getCount());
                                 }
                                 int number = spusFood.getCount();
+                                spusBean.setNumber(number);
                                 if (number > 1) {
                                     for (int i = 0; i < number; i++) {
                                         spusBean.setNumber(i + 1);
