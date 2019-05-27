@@ -156,6 +156,7 @@
     <string name="net_unconnect">您的网络好像不太给力，请稍后再试</string>
     <string name="delivery_immediately">立即送出</string>
     <string name="expected_delivery_immediately">立即送达</string>
+    <string name="specify_time">指定时间</string>
     <string name="cost">\&#165;%1.1f</string>
     <string name="cost_text">\&#165;%s</string>
     <string name="total_cost">去支付\&#165;%1d</string>

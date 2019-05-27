@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
@@ -27,6 +28,7 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -115,8 +117,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             if (isNeedVoice){
                 StandardCmdClient.getInstance().playTTS(PaymentActivity.this, getString(R.string.tts_topay_text));
             }
-//            mOrderDetailsReq = new OrderDetailsReq();
-//            mOrderDetailsReq.setId(mOrderId);
 
             if (isNeedVoice) {
                 StandardCmdClient.getInstance().playTTS(PaymentActivity.this, getString(R.string.pay));
@@ -148,9 +148,10 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                 mParentsLayout.setVisibility(View.VISIBLE);
                     long expireTime = (long)data.getIov().getData().getExpire_time();
                     long sysTime = (long)data.getIov().getData().getSystime();
-                    mTimer = new CountDownTimer((expireTime - sysTime)*1000, 1000) {
 //                long orderTime = (long)data.getMeituan().getData().getOrder_time() * 1000L;
 //                mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
+
+                mTimer = new CountDownTimer((expireTime - sysTime)*1000, 1000) {
 
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -213,7 +214,8 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
             @Override
             public void onFailed(String msg) {
-
+                ToastUtils.show(getApplicationContext(),"数据请求失败，请重试",Toast.LENGTH_SHORT);
+                loadingView.setVisibility(View.GONE);
             }
 
             @Override

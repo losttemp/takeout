@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.ArrayMap;
@@ -44,6 +45,7 @@ import com.baidu.iov.dueros.waimai.presenter.SubmitInfoPresenter;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.BackgroundUtils;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
+import com.baidu.iov.dueros.waimai.utils.CompareDate;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
@@ -553,8 +555,16 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     date_time = mDataBean.get(mCurDateItem).getDate();
                     mUnixtime = mDataBean.get(mCurDateItem).getTimelist().get(position).getUnixtime();
                     if (mUnixtime == 0) {
-                        mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
-                        mTypeTipTv.setText(getString(R.string.delivery_immediately));
+                            String date = mDataBean.get(mCurDateItem).getDate().substring(0, mDataBean.get(mCurDateItem).getDate().indexOf("日")+1);
+                            long sysDate = System.currentTimeMillis();
+                            String sys = CompareDate.formatTime(sysDate);
+                            if (!date.equals(sys)){
+                                mTypeTipTv.setText(getString(R.string.specify_time));
+                                mArriveTimeTv.setText(date + " " + mEstimateTime);
+                            }else {
+                                mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
+                                mTypeTipTv.setText(getString(R.string.delivery_immediately));
+                            }
                     } else {
                         if (mCurDateItem != 0) {
                             mArriveTimeTv.setText(date_time + " " + view_time);
@@ -573,7 +583,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     }
 
                 }
-                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData, SubmitOrderActivity.this);
+//                getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData, SubmitOrderActivity.this);
                 mCurTimeItem = position;
                 mPreDateItem = mCurDateItem;
                 mTimeAdapter.setCurrentItem(mCurTimeItem, mPreDateItem);
