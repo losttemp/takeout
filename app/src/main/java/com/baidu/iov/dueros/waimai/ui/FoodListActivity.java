@@ -1403,7 +1403,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             case Constant.FOOD_COUNT_NOT_BUY:
                 ToastUtils.show(getApplicationContext(), getApplicationContext().getResources().getString(R.string.order_preview_msg15), Toast.LENGTH_SHORT);
                 break;
-
+            case Constant.FOOD_LACK_TO_BUY:
+                ToastUtils.show(getApplicationContext()
+                        , data.getMeituan().getData().getWm_ordering_unavaliable_food_vo_list().get(0).getWm_food_name()+" "
+                                +getApplicationContext().getResources().getString(R.string.order_preview_msg29)
+                        , Toast.LENGTH_SHORT);
+                break;
             case Constant.FOOD_LACK_NOT_BUY:
                 ConfirmDialog dialog = new ConfirmDialog.Builder(this)
                         .setTitle(R.string.bit_tip)
