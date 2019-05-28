@@ -64,6 +64,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     private Button mNoInternetButton;
     private View loadingView;
     private LinearLayout mParentsLayout;
+    private OrderDetailsResponse.MeituanBean.DataBean dataBean = new OrderDetailsResponse.MeituanBean.DataBean();
 
     @Override
     SubmitOrderPresenter createPresenter() {
@@ -167,7 +168,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
                     @Override
                     public void onFinish() {
-                        final Object orderListExtraPayLoadStr = getIntent().getExtras().get(Constant.ORDER_LSIT_EXTRA_STRING);
+//                        final Object orderListExtraPayLoadStr = getIntent().getExtras().get(Constant.ORDER_LSIT_EXTRA_STRING);
                         mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
                         if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
 
@@ -181,7 +182,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                                             Intent intent = new Intent();
                                             intent.setClass(PaymentActivity.this, FoodListActivity.class);
                                             intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
-                                            intent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, String.valueOf(orderListExtraPayLoadStr));
+                                            intent.putExtra(Constant.ORDER_LSIT_BEAN, dataBean);
                                             intent.putExtra(Constant.ONE_MORE_ORDER, true);
                                             intent.putExtra(Constant.STORE_ID, mStoreId);
                                             intent.putExtra("flag", true);
@@ -345,7 +346,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         mNoNet.setVisibility(View.GONE);
 //        loadingView.setVisibility(View.GONE);
         if (data != null) {
-            OrderDetailsResponse.MeituanBean.DataBean dataBean = data.getMeituan().getData();
+            dataBean = data.getMeituan().getData();
             mPayStatus = dataBean.getPay_status();
 
             if (mPayStatus == Constant.PAY_STATUS_SUCCESS) {

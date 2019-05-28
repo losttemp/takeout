@@ -101,6 +101,7 @@ public class Constant {
     public final static int FOOD_COST_NOT_BUY = 5;
     public final static int FOOD_COUNT_NOT_BUY = 15;
     public final static int FOOD_LACK_NOT_BUY = 20;
+    public final static int FOOD_LACK_TO_BUY = 29;
     public final static int BEYOND_DELIVERY_RANGE = 9;
     public final static int SERVICE_ERROR = 26;
 
