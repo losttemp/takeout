@@ -553,6 +553,10 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             }else {
                 long expireTime = (long)data.getIov().getData().getExpire_time();
                 long sysTime = (long)data.getIov().getData().getSystime();
+                if (data.getIov().getData().getExpire_time()==0&&data.getIov().getData().getSystime()==0){
+                    expireTime = 15*60;
+                    sysTime = 0;
+                }
                 mTimer = new CountDownTimer((expireTime - sysTime)*1000, 1000) {
                         @Override
                     public void onTick(long millisUntilFinished) {
