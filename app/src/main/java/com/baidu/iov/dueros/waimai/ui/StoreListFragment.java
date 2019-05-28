@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -83,7 +84,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 	private SortPopWindow mSortPopWindow;
 	private FilterPopWindow mFilterPopWindow;
 	private int mFromPageType;
-	
+
 	//语音选择下一页时跳动的item数目
 	private static final int VOICE_STEP_HOME = 3,VOICE_STEP_SHOP=4,VOICE_STEP_SEARCH=3;
 	private View mView;
@@ -168,6 +169,10 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				loadFirstPage(mStoreReq);
 			}
 		});
+        ImageView noInternetImg  = view.findViewById(R.id.no_internet_img);
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) noInternetImg.getLayoutParams();
+	    lp.setMargins(0,0,0,0);
+        noInternetImg.setLayoutParams(lp);
 	}
 
 	private void iniData() {
@@ -241,14 +246,14 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		filterConditionReq = new FilterConditionReq();
 		getFilterList();
 	}
-	
+
 	public void getFilterList(){
 		filterConditionReq.setLatitude(Constant.GOODS_LATITUDE);
 		filterConditionReq.setLongitude(Constant.GOODS_LONGITUDE );
 		getPresenter().requestFilterList(filterConditionReq);
 	}
-	
-	
+
+
 
 	private void addStoreItemClickEvent(){
 		if (mFromPageType==Constant.STORE_FRAGMENT_FROM_HOME){
@@ -282,8 +287,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			}
 		}
 	}
-	
-	
+
+
 	private void showSortPop(){
 		if (mSortPopWindow == null) {
 			mSortPopWindow = new SortPopWindow(mContext, mSortList, (new SortPopWindow
@@ -410,7 +415,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			Entry.getInstance().onEvent(Constant.EVENT_CLICK_FILTER_FROM_CAKE,EventType.TOUCH_TYPE);
 		}
 	}
-	
+
 	private void refresh(){
 		if (NetUtil.getNetWorkState(mContext)) {
 			if (mFromPageType == Constant.STORE_FRAGMENT_FROM_HOME) {
@@ -506,7 +511,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			int size = sortTypes.size();
 			for (int i = 0; i < size; i++) {
 				FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean sortType = sortTypes.get(i);
-				//1:list 
+				//1:list
 				if (sortType.getPosition() == FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean.LISTPOS) {
 					sortTypeList.add(sortType);
 				}
@@ -521,7 +526,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			int size = sortTypes.size();
 			for (int i = 0; i < size; i++) {
 				FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean sortType = sortTypes.get(i);
-				//0:tab  
+				//0:tab
 				if (sortType.getPosition() == FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean.TABPOS) {
 					sortTypeTabs.add(sortType);
 				}
@@ -629,7 +634,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 		return  VOICE_STEP_SHOP;
 	}
-	
+
 	private void addNextPageEvent(){
 		if (mFromPageType==Constant.STORE_FRAGMENT_FROM_HOME){
 			Entry.getInstance().onEvent(Constant.EVENT_NEXT_PAGE_VOICE_FROM_HOME,EventType.VOICE_TYPE);
@@ -768,8 +773,8 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					}
 					refresh();
 				}
-			  
-			
+
+
 		}
 	};
 

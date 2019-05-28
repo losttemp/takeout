@@ -51,7 +51,7 @@
 			android:layout_toRightOf="@+id/rl_sort"
 			android:layout_width="wrap_content"
 			android:layout_height="@dimen/px48dp" />
-		
+
 		<RelativeLayout
 			android:id="@+id/rl_filter"
 			android:layout_width="wrap_content"
@@ -122,6 +122,7 @@
 		android:id="@+id/warn_no_internet"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_marginTop="@dimen/px240dp"
 		android:layout_below="@+id/ll_filter"
 		android:visibility="gone"/>
 
@@ -133,7 +134,7 @@
 		android:layout_below="@+id/rl_search"
 		android:layout_centerInParent="true"
 		android:visibility="gone" />
-	
+
 
 	<RelativeLayout
 		android:id="@+id/rl_tip_no_result"
