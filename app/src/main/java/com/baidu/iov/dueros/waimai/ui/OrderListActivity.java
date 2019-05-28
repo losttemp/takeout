@@ -548,7 +548,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 e.printStackTrace();
             }
         } else {
-            ToastUtils.show(mContext, "订单已过期", Toast.LENGTH_SHORT);
+            ToastUtils.show(mContext, data.getMeituan().getMsg(), Toast.LENGTH_SHORT);
             mRefreshLayout.autoRefresh();
         }
     }
@@ -556,7 +556,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     public void orderDetailsFailure(String msg) {
         loadingView.setVisibility(View.GONE);
-        ToastUtils.show(mContext, "订单已过期", Toast.LENGTH_SHORT);
+        ToastUtils.show(mContext, "数据获取失败，请检查网络", Toast.LENGTH_SHORT);
         mRefreshLayout.autoRefresh();
     }
 
