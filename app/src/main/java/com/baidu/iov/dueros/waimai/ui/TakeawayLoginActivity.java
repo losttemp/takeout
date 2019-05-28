@@ -61,7 +61,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private String oldBudss = null;//记录budss 与上次不同则跳转到地址界面
 
     private FrameLayout WV_foreground, webviewLayout;
-    private WebView webView;
+    private boolean isLoginPage = false;
+    private boolean isFirstOpenAuth = true;
 
     @Override
     MeituanAuthPresenter createPresenter() {
@@ -141,6 +142,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onPause() {
         super.onPause();
+        isLoginPage = false;
+        isFirstOpenAuth = true;
         if (mWVMeituan != null && login_bg.getVisibility() == View.VISIBLE) {
             mWVMeituan.loadUrl("about:blank");
         }
@@ -189,8 +192,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
 
     private WebViewClient webViewClient = new WebViewClient() {
-        private boolean isLoginPage = false;
-        private boolean isFirstOpenAuth = true;
 
         @Override
         public void onPageFinished(WebView view, String url) {
