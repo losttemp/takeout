@@ -15,8 +15,8 @@
             android:layout_width="@dimen/px96dp"
             android:layout_height="@dimen/px96dp"
             android:layout_marginStart="@dimen/px54dp"
-            android:foreground="@drawable/fg_ripple"
-            android:background="@drawable/icon_back" />
+            android:background="@drawable/icon_back"
+            android:foreground="@drawable/fg_ripple" />
 
         <com.domain.multipltextview.MultiplTextView
             android:id="@+id/select_shipping_address"
@@ -51,8 +51,8 @@
                     android:id="@+id/divider"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/px2dp"
-                    android:layout_marginEnd="@dimen/px84dp"
                     android:layout_marginStart="@dimen/px84dp"
+                    android:layout_marginEnd="@dimen/px84dp"
                     android:alpha="0.06"
                     android:background="@color/white" />
 
@@ -66,47 +66,47 @@
                         android:id="@+id/modify_address"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/px84dp"
-                        android:layout_centerVertical="true">
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/px84dp">
 
                         <TextView
                             android:id="@+id/tv_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:includeFontPadding="false"
                             android:layout_marginTop="@dimen/px34dp"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/px40sp"
-                            android:maxEms="13"
                             android:ellipsize="end"
-                            android:maxLines="1"/>
+                            android:includeFontPadding="false"
+                            android:maxEms="13"
+                            android:maxLines="1"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/px40sp" />
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/px20dp"
-                            android:layout_below="@+id/tv_address">
+                            android:layout_below="@+id/tv_address"
+                            android:layout_marginTop="@dimen/px20dp">
+
                             <TextView
                                 android:id="@+id/tv_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:maxEms="9"
                                 android:ellipsize="end"
-                                android:textColor="@color/white_60"
-                                android:textSize="@dimen/px30sp"
                                 android:includeFontPadding="false"
-                                />
+                                android:maxEms="9"
+                                android:maxLines="1"
+                                android:textColor="@color/white_60"
+                                android:textSize="@dimen/px30sp" />
+
                             <TextView
                                 android:id="@+id/tv_phone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@+id/tv_name"
-                                android:textColor="@color/white_60"
                                 android:layout_marginStart="@dimen/px20dp"
-                                android:textSize="@dimen/px30sp"
+                                android:layout_toEndOf="@+id/tv_name"
                                 android:includeFontPadding="false"
-                                />
+                                android:textColor="@color/white_60"
+                                android:textSize="@dimen/px30sp" />
                         </RelativeLayout>
 
                     </RelativeLayout>
@@ -133,8 +133,8 @@
                         android:id="@+id/delivery_info_divider"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/px2dp"
-                        android:layout_marginEnd="@dimen/px84dp"
                         android:layout_marginStart="@dimen/px84dp"
+                        android:layout_marginEnd="@dimen/px84dp"
                         android:alpha="0.06"
                         android:background="@color/white" />
 
@@ -143,9 +143,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/px38dp"
                         android:layout_below="@+id/delivery_info_divider"
-                        android:layout_marginBottom="@dimen/px44dp"
                         android:layout_marginStart="@dimen/px84dp"
                         android:layout_marginTop="@dimen/px44dp"
+                        android:layout_marginBottom="@dimen/px44dp"
                         android:textColor="@color/white"
                         android:textSize="@dimen/px36sp"
                         app:removeDefaultPadding="true" />
@@ -176,8 +176,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/px2dp"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="@dimen/px84dp"
                         android:layout_marginStart="@dimen/px84dp"
+                        android:layout_marginEnd="@dimen/px84dp"
                         android:alpha="0.06"
                         android:background="@color/white" />
                 </RelativeLayout>
@@ -199,22 +199,22 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/px84dp"
                             android:layout_marginTop="@dimen/px30dp"
-                            android:maxLines="1"
                             android:ellipsize="end"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/px36sp"
-                            android:includeFontPadding="false" />
+                            android:textSize="@dimen/px36sp" />
 
                         <TextView
                             android:id="@+id/delivery_type"
                             android:layout_width="@dimen/px124dp"
                             android:layout_height="@dimen/px40dp"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="@dimen/px84dp"
                             android:layout_marginTop="@dimen/px32dp"
-                            android:includeFontPadding="false"
+                            android:layout_marginEnd="@dimen/px84dp"
                             android:background="@drawable/tagbg1"
                             android:gravity="center"
+                            android:includeFontPadding="false"
                             android:textColor="@color/delivery_type_color"
                             android:textSize="@dimen/px26sp" />
 
@@ -228,71 +228,76 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/px168dp"
-                        android:gravity="center_vertical">
+                        android:layout_height="@dimen/px168dp">
 
-                        <TextView
-                            android:id="@+id/packing_fee_summary"
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:id="@+id/packing_fee_summary_rl"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/px84dp"
-                            android:layout_marginTop="@dimen/px34dp"
-                            android:text="@string/packing_fee"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/px36sp"
-                            android:includeFontPadding="false"
-                            />
+                            android:layout_marginTop="@dimen/px26dp">
 
-                        <TextView
-                            android:id="@+id/packing_fee"
-                            android:layout_width="wrap_content"
+                            <TextView
+                                android:id="@+id/packing_fee_summary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/px84dp"
+                                android:includeFontPadding="false"
+                                android:text="@string/packing_fee"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/px36sp" />
+
+                            <TextView
+                                android:id="@+id/packing_fee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="@dimen/px84dp"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/px40sp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:includeFontPadding="false"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="@dimen/px84dp"
-                            android:layout_marginTop="@dimen/px28dp"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/px40sp" />
+                            android:layout_below="@+id/packing_fee_summary_rl"
+                            android:layout_marginTop="@dimen/px26dp">
 
-                        <TextView
-                            android:id="@+id/delivery_fee_summary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/packing_fee_summary"
-                            android:layout_marginTop="@dimen/px26dp"
-                            android:layout_marginStart="@dimen/px84dp"
-                            android:text="@string/shipping_fee_text"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/px36sp"
-                            android:includeFontPadding="false"
-                            />
+                            <TextView
+                                android:id="@+id/delivery_fee_summary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/px84dp"
+                                android:includeFontPadding="false"
+                                android:text="@string/shipping_fee_text"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/px36sp" />
 
-                        <TextView
-                            android:id="@+id/shipping_fee"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:includeFontPadding="false"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginTop="@dimen/px20dp"
-                            android:layout_below="@+id/packing_fee"
-                            android:layout_marginEnd="@dimen/px84dp"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/px40sp" />
+                            <TextView
+                                android:id="@+id/shipping_fee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="@dimen/px84dp"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/px40sp" />
 
+                        </RelativeLayout>
                     </RelativeLayout>
+
 
                     <LinearLayout
                         android:id="@+id/discounts_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/px14dp"
                         android:orientation="vertical" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/px2dp"
-                        android:layout_marginEnd="@dimen/px84dp"
                         android:layout_marginStart="@dimen/px84dp"
+                        android:layout_marginEnd="@dimen/px84dp"
                         android:alpha="0.06"
                         android:background="@color/white" />
 
@@ -305,13 +310,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/px84dp"
                             android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/px84dp"
+                            android:includeFontPadding="false"
                             android:text="@string/payment_summary"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/px36sp"
-                            android:includeFontPadding="false"
-                            />
+                            android:textSize="@dimen/px36sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -319,18 +323,17 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/px84dp"
+                            android:includeFontPadding="false"
                             android:text="@string/payment"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/px30sp"
-                            android:includeFontPadding="false"
-                            />
+                            android:textSize="@dimen/px30sp" />
                     </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/px2dp"
-                        android:layout_marginEnd="@dimen/px84dp"
                         android:layout_marginStart="@dimen/px84dp"
+                        android:layout_marginEnd="@dimen/px84dp"
                         android:alpha="0.06"
                         android:background="@color/white" />
                 </LinearLayout>
@@ -419,10 +422,12 @@
         </LinearLayout>
 
     </RelativeLayout>
+
     <include
         android:id="@+id/no_net"
         layout="@layout/warn_no_internet"
         android:visibility="gone" />
+
     <include
         android:id="@+id/submit_order_loading"
         layout="@layout/dialog_loading_toast"

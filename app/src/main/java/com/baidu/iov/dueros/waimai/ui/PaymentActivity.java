@@ -151,10 +151,10 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                     long sysTime = (long)data.getIov().getData().getSystime();
 //                long orderTime = (long)data.getMeituan().getData().getOrder_time() * 1000L;
 //                mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
-                if (data.getIov().getData().getExpire_time()==0&&data.getIov().getData().getSystime()==0){
-                    expireTime = 15*60;
-                    sysTime = 0;
-                }
+//                if (data.getIov().getData().getExpire_time()==0&&data.getIov().getData().getSystime()==0){
+//                    expireTime = 15*60;
+//                    sysTime = 0;
+//                }
                 mTimer = new CountDownTimer((expireTime - sysTime)*1000, 1000) {
 
                     @Override
