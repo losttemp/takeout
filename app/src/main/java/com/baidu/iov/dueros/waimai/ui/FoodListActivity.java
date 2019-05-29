@@ -541,17 +541,19 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         }
                     }
                 }
-                PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBeanNew = null;
-                try {
-                    spusBeanNew = (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean) spusBean.deepClone();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (spusBean.getNumber() > 0) {
+                    PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBeanNew = null;
+                    try {
+                        spusBeanNew = (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean) spusBean.deepClone();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Lg.getInstance().d(TAG, "shopProduct else");
+                    productList.add(spusBeanNew);
+                    inList = false;
+                    firstAdd = true;
+                    alreadyToast = false;
                 }
-                Lg.getInstance().d(TAG, "shopProduct else");
-                productList.add(spusBeanNew);
-                inList = false;
-                firstAdd = true;
-                alreadyToast = false;
             }
         }
         shoppingCartAdapter.notifyDataSetChanged();
@@ -1405,8 +1407,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 break;
             case Constant.FOOD_LACK_TO_BUY:
                 ToastUtils.show(getApplicationContext()
-                        , data.getMeituan().getData().getWm_ordering_unavaliable_food_vo_list().get(0).getWm_food_name()+" "
-                                +getApplicationContext().getResources().getString(R.string.order_preview_msg29)
+                        , data.getMeituan().getData().getWm_ordering_unavaliable_food_vo_list().get(0).getWm_food_name() + " "
+                                + getApplicationContext().getResources().getString(R.string.order_preview_msg29)
                         , Toast.LENGTH_SHORT);
                 break;
             case Constant.FOOD_LACK_NOT_BUY:
@@ -1539,7 +1541,11 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 List<String> attrValues = spusFood.getAttrValues();
                                 String spec = spusFood.getSpec();
                                 SetAttrsAndSkus(spusBean, attrs, skus, attrIds, attrValues, spec);
-                                if (attrIds != null && attrIds.size() > 0) {
+                                if (attrIds.size() > 0 && spusBean.getAttrs() != null && spusBean.getAttrs().get(0).getChoiceAttrs() == null) {
+                                    ToastUtils.show(mContext, getString(R.string.insufficient_inventory_text), Toast.LENGTH_SHORT);
+                                    return;
+                                }
+                                if (attrIds.size() > 0) {
                                     spusBean.setSpecificationsNumber(spusFood.getCount());
                                 }
                                 int number = spusFood.getCount();
@@ -1547,10 +1553,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 if (number > 1) {
                                     for (int i = 0; i < number; i++) {
                                         spusBean.setNumber(i + 1);
-                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusBean.getNumber(), true, false, groupTag);
+                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(), spusBean.getNumber(), true, false, groupTag);
                                     }
                                 } else {
-                                    updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
+                                    updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(), spusFood.getCount(), true, false, groupTag);
                                 }
                             }
                         }
@@ -1566,11 +1572,15 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                             } else if (spusBean.getId() == spuId) {
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs = spusBean.getAttrs();
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBean.getSkus();
-                                List<String> attrIds =  spusFood.getAttrIds();
-                                List<String> attrValues =  spusFood.getAttrValues();
+                                List<String> attrIds = spusFood.getAttrIds();
+                                List<String> attrValues = spusFood.getAttrValues();
                                 String spec = spusFood.getSpec();
                                 SetAttrsAndSkus(spusBean, attrs, skus, attrIds, attrValues, spec);
-                                if (attrIds.size() > 0){
+                                if (attrIds.size() > 0 && spusBean.getAttrs() != null && spusBean.getAttrs().get(0).getChoiceAttrs() == null) {
+                                    ToastUtils.show(mContext, getString(R.string.insufficient_inventory_text), Toast.LENGTH_SHORT);
+                                    return;
+                                }
+                                if (attrIds.size() > 0) {
                                     spusBean.setSpecificationsNumber(spusFood.getCount());
                                 }
                                 int number = spusFood.getCount();
@@ -1578,10 +1588,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                 if (number > 1) {
                                     for (int i = 0; i < number; i++) {
                                         spusBean.setNumber(i + 1);
-                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusBean.getNumber(), true, false, groupTag);
+                                        updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(), spusBean.getNumber(), true, false, groupTag);
                                     }
                                 } else {
-                                    updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(),spusFood.getCount(), true, false, groupTag);
+                                    updateoneMoreOrder(spusBean, spusBean.getTag(), spusFood.getAttrIds(), spusFood.getCount(), true, false, groupTag);
                                 }
                             }
                         }

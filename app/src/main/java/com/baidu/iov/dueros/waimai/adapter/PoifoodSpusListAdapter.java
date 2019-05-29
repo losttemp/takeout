@@ -658,8 +658,6 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                 if (spusBean.getStatus() != 0) {
                     addToCart.setVisibility(View.GONE);
                     action.setVisibility(View.GONE);
-                } else {
-
                 }
 
                 int specificationsNumber = spusBean.getSpecificationsNumber();

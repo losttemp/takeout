@@ -26,6 +26,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.view.KeyEvent;
@@ -57,7 +58,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     Bundle savedInstanceState;
     private View networkView;
     private boolean isNeedVoice, isFinish;
-    private View login_bg, loadingView, act_back;
+    private View login_bg, loadingView;
+    private ImageView act_back;
     private String oldBudss = null;//记录budss 与上次不同则跳转到地址界面
 
     private FrameLayout WV_foreground, webviewLayout;
@@ -457,10 +459,14 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                 if (!isFinish && mWVMeituan.canGoBack()) {
                     goBack();
                 } else {
+                    login_bg.setVisibility(View.GONE);
+                    act_back.setImageDrawable(null);
                     finish();
                 }
                 break;
             case R.id.login_back:
+                login_bg.setVisibility(View.GONE);
+                act_back.setImageDrawable(null);
                 finish();
                 break;
             default:
