@@ -249,7 +249,8 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                     url.contains("i.waimai.meituan.com/c/rules") ||
                     url.contains("h5.waimai.meituan.com/login?back_url") ||
                     url.contains("openapi.waimai.meituan.com/oauth") ||
-                    url.contains("h5.waimai.meituan.com/authorize")) {
+                    url.contains("h5.waimai.meituan.com/authorize")||
+                    url.contains("vehicle.baidu.com/iovservice/waimai/oauthredirect")) {
                 WV_foreground.setVisibility(View.VISIBLE);
             } else {
                 WV_foreground.setVisibility(View.GONE);
