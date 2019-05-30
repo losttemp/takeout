@@ -97,8 +97,8 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 
 		viewHolder.ratingBar.setClickable(false);
 		viewHolder.ratingBar.setStar((float) store.getWm_poi_score());
-		
-		
+
+
 		String averagePrice = store.getAverage_price_tip();
 		if (!TextUtils.isEmpty(averagePrice)) {
 			viewHolder.tvAveragePrice.setText(String.format(mContext.getResources().
@@ -121,9 +121,9 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		} else {
 			viewHolder.tvStatusDesc.setVisibility(View.GONE);
 			viewHolder.tvStoreName.setTextColor(mContext.getResources().getColor(R.color.white));
-			
+
 		}
-		
+
         if (mFromPageType==Constant.STORE_FRAGMENT_FROM_SEARCH){
 			LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
 			mLinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -140,9 +140,9 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		}else{
 			viewHolder.rvStoreProduct.setVisibility(View.GONE);
 		}
-			
-        
-	
+
+
+
 
 		//Discounts
 		final List<String> discounts = getDiscountList(store.getDiscounts());
@@ -200,7 +200,7 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 		viewHolder.itemView.setTag(position);
 
 	}
-	
+
 	private void unFold(StoreResponse.MeituanBean.DataBean.OpenPoiBaseInfoListBean store,ViewHolder viewHolder,FlowLayoutManager mFlowLayoutManager){
         if (store.isDiscountsDown()) {
             viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
@@ -313,18 +313,18 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 					list.add(name[i]);
 				}
 			}
-			
+
 		}
 
 		return list;
 	}
-	
+
 	private  ColorMatrixColorFilter getGrayFilter(){
 		ColorMatrix matrix = new ColorMatrix();
 		matrix.setSaturation(0);
 		ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
 		return filter;
-		
+
 	}
 
 	public interface ItemAccessibilityDelegate {
@@ -334,6 +334,6 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 	public void setItemAccessibilityDelegate(ItemAccessibilityDelegate itemAccessibilityDelegate) {
 		mItemAccessibilityDelegate = itemAccessibilityDelegate;
 	}
-	
-	
+
+
 }

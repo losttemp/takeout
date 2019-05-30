@@ -1,73 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="@dimen/px126dp"
-    android:clickable="true">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/px126dp"
+    android:orientation="horizontal">
 
 
     <LinearLayout
         android:id="@+id/ll_commodityName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:orientation="vertical">
-
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/px10dp"
+        android:layout_marginTop="@dimen/px6dp"
+        android:layout_marginBottom="@dimen/px6dp">
+        <!--商品名-->
         <TextView
             android:id="@+id/commodityName"
-            android:layout_width="@dimen/px450dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="@dimen/px36sp" />
-
+        <!--规格-->
         <TextView
             android:id="@+id/tv_shop_specifications"
-            android:layout_width="@dimen/px450dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px36sp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:visibility="gone"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/px40dp"
-        android:layout_toLeftOf="@+id/choiceLayout">
-
-        <TextView
+            android:textColor="@color/white_60"
+            android:textSize="@dimen/px30sp"
+            android:visibility="gone" />
+        <!--价格-->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="¥"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/full_subtraction_bg"
-            android:textSize="@dimen/px40sp"/>
-
-        <TextView
-            android:id="@+id/commodityPrise"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:textColor="@color/full_subtraction_bg"
-            android:textSize="@dimen/px40sp"/>
-
-        <TextView
-            android:id="@+id/tv_discount_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/px28dp"
-            android:alpha="0.6"
-            android:gravity="center_vertical"
-            android:text="¥%1$s"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px36sp"
-            android:visibility="gone"/>
-
+            android:gravity="bottom"
+            android:orientation="horizontal">
+            <!--折扣价格-->
+            <TextView
+                android:id="@+id/commodityPrise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/full_subtraction_bg"
+                android:textSize="@dimen/px40sp" />
+            <!--原价-->
+            <TextView
+                android:id="@+id/tv_discount_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/px12dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/white_60"
+                android:textSize="@dimen/px30sp"
+                tools:text="¥%1$s" />
+        </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout
@@ -76,8 +72,8 @@
         android:layout_height="@dimen/px52dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginBottom="@dimen/px36dp"
-        android:layout_marginTop="@dimen/px36dp">
+        android:layout_marginTop="@dimen/px36dp"
+        android:layout_marginBottom="@dimen/px36dp">
 
         <ImageView
             android:id="@+id/reduce"
@@ -105,4 +101,4 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/increase" />
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>
