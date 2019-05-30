@@ -90,10 +90,10 @@ public class ShoppingCartAdapter extends BaseAdapter {
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBeans.get(position).getSkus();
         if (skus != null) {
             if (skus.size() == 0) {
-                viewHolder.commodityPrise.setText(NumberFormat.getInstance().format(spusBeans.get(position).getMin_price()));
+                viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getMin_price())));
                 viewHolder.shopDiscountPrice.setVisibility(View.GONE);
             } else if (skus.size() == 1) {
-                viewHolder.commodityPrise.setText(NumberFormat.getInstance().format(spusBeans.get(position).getSkus().get(0).getPrice()));
+                viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getSkus().get(0).getPrice())));
                 double origin_price = spusBeans.get(position).getSkus().get(0).getOrigin_price();
                 double price = spusBeans.get(position).getSkus().get(0).getPrice();
                 if (origin_price > price) {
@@ -105,7 +105,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                     viewHolder.shopDiscountPrice.setVisibility(View.GONE);
                 }
             } else if (skus.size() > 1) {
-                viewHolder.commodityPrise.setText(NumberFormat.getInstance().format(spusBeans.get(position).getChoiceSkus().get(0).getPrice()));
+                viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getChoiceSkus().get(0).getPrice())));
                 double origin_price = spusBeans.get(position).getSkus().get(0).getOrigin_price();
                 double price = spusBeans.get(position).getSkus().get(0).getPrice();
                 if (origin_price > price) {
@@ -118,7 +118,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 }
             }
         } else {
-            viewHolder.commodityPrise.setText(NumberFormat.getInstance().format(spusBeans.get(position).getMin_price()));
+            viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getMin_price())));
         }
 
         viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
