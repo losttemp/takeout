@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -524,29 +525,35 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         OrderDetailsResponse.MeituanBean.DataBean mOrderDetails = data.getMeituan().getData();
         int status = mOrderDetails.getOut_trade_status();
         if (status == 0 || status == 1) {
-            try {
-                OrderListResponse.IovBean.DataBean order = mOrderList.get(selectPosition);
-                String extra = order.getExtra();
-                OrderListExtraBean extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
-                String payload = Encryption.desEncrypt(extraBean.getPayload());
-                OrderListExtraPayloadBean payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
-                Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY, EventType.TOUCH_TYPE);
-                Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
-                double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
-                payintent.putExtra("total_cost", total_price);
-                payintent.putExtra("order_id", Long.parseLong(mOrderList.get(selectPosition).getOut_trade_no()));
-                payintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
-                payintent.putExtra("shop_name", mOrderList.get(selectPosition).getOrder_name());
-                payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
-                payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
-                payintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(pos).getExtra());
-                payintent.putExtra("flag", true);
-                payintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-                payintent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(payintent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        OrderListResponse.IovBean.DataBean order = mOrderList.get(selectPosition);
+                        String extra = order.getExtra();
+                        OrderListExtraBean extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
+                        String payload = null;
+                        try {
+                            payload = Encryption.desEncrypt(extraBean.getPayload());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        OrderListExtraPayloadBean payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
+                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY, EventType.TOUCH_TYPE);
+                        Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
+                        double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
+                        payintent.putExtra("total_cost", total_price);
+                        payintent.putExtra("order_id", Long.parseLong(mOrderList.get(selectPosition).getOut_trade_no()));
+                        payintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
+                        payintent.putExtra("shop_name", mOrderList.get(selectPosition).getOrder_name());
+                        payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
+                        payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
+                        payintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(pos).getExtra());
+                        payintent.putExtra("flag", true);
+                        payintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+                        payintent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(payintent);
+                    }
+                },500);
         } else {
             ToastUtils.show(mContext, data.getMeituan().getMsg(), Toast.LENGTH_SHORT);
             mRefreshLayout.autoRefresh();

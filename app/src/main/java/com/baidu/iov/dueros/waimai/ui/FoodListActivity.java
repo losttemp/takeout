@@ -1454,9 +1454,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mPoiInfoBean = data.getMeituan().getData().getPoi_info();
         mShopTitle.setText(mPoiInfoBean.getName());
         mBulletin.setText(getString(R.string.notice, mPoiInfoBean.getBulletin()));
-        GlideApp.with(this)
-                .load(mPoiInfoBean.getPic_url())
-                .into(mShopPicture);
+//        GlideApp.with(this)
+//                .load(mPoiInfoBean.getPic_url())
+//                .into(mShopPicture);
+        GlideApp.with(mContext).load(mPoiInfoBean.getPic_url()).placeholder(R.drawable.default_goods_icon).skipMemoryCache(true).into(mShopPicture);
         //商品分类
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> food_spu_tags = data.getMeituan().getData().getFood_spu_tags();
         for (int i = 0; i < food_spu_tags.size(); i++) {

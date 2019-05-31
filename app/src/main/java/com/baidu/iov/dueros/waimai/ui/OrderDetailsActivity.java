@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -429,6 +430,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.pay_order:
                 if (CacheUtils.getAuth()) {
+                    loadingView.setVisibility(View.VISIBLE);
                     orderSubmit();
                 } else {
                     getPresenter().requestAuthInfo();
@@ -531,17 +533,25 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     }
 
     private void orderSubmit() {
-        Intent intentPayment = new Intent(OrderDetailsActivity.this, PaymentActivity.class);
-        intentPayment.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id()+"");
-        intentPayment.putExtra("total_cost", mOrderDetails.getTotal());
-        intentPayment.putExtra("order_id", mOrderDetails.getOrder_id());
-        intentPayment.putExtra("shop_name", mOrderDetails.getPoi_name());
-        intentPayment.putExtra("pay_url", getIntent().getStringExtra("pay_url"));
-        intentPayment.putExtra("pic_url", getIntent().getStringExtra("pic_url"));
-        intentPayment.putExtra("flag",true);
-        intentPayment.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intentPayment);
-        finish();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intentPayment = new Intent(OrderDetailsActivity.this, PaymentActivity.class);
+                intentPayment.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id()+"");
+                intentPayment.putExtra("total_cost", mOrderDetails.getTotal());
+                intentPayment.putExtra("order_id", mOrderDetails.getOrder_id());
+                intentPayment.putExtra("shop_name", mOrderDetails.getPoi_name());
+                intentPayment.putExtra("pay_url", getIntent().getStringExtra("pay_url"));
+                intentPayment.putExtra("pic_url", getIntent().getStringExtra("pic_url"));
+                intentPayment.putExtra("flag",true);
+                intentPayment.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentPayment);
+                loadingView.setVisibility(View.GONE);
+                finish();
+            }
+        },500);
+
     }
 
     @Override
@@ -553,10 +563,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             }else {
                 long expireTime = (long)data.getIov().getData().getExpire_time();
                 long sysTime = (long)data.getIov().getData().getSystime();
-//                if (data.getIov().getData().getExpire_time()==0&&data.getIov().getData().getSystime()==0){
-//                    expireTime = 15*60;
-//                    sysTime = 0;
-//                }
                 mTimer = new CountDownTimer((expireTime - sysTime)*1000, 1000) {
                         @Override
                     public void onTick(long millisUntilFinished) {
@@ -622,14 +628,14 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 format2 = new SimpleDateFormat("HH:mm");
                 mExpectedTime.setText(format1.format(date) + " (" + getWeek(time) + ") " + format2.format(date));
             }
+            loadingView.setVisibility(View.GONE);
+            contentView.setVisibility(View.VISIBLE);
+            networkView.setVisibility(View.GONE);
         }else {
+            contentView.setVisibility(View.GONE);
+            networkView.setVisibility(View.VISIBLE);
             Lg.getInstance().d(TAG, "no find data !");
         }
-
-        loadingView.setVisibility(View.GONE);
-        contentView.setVisibility(View.VISIBLE);
-        networkView.setVisibility(View.GONE);
-
     }
 
     /**
@@ -758,7 +764,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     @Override
     public void failure(String msg) {
         loadingView.setVisibility(View.GONE);
-        ToastUtils.show(OrderDetailsActivity.this,getResources().getString(R.string.no_internet),Toast.LENGTH_SHORT);
+        networkView.setVisibility(View.VISIBLE);
+//        ToastUtils.show(OrderDetailsActivity.this,getResources().getString(R.string.no_internet),Toast.LENGTH_SHORT);
     }
 
     @Override

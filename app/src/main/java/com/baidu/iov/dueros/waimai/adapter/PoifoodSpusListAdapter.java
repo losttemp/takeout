@@ -469,8 +469,13 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                             spusOriginPrice.setVisibility(View.GONE);
                         }
                         spusName.setText(spusBean.getName());
+//                        GlideApp.with(context)
+//                                .load(pictureUrl)
+//                                .skipMemoryCache(true)
+//                                .into(spusPicture);
                         GlideApp.with(context)
                                 .load(pictureUrl)
+                                .placeholder(R.drawable.default_goods_icon)
                                 .skipMemoryCache(true)
                                 .into(spusPicture);
                         addToCart.setOnClickListener(new View.OnClickListener() {
