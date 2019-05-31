@@ -55,6 +55,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderOwnerBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
@@ -1764,6 +1765,16 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.first_page));
             }
         }
+    }
+
+    @Override
+    public void onCheckOrderOwnerSuccess(OrderOwnerBean orderOwnerBean) {
+
+    }
+
+    @Override
+    public void onCheckOrderOwnerError(String error) {
+
     }
 
     @Override

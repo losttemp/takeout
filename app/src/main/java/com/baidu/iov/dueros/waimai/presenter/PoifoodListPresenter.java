@@ -8,9 +8,11 @@ import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.IPoifoodListModel;
 import com.baidu.iov.dueros.waimai.model.PoifoodListModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderOwnerReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewJsonBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderOwnerBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
@@ -118,7 +120,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
             @Override
             public void getLogid(String id) {
-                Lg.getInstance().d(TAG, "requestPoifoodList getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestPoifoodList getLogid: " + id);
             }
         });
     }
@@ -143,7 +145,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
             @Override
             public void getLogid(String id) {
-                Lg.getInstance().d(TAG, "requestPoidetailinfo getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestPoidetailinfo getLogid: " + id);
             }
         });
     }
@@ -199,9 +201,9 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
             }
             foodListBean.setFood_spu_attr_ids(food_spu_attr_ids);
             foodListBean.setCount(spusBean.getNumber());
-            if (spusBean.getChoiceSkus()!=null){
+            if (spusBean.getChoiceSkus() != null) {
                 foodListBean.setWm_food_sku_id(spusBean.getChoiceSkus().get(0).getId());
-            }else {
+            } else {
                 foodListBean.setWm_food_sku_id(spusBean.getSkus().get(0).getId());
             }
             foodListBeans.add(foodListBean);
@@ -212,6 +214,34 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         OrderPreviewJsonBean.WmOrderingUserBean wmOrderingUserBean = new OrderPreviewJsonBean.WmOrderingUserBean();
         orderPreviewJsonBean.setWm_ordering_user(wmOrderingUserBean);
         return GsonUtil.toJson(orderPreviewJsonBean);
+    }
+
+    public void requestCheckOrderOwner(long order_id) {
+        OrderOwnerReq req = new OrderOwnerReq();
+        req.setOrder_id(order_id);
+        mPoifoodListModel.requestCheckOrderOwner(req, new RequestCallback<OrderOwnerBean>() {
+
+            @Override
+            public void onSuccess(OrderOwnerBean data) {
+                if (null != getUi()) {
+                    getUi().onCheckOrderOwnerSuccess(data);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+                if (null != getUi()) {
+                    getUi().onCheckOrderOwnerError(msg);
+                }
+            }
+
+            @Override
+            public void getLogid(String id) {
+                Lg.getInstance().d(TAG, "requestArriveTimeData getLogid: " + id);
+            }
+        });
+
     }
 
     public void requestArriveTimeData(Long wm_poi_id) {
@@ -239,7 +269,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
             @Override
             public void getLogid(String id) {
-                Lg.getInstance().d(TAG, "requestArriveTimeData getLogid: "+id);
+                Lg.getInstance().d(TAG, "requestArriveTimeData getLogid: " + id);
             }
         });
 
@@ -268,5 +298,9 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         void selectListItem(int i);
 
         void nextPage(boolean isNextPage);
+
+        void onCheckOrderOwnerSuccess(OrderOwnerBean orderOwnerBean);
+
+        void onCheckOrderOwnerError(String error);
     }
 }

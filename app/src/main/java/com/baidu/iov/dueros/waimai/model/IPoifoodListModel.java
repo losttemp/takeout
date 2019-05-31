@@ -4,6 +4,7 @@ import android.util.ArrayMap;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderOwnerReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
@@ -13,6 +14,8 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
  */
 
 public interface IPoifoodListModel extends IModel {
+    void requestCheckOrderOwner(OrderOwnerReq orderOwnerReqBean, final RequestCallback callback);
+
     void requestPoifoodList(ArrayMap<String, String> params, final RequestCallback callback);
 
     void requestPoidetailinfo(ArrayMap<String, String> params, final RequestCallback callback);

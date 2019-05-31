@@ -18,6 +18,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderOwnerBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
@@ -120,6 +121,10 @@ public interface TakeawayApi {
     @FormUrlEncoded
     @POST("/iovservice/waimai/ordersubmit")
     Call<ResponseBase<OrderSubmitBean>> getOrderSubmit(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("/iovservice/waimai/checkorderowner")
+    Call<ResponseBase<OrderOwnerBean>> getCheckOrderOwner(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/addressupdate")

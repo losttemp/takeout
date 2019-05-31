@@ -21,6 +21,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderOwnerBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
@@ -139,6 +140,18 @@ public class ApiUtils {
     public static <D extends RequestBase> void getOrderSubmit(D request, ApiCallBack<OrderSubmitBean> callBack) {
         Map<String, String> requestMap = requestPrepare(request);
         ApiInstance.getApi().getOrderSubmit(requestMap).enqueue(callBack);
+    }
+
+    /**
+     * get order owner request
+     *
+     * @param request
+     * @param callBack
+     * @param <D>
+     */
+    public static <D extends RequestBase> void getCheckOrderOwner(D request, ApiCallBack<OrderOwnerBean> callBack) {
+        Map<String, String> requestMap = requestPrepare(request);
+        ApiInstance.getApi().getCheckOrderOwner(requestMap).enqueue(callBack);
     }
 
     /**

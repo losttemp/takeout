@@ -141,9 +141,6 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			viewHolder.rvStoreProduct.setVisibility(View.GONE);
 		}
 
-
-
-
 		//Discounts
 		final List<String> discounts = getDiscountList(store.getDiscounts());
 		final FlowLayoutManager mFlowLayoutManager = new FlowLayoutManager();
@@ -158,28 +155,27 @@ public class StoreAdaper extends RecyclerView.Adapter<StoreAdaper.ViewHolder> {
 			viewHolder.rvStoreDiscount.setAdapter(discountAdaper);
 			viewHolder.rlDiscount.setVisibility(View.VISIBLE);
 
-
-			viewHolder.itemView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-				@Override
-				public void onGlobalLayout() {
-					int lines = mFlowLayoutManager.getLineRows();
-					if (lines > 1) {
-						viewHolder.ivStoreDiscount.setVisibility(View.VISIBLE);
-						if (store.isDiscountsDown()) {
-							viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_up);
-							setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT *
-									lines);
-						} else {
-							viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
-							setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
-						}
-					} else {
-						viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
-						viewHolder.ivStoreDiscount.setVisibility(View.GONE);
-						setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
-					}
-				}
-			});
+            viewHolder.rvStoreDiscount.post(new Runnable() {
+                @Override
+                public void run() {
+                    int lines = mFlowLayoutManager.getLineRows();
+                    if (lines > 1) {
+                        viewHolder.ivStoreDiscount.setVisibility(View.VISIBLE);
+                        if (store.isDiscountsDown()) {
+                            viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_up);
+                            setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT *
+                                    lines);
+                        } else {
+                            viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
+                            setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
+                        }
+                    } else {
+                        viewHolder.ivStoreDiscount.setImageResource(R.drawable.arrow_down);
+                        viewHolder.ivStoreDiscount.setVisibility(View.GONE);
+                        setRecyclerViewHight(viewHolder.rvStoreDiscount, DISCOUNT_LINE_HEIGHT);
+                    }
+                }
+            });
 
             discountAdaper.setItemClickListener(new DiscountAdaper.OnItemClickListener() {
                 @Override

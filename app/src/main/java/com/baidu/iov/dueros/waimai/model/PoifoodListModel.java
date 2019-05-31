@@ -6,9 +6,11 @@ import android.util.Log;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
+import com.baidu.iov.dueros.waimai.net.entity.request.OrderOwnerReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.PoifoodListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderOwnerBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
@@ -134,6 +136,7 @@ public class PoifoodListModel implements IPoifoodListModel {
         });
     }
 
+
     @Override
     public void requestArriveTimeList(ArriveTimeReqBean arriveTimeReqBean, final RequestCallback<ArriveTimeBean> callback) {
         if (callback == null) {
@@ -157,6 +160,34 @@ public class PoifoodListModel implements IPoifoodListModel {
                 if (callback!=null) {
                     callback.getLogid(id);
                     Lg.getInstance().d(TAG, "requestArriveTimeList getLogid: "+id);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void requestCheckOrderOwner(OrderOwnerReq OrderOwnerReqBean, final RequestCallback callback) {
+        if (callback == null) {
+            return;
+        }
+
+        ApiUtils.getCheckOrderOwner(OrderOwnerReqBean, new ApiCallBack<OrderOwnerBean>() {
+            @Override
+            public void onSuccess(OrderOwnerBean data) {
+                callback.onSuccess(data);
+
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                callback.onFailure(msg);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Lg.getInstance().d(TAG, "requestCheckOrderOwner getLogid: "+id);
                 }
             }
         });
