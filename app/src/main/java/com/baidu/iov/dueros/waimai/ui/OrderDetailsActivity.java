@@ -1,7 +1,6 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -20,12 +19,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -38,9 +34,9 @@ import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.FoodListAdaper;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.FoodDetailBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.presenter.OrderDetailsPresenter;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.BackgroundUtils;
@@ -74,7 +70,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
      */
     private static final String TAG = OrderDetailsActivity.class.getSimpleName();
 
-    private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod, mTimerTv, mDeliveryType,mPhone,mName;
+    private TextView mArrivalTime, mBusinessName, mPackingFee, mDistributionFee, mDiscount, mRealPay, mContact, mAddress, mExpectedTime, mOrderId, mOrderTime, mPayMethod, mTimerTv, mDeliveryType, mPhone, mName;
     private NoClikRecyclerView mFoodListView;
     private Button mRepeatOrder, mPayOrder, mCancelOrder;
     private FoodListAdaper mFoodListAdaper;
@@ -83,7 +79,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     private OrderCancelReq mOrderCancelReq;
     private long order_id;
     private long expectedTime;
-    private String mStoreId ="";
+    private String mStoreId = "";
     private int mPayStatus;
     private NumberFormat mNumberFormat;
     private View loadingView;
@@ -138,7 +134,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         if (NetUtil.getNetWorkState(this)) {
             loadingView.setVisibility(View.VISIBLE);
             loadData();
-            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_pay().getHints(),Constant.TTS_PAY_DETAIL);
+            GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_pay().getHints(), Constant.TTS_PAY_DETAIL);
         } else {
             if (null != networkView) {
                 loadingView.setVisibility(View.GONE);
@@ -241,7 +237,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             mDeliveryType.setText(getString(R.string.order_not_meituan));
         }
 
-        List<OrderDetailsResponse.MeituanBean.DataBean.FoodListBean> mfoodList = mOrderDetails.getFood_list();
+        List<FoodDetailBean> mfoodList = mOrderDetails.getFood_list();
 
         int orientation = RecyclerView.VERTICAL;
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, orientation, false);
@@ -410,11 +406,11 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         switch (v.getId()) {
             case R.id.back:
                 Entry.getInstance().onEvent(Constant.GOBACK_TO_PREACTIVITY, EventType.TOUCH_TYPE);
-                if (null != getIntent().getStringExtra("extra") && !getIntent().getStringExtra("extra").equals("")){
+                if (null != getIntent().getStringExtra("extra") && !getIntent().getStringExtra("extra").equals("")) {
                     finish();
-                }else if (getIntent().getBooleanExtra("flag",false)){
+                } else if (getIntent().getBooleanExtra("flag", false)) {
                     finish();
-                }else {
+                } else {
                     AtyContainer.getInstance().finishAllActivity();
                 }
 //                finish();
@@ -424,7 +420,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 intentFoodList.putExtra(Constant.STORE_ID, String.valueOf(mOrderDetails.getWm_poi_id()));
                 intentFoodList.putExtra(Constant.ORDER_LSIT_BEAN, mOrderDetails);
                 intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
-                intentFoodList.putExtra("flag",true);
+                intentFoodList.putExtra("flag", true);
                 startActivity(intentFoodList);
                 finish();
                 break;
@@ -438,7 +434,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                 break;
             case R.id.cancel_order:
                 mOrderCancelReq = new OrderCancelReq(mOrderDetailsReq.getId());
-                if (mRepeatOrder.getVisibility() == View.VISIBLE){
+                if (mRepeatOrder.getVisibility() == View.VISIBLE) {
                     ConfirmDialog dialog = new ConfirmDialog.Builder(this)
                             .setTitle(R.string.order_cancel_title)
                             .setMessage(R.string.order_cancel_message)
@@ -463,7 +459,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                             })
                             .create();
                     dialog.show();
-                }else {
+                } else {
                     ConfirmDialog dialog = new ConfirmDialog.Builder(this)
                             .setTitle(R.string.order_cancel_title)
                             .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -538,40 +534,40 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             @Override
             public void run() {
                 Intent intentPayment = new Intent(OrderDetailsActivity.this, PaymentActivity.class);
-                intentPayment.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id()+"");
+                intentPayment.putExtra(Constant.STORE_ID, mOrderDetails.getWm_poi_id() + "");
                 intentPayment.putExtra("total_cost", mOrderDetails.getTotal());
                 intentPayment.putExtra("order_id", mOrderDetails.getOrder_id());
                 intentPayment.putExtra("shop_name", mOrderDetails.getPoi_name());
                 intentPayment.putExtra("pay_url", getIntent().getStringExtra("pay_url"));
                 intentPayment.putExtra("pic_url", getIntent().getStringExtra("pic_url"));
-                intentPayment.putExtra("flag",true);
+                intentPayment.putExtra("flag", true);
                 intentPayment.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentPayment);
                 loadingView.setVisibility(View.GONE);
                 finish();
             }
-        },500);
+        }, 500);
 
     }
 
     @Override
     public void update(OrderDetailsResponse data) {
-        if(data!=null){
+        if (data != null) {
             mOrderDetails = data.getMeituan().getData();
-            if(mOrderDetails.getOut_trade_status() ==IOV_STATUS_CANCELED){
+            if (mOrderDetails.getOut_trade_status() == IOV_STATUS_CANCELED) {
                 mTimerTv.setText(R.string.pay_cancel);
-            }else {
-                long expireTime = (long)data.getIov().getData().getExpire_time();
-                long sysTime = (long)data.getIov().getData().getSystime();
-                mTimer = new CountDownTimer((expireTime - sysTime)*1000, 1000) {
-                        @Override
+            } else {
+                long expireTime = (long) data.getIov().getData().getExpire_time();
+                long sysTime = (long) data.getIov().getData().getSystime();
+                mTimer = new CountDownTimer((expireTime - sysTime) * 1000, 1000) {
+                    @Override
                     public void onTick(long millisUntilFinished) {
                         mArrivalTime.setText(String.format(getResources().getString(R.string.count_down_timer), formatCountDownTime(millisUntilFinished)));
                     }
 
                     @Override
                     public void onFinish() {
-                        isTimeEnd  = true;
+                        isTimeEnd = true;
                         mArrivalTime.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
                         mPayStatus = mOrderDetails.getPay_status();
                         if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
@@ -588,7 +584,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                                             intentFoodList.putExtra(Constant.ORDER_LSIT_BEAN, mOrderDetails);
                                             intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
                                             intentFoodList.putExtra(Constant.TO_SHOW_SHOP_CART, true);
-                                            intentFoodList.putExtra("flag",true);
+                                            intentFoodList.putExtra("flag", true);
                                             startActivity(intentFoodList);
                                             dialog.dismiss();
                                             finish();
@@ -609,7 +605,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
                                     .create();
                             dialog.setCanceledOnTouchOutside(false);
                             if (isForeground(OrderDetailsActivity.this)
-                                    &&!OrderDetailsActivity.this.isFinishing()) {
+                                    && !OrderDetailsActivity.this.isFinishing()) {
                                 dialog.show();
                             }
                         }
@@ -631,7 +627,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
             loadingView.setVisibility(View.GONE);
             contentView.setVisibility(View.VISIBLE);
             networkView.setVisibility(View.GONE);
-        }else {
+        } else {
             contentView.setVisibility(View.GONE);
             networkView.setVisibility(View.VISIBLE);
             Lg.getInstance().d(TAG, "no find data !");
@@ -703,7 +699,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
         Entry.getInstance().onEvent(Constant.CALL_FOR_CANCLE_ORDER, EventType.TOUCH_TYPE);
-        if (isTimeEnd){
+        if (isTimeEnd) {
             timerCancel();
             loadData();
             isTimeEnd = false;
@@ -775,13 +771,13 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
 
     @Override
     public void authFailure(String msg) {
-        ToastUtils.show(this,"授权失败，请开启服务授权",Toast.LENGTH_SHORT);
+        ToastUtils.show(this, "授权失败，请开启服务授权", Toast.LENGTH_SHORT);
     }
 
     @Override
     public void authSuccess(String msg) {
         boolean isBackground = BackgroundUtils.isBackground(getBaseContext());
-        if (!isBackground){
+        if (!isBackground) {
             orderSubmit();
         }
     }
@@ -804,11 +800,21 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         }
     }
 
-    private void startActionCall(){
+    private void startActionCall() {
         if (!DeviceUtils.checkBluetooth(OrderDetailsActivity.this)) return;
         Intent intent = new Intent(Intent.ACTION_CALL);
         Uri data = Uri.parse("tel:" + "10109777");
         intent.setData(data);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         startActivity(intent);
     }
 

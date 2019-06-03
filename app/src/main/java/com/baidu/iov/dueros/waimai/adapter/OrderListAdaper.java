@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
 
+import com.baidu.iov.dueros.waimai.net.entity.response.FoodDetailBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
@@ -41,7 +42,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
     private final String IOV_STATUS_REFUNDED = "10"; //已退款
     private final String IOV_STATUS_REFUND_FAILED = "11"; //退款失败
 
-    private OrderListExtraBean.OrderInfos.Food_list mOrderInfosfood_list;
+    private FoodDetailBean mOrderInfosfood_list;
 
     public OrderListAdaper(List<OrderListResponse.IovBean.DataBean> orderList,
                            Context context) {

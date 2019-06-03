@@ -152,7 +152,7 @@ public class OrderDetailsResponse {
             private int out_trade_status;
             private String out_trade_status_text;
             private boolean is_open;
-            private List<FoodListBean> food_list;
+            private List<FoodDetailBean> food_list;
             private List<DiscountsBean> discounts;
 
             public long getOrder_id() {
@@ -491,11 +491,11 @@ public class OrderDetailsResponse {
                 this.is_open = is_open;
             }
 
-            public List<FoodListBean> getFood_list() {
+            public List<FoodDetailBean> getFood_list() {
                 return food_list;
             }
 
-            public void setFood_list(List<FoodListBean> food_list) {
+            public void setFood_list(List<FoodDetailBean> food_list) {
                 this.food_list = food_list;
             }
 
@@ -547,108 +547,6 @@ public class OrderDetailsResponse {
                 }
             }
 
-            public static class FoodListBean implements Serializable{
-
-                private int food_id;
-                private int spu_id;
-                private String name;
-                private double price;
-                private double original_price;
-                private int count;
-                private String spec;
-                private double box_num;
-                private double box_price;
-                private List<String> attrIds;
-                private List<String> attrValues;
-
-                public int getFood_id() {
-                    return food_id;
-                }
-
-                public void setFood_id(int food_id) {
-                    this.food_id = food_id;
-                }
-
-                public int getSpu_id() {
-                    return spu_id;
-                }
-
-                public void setSpu_id(int spu_id) {
-                    this.spu_id = spu_id;
-                }
-
-                public String getName() {
-                    return name;
-                }
-
-                public void setName(String name) {
-                    this.name = name;
-                }
-
-                public double getPrice() {
-                    return price;
-                }
-
-                public void setPrice(double price) {
-                    this.price = price;
-                }
-
-                public double getOriginal_price() {
-                    return original_price;
-                }
-
-                public void setOriginal_price(double original_price) {
-                    this.original_price = original_price;
-                }
-
-                public int getCount() {
-                    return count;
-                }
-
-                public void setCount(int count) {
-                    this.count = count;
-                }
-
-                public String getSpec() {
-                    return spec;
-                }
-
-                public void setSpec(String spec) {
-                    this.spec = spec;
-                }
-
-                public double getBox_num() {
-                    return box_num;
-                }
-
-                public void setBox_num(double box_num) {
-                    this.box_num = box_num;
-                }
-
-                public double getBox_price() {
-                    return box_price;
-                }
-
-                public void setBox_price(double box_price) {
-                    this.box_price = box_price;
-                }
-
-                public List<String> getAttrIds() {
-                    return attrIds;
-                }
-
-                public void setAttrIds(List<String> attrIds) {
-                    this.attrIds = attrIds;
-                }
-
-                public List<String> getAttrValues() {
-                    return attrValues;
-                }
-
-                public void setAttrValues(List<String> attrValues) {
-                    this.attrValues = attrValues;
-                }
-            }
         }
     }
 

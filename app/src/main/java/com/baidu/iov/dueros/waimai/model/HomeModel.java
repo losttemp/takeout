@@ -42,7 +42,6 @@ public class HomeModel implements IHomeModel {
 			public void getLogid(String id) {
 				if (callback!=null) {
 					callback.getLogid(id);
-					Lg.getInstance().d(TAG, "requestOrderList getLogid: "+id);
 				}
 			}
 		});

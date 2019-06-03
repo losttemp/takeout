@@ -36,6 +36,7 @@ public class AtyContainer {
                 }
             }
             activityStack.clear();
+            init = false;
         }
     }
 }

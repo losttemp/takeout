@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +80,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AtyContainer.getInstance().removeActivity(this);
         View contentView = getLayoutInflater().inflate(R.layout.activity_meituan_login, null);
         setContentView(contentView);
         this.savedInstanceState = savedInstanceState;
@@ -249,7 +251,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                     url.contains("i.waimai.meituan.com/c/rules") ||
                     url.contains("h5.waimai.meituan.com/login?back_url") ||
                     url.contains("openapi.waimai.meituan.com/oauth") ||
-                    url.contains("h5.waimai.meituan.com/authorize")||
+                    url.contains("h5.waimai.meituan.com/authorize") ||
                     url.contains("vehicle.baidu.com/iovservice/waimai/oauthredirect")) {
                 WV_foreground.setVisibility(View.VISIBLE);
             } else {
@@ -342,21 +344,31 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         //接口返回不知道为什么会多次调用,init限制多次跳转界面
         if (init) return;
         init = true;
-        //与上次budss 不同则跳转到地址界面
-        long time = CacheUtils.getAddrTime();
-        if (CacheUtils.getBduss().equals(oldBudss) &&
-                time != 0 && System.currentTimeMillis() - time <= SIX_HOUR) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-            intent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
-            intent.putExtra(Constant.IS_FROME_TAKEAWAYLOGIN, true);
-            startActivity(intent);
+        String json = getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING);
+        if (TextUtils.isEmpty(json)) {
+            //与上次budss 不同则跳转到地址界面
+            long time = CacheUtils.getAddrTime();
+            if (CacheUtils.getBduss().equals(oldBudss) &&
+                    time != 0 && System.currentTimeMillis() - time <= SIX_HOUR) {
+                Intent intent = new Intent(mContext, HomeActivity.class);
+                intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+                intent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
+                intent.putExtra(Constant.IS_FROME_TAKEAWAYLOGIN, true);
+                startActivity(intent);
+            } else {
+                CacheUtils.saveAddrTime(0);
+                Intent addressIntent = new Intent(mContext, AddressSelectActivity.class);
+                addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+                addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
+                startActivity(addressIntent);
+            }
         } else {
-            CacheUtils.saveAddrTime(0);
-            Intent addressIntent = new Intent(this, AddressSelectActivity.class);
-            addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-            addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
-            startActivity(addressIntent);
+            Intent intentFoodList = new Intent(mContext, FoodListActivity.class);
+            intentFoodList.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
+            intentFoodList.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, json);
+            intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
+            intentFoodList.putExtra("flag", false);
+            startActivity(intentFoodList);
         }
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -553,7 +565,9 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             if (html.contains("errno") || html.contains("error_code")) {
                 Lg.getInstance().e(TAG, "webview:" + html);
             }
-            if (html.contains("{\"errno\":0,\"err_msg\":\"success\",")) {
+            if (html.contains("state not match")) {
+                handler.sendEmptyMessage(HANDLER_FINISH_ACT);
+            } else if (html.contains("{\"errno\":0,\"err_msg\":\"success\",")) {
                 handler.sendEmptyMessage(HANDLER_POST_HTTP);
             }
             if (html.contains("error_code") && html.contains("10002")) {

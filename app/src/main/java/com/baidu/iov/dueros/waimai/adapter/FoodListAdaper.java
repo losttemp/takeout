@@ -3,13 +3,11 @@ package com.baidu.iov.dueros.waimai.adapter;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.FoodDetailBean;
 import com.baidu.iov.dueros.waimai.R;
 
 import java.text.DecimalFormat;
@@ -17,14 +15,14 @@ import java.text.NumberFormat;
 import java.util.List;
 
 public class FoodListAdaper extends RecyclerView.Adapter<FoodListAdaper.ViewHolder> {
-    private List<OrderDetailsResponse.MeituanBean.DataBean.FoodListBean> mData;
+    private List<FoodDetailBean> mData;
     private Context mContext;
 
     public FoodListAdaper(Context context) {
         mContext = context;
     }
 
-    public void setData(List<OrderDetailsResponse.MeituanBean.DataBean.FoodListBean> data) {
+    public void setData(List<FoodDetailBean> data) {
         mData = data;
         notifyDataSetChanged();
     }

@@ -5,11 +5,13 @@ import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
+import com.baidu.iov.dueros.waimai.net.entity.base.RequestBase;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderOwnerReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.PoifoodListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderOwnerBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
@@ -160,6 +162,33 @@ public class PoifoodListModel implements IPoifoodListModel {
                 if (callback!=null) {
                     callback.getLogid(id);
                     Lg.getInstance().d(TAG, "requestArriveTimeList getLogid: "+id);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void requesLogout(final RequestCallback callback) {
+        if (callback == null) {
+            return;
+        }
+
+        ApiUtils.logout(new RequestBase(), new ApiCallBack<LogoutBean>() {
+            @Override
+            public void onSuccess(LogoutBean data) {
+                callback.onSuccess(data);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                callback.onFailure(msg);
+            }
+
+            @Override
+            public void getLogid(String id) {
+                if (callback!=null) {
+                    callback.getLogid(id);
+                    Lg.getInstance().d(TAG, "requesLogout getLogid: "+id);
                 }
             }
         });

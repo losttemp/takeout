@@ -7,6 +7,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderOwnerReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 
 /**
@@ -23,4 +24,6 @@ public interface IPoifoodListModel extends IModel {
     void requestOrderPreview(OrderPreviewReqBean orderPreviewReqBean, final RequestCallback<OrderPreviewBean> callback);
 
     void requestArriveTimeList(ArriveTimeReqBean arriveTimeReqBean, final RequestCallback<ArriveTimeBean> callback);
+
+    void requesLogout(RequestCallback<LogoutBean> requestCallback);
 }

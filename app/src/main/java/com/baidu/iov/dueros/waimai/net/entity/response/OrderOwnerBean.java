@@ -15,5 +15,13 @@ public class OrderOwnerBean {
     public static class IovBean {
 
         private int enabled;
+
+        public int getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(int enabled) {
+            this.enabled = enabled;
+        }
     }
 }

@@ -63,7 +63,7 @@ public class HomePresenter extends Presenter<HomePresenter.HomeUi> {
 
 			@Override
 			public void getLogid(String id) {
-				Lg.getInstance().d(TAG, "requestStoreList getLogid: "+id);
+				Lg.getInstance().d(TAG, "requesLogout getLogid: "+id);
 			}
 		});
 	}
