@@ -351,7 +351,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 tv_origin_price.setVisibility(View.INVISIBLE);
 //                tv_discounts.setVisibility(View.INVISIBLE);
             }
-//            Glide.with(this).load(pictureUrl).into(img_photo);
             GlideApp.with(mContext).load(pictureUrl).placeholder(R.drawable.default_goods_icon).skipMemoryCache(true).into(img_photo);
             tv_name.setText(name);
             tv_count.setText(String.format(getResources().getString(R.string.count_char), count));

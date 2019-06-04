@@ -19,6 +19,7 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.bumptech.glide.Glide;
@@ -191,8 +192,10 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvPrice.setText("¥" + String.valueOf(total_price));
             tvTotalCount.setText(String.format(mContext.getResources().getString(R.string
                     .goods_total_count), total_count));
-            Glide.with(mContext).load(wm_pic_url).into(ivStore);
-
+            GlideApp.with(mContext)
+                    .load(wm_pic_url)
+                    .placeholder(R.drawable.default_goods_icon)
+                    .skipMemoryCache(true).into(ivStore);
             itemView.setTag(position);
             tvStoreName.setTag(position);
             tvOneMore.setTag(position);

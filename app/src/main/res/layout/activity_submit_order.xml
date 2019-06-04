@@ -41,6 +41,7 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/px210dp"
             android:scrollbars="none">
 
             <RelativeLayout
@@ -343,7 +344,7 @@
         <LinearLayout
             android:id="@+id/pay_panel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/px210dp"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
             android:gravity="center"
