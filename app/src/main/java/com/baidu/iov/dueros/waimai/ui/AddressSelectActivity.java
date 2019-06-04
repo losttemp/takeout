@@ -144,7 +144,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                         if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
                             CacheUtils.saveAddrTime(System.currentTimeMillis());
                         }
-                        Intent homeintent = new Intent(AddressSelectActivity.this, HomeActivity.class);
                         try {
                             String address = Encryption.desEncrypt(dataBean.getAddress());
                             CacheUtils.saveAddress(address);
@@ -152,8 +151,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        startActivity(homeintent);
-                        finish();
+                        startActivity();
                         break;
                     case R.id.address_select_edit:
                         startEditActivity(dataBean);
@@ -262,7 +260,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             if (CacheUtils.getAddrTime() == 0 || (System.currentTimeMillis() - CacheUtils.getAddrTime() > SIX_HOUR)) {
                 CacheUtils.saveAddrTime(System.currentTimeMillis());
             }
-            Intent homeintent = new Intent(AddressSelectActivity.this, HomeActivity.class);
             try {
                 String address = Encryption.desEncrypt(mDataList.get(i).getAddress());
                 CacheUtils.saveAddress(address);
@@ -271,8 +268,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            startActivity(homeintent);
-            finish();
+            startActivity();
         }
     }
 
@@ -357,7 +353,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             if (startApp != Constant.START_APP_CODE) {
                 //当地址列表没有加载出数据，但是有缓存地址时候返回到首页
                 finish();
-            }else {
+            } else {
                 //地址删除完后,直接退出应用
                 CacheUtils.saveAddrTime(0);
                 CacheUtils.saveAddressBean(null);
@@ -404,5 +400,21 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             unregisterReceiver(mReceiver);
         }
         super.onDestroy();
+    }
+
+    private void startActivity() {
+        String json = getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING);
+        if (TextUtils.isEmpty(json)) {
+            Intent homeintent = new Intent(AddressSelectActivity.this, HomeActivity.class);
+            startActivity(homeintent);
+        } else {
+            Intent intentFoodList = new Intent(mContext, FoodListActivity.class);
+            intentFoodList.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
+            intentFoodList.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, json);
+            intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
+            intentFoodList.putExtra("flag", false);
+            startActivity(intentFoodList);
+        }
+        finish();
     }
 }
