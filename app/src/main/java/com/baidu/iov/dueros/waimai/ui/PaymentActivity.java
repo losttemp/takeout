@@ -138,7 +138,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
         }
         netDataReque();
-
     }
 
     private void timeTick(){
@@ -149,12 +148,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                 mParentsLayout.setVisibility(View.VISIBLE);
                     long expireTime = (long)data.getIov().getData().getExpire_time();
                     long sysTime = (long)data.getIov().getData().getSystime();
-//                long orderTime = (long)data.getMeituan().getData().getOrder_time() * 1000L;
-//                mTimer = new CountDownTimer(15 * 60 * 1000L - (System.currentTimeMillis() - orderTime), 1000) {
-//                if (data.getIov().getData().getExpire_time()==0&&data.getIov().getData().getSystime()==0){
-//                    expireTime = 15*60;
-//                    sysTime = 0;
-//                }
                 mTimer = new CountDownTimer((expireTime - sysTime)*1000, 1000) {
 
                     @Override
@@ -171,7 +164,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
                     @Override
                     public void onFinish() {
-//                        final Object orderListExtraPayLoadStr = getIntent().getExtras().get(Constant.ORDER_LSIT_EXTRA_STRING);
                         mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
                         if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
 
@@ -248,13 +240,11 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
     private void netDataReque() {
         if (NetUtil.getNetWorkState(this)) {
-//            loadingView.setVisibility(View.GONE);
+            loadingView.setVisibility(View.VISIBLE);
             mNoNet.setVisibility(View.GONE);
             mParentsLayout.setVisibility(View.GONE);
-//            OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
-//            mOrderDetailsReq.setId(mOrderId);
-//            getPresenter().requestOrderDetails(mOrderDetailsReq);
         } else {
+            loadingView.setVisibility(View.GONE);
             mNoNet.setVisibility(View.VISIBLE);
             mParentsLayout.setVisibility(View.GONE);
         }
@@ -265,6 +255,12 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         super.onResume();
         timeTick();
         initView();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        timerCancel();
     }
 
     public static boolean createQRImage(String content, int widthPix, int heightPix, ImageView imageView) {
@@ -354,7 +350,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 
             if (mPayStatus == Constant.PAY_STATUS_SUCCESS) {
                 timerCancel();
-
                 String storeName = dataBean.getPoi_name();
                 String recipientPhone = dataBean.getRecipient_phone();
                 String recipientAddress = dataBean.getRecipient_address();
@@ -384,9 +379,11 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     @Override
     public void onSubmitFailure(String msg) {
         loadingView.setVisibility(View.GONE);
-        if (!NetUtil.getNetWorkState(this)) {
-            mParentsLayout.setVisibility(View.GONE);
-            mNoNet.setVisibility(View.VISIBLE);
-        }
+        mParentsLayout.setVisibility(View.GONE);
+        mNoNet.setVisibility(View.VISIBLE);
+//        if (!NetUtil.getNetWorkState(this)) {
+//            mParentsLayout.setVisibility(View.GONE);
+//            mNoNet.setVisibility(View.VISIBLE);
+//        }
     }
 }

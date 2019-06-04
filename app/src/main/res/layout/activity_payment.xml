@@ -8,37 +8,40 @@
     android:orientation="vertical"
     tools:context="com.baidu.iov.dueros.waimai.ui.PaymentActivity">
 
+    <RelativeLayout
+        android:id="@+id/submit_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px120dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/px96dp"
+            android:layout_height="@dimen/px96dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/px54dp"
+            android:background="@drawable/icon_back"
+            android:foreground="@drawable/fg_ripple" />
+
+        <com.domain.multipltextview.MultiplTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/payment_header"
+            android:textColor="@color/white"
+            android:textSize="@dimen/px40sp"
+            app:removeDefaultPadding="true" />
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/payment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/px120dp"
         android:visibility="gone"
         android:orientation="vertical">
-        <RelativeLayout
-            android:id="@+id/submit_header"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/px120dp"
-            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/back"
-                android:layout_width="@dimen/px96dp"
-                android:layout_height="@dimen/px96dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/px54dp"
-                android:background="@drawable/icon_back"
-                android:foreground="@drawable/fg_ripple" />
-
-            <com.domain.multipltextview.MultiplTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="@string/payment_header"
-                android:textColor="@color/white"
-                android:textSize="@dimen/px40sp"
-                app:removeDefaultPadding="true" />
-        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/time_panel"
@@ -226,7 +229,6 @@
                 android:layout_toEndOf="@+id/pay_type_img1"
                 android:background="@drawable/zhifubao" />
         </RelativeLayout>
-
 
     </LinearLayout>
 

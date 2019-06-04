@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,8 +19,8 @@
             android:layout_height="@dimen/px96dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/px54dp"
-            android:foreground="@drawable/fg_ripple"
-            android:background="@drawable/icon_close" />
+            android:background="@drawable/icon_close"
+            android:foreground="@drawable/fg_ripple" />
 
         <com.domain.multipltextview.MultiplTextView
             android:layout_width="wrap_content"
@@ -32,173 +32,179 @@
             android:textSize="@dimen/px40sp" />
     </RelativeLayout>
 
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px2dp"
-        android:layout_marginEnd="@dimen/px86dp"
-        android:layout_marginStart="@dimen/px84dp"
-        android:alpha="0.06"
-        android:background="@color/white" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px218dp"
-        >
-
-        <ImageView
-            android:id="@+id/store_photo_img"
-            android:layout_width="@dimen/px220dp"
-            android:layout_height="@dimen/px150dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/px120dp"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2dp"
             android:layout_marginStart="@dimen/px84dp"
-            android:layout_marginTop="@dimen/px32dp"
-            android:scaleType="fitXY" />
+            android:layout_marginEnd="@dimen/px86dp"
+            android:alpha="0.06"
+            android:background="@color/white" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/px36dp"
-            android:layout_toEndOf="@id/store_photo_img"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px218dp">
 
-            <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/store_name_tv"
+            <ImageView
+                android:id="@+id/store_photo_img"
+                android:layout_width="@dimen/px220dp"
+                android:layout_height="@dimen/px150dp"
+                android:layout_marginStart="@dimen/px84dp"
+                android:layout_marginTop="@dimen/px32dp"
+                android:scaleType="fitXY" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/px32dp"
-                android:singleLine="true"
+                android:layout_marginStart="@dimen/px36dp"
+                android:layout_toEndOf="@id/store_photo_img"
+                android:orientation="vertical">
+
+                <com.domain.multipltextview.MultiplTextView
+                    android:id="@+id/store_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px32dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/px36sp"
+                    app:removeDefaultPadding="true" />
+
+                <com.domain.multipltextview.MultiplTextView
+                    android:id="@+id/product_info_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px32dp"
+                    android:alpha="0.6"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/px30sp"
+                    app:removeDefaultPadding="true" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2dp"
+            android:layout_marginStart="@dimen/px84dp"
+            android:layout_marginEnd="@dimen/px86dp"
+            android:alpha="0.06"
+            android:background="@color/white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px168dp">
+
+            <com.domain.multipltextview.MultiplTextView
+                android:id="@+id/delivery_address_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/px38dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/px84dp"
+                android:alpha="0.6"
+                android:gravity="center_vertical"
+                android:text="@string/pay_succuess_address"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px36sp"
                 app:removeDefaultPadding="true" />
 
-            <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/product_info_tv"
+            <RelativeLayout
+                android:id="@+id/user_info_rl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/px32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/px34dp"
+                android:layout_marginEnd="@dimen/px84dp">
+
+                <TextView
+                    android:id="@+id/user_info_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:maxEms="9"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/px36sp" />
+
+                <TextView
+                    android:id="@+id/user_info_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/px20dp"
+                    android:layout_toEndOf="@+id/user_info_tv"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/px36sp" />
+            </RelativeLayout>
+
+
+            <com.domain.multipltextview.MultiplTextView
+                android:id="@+id/recipient_address"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/px34dp"
+                android:layout_below="@+id/user_info_rl"
+                android:layout_alignEnd="@+id/user_info_rl"
+                android:layout_marginTop="@dimen/px26dp"
+                android:layout_marginBottom="@dimen/px40dp"
                 android:alpha="0.6"
-                android:singleLine="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/px30sp"
                 app:removeDefaultPadding="true" />
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px2dp"
-        android:layout_marginEnd="@dimen/px86dp"
-        android:layout_marginStart="@dimen/px84dp"
-        android:alpha="0.06"
-        android:background="@color/white" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px168dp">
-
-        <com.domain.multipltextview.MultiplTextView
-            android:id="@+id/delivery_address_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/px38dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/px84dp"
-            android:alpha="0.6"
-            android:gravity="center_vertical"
-            android:text="@string/pay_succuess_address"
-            android:textColor="@color/white"
-            android:textSize="@dimen/px36sp"
-            app:removeDefaultPadding="true" />
-        <RelativeLayout
-            android:id="@+id/user_info_rl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/px84dp"
-            android:layout_marginTop="@dimen/px34dp"
-            >
-            <TextView
-                android:id="@+id/user_info_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textColor="@color/white"
-                android:maxEms="9"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textSize="@dimen/px36sp"
-                android:includeFontPadding="false" />
-            <TextView
-                android:id="@+id/user_info_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textColor="@color/white"
-                android:layout_toEndOf="@+id/user_info_tv"
-                android:layout_marginStart="@dimen/px20dp"
-                android:textSize="@dimen/px36sp"
-                android:includeFontPadding="false" />
         </RelativeLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2dp"
+            android:layout_marginStart="@dimen/px84dp"
+            android:layout_marginEnd="@dimen/px86dp"
+            android:alpha="0.06"
+            android:background="@color/white" />
 
-        <com.domain.multipltextview.MultiplTextView
-            android:id="@+id/recipient_address"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/px34dp"
-            android:layout_alignEnd="@+id/user_info_rl"
-            android:layout_below="@+id/user_info_rl"
-            android:layout_marginBottom="@dimen/px40dp"
-            android:layout_marginTop="@dimen/px26dp"
-            android:alpha="0.6"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/px62dp">
+
+            <TextView
+                android:id="@+id/order_details_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/check_order_details"
+                android:textColor="@color/white"
+                android:textSize="@dimen/px36sp" />
+
+            <ImageView
+                android:layout_width="@dimen/px60dp"
+                android:layout_height="@dimen/px60dp"
+                android:layout_marginStart="@dimen/px20dp"
+                android:layout_toEndOf="@+id/order_details_tv"
+                android:src="@drawable/arrow_right" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/complete_tv"
+            android:layout_width="@dimen/px540dp"
+            android:layout_height="@dimen/px108dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/px162dp"
+            android:background="@drawable/btn_bg"
+            android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="@dimen/px30sp"
-            app:removeDefaultPadding="true" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px2dp"
-        android:layout_marginEnd="@dimen/px86dp"
-        android:layout_marginStart="@dimen/px84dp"
-        android:alpha="0.06"
-        android:background="@color/white" />
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/px62dp"
-    android:layout_gravity="center_horizontal"
-    >
-    <TextView
-        android:id="@+id/order_details_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_centerVertical="true"
-        android:text="@string/check_order_details"
-        android:textColor="@color/white"
-        android:textSize="@dimen/px36sp" />
-    <ImageView
-        android:layout_width="@dimen/px60dp"
-        android:layout_height="@dimen/px60dp"
-        android:layout_marginStart="@dimen/px20dp"
-        android:src="@drawable/arrow_right"
-        android:layout_toEndOf="@+id/order_details_tv"
-        />
-</RelativeLayout>
-
-
-    <Button
-        android:id="@+id/complete_tv"
-        android:layout_width="@dimen/px540dp"
-        android:layout_height="@dimen/px108dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/px162dp"
-        android:background="@drawable/btn_bg"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/px36sp" />
+            android:textSize="@dimen/px36sp" />
+    </LinearLayout>
 
 
 
 
-
-</LinearLayout>
+</FrameLayout>

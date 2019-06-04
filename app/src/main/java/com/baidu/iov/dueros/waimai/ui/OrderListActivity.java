@@ -119,6 +119,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         } else {
             if (null != networkView) {
                 mRefreshLayout.setVisibility(View.GONE);
+                loadingView.setVisibility(View.GONE);
                 networkView.setVisibility(View.VISIBLE);
             }
         }

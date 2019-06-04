@@ -122,7 +122,7 @@
 					app:starFill="@drawable/rating_small_full"
 					app:starHalf="@drawable/rating_small_half"
                     android:layout_centerVertical="true"
-					app:starImageHeight="@dimen/px30dp"
+					app:starImageHeight="@dimen/px24dp"
 					app:starImagePadding="@dimen/px4dp"
 					app:starImageWidth="@dimen/px30dp"
 					app:starStep="3.5"
