@@ -345,6 +345,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         if (init) return;
         init = true;
         String json = getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING);
+        //正常流程
         if (TextUtils.isEmpty(json)) {
             //与上次budss 不同则跳转到地址界面
             long time = CacheUtils.getAddrTime();
@@ -353,7 +354,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                 Intent intent = new Intent(mContext, HomeActivity.class);
                 intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                 intent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
-                intent.putExtra(Constant.IS_FROME_TAKEAWAYLOGIN, true);
                 startActivity(intent);
             } else {
                 CacheUtils.saveAddrTime(0);
@@ -363,12 +363,21 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                 startActivity(addressIntent);
             }
         } else {
-            Intent intentFoodList = new Intent(mContext, FoodListActivity.class);
-            intentFoodList.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
-            intentFoodList.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, json);
-            intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
-            intentFoodList.putExtra("flag", false);
-            startActivity(intentFoodList);
+            //再来一单判断
+            if (CacheUtils.getAddrTime() == 0) {
+                //缓存时间为0可能还没有选择地址
+                Intent addressIntent = new Intent(mContext, AddressSelectActivity.class);
+                addressIntent.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
+                addressIntent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, json);
+                startActivity(addressIntent);
+            } else {
+                Intent intentFoodList = new Intent(mContext, FoodListActivity.class);
+                intentFoodList.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
+                intentFoodList.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, json);
+                intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
+                intentFoodList.putExtra("flag", false);
+                startActivity(intentFoodList);
+            }
         }
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -1,10 +1,28 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.ArrayMap;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusListAdapter;
 import com.baidu.iov.dueros.waimai.adapter.PoifoodSpusTagsAdapter;
 import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
@@ -15,6 +33,7 @@ import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderOwnerReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewJsonBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderOwnerBean;
@@ -22,10 +41,12 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
+import com.baidu.iov.dueros.waimai.ui.HomeActivity;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
+import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.math.BigDecimal;
@@ -188,8 +209,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
     private String onCreatePayLoadJson(List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> spusBeanList,
                                        PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean, int delivery_time) {
-
-
         OrderPreviewJsonBean orderPreviewJsonBean = new OrderPreviewJsonBean();
         OrderPreviewJsonBean.WmOrderingListBean wmOrderingListBean = new OrderPreviewJsonBean.WmOrderingListBean();
         wmOrderingListBean.setWm_poi_id(poiInfoBean.getWm_poi_id());
@@ -253,7 +272,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
     }
 
     public void requestArriveTimeData(Long wm_poi_id) {
-
         ArriveTimeReqBean arriveTimeReqBean = new ArriveTimeReqBean();
         arriveTimeReqBean.setLatitude(Constant.LATITUDE);
         arriveTimeReqBean.setLongitude(Constant.LONGITUDE);
@@ -340,6 +358,10 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         void onCheckOrderOwnerError(String error);
     }
 
+    /**
+     * 再来一单时 填充商品的规格
+     *
+     */
     public void SetAttrsAndSkus(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs,
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus,
@@ -380,6 +402,10 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         }
     }
 
+    /**
+     * 设置一级分类数量
+     *
+     */
     public void refreshSpusTagNum(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                   List<PoifoodSpusTagsBean> poifoodSpusTagsBeans,
                                   List<String> tags,
@@ -416,6 +442,10 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * 获取最小数量
+     *
+     */
     public int getMinOrderCount(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
         int min_order_count = 1;
         if (spusBean.getSkus() != null) {
@@ -428,6 +458,10 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         return min_order_count;
     }
 
+    /**
+     * 优惠信息
+     *
+     */
     public List<String> getDiscountList(Context context, List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts, boolean allShow) {
         List<String> list = new ArrayList<>();
         List<String> discountList = new ArrayList<>();
@@ -449,6 +483,10 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         }
     }
 
+    /**
+     * 购物车有同一件商品时移除掉
+     *
+     */
     public void judgeTheSameThing(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                   List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList, boolean mOneMoreOrder) {
         if (mOneMoreOrder) {
@@ -489,6 +527,10 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         }
     }
 
+    /**
+     * 设置购物车数量
+     *
+     */
     public void setProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList, boolean mOneMoreOrder, boolean increase) {
         if (spusBean.getNumber() == 0) {
@@ -517,6 +559,10 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         }
     }
 
+    /**
+     * 判断购物车内的商品
+     *
+     */
     public void setOneMoreOrderProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList,
                                        Map<Integer, String> cache, String groupTag, boolean mOneMoreOrder, boolean increase) {
@@ -555,5 +601,142 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
                 }
             }
         }
+    }
+
+    /**
+     * 语音选择
+     *
+     * @param mContext mContext
+     * @param i  position
+     * @param foodSpuTagsBeans foodSpuTagsBeans
+     * @param mSpusList mSpusList
+     */
+    public void selectDuerOSItem(Context mContext, int i, List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans
+            , RecyclerView mSpusList) {
+        int flag = i + 1;
+        int section = 0;
+        int position = 0;
+        boolean ok = true;
+        while (ok) {
+            int oldFlag = flag;
+            flag -= foodSpuTagsBeans.get(section).getSpus().size();
+            if (flag <= 0 && section == 0) {
+                position = i;
+                ok = false;
+                continue;
+            }
+            if (flag <= 0) {
+                position = oldFlag - 1;
+                ok = false;
+                continue;
+            }
+            section++;
+        }
+
+        LinearLayoutManager manager = (LinearLayoutManager) mSpusList.getLayoutManager();
+        if (null != manager) {
+            int firstItemPosition = manager.findFirstVisibleItemPosition();
+            int lastItemPosition = manager.findLastVisibleItemPosition();
+
+            if (firstItemPosition <= section && lastItemPosition >= section) {
+                View view = mSpusList.getChildAt(section - firstItemPosition);
+                if (null != mSpusList.getChildViewHolder(view)) {
+                    PoifoodSpusListAdapter.MyViewHolder viewHolder = (PoifoodSpusListAdapter.MyViewHolder) mSpusList.getChildViewHolder(view);
+                    RecyclerView recyclerView = viewHolder.getRecyclerView();
+                    LinearLayoutManager m = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    if (null != m) {
+                        int f = m.findFirstVisibleItemPosition();
+                        int l = m.findLastVisibleItemPosition();
+                        if (f <= position && l >= position) {
+                            View v = recyclerView.getChildAt(position - f);
+                            if (null != recyclerView.getChildViewHolder(v)) {
+                                PoifoodSpusListAdapter.MyViewHolder.GridViewAdapter.ViewHolder holder = (PoifoodSpusListAdapter.MyViewHolder.GridViewAdapter.ViewHolder) recyclerView.getChildViewHolder(v);
+                                View canNotBuy = holder.itemView.findViewById(R.id.ll_not_buy_time);
+                                TextView tv_sold_out = holder.itemView.findViewById(R.id.tv_sold_out);
+                                //判断是否卖完
+                                if (tv_sold_out.getVisibility() == View.VISIBLE
+                                        && (mContext.getString(R.string.sold_out).equals(tv_sold_out.getText().toString()) ||
+                                        mContext.getString(R.string.looting).equals(tv_sold_out.getText().toString()))) {
+                                    ToastUtils.show(mContext, mContext.getString(R.string.looting), Toast.LENGTH_SHORT);
+                                    return;
+                                }
+                                //非可售时间
+                                if (canNotBuy.getVisibility() == View.VISIBLE) {
+                                    ToastUtils.show(mContext, mContext.getString(R.string.not_buy_time), Toast.LENGTH_SHORT);
+                                    return;
+                                }
+                                holder.autoClick(position);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 提示用户再来一单的账号不同
+     * @param mContext
+     */
+    public void startCheckOrderOwnerDialog(final Context mContext) {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.permission_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setView(layout);
+        Button btn_sure = layout.findViewById(R.id.to_setting);
+        Button btn_cancel = layout.findViewById(R.id.i_know);
+        btn_sure.setText(mContext.getString(R.string.ok));
+        btn_cancel.setText(mContext.getString(R.string.close));
+        final AlertDialog dialog = builder.create();
+        dialog.getWindow().setWindowAnimations(R.style.Dialog);
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            Window window = dialog.getWindow();
+            window.setLayout((int) mContext.getResources().getDimension(R.dimen.px912dp), (int) mContext.getResources().getDimension(R.dimen.px516dp));
+            window.setBackgroundDrawableResource(R.drawable.permission_dialog_bg);
+            WindowManager.LayoutParams lp = window.getAttributes();
+            window.setGravity(Gravity.CENTER_HORIZONTAL);
+            window.setGravity(Gravity.TOP);
+            lp.y = (int) mContext.getResources().getDimension(R.dimen.px480dp);
+            window.setAttributes(lp);
+        }
+        btn_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requesLogout();
+                dialog.dismiss();
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, HomeActivity.class);
+                mContext.startActivity(intent);
+                dialog.dismiss();
+                ((Activity) mContext).finish();
+            }
+        });
+    }
+
+    public FrameLayout createAnimLayout(Activity activity) {
+        ViewGroup rootView = (ViewGroup) activity.getWindow().getDecorView();
+        FrameLayout animLayout = new FrameLayout(activity);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT);
+        animLayout.setLayoutParams(lp);
+        animLayout.setBackgroundResource(android.R.color.transparent);
+        rootView.addView(animLayout);
+        return animLayout;
+    }
+
+    public AddressListBean.IovBean.DataBean getLocation(Context mContext) {
+        AddressListBean.IovBean.DataBean mAddressData = null;
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("_cache", Context.MODE_PRIVATE);
+        String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
+        if (addressDataJson != null) {
+            mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
+        }
+        return mAddressData;
     }
 }

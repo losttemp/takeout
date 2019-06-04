@@ -64,8 +64,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
     public static String address = "地址";
 
-    public static boolean fromLogin = false;
-
     private ArrayList<String> prefix = new ArrayList<>();
 
     //语音播报内容
@@ -88,7 +86,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         waimaiTts = getResources().getStringArray(R.array.waimai_watch);
-        fromLogin = getIntent().getBooleanExtra(Constant.IS_FROME_TAKEAWAYLOGIN, false);
         if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
             int index = (int) (Math.random() * 5);
             StandardCmdClient.getInstance().playTTS(HomeActivity.this, waimaiTts[index]);

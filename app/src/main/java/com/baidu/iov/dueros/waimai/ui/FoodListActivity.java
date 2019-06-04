@@ -8,14 +8,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -24,7 +22,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -104,7 +101,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private MultiplTextView shoppingPrise;
     private TextView shoppingNum;
     private Button settlement;
-    private LinearLayout cardShopLayout;
     private ImageView shopping_cart;
     private int number = 0;
     private boolean isClean = false;
@@ -191,9 +187,19 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         map = new ArrayMap<>();
         booleanExtra = getIntent().getBooleanExtra("flag", false);
         initView();
-//        if (booleanExtra) {
+        if (booleanExtra) {
             initData();
-//        } else {
+        } else {
+            //bduss为空
+            if (TextUtils.isEmpty(CacheUtils.getBduss())) {
+                Intent intent = new Intent(mContext, TakeawayLoginActivity.class);
+                intent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING));
+                intent.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
+                startActivity(intent);
+                finish();
+            }else{
+                initData();
+            }
 //            OrderDetailsResponse.MeituanBean.DataBean orderLsitBean = (OrderDetailsResponse.MeituanBean.DataBean) getIntent().getSerializableExtra(Constant.ORDER_LSIT_BEAN);
 //            String json =  getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING);
 //            if (!TextUtils.isEmpty(json)) {
@@ -202,7 +208,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 //            }else{
 //                mLoading.setVisibility(View.GONE);
 //            }
-//        }
+        }
         //创建广播
         mInnerReceiver = new InnerRecevier();
         //动态注册广播
@@ -268,7 +274,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     private void initView() {
-        animation_viewGroup = createAnimLayout();
+        animation_viewGroup = getPresenter().createAnimLayout(this);
         parentLayout = (RelativeLayout) findViewById(R.id.parentLayout);
         shoppingPrise = (MultiplTextView) findViewById(R.id.shoppingPrise);
         shoppingNum = (TextView) findViewById(R.id.shoppingNum);
@@ -420,7 +426,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             latitude = (Integer) getIntent().getExtras().get("latitude");
             longitude = (Integer) getIntent().getExtras().get("longitude");
         } else {
-            AddressListBean.IovBean.DataBean mAddressData = getLocation();
+            AddressListBean.IovBean.DataBean mAddressData = getPresenter().getLocation(mContext);
             if (mAddressData != null) {
                 latitude = mAddressData.getLatitude() != null ? mAddressData.getLatitude() : -1;
                 longitude = mAddressData.getLongitude() != null ? mAddressData.getLongitude() : -1;
@@ -443,16 +449,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             mLoading.setVisibility(View.GONE);
             mShopCartPic.setVisibility(View.GONE);
         }
-    }
-
-    private AddressListBean.IovBean.DataBean getLocation() {
-        AddressListBean.IovBean.DataBean mAddressData = null;
-        SharedPreferences sharedPreferences = getSharedPreferences("_cache", Context.MODE_PRIVATE);
-        String addressDataJson = sharedPreferences.getString(Constant.ADDRESS_DATA, null);
-        if (addressDataJson != null) {
-            mAddressData = GsonUtil.fromJson(addressDataJson, AddressListBean.IovBean.DataBean.class);
-        }
-        return mAddressData;
     }
 
     @Override
@@ -854,7 +850,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mBottomDialog.getWindow().setGravity(Gravity.BOTTOM);
         mBottomDialog.show();
         setDialogHeight(mBottomDialog);
-        cardShopLayout = (LinearLayout) v.findViewById(R.id.cardShopLayout);
         mClearshopCart = (MultiplTextView) v.findViewById(R.id.tv_clear);
         shoppingListView = (ConstraintHeightListView) v.findViewById(R.id.shopproductListView);
         mShopCartNum = (TextView) v.findViewById(R.id.shoppingNum);
@@ -1036,18 +1031,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             return;
         }
         showShopCartDialog();
-    }
-
-    private FrameLayout createAnimLayout() {
-        ViewGroup rootView = (ViewGroup) getWindow().getDecorView();
-        FrameLayout animLayout = new FrameLayout(this);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT);
-        animLayout.setLayoutParams(lp);
-        animLayout.setBackgroundResource(android.R.color.transparent);
-        rootView.addView(animLayout);
-        return animLayout;
     }
 
     private void doAnim(Drawable drawable, int[] start_location) {
@@ -1390,7 +1373,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                             String[] split = info.split(";");
                             listFull = new ArrayList();
                             listReduce = new ArrayList();
-                            Lg.getInstance().d(TAG, "split.length = " + split.length);
                             for (int j = 0; j < split.length; j++) {
                                 String splitString = split[j];
                                 int y = 0;
@@ -1401,13 +1383,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                                     }
                                 }
                                 String substring = splitString.substring(1, y);
-                                Lg.getInstance().d(TAG, "substring = " + substring);
                                 String lastString = splitString.substring(y + 1, splitString.length());
-                                Lg.getInstance().d(TAG, "lastString = " + lastString);
-                                Lg.getInstance().d(TAG, "lastNumber = " + NumberFormat.getInstance().format(Double.parseDouble(lastString)));
-                                Lg.getInstance().d(TAG, "subNumber = " + NumberFormat.getInstance().format(Double.parseDouble(substring)));
-                                // listFull.add(NumberFormat.getInstance().format(Double.parseDouble(substring)));
-                                //  listReduce.add(NumberFormat.getInstance().format(Double.parseDouble(lastString)));
                                 listFull.add(substring);
                                 listReduce.add(lastString);
                                 mFirstDiscount = getString(R.string.full) + listFull.get(0) + getString(R.string.element) + getString(R.string.reduce)
@@ -1442,7 +1418,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
             return;
         }
-
         if (null == mBottomDialog || (null != mBottomDialog && !mBottomDialog.isShowing() && null != settlement)) {
             isNeedVoice = true;
             if (settlement.isEnabled()) {
@@ -1458,17 +1433,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (isNextPage) {
             mSpusList.scrollBy(0, getResources().getDimensionPixelSize(R.dimen.px828dp));
             if (mSpusList.canScrollVertically(1)) {
-                Lg.getInstance().d(TAG, "direction 1: true");
             } else {
-                Lg.getInstance().d(TAG, "direction 1: false");//滑动到底部
                 StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.last_page));
             }
         } else {
             mSpusList.scrollBy(0, -getResources().getDimensionPixelSize(R.dimen.px966dp));
             if (mSpusList.canScrollVertically(-1)) {
-                Lg.getInstance().d(TAG, "direction -1: true");
             } else {
-                Lg.getInstance().d(TAG, "direction -1: false");//滑动到顶部 }
                 StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.first_page));
             }
         }
@@ -1480,41 +1451,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         if (bean.getIov() != null && bean.getIov().getEnabled() == 1) {
             initData();
         } else {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.permission_dialog, null);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(layout);
-            Button btn_sure = layout.findViewById(R.id.to_setting);
-            Button btn_cancel = layout.findViewById(R.id.i_know);
-            btn_sure.setText(getString(R.string.ok));
-            btn_cancel.setText(getString(R.string.close));
-            final AlertDialog dialog = builder.create();
-            dialog.getWindow().setWindowAnimations(R.style.Dialog);
-            dialog.show();
-            if (dialog.getWindow() != null) {
-                Window window = dialog.getWindow();
-                window.setLayout((int) getResources().getDimension(R.dimen.px912dp), (int) getResources().getDimension(R.dimen.px516dp));
-                window.setBackgroundDrawableResource(R.drawable.permission_dialog_bg);
-                WindowManager.LayoutParams lp = window.getAttributes();
-                window.setGravity(Gravity.CENTER_HORIZONTAL);
-                window.setGravity(Gravity.TOP);
-                lp.y = (int) getResources().getDimension(R.dimen.px480dp);
-                window.setAttributes(lp);
-            }
-            btn_sure.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getPresenter().requesLogout();
-                    dialog.dismiss();
-                }
-            });
-            btn_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startHomeActivity();
-                    dialog.dismiss();
-                }
-            });
+            //订单不属于该账号提示用户
+            getPresenter().startCheckOrderOwnerDialog(mContext);
         }
     }
 
@@ -1541,67 +1479,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     @Override
-    public void selectListItem(int i) {
+    public void selectListItem(int position) {
         Entry.getInstance().onEvent(Constant.POIFOODLIST_ADD_GOODS_BY_VOICE, EventType.TOUCH_TYPE);
-        int flag = i + 1;
-        int section = 0;
-        int position = 0;
-        boolean ok = true;
-        while (ok) {
-            int oldFlag = flag;
-            flag -= foodSpuTagsBeans.get(section).getSpus().size();
-            if (flag <= 0 && section == 0) {
-                position = i;
-                ok = false;
-                continue;
-            }
-            if (flag <= 0) {
-                position = oldFlag - 1;
-                ok = false;
-                continue;
-            }
-            section++;
-        }
-
-        LinearLayoutManager manager = (LinearLayoutManager) mSpusList.getLayoutManager();
-        if (null != manager) {
-            int firstItemPosition = manager.findFirstVisibleItemPosition();
-            int lastItemPosition = manager.findLastVisibleItemPosition();
-
-            if (firstItemPosition <= section && lastItemPosition >= section) {
-                View view = mSpusList.getChildAt(section - firstItemPosition);
-                if (null != mSpusList.getChildViewHolder(view)) {
-                    PoifoodSpusListAdapter.MyViewHolder viewHolder = (PoifoodSpusListAdapter.MyViewHolder) mSpusList.getChildViewHolder(view);
-                    RecyclerView recyclerView = viewHolder.getRecyclerView();
-                    LinearLayoutManager m = (LinearLayoutManager) recyclerView.getLayoutManager();
-                    if (null != m) {
-                        int f = m.findFirstVisibleItemPosition();
-                        int l = m.findLastVisibleItemPosition();
-                        if (f <= position && l >= position) {
-                            View v = recyclerView.getChildAt(position - f);
-                            if (null != recyclerView.getChildViewHolder(v)) {
-                                PoifoodSpusListAdapter.MyViewHolder.GridViewAdapter.ViewHolder holder = (PoifoodSpusListAdapter.MyViewHolder.GridViewAdapter.ViewHolder) recyclerView.getChildViewHolder(v);
-                                View canNotBuy = holder.itemView.findViewById(R.id.ll_not_buy_time);
-                                TextView tv_sold_out = holder.itemView.findViewById(R.id.tv_sold_out);
-                                //判断是否卖完
-                                if (tv_sold_out.getVisibility() == View.VISIBLE
-                                        && (getString(R.string.sold_out).equals(tv_sold_out.getText().toString()) ||
-                                        getString(R.string.looting).equals(tv_sold_out.getText().toString()))) {
-                                    ToastUtils.show(mContext, getString(R.string.looting), Toast.LENGTH_SHORT);
-                                    return;
-                                }
-                                //非可售时间
-                                if (canNotBuy.getVisibility() == View.VISIBLE) {
-                                    ToastUtils.show(mContext, getString(R.string.not_buy_time), Toast.LENGTH_SHORT);
-                                    return;
-                                }
-                                holder.autoClick(position);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        getPresenter().selectDuerOSItem(mContext, position, foodSpuTagsBeans, mSpusList);
     }
 
     class SpaceItemDecoration extends RecyclerView.ItemDecoration {
@@ -1644,20 +1524,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     }
 
     private void startHomeActivity() {
-        long time = CacheUtils.getAddrTime();
-        if (time != 0 && System.currentTimeMillis() - time <= 6 * 60 * 60 * 1000) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-            intent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
-            intent.putExtra(Constant.IS_FROME_TAKEAWAYLOGIN, true);
-            startActivity(intent);
-        } else {
-            CacheUtils.saveAddrTime(0);
-            Intent addressIntent = new Intent(this, AddressSelectActivity.class);
-            addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-            addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
-            startActivity(addressIntent);
-        }
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
         finish();
     }
+
 }
