@@ -30,7 +30,7 @@ public class FilterPopWindow extends PopupWindow {
 	private GridView gvFilterType;
 
 	private FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean mActivityFilterListBean;
-	private List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean> itemsBeans= new ArrayList<>();
+	private List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean.ItemsBean> itemsBeans;
 
 	public FilterPopWindow( Context context, List<FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean> filterList,
 						   final OnClickOkListener listener) {

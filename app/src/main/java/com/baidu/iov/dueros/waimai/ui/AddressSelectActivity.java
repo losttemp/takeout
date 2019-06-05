@@ -124,6 +124,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         mAdapter.setOnItemClickListerner(new AddressSelectAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View v, AddressListBean.IovBean.DataBean dataBean) {
+                if (loadingView.getVisibility() == View.VISIBLE) return;
                 switch (v.getId()) {
                     case R.id.address_select_details_container:
                         String type = dataBean.getType();

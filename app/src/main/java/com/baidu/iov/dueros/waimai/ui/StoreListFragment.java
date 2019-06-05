@@ -385,6 +385,11 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				break;
 
 			case R.id.no_internet_btn:
+				mTvSort.setText(getResources().getString(R.string.store_sort));
+				mStoreReq.setSortType(Constant.COMPREHENSIVE);
+				mStoreReq.setMigFilter("");
+				mTvSort.setTextColor(getResources().getColor(R.color.white_60));
+				mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
 				refresh();
 				break;
 
