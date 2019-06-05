@@ -334,19 +334,19 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         foodSpuTagsBeanName = new ArrayList<>();
         poifoodSpusTagsBeans = new ArrayList<>();
         mPoifoodSpusListAdapter = new PoifoodSpusListAdapter(this, productList, foodSpuTagsBeans, getWindow());
-        mPoifoodSpusListAdapter.SetOnSetHolderClickListener(new PoifoodSpusListAdapter.HolderClickListener() {
-            @Override
-            public void onHolderClick(final Drawable drawable, final int[] start_location) {
-                // 数据量较大时，由于遍历导致主线程阻塞
-                mmHandler.removeCallbacksAndMessages(null);
-                mmHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        doAnim(drawable, start_location);
-                    }
-                }, 50);
-            }
-        });
+//        mPoifoodSpusListAdapter.SetOnSetHolderClickListener(new PoifoodSpusListAdapter.HolderClickListener() {
+//            @Override
+//            public void onHolderClick(final Drawable drawable, final int[] start_location) {
+//                // 数据量较大时，由于遍历导致主线程阻塞
+//                mmHandler.removeCallbacksAndMessages(null);
+//                mmHandler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        doAnim(drawable, start_location);
+//                    }
+//                }, 50);
+//            }
+//        });
 
         final LinearLayoutManager layoutManagerRight = new LinearLayoutManager(this);
         mSpusList.setLayoutManager(layoutManagerRight);
