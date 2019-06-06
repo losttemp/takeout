@@ -368,6 +368,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        timerCancel();
+    }
+
     public void timerStart() {
         mTimer.start();
     }
