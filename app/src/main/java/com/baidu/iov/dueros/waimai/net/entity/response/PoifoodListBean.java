@@ -629,6 +629,7 @@ public class PoifoodListBean {
                         private String picture;
                         private double price;
                         private double origin_price;
+                        private double old_price;
                         private double box_num;
                         private double box_price;
                         private int min_order_count;
@@ -754,6 +755,14 @@ public class PoifoodListBean {
 
                         public void setRestrict(int restrict) {
                             this.restrict = restrict;
+                        }
+
+                        public double getOld_price() {
+                            return old_price;
+                        }
+
+                        public void setOld_price(double old_price) {
+                            this.old_price = old_price;
                         }
                     }
                 }

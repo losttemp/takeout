@@ -197,7 +197,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 intent.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
                 startActivity(intent);
                 finish();
-            }else{
+            } else {
                 initData();
             }
 //            OrderDetailsResponse.MeituanBean.DataBean orderLsitBean = (OrderDetailsResponse.MeituanBean.DataBean) getIntent().getSerializableExtra(Constant.ORDER_LSIT_BEAN);
@@ -625,6 +625,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         boolean isDiscount = false;
         boolean exceedingTheLimit = false;
         mIsDiscountList = new ArrayList<>();
+        Map<Integer, Integer> shopCache = new HashMap<>();
         for (PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean pro : productList) {
             List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = pro.getSkus();
             double price = 0;
@@ -637,11 +638,12 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                     } else {
                         price = pro.getSkus().get(0).getPrice();
                     }
+                    if (pro.getSkus().get(0).getOld_price() > 0) {
+                        pro.getSkus().get(0).setPrice(pro.getSkus().get(0).getOld_price());
+                    }
                     if (pro.getSkus().get(0).getPrice() < pro.getSkus().get(0).getOrigin_price()) {
                         isDiscount = true;
-
                         restrict = pro.getSkus().get(0).getRestrict();
-
                         if (restrict > 0 && restrict < pro.getNumber() && !exceedingTheLimit) {
                             ToastUtils.show(mContext, getString(R.string.limit_buy_toast, "" + restrict,
                                     "" + restrict), Toast.LENGTH_SHORT);
@@ -649,9 +651,20 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         } else {
                             exceedingTheLimit = false;
                         }
+                        if (pro.getNumber() > 0) {
+                            if (!shopCache.containsKey(pro.getId())) {
+                                shopCache.put(pro.getId(), pro.getNumber());
+                            } else {
+                                if (restrict <= shopCache.get(pro.getId())) {
+                                    pro.getSkus().get(0).setOld_price(pro.getSkus().get(0).getPrice());
+                                    pro.getSkus().get(0).setPrice(pro.getSkus().get(0).getOrigin_price());
+                                    exceedingTheLimit = true;
+                                }
+                                shopCache.put(pro.getId(), shopCache.get(pro.getId()) + pro.getNumber());
+                            }
+                        }
                         for (int i = 0; i < pro.getNumber(); i++) {
                             mIsDiscountList.add(isDiscount);
-
                             if (restrict > 0) {
                                 if (i < restrict) {
                                     priceRestrict = pro.getSkus().get(0).getPrice();

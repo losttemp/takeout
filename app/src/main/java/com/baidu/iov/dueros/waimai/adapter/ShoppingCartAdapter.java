@@ -15,6 +15,7 @@ import com.baidu.iov.dueros.waimai.interfacedef.IShoppingCartToDetailListener;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.domain.multipltextview.MultiplTextView;
@@ -90,27 +91,15 @@ public class ShoppingCartAdapter extends BaseAdapter {
         List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = spusBeans.get(position).getSkus();
         if (skus != null) {
             if (skus.size() == 0) {
-                viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getMin_price())));
+                viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getMin_price()*spusBeans.get(position).getNumber())));
                 viewHolder.shopDiscountPrice.setVisibility(View.GONE);
-            } else if (skus.size() == 1) {
-                viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getSkus().get(0).getPrice())));
+            } else {
+                viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(getPrise(spusBeans.get(position)))));
                 double origin_price = spusBeans.get(position).getSkus().get(0).getOrigin_price();
                 double price = spusBeans.get(position).getSkus().get(0).getPrice();
                 if (origin_price > price) {
                     viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
-                    viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getSkus().get(0).getOrigin_price())));
-                    viewHolder.shopDiscountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                    viewHolder.shopDiscountPrice.getPaint().setAntiAlias(true); //去掉锯齿
-                } else {
-                    viewHolder.shopDiscountPrice.setVisibility(View.GONE);
-                }
-            } else if (skus.size() > 1) {
-                viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getChoiceSkus().get(0).getPrice())));
-                double origin_price = spusBeans.get(position).getSkus().get(0).getOrigin_price();
-                double price = spusBeans.get(position).getSkus().get(0).getPrice();
-                if (origin_price > price) {
-                    viewHolder.shopDiscountPrice.setVisibility(View.VISIBLE);
-                    viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getChoiceSkus().get(0).getOrigin_price())));
+                    viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getSkus().get(0).getOrigin_price()*spusBeans.get(position).getNumber())));
                     viewHolder.shopDiscountPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     viewHolder.shopDiscountPrice.getPaint().setAntiAlias(true); //去掉锯齿
                 } else {
@@ -118,7 +107,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 }
             }
         } else {
-            viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getMin_price())));
+            viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getMin_price()*spusBeans.get(position).getNumber())));
         }
 
         viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
@@ -163,6 +152,10 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 } else {
                     num++;
                     spusBeans.get(position).setNumber(num);
+                    viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(getPrise(spusBeans.get(position)))));
+                    if (viewHolder.shopDiscountPrice.getVisibility()==View.VISIBLE){
+                        viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getSkus().get(0).getOrigin_price()*spusBeans.get(position).getNumber())));
+                    }
                     viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
                     if (shopToDetailListener != null) {
                         shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag(),
@@ -194,11 +187,14 @@ public class ShoppingCartAdapter extends BaseAdapter {
                         Constant.MIN_COUNT = false;
                     }
                     spusBeans.get(position).setNumber(num);
+                    viewHolder.commodityPrise.setText(String.format("¥%1$s", NumberFormat.getInstance().format(getPrise(spusBeans.get(position)))));
+                    if (viewHolder.shopDiscountPrice.getVisibility()==View.VISIBLE){
+                        viewHolder.shopDiscountPrice.setText(String.format("¥%1$s", NumberFormat.getInstance().format(spusBeans.get(position).getSkus().get(0).getOrigin_price()*spusBeans.get(position).getNumber())));
+                    }
                     viewHolder.shoppingNum.setText(spusBeans.get(position).getNumber() + "");
                     if (shopToDetailListener != null) {
                         shopToDetailListener.onUpdateDetailList(spusBeans.get(position), spusBeans.get(position).getTag(),
                                 spusBeans.get(position).getSection(), false, isMinOrderCount);
-                    } else {
                     }
                     if (num == 0) {
                         shopToDetailListener.onRemovePriduct(spusBeans.get(position), spusBeans.get(position).getTag(),
@@ -253,5 +249,56 @@ public class ShoppingCartAdapter extends BaseAdapter {
             }
         }
         return min_order_count;
+    }
+
+    private double getPrise(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean pro){
+        double sum = 0;
+        int restrict = 0;
+        double priceRestrict = 0;
+        boolean exceedingTheLimit = false;
+        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.SkusBean> skus = pro.getSkus();
+        double price = 0;
+        if (skus != null) {
+            if (skus.size() == 0) {
+                price = pro.getMin_price();
+            } else if (skus.size() == 1) {
+                if (exceedingTheLimit) {
+                    price = pro.getSkus().get(0).getOrigin_price();
+                } else {
+                    price = pro.getSkus().get(0).getPrice();
+                }
+                if (pro.getSkus().get(0).getPrice() < pro.getSkus().get(0).getOrigin_price()) {
+                    restrict = pro.getSkus().get(0).getRestrict();
+                    if (restrict > 0 && restrict < pro.getNumber() && !exceedingTheLimit) {
+                        exceedingTheLimit = true;
+                    } else {
+                        exceedingTheLimit = false;
+                    }
+                    for (int i = 0; i < pro.getNumber(); i++) {
+                        if (restrict > 0) {
+                            if (i < restrict) {
+                                priceRestrict = pro.getSkus().get(0).getPrice();
+                            } else {
+                                price = pro.getSkus().get(0).getOrigin_price();
+                            }
+                        }
+                    }
+                }
+            } else if (skus.size() > 1) {
+                price = pro.getChoiceSkus().get(0).getPrice();
+                if (pro.getChoiceSkus().get(0).getPrice() < pro.getChoiceSkus().get(0).getOrigin_price()) {
+                }
+            }
+        } else {
+            price = pro.getMin_price();
+        }
+
+        if (exceedingTheLimit) {
+            double sumRestrict = DoubleUtil.sum(sum, DoubleUtil.mul((double) restrict, Double.parseDouble("" + priceRestrict)));
+            sum = DoubleUtil.sum(sumRestrict, DoubleUtil.mul((double) (pro.getNumber() - restrict), Double.parseDouble("" + price)));
+        } else {
+            sum = DoubleUtil.sum(sum, DoubleUtil.mul((double) pro.getNumber(), Double.parseDouble("" + price)));
+        }
+        return sum;
     }
 }

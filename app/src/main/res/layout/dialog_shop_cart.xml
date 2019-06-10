@@ -115,7 +115,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/px84dp"
-                    android:text="¥25"
                     android:textColor="@color/full_subtraction_bg"
                     android:textSize="@dimen/px40sp"
                     app:removeDefaultPadding="true" />
@@ -127,7 +126,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/px28dp"
                     android:layout_toRightOf="@+id/shoppingPrise"
-                    android:text="@string/distribution_fee"
                     android:textColor="@color/white"
                     android:textSize="@dimen/px30sp"
                     app:removeDefaultPadding="true" />
