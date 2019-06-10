@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.WindowManager;
 import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -84,6 +85,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         View contentView = getLayoutInflater().inflate(R.layout.activity_meituan_login, null);
         setContentView(contentView);
         this.savedInstanceState = savedInstanceState;
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         init();
         initView();
     }
