@@ -767,6 +767,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
     public void failure(String msg) {
         loadingView.setVisibility(View.GONE);
         networkView.setVisibility(View.VISIBLE);
+        contentView.setVisibility(View.GONE);
 //        ToastUtils.show(OrderDetailsActivity.this,getResources().getString(R.string.no_internet),Toast.LENGTH_SHORT);
     }
 
@@ -812,13 +813,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter, Or
         Uri data = Uri.parse("tel:" + "10109777");
         intent.setData(data);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         startActivity(intent);

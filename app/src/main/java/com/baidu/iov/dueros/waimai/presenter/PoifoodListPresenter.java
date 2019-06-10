@@ -360,7 +360,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
     /**
      * 再来一单时 填充商品的规格
-     *
      */
     public void SetAttrsAndSkus(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                 List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean.AttrsBean> attrs,
@@ -404,7 +403,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
     /**
      * 设置一级分类数量
-     *
      */
     public void refreshSpusTagNum(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                   List<PoifoodSpusTagsBean> poifoodSpusTagsBeans,
@@ -432,6 +430,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
                             number--;
                         }
                     }
+                    if (number < 0) number = 0;
                     if (number == 0) {
                         tags.add(spusBean.getTag());
                     }
@@ -444,7 +443,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
     /**
      * 获取最小数量
-     *
      */
     public int getMinOrderCount(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean) {
         int min_order_count = 1;
@@ -460,7 +458,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
     /**
      * 优惠信息
-     *
      */
     public List<String> getDiscountList(Context context, List<PoidetailinfoBean.MeituanBean.DataBean.DiscountsBean> discounts, boolean allShow) {
         List<String> list = new ArrayList<>();
@@ -485,7 +482,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
     /**
      * 购物车有同一件商品时移除掉
-     *
      */
     public void judgeTheSameThing(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                   List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList, boolean mOneMoreOrder) {
@@ -529,7 +525,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
     /**
      * 设置购物车数量
-     *
      */
     public void setProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                            List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList, boolean mOneMoreOrder, boolean increase) {
@@ -561,7 +556,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
     /**
      * 判断购物车内的商品
-     *
      */
     public void setOneMoreOrderProduct(PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean,
                                        List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean> productList,
@@ -606,10 +600,10 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
     /**
      * 语音选择
      *
-     * @param mContext mContext
-     * @param i  position
+     * @param mContext         mContext
+     * @param i                position
      * @param foodSpuTagsBeans foodSpuTagsBeans
-     * @param mSpusList mSpusList
+     * @param mSpusList        mSpusList
      */
     public void selectDuerOSItem(Context mContext, int i, List<PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean> foodSpuTagsBeans
             , RecyclerView mSpusList) {
@@ -676,6 +670,7 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
     /**
      * 提示用户再来一单的账号不同
+     *
      * @param mContext
      */
     public void startCheckOrderOwnerDialog(final Context mContext) {
