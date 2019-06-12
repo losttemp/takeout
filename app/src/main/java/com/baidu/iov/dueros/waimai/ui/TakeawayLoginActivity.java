@@ -82,6 +82,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AtyContainer.getInstance().removeActivity(this);
+        AtyContainer.getInstance().finishAllActivity();
         View contentView = getLayoutInflater().inflate(R.layout.activity_meituan_login, null);
         setContentView(contentView);
         this.savedInstanceState = savedInstanceState;

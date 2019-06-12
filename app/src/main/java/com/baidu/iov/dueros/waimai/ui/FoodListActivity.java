@@ -253,6 +253,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         isNeedVoice = false;
         Constant.ANIMATION_END = true;
         mmHandler.removeCallbacksAndMessages(null);
+        if (!booleanExtra){
+            finish();
+        }
     }
 
     @Override
