@@ -85,7 +85,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         View contentView = getLayoutInflater().inflate(R.layout.activity_meituan_login, null);
         setContentView(contentView);
         this.savedInstanceState = savedInstanceState;
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         init();
         initView();
     }
@@ -346,39 +345,29 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         //接口返回不知道为什么会多次调用,init限制多次跳转界面
         if (init) return;
         init = true;
-        String json = getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING);
-        //正常流程
-        if (TextUtils.isEmpty(json)) {
-            //与上次budss 不同则跳转到地址界面
-            long time = CacheUtils.getAddrTime();
-            if (CacheUtils.getBduss().equals(oldBudss) &&
-                    time != 0 && System.currentTimeMillis() - time <= SIX_HOUR) {
-                Intent intent = new Intent(mContext, HomeActivity.class);
-                intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-                intent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
-                startActivity(intent);
+        if (Constant.START_FOODLIST_OR_PAYMENT) {
+            //再来一单 或者 正常逻辑
+            String json = getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING);
+            //正常流程
+            if (TextUtils.isEmpty(json)) {
+                //与上次budss 不同则跳转到地址界面
+                normalStart();
             } else {
-                CacheUtils.saveAddrTime(0);
-                Intent addressIntent = new Intent(mContext, AddressSelectActivity.class);
-                addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-                addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
-                startActivity(addressIntent);
+                //再来一单判断
+                if (CacheUtils.getAddrTime() == 0) {
+                    //缓存时间为0可能还没有选择地址
+                    startFoodListAct(AddressSelectActivity.class);
+                } else {
+                    startFoodListAct(FoodListActivity.class);
+                }
             }
         } else {
-            //再来一单判断
-            if (CacheUtils.getAddrTime() == 0) {
-                //缓存时间为0可能还没有选择地址
-                Intent addressIntent = new Intent(mContext, AddressSelectActivity.class);
-                addressIntent.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
-                addressIntent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, json);
-                startActivity(addressIntent);
+            //去支付界面逻辑
+            long mOrderId = getIntent().getLongExtra(Constant.ORDER_ID, 0);
+            if (mOrderId != 0) {
+                startPaymentAct(PaymentActivity.class);
             } else {
-                Intent intentFoodList = new Intent(mContext, FoodListActivity.class);
-                intentFoodList.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
-                intentFoodList.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, json);
-                intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
-                intentFoodList.putExtra("flag", false);
-                startActivity(intentFoodList);
+                normalStart();
             }
         }
         new Handler().postDelayed(new Runnable() {
@@ -387,6 +376,43 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
                 TakeawayLoginActivity.this.finish();
             }
         }, 500);
+    }
+
+    private void startPaymentAct(Class<?> cls) {
+        Intent intent = new Intent(mContext, cls);
+        intent.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
+        intent.putExtra(Constant.TOTAL_COST, getIntent().getDoubleExtra(Constant.TOTAL_COST, 0));
+        intent.putExtra(Constant.ORDER_ID, getIntent().getLongExtra(Constant.ORDER_ID, 0));
+        intent.putExtra(Constant.SHOP_NAME, getIntent().getStringExtra(Constant.SHOP_NAME));
+        intent.putExtra(Constant.PAY_URL, getIntent().getStringExtra(Constant.PAY_URL));
+        intent.putExtra(Constant.PIC_URL, getIntent().getStringExtra(Constant.PIC_URL));
+        startActivity(intent);
+    }
+
+    private void startFoodListAct(Class<?> cls){
+        Intent intentFoodList = new Intent(mContext, cls);
+        intentFoodList.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
+        intentFoodList.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING));
+        intentFoodList.putExtra(Constant.ONE_MORE_ORDER, true);
+        intentFoodList.putExtra("flag", false);
+        startActivity(intentFoodList);
+    }
+
+    private void normalStart() {
+        long time = CacheUtils.getAddrTime();
+        if (CacheUtils.getBduss().equals(oldBudss) &&
+                time != 0 && System.currentTimeMillis() - time <= SIX_HOUR) {
+            Intent intent = new Intent(mContext, HomeActivity.class);
+            intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+            intent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
+            startActivity(intent);
+        } else {
+            CacheUtils.saveAddrTime(0);
+            Intent addressIntent = new Intent(mContext, AddressSelectActivity.class);
+            addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+            addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
+            startActivity(addressIntent);
+        }
     }
 
     @Override

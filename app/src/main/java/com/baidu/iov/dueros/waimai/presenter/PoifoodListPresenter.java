@@ -40,8 +40,12 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderOwnerBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
+import com.baidu.iov.dueros.waimai.ui.AddressSelectActivity;
 import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
 import com.baidu.iov.dueros.waimai.ui.HomeActivity;
+import com.baidu.iov.dueros.waimai.ui.TakeawayLoginActivity;
+import com.baidu.iov.dueros.waimai.utils.AtyContainer;
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
@@ -260,36 +264,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
 
                 if (null != getUi()) {
                     getUi().onCheckOrderOwnerError(msg);
-                }
-            }
-
-            @Override
-            public void getLogid(String id) {
-                Lg.getInstance().d(TAG, "requestArriveTimeData getLogid: " + id);
-            }
-        });
-
-    }
-
-    public void requestArriveTimeData(Long wm_poi_id) {
-        ArriveTimeReqBean arriveTimeReqBean = new ArriveTimeReqBean();
-        arriveTimeReqBean.setLatitude(Constant.LATITUDE);
-        arriveTimeReqBean.setLongitude(Constant.LONGITUDE);
-        arriveTimeReqBean.setWm_poi_id(wm_poi_id);
-        mPoifoodListModel.requestArriveTimeList(arriveTimeReqBean, new RequestCallback<ArriveTimeBean>() {
-
-            @Override
-            public void onSuccess(ArriveTimeBean data) {
-                if (null != getUi()) {
-                    getUi().onArriveTimeSuccess(data);
-                }
-            }
-
-            @Override
-            public void onFailure(String msg) {
-
-                if (null != getUi()) {
-                    getUi().onArriveTimeError(msg);
                 }
             }
 
@@ -680,6 +654,10 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         builder.setView(layout);
         Button btn_sure = layout.findViewById(R.id.to_setting);
         Button btn_cancel = layout.findViewById(R.id.i_know);
+        TextView textView = layout.findViewById(R.id.persion_hint);
+        TextView textViewTwo = layout.findViewById(R.id.persion_hint_two);
+        textView.setText("下单订单账号与当前登录的美团账号不");
+        textViewTwo.setText("一致，是否需切换登录账号");
         btn_sure.setText(mContext.getString(R.string.ok));
         btn_cancel.setText(mContext.getString(R.string.close));
         final AlertDialog dialog = builder.create();
@@ -705,10 +683,19 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, HomeActivity.class);
-                mContext.startActivity(intent);
                 dialog.dismiss();
-                ((Activity) mContext).finish();
+                AtyContainer.getInstance().finishAllActivity();
+                Intent intent;
+                if (CacheUtils.getAddrTime() == 0) {
+                    if (TextUtils.isEmpty(CacheUtils.getAddress())) {
+                        intent = new Intent(mContext, TakeawayLoginActivity.class);
+                    } else {
+                        intent = new Intent(mContext, AddressSelectActivity.class);
+                    }
+                } else {
+                    intent = new Intent(mContext, HomeActivity.class);
+                }
+                mContext.startActivity(intent);
             }
         });
     }

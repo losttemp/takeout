@@ -20,10 +20,13 @@ import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.ApiCallBack;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
+import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderOwnerBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitOrderPresenter;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
+import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
@@ -80,15 +83,35 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+        initView();
         Intent intent = getIntent();
         mOrderId = intent.getLongExtra(Constant.ORDER_ID, 0);
         mOrderDetailsReq = new OrderDetailsReq();
         mOrderDetailsReq.setId(mOrderId);
     }
 
+    private void initJudgePayment() {
+        if (getIntent().getBooleanExtra("flag", false)) {
+            timeTick();
+        } else {
+            Constant.START_FOODLIST_OR_PAYMENT = false;
+            //不是内部跳转 判断bduss是否为空
+            if (TextUtils.isEmpty(CacheUtils.getBduss())) {
+                //为空需要去登录界面获取bduss
+                startLoginAct();
+            } else {
+                //不为空判断账号是否统一
+                if (mOrderId != null) {
+                    loadingView.setVisibility(View.VISIBLE);
+                    getPresenter().requestCheckOrderOwner(mOrderId);
+                } else {
+                    loadingView.setVisibility(View.GONE);
+                }
+            }
+        }
+    }
 
     private void initView() {
-
         mAmountTv = findViewById(R.id.amount);
         mOrderIdTv = findViewById(R.id.order_id);
         mShopNameTv = findViewById(R.id.shop_name);
@@ -137,7 +160,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             Lg.getInstance().d("PaymentActivity", "payUrl = " + payUrl);
 
         }
-        netDataReque();
     }
 
     private void timeTick(){
@@ -232,8 +254,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                 }
                 break;
             case R.id.no_internet_btn:
-                timeTick();
-                initView();
+                netDataReque();
                 break;
         }
     }
@@ -243,7 +264,9 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             loadingView.setVisibility(View.VISIBLE);
             mNoNet.setVisibility(View.GONE);
             mParentsLayout.setVisibility(View.GONE);
+            initJudgePayment();
         } else {
+            ToastUtils.show(this, getResources().getString(R.string.is_network_connected), Toast.LENGTH_SHORT);
             loadingView.setVisibility(View.GONE);
             mNoNet.setVisibility(View.VISIBLE);
             mParentsLayout.setVisibility(View.GONE);
@@ -253,8 +276,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     @Override
     protected void onResume() {
         super.onResume();
-        timeTick();
-        initView();
+        netDataReque();
     }
 
     @Override
@@ -385,5 +407,46 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
 //            mParentsLayout.setVisibility(View.GONE);
 //            mNoNet.setVisibility(View.VISIBLE);
 //        }
+    }
+
+    @Override
+    public void onCheckOrderOwnerSuccess(OrderOwnerBean bean) {
+        loadingView.setVisibility(View.GONE);
+        if (bean != null && bean.getIov() != null && bean.getIov().getData() != null && bean.getIov().getData().getEnabled() == 1) {
+            timeTick();
+        } else {
+            //订单不属于该账号提示用户
+            getPresenter().startCheckOrderOwnerDialog(mContext);
+        }
+    }
+
+    @Override
+    public void onCheckOrderOwnerError(String error) {
+        loadingView.setVisibility(View.GONE);
+        timeTick();
+    }
+
+    @Override
+    public void onLogoutSuccess(LogoutBean data) {
+        CacheUtils.saveAddrTime(0);
+        CacheUtils.saveAddress("");
+        startLoginAct();
+    }
+
+    @Override
+    public void onLogoutError(String msg) {
+        ToastUtils.show(mContext, getResources().getText(R.string.logout_failed), Toast.LENGTH_SHORT);
+    }
+
+    private void startLoginAct() {
+        Intent intent = new Intent(mContext, TakeawayLoginActivity.class);
+        intent.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
+        intent.putExtra(Constant.TOTAL_COST, getIntent().getDoubleExtra(Constant.TOTAL_COST, 0));
+        intent.putExtra(Constant.ORDER_ID, getIntent().getLongExtra(Constant.ORDER_ID, 0));
+        intent.putExtra(Constant.SHOP_NAME, getIntent().getStringExtra(Constant.SHOP_NAME));
+        intent.putExtra(Constant.PAY_URL, getIntent().getStringExtra(Constant.PAY_URL));
+        intent.putExtra(Constant.PIC_URL, getIntent().getStringExtra(Constant.PIC_URL));
+        startActivity(intent);
+        finish();
     }
 }

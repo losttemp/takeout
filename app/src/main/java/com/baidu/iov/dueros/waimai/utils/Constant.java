@@ -113,6 +113,7 @@ public class Constant {
     public static final int START_APP_CODE = 0x123;
     public static final String GET_CITY_ERROR = "失败";
     public static String UUID = "uuid";
+    public static boolean START_FOODLIST_OR_PAYMENT = true;
 
     public final static int  EVENT_EXIT= 31300078;
     public final static int  EVENT_BACK= 31300077;

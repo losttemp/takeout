@@ -15,6 +15,7 @@
         android:textSize="@dimen/px42sp" />
 
     <TextView
+        android:id="@+id/persion_hint_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/persion_hint"

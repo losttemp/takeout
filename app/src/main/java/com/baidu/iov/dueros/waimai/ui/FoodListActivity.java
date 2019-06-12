@@ -75,6 +75,7 @@ import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
 import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
+import com.baidu.xiaoduos.syncclient.util.LogUtil;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.io.Serializable;
@@ -185,36 +186,43 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_list);
         map = new ArrayMap<>();
-        booleanExtra = getIntent().getBooleanExtra("flag", false);
         initView();
-        if (booleanExtra) {
-            initData();
-        } else {
-            //bduss为空
-            if (TextUtils.isEmpty(CacheUtils.getBduss())) {
-                Intent intent = new Intent(mContext, TakeawayLoginActivity.class);
-                intent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING));
-                intent.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
-                startActivity(intent);
-                finish();
-            } else {
-                initData();
-            }
-//            OrderDetailsResponse.MeituanBean.DataBean orderLsitBean = (OrderDetailsResponse.MeituanBean.DataBean) getIntent().getSerializableExtra(Constant.ORDER_LSIT_BEAN);
-//            String json =  getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING);
-//            if (!TextUtils.isEmpty(json)) {
-//                mLoading.setVisibility(View.VISIBLE);
-//                getPresenter().requestCheckOrderOwner(orderLsitBean.getOrder_id());
-//            }else{
-//                mLoading.setVisibility(View.GONE);
-//            }
-        }
+        initJudgeOneMoreOrder();
         //创建广播
         mInnerReceiver = new InnerRecevier();
         //动态注册广播
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         //启动广播
         registerReceiver(mInnerReceiver, intentFilter);
+    }
+
+    private void initJudgeOneMoreOrder() {
+        //判断是否是应用内部跳转
+        booleanExtra = getIntent().getBooleanExtra("flag", false);
+        if (booleanExtra) {
+            initData();
+        } else {
+            Constant.START_FOODLIST_OR_PAYMENT = true;
+            //不是内部跳转 判断bduss是否为空
+            if (TextUtils.isEmpty(CacheUtils.getBduss())) {
+                //为空需要去登录界面获取bduss
+                Intent intent = new Intent(mContext, TakeawayLoginActivity.class);
+                intent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING));
+                intent.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
+                startActivity(intent);
+                finish();
+            } else {
+                //不为空判断账号是否统一
+                String json = getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING);
+                if (!TextUtils.isEmpty(json)) {
+                    OrderListExtraBean extraBean = GsonUtil.fromJson(json, OrderListExtraBean.class);
+                    mLoading.setVisibility(View.VISIBLE);
+                    getPresenter().requestCheckOrderOwner(Long.valueOf(extraBean.getOrder_id()));
+                } else {
+                    mLoading.setVisibility(View.GONE);
+                }
+            }
+        }
     }
 
     class InnerRecevier extends BroadcastReceiver {
@@ -589,7 +597,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             }
         }
         mPoifoodSpusListAdapter.notifyDataSetChanged();
-        getPresenter().refreshSpusTagNum(spusBean, poifoodSpusTagsBeans, tags, mFoodSpuTagsListAdapter, false, increase, false);
+        getPresenter().refreshSpusTagNum(spusBean, poifoodSpusTagsBeans, tags, mFoodSpuTagsListAdapter, increase, false, false);
         setPrise(increase);
     }
 
@@ -1004,7 +1012,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 mPoifoodSpusListAdapter.showFoodListActivityDialog(v, popView, window);
                 break;
             case R.id.no_internet_btn:
-                netDataReque();
+                initJudgeOneMoreOrder();
                 break;
         }
     }
@@ -1461,7 +1469,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void onCheckOrderOwnerSuccess(OrderOwnerBean bean) {
         mLoading.setVisibility(View.GONE);
-        if (bean.getIov() != null && bean.getIov().getEnabled() == 1) {
+        if (bean != null && bean.getIov() != null && bean.getIov().getData() != null && bean.getIov().getData().getEnabled() == 1) {
             initData();
         } else {
             //订单不属于该账号提示用户
@@ -1478,9 +1486,10 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void onLogoutSuccess(LogoutBean data) {
         CacheUtils.saveAddrTime(0);
+        CacheUtils.saveAddrTime(0);
         Intent intent = new Intent(mContext, TakeawayLoginActivity.class);
         intent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING));
-        intent.putExtra(Constant.STORE_ID, mWmPoiId);
+        intent.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
         startActivity(intent);
         finish();
     }

@@ -10,6 +10,7 @@ public class OrderListExtraBean {
 
     private String payload;
     private OrderInfos orderInfos;
+    private String order_id;
 
     public void setPayload(String payload) {
         this.payload = payload;
@@ -25,6 +26,14 @@ public class OrderListExtraBean {
 
     public OrderInfos getOrderInfos() {
         return orderInfos;
+    }
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
     }
 
     public class OrderInfos {
