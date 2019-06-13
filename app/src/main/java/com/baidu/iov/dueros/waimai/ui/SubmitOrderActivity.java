@@ -192,7 +192,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         mNoInternetButton.setOnClickListener(this);
 
 
-
         if (mProductList != null && mPoiInfo != null) {
 
             String shopName = mPoiInfo.getName();
@@ -227,7 +226,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 e.printStackTrace();
             }
 
-        }else {
+        } else {
             mAddressTv.setText(getApplicationContext().getResources().getString(R.string.please_select_address_again));
         }
 
@@ -400,9 +399,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 break;
             case R.id.address_info:
                 try {
-                    if (mAddressData == null ||TextUtils.isEmpty(mAddressData.getAddress())){
+                    if (mAddressData == null || TextUtils.isEmpty(mAddressData.getAddress())) {
                         exitLogin();
-                    }else {
+                    } else {
                         Entry.getInstance().onEvent(Constant.ORDERSUBMIT_ADDRESS_DIALOG, EventType.TOUCH_TYPE);
                         Intent intent = new Intent(this, AddressListActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -554,23 +553,37 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     date_time = mDataBean.get(mCurDateItem).getDate();
                     mUnixtime = mDataBean.get(mCurDateItem).getTimelist().get(position).getUnixtime();
                     if (mUnixtime == 0) {
-                            String date = mDataBean.get(mCurDateItem).getDate().substring(0, mDataBean.get(mCurDateItem).getDate().indexOf("日")+1);
-                            long sysDate = System.currentTimeMillis();
-                            String sys = CompareDate.formatTime(sysDate);
-                            if (!date.equals(sys)){
-                                mTypeTipTv.setText(getString(R.string.specify_time));
-                                mArriveTimeTv.setText(date + " " + mEstimateTime);
-                            }else {
-                                mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
-                                mTypeTipTv.setText(getString(R.string.delivery_immediately));
-                            }
+                        String date = mDataBean.get(mCurDateItem).getDate().substring(0, mDataBean.get(mCurDateItem).getDate().indexOf("日") + 1);
+                        long sysDate = System.currentTimeMillis();
+                        String sys = CompareDate.formatTime(sysDate);
+                        if (!date.equals(sys)) {
+                            mTypeTipTv.setText(getString(R.string.specify_time));
+                            mArriveTimeTv.setText(date + " " + mEstimateTime);
+                        } else {
+                            mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), mEstimateTime));
+                            mTypeTipTv.setText(getString(R.string.delivery_immediately));
+                        }
                     } else {
                         if (mCurDateItem != 0) {
                             mArriveTimeTv.setText(date_time + " " + view_time);
                             mTypeTipTv.setText(date_type_tip);
-                        }else {
-                            mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), view_time));
-                            mTypeTipTv.setText(date_type_tip);
+                        } else {
+                            String date = mDataBean.get(mCurDateItem).getDate().substring(0, mDataBean.get(mCurDateItem).getDate().indexOf("日") + 1);
+                            String today = mDataBean.get(mCurDateItem).getDate().substring(0,2);
+                            long sysDate = System.currentTimeMillis();
+                            String sys = CompareDate.formatTime(sysDate);
+                            if (today.equals("今天")){
+                                mTypeTipTv.setText(getString(R.string.specify_time));
+                                mArriveTimeTv.setText(today + " " + view_time + " 送出");
+                            }else {
+                                if (!date.equals(sys)) {
+                                    mTypeTipTv.setText(getString(R.string.specify_time));
+                                    mArriveTimeTv.setText(date + " " + view_time);
+                                }else {
+                                    mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), view_time));
+                                    mTypeTipTv.setText(date_type_tip);
+                                }
+                            }
                         }
                     }
 
@@ -748,7 +761,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         if (arriveTimeBean != null) {
             mDataBean = arriveTimeBean.getMeituan().getData();
         } else {
-            ToastUtils.show(SubmitOrderActivity.this,"加载数据失败，请稍后重试",Toast.LENGTH_SHORT);
+            ToastUtils.show(SubmitOrderActivity.this, "加载数据失败，请稍后重试", Toast.LENGTH_SHORT);
             Lg.getInstance().d(TAG, "no find data !");
         }
 
@@ -761,7 +774,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         } else {
             Lg.getInstance().d(TAG, "not find data !");
         }
-        if (mOrderPreviewData!=null){
+        if (mOrderPreviewData != null) {
             int code = mOrderPreviewData.getCode();
             if (code == Constant.ORDER_PREVIEW_SUCCESS) {
                 showAllProductItem(mOrderPreviewData.getWm_ordering_preview_detail_vo_list());
@@ -817,8 +830,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mParentsLayout.setVisibility(View.VISIBLE);
             mNoNet.setVisibility(View.GONE);
             loadingView.setVisibility(View.GONE);
-        }else {
-            if (data.getMeituan().getErrorInfo()!=null){
+        } else {
+            if (data.getMeituan().getErrorInfo() != null) {
                 exitLogin();
                 mParentsLayout.setVisibility(View.GONE);
                 mNoNet.setVisibility(View.GONE);
@@ -827,6 +840,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         }
         playVoice();
     }
+
     AlertDialog dialog;
 
     private void exitLogin() {
@@ -855,7 +869,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SubmitOrderActivity.this,AddressSelectActivity.class);
+                Intent intent = new Intent(SubmitOrderActivity.this, AddressSelectActivity.class);
                 startActivity(intent);
                 dialog.dismiss();
                 finish();
@@ -969,9 +983,9 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     public void run() {
                         finish();
                     }
-                },1000);
+                }, 1000);
             } else if (submitCode == Constant.SERVICE_ERROR) {
-                ToastUtils.show(this, getString(R.string.service_error), Toast.LENGTH_SHORT);
+                ToastUtils.show(this, getString(R.string.order_submit_error), Toast.LENGTH_SHORT);
                 finish();
             } else if (submitCode == Constant.SUBMIT_ORDER_FAIL) {
                 ToastUtils.show(this, getString(R.string.order_submit_error), Toast.LENGTH_SHORT);
@@ -984,6 +998,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
     @Override
     public void authSuccess(String msg) {
+        Entry.getInstance().onEvent(Constant.EVENT_CLICK_SERVICE_AUTH, EventType.TOUCH_TYPE);
         boolean isBackground = BackgroundUtils.isBackground(getBaseContext());
         if (!isBackground) {
             orderSubmit();

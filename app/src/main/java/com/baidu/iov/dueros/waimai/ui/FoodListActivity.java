@@ -1313,7 +1313,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                         spusFoodList = orderInfos.getFood_list();
                     }
                 } else {
-                    OrderDetailsResponse.MeituanBean.DataBean orderLsitBean = (OrderDetailsResponse.MeituanBean.DataBean) getIntent().getExtras().getSerializable(Constant.ORDER_LSIT_BEAN);
+//                    OrderDetailsResponse.MeituanBean.DataBean orderLsitBean = (OrderDetailsResponse.MeituanBean.DataBean) getIntent().getExtras().getSerializable(Constant.ORDER_LSIT_BEAN);
+                    OrderDetailsResponse.MeituanBean.DataBean orderLsitBean = (OrderDetailsResponse.MeituanBean.DataBean) getIntent().getSerializableExtra(Constant.ORDER_LSIT_BEAN);
                     spusFoodList = orderLsitBean.getFood_list();
                 }
                 if (spusFoodList == null && spusFoodList.size() < 1) return;

@@ -119,7 +119,7 @@ public class Constant {
     public final static int  EVENT_BACK= 31300077;
 
     public final static int  EVENT_OPEN_APP_CLICK= 31300011;
-    public final static int  EVENT_OPEN_APP_VOICE= 31300012;
+    public final static int  EVENT_OPEN_APP_VOICE= 31300097;
 
     public final static int  EVENT_FOOD_CLICK= 31300039;
     public final static int  EVENT_FLOWER_CLICK= 31300040;
@@ -144,7 +144,7 @@ public class Constant {
     public final static int  EVENT_SELECTE_STORE_CLICK_FROM_FOOD= 31300095;
 
     public final static int  EVENT_SELECTE_STORE_VOICE_FROM_HOME= 31300042;
-    public final static int  EVENT_SELECTE_STORE_VOICE_FROM_FLOWER= 31300084;
+    public final static int  EVENT_SELECTE_STORE_VOICE_FROM_FLOWER= 31300086;
     public final static int  EVENT_SELECTE_STORE_VOICE_FROM_CAKE= 31300094;
     public final static int  EVENT_SELECTE_STORE_VOICE_FROM_FOOD= 31300096;
 
@@ -163,6 +163,8 @@ public class Constant {
     public final static int  EVENT_CLICK_DISTANCE_FROM_HOME= 31300048;
     public final static int  EVENT_CLICK_DISTANCE_FROM_FLOWER= 31300082;
     public final static int  EVENT_CLICK_DISTANCE_FROM_CAKE= 31300090;
+
+    public final static int  EVENT_CLICK_SERVICE_AUTH= 31300099;
 
 
 

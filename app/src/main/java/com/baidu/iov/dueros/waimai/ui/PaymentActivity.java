@@ -138,7 +138,7 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             String shopName = intent.getStringExtra(Constant.SHOP_NAME);
             String payUrl = intent.getStringExtra(Constant.PAY_URL);
             boolean isNeedVoice = intent.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
-            if (isNeedVoice){
+            if (isNeedVoice) {
                 StandardCmdClient.getInstance().playTTS(PaymentActivity.this, getString(R.string.tts_topay_text));
             }
 
@@ -162,78 +162,80 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
         }
     }
 
-    private void timeTick(){
+    private void timeTick() {
         ApiUtils.getOrderDetails(mOrderDetailsReq, new ApiCallBack<OrderDetailsResponse>() {
             @Override
             public void onSuccess(OrderDetailsResponse data) {
-                loadingView.setVisibility(View.GONE);
-                mParentsLayout.setVisibility(View.VISIBLE);
-                    long expireTime = (long)data.getIov().getData().getExpire_time();
-                    long sysTime = (long)data.getIov().getData().getSystime();
-                mTimer = new CountDownTimer((expireTime - sysTime)*1000, 1000) {
 
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), formatTime(millisUntilFinished)));
-                        mCount++;
-                        if (mCount == 5) {
-                            OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
-                            mOrderDetailsReq.setId(mOrderId);
-                            getPresenter().requestOrderDetails(mOrderDetailsReq);
-                            mCount = 0;
-                        }
-                    }
+                    loadingView.setVisibility(View.GONE);
+                    mParentsLayout.setVisibility(View.VISIBLE);
+                    long expireTime = (long) data.getIov().getData().getExpire_time();
+                    long sysTime = (long) data.getIov().getData().getSystime();
+                    mTimer = new CountDownTimer((expireTime - sysTime) * 1000, 1000) {
 
-                    @Override
-                    public void onFinish() {
-                        mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
-                        if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
-
-                            ConfirmDialog dialog = new ConfirmDialog.Builder(PaymentActivity.this)
-                                    .setTitle(R.string.pay_title)
-                                    .setMessage(R.string.pay_time_out)
-                                    .setNegativeButton(R.string.anew_submit, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-                                            Intent intent = new Intent();
-                                            intent.setClass(PaymentActivity.this, FoodListActivity.class);
-                                            intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
-                                            intent.putExtra(Constant.ORDER_LSIT_BEAN, dataBean);
-                                            intent.putExtra(Constant.ONE_MORE_ORDER, true);
-                                            intent.putExtra(Constant.STORE_ID, mStoreId);
-                                            intent.putExtra("flag", true);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                    })
-                                    .setPositiveButton(R.string.back_store, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent = new Intent();
-                                            intent.setClass(PaymentActivity.this, FoodListActivity.class);
-                                            intent.putExtra(Constant.STORE_ID, mStoreId);
-                                            intent.putExtra("flag", true);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                    })
-                                    .create();
-                            dialog.setCanceledOnTouchOutside(false);
-                            if (isForeground(PaymentActivity.this)
-                                    &&!PaymentActivity.this.isFinishing()) {
-                                dialog.show();
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), formatTime(millisUntilFinished)));
+                            mCount++;
+                            if (mCount == 5) {
+                                OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
+                                mOrderDetailsReq.setId(mOrderId);
+                                getPresenter().requestOrderDetails(mOrderDetailsReq);
+                                mCount = 0;
                             }
                         }
-                    }
-                };
-                mTimer.start();
+
+                        @Override
+                        public void onFinish() {
+                            mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), "00:00"));
+                            if (mPayStatus != Constant.PAY_STATUS_SUCCESS) {
+
+                                ConfirmDialog dialog = new ConfirmDialog.Builder(PaymentActivity.this)
+                                        .setTitle(R.string.pay_title)
+                                        .setMessage(R.string.pay_time_out)
+                                        .setNegativeButton(R.string.anew_submit, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                Intent intent = new Intent();
+                                                intent.setClass(PaymentActivity.this, FoodListActivity.class);
+                                                intent.putExtra(Constant.TO_SHOW_SHOP_CART, true);
+                                                intent.putExtra(Constant.ORDER_LSIT_BEAN, dataBean);
+                                                intent.putExtra(Constant.ONE_MORE_ORDER, true);
+                                                intent.putExtra(Constant.STORE_ID, mStoreId);
+                                                intent.putExtra("flag", true);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        })
+                                        .setPositiveButton(R.string.back_store, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent();
+                                                intent.setClass(PaymentActivity.this, FoodListActivity.class);
+                                                intent.putExtra(Constant.STORE_ID, mStoreId);
+                                                intent.putExtra("flag", true);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        })
+                                        .create();
+                                dialog.setCanceledOnTouchOutside(false);
+                                if (isForeground(PaymentActivity.this)
+                                        && !PaymentActivity.this.isFinishing()) {
+                                    dialog.show();
+                                }
+                            }
+                        }
+                    };
+                    mTimer.start();
             }
 
             @Override
             public void onFailed(String msg) {
-                ToastUtils.show(getApplicationContext(),"数据请求失败，请重试",Toast.LENGTH_SHORT);
+                ToastUtils.show(getApplicationContext(), "数据请求失败，请重试", Toast.LENGTH_SHORT);
                 loadingView.setVisibility(View.GONE);
+                finish();
             }
 
             @Override
@@ -247,9 +249,9 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
-                if (getIntent().getBooleanExtra("flag",false)){
+                if (getIntent().getBooleanExtra("flag", false)) {
                     finish();
-                }else {
+                } else {
                     AtyContainer.getInstance().finishAllActivity();
                 }
                 break;
@@ -358,7 +360,6 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
             mTimer = null;
         }
     }
-
 
 
     @Override

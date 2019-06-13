@@ -548,7 +548,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         payintent.putExtra("shop_name", mOrderList.get(selectPosition).getOrder_name());
                         payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
                         payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
-                        payintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(pos).getExtra());
                         payintent.putExtra("flag", true);
                         payintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                         payintent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
