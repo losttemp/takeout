@@ -282,6 +282,16 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 true, prefix, null);
         GuidingAppear.INSTANCE.showtTips(FoodListActivity.this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_shopping().getHints(), Constant.TTS_CART_SHOP_DETAIL);
         Constant.ANIMATION_END = true;
+        if (booleanExtra && !getIntent().getBooleanExtra("flag", false)) {
+            booleanExtra = false;
+            //先移除本界面关闭其他界面 再添加本界面
+            AtyContainer.getInstance().removeActivity(this);
+            AtyContainer.getInstance().finishAllActivity();
+            AtyContainer.getInstance().addActivity(this);
+            mShopTitle.setText("");
+            parentLayout.setVisibility(View.GONE);
+            initJudgeOneMoreOrder();
+        }
     }
 
     private void initView() {
