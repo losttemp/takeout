@@ -26,6 +26,7 @@ import java.util.HashMap;
 public class WaiMaiApplication extends Application {
 
 	private static WaiMaiApplication mInstance = null;
+	public static boolean START = false;
 //	private GuidingBean.ListBean.WaimaiBean mWaimaiBean;
     private GuideBean.DataBean.GeneralListBean.TakeoutBean mWaimaiBean;
 

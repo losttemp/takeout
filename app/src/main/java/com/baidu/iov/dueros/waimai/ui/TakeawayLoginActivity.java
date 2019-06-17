@@ -81,6 +81,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WaiMaiApplication.START = true;
         AtyContainer.getInstance().removeActivity(this);
         AtyContainer.getInstance().finishAllActivity();
         View contentView = getLayoutInflater().inflate(R.layout.activity_meituan_login, null);
@@ -390,7 +391,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         startActivity(intent);
     }
 
-    private void startFoodListAct(Class<?> cls){
+    private void startFoodListAct(Class<?> cls) {
         Intent intentFoodList = new Intent(mContext, cls);
         intentFoodList.putExtra(Constant.STORE_ID, getIntent().getStringExtra(Constant.STORE_ID));
         intentFoodList.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, getIntent().getStringExtra(Constant.ORDER_LSIT_EXTRA_STRING));
@@ -467,6 +468,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     @Override
     protected void onDestroy() {
+        WaiMaiApplication.START = false;
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }

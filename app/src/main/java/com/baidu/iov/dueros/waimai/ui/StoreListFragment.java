@@ -299,6 +299,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					mTvSort.setText(type.getName());
 					mRvStore.scrollToPosition(0);
 					loadFirstPage(mStoreReq);
+					if (type.getName().contains("人均")){
+						Entry.getInstance().onEvent(Constant.EVENT_PER_CAPITA, EventType.TOUCH_TYPE);
+					}
 				}
 			}));
 			mSortPopWindow.setAnimationStyle(R.style.notAnimation);

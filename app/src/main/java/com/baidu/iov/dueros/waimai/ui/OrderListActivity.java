@@ -143,7 +143,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     }
 
     private void initData() {
-        Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL_VOICE, EventType.TOUCH_TYPE);
         mOrderListAdaper = new OrderListAdaper(mOrderList, this) {
             @Override
             public void ttsCancelOrder(int position) {
@@ -241,7 +240,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         break;
                     default:
                         //订单详情
-                        Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL_VOICE, EventType.TOUCH_TYPE);
+                        Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL_VOICE, EventType.VOICE_TYPE);
                         Entry.getInstance().onEvent(Constant.ORDERLIST_TO_ORDERDETAIL, EventType.TOUCH_TYPE);
                         Intent intent = new Intent(OrderListActivity.this, OrderDetailsActivity.class);
                         intent.putExtra(Constant.ORDER_ID, Long.parseLong(mOrderList.get(position).getOut_trade_no()));
@@ -412,7 +411,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         loadingView.setVisibility(View.GONE);
         if (data.getMeituan().getCode() == 0) {
             sendTTS(R.string.close_order_success_text);
-            ToastUtils.customTime(this,getApplicationContext().getResources().getString(R.string.order_cancelled),500);
+            ToastUtils.customTime(this, getApplicationContext().getResources().getString(R.string.order_cancelled), 500);
             mOrderList.get(pos).setOut_trade_status(IOV_STATUS_CANCELED);
             mOrderListAdaper.notifyItemChanged(pos);
         } else {
@@ -495,7 +494,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     @Override
     public void nextPage(boolean isNextPage) {
         if (mTvNoOrder.getVisibility() == View.GONE) {
-            Entry.getInstance().onEvent(Constant.ORDERLIST_REFRESH_VOICE, EventType.TOUCH_TYPE);
+            Entry.getInstance().onEvent(Constant.ORDERLIST_REFRESH_VOICE, EventType.VOICE_TYPE);
             LinearLayoutManager manager = (LinearLayoutManager) mRvOrder.getLayoutManager();
             assert manager != null;
             int currentItemPosition = manager.findFirstVisibleItemPosition();
@@ -526,34 +525,34 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         OrderDetailsResponse.MeituanBean.DataBean mOrderDetails = data.getMeituan().getData();
         int status = mOrderDetails.getOut_trade_status();
         if (status == 0 || status == 1) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        OrderListResponse.IovBean.DataBean order = mOrderList.get(selectPosition);
-                        String extra = order.getExtra();
-                        OrderListExtraBean extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
-                        String payload = null;
-                        try {
-                            payload = Encryption.desEncrypt(extraBean.getPayload());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        OrderListExtraPayloadBean payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
-                        Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY, EventType.TOUCH_TYPE);
-                        Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
-                        double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
-                        payintent.putExtra("total_cost", total_price);
-                        payintent.putExtra("order_id", Long.parseLong(mOrderList.get(selectPosition).getOut_trade_no()));
-                        payintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
-                        payintent.putExtra("shop_name", mOrderList.get(selectPosition).getOrder_name());
-                        payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
-                        payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
-                        payintent.putExtra("flag", true);
-                        payintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
-                        payintent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(payintent);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    OrderListResponse.IovBean.DataBean order = mOrderList.get(selectPosition);
+                    String extra = order.getExtra();
+                    OrderListExtraBean extraBean = GsonUtil.fromJson(extra, OrderListExtraBean.class);
+                    String payload = null;
+                    try {
+                        payload = Encryption.desEncrypt(extraBean.getPayload());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                },500);
+                    OrderListExtraPayloadBean payloadBean = GsonUtil.fromJson(payload, OrderListExtraPayloadBean.class);
+                    Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY, EventType.TOUCH_TYPE);
+                    Intent payintent = new Intent(OrderListActivity.this, PaymentActivity.class);
+                    double total_price = ((double) extraBean.getOrderInfos().getGoods_total_price()) / 100;
+                    payintent.putExtra("total_cost", total_price);
+                    payintent.putExtra("order_id", Long.parseLong(mOrderList.get(selectPosition).getOut_trade_no()));
+                    payintent.putExtra(Constant.STORE_ID, payloadBean.getWm_ordering_list().getWm_poi_id());
+                    payintent.putExtra("shop_name", mOrderList.get(selectPosition).getOrder_name());
+                    payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
+                    payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
+                    payintent.putExtra("flag", true);
+                    payintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
+                    payintent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(payintent);
+                }
+            }, 500);
         } else {
             ToastUtils.show(mContext, data.getMeituan().getMsg(), Toast.LENGTH_SHORT);
             mRefreshLayout.autoRefresh();
@@ -586,6 +585,9 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 Uri data = Uri.parse("tel:" + "10109777");
                 intent.setData(data);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
                 startActivity(intent);
             } else {
                 //permission denied, boo! Disable the functionality that depends on this permission.

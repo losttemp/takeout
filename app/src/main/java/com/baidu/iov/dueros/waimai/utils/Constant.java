@@ -116,6 +116,7 @@ public class Constant {
     public static boolean START_FOODLIST_OR_PAYMENT = true;
 
     public final static int  EVENT_EXIT= 31300078;
+    public final static int  EVENT_VOICE_EXIT= 31300098;
     public final static int  EVENT_BACK= 31300077;
 
     public final static int  EVENT_OPEN_APP_CLICK= 31300011;
@@ -165,9 +166,6 @@ public class Constant {
     public final static int  EVENT_CLICK_DISTANCE_FROM_CAKE= 31300090;
 
     public final static int  EVENT_CLICK_SERVICE_AUTH= 31300099;
-
-
-
 
     //address
     public final static int ENTRY_LOGIN_OS = 31300016;
@@ -220,7 +218,8 @@ public class Constant {
     public final static int ORDERLIST_REFRESH_VOICE=31300076;
     public final static int GOBACK_TO_PREACTIVITY=31300077;
 
-
+    public final static String EVENT_PER_CAPITA = "TAK500001";
+    public final static String PAY_SUCCESS_RATE = "TAK500003";
 
 
     public static Integer GOODS_LATITUDE = -1;

@@ -254,7 +254,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             i = i - 1;
         }
         if (null != mDataList && mDataList.size() > i) {
-            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_YUYIN, EventType.TOUCH_TYPE);
+            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_SELECT_YUYIN, EventType.VOICE_TYPE);
             String databeanStr = GsonUtil.toJson(mDataList.get(i));
             CacheUtils.saveAddressBean(databeanStr);
             sendBroadcastAPP();
@@ -276,7 +276,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     @Override
     public void nextPage(boolean isNextPage) {
         if (mNoAddress.getVisibility() == View.GONE) {
-            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_PAGE_TURNING, EventType.TOUCH_TYPE);
+            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_LIST_PAGE_TURNING, EventType.VOICE_TYPE);
             LinearLayoutManager manager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
             assert manager != null;
             int currentItemPosition = manager.findFirstVisibleItemPosition();

@@ -73,6 +73,7 @@ public class PaySuccessActivity extends AppCompatActivity implements View.OnClic
         initView();
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, INTERNAL_TIME);
         Entry.getInstance().onEvent(Constant.PAYSUCCESS_RATE, EventType.TOUCH_TYPE);
+        Entry.getInstance().onEvent(Constant.PAY_SUCCESS_RATE, EventType.TOUCH_TYPE);
     }
 
     @Override

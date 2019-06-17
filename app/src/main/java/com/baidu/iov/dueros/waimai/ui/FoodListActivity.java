@@ -284,12 +284,16 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         Constant.ANIMATION_END = true;
         if (booleanExtra && !getIntent().getBooleanExtra("flag", false)) {
             booleanExtra = false;
+            if (mBottomDialog != null && mBottomDialog.isShowing()) {
+                mBottomDialog.dismiss();
+            }
             //先移除本界面关闭其他界面 再添加本界面
             AtyContainer.getInstance().removeActivity(this);
             AtyContainer.getInstance().finishAllActivity();
             AtyContainer.getInstance().addActivity(this);
             mShopTitle.setText("");
             parentLayout.setVisibility(View.GONE);
+            mShopCartPic.setVisibility(View.GONE);
             initJudgeOneMoreOrder();
         }
     }
@@ -1464,7 +1468,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     @Override
     public void nextPage(boolean isNextPage) {
-        Entry.getInstance().onEvent(Constant.POIFOODLIST_VOICE_PAGING, EventType.TOUCH_TYPE);
+        Entry.getInstance().onEvent(Constant.POIFOODLIST_VOICE_PAGING, EventType.VOICE_TYPE);
         if (isNextPage) {
             mSpusList.scrollBy(0, getResources().getDimensionPixelSize(R.dimen.px828dp));
             if (mSpusList.canScrollVertically(1)) {
@@ -1516,7 +1520,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     @Override
     public void selectListItem(int position) {
-        Entry.getInstance().onEvent(Constant.POIFOODLIST_ADD_GOODS_BY_VOICE, EventType.TOUCH_TYPE);
+        Entry.getInstance().onEvent(Constant.POIFOODLIST_ADD_GOODS_BY_VOICE, EventType.VOICE_TYPE);
         getPresenter().selectDuerOSItem(mContext, position, foodSpuTagsBeans, mSpusList);
     }
 

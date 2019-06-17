@@ -2,6 +2,11 @@ package com.baidu.iov.dueros.waimai.utils;
 
 import android.app.Activity;
 
+import com.baidu.iov.dueros.waimai.ui.WaiMaiApplication;
+import com.baidu.xiaoduos.syncclient.Entry;
+import com.baidu.xiaoduos.syncclient.EventType;
+import com.baidu.xiaoduos.syncclient.util.LogUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +29,9 @@ public class AtyContainer {
     public void removeActivity(Activity aty) {
         if (!init && activityStack.size() > 0 && activityStack.contains(aty)) {
             activityStack.remove(aty);
+        }
+        if (!WaiMaiApplication.START && activityStack.size() == 0) {
+            Entry.getInstance().onEvent(Constant.EVENT_VOICE_EXIT, EventType.TOUCH_TYPE);
         }
     }
 

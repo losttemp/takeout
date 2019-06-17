@@ -358,7 +358,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
             i = i - 1;
         }
         if (null != mAllSuggestions && mAllSuggestions.size() > i) {
-            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_POIACT_YUYIN, EventType.TOUCH_TYPE);
+            Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_POIACT_YUYIN, EventType.VOICE_TYPE);
             Intent intent = new Intent(AddressSuggestionActivity.this, AddressEditActivity.class);
             intent.putExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR, mAllSuggestions.get(i));
             StandardCmdClient.getInstance().playTTS(AddressSuggestionActivity.this, String.format(getString(R.string.address_harvest), mAllSuggestions.get(i).getKey()));
