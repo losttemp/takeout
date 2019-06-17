@@ -253,7 +253,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         isNeedVoice = false;
         Constant.ANIMATION_END = true;
         mmHandler.removeCallbacksAndMessages(null);
-        if (!booleanExtra){
+        if (!booleanExtra) {
             finish();
         }
     }
@@ -455,6 +455,9 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             if (mAddressData != null) {
                 latitude = mAddressData.getLatitude() != null ? mAddressData.getLatitude() : -1;
                 longitude = mAddressData.getLongitude() != null ? mAddressData.getLongitude() : -1;
+            } else {
+                latitude = Constant.LATITUDE;
+                longitude = Constant.LONGITUDE;
             }
         }
         map.put(Constant.STORE_ID, String.valueOf(mWmPoiId));
