@@ -335,26 +335,30 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 					FilterPopWindow.OnClickOkListener() {
 						@Override
 						public void onClickOk(String migFilter) {
-							mStoreReq.setMigFilter(migFilter);
-							if (!migFilter.isEmpty()) {
-								mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
-							} else {
-								mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
+							if (isAdded()){
+								mStoreReq.setMigFilter(migFilter);
+								if (!migFilter.isEmpty()) {
+									mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
+								} else {
+									mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
+								}
+								mRvStore.scrollToPosition(0);
+								loadFirstPage(mStoreReq);
 							}
-							mRvStore.scrollToPosition(0);
-							loadFirstPage(mStoreReq);
 						}
 					});
 			mFilterPopWindow.setAnimationStyle(R.style.notAnimation);
 			mFilterPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 				@Override
 				public void onDismiss() {
-					mIvFilter.setImageResource(R.drawable.arrow_down);
-					mViewBg.setVisibility(View.GONE);
-					if (mStoreReq.getMigFilter() == null || mStoreReq.getMigFilter().isEmpty()) {
-						mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
-					} else {
-						mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
+					if (isAdded()){
+						mIvFilter.setImageResource(R.drawable.arrow_down);
+						mViewBg.setVisibility(View.GONE);
+						if (mStoreReq.getMigFilter() == null || mStoreReq.getMigFilter().isEmpty()) {
+							mTvFilter.setTextColor(getResources().getColor(R.color.white_60));
+						} else {
+							mTvFilter.setTextColor(getResources().getColor(R.color.filter_selected));
+						}
 					}
 				}
 			});
