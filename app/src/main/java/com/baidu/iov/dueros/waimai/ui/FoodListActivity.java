@@ -170,6 +170,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private boolean booleanExtra;
     private List<String> tags = new ArrayList<>();
     private Map<Integer, String> cache = new HashMap<>();
+    private int spuTotalSize = 0;
 
     @Override
     PoifoodListPresenter createPresenter() {
@@ -1291,6 +1292,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 PoifoodListBean.MeituanBean.DataBean.FoodSpuTagsBean.SpusBean spusBean = spus.get(j);
                 spusBeanList.add(spusBean);
             }
+            spuTotalSize += spus.size();
             foodSpuTagsBean.setSpus(spusBeanList);
             foodSpuTagsBeans.add(foodSpuTagsBean);
             oneMoreOrder(foodSpuTagsBean.getTag());
@@ -1523,8 +1525,18 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
 
     @Override
     public void selectListItem(int position) {
+        if (position >= 0) {
+            VoicesSelectListItem(position);
+        }
         Entry.getInstance().onEvent(Constant.POIFOODLIST_ADD_GOODS_BY_VOICE, EventType.VOICE_TYPE);
-        getPresenter().selectDuerOSItem(mContext, position, foodSpuTagsBeans, mSpusList);
+    }
+
+    public void VoicesSelectListItem(int index) {
+        if (index < 0 || index >= spuTotalSize) {
+            StandardCmdClient.getInstance().playTTS(FoodListActivity.this, getResources().getString(R.string.tts_out_of_range));
+        }else {
+            getPresenter().selectDuerOSItem(mContext, index, foodSpuTagsBeans, mSpusList);
+        }
     }
 
     class SpaceItemDecoration extends RecyclerView.ItemDecoration {

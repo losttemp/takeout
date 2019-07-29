@@ -131,7 +131,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private LinearLayout mNoNet;
     private Button mNoInternetButton;
     private String date_type_tip, date_time, view_time;
-    boolean clicked;
     private boolean isNeedVoice = false;
 
     @Override
@@ -379,7 +378,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     @Override
     protected void onResume() {
         super.onResume();
-        clicked = true;
         ArrayList<String> prefix = new ArrayList<>();
         prefix.add("选择");
         AccessibilityClient.getInstance().register(this, true, prefix, null);
@@ -448,15 +446,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             if (mAddressData.getType().equals(getResources().getString(R.string.address_destination))) {
                 switch (getIntent().getIntExtra(Constant.STATUS, 1)) {
                     case SubmitOrderActivity.CAN_SHIPPING:
-                        if (clicked) {
-                            if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
-                                clicked = false;
-                                List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
-                                wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
-                                mToPayTv.setEnabled(false);
-                                loadingView.setVisibility(View.VISIBLE);
-                                getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this, loadingView);
-                            }
+                        if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
+                            List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
+                            wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
+                            mToPayTv.setEnabled(false);
+                            loadingView.setVisibility(View.VISIBLE);
+                            getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this, loadingView, mToPayTv);
                         }
                         break;
                     case SubmitOrderActivity.CANNOT_SHIPPING:
@@ -467,14 +462,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                         break;
                 }
             } else if (mOrderPreviewData != null && mOrderPreviewData.getCode() == Constant.ORDER_PREVIEW_SUCCESS && mAddressData != null) {
-                if (clicked) {
-                    clicked = false;
-                    List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
-                    wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
-                    mToPayTv.setEnabled(false);
-                    loadingView.setVisibility(View.VISIBLE);
-                    getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this, loadingView);
-                }
+                List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean;
+                wmOrderingPreviewDetailVoListBean = mOrderPreviewData.getWm_ordering_preview_detail_vo_list();
+                mToPayTv.setEnabled(false);
+                loadingView.setVisibility(View.VISIBLE);
+                getPresenter().requestOrderSubmitData(mAddressData, mPoiInfo, wmOrderingPreviewDetailVoListBean, mUnixtime, this, loadingView, mToPayTv);
             }
         } else {
             netDataReque();
@@ -569,17 +561,17 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                             mTypeTipTv.setText(date_type_tip);
                         } else {
                             String date = mDataBean.get(mCurDateItem).getDate().substring(0, mDataBean.get(mCurDateItem).getDate().indexOf("日") + 1);
-                            String today = mDataBean.get(mCurDateItem).getDate().substring(0,2);
+                            String today = mDataBean.get(mCurDateItem).getDate().substring(0, 2);
                             long sysDate = System.currentTimeMillis();
                             String sys = CompareDate.formatTime(sysDate);
-                            if (today.equals("今天")){
+                            if (today.equals("今天")) {
                                 mTypeTipTv.setText(getString(R.string.specify_time));
                                 mArriveTimeTv.setText(today + " " + view_time + " 送出");
-                            }else {
+                            } else {
                                 if (!date.equals(sys)) {
                                     mTypeTipTv.setText(getString(R.string.specify_time));
                                     mArriveTimeTv.setText(date + " " + view_time);
-                                }else {
+                                } else {
                                     mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), view_time));
                                     mTypeTipTv.setText(date_type_tip);
                                 }
@@ -670,12 +662,17 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                             StandardCmdClient.getInstance().playTTS(SubmitOrderActivity.this,
                                     String.format(getString(R.string.commodity_address), address));
                         }
-                        String name = Encryption.desEncrypt(mAddressData.getUser_name());
-                        String phone = Encryption.desEncrypt(mAddressData.getUser_phone());
+                        mUserNameTv.setText("");
+                        mUserPhoneTv.setText("");
                         mAddressTv.setText(address);
-                        mUserNameTv.setText(name);
-                        mUserPhoneTv.setText(phone);
-
+                        if (!TextUtils.isEmpty(mAddressData.getUser_name())) {
+                            String name = Encryption.desEncrypt(mAddressData.getUser_name());
+                            mUserNameTv.setText(name);
+                        }
+                        if (!TextUtils.isEmpty(mAddressData.getUser_phone())) {
+                            String phone = Encryption.desEncrypt(mAddressData.getUser_phone());
+                            mUserPhoneTv.setText(phone);
+                        }
                         Intent intent = new Intent(Constant.PULL_LOCATION);
                         intent.setPackage(BuildConfig.APPLICATION_ID);
                         sendBroadcast(intent);
@@ -927,7 +924,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     @Override
     public void onFailure(String msg) {
         mToPayTv.setEnabled(true);
-        clicked = true;
         loadingView.setVisibility(View.GONE);
         mParentsLayout.setVisibility(View.GONE);
         mNoNet.setVisibility(View.VISIBLE);
@@ -952,7 +948,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     @Override
     public void onOrderSubmitSuccess(OrderSubmitBean data) {
         mToPayTv.setEnabled(true);
-        clicked = true;
         VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
         mNoNet.setVisibility(View.GONE);
         loadingView.setVisibility(View.GONE);
@@ -990,7 +985,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             } else if (submitCode == Constant.SUBMIT_ORDER_FAIL) {
                 ToastUtils.show(this, getString(R.string.order_submit_error), Toast.LENGTH_SHORT);
             } else if (submitCode == Constant.BEYOND_DELIVERY_RANGE) {
-                clicked = true;
                 ToastUtils.show(this, getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
             }
         }

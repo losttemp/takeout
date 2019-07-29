@@ -86,18 +86,16 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         waimaiTts = getResources().getStringArray(R.array.waimai_watch);
-        if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
-            int index = (int) (Math.random() * 5);
-            StandardCmdClient.getInstance().playTTS(HomeActivity.this, waimaiTts[index]);
-        }
         iniView();
-        setAddress();
         if (savedInstanceState != null) {
             mStoreListFragment = (StoreListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_KEY);
         } else {
             initFragment();
+            if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
+                int index = (int) (Math.random() * 5);
+                StandardCmdClient.getInstance().playTTS(HomeActivity.this, waimaiTts[index]);
+            }
         }
-
         if (getIntent().getIntExtra(Constant.START_APP, -1) == Constant.START_APP_CODE) {
             //initDataTime();
             requestPermission();
@@ -117,6 +115,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     @Override
     protected void onResume() {
         super.onResume();
+        setAddress();
         GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_list().getHints(), Constant.TTS_SHOP_LIST);
         AccessibilityClient.getInstance().register(this, true, prefix, null);
     }

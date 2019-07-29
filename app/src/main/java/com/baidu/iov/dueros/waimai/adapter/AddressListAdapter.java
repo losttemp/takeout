@@ -2,6 +2,7 @@ package com.baidu.iov.dueros.waimai.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import java.util.List;
 
 import static com.baidu.iov.dueros.waimai.utils.ResUtils.getResources;
 
-public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
+public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private List<AddressListBean.IovBean.DataBean> mData;
@@ -55,7 +56,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return TYPE_NORMAL;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView tv_serial;
         TextView tv_address;
@@ -76,9 +77,24 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             img_edit = itemView.findViewById(R.id.img_select);
             address_item = itemView.findViewById(R.id.address_item);
 
-            itemView.setOnClickListener(AddressListAdapter.this);
-            img_edit.setOnClickListener(AddressListAdapter.this);
-            address_item.setOnClickListener(AddressListAdapter.this);
+            itemView.setOnClickListener(this);
+            img_edit.setOnClickListener(this);
+            address_item.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getLayoutPosition() - 1;
+            if (mOnItemClickListener != null && position >= 0) {
+                switch (v.getId()) {
+                    case R.id.img_select:
+                        mOnItemClickListener.onItemClick(v, position);
+                        break;
+                    default:
+                        mOnItemClickListener.onItemClick(v, position);
+                        break;
+                }
+            }
         }
     }
 
@@ -103,20 +119,15 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 String address = Encryption.desEncrypt(mData.get(realPosition).getAddress());
                 ((ViewHolder) holder).tv_address.setText(address);
                 String address_type = mData.get(realPosition).getType();
-                String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
-                String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
-                ((ViewHolder) holder).tv_name.setText(name);
-                ((ViewHolder) holder).tv_phone.setText(phone);
                 if (mContext.getString(R.string.address_destination).equals(address_type)) {
                     ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_mudidi);
                     ((ViewHolder) holder).tv_address_type.setText(address_type);
                     ((ViewHolder) holder).img_edit.setVisibility(View.GONE);
-                    if (MyApplicationAddressBean.USER_NAMES.get(0) != null&&MyApplicationAddressBean.USER_PHONES.get(0) != null) {
+                    if (MyApplicationAddressBean.USER_NAMES.get(0) != null && MyApplicationAddressBean.USER_PHONES.get(0) != null) {
                         ((ViewHolder) holder).tv_name.setText(MyApplicationAddressBean.USER_NAMES.get(0));
                         ((ViewHolder) holder).tv_phone.setText(MyApplicationAddressBean.USER_PHONES.get(0));
                     }
-                }
-                else if (mContext.getString(R.string.address_home).equals(address_type)) {
+                } else if (mContext.getString(R.string.address_home).equals(address_type)) {
                     ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg_green);
                     ((ViewHolder) holder).tv_address_type.setText(address_type);
 
@@ -133,6 +144,16 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     ((ViewHolder) holder).tv_address_type.setBackgroundResource(R.drawable.tag_bg);
                 }
 
+                ((ViewHolder) holder).tv_name.setText("");
+                ((ViewHolder) holder).tv_phone.setText("");
+                if (!TextUtils.isEmpty(mData.get(realPosition).getUser_name())) {
+                    String name = Encryption.desEncrypt(mData.get(realPosition).getUser_name());
+                    ((ViewHolder) holder).tv_name.setText(name);
+                }
+                if (!TextUtils.isEmpty(mData.get(realPosition).getUser_phone())) {
+                    String phone = Encryption.desEncrypt(mData.get(realPosition).getUser_phone());
+                    ((ViewHolder) holder).tv_phone.setText(phone);
+                }
 
                 holder.itemView.setTag(realPosition);
                 String ttsAddress = Encryption.desEncrypt(mData.get(realPosition).getAddress());
@@ -187,23 +208,6 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.mOnItemClickListener = itemClickListener;
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
-        int position = (int) v.getTag();
-        if (mOnItemClickListener != null) {
-            switch (v.getId()) {
-                case R.id.img_select:
-                    mOnItemClickListener.onItemClick(v, position);
-                    break;
-                default:
-                    mOnItemClickListener.onItemClick(v, position);
-                    break;
-            }
-        }
     }
 
 }

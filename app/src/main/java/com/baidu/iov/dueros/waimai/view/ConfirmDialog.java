@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -131,9 +132,9 @@ public class ConfirmDialog extends Dialog {
             View layout = inflater.inflate(R.layout.dialog_confirm, null);
 
             final ConfirmDialog dialog = new ConfirmDialog(context);
+            dialog.getWindow().setWindowAnimations(R.style.Dialog);
             dialog.addContentView(layout, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
             ((TextView) layout.findViewById(R.id.title)).setText(title);
             if (spannableMessage != null) {
                 ((TextView) layout.findViewById(R.id.message)).setText(spannableMessage);
@@ -157,11 +158,11 @@ public class ConfirmDialog extends Dialog {
                 positiveBtn .setText(positiveButtonText);
                 if (positiveButtonClickListener != null) {
                     positiveBtn.setOnClickListener(new View.OnClickListener() {
-                                public void onClick(View v) {
-                                    positiveButtonClickListener.onClick(dialog,
-                                            DialogInterface.BUTTON_NEUTRAL);
-                                }
-                            });
+                        public void onClick(View v) {
+                            positiveButtonClickListener.onClick(dialog,
+                                    DialogInterface.BUTTON_NEUTRAL);
+                        }
+                    });
                 }
             } else {
                 layout.findViewById(R.id.dialog_positive).setVisibility(
@@ -173,11 +174,11 @@ public class ConfirmDialog extends Dialog {
                 negativeBtn .setText(negativeButtonText);
                 if (negativeButtonClickListener != null) {
                     negativeBtn.setOnClickListener(new View.OnClickListener() {
-                                public void onClick(View v) {
-                                    negativeButtonClickListener.onClick(dialog,
-                                            DialogInterface.BUTTON_NEGATIVE);
-                                }
-                            });
+                        public void onClick(View v) {
+                            negativeButtonClickListener.onClick(dialog,
+                                    DialogInterface.BUTTON_NEGATIVE);
+                        }
+                    });
                 }
             } else {
                 layout.findViewById(R.id.dialog_negative).setVisibility(

@@ -176,13 +176,13 @@ public class PaymentActivity extends BaseActivity<SubmitOrderPresenter, SubmitOr
                         @Override
                         public void onTick(long millisUntilFinished) {
                             mTimerTv.setText(String.format(getResources().getString(R.string.count_down_timer), formatTime(millisUntilFinished)));
-//                            mCount++;
-//                            if (mCount == 5) {
-//                                OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
-//                                mOrderDetailsReq.setId(mOrderId);
-//                                getPresenter().requestOrderDetails(mOrderDetailsReq);
-//                                mCount = 0;
-//                            }
+                            mCount++;
+                            if (mCount == 5) {
+                                OrderDetailsReq mOrderDetailsReq = new OrderDetailsReq();
+                                mOrderDetailsReq.setId(mOrderId);
+                                getPresenter().requestOrderDetails(mOrderDetailsReq);
+                                mCount = 0;
+                            }
                         }
 
                         @Override

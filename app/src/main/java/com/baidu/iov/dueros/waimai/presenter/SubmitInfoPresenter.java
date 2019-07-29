@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -186,7 +187,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
     public void requestOrderSubmitData(AddressListBean.IovBean.DataBean addressData,
                                        PoifoodListBean.MeituanBean.DataBean.PoiInfoBean poiInfoBean,
                                        List<OrderPreviewBean.MeituanBean.DataBean.WmOrderingPreviewDetailVoListBean> wmOrderingPreviewDetailVoListBean,
-                                       int unixtime, Context context, View loadingView) {
+                                       int unixtime, Context context, View loadingView, Button mToPayTv) {
         String phone = null;
         try {
             phone = Encryption.desEncrypt(addressData.getUser_phone());
@@ -194,6 +195,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
             e.printStackTrace();
         }
         if (TextUtils.isEmpty(phone) || "null".equals(phone)) {
+            mToPayTv.setEnabled(true);
             loadingView.setVisibility(View.GONE);
             ToastUtils.show(context, "收货人电话信息不全，请完善信息", Toast.LENGTH_SHORT);
             return;
@@ -201,8 +203,14 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
         if (context.getString(R.string.address_destination).equals(addressData.getType())
                 && TextUtils.isEmpty(addressData.getUser_name())
                 && TextUtils.isEmpty(addressData.getUser_phone())) {
+            mToPayTv.setEnabled(true);
             loadingView.setVisibility(View.GONE);
             ToastUtils.show(context, "收货人信息不全，请完善信息", Toast.LENGTH_SHORT);
+        } else if (!phone.contains("*") && !StringUtils.isChinaPhoneLegal(phone)) {
+            //不含*判断手机号正确性
+            mToPayTv.setEnabled(true);
+            loadingView.setVisibility(View.GONE);
+            ToastUtils.show(context, "收货人电话可能为空号,请再次确认", Toast.LENGTH_SHORT);
         } else {
             OrderSubmitReq orderSubmitReq = new OrderSubmitReq();
             String payload = OnCreateOrderPayLoad(addressData, poiInfoBean, wmOrderingPreviewDetailVoListBean, unixtime, context);

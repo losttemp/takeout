@@ -69,7 +69,9 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_select);
-        isNeedPlayTTS = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
+        if (savedInstanceState == null) {
+            isNeedPlayTTS = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
+        }
         getPresenter().initDesBeans();
         initView();
         startApp = getIntent().getIntExtra(Constant.START_APP, -1);
@@ -270,6 +272,8 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 e.printStackTrace();
             }
             startActivity();
+        }else{
+            StandardCmdClient.getInstance().playTTS(this, getResources().getString(R.string.tts_out_of_range));
         }
     }
 

@@ -369,6 +369,8 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
                 startActivity(intent);
             }
             finish();
+        } else {
+            StandardCmdClient.getInstance().playTTS(this, getResources().getString(R.string.tts_out_of_range));
         }
     }
 

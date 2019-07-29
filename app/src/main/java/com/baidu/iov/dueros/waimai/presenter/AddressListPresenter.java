@@ -215,8 +215,8 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
         return natiBean;
     }
 
-    private void setAutocompleteData(AddressListBean data){
-        List<AddressListBean.IovBean.DataBean>  mDataListBean = data.getIov().getData();
+    private void setAutocompleteData(AddressListBean data) {
+        List<AddressListBean.IovBean.DataBean> mDataListBean = data.getIov().getData();
         MyApplicationAddressBean.USER_NAMES.clear();
         MyApplicationAddressBean.USER_PHONES.clear();
         StringBuilder baiduName = new StringBuilder();
@@ -226,7 +226,7 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
                 AddressListBean.IovBean.DataBean dataInfo = mDataListBean.get(i);
                 if (!TextUtils.isEmpty(dataInfo.getUser_name())) {
                     String user_name = Encryption.desEncrypt(dataInfo.getUser_name());
-                    if (TextUtils.isEmpty(user_name))break;
+                    if (TextUtils.isEmpty(user_name)) break;
                     if (null != dataInfo.getMt_address_id() &&
                             null == dataInfo.getAddress_id()) {
                         if (MyApplicationAddressBean.USER_NAMES.contains(user_name)) {
@@ -251,7 +251,7 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
                 }
                 if (!TextUtils.isEmpty(dataInfo.getUser_phone())) {
                     String user_phone = Encryption.desEncrypt(dataInfo.getUser_phone());
-                    if (TextUtils.isEmpty(user_phone))break;
+                    if (TextUtils.isEmpty(user_phone)) break;
                     if (!user_phone.contains("*")) {
                         if (null != dataInfo.getMt_address_id() &&
                                 null == dataInfo.getAddress_id()) {
@@ -298,12 +298,10 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
         if (!TextUtils.isEmpty(data.getIov().getUser_phone())) {
             try {
                 String personalPhone = Encryption.desEncrypt(data.getIov().getUser_phone());
-                if (StringUtils.isChinaPhoneLegal(personalPhone)) {
-                    if (MyApplicationAddressBean.USER_PHONES.contains(personalPhone)) {
-                        MyApplicationAddressBean.USER_PHONES.remove(personalPhone);
-                    }
-                    MyApplicationAddressBean.USER_PHONES.add(0, personalPhone);
+                if (MyApplicationAddressBean.USER_PHONES.contains(personalPhone)) {
+                    MyApplicationAddressBean.USER_PHONES.remove(personalPhone);
                 }
+                MyApplicationAddressBean.USER_PHONES.add(0, personalPhone);
             } catch (Exception e) {
                 e.printStackTrace();
             }

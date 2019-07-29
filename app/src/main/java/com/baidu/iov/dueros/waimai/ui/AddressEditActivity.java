@@ -1,5 +1,6 @@
 package com.baidu.iov.dueros.waimai.ui;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -369,6 +371,8 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         if (resultCode == Constant.ADDRESS_SEARCH_ACTIVITY_RESULT_CODE) {
             mLocationBean = data.getParcelableExtra(Constant.ADDRESS_SEARCCH_INTENT_EXTRE_ADDSTR);
             address_tv.setText(TextUtils.isEmpty(mLocationBean.getKey()) ? "" : mLocationBean.getKey());
@@ -382,7 +386,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             sendTTS(R.string.tts_save_address_success);
             showToast(R.string.address_update_success);
             AddressListBean.IovBean.DataBean cacheAddress = GsonUtil.fromJson(CacheUtils.getAddressBean(), AddressListBean.IovBean.DataBean.class);
-            if (dataBean.getAddress_id() != null && cacheAddress.getAddress_id().longValue() == dataBean.getAddress_id().longValue()) {
+            if (dataBean.getAddress_id() != null || cacheAddress.getAddress_id().equals(dataBean.getAddress_id())) {
                 AddressListBean.IovBean.DataBean bean = new AddressListBean.IovBean.DataBean();
                 bean.setAddress(addressEditreq.getAddress());
                 bean.setAddress_id(addressEditreq.getAddress_id());

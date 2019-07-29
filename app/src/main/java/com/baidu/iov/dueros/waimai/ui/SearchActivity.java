@@ -3,6 +3,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatEditText;
@@ -11,6 +12,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -331,7 +333,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			case R.id.tv_cancel:
 				cancel();
 				break;
-
 			case R.id.iv_delete:
 				deleteAll();
 				break;
@@ -358,7 +359,13 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 		inputMethodManager.showSoftInput(mEtSearch, 0);
 	}
 
+	private void hideKeyboard(){
+		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(mEtSearch.getWindowToken(), 0);
+	}
+
 	private void deleteAll() {
+		hideKeyboard();
 		final ConfirmDialog dialog = new ConfirmDialog.Builder(this)
 				.setTitle(R.string.delete_history_title)
 				.setMessage(R.string.delete_history_message)
@@ -377,8 +384,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
 					}
-				})
-				.create();
+				}).create();
 		dialog.negativeBtn.setContentDescription(mContext.getString(R.string.delete_history_ok));
 		dialog.negativeBtn.setAccessibilityDelegate(new View.AccessibilityDelegate(){
 			@Override
@@ -412,8 +418,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				}
 				return true;
 			}});
+		dialog.getWindow().setWindowAnimations(R.style.Dialog);
 		dialog.show();
-
 	}
 
 	@Override
@@ -433,6 +439,9 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 			Entry.getInstance().onEvent(Constant.EVENT_HISTORY_ITEM_VOIVE,EventType.VOICE_TYPE);
 			StandardCmdClient.getInstance().playTTS(SearchActivity.this, getString(R.string.tts_search_for_you));
 			searchKeyword(mHistorys.get(index));
+		}
+		if (mHistorys.size() <= index){
+			StandardCmdClient.getInstance().playTTS(this, getResources().getString(R.string.tts_out_of_range));
 		}
 	}
 

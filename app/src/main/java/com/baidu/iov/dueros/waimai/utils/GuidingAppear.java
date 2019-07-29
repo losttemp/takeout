@@ -30,9 +30,10 @@ public enum GuidingAppear {
         if(tipsStr==null){
             return;
         }
-        if (!UUID.equals(Constant.UUID)) {
+       /* if (!UUID.equals(Constant.UUID)) {
+
             StatusBarsManager.conversationByApp(context, Config.PACKGE_NAME, tipsStr.getHint());
-        }
+        }*/
     }
 
     public void init(@NonNull final Context context, @NonNull final List<String> strings) {
@@ -44,9 +45,9 @@ public enum GuidingAppear {
             return;
         if (strings.size() == 1) {
             Lg.getInstance().d(TAG, strings.get(0));
-            if (!UUID.equals(Constant.UUID)) {
+           /* if (!UUID.equals(Constant.UUID)) {
                 StatusBarsManager.conversationByApp(context, Config.PACKGE_NAME, strings.get(0));
-            }
+            }*/
             return;
         }
         newList.addAll(strings);
@@ -70,7 +71,7 @@ public enum GuidingAppear {
 
         if (!UUID.equals(Constant.UUID)) {
 //            StatusBarsManager.conversationByApp(context, Config.PACKGE_NAME, strings.get(times % strings.size()));
-            StatusBarsManager.conversationByApp(context, Config.PACKGE_NAME, newList.get(randomNum));
+            //StatusBarsManager.conversationByApp(context, Config.PACKGE_NAME, newList.get(randomNum));
             Lg.getInstance().e(TAG,"randomnum="+newList.get(randomNum)+"-----------------");
             newList.remove(randomNum);
             if(newList.size()==0){
@@ -94,9 +95,9 @@ public enum GuidingAppear {
 
     public void exit(Context context) {
         disappear();
-        if (!UUID.equals(Constant.UUID)) {
+      /*  if (!UUID.equals(Constant.UUID)) {
             StatusBarsManager.exitApp(context, Config.PACKGE_NAME);
-        }
+        }*/
         Lg.getInstance().d(TAG, "exit");
     }
 

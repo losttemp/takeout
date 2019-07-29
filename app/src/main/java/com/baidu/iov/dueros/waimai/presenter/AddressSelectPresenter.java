@@ -207,12 +207,10 @@ public class AddressSelectPresenter extends Presenter<AddressSelectPresenter.Add
                 if (!TextUtils.isEmpty(data.getIov().getUser_phone())) {
                     try {
                         String personalPhone = Encryption.desEncrypt(data.getIov().getUser_phone());
-                        if (StringUtils.isChinaPhoneLegal(personalPhone)) {
-                            if (MyApplicationAddressBean.USER_PHONES.contains(personalPhone)){
-                                MyApplicationAddressBean.USER_PHONES.remove(personalPhone);
-                            }
-                            MyApplicationAddressBean.USER_PHONES.add(0, personalPhone);
+                        if (MyApplicationAddressBean.USER_PHONES.contains(personalPhone)) {
+                            MyApplicationAddressBean.USER_PHONES.remove(personalPhone);
                         }
+                        MyApplicationAddressBean.USER_PHONES.add(0, personalPhone);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

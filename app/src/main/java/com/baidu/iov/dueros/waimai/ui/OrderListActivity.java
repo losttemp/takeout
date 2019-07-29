@@ -488,6 +488,8 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }else{
+            StandardCmdClient.getInstance().playTTS(this, getResources().getString(R.string.tts_out_of_range));
         }
     }
 
