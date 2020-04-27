@@ -9,7 +9,6 @@
     tools:context="com.baidu.iov.dueros.waimai.ui.PaySuccessActivity">
 
     <RelativeLayout
-        android:id="@+id/submit_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px120dp">
 
@@ -101,7 +100,6 @@
             android:layout_height="@dimen/px168dp">
 
             <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/delivery_address_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/px38dp"
                 android:layout_centerVertical="true"

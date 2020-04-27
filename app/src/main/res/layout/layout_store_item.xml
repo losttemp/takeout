@@ -50,8 +50,7 @@
 		</FrameLayout>
 
 		<LinearLayout
-			android:id="@+id/ll_store_info"
-			android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_centerVertical="true"
 			android:layout_marginLeft="@dimen/px32dp"
@@ -175,8 +174,7 @@
 					tools:text="@string/min_price_s" />
 
 				<View
-					android:id="@+id/vw_price_right"
-					android:layout_width="@dimen/px2dp"
+                    android:layout_width="@dimen/px2dp"
 					android:layout_height="@dimen/px32dp"
 					android:visibility="gone"
 					android:layout_marginRight="@dimen/px10dp"
@@ -193,8 +191,7 @@
 					tools:text="@string/shipping_fee_s" />
 
 				<View
-					android:id="@+id/vw_express_price_right"
-					android:layout_width="@dimen/px2dp"
+                    android:layout_width="@dimen/px2dp"
 					android:layout_height="@dimen/px32dp"
 					android:visibility="gone"
 					android:layout_marginRight="@dimen/px10dp"

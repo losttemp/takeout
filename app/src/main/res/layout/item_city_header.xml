@@ -17,7 +17,6 @@
             android:gravity="center_vertical">
 
             <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/first_recentHint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/px84dp"
@@ -79,7 +78,6 @@
             android:gravity="center_vertical">
 
             <com.domain.multipltextview.MultiplTextView
-                android:id="@+id/recent_hot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/px84dp"

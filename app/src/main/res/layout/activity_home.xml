@@ -43,8 +43,7 @@
 
 		<com.domain.multipltextview.MultiplTextView
 			app:removeDefaultPadding="true"
-			android:id="@+id/tv_search"
-			android:layout_toRightOf="@+id/iv_search"
+            android:layout_toRightOf="@+id/iv_search"
 			android:layout_marginLeft="@dimen/px34dp"
 			android:layout_marginTop="@dimen/px34dp"
 			android:layout_marginBottom="@dimen/px38dp"

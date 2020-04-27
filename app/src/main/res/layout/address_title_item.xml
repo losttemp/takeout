@@ -62,7 +62,6 @@
 
 
     <ImageView
-        android:id="@+id/address_select"
         android:layout_width="@dimen/px64dp"
         android:layout_height="@dimen/px64dp"
         android:layout_alignParentEnd="true"

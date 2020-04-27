@@ -53,11 +53,6 @@
         <item>查看第%d个</item>
     </string-array>
 
-    <string-array name="open_shop">
-        <item>第%d个</item>
-        <item>第%d家</item>
-    </string-array>
-
     <string-array name="cancle_order">
         <item>取消订单</item>
         <item>取消支付</item>

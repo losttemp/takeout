@@ -104,8 +104,7 @@
 			android:layout_height="@dimen/px96dp">
 
 			<com.domain.multipltextview.MultiplTextView
-				android:id="@+id/tv_history"
-				android:layout_width="wrap_content"
+                android:layout_width="wrap_content"
 				android:layout_height="@dimen/px32dp"
 				android:layout_centerVertical="true"
 				android:text="@string/search_history"

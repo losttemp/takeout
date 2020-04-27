@@ -22,7 +22,6 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/cardShopLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/px60dp"

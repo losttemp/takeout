@@ -58,7 +58,6 @@
         android:visibility="gone">
 
         <ImageView
-            android:id="@+id/iv_tips"
             android:layout_width="@dimen/px146dp"
             android:layout_height="@dimen/px146dp"
             android:layout_gravity="center_horizontal"

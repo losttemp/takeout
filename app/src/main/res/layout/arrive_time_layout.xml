@@ -7,7 +7,6 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/arrival_time_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px120dp">
 
@@ -20,7 +19,6 @@
             android:background="@drawable/icon_back" />
 
         <com.domain.multipltextview.MultiplTextView
-            android:id="@+id/select_shipping_address"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"

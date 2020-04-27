@@ -11,7 +11,6 @@
 
 
     <LinearLayout
-        android:id="@+id/ll_commodityName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -66,7 +65,6 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/choiceLayout"
         android:layout_width="@dimen/px164dp"
         android:layout_height="@dimen/px52dp"
         android:layout_alignParentRight="true"

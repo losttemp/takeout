@@ -3,7 +3,6 @@
     <string name="main_fragment">main_fragment</string>
     <string name="title_film">影片</string>
     <string name="title_cinema">影院</string>
-    <string name="cinema_empty">暂无影院</string>
     <string name="all_area">全城</string>
     <string name="all">全部</string>
     <string name="price_suffix">元起</string>
@@ -11,36 +10,27 @@
     <string name="tag_content">vip</string>
 
     <!--HomeActivity-->
-    <string name="search">搜索</string>
     <string name="search_hint_text">请输入商家/商品名称</string>
     <string name="search_hint_text_1">商家/商品</string>
     <string name="stroe_type_food">美食分类</string>
     <string name="stroe_type_flower">鲜花预订</string>
     <string name="stroe_type_cake">蛋糕预订</string>
     <string name="store_sort">综合排序</string>
-    <string name="store_sales">销量</string>
-    <string name="store_distance">距离</string>
     <string name="store_filter">筛选</string>
     <string name="search_history">历史记录</string>
-    <string name="takeaway_home">外卖首页</string>
     <string name="takeaway_order">外卖订单</string>
     <string name="month_sale_num">月销%d笔</string>
     <string name="delivery_time">%d分钟 |</string>
-    <string name="min_price">起送¥%.2f |</string>
-    <string name="shipping_fee">配送¥%.2f |</string>
     <string name="min_price_s">起送¥%s</string>
     <string name="shipping_fee_s"> | 配送¥%s</string>
     <string name="average_price">  | %s</string>
     <string name="flower">鲜花</string>
     <string name="cake">蛋糕</string>
-    <string name="takeaway">外卖</string>
     <string name="no_search_result_keyword">对不起，没有你想要的结果\n换个关键词试试看！</string>
     <string name="no_search_result_filter">抱歉，未能找到您搜索的商家或商店</string>
     <string name="no_search_result_position">抱歉，当前位置无外卖服务覆盖</string>
     <string name="store_status_break">门店休息中</string>
     <string name="store_status_busy">门店忙碌中</string>
-    <string name="tips_earliest_delivery_time">现在预订，最早10:30开始配送</string>
-    <string name="free_distribution">免费配送 |</string>
     <string name="this_keyword_is_complicated">这个关键词有点复杂</string>
 
     <string name="delete_history_title">删除搜索历史</string>
@@ -61,24 +51,17 @@
 
     <!--FilterPopWindow-->
     <string name="ok">确定</string>
-    <string name="reset">重置</string>
 
-    <string name="no_more_data">暂无更多数据</string>
     <string name="distribution_situation">起送¥%1$s|配送¥%2$s|%3$s分钟送达</string>
     <string name="notice">公告：%1$s</string>
-    <string name="discount">25减8 40减15</string>
-    <string name="shopping_cart_is_empty">当前购物车为空快去选购吧！</string>
     <string name="confirmation_of_the_order">确认下单</string>
     <string name="popular_classification">热门分类</string>
     <string name="shop_details">店铺详情</string>
     <string name="kfc">肯德基</string>
     <string name="porridge">皮蛋瘦肉粥</string>
     <string name="add_to_cart">加入购物车</string>
-    <string name="chicken">推荐大鸡排</string>
-    <string name="explain">大块鸡排，鲜嫩多汁，配上超多芝士和新鲜生菜</string>
     <string name="shop_cart">收起购物车</string>
     <string name="empty_all">清空购物车</string>
-    <string name="please_add_to_the_shopping_cart_first">请先添加商品至购物车</string>
     <string name="please_select_the_specifications_first">您还未选择[规格类型],请选择后添加哦</string>
     <string name="specifications">选规格</string>
     <string name="specification">规格</string>
@@ -92,7 +75,6 @@
     <string name="not_distribution">差%1$s元起送</string>
     <string name="no_product">未选购商品</string>
     <string name="can_not_order">%1$s起送</string>
-    <string name="shop_close">本店打烊了</string>
     <string name="min_buy">%1$s份起购</string>
     <string name="looting">已抢光</string>
     <string name="not_buy_time">非可售时间</string>
@@ -110,16 +92,11 @@
     <string name="already_cancel">好的，已删除</string>
     <string name="open">打开</string>
     <string name="already_clear_shop_cart">好的，已为你清空购物车</string>
-    <string name="welcome_to_use_next_time">欢迎下次使用</string>
 
     <!--tools:text-->
-    <string name="tools_text_location">送至：未来科技大厦</string>
-    <string name="tools_text_filter_type">商家特色</string>
     <string name="tools_text_filter_sub_type">免配送费</string>
     <string name="tools_text_history_name">肯德基</string>
     <string name="tools_text_store_name">肯德基宅急送</string>
-    <string name="tools_text_status_desc">接受预订：10:30后起送</string>
-    <string name="tools_text_average_price">人均¥25</string>
 
     <string-array name="tab_filters">
         <item>全城</item>
@@ -127,40 +104,21 @@
         <item>筛选</item>
     </string-array>
 
-    <string-array name="sort_type">
-        <item>综合排序</item>
-        <item>月销量从高到低</item>
-        <item>配送速度从快到慢</item>
-        <item>外卖评分从高到低</item>
-        <item>起送价从低到高</item>
-        <item>距离从近到远</item>
-        <item>配送费从低到高</item>
-        <item>人均从低到高</item>
-        <item>人均从高到低</item>
-    </string-array>
-
     <string name="goods_total_count">共%d件商品</string>
     <string name="one_more_order">再来一单</string>
     <string name="no_order">您暂无外卖订单，快来下单吧</string>
     <string name="order_cancelled">订单已取消</string>
-    <string name="order_expired">订单已失效</string>
     <string name="cancel">取消</string>
     <string name="select_address">选择收货地址</string>
     <string name="select_arrive_time">选择送达时间</string>
     <string name="submit_order_title">提交订单</string>
     <string name="add_address">新增收货地址</string>
-    <string name="network_anomaly">您的网络好像不太给力，请稍候再试</string>
-    <string name="reload">重新加载</string>
     <string name="arrive_time">大约%s送达</string>
-    <string name="choose_arrive_time">请选择配送时间</string>
     <string name="net_unconnect">您的网络好像不太给力，请稍后再试</string>
     <string name="delivery_immediately">立即送出</string>
     <string name="expected_delivery_immediately">立即送达</string>
     <string name="specify_time">指定时间</string>
-    <string name="cost">\&#165;%1.1f</string>
     <string name="cost_text">\&#165;%s</string>
-    <string name="total_cost">去支付\&#165;%1d</string>
-    <string name="discount_exist"><Data><![CDATA[<b>已优惠</b><font color="#ff0000"><b>&#165;%1d</b></font>]]></Data></string>
     <string name="payment_summary">支付方式</string>
     <string name="payment">在线支付</string>
     <string name="packing_fee">包装费</string>
@@ -170,7 +128,6 @@
     <string name="delivery_type2_text">非美团配送</string>
     <string name="discount_prompt">满减优惠与折扣商品不能同时共享</string>
     <string name="count_char">\&#935;&#160;%1d</string>
-    <string name="discount_text">折</string>
     <string name="to_pay_text">去支付</string>
     <string name="payment_header">支付订单</string>
     <string name="payment_success">支付成功</string>
@@ -226,7 +183,6 @@
     <string name="address_tag_other">其他</string>
     <string name="address_edit_save">保存</string>
     <string name="address_search_hint">请输入您的收货地址</string>
-    <string name="wuhan">武汉</string>
     <string name="persion_err1">打开“定位服务”来允许“外卖服务”</string>
     <string name="persion_err2">确定您的位置</string>
     <string name="settings">去开启</string>
@@ -237,7 +193,6 @@
     <string name="order_cancel_title">现在取消订单吗?</string>
     <string name="order_cancel_message">退款将原路退回到您的支付账户</string>
     <string name="order_cancel_positive">再想想</string>
-    <string name="remind_title">温馨提醒</string>
     <string name="remind_message">拨打电话:10109777取消订单吗？\n该订单需要联系美团客服取消</string>
     <string name="remind_phone">10109777</string>
     <string name="contact_meituan_title">联系美团客服</string>
@@ -267,10 +222,7 @@
     <string name="delete_address_cancel">还是算了</string>
     <string name="delete_address_ok">确定</string>
 
-    <string name="address_title_select">我的收货地址</string>
-    <string name="address_title_edit">编辑地址</string>
     <string name="address_title_search">收货地址</string>
-    <string name="address_saving">正在保存</string>
     <string name="address_save_success">地址保存成功</string>
     <string name="address_save_fail">地址保存失败,请重试</string>
     <string name="address_update_success">地址更新成功</string>
@@ -284,8 +236,6 @@
     <string name="address_check_tagvalue">标签不能为空， 请完整填写您的信息 ～</string>
     <string name="address_save_error_pt">收货地址定位有误，请重新选择</string>
     <string name="order_cancel_toast">订单取消成功</string>
-    <string name="location_fail_toast">定位失败，请检查运营商网络或者WI-FI网络是否正常开启</string>
-    <string name="location_error_toast">无法定位为您搜索地址，请检查运营商网络或者WI-FI网络是否正常开启</string>
     <string name="take_away_service">外卖服务由美团外卖提供</string>
     <string name="expect_time">期望时间</string>
     <string name="order_time">下单时间</string>
@@ -294,15 +244,12 @@
     <string name="hot">热门</string>
     <string name="positioned">定位</string>
     <string name="location_of_the_city">定位城市</string>
-    <string name="location_faile">定位失败</string>
     <string name="position_fail">定位失败</string>
     <string name="position_try">定位失败,点击重试</string>
     <string name="hot_city">热门城市</string>
     <string name="edit_text_view_max_length_hint">您输入的信息已超出最大限制长度,请重新编辑</string>
     <string name="no_internet">加载失败,请检查网络后重试</string>
-    <string name="no_address">加载失败,请手动选择地址</string>
     <string name="no_internet_reload">重新加载</string>
-    <string name="error_nullpoint">商品列表不能为空</string>
     <string name="bit_tip">温馨提示</string>
 
     <!--tts-->
@@ -311,14 +258,12 @@
     <string name="commodity_address">好的，你的外卖将送到%s</string>
     <string name="sure_order">好的，%s的订单已为你重新加入购物车，点完后对我说确认下单</string>
     <string name="have_no_order">你还没有历史订单记录，快来选购吧</string>
-    <string name="pay">请用微信或支付宝扫描二维码进行付款</string>
     <string name="submit_order">你购买的%1s等商品，共计%2s，预计将于%3s，送达%4s，收货人手机尾号为%5s，现在支付吗？</string>
     <string name="harvest_address">好的，收货地址选择为%s</string>
     <string name="address_harvest">好的，已为你选择%s为收货地址</string>
     <string name="is_network_connected">当前网络不在状态,请稍后重试</string>
     <string name="add_commodity">%d份%s已为你加入购物车</string>
     <string name="choice_specifications">好的，请选择%s的规格</string>
-    <string name="please_choice_commodity">好的，已为你打开外卖服务，现在可以开始挑选了</string>
     <string name="choice_no_address_voice">你离美食只差一步了，快去添加收货地址吧</string>
     <string name="choice_address_voice">你离美食只差一步了，选个收货地址呗</string>
     <string name="address_phone_error_hint_text">您输入的手机号格式有误，请重新输入 ～</string>
@@ -363,7 +308,6 @@
     <string name="tts_search_for_you">好的，现在开始为你检索</string>
     <string name="tts_topay_text">请打开微信或支付宝扫描二维码进行付款</string>
     <string name="tts_show_order_detail">好的，为你展示订单详情</string>
-    <string name="unopened_location_service">未开启定位服务</string>
     <string name="bluetooth_adapter_not_found">该设备上找不到蓝牙</string>
     <string name="heat_text">热销</string>
     <string name="logout_failed">退出登录失败</string>

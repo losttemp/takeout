@@ -6,7 +6,6 @@
     android:background="@drawable/app_bg">
 
     <RelativeLayout
-        android:id="@+id/submit_order_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px96dp">
 
@@ -19,7 +18,6 @@
             android:foreground="@drawable/fg_ripple" />
 
         <com.domain.multipltextview.MultiplTextView
-            android:id="@+id/select_shipping_address"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
@@ -38,7 +36,6 @@
         android:visibility="gone"
         >
         <ScrollView
-            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/px210dp"
@@ -64,7 +61,6 @@
                     android:layout_below="@+id/divider">
 
                     <RelativeLayout
-                        android:id="@+id/modify_address"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_centerVertical="true"
@@ -113,7 +109,6 @@
                     </RelativeLayout>
 
                     <ImageView
-                        android:id="@+id/img_address"
                         android:layout_width="@dimen/px64dp"
                         android:layout_height="@dimen/px64dp"
                         android:layout_alignParentEnd="true"
@@ -163,7 +158,6 @@
                         app:removeDefaultPadding="true" />
 
                     <ImageView
-                        android:id="@+id/img_time"
                         android:layout_width="@dimen/px64dp"
                         android:layout_height="@dimen/px64dp"
                         android:layout_alignParentEnd="true"
@@ -173,7 +167,6 @@
                         android:scaleType="fitCenter" />
 
                     <View
-                        android:id="@+id/store_info_divider"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/px2dp"
                         android:layout_alignParentBottom="true"
@@ -184,7 +177,6 @@
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:id="@+id/store_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/delivery_info"
@@ -238,7 +230,6 @@
                             android:layout_marginTop="@dimen/px26dp">
 
                             <TextView
-                                android:id="@+id/packing_fee_summary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/px84dp"
@@ -265,7 +256,6 @@
                             android:layout_marginTop="@dimen/px26dp">
 
                             <TextView
-                                android:id="@+id/delivery_fee_summary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/px84dp"
@@ -303,7 +293,6 @@
                         android:background="@color/white" />
 
                     <RelativeLayout
-                        android:id="@+id/pay_type_panel"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/px126dp"
                         android:gravity="center_vertical">
@@ -342,7 +331,6 @@
         </ScrollView>
 
         <LinearLayout
-            android:id="@+id/pay_panel"
             android:layout_width="match_parent"
             android:layout_height="@dimen/px210dp"
             android:layout_alignParentBottom="true"
@@ -383,7 +371,6 @@
                     android:textSize="@dimen/px30sp" />
 
                 <com.domain.multipltextview.MultiplTextView
-                    android:id="@+id/total_summary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
