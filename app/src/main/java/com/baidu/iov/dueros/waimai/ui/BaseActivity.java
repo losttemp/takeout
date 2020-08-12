@@ -1,7 +1,6 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.Manifest;
-import android.app.StatusBarsManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -9,11 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -23,11 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -39,7 +32,6 @@ import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
-import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.location.BDLocation;
 
 public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends AppCompatActivity implements LocationManager.LocationCallBack {
@@ -93,7 +85,6 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         super.onPause();
         getPresenter().unregisterCmd(this);
         GuidingAppear.INSTANCE.exit(mContext);
-        StatusBarsManager.exitApp(this, "com.baidu.iov.dueros.waimai");
     }
 
     @Override

@@ -1,13 +1,10 @@
 package com.baidu.iov.dueros.waimai.utils;
 
-import android.app.StatusBarsManager;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-
-import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.response.HintsBean;
 import com.baidu.iov.dueros.waimai.ui.WaiMaiApplication;
 
@@ -31,7 +28,6 @@ public enum GuidingAppear {
             return;
         }
         if (!UUID.equals(Constant.UUID)) {
-            StatusBarsManager.conversationByApp(context, Config.PACKGE_NAME, tipsStr.getHint());
         }
     }
 
@@ -45,7 +41,6 @@ public enum GuidingAppear {
         if (strings.size() == 1) {
             Lg.getInstance().d(TAG, strings.get(0));
             if (!UUID.equals(Constant.UUID)) {
-                StatusBarsManager.conversationByApp(context, Config.PACKGE_NAME, strings.get(0));
             }
             return;
         }
@@ -70,7 +65,6 @@ public enum GuidingAppear {
 
         if (!UUID.equals(Constant.UUID)) {
 //            StatusBarsManager.conversationByApp(context, Config.PACKGE_NAME, strings.get(times % strings.size()));
-            StatusBarsManager.conversationByApp(context, Config.PACKGE_NAME, newList.get(randomNum));
             Lg.getInstance().e(TAG,"randomnum="+newList.get(randomNum)+"-----------------");
             newList.remove(randomNum);
             if(newList.size()==0){
@@ -95,7 +89,6 @@ public enum GuidingAppear {
     public void exit(Context context) {
         disappear();
         if (!UUID.equals(Constant.UUID)) {
-            StatusBarsManager.exitApp(context, Config.PACKGE_NAME);
         }
         Lg.getInstance().d(TAG, "exit");
     }
