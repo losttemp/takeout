@@ -4,13 +4,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
 import com.baidu.iov.dueros.waimai.R;
-import com.bumptech.glide.load.resource.gif.GifBitmapProvider;
 
 import java.util.List;
 

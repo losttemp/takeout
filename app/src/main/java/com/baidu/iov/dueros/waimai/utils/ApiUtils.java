@@ -9,13 +9,8 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressDeleteBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.City;
-import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.GuideBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.GuidingBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
@@ -56,54 +51,8 @@ public class ApiUtils {
         ApiInstance.getApi().getGuiding(requestMap).enqueue(callBack);
     }
 
+    
 
-    /**
-     * get city list request
-     *
-     * @param request
-     * @param callBack
-     * @param <D>
-     */
-    public static <D extends RequestBase> void getCityList(D request, ApiCallBack<CityListResponse> callBack) {
-        Map<String, String> requestMap = requestPrepare(request);
-        ApiInstance.getApi().getCityList(requestMap).enqueue(callBack);
-    }
-
-    /**
-     * get city by location request
-     *
-     * @param request
-     * @param callBack
-     * @param <D>
-     */
-    public static <D extends RequestBase> void getCityByLocation(D request, ApiCallBack<City> callBack) {
-        Map<String, String> requestMap = requestPrepare(request);
-        ApiInstance.getApi().getCityByLocation(requestMap).enqueue(callBack);
-    }
-
-    /**
-     * get cinema list request
-     *
-     * @param request
-     * @param callBack
-     * @param <D>
-     */
-    public static <D extends RequestBase> void getCinemaList(D request, ApiCallBack<CinemaBean> callBack) {
-        Map<String, String> requestMap = requestPrepare(request);
-        ApiInstance.getApi().getCinemaList(requestMap).enqueue(callBack);
-    }
-
-    /**
-     * get cinema list request
-     *
-     * @param request
-     * @param callBack
-     * @param <D>
-     */
-    public static <D extends RequestBase> void getCinemaInfo(D request, ApiCallBack<CinemaInfoResponse> callBack) {
-        Map<String, String> requestMap = requestPrepare(request);
-        ApiInstance.getApi().getCinemaInfo(requestMap).enqueue(callBack);
-    }
 
 
     /**

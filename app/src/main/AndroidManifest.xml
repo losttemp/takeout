@@ -65,7 +65,6 @@
             android:windowSoftInputMode="adjustPan" />
 
         <!-- BaiDu SDK -->
-        <activity android:name=".ui.CityListActivity" />
 
         <activity android:name=".ui.CityPickerActivity" />
 

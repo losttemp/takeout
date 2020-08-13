@@ -6,13 +6,8 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressDeleteBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressEditBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.CinemaBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.CinemaInfoResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.City;
-import com.baidu.iov.dueros.waimai.net.entity.response.CityListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.GuideBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.GuidingBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
@@ -47,23 +42,6 @@ public interface TakeawayApi {
     @FormUrlEncoded
     @POST("/iovservice/api/leadwords")
     Call<ResponseBase<GuideBean>> getGuiding(@FieldMap Map<String, String> map);
-
-    @FormUrlEncoded
-    @POST("/iovservice/movie/citylist")
-    Call<ResponseBase<CityListResponse>> getCityList(@FieldMap Map<String, String> map);
-
-    @FormUrlEncoded
-    @POST("/iovservice/movie/citylocation")
-    Call<ResponseBase<City>> getCityByLocation(@FieldMap Map<String, String> map);
-
-    @FormUrlEncoded
-    @POST("/iovservice/movie/cinemalist")
-    Call<ResponseBase<CinemaBean>> getCinemaList(@FieldMap Map<String, String> map);
-
-
-    @FormUrlEncoded
-    @POST("/iovservice/movie/cinemainfo")
-    Call<ResponseBase<CinemaInfoResponse>> getCinemaInfo(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("/iovservice/waimai/poifood")
