@@ -13,16 +13,14 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
 
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.FoodDetailBean;
+import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraPayloadBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.OrderListExtraBean;
-import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
-import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
-import com.baidu.iov.faceos.client.GsonUtil;
-import com.bumptech.glide.Glide;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 
 import java.util.List;
 
@@ -86,7 +84,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
         private AppCompatTextView tvPayOrder;
         private OrderListExtraPayloadBean payloadBean;
         private OrderListExtraBean extraBean;
-        private boolean isNeedVoice;
+
 
         private ViewHolder(View view) {
             super(view);
@@ -203,11 +201,8 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             tvOneMore.setTag(position);
             tvPayOrder.setTag(position);
 
-            VoiceTouchUtils.setItemVoicesTouchSupport(itemView, position, R.array.look_order_details);
-            VoiceTouchUtils.setVoiceTouchTTSSupport(itemView, mContext.getString(R.string.look_order_details_success_text));
 
             if (tvCancelOrder.getVisibility() == View.VISIBLE) {
-                VoiceTouchUtils.setItemVoicesTouchSupport(tvCancelOrder, position, R.array.close_order);
                 tvCancelOrder.setAccessibilityDelegate(new View.AccessibilityDelegate() {
                     @Override
                     public boolean performAccessibilityAction(View host, int action, Bundle args) {
@@ -222,10 +217,6 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
                     }
                 });
             }
-            if (tvOneMore.getVisibility() == View.VISIBLE) {
-                VoiceTouchUtils.setItemVoicesTouchSupport(tvOneMore, position, position == 0 ? R.array.one_more_order_other : R.array.one_more_order);
-                VoiceTouchUtils.setVoiceTouchTTSSupport(tvOneMore, String.format(mContext.getString(R.string.sure_order), order.getOrder_name()));
-            }
         }
 
         @Override
@@ -234,32 +225,30 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
             if (mOnItemClickListener != null) {
                 switch (v.getId()) {
                     case R.id.tv_store_name:
-                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean, isNeedVoice);
+                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean);
                         break;
                     case R.id.one_more_order:
-                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean, isNeedVoice);
+                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean);
                         break;
                     case R.id.cancel_order:
-                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean, isNeedVoice);
+                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean);
                         break;
                     case R.id.pay_order:
-                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean, isNeedVoice);
+                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean);
                         break;
                     default:
-                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean, isNeedVoice);
+                        mOnItemClickListener.onItemClick(v, position, extraBean, payloadBean);
                         break;
                 }
-                isNeedVoice = false;
+
             }
         }
 
         public void autoClick() {
             if (tvPayOrder.getVisibility() == View.VISIBLE) {
-                isNeedVoice = true;
                 tvPayOrder.performClick();
             }
             if (tvOneMore.getVisibility() == View.VISIBLE) {
-                isNeedVoice = true;
                 tvOneMore.performClick();
             }
         }
@@ -268,7 +257,7 @@ public class OrderListAdaper extends RecyclerView.Adapter<OrderListAdaper.ViewHo
     public void ttsCancelOrder(int position){}
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean, boolean isNeedVoice);
+        void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean);
     }
 
     private OnItemClickListener mOnItemClickListener;

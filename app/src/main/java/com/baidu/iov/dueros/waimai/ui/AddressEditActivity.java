@@ -32,16 +32,13 @@ import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
-import com.baidu.iov.dueros.waimai.utils.ResUtils;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.StringUtils;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.TagListView;
-import com.baidu.iov.faceos.client.GsonUtil;
-import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
@@ -324,7 +321,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
                     case AccessibilityNodeInfo.ACTION_CLICK:
                         if (iv_del_button.getVisibility() == View.VISIBLE) {
                             Entry.getInstance().onEvent(Constant.ENTRY_ADDRESS_EDITACT_DELETE, EventType.TOUCH_TYPE);
-                            initTTS = true;
+
                             deleteAddressData();
                         }
                         break;
@@ -339,7 +336,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
-                        initTTS = true;
+
                         doSave();
                         break;
                     default:
@@ -350,7 +347,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         });
     }
 
-    private boolean initTTS = false;
+
 
     @Override
     protected void onResume() {
@@ -379,7 +376,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     public void updateAddressSuccess(AddressEditBean data, AddressEditReq addressEditreq) {
         isDealWidthSaveRequest = false;
         if (data.getMeituan().getCode() == 0) {
-            sendTTS(R.string.tts_save_address_success);
+
             showToast(R.string.address_update_success);
             AddressListBean.IovBean.DataBean cacheAddress = GsonUtil.fromJson(CacheUtils.getAddressBean(), AddressListBean.IovBean.DataBean.class);
             if (dataBean.getAddress_id() != null && cacheAddress.getAddress_id().longValue() == dataBean.getAddress_id().longValue()) {
@@ -432,7 +429,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
             }
         } else {
             if (data.getMeituan().getCode() == 0) {
-                sendTTS(R.string.tts_save_address_success);
+
                 showToast(R.string.address_save_success);
                 setResult(RESULT_OK);
                 finish();
@@ -452,7 +449,6 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
     public void deleteAddressSuccess(AddressDeleteBean data) {
         if (data.getIov().getErrno() == 0) {
             showToast(R.string.address_delete_success);
-            sendTTS(R.string.tts_delete_address);
             String json = CacheUtils.getAddressBean();
             AddressListBean.IovBean.DataBean bean = GsonUtil.fromJson(json, AddressListBean.IovBean.DataBean.class);
             if (bean != null) {
@@ -504,12 +500,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
         }
     }
 
-    private void sendTTS(int stringId) {
-        if (initTTS) {
-            initTTS = false;
-            StandardCmdClient.getInstance().playTTS(mContext, ResUtils.getString(stringId));
-        }
-    }
+
 
     private void doSave() {
         mAddrAddReq = new AddressAddReq();
@@ -524,16 +515,15 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter, Addr
 
         if (TextUtils.isEmpty(et_name.getText().toString().trim())) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_name), Toast.LENGTH_SHORT);
-            sendTTS(R.string.tts_save_address_error);
+
         } else if (TextUtils.isEmpty(et_phone.getText().toString().trim())) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_phone), Toast.LENGTH_SHORT);
-            sendTTS(R.string.tts_save_address_error);
+
         } else if (TextUtils.isEmpty(address_tv.getText().toString().trim())) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_address), Toast.LENGTH_SHORT);
-            sendTTS(R.string.tts_save_address_error);
+
         } else if (TextUtils.isEmpty(type)) {
             ToastUtils.show(this, getResources().getString(R.string.address_check_tagvalue), Toast.LENGTH_SHORT);
-            sendTTS(R.string.tts_save_address_error);
         } else {
             String house_num = Encryption.encrypt(et_house_num.getText().toString().trim() + "");
             String name = Encryption.encrypt(et_name.getText().toString().trim() + "");

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,32 +17,19 @@ import android.widget.TextView;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
-
-import com.baidu.iov.dueros.waimai.model.IOrderDetailsModel;
 import com.baidu.iov.dueros.waimai.model.ISubmitOrderModel;
-import com.baidu.iov.dueros.waimai.model.OrderDetailsModel;
 import com.baidu.iov.dueros.waimai.model.SubmitOrderImpl;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderOwnerReq;
-import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitJsonBean;
-import com.baidu.iov.dueros.waimai.net.entity.request.OrderSubmitReq;
-import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.LogoutBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderOwnerBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.ui.AddressSelectActivity;
 import com.baidu.iov.dueros.waimai.ui.HomeActivity;
 import com.baidu.iov.dueros.waimai.ui.TakeawayLoginActivity;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.Encryption;
-import com.baidu.iov.faceos.client.GsonUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitOrderUi> {
 
@@ -68,20 +54,7 @@ public class SubmitOrderPresenter extends Presenter<SubmitOrderPresenter.SubmitO
         mSubmitOrder.onDestroy();
     }
 
-    @Override
-    public void onCommandCallback(String cmd, String extra) {
 
-    }
-
-    @Override
-    public void registerCmd(Context context) {
-
-    }
-
-    @Override
-    public void unregisterCmd(Context context) {
-
-    }
 
     public void requestOrderDetails(OrderDetailsReq orderDetailsReq) {
         mSubmitOrder.requestOrderDetails(orderDetailsReq, new RequestCallback<OrderDetailsResponse>() {

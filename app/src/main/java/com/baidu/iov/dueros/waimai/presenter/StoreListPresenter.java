@@ -1,7 +1,5 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
-import android.content.Context;
-
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.IStoreListModel;
@@ -11,57 +9,12 @@ import com.baidu.iov.dueros.waimai.net.entity.request.StoreReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
-
-import java.util.ArrayList;
 
 public class StoreListPresenter extends Presenter<StoreListPresenter.StoreListUi> {
 
 	private static final String TAG = StoreListPresenter.class.getSimpleName();
 
 	private IStoreListModel mModel;
-
-	@Override
-	public void onCommandCallback(String cmd, String extra) {
-		if (getUi() == null) {
-			return;
-		}
-
-		switch (cmd) {
-			case StandardCmdClient.CMD_SELECT:
-				getUi().selectListItem(Integer.parseInt(extra));
-				break;
-			case StandardCmdClient.CMD_NEXT:
-				getUi().nextPage(true);
-				break;
-			case StandardCmdClient.CMD_PRE:
-				getUi().nextPage(false);
-				break;
-			default:
-				break;
-		}
-	}
-
-	@Override
-	public void registerCmd(Context context) {
-		Lg.getInstance().d(TAG, "registerCmd");
-		if (null != mStandardCmdClient) {
-			ArrayList<String> cmdList = new ArrayList<String>();
-			cmdList.add(StandardCmdClient.CMD_NO);
-			cmdList.add(StandardCmdClient.CMD_SELECT);
-			cmdList.add(StandardCmdClient.CMD_NEXT);
-			cmdList.add(StandardCmdClient.CMD_PRE);
-			mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
-		}
-	}
-
-	@Override
-	public void unregisterCmd(Context context) {
-		Lg.getInstance().d(TAG, "registerCmd");
-		if (null != mStandardCmdClient) {
-			mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
-		}
-	}
 
 	public StoreListPresenter() {
 		mModel = new StoreListModel();

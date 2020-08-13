@@ -1,17 +1,14 @@
 package com.baidu.iov.dueros.waimai.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,16 +27,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.BuildConfig;
+import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryDateAdapter;
 import com.baidu.iov.dueros.waimai.adapter.DeliveryTimeAdapter;
-
 import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
-import com.baidu.iov.dueros.waimai.model.IFoodModel;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.presenter.SubmitInfoPresenter;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
@@ -49,18 +44,14 @@ import com.baidu.iov.dueros.waimai.utils.CompareDate;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
-import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
-import com.baidu.iov.faceos.client.GsonUtil;
+
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
-import com.bumptech.glide.Glide;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -69,15 +60,11 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CancellationException;
 
 import static com.baidu.iov.dueros.waimai.ui.AddressListActivity.ADDRESS_DATA;
 import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.POI_INFO;
 import static com.baidu.iov.dueros.waimai.ui.FoodListActivity.PRODUCT_LIST_BEAN;
-import static com.baidu.iov.dueros.waimai.ui.OrderDetailsActivity.isForeground;
 
 public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, SubmitInfoPresenter.SubmitInfoUi>
         implements SubmitInfoPresenter.SubmitInfoUi, View.OnClickListener {
@@ -132,7 +119,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     private Button mNoInternetButton;
     private String date_type_tip, date_time, view_time;
     boolean clicked;
-    private boolean isNeedVoice = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,18 +217,12 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             mAddressTv.setText(getApplicationContext().getResources().getString(R.string.please_select_address_again));
         }
 
-        VoiceTouchUtils.setVoicesTouchSupport(mArrivetimeLayout, R.array.update_time);
-        VoiceTouchUtils.setVoiceTouchTTSSupport(mArrivetimeLayout, mContext.getString(R.string.tts_add_new_time));
-
-        VoiceTouchUtils.setVoicesTouchSupport(mAddressUpdateLayout, R.array.update_address);
-        VoiceTouchUtils.setVoiceTouchTTSSupport(mAddressUpdateLayout, mContext.getString(R.string.tts_add_new_address));
 
         mToPayTv.setAccessibilityDelegate(new View.AccessibilityDelegate() {
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
-                        isNeedVoice = true;
                         intentToPay();
                         break;
                     default:
@@ -279,8 +260,8 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
 
     private void playVoice() {
-        boolean isNeedVoice = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
-        if (isNeedVoice && !isChoiceAddressBack && mOrderPreviewData.getWm_ordering_preview_detail_vo_list().size() > 0) {
+
+        if (!isChoiceAddressBack && mOrderPreviewData.getWm_ordering_preview_detail_vo_list().size() > 0) {
             String oneFood = mOrderPreviewData.getWm_ordering_preview_detail_vo_list().get(0).getFood_name();
             String allPrice = String.format(getResources().getString(R.string.submit_total), mOrderPreviewData.getWm_ordering_preview_order_vo().getTotal());
             String deliveryTime = mEstimateTime;
@@ -297,7 +278,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
             }
             String str = String.format(getString(R.string.submit_order), oneFood, allPrice, deliveryTime, address, phone);
-            StandardCmdClient.getInstance().playTTS(SubmitOrderActivity.this, str);
         }
     }
 
@@ -370,8 +350,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
             }
 
             String str = String.format(getString(R.string.submit_order), name, total, deliveryTime, address, phone);
-            VoiceTouchUtils.setVoicesTouchSupport(mBackImg, R.array.cancle_order);
-            VoiceTouchUtils.setVoiceTouchTTSSupport(mBackImg, str);
 
         }
     }
@@ -422,7 +400,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
 
             case R.id.to_pay:
                 Entry.getInstance().onEvent(Constant.ORDERSUBMIT_TOPAY, EventType.TOUCH_TYPE);
-                isNeedVoice = false;
                 if (mAddressData == null) {
                     ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT);
                 } else if (mAddressData.getCanShipping() != 1) {
@@ -569,17 +546,17 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                             mTypeTipTv.setText(date_type_tip);
                         } else {
                             String date = mDataBean.get(mCurDateItem).getDate().substring(0, mDataBean.get(mCurDateItem).getDate().indexOf("日") + 1);
-                            String today = mDataBean.get(mCurDateItem).getDate().substring(0,2);
+                            String today = mDataBean.get(mCurDateItem).getDate().substring(0, 2);
                             long sysDate = System.currentTimeMillis();
                             String sys = CompareDate.formatTime(sysDate);
-                            if (today.equals("今天")){
+                            if (today.equals("今天")) {
                                 mTypeTipTv.setText(getString(R.string.specify_time));
                                 mArriveTimeTv.setText(today + " " + view_time + " 送出");
-                            }else {
+                            } else {
                                 if (!date.equals(sys)) {
                                     mTypeTipTv.setText(getString(R.string.specify_time));
                                     mArriveTimeTv.setText(date + " " + view_time);
-                                }else {
+                                } else {
                                     mArriveTimeTv.setText(String.format(getResources().getString(R.string.arrive_time), view_time));
                                     mTypeTipTv.setText(date_type_tip);
                                 }
@@ -653,7 +630,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                     isChoiceAddressBack = true;
                     mAddressData = (AddressListBean.IovBean.DataBean) data.getSerializableExtra(ADDRESS_DATA);
                     getPresenter().requestOrderPreview(mProductList, mPoiInfo, mUnixtime, mAddressData, SubmitOrderActivity.this);
-                    boolean isNeedVoice = data.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
+
                     try {
                         if (mAddressData.getCanShipping() != 1) {
                             mAddressTv.setTextColor(0x99ffffff);
@@ -663,13 +640,11 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                             mArriveTimeTv.setTextColor(this.getResources().getColor(R.color.white));
                         }
                         String address = Encryption.desEncrypt(mAddressData.getAddress());
-                        if (isNeedVoice) {
-                            if (mAddressData.getCanShipping() != 1) {
-                                ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
-                            }
-                            StandardCmdClient.getInstance().playTTS(SubmitOrderActivity.this,
-                                    String.format(getString(R.string.commodity_address), address));
+
+                        if (mAddressData.getCanShipping() != 1) {
+                            ToastUtils.show(this, getApplicationContext().getResources().getString(R.string.order_submit_msg8), Toast.LENGTH_SHORT);
                         }
+
                         String name = Encryption.desEncrypt(mAddressData.getUser_name());
                         String phone = Encryption.desEncrypt(mAddressData.getUser_phone());
                         mAddressTv.setText(address);
@@ -953,7 +928,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
     public void onOrderSubmitSuccess(OrderSubmitBean data) {
         mToPayTv.setEnabled(true);
         clicked = true;
-        VoiceTouchUtils.setVoicesTouchSupport(mToPayTv, mContext.getString(R.string.to_pay_text));
         mNoNet.setVisibility(View.GONE);
         loadingView.setVisibility(View.GONE);
         if (data != null) {
@@ -974,7 +948,6 @@ public class SubmitOrderActivity extends BaseActivity<SubmitInfoPresenter, Submi
                 intent.putExtra(Constant.PAY_URL, payUrl);
                 intent.putExtra(Constant.PIC_URL, mPoiInfo.getPic_url());
                 intent.putExtra("flag", true);
-                intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 //延迟1S关闭，解决透底的问题

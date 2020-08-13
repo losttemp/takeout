@@ -21,20 +21,6 @@ public class AddressEditPresenter extends Presenter<AddressEditPresenter.Address
 
     private AddressEditModel addressEditModel;
 
-    @Override
-    public void onCommandCallback(String cmd, String extra) {
-
-    }
-
-    @Override
-    public void registerCmd(Context context) {
-
-    }
-
-    @Override
-    public void unregisterCmd(Context context) {
-
-    }
 
     public AddressEditPresenter() {
         addressEditModel = new AddressEditModel();

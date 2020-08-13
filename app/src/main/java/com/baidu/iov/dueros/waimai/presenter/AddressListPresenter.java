@@ -18,16 +18,12 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_NEXT;
-import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_PRE;
 
 public class AddressListPresenter extends Presenter<AddressListPresenter.AddressListUi> {
     private static final String TAG = AddressListPresenter.class.getSimpleName();
@@ -98,46 +94,9 @@ public class AddressListPresenter extends Presenter<AddressListPresenter.Address
 
     }
 
-    @Override
-    public void onCommandCallback(String cmd, String extra) {
-        if (getUi() == null) {
-            return;
-        }
 
-        switch (cmd) {
-            case StandardCmdClient.CMD_SELECT:
-                getUi().selectListItem(Integer.parseInt(extra));
-                break;
-            case StandardCmdClient.CMD_NEXT:
-                getUi().nextPage(true);
-                break;
-            case StandardCmdClient.CMD_PRE:
-                getUi().nextPage(false);
-                break;
-            default:
-                break;
-        }
-    }
 
-    @Override
-    public void registerCmd(Context context) {
-        Lg.getInstance().d(TAG, "registerCmd");
-        if (null != mStandardCmdClient) {
-            ArrayList<String> cmdList = new ArrayList<String>();
-            cmdList.add(StandardCmdClient.CMD_SELECT);
-            cmdList.add(CMD_NEXT);
-            cmdList.add(CMD_PRE);
-            mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
-        }
-    }
 
-    @Override
-    public void unregisterCmd(Context context) {
-        Lg.getInstance().d(TAG, "unregisterCmd");
-        if (null != mStandardCmdClient) {
-            mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
-        }
-    }
 
     public interface AddressListUi extends Ui {
 

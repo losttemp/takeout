@@ -9,9 +9,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.R;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 
 import java.util.List;
 
@@ -81,7 +80,6 @@ public class FilterSubTypeAdapter extends BaseAdapter {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						if (mItemAccessibilityDelegate != null) {
 							mItemAccessibilityDelegate.onItemAccessibilityDelegate(position);
-							StandardCmdClient.getInstance().playTTS(mContext,"BUBBLE");
 						}
 						break;
 					default:

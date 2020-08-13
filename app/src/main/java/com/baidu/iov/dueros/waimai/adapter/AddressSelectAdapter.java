@@ -11,11 +11,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
-
 import com.baidu.iov.dueros.waimai.R;
+import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
-import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 
 import java.util.List;
 
@@ -125,29 +123,17 @@ public class AddressSelectAdapter extends RecyclerView.Adapter<AddressSelectAdap
             String type = dataBean.getType();
             if (TextUtils.isEmpty(type)) {
                 tvType.setBackgroundResource(R.drawable.tag_bg);
-                VoiceTouchUtils.setVoicesTouchSupport(item_content, String.format(mContext.getString(R.string.choose_an_address), position + 1));
-                VoiceTouchUtils.setVoiceTouchTTSSupport(item_content, String.format(mContext.getString(R.string.harvest_address), detail));
             } else if (mContext.getString(R.string.address_home).equals(type)) {
-                VoiceTouchUtils.setVoicesTouchSupport(item_content, String.format(mContext.getString(R.string.send_to_home), position + 1));
-                VoiceTouchUtils.setVoiceTouchTTSSupport(item_content, String.format(mContext.getString(R.string.harvest_address), detail));
                 tvType.setBackgroundResource(R.drawable.tag_bg_green);
             } else if (mContext.getString(R.string.address_company).equals(type)) {
-                VoiceTouchUtils.setVoicesTouchSupport(item_content, String.format(mContext.getString(R.string.send_to_company), position + 1));
-                VoiceTouchUtils.setVoiceTouchTTSSupport(item_content, String.format(mContext.getString(R.string.harvest_address), detail));
                 tvType.setBackgroundResource(R.drawable.tag_bg_blue);
             } else if (mContext.getString(R.string.address_tag_other).equals(type)) {
                 tvType.setBackgroundResource(R.drawable.tag_bg);
-                VoiceTouchUtils.setVoicesTouchSupport(item_content, String.format(mContext.getString(R.string.choose_an_address), position + 1));
-                VoiceTouchUtils.setVoiceTouchTTSSupport(item_content, String.format(mContext.getString(R.string.harvest_address), detail));
             } else if (mContext.getString(R.string.address_destination).equals(type)) {
-                VoiceTouchUtils.setVoicesTouchSupport(item_content, String.format(mContext.getString(R.string.send_to_destination), position + 1));
-                VoiceTouchUtils.setVoiceTouchTTSSupport(item_content, String.format(mContext.getString(R.string.harvest_address), detail));
                 tvType.setBackgroundResource(R.drawable.tag_bg_mudidi);
                 edit.setVisibility(View.GONE);
             }
             tvType.setText(!TextUtils.isEmpty(type) ? type : mContext.getString(R.string.address_tag_other));
-            VoiceTouchUtils.setItemVoicesTouchSupport(edit, position, position == 0 ? R.array.address_edit_other : R.array.address_edit);
-            VoiceTouchUtils.setVoiceTouchTTSSupport(edit, mContext.getString(R.string.start_edit_address_success_text));
         }
 
         @Override

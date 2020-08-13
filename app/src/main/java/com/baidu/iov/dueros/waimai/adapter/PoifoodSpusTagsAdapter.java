@@ -1,7 +1,7 @@
 package com.baidu.iov.dueros.waimai.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.bean.PoifoodSpusTagsBean;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 
 import java.util.List;
 
@@ -42,7 +41,7 @@ public class PoifoodSpusTagsAdapter extends RecyclerView.Adapter<PoifoodSpusTags
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PoifoodSpusTagsAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull PoifoodSpusTagsAdapter.ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
         viewHolder.foodSpuTagsBeanName.setText(poifoodSpusTagsBeans.get(position).getFoodSpuTagsBeanName());
         if (poifoodSpusTagsBeans.get(position).getNumber() != 0) {
             viewHolder.number.setVisibility(View.VISIBLE);
@@ -59,14 +58,13 @@ public class PoifoodSpusTagsAdapter extends RecyclerView.Adapter<PoifoodSpusTags
             }
         });
 
-        viewHolder.view.setContentDescription(String.format(context.getString(R.string.to_eat_something),poifoodSpusTagsBeans.get(position).getFoodSpuTagsBeanName()));
-        viewHolder.view.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+        viewHolder.view.setContentDescription(String.format(context.getString(R.string.to_eat_something), poifoodSpusTagsBeans.get(position).getFoodSpuTagsBeanName()));
+        viewHolder.view.setAccessibilityDelegate(new View.AccessibilityDelegate() {
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 if (mItemClickListener != null) {
                     mItemClickListener.OnItemClick(host, position);
                 }
-                StandardCmdClient.getInstance().playTTS(context, context.getString(R.string.already_choice));
                 return true;
             }
         });

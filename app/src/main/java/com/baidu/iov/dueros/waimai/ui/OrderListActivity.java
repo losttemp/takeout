@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.baidu.iov.dueros.waimai.R;
@@ -44,12 +42,12 @@ import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DeviceUtils;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
-import com.baidu.iov.faceos.client.GsonUtil;
+
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -80,8 +78,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
     private SmartRefreshLayout mRefreshLayout;
     private View networkView;
 
-    private boolean initTTS = false;
-    private boolean isNeedVoice = false;
+
     private int oldListSize, selectPosition;
     private View loadingView;
 
@@ -146,7 +143,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         mOrderListAdaper = new OrderListAdaper(mOrderList, this) {
             @Override
             public void ttsCancelOrder(int position) {
-                initTTS = true;
                 pos = position;
                 mOrderCancelReq = new OrderCancelReq(Long.parseLong(mOrderList.get(position).getOut_trade_no()));
                 getPresenter().requestOrderCancel(mOrderCancelReq);
@@ -165,11 +161,11 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
 
         mOrderListAdaper.setOnItemClickListener(new OrderListAdaper.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean, boolean isNeedVoice) {
+            public void onItemClick(View view, int position, OrderListExtraBean extraBean, OrderListExtraPayloadBean payloadBean) {
                 if (!allowClick()) return;
                 pos = position;
                 OrderListActivity.this.selectPosition = position;
-                OrderListActivity.this.isNeedVoice = isNeedVoice;
+
                 switch (view.getId()) {
                     case R.id.tv_store_name:
                         //进入店铺
@@ -186,7 +182,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                         onemoreintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(position).getExtra());
                         onemoreintent.putExtra(Constant.ONE_MORE_ORDER, true);
                         onemoreintent.putExtra("flag", true);
-                        onemoreintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                         startActivity(onemoreintent);
                         break;
                     case R.id.pay_order:
@@ -399,18 +394,13 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             mTvNoOrder.setVisibility(View.VISIBLE);
             mRvOrder.setVisibility(View.GONE);
         }
-        if (mTvNoOrder.getVisibility() != View.VISIBLE && initTTS && oldListSize == mOrderList.size()) {
-            sendTTS(R.string.last_page);
-        } else {
-            initTTS = false;
-        }
+
     }
 
     @Override
     public void updateOrderCancel(OrderCancelResponse data) {
         loadingView.setVisibility(View.GONE);
         if (data.getMeituan().getCode() == 0) {
-            sendTTS(R.string.close_order_success_text);
             ToastUtils.customTime(this, getApplicationContext().getResources().getString(R.string.order_cancelled), 500);
             mOrderList.get(pos).setOut_trade_status(IOV_STATUS_CANCELED);
             mOrderListAdaper.notifyItemChanged(pos);
@@ -419,12 +409,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
         }
     }
 
-    private void sendTTS(int stringId) {
-        if (initTTS) {
-            initTTS = false;
-            StandardCmdClient.getInstance().playTTS(mContext, getString(stringId));
-        }
-    }
+
 
     @Override
     public void failure(String msg) {
@@ -468,7 +453,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             i = i - 1;
         }
         if (mOrderList == null || mOrderList.size() == 0) {
-            StandardCmdClient.getInstance().playTTS(OrderListActivity.this, getString(R.string.have_no_order));
             return;
         }
         if (mOrderList.size() > i) {
@@ -483,7 +467,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                 onemoreintent.putExtra(Constant.ORDER_LSIT_EXTRA_STRING, mOrderList.get(i).getExtra());
                 onemoreintent.putExtra(Constant.ONE_MORE_ORDER, true);
                 onemoreintent.putExtra("flag", true);
-                onemoreintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, true);
                 startActivity(onemoreintent);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -499,21 +482,14 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
             assert manager != null;
             int currentItemPosition = manager.findFirstVisibleItemPosition();
             if (isNextPage) {
-                StandardCmdClient.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
                 if (currentItemPosition + getPageNum() * 2 > mOrderList.size()) {
                     manager.scrollToPositionWithOffset(mOrderList.size() - 1, 0);
                     mRefreshLayout.autoLoadmore(1000);
                     oldListSize = mOrderList.size();
-                    initTTS = true;
                     return;
                 }
                 manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
             } else {
-                if (currentItemPosition == 0) {
-                    StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.first_page));
-                } else {
-                    StandardCmdClient.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
-                }
                 manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
             }
         }
@@ -548,7 +524,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter, OrderLis
                     payintent.putExtra("pay_url", extraBean.getOrderInfos().getPay_url());
                     payintent.putExtra("pic_url", extraBean.getOrderInfos().getWm_pic_url());
                     payintent.putExtra("flag", true);
-                    payintent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                     payintent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(payintent);
                 }

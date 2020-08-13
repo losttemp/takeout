@@ -2,7 +2,6 @@ package com.baidu.iov.dueros.waimai.model;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
@@ -15,7 +14,6 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
-import com.baidu.iov.dueros.waimai.utils.AccountManager;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
@@ -113,7 +111,7 @@ public class SubmitInfoImpl implements ISubmitInfoModel {
 
     @Override
     public void requestAuthInfo(final AccountCallback callback) {
-        AccountManager.getInstance().getAuthInfo(new AccountManager.AccountCallBack() {
+        /*AccountManager.getInstance().getAuthInfo(new AccountManager.AccountCallBack() {
             @Override
             public void onAccountSuccess(final String msg) {
                 handler.post(new Runnable() {
@@ -135,7 +133,7 @@ public class SubmitInfoImpl implements ISubmitInfoModel {
                 });
 
             }
-        });
+        });*/
     }
 
     @Override

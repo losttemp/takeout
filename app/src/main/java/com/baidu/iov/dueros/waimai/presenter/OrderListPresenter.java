@@ -1,12 +1,10 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
-import android.content.Context;
-
 import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
-import com.baidu.iov.dueros.waimai.model.OrderListModel;
 import com.baidu.iov.dueros.waimai.model.IOrderListModel;
+import com.baidu.iov.dueros.waimai.model.OrderListModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;
@@ -14,14 +12,6 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
-
-import java.util.ArrayList;
-
-import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_NEXT;
-import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_NO;
-import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_PRE;
-import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_SELECT;
 
 public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi> {
 
@@ -29,51 +19,6 @@ public class OrderListPresenter extends Presenter<OrderListPresenter.OrderListUi
 
     private IOrderListModel mModel;
 
-    @Override
-    public void onCommandCallback(String cmd, String extra) {
-        if (getUi() == null) {
-            return;
-        }
-
-        switch (cmd) {
-            case CMD_SELECT:
-                getUi().selectListItem(Integer.parseInt(extra));
-                break;
-            case CMD_NO:
-                getUi().close();
-                break;
-            case StandardCmdClient.CMD_NEXT:
-                getUi().nextPage(true);
-                break;
-            case StandardCmdClient.CMD_PRE:
-                getUi().nextPage(false);
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void registerCmd(Context context) {
-        Lg.getInstance().d(TAG, "registerCmd");
-        if (null != mStandardCmdClient) {
-            ArrayList<String> cmdList = new ArrayList<String>();
-            cmdList.add(CMD_NO);
-            cmdList.add(CMD_SELECT);
-            cmdList.add(CMD_NEXT);
-            cmdList.add(CMD_PRE);
-            //mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
-            mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
-        }
-    }
-
-    @Override
-    public void unregisterCmd(Context context) {
-        Lg.getInstance().d(TAG, "registerCmd");
-        if (null != mStandardCmdClient) {
-            mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
-        }
-    }
 
     public OrderListPresenter() {
         mModel = new OrderListModel();

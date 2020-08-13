@@ -64,18 +64,16 @@ import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.DoubleUtil;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.iov.dueros.waimai.view.ConstraintHeightListView;
 import com.baidu.iov.dueros.waimai.view.FlowLayoutManager;
-import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
-import com.baidu.xiaoduos.syncclient.util.LogUtil;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.io.Serializable;
@@ -156,7 +154,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     private RelativeLayout mRlNoProduct;
     private List<Boolean> mIsDiscountList;
     private boolean alreadyToast;
-    private boolean isNeedVoice;
+
     private String mWmPoiId;
     private LinearLayout mNoNet;
     private Button mNoInternetButton;
@@ -250,7 +248,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     protected void onPause() {
         super.onPause();
-        isNeedVoice = false;
         Constant.ANIMATION_END = true;
         mmHandler.removeCallbacksAndMessages(null);
         if (!booleanExtra) {
@@ -332,7 +329,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 openShopCart();
-                StandardCmdClient.getInstance().playTTS(FoodListActivity.this, "BUBBLE");
                 return true;
             }
         });
@@ -432,7 +428,7 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 settlement.performClick();
-                isNeedVoice = true;
+
                 return true;
             }
         });
@@ -904,7 +900,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 clearShopCart();
-                StandardCmdClient.getInstance().playTTS(FoodListActivity.this, getString(R.string.already_clear_shop_cart));
                 return true;
             }
         });
@@ -927,7 +922,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 mCartSettlement.performClick();
-                isNeedVoice = true;
                 return true;
             }
         });
@@ -943,7 +937,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
             @Override
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 mBottomDialog.dismiss();
-                StandardCmdClient.getInstance().playTTS(FoodListActivity.this, "BUBBLE");
                 return true;
             }
         });
@@ -1205,7 +1198,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
                 intent.putExtra(POI_INFO, mPoiInfoBean);
                 intent.putExtra(PRODUCT_LIST_BEAN, (Serializable) productList);
                 intent.putExtra(DISCOUNT, mDiscountNumber);
-                intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
                 startActivity(intent);
                 break;
             case Constant.STORE_CANT_NOT_BUY:
@@ -1301,14 +1293,6 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         mPoifoodSpusListAdapter.notifyDataSetChanged();
         mFoodSpuTagsListAdapter.notifyDataSetChanged();
 
-        boolean isNeedVoiceFeedback = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
-        if (isNeedVoiceFeedback) {
-            if (mOneMoreOrder) {
-                StandardCmdClient.getInstance().playTTS(FoodListActivity.this, String.format(getString(R.string.sure_order), mPoiInfoBean.getName()));
-            } else {
-                StandardCmdClient.getInstance().playTTS(FoodListActivity.this, getString(R.string.choose_you_commodity));
-            }
-        }
 
         mLoading.setVisibility(View.GONE);
         mNoNet.setVisibility(View.GONE);
@@ -1454,14 +1438,13 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
     @Override
     public void sureOrder() {
         if (null != mBottomDialog && mBottomDialog.isShowing() && null != mCartSettlement) {
-            isNeedVoice = true;
+
             if (mCartSettlement.isEnabled()) {
                 mCartSettlement.performClick();
             }
             return;
         }
         if (null == mBottomDialog || (null != mBottomDialog && !mBottomDialog.isShowing() && null != settlement)) {
-            isNeedVoice = true;
             if (settlement.isEnabled()) {
                 settlement.performClick();
             }
@@ -1474,16 +1457,8 @@ public class FoodListActivity extends BaseActivity<PoifoodListPresenter, Poifood
         Entry.getInstance().onEvent(Constant.POIFOODLIST_VOICE_PAGING, EventType.VOICE_TYPE);
         if (isNextPage) {
             mSpusList.scrollBy(0, getResources().getDimensionPixelSize(R.dimen.px828dp));
-            if (mSpusList.canScrollVertically(1)) {
-            } else {
-                StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.last_page));
-            }
         } else {
             mSpusList.scrollBy(0, -getResources().getDimensionPixelSize(R.dimen.px966dp));
-            if (mSpusList.canScrollVertically(-1)) {
-            } else {
-                StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.first_page));
-            }
         }
     }
 

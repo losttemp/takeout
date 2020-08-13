@@ -5,17 +5,12 @@ import android.app.Application;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.baidu.iov.dueros.waimai.net.ApiCallBack;
-import com.baidu.iov.dueros.waimai.net.entity.request.GuidingReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.GuideBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.GuidingBean;
-import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
-import com.baidu.iov.dueros.waimai.utils.LeakCanaryUtils;
-import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
-import com.baidu.iov.faceos.client.GsonUtil;
+
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.xiaoduos.syncclient.Entry;
@@ -36,9 +31,7 @@ public class WaiMaiApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		mInstance = this;
-		if (Constant.LEAKCANARY_DEBUG) {
-			new LeakCanaryUtils().install(this);
-		}
+
 		SDKInitializer.initialize(this);
         SDKInitializer.setCoordType(CoordType.GCJ02);
 		LocationManager locationManager = LocationManager.getInstance(getApplicationContext());

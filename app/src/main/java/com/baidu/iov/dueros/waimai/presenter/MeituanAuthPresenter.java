@@ -1,12 +1,10 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
-import android.content.Context;
-
 import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
-import com.baidu.iov.dueros.waimai.model.MeituanAuthModel;
 import com.baidu.iov.dueros.waimai.model.IMeituanAuthModel;
+import com.baidu.iov.dueros.waimai.model.MeituanAuthModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.MeituanAuthorizeReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.MeituanAuthorizeResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
@@ -20,18 +18,6 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
     private static final String TAG = MeituanAuthPresenter.class.getSimpleName();
 
     private IMeituanAuthModel mModel;
-
-    @Override
-    public void onCommandCallback(String cmd, String extra) {
-    }
-
-    @Override
-    public void registerCmd(Context context) {
-    }
-
-    @Override
-    public void unregisterCmd(Context context) {
-    }
 
     public MeituanAuthPresenter() {
         mModel = new MeituanAuthModel();

@@ -15,7 +15,7 @@ import com.baidu.iov.dueros.waimai.adapter.FilterSubTypeAdapter;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean.DataBean.ActivityFilterListBean;
 import com.baidu.iov.dueros.waimai.R;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +82,6 @@ public class FilterPopWindow extends PopupWindow {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
                         toFilter(listener);
-						StandardCmdClient.getInstance().playTTS(mContext,"BUBBLE");
                         break;
                     default:
                         break;

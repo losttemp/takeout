@@ -1,7 +1,5 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
-import android.content.Context;
-
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.ISearchModel;
@@ -9,9 +7,6 @@ import com.baidu.iov.dueros.waimai.model.SearchModel;
 import com.baidu.iov.dueros.waimai.net.entity.request.SearchSuggestReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.SearchSuggestResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
-
-import java.util.ArrayList;
 
 public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 
@@ -19,42 +14,7 @@ public class SearchPresenter extends Presenter<SearchPresenter.SearchUi> {
 
 	private ISearchModel mModel;
 
-	@Override
-	public void onCommandCallback(String cmd, String extra) {
-		if (getUi() == null) {
-			return;
-		}
 
-		switch (cmd) {
-			case StandardCmdClient.CMD_SELECT:
-				getUi().selectListItem(Integer.parseInt(extra)-1);
-				break;
-			case StandardCmdClient.CMD_NO:
-				getUi().close();
-				break;
-			default:
-				break;
-		}
-	}
-
-	@Override
-	public void registerCmd(Context context) {
-		Lg.getInstance().d(TAG, "registerCmd");
-		if (null != mStandardCmdClient) {
-			ArrayList<String> cmdList = new ArrayList<String>();
-			cmdList.add(StandardCmdClient.CMD_NO);
-			cmdList.add(StandardCmdClient.CMD_SELECT);
-			mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
-		}
-	}
-
-	@Override
-	public void unregisterCmd(Context context) {
-		Lg.getInstance().d(TAG, "registerCmd");
-		if (null != mStandardCmdClient) {
-			mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
-		}
-	}
 
 	public SearchPresenter() {
 		mModel = new SearchModel();

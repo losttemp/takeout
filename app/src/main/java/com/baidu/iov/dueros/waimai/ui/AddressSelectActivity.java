@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.BuildConfig;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressSelectAdapter;
-import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.request.AddressListReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressSelectPresenter;
@@ -25,12 +24,10 @@ import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
-import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 
@@ -49,7 +46,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     private View addBtnView;
     private View networkView;
     private View loadingView;
-    private boolean isNeedPlayTTS, isDelay;
+    private boolean  isDelay;
     private Button addressAddBtn;
     private int startApp;
     private View listLayout;
@@ -69,7 +66,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_select);
-        isNeedPlayTTS = getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false);
         getPresenter().initDesBeans();
         initView();
         startApp = getIntent().getIntExtra(Constant.START_APP, -1);
@@ -161,10 +157,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             }
         });
 
-        VoiceTouchUtils.setVoicesTouchSupport(addressAddBtn, mContext.getString(R.string.add_address_text));
-        VoiceTouchUtils.setVoiceTouchTTSSupport(addressAddBtn, mContext.getString(R.string.tts_add_new_address));
-        VoiceTouchUtils.setVoicesTouchSupport(add_no_address, mContext.getString(R.string.add_address_text));
-        VoiceTouchUtils.setVoiceTouchTTSSupport(add_no_address, mContext.getString(R.string.tts_add_new_address));
     }
 
     private void startEditActivity(AddressListBean.IovBean.DataBean dataBean) {
@@ -211,18 +203,10 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             mNoAddress.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
             addBtnView.setVisibility(View.GONE);
-            if (isNeedPlayTTS) {
-                StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.choice_no_address_voice));
-                isNeedPlayTTS = false;
-            }
         } else {
             GuidingAppear.INSTANCE.showtTips(this, WaiMaiApplication.getInstance().getWaimaiBean().getTakeout_null().getHints(), Constant.TTS_ADDRESS_ME);
             mNoAddress.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
-            if (isNeedPlayTTS) {
-                StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.choice_address_voice));
-                isNeedPlayTTS = false;
-            }
             mDataList.clear();
             mDataList.addAll(data);
             addBtnView.setVisibility(View.VISIBLE);
@@ -265,7 +249,6 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
                 String address = Encryption.desEncrypt(mDataList.get(i).getAddress());
                 CacheUtils.saveAddress(address);
                 HomeActivity.address = address;
-                StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, String.format(getString(R.string.harvest_address), address));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -282,22 +265,12 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
             int currentItemPosition = manager.findFirstVisibleItemPosition();
             int last = manager.findLastCompletelyVisibleItemPosition();
             if (isNextPage) {
-                if (last == mDataList.size() - 1) {
-                    StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.last_page));
-                } else {
-                    StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, Config.DEFAULT_TTS);
-                }
                 if (currentItemPosition + getPageNum() * 2 > mDataList.size()) {
                     manager.scrollToPositionWithOffset(mDataList.size() - 1, 0);
                     return;
                 }
                 manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
             } else {
-                if (currentItemPosition == 0) {
-                    StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, getString(R.string.first_page));
-                } else {
-                    StandardCmdClient.getInstance().playTTS(AddressSelectActivity.this, Config.DEFAULT_TTS);
-                }
                 manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
             }
         }

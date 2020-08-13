@@ -32,7 +32,6 @@ import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
@@ -66,8 +65,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
     private ArrayList<String> prefix = new ArrayList<>();
 
-    //语音播报内容
-    private String waimaiTts[];
+
     private CountDownTimer mTimer;
     private boolean isLocation = false;
 
@@ -85,11 +83,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        waimaiTts = getResources().getStringArray(R.array.waimai_watch);
-        if (getIntent().getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
-            int index = (int) (Math.random() * 5);
-            StandardCmdClient.getInstance().playTTS(HomeActivity.this, waimaiTts[index]);
-        }
         iniView();
         setAddress();
         if (savedInstanceState != null) {
@@ -171,7 +164,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
-                        intentToAddress(true);
+                        intentToAddress();
                         break;
                     default:
                         break;
@@ -184,7 +177,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
-                        intentToOrderList(true);
+                        intentToOrderList();
                         break;
                     default:
                         break;
@@ -197,7 +190,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
-                        intentToFood(true);
+                        intentToFood();
                         break;
                     default:
                         break;
@@ -211,7 +204,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
-                        intentToFlower(true);
+                        intentToFlower();
                         break;
                     default:
                         break;
@@ -225,7 +218,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
             public boolean performAccessibilityAction(View host, int action, Bundle args) {
                 switch (action) {
                     case AccessibilityNodeInfo.ACTION_CLICK:
-                        intentToCake(true);
+                        intentToCake();
                         break;
                     default:
                         break;
@@ -293,12 +286,12 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
             case R.id.tv_title:
             case R.id.iv_title:
                 Entry.getInstance().onEvent(Constant.EVENT_OPEN_ADDRESS_SELECT, EventType.TOUCH_TYPE);
-                intentToAddress(false);
+                intentToAddress();
                 break;
 
             case R.id.iv_right:
                 Entry.getInstance().onEvent(Constant.EVENT_OPEN_ORDER_LIST, EventType.TOUCH_TYPE);
-                intentToOrderList(false);
+                intentToOrderList();
                 break;
 
             case R.id.rl_search:
@@ -310,17 +303,17 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
             case R.id.rl_flower:
                 Entry.getInstance().onEvent(Constant.EVENT_FLOWER_CLICK, EventType.TOUCH_TYPE);
-                intentToFlower(false);
+                intentToFlower();
                 break;
 
             case R.id.rl_cake:
                 Entry.getInstance().onEvent(Constant.EVENT_CAKE_CLICK, EventType.TOUCH_TYPE);
-                intentToCake(false);
+                intentToCake();
                 break;
 
             case R.id.rl_food:
                 Entry.getInstance().onEvent(Constant.EVENT_FOOD_CLICK, EventType.TOUCH_TYPE);
-                intentToFood(false);
+                intentToFood();
                 break;
             case R.id.exit_login:
                 exitLogin();
@@ -371,54 +364,33 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     }
 
 
-    private void intentToAddress(boolean isNeedVoice) {
+    private void intentToAddress() {
         Intent addressIntent = new Intent(HomeActivity.this, AddressSelectActivity.class);
         startActivity(addressIntent);
-        Handler handler = new Handler();
-        if (isNeedVoice) {
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    StandardCmdClient.getInstance().playTTS(HomeActivity.this, getString(R.string.tts_add_new_address));
-                }
-            }, 100);
-        }
+
     }
 
 
-    private void intentToOrderList(boolean isNeedVoice) {
+    private void intentToOrderList() {
         Intent orderListIntent = new Intent(this, OrderListActivity.class);
-        orderListIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
         startActivity(orderListIntent);
-        Handler handler = new Handler();
-        if (isNeedVoice) {
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    StandardCmdClient.getInstance().playTTS(HomeActivity.this, getString(R.string.tts_look_order_list));
-                }
-            }, 100);
-        }
     }
 
-    private void intentToFood(boolean isNeedVoice) {
+    private void intentToFood() {
         Intent foodIntent = new Intent(this, FoodActivity.class);
         foodIntent.putExtra("title", mTvFood.getText().toString());
-        foodIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
         startActivity(foodIntent);
     }
 
-    private void intentToFlower(boolean isNeedVoice) {
+    private void intentToFlower() {
         Intent flowerIntent = new Intent(this, RecommendShopActivity.class);
         flowerIntent.putExtra("title", mTvFlower.getText().toString());
-        flowerIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
         startActivity(flowerIntent);
     }
 
-    private void intentToCake(boolean isNeedVoice) {
+    private void intentToCake() {
         Intent cakeIntent = new Intent(this, RecommendShopActivity.class);
         cakeIntent.putExtra("title", mTvCake.getText().toString());
-        cakeIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
         startActivity(cakeIntent);
     }
 

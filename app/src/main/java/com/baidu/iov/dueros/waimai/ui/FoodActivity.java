@@ -1,4 +1,5 @@
 package com.baidu.iov.dueros.waimai.ui;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,11 +20,11 @@ import com.baidu.iov.dueros.waimai.presenter.FoodPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 import com.domain.multipltextview.MultiplTextView;
+
 import java.util.ArrayList;
 import java.util.List;
 public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodUi> implements FoodPresenter.FoodUi,View.OnClickListener{
@@ -89,9 +90,6 @@ public class FoodActivity extends BaseActivity<FoodPresenter,FoodPresenter.FoodU
         if (intent!=null) {
             latitude=intent.getIntExtra("latitude",-1);
             longitude=intent.getIntExtra("longitude",-1);
-            if (intent.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
-                StandardCmdClient.getInstance().playTTS(FoodActivity.this, getString(R.string.tts_into_food));
-            }
         }
     }
 

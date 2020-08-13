@@ -1,4 +1,5 @@
 package com.baidu.iov.dueros.waimai.view;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -8,10 +9,10 @@ import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.utils.Constant;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 
 import java.util.List;
 public class SortTypeTagListView extends LinearLayout implements View.OnClickListener{
@@ -69,7 +70,6 @@ public class SortTypeTagListView extends LinearLayout implements View.OnClickLis
                     switch (action) {
                         case AccessibilityNodeInfo.ACTION_CLICK:
                             itemclick(textView);
-                            StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.tts_rescheduling));
                             break;
                         default:
                             break;

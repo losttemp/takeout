@@ -39,13 +39,11 @@ public abstract class BaseFragment<T extends Presenter<U>, U extends Ui> extends
     @Override
     public void onResume() {
         super.onResume();
-        getPresenter().registerCmd(getContext());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        getPresenter().unregisterCmd(getContext());
     }
 
     @Override

@@ -9,13 +9,11 @@ import com.baidu.iov.dueros.waimai.net.entity.request.OrderListReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderListResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
-import com.baidu.iov.dueros.waimai.utils.AccountManager;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 public class OrderListModel implements IOrderListModel {
 
@@ -88,7 +86,7 @@ public class OrderListModel implements IOrderListModel {
 
     @Override
     public void requestAuthInfo(final AccountCallback callback) {
-        AccountManager.getInstance().getAuthInfo(new AccountManager.AccountCallBack() {
+    /*    AccountManager.getInstance().getAuthInfo(new AccountManager.AccountCallBack() {
             @Override
             public void onAccountSuccess(final String msg) {
                 handler.post(new Runnable() {
@@ -110,7 +108,7 @@ public class OrderListModel implements IOrderListModel {
                 });
 
             }
-        });
+        });*/
     }
 
     @Override

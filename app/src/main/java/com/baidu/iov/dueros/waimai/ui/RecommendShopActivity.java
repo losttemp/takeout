@@ -14,7 +14,6 @@ import com.baidu.iov.dueros.waimai.presenter.ShopPresenter;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 import java.util.ArrayList;
@@ -72,13 +71,6 @@ public class RecommendShopActivity extends BaseActivity<ShopPresenter, ShopPrese
             title = intent.getStringExtra("title");
             categoryType=(int)intent.getLongExtra("categoryType",0);
             secondCategoryType=(int)intent.getLongExtra("secondCategoryType",0);
-            if (intent.getBooleanExtra(Constant.IS_NEED_VOICE_FEEDBACK, false)) {
-                if (getResources().getString(R.string.stroe_type_flower).equals(title)){
-                    StandardCmdClient.getInstance().playTTS(RecommendShopActivity.this, getString(R.string.tts_into_flower));
-                }else if (getResources().getString(R.string.stroe_type_cake).equals(title)){
-                    StandardCmdClient.getInstance().playTTS(RecommendShopActivity.this, getString(R.string.tts_into_cake));
-                }
-            }
         }
     }
 

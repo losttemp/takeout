@@ -105,7 +105,7 @@ public class Constant {
     public final static int BEYOND_DELIVERY_RANGE = 9;
     public final static int SERVICE_ERROR = 26;
 
-    public static final String IS_NEED_VOICE_FEEDBACK = "isNeedVoiceFeedback";
+
     public static final String IS_FROME_TAKEAWAYLOGIN = "TakeawayLoginActivity";
 
     public static final String START_APP = "start_app";

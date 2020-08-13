@@ -29,7 +29,6 @@ import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
 import com.baidu.iov.dueros.waimai.model.IPoifoodListModel;
 import com.baidu.iov.dueros.waimai.model.PoifoodListModel;
-import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderOwnerReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewJsonBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewReqBean;
@@ -41,26 +40,23 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.ui.AddressSelectActivity;
-import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
 import com.baidu.iov.dueros.waimai.ui.HomeActivity;
 import com.baidu.iov.dueros.waimai.ui.TakeawayLoginActivity;
 import com.baidu.iov.dueros.waimai.utils.AtyContainer;
 import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.faceos.client.GsonUtil;
+
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_NO;
-import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_SELECT;
-import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_YES;
+
 
 /**
  * Created by ubuntu on 18-10-18.
@@ -70,51 +66,6 @@ public class PoifoodListPresenter extends Presenter<PoifoodListPresenter.Poifood
     private static final String TAG = PoifoodListPresenter.class.getSimpleName();
     private IPoifoodListModel mPoifoodListModel;
 
-    @Override
-    public void onCommandCallback(String cmd, String extra) {
-        if (getUi() == null) {
-            return;
-        }
-
-        switch (cmd) {
-            case CMD_YES:
-                getUi().sureOrder();
-                break;
-            case CMD_SELECT:
-                if (Integer.parseInt(extra) >= 1) {
-                    getUi().selectListItem(Integer.parseInt(extra) - 1);
-                }
-                break;
-            case StandardCmdClient.CMD_NEXT:
-                getUi().nextPage(true);
-                break;
-            case StandardCmdClient.CMD_PRE:
-                getUi().nextPage(false);
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void registerCmd(Context context) {
-        if (null != mStandardCmdClient) {
-            ArrayList<String> cmdList = new ArrayList<String>();
-            cmdList.add(CMD_NO);
-            cmdList.add(CMD_SELECT);
-            cmdList.add(CMD_YES);
-            cmdList.add(StandardCmdClient.CMD_NEXT);
-            cmdList.add(StandardCmdClient.CMD_PRE);
-            mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
-        }
-    }
-
-    @Override
-    public void unregisterCmd(Context context) {
-        if (null != mStandardCmdClient) {
-            mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
-        }
-    }
 
     public PoifoodListPresenter() {
         mPoifoodListModel = new PoifoodListModel();

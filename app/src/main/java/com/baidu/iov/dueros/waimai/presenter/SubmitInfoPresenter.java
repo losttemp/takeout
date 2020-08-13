@@ -2,7 +2,6 @@ package com.baidu.iov.dueros.waimai.presenter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Toast;
 
@@ -11,9 +10,7 @@ import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
-import com.baidu.iov.dueros.waimai.model.IPoifoodListModel;
 import com.baidu.iov.dueros.waimai.model.ISubmitInfoModel;
-import com.baidu.iov.dueros.waimai.model.PoifoodListModel;
 import com.baidu.iov.dueros.waimai.model.SubmitInfoImpl;
 import com.baidu.iov.dueros.waimai.net.entity.request.ArriveTimeReqBean;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderPreviewJsonBean;
@@ -24,15 +21,13 @@ import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.ArriveTimeBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderPreviewBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderSubmitBean;
-import com.baidu.iov.dueros.waimai.net.entity.response.PoidetailinfoBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.PoifoodListBean;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.StringUtils;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.faceos.client.GsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,40 +55,7 @@ public class SubmitInfoPresenter extends Presenter<SubmitInfoPresenter.SubmitInf
     }
 
 
-    @Override
-    public void onCommandCallback(String cmd, String extra) {
-        if (getUi() == null) {
-            return;
-        }
 
-        switch (cmd) {
-            case StandardCmdClient.CMD_YES:
-                getUi().toPay();
-                break;
-            case StandardCmdClient.CMD_NO:
-                getUi().close();
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void registerCmd(Context context) {
-        if (null != mStandardCmdClient) {
-            ArrayList<String> cmdList = new ArrayList<String>();
-            cmdList.add(StandardCmdClient.CMD_YES);
-            cmdList.add(StandardCmdClient.CMD_NO);
-            mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
-        }
-    }
-
-    @Override
-    public void unregisterCmd(Context context) {
-        if (null != mStandardCmdClient) {
-            mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
-        }
-    }
 
     /**
      * 此处增加了从网上获取地址列表的逻辑, 主要用于显示是否在配送范围内

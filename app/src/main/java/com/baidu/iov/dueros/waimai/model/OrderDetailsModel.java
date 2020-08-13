@@ -2,7 +2,6 @@ package com.baidu.iov.dueros.waimai.model;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
@@ -11,7 +10,6 @@ import com.baidu.iov.dueros.waimai.net.entity.request.OrderCancelReq;
 import com.baidu.iov.dueros.waimai.net.entity.request.OrderDetailsReq;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
-import com.baidu.iov.dueros.waimai.utils.AccountManager;
 import com.baidu.iov.dueros.waimai.utils.ApiUtils;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
@@ -61,7 +59,7 @@ public class OrderDetailsModel implements IOrderDetailsModel {
 
     @Override
     public void requestAuthInfo(final AccountCallback callback) {
-        AccountManager.getInstance().getAuthInfo(new AccountManager.AccountCallBack() {
+      /*  AccountManager.getInstance().getAuthInfo(new AccountManager.AccountCallBack() {
             @Override
             public void onAccountSuccess(final String msg) {
                 handler.post(new Runnable() {
@@ -83,7 +81,7 @@ public class OrderDetailsModel implements IOrderDetailsModel {
                 });
 
             }
-        });
+        });*/
     }
 
     @Override

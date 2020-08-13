@@ -31,14 +31,14 @@ import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.StoreResponse;
 import com.baidu.iov.dueros.waimai.presenter.StoreListPresenter;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.FilterPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortPopWindow;
 import com.baidu.iov.dueros.waimai.view.SortTypeTagListView;
-import com.baidu.iov.faceos.client.GsonUtil;
+
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -193,7 +193,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 			@Override
 			public void onItemClick(int position) {
 				addStoreItemClickEvent();
-				jumpPage(position, false);
+				jumpPage(position);
 			}
 		});
 
@@ -207,7 +207,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						showSortPop();
-						StandardCmdClient.getInstance().playTTS(mContext,"BUBBLE");
 						break;
 					default:
 						break;
@@ -220,7 +219,6 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						showFilterPop();
-						StandardCmdClient.getInstance().playTTS(mContext,"BUBBLE");
 						break;
 					default:
 						break;
@@ -603,7 +601,7 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 		}
 		addStoreItemVoiceEvent();
 		if (index>=0) {
-			jumpPage(index, true);
+			jumpPage(index);
 		}
 	}
 
@@ -626,11 +624,9 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 				}
 				manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
 				if (currentLastPosition+1==shopTotalNum){
-					StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.last_page));
 				}
 			} else {
 				if (currentItemPosition == 0) {
-					StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.first_page));
 				}
 				manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
 			}
@@ -682,14 +678,13 @@ public class StoreListFragment extends BaseFragment<StoreListPresenter, StoreLis
 
 	}
 
-	private void jumpPage(int position, boolean isNeedVoice) {
+	private void jumpPage(int position) {
 		if (mStoreList.size() > position) {
 			if (mStoreList.get(position).getStatus() == Constant.STROE_STATUS_BREAK) {
 				return;
 			}
 			Intent intent = new Intent(mContext, FoodListActivity.class);
 			intent.putExtra(Constant.STORE_ID, mStoreList.get(position).getWm_poi_id());
-			intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
 			intent.putExtra("flag",true);
 			intent.putExtra("latitude", Constant.GOODS_LATITUDE);
 			intent.putExtra("longitude", Constant.GOODS_LONGITUDE);

@@ -31,7 +31,6 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.location.BDLocation;
 
 public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends AppCompatActivity implements LocationManager.LocationCallBack {
@@ -70,20 +69,17 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         mContext = this;
 
         IntentFilter filter = new IntentFilter();
-        filter.addAction(StandardCmdClient.ACTION_EXIT_APK);
         registerReceiver(exitReceiver, filter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getPresenter().registerCmd(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        getPresenter().unregisterCmd(this);
         GuidingAppear.INSTANCE.exit(mContext);
     }
 

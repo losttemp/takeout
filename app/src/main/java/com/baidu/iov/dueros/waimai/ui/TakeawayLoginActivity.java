@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.WindowManager;
 import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -44,7 +43,6 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.KeyBoardListener;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
@@ -59,7 +57,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     private final long SIX_HOUR = 6 * 60 * 60 * 1000;
     Bundle savedInstanceState;
     private View networkView;
-    private boolean isNeedVoice, isFinish;
+    private boolean  isFinish;
     private View login_bg, loadingView;
     private ImageView act_back;
     private String oldBudss = null;//记录budss 与上次不同则跳转到地址界面
@@ -159,14 +157,12 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
     }
 
     private void init() {
-        isNeedVoice = getIntent().getBooleanExtra(StandardCmdClient.NEED_TTS, false);
-        Lg.getInstance().e(TAG, "isNeedVoice：" + isNeedVoice);
-        if (isNeedVoice) {
-            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_VOICE, EventType.TOUCH_TYPE);
-            AtyContainer.getInstance().finishAllActivity();
-        } else {
+//        if (isNeedVoice) {
+//            Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_VOICE, EventType.TOUCH_TYPE);
+//            AtyContainer.getInstance().finishAllActivity();
+//        } else {
             Entry.getInstance().onEvent(Constant.EVENT_OPEN_APP_CLICK, EventType.TOUCH_TYPE);
-        }
+        //}
         mMeituanAuthReq = new MeituanAuthorizeReq();
         mMeituanAuthReq.setBduss(CacheUtils.getBduss());
     }
@@ -405,13 +401,11 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         if (CacheUtils.getBduss().equals(oldBudss) &&
                 time != 0 && System.currentTimeMillis() - time <= SIX_HOUR) {
             Intent intent = new Intent(mContext, HomeActivity.class);
-            intent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
             intent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
             startActivity(intent);
         } else {
             CacheUtils.saveAddrTime(0);
             Intent addressIntent = new Intent(mContext, AddressSelectActivity.class);
-            addressIntent.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, isNeedVoice);
             addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
             startActivity(addressIntent);
         }

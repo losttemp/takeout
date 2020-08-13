@@ -9,8 +9,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.ArrayMap;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,24 +24,17 @@ import android.widget.Toast;
 import com.baidu.iov.dueros.waimai.BuildConfig;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.adapter.AddressListAdapter;
-import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
-import com.baidu.iov.dueros.waimai.net.Config;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.presenter.AddressListPresenter;
 import com.baidu.iov.dueros.waimai.utils.AccessibilityClient;
-import com.baidu.iov.dueros.waimai.utils.CacheUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
-import com.baidu.iov.dueros.waimai.utils.Lg;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 import com.baidu.iov.dueros.waimai.utils.NetUtil;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
-import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
-import com.baidu.iov.faceos.client.GsonUtil;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -111,8 +102,6 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
         mAddBtn = findViewById(R.id.img_add);
         mCancelImg.setOnClickListener(this);
         mAddBtn.setOnClickListener(this);
-        VoiceTouchUtils.setVoicesTouchSupport(mAddBtn, mContext.getString(R.string.add_address_text));
-        VoiceTouchUtils.setVoiceTouchTTSSupport(mAddBtn, mContext.getString(R.string.tts_add_new_address));
 
         mNoInternetButton.setOnClickListener(this);
 
@@ -182,12 +171,12 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             if (addressTv.getText().length() > 18) {
                 addressTv.setWidth((int) getResources().getDimension(R.dimen.px400dp));
             }
-            String nameInfo="";
-            String phoneInfo="";
-            if (!TextUtils.isEmpty(mAddressData.getUser_name())){
+            String nameInfo = "";
+            String phoneInfo = "";
+            if (!TextUtils.isEmpty(mAddressData.getUser_name())) {
                 nameInfo = Encryption.desEncrypt(mAddressData.getUser_name());
             }
-            if (!TextUtils.isEmpty(mAddressData.getUser_phone())){
+            if (!TextUtils.isEmpty(mAddressData.getUser_phone())) {
                 phoneInfo = Encryption.desEncrypt(mAddressData.getUser_phone());
             }
             if (mContext.getString(R.string.address_destination).equals(mAddressData.getType())) {
@@ -197,7 +186,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
                 phoneTv.setText(phoneInfo);
 //                if (MyApplicationAddressBean.USER_PHONES.get(0) != null && MyApplicationAddressBean.USER_NAMES.get(0) != null) {
 //                }
-            }  else {
+            } else {
                 nameInfo = Encryption.desEncrypt(mAddressData.getUser_name());
                 phoneInfo = Encryption.desEncrypt(mAddressData.getUser_phone());
                 nameTv.setText(nameInfo);
@@ -306,7 +295,7 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
     @Override
     public void onGetAddressListSuccess(List<AddressListBean.IovBean.DataBean> data) {
         mDataListBean.clear();
-        if (data != null&&data.size()>0) {
+        if (data != null && data.size() > 0) {
             mDataListBean.addAll(data);
             if (mDataListBean.get(0).getType().equals(mContext.getString(R.string.address_destination))) {
                 if (!cacheData.getType().equals(mContext.getString(R.string.address_destination))) {
@@ -354,7 +343,6 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             AddressListBean.IovBean.DataBean addressData = mDataListBean.get(i);
             Intent data = new Intent();
             data.putExtra(ADDRESS_DATA, addressData);
-            data.putExtra(Constant.IS_NEED_VOICE_FEEDBACK, true);
             SharedPreferences sp = WaiMaiApplication.getInstance().getSharedPreferences
                     ("_cache", AddressSelectActivity.MODE_PRIVATE);
             String databeanStr = GsonUtil.toJson(addressData);
@@ -372,24 +360,13 @@ public class AddressListActivity extends BaseActivity<AddressListPresenter, Addr
             LinearLayoutManager manager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
             assert manager != null;
             int currentItemPosition = manager.findFirstVisibleItemPosition();
-            int last = manager.findLastCompletelyVisibleItemPosition();
             if (isNextPage) {
-                if (last == mDataListBean.size()) {
-                    StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.last_page));
-                } else {
-                    StandardCmdClient.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
-                }
                 if (currentItemPosition + getPageNum() * 2 > mDataListBean.size()) {
                     manager.scrollToPositionWithOffset(mDataListBean.size(), 0);
                     return;
                 }
                 manager.scrollToPositionWithOffset(currentItemPosition + getPageNum(), 0);
             } else {
-                if (currentItemPosition == 0) {
-                    StandardCmdClient.getInstance().playTTS(mContext, getString(R.string.first_page));
-                } else {
-                    StandardCmdClient.getInstance().playTTS(mContext, Config.DEFAULT_TTS);
-                }
                 manager.scrollToPositionWithOffset(currentItemPosition - getPageNum() > 0 ? currentItemPosition - getPageNum() : 0, 0);
             }
         }

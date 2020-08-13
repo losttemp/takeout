@@ -1,4 +1,5 @@
 package com.baidu.iov.dueros.waimai.adapter;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
@@ -9,11 +10,11 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.ui.SearchActivity;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
-import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
+
 import java.util.List;
 public class SearchHistroyAdapter extends BaseAdapter {
 
@@ -63,7 +64,6 @@ public class SearchHistroyAdapter extends BaseAdapter {
 		viewHolder.tvHistoryNum.setText(position + 1 + "");
 		viewHolder.tvHistoryName.setText(mHistorys.get(position));
 
-		VoiceTouchUtils.setItemVoicesTouchSupport(viewHolder.rlHistory, position, R.array.checkout_histroy);
 		viewHolder.rlHistory.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -93,14 +93,12 @@ public class SearchHistroyAdapter extends BaseAdapter {
 		});
 
 
-		VoiceTouchUtils.setItemVoicesTouchSupport(viewHolder.ivDelete, position, R.array.delete_histroy);
 		viewHolder.ivDelete.setAccessibilityDelegate(new View.AccessibilityDelegate(){
 			@Override
 			public boolean performAccessibilityAction(View host, int action, Bundle args) {
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						removeHistory(position);
-						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.tts_delete_address));
 						break;
 					default:
 						break;

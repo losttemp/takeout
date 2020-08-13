@@ -32,11 +32,12 @@ import com.baidu.iov.dueros.waimai.net.entity.response.CityListBean;
 import com.baidu.iov.dueros.waimai.utils.CheckUtils;
 import com.baidu.iov.dueros.waimai.utils.CommonUtils;
 import com.baidu.iov.dueros.waimai.utils.Constant;
+import com.baidu.iov.dueros.waimai.utils.GsonUtil;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.iov.dueros.waimai.view.LetterListView;
 import com.baidu.iov.dueros.waimai.view.QGridView;
-import com.baidu.iov.faceos.client.GsonUtil;
+
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 

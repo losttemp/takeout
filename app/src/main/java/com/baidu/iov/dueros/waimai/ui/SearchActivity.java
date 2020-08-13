@@ -35,7 +35,6 @@ import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GuidingAppear;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.SharedPreferencesUtils;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.view.ConfirmDialog;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
@@ -216,7 +215,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						Lg.getInstance().d(TAG,"mIvDelete");
 						deleteAll();
-						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.yes));
 						break;
 					default:
 						break;
@@ -390,7 +388,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 						mSearchHistroyAdapter.notifyDataSetChanged();
 						mLlHistory.setVisibility(View.GONE);
 						dialog.dismiss();
-						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.tts_delete_address));
 						break;
 					default:
 						break;
@@ -405,7 +402,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 				switch (action) {
 					case AccessibilityNodeInfo.ACTION_CLICK:
 						dialog.dismiss();
-						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.yes));
 						break;
 					default:
 						break;
@@ -431,7 +427,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchPresente
 	public void VoicesSelectListItem(int index){
 		if (mCurrentStatus == Constant.SEARCH_STATUS_HISTORY && mHistorys.size() > index) {
 			Entry.getInstance().onEvent(Constant.EVENT_HISTORY_ITEM_VOIVE,EventType.VOICE_TYPE);
-			StandardCmdClient.getInstance().playTTS(SearchActivity.this, getString(R.string.tts_search_for_you));
 			searchKeyword(mHistorys.get(index));
 		}
 	}

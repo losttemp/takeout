@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 
 import java.lang.ref.SoftReference;
 
@@ -16,29 +15,14 @@ import java.lang.ref.SoftReference;
 public abstract class Presenter<U extends Ui> {
 
     private SoftReference<U> mUi;
-    protected StandardCmdClient mStandardCmdClient;
 
-    protected StandardCmdClient.CmdCallback mVoiceCallback;
 
-    public abstract void onCommandCallback(String cmd, String extra);
-    public abstract void registerCmd(Context context);
-    public abstract void unregisterCmd(Context context);
+
+
+
 
     public Presenter() {
-        if (null == mStandardCmdClient) {
-            mStandardCmdClient = StandardCmdClient.getInstance();
-        }
-        if (null == mVoiceCallback) {
-            mVoiceCallback = new StandardCmdClient.CmdCallback(){
 
-                @Override
-                public void onCmdCallback(String cmd, String extra) {
-                    if (cmd.equals(StandardCmdClient.CMD_SELECT) && Integer.parseInt(extra) < 0)
-                        return;
-                    onCommandCallback(cmd, extra);
-                }
-            };
-        }
     }
     /**
      *

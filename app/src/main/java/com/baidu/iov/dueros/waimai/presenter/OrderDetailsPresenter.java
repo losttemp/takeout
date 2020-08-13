@@ -1,8 +1,5 @@
 package com.baidu.iov.dueros.waimai.presenter;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.baidu.iov.dueros.waimai.interfacedef.AccountCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.RequestCallback;
 import com.baidu.iov.dueros.waimai.interfacedef.Ui;
@@ -14,41 +11,13 @@ import com.baidu.iov.dueros.waimai.net.entity.response.OrderCancelResponse;
 import com.baidu.iov.dueros.waimai.net.entity.response.OrderDetailsResponse;
 import com.baidu.iov.dueros.waimai.utils.Lg;
 
-import java.util.ArrayList;
-
-import static com.baidu.iov.dueros.waimai.utils.StandardCmdClient.CMD_NO;
-
 public class OrderDetailsPresenter extends Presenter<OrderDetailsPresenter.OrderDetailsUi> {
 
     private static final String TAG = OrderDetailsPresenter.class.getSimpleName();
 
     private IOrderDetailsModel mModel;
 
-    @Override
-    public void onCommandCallback(String cmd, String extra) {
-        if (CMD_NO.equals(cmd) && null != getUi()) {
-            getUi().close();
-        }
-    }
 
-    @Override
-    public void registerCmd(Context context) {
-        Lg.getInstance().d(TAG, "registerCmd");
-        if (null != mStandardCmdClient) {
-            ArrayList<String> cmdList = new ArrayList<String>();
-            cmdList.add(CMD_NO);
-            //mVoiceController.registerCmd(context, cmdList, mVoiceCallback);
-            mStandardCmdClient.registerCmd(context, cmdList, mVoiceCallback);
-        }
-    }
-
-    @Override
-    public void unregisterCmd(Context context) {
-        Lg.getInstance().d(TAG, "unregisterCmd");
-        if (null != mStandardCmdClient) {
-            mStandardCmdClient.unregisterCmd(context, mVoiceCallback);
-        }
-    }
 
     public OrderDetailsPresenter() {
         mModel = new OrderDetailsModel();

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,11 +13,8 @@ import com.baidu.iov.dueros.waimai.bean.MyApplicationAddressBean;
 import com.baidu.iov.dueros.waimai.net.entity.response.AddressListBean;
 import com.baidu.iov.dueros.waimai.R;
 import com.baidu.iov.dueros.waimai.utils.Encryption;
-import com.baidu.iov.dueros.waimai.utils.VoiceTouchUtils;
 
 import java.util.List;
-
-import static com.baidu.iov.dueros.waimai.utils.ResUtils.getResources;
 
 public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
@@ -137,8 +133,6 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 holder.itemView.setTag(realPosition);
                 String ttsAddress = Encryption.desEncrypt(mData.get(realPosition).getAddress());
                 String str = String.format(mContext.getString(R.string.delivery_an_address), ttsAddress);
-                VoiceTouchUtils.setItemVoicesTouchSupport(((ViewHolder) holder).itemView, realPosition, mContext.getString(R.string.choose_an_address));
-                VoiceTouchUtils.setVoiceTouchTTSSupport(((ViewHolder) holder).itemView, str);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -156,8 +150,6 @@ public class AddressListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             ((ViewHolder) holder).img_edit.setTag(realPosition);
 
-            VoiceTouchUtils.setItemVoicesTouchSupport(((ViewHolder) holder).img_edit, realPosition, R.array.address_edit);
-            VoiceTouchUtils.setVoiceTouchTTSSupport(((ViewHolder) holder).img_edit, mContext.getString(R.string.start_edit_address_success_text));
         }
     }
 

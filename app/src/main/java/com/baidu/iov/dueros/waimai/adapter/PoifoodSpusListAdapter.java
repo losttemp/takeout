@@ -29,7 +29,6 @@ import com.baidu.iov.dueros.waimai.ui.FoodListActivity;
 import com.baidu.iov.dueros.waimai.utils.Constant;
 import com.baidu.iov.dueros.waimai.utils.GlideApp;
 import com.baidu.iov.dueros.waimai.utils.Lg;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.iov.dueros.waimai.view.ConstraintHeightListView;
 import com.baidu.xiaoduos.syncclient.Entry;
@@ -350,7 +349,6 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                     @Override
                     public boolean performAccessibilityAction(View host, int action, Bundle args) {
                         int index = getIndex(viewHolder);
-                        StandardCmdClient.getInstance().playTTS(context, context.getString(R.string.already_cancel) + spusBeans.get(index).getName());
                         if (callBackListener != null) {
                             callBackListener.removeProduct(spusBeans.get(index), spusBeans.get(index).getTag(), section, false, false);
                         }
@@ -362,7 +360,6 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
 //                    @Override
 //                    public boolean performAccessibilityAction(View host, int action, Bundle args) {
 //                        int index = getIndex(viewHolder);
-//                        StandardCmdClient.getInstance().playTTS(context, context.getString(R.string.already_cancel) + spusBeans.get(index).getName());
 //                        if (callBackListener != null) {
 //                            callBackListener.removeProduct(spusBeans.get(index), spusBeans.get(index).getTag(), section, false, true);
 //                        }
@@ -618,7 +615,6 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         increase.performClick();
                         int count = getMinOrderCount(spusBeans.get(position));
                         String n = spusBeans.get(position).getName();
-                        StandardCmdClient.getInstance().playTTS(context, String.format(context.getString(R.string.add_commodity), count, n));
                     }
 
                     if (add.getVisibility() == View.VISIBLE
@@ -626,13 +622,11 @@ public class PoifoodSpusListAdapter extends RecyclerView.Adapter<PoifoodSpusList
                         add.performClick();
                         int count = getMinOrderCount(spusBeans.get(position));
                         String n = spusBeans.get(position).getName();
-                        StandardCmdClient.getInstance().playTTS(context, String.format(context.getString(R.string.add_commodity), count, n));
                     }
 
                     if (specifications.getVisibility() == View.VISIBLE) {
                         specifications.performClick();
                         String n = spusBeans.get(position).getName();
-                        StandardCmdClient.getInstance().playTTS(context, String.format(context.getString(R.string.choice_specifications), n));
                     }
                 }
             }

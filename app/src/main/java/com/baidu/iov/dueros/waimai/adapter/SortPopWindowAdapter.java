@@ -9,11 +9,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse;
-import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean
-		.DataBean.SortTypeListBean;
 import com.baidu.iov.dueros.waimai.R;
-import com.baidu.iov.dueros.waimai.utils.StandardCmdClient;
+import com.baidu.iov.dueros.waimai.net.entity.response.FilterConditionResponse.MeituanBean.DataBean.SortTypeListBean;
 import com.domain.multipltextview.MultiplTextView;
 
 import java.util.List;
@@ -83,7 +80,6 @@ public class SortPopWindowAdapter extends BaseAdapter {
 						if (mItemAccessibilityDelegate != null) {
 							mItemAccessibilityDelegate.onItemAccessibilityDelegate(position);
 						}
-						StandardCmdClient.getInstance().playTTS(mContext, mContext.getString(R.string.tts_rescheduling));
 						return true;
 					default:
 						break;
