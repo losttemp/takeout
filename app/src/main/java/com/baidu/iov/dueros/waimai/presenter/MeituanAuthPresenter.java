@@ -35,41 +35,6 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
         mModel.onDestroy();
     }
 
-    public void requestAccountInfo() {
-        mModel.requestAccountInfo(new AccountCallback() {
-            @Override
-            public void onSuccess(String msg) {
-                if (null != getUi()) {
-                    getUi().accountSuccess(msg);
-                }
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                if (null != getUi()) {
-                    getUi().accountFailure(msg);
-                }
-            }
-        });
-    }
-
-    public void requestAuthInfo() {
-        mModel.requestAuthInfo(new AccountCallback() {
-            @Override
-            public void onSuccess(String msg) {
-                if (null != getUi()) {
-                    getUi().authSuccess(msg);
-                }
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                if (null != getUi()) {
-                    getUi().authFailure(msg);
-                }
-            }
-        });
-    }
 
     public void requestMeituanAuth(MeituanAuthorizeReq meituanAuthorizeReq) {
 
@@ -91,6 +56,7 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
 
             @Override
             public void getLogid(String id) {
+
                 Lg.getInstance().d(TAG, "requestMeituanAuth getLogid: "+id);
             }
         });
@@ -100,14 +66,6 @@ public class MeituanAuthPresenter extends Presenter<MeituanAuthPresenter.Meituan
         void update(MeituanAuthorizeResponse data);
 
         void failure(String msg);
-
-        void accountSuccess(String msg);
-
-        void accountFailure(String msg);
-
-        void authSuccess(String msg);
-
-        void authFailure(String msg);
 
     }
 

@@ -405,7 +405,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
             startActivity(intent);
         } else {
             CacheUtils.saveAddrTime(0);
-            Intent addressIntent = new Intent(mContext, AddressSelectActivity.class);
+            Intent addressIntent = new Intent(mContext, HomeActivity.class);
             addressIntent.putExtra(Constant.START_APP, Constant.START_APP_CODE);
             startActivity(addressIntent);
         }
@@ -419,37 +419,6 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
         networkView.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void accountSuccess(String msg) {
-        Message message = handler.obtainMessage();
-        message.obj = msg;
-        message.what = HANDLER_MEITUAN_AUTH;
-        handler.sendMessage(message);
-    }
-
-    @Override
-    public void accountFailure(String msg) {
-        Message message = handler.obtainMessage();
-        message.obj = msg;
-        message.what = HANDLER_POST_FAIL;
-        handler.sendMessage(message);
-    }
-
-    @Override
-    public void authSuccess(String msg) {
-        Message message = handler.obtainMessage();
-        message.obj = msg;
-        message.what = HANDLER_START;
-        handler.sendMessage(message);
-    }
-
-    @Override
-    public void authFailure(String msg) {
-        Message message = handler.obtainMessage();
-        message.obj = msg;
-        message.what = HANDLER_POST_FAIL;
-        handler.sendMessage(message);
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -619,7 +588,7 @@ public class TakeawayLoginActivity extends BaseActivity<MeituanAuthPresenter, Me
 
     private void initPostHttp() {
         Entry.getInstance().onEvent(Constant.ENTRY_LOGIN_OS, EventType.TOUCH_TYPE);
-        getPresenter().requestAccountInfo();
+        getPresenter().requestMeituanAuth(mMeituanAuthReq);
     }
 
 }

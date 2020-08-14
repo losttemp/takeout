@@ -30,21 +30,6 @@ public class MeituanAuthModel implements IMeituanAuthModel {
 
     }
 
-    @Override
-    public void requestAccountInfo(final AccountCallback callback) {
-      /*  AccountManager.getInstance().getAccountInfo(new AccountManager.AccountCallBack() {
-            @Override
-            public void onAccountSuccess(String msg) {
-                callback.onSuccess(msg);
-                getGuidingData();
-            }
-
-            @Override
-            public void onAccountFailed(String msg) {
-                callback.onFailure(msg);
-            }
-        });*/
-    }
     private void getGuidingData (){
         ApiUtils.getGuiding(new GuidingReq(), new ApiCallBack<GuideBean>() {
 //            @Override
@@ -77,20 +62,6 @@ public class MeituanAuthModel implements IMeituanAuthModel {
         });
     }
 
-    @Override
-    public void requestAuthInfo(final AccountCallback callback) {
-       /* AccountManager.getInstance().getAuthInfo(new AccountManager.AccountCallBack() {
-            @Override
-            public void onAccountSuccess(String msg) {
-                callback.onSuccess(msg);
-            }
-
-            @Override
-            public void onAccountFailed(String msg) {
-                callback.onFailure(msg);
-            }
-        });*/
-    }
 
     @Override
     public void requestMeituanAuth(MeituanAuthorizeReq meituanAuthReq, final RequestCallback callback) {

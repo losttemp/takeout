@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,11 @@ import com.baidu.iov.dueros.waimai.utils.Lg;
 import com.baidu.iov.dueros.waimai.utils.ToastUtils;
 import com.baidu.xiaoduos.syncclient.Entry;
 import com.baidu.xiaoduos.syncclient.EventType;
+import com.sankuai.waimai.opensdk.MTWMApi;
+import com.sankuai.waimai.opensdk.callback.LoadDataListener;
+import com.sankuai.waimai.opensdk.response.model.PoiDetail;
+import com.sankuai.waimai.opensdk.response.model.PoiListData;
+import com.sankuai.waimai.opensdk.response.model.food.FoodInfo;
 
 import java.util.ArrayList;
 
@@ -85,16 +92,80 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         setContentView(R.layout.activity_home);
         iniView();
         setAddress();
+        initDataTime();
         if (savedInstanceState != null) {
             mStoreListFragment = (StoreListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_KEY);
         } else {
             initFragment();
         }
+        loadData();
+    }
 
-        if (getIntent().getIntExtra(Constant.START_APP, -1) == Constant.START_APP_CODE) {
-            //initDataTime();
-            requestPermission();
-        }
+    public void loadData() {
+
+        LoadDataListener<PoiListData> listDataLoadDataListener = new LoadDataListener<PoiListData>() {
+            @Override
+            public void onSuccess(PoiListData data) {
+                Log.d(TAG, "成功了");
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+                Log.d(TAG, "失败了" + errorMsg);
+
+            }
+        };
+
+        MTWMApi.getPoiList(Constant.LONGITUDE, Constant.LATITUDE, "黄焖鸡", 0, 0, 20, listDataLoadDataListener);
+
+    }
+
+    public void loadPoiListData() {
+        LoadDataListener<PoiListData> listDataLoadDataListener = new LoadDataListener<PoiListData>() {
+            @Override
+            public void onSuccess(PoiListData data) {
+                Log.d(TAG, "成功了");
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+                Log.d(TAG, "失败了");
+            }
+        };
+        MTWMApi.getPoiList(Constant.LONGITUDE, Constant.LATITUDE, "黄焖鸡", 0, 0, 20, listDataLoadDataListener);
+    }
+
+    public void loadPoiFoodData() {
+        LoadDataListener<FoodInfo> loadDataListener = new LoadDataListener<FoodInfo>() {
+            @Override
+            public void onSuccess(FoodInfo data) {
+                Log.d(TAG, "成功了");
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+                Log.d(TAG, "失败了");
+            }
+        };
+        MTWMApi.getPoiFood(Constant.LONGITUDE, Constant.LATITUDE, 606737, loadDataListener);
+    }
+
+    public void loadPoiDetail() {
+
+        // 参数 wm_poi_id  longitude  latitude  需要接入方传入
+        MTWMApi.getPoiDetail(Constant.LONGITUDE, Constant.LATITUDE, 606737, new LoadDataListener<PoiDetail>() {
+
+            @Override
+            public void onSuccess(PoiDetail data) {
+                Log.d(TAG, "成功了");
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+                Log.d(TAG, "失败了");
+            }
+        });
+
     }
 
     @Override
@@ -104,7 +175,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
         }
         super.onSaveInstanceState(outState);
     }
-
 
 
     @Override
@@ -130,7 +200,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
     @Override
     protected void onPause() {
         super.onPause();
-     AccessibilityClient.getInstance().unregister(this);
+        AccessibilityClient.getInstance().unregister(this);
     }
 
     private void iniView() {
@@ -396,10 +466,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, HomePresenter.Home
 
     private void initDataTime() {
         //当定位没反应的时候,定时2秒调用缓存的地址数据进行加载商店列表
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (true) {
             mTimer = new CountDownTimer(2000, 1000) {
 
                 @Override

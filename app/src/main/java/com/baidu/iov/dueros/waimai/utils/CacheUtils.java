@@ -32,7 +32,11 @@ public class CacheUtils {
     }
 
     public static String getBduss() {
-        String bduss = shared().getString(Key.SAVE_BDUSS, "");
+        String bduss = shared().getString(Key.SAVE_BDUSS, "BDRk9MbWU2bWF6eHpobDl4SXh-dGluTEJ" +
+                "XTjRsRmlwd0dKVzNXR3I1WFR4RjFmRUFBQUFBJCQAA" +
+                "AAAAAAAAAEAAABS2N2MaHBkdjMwMDUAAAAAAAAAAAAA" +
+                "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                "AAAAAAAAAAAAAAAAANM3Nl~TNzZfSD");
         if (!TextUtils.isEmpty(bduss)) {
             return bduss;
         }

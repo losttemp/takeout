@@ -70,7 +70,7 @@ public class AddressSelectActivity extends BaseActivity<AddressSelectPresenter, 
         initView();
         startApp = getIntent().getIntExtra(Constant.START_APP, -1);
         if (startApp == Constant.START_APP_CODE) {
-            requestPermission();
+            initLocationCity();
         }
     }
 

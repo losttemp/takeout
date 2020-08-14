@@ -1,1 +1,2262 @@
-{"errno":0,"err_msg":"success","data":{"hot":[{"id":131,"name":"\u5317\u4eac","pinyin":"beijing"},{"id":289,"name":"\u4e0a\u6d77","pinyin":"shanghai"},{"id":179,"name":"\u676d\u5dde","pinyin":"hangzhou"},{"id":257,"name":"\u5e7f\u5dde","pinyin":"guangzhou"},{"id":340,"name":"\u6df1\u5733","pinyin":"shenzhen"},{"id":132,"name":"\u91cd\u5e86","pinyin":"chongqing"},{"id":75,"name":"\u6210\u90fd","pinyin":"chengdu"},{"id":315,"name":"\u5357\u4eac","pinyin":"nanjing"},{"id":218,"name":"\u6b66\u6c49","pinyin":"wuhan"},{"id":233,"name":"\u897f\u5b89","pinyin":"xian"},{"id":194,"name":"\u53a6\u95e8","pinyin":"xiamen"},{"id":332,"name":"\u5929\u6d25","pinyin":"tianjin"}],"all":[{"id":320,"name":"\u978d\u5c71","pinyin":"anshan"},{"id":130,"name":"\u5b89\u5e86","pinyin":"anqing"},{"id":267,"name":"\u5b89\u9633","pinyin":"anyang"},{"id":263,"name":"\u5b89\u987a","pinyin":"anshun"},{"id":324,"name":"\u5b89\u5eb7","pinyin":"ankang"},{"id":1468,"name":"\u5b89\u5409","pinyin":"anji"},{"id":866,"name":"\u5b89\u5b81","pinyin":"anning"},{"id":131,"name":"\u5317\u4eac","pinyin":"beijing"},{"id":307,"name":"\u4fdd\u5b9a","pinyin":"baoding"},{"id":229,"name":"\u5305\u5934","pinyin":"baotou"},{"id":235,"name":"\u6ee8\u5dde","pinyin":"binzhou"},{"id":126,"name":"\u868c\u57e0","pinyin":"bengbu"},{"id":171,"name":"\u5b9d\u9e21","pinyin":"baoji"},{"id":227,"name":"\u672c\u6eaa","pinyin":"benxi"},{"id":57,"name":"\u767d\u5c71","pinyin":"baishan"},{"id":51,"name":"\u767d\u57ce","pinyin":"baicheng"},{"id":295,"name":"\u5317\u6d77","pinyin":"beihai"},{"id":203,"name":"\u767e\u8272","pinyin":"baise"},{"id":239,"name":"\u5df4\u4e2d","pinyin":"bazhong"},{"id":206,"name":"\u6bd5\u8282","pinyin":"bijie"},{"id":112,"name":"\u4fdd\u5c71","pinyin":"baoshan"},{"id":35,"name":"\u767d\u94f6","pinyin":"baiyin"},{"id":188,"name":"\u4eb3\u5dde","pinyin":"bozhou"},{"id":86,"name":"\u5df4\u97f3\u90ed\u695e","pinyin":"bayinguolengmenggu"},{"id":8423,"name":"\u767d\u6c99","pinyin":"baishalizuzizhixian"},{"id":1125,"name":"\u5317\u789a","pinyin":"beibei"},{"id":1963,"name":"\u74a7\u5c71","pinyin":"bishan"},{"id":158,"name":"\u957f\u6c99","pinyin":"changsha"},{"id":132,"name":"\u91cd\u5e86","pinyin":"chongqing"},{"id":2113,"name":"\u5e38\u719f","pinyin":"changshu"},{"id":75,"name":"\u6210\u90fd","pinyin":"chengdu"},{"id":53,"name":"\u957f\u6625","pinyin":"changchun"},{"id":348,"name":"\u5e38\u5dde","pinyin":"changzhou"},{"id":207,"name":"\u627f\u5fb7","pinyin":"chengde"},{"id":149,"name":"\u6ca7\u5dde","pinyin":"cangzhou"},{"id":356,"name":"\u957f\u6cbb","pinyin":"changzhi"},{"id":297,"name":"\u8d64\u5cf0","pinyin":"chifeng"},{"id":280,"name":"\u671d\u9633","pinyin":"chaoyang"},{"id":189,"name":"\u6ec1\u5dde","pinyin":"chuzhou"},{"id":299,"name":"\u6c60\u5dde","pinyin":"chizhou"},{"id":275,"name":"\u90f4\u5dde","pinyin":"chenzhou"},{"id":201,"name":"\u6f6e\u5dde","pinyin":"chaozhou"},{"id":105,"name":"\u695a\u96c4","pinyin":"chuxiongyizu"},{"id":93,"name":"\u660c\u5409","pinyin":"changjihuizu"},{"id":219,"name":"\u5e38\u5fb7","pinyin":"changde"},{"id":144,"name":"\u5d07\u5de6","pinyin":"chongzuo"},{"id":1879,"name":"\u6148\u6eaa","pinyin":"cixi"},{"id":1262,"name":"\u957f\u845b","pinyin":"changge"},{"id":2282,"name":"\u957f\u5174","pinyin":"changxing"},{"id":2486,"name":"\u82cd\u5357","pinyin":"cangnan"},{"id":8419,"name":"\u6f84\u8fc8","pinyin":"chengmai"},{"id":8425,"name":"\u660c\u6c5f","pinyin":"changjainglizuzizhixian"},{"id":1557,"name":"\u957f\u5bff","pinyin":"changshou"},{"id":1568,"name":"\u957f\u4e50","pinyin":"changle"},{"id":870,"name":"\u695a\u96c4","pinyin":"chuxiong"},{"id":167,"name":"\u5927\u8fde","pinyin":"dalian"},{"id":119,"name":"\u4e1c\u839e","pinyin":"dongguan"},{"id":50,"name":"\u5927\u5e86","pinyin":"daqing"},{"id":174,"name":"\u4e1c\u8425","pinyin":"dongying"},{"id":372,"name":"\u5fb7\u5dde","pinyin":"dezhou"},{"id":355,"name":"\u5927\u540c","pinyin":"datong"},{"id":282,"name":"\u4e39\u4e1c","pinyin":"dandong"},{"id":38,"name":"\u5927\u5174\u5b89\u5cad","pinyin":"daxinganling"},{"id":74,"name":"\u5fb7\u9633","pinyin":"deyang"},{"id":369,"name":"\u8fbe\u5dde","pinyin":"dazhou"},{"id":111,"name":"\u5927\u7406","pinyin":"dalibaizu"},{"id":136,"name":"\u5b9a\u897f","pinyin":"dingxi"},{"id":116,"name":"\u5fb7\u5b8f","pinyin":"dehongdaizujingpozu"},{"id":1472,"name":"\u4e1c\u9633","pinyin":"dongyang"},{"id":2220,"name":"\u5fb7\u6e05","pinyin":"deqing"},{"id":8407,"name":"\u510b\u5dde","pinyin":"danzhou"},{"id":8413,"name":"\u4e1c\u65b9","pinyin":"dongfang"},{"id":8415,"name":"\u5b9a\u5b89","pinyin":"dingan"},{"id":1964,"name":"\u5927\u8db3","pinyin":"dazu"},{"id":618,"name":"\u90fd\u6c5f\u5830","pinyin":"dujiangyan"},{"id":919,"name":"\u5927\u7406","pinyin":"dali"},{"id":1291,"name":"\u5927\u51b6","pinyin":"daye"},{"id":1367,"name":"\u4e1c\u6e2f","pinyin":"donggang"},{"id":1739,"name":"\u4e1c\u53f0","pinyin":"dongtai"},{"id":283,"name":"\u9102\u5c14\u591a\u65af","pinyin":"eerduosi"},{"id":656,"name":"\u5ce8\u7709\u5c71","pinyin":"emeishan"},{"id":122,"name":"\u9102\u5dde","pinyin":"ezhou"},{"id":373,"name":"\u6069\u65bd","pinyin":"enshi"},{"id":138,"name":"\u4f5b\u5c71","pinyin":"foshan"},{"id":300,"name":"\u798f\u5dde","pinyin":"fuzhou"},{"id":184,"name":"\u629a\u987a","pinyin":"fushun"},{"id":59,"name":"\u961c\u65b0","pinyin":"fuxin"},{"id":128,"name":"\u961c\u9633","pinyin":"fuyang"},{"id":2216,"name":"\u5bcc\u9633","pinyin":"fuyang"},{"id":226,"name":"\u629a\u5dde","pinyin":"fuzhou"},{"id":204,"name":"\u9632\u57ce\u6e2f","pinyin":"fangchenggang"},{"id":1724,"name":"\u51e4\u51f0","pinyin":"fenghuang"},{"id":1124,"name":"\u6daa\u9675","pinyin":"fuling"},{"id":1769,"name":"\u4e30\u57ce","pinyin":"fengcheng"},{"id":257,"name":"\u5e7f\u5dde","pinyin":"guangzhou"},{"id":142,"name":"\u6842\u6797","pinyin":"guilin"},{"id":146,"name":"\u8d35\u9633","pinyin":"guiyang"},{"id":365,"name":"\u8d63\u5dde","pinyin":"ganzhou"},{"id":341,"name":"\u8d35\u6e2f","pinyin":"guigang"},{"id":247,"name":"\u7518\u5357","pinyin":"gannancangzu"},{"id":246,"name":"\u56fa\u539f","pinyin":"guyuan"},{"id":329,"name":"\u5e7f\u5143","pinyin":"guangyuan"},{"id":241,"name":"\u5e7f\u5b89","pinyin":"guangan"},{"id":1681,"name":"\u5de9\u4e49","pinyin":"gongyi"},{"id":615,"name":"\u5e7f\u6c49","pinyin":"guanghan"},{"id":1369,"name":"\u76d6\u5dde","pinyin":"gaizhou"},{"id":2117,"name":"\u9ad8\u90ae","pinyin":"gaoyou"},{"id":2716,"name":"\u5e7f\u5fb7","pinyin":"guangde"},{"id":179,"name":"\u676d\u5dde","pinyin":"hangzhou"},{"id":127,"name":"\u5408\u80a5","pinyin":"hefei"},{"id":48,"name":"\u54c8\u5c14\u6ee8","pinyin":"haerbin"},{"id":321,"name":"\u547c\u548c\u6d69\u7279","pinyin":"huhehaote"},{"id":125,"name":"\u6d77\u53e3","pinyin":"haikou"},{"id":301,"name":"\u60e0\u5dde","pinyin":"huizhou"},{"id":151,"name":"\u90af\u90f8","pinyin":"handan"},{"id":311,"name":"\u9ec4\u77f3","pinyin":"huangshi"},{"id":294,"name":"\u6e56\u5dde","pinyin":"huzhou"},{"id":162,"name":"\u6dee\u5b89","pinyin":"huaian"},{"id":208,"name":"\u8861\u6c34","pinyin":"hengshui"},{"id":61,"name":"\u547c\u4f26\u8d1d\u5c14","pinyin":"hulunbeier"},{"id":319,"name":"\u846b\u82a6\u5c9b","pinyin":"huludao"},{"id":39,"name":"\u9ed1\u6cb3","pinyin":"heihe"},{"id":250,"name":"\u6dee\u5357","pinyin":"huainan"},{"id":253,"name":"\u6dee\u5317","pinyin":"huaibei"},{"id":215,"name":"\u9e64\u58c1","pinyin":"hebi"},{"id":159,"name":"\u8861\u9633","pinyin":"hengyang"},{"id":363,"name":"\u6000\u5316","pinyin":"huaihua"},{"id":200,"name":"\u6cb3\u6e90","pinyin":"heyuan"},{"id":260,"name":"\u8d3a\u5dde","pinyin":"hezhou"},{"id":143,"name":"\u6cb3\u6c60","pinyin":"hechi"},{"id":107,"name":"\u7ea2\u6cb3","pinyin":"honghehanizuyizu"},{"id":352,"name":"\u6c49\u4e2d","pinyin":"hanzhong"},{"id":69,"name":"\u6d77\u4e1c","pinyin":"haidong"},{"id":65,"name":"\u6d77\u897f","pinyin":"haiximengguzucangzu"},{"id":91,"name":"\u54c8\u5bc6","pinyin":"hami"},{"id":353,"name":"\u83cf\u6cfd","pinyin":"heze"},{"id":252,"name":"\u9ec4\u5c71","pinyin":"huangshan"},{"id":68,"name":"\u6d77\u5357","pinyin":"hainancangzu"},{"id":271,"name":"\u9ec4\u5188","pinyin":"huanggang"},{"id":1555,"name":"\u5408\u5ddd","pinyin":"hechuan"},{"id":2834,"name":"\u6d77\u5b81","pinyin":"haining"},{"id":2401,"name":"\u6c49\u5ddd","pinyin":"hanchuan"},{"id":2574,"name":"\u6d2a\u6e56","pinyin":"honghu"},{"id":2891,"name":"\u6cb3\u6d25","pinyin":"hejin"},{"id":2819,"name":"\u6c5f\u9634","pinyin":"jiangyin"},{"id":288,"name":"\u6d4e\u5357","pinyin":"jinan"},{"id":334,"name":"\u5609\u5174","pinyin":"jiaxing"},{"id":333,"name":"\u91d1\u534e","pinyin":"jinhua"},{"id":302,"name":"\u6c5f\u95e8","pinyin":"jiangmen"},{"id":286,"name":"\u6d4e\u5b81","pinyin":"jining"},{"id":55,"name":"\u5409\u6797","pinyin":"jilin"},{"id":290,"name":"\u664b\u57ce","pinyin":"jincheng"},{"id":238,"name":"\u664b\u4e2d","pinyin":"jinzhong"},{"id":166,"name":"\u9526\u5dde","pinyin":"jinzhou"},{"id":46,"name":"\u9e21\u897f","pinyin":"jixi"},{"id":42,"name":"\u4f73\u6728\u65af","pinyin":"jiamusi"},{"id":2599,"name":"\u5c45\u5de2","pinyin":"juchao"},{"id":1144,"name":"\u664b\u6c5f","pinyin":"jinjiang"},{"id":318,"name":"\u5409\u5b89","pinyin":"jian"},{"id":211,"name":"\u7126\u4f5c","pinyin":"jiaozuo"},{"id":1277,"name":"\u6d4e\u6e90","pinyin":"jiyuan"},{"id":217,"name":"\u8346\u95e8","pinyin":"jingmen"},{"id":157,"name":"\u8346\u5dde","pinyin":"jingzhou"},{"id":259,"name":"\u63ed\u9633","pinyin":"jieyang"},{"id":33,"name":"\u5609\u5cea\u5173","pinyin":"jiayuguan"},{"id":34,"name":"\u91d1\u660c","pinyin":"jinchang"},{"id":37,"name":"\u9152\u6cc9","pinyin":"jiuquan"},{"id":225,"name":"\u666f\u5fb7\u9547","pinyin":"jingdezhen"},{"id":349,"name":"\u4e5d\u6c5f","pinyin":"jiujiang"},{"id":1562,"name":"\u6c5f\u6d25","pinyin":"jiangjin"},{"id":695,"name":"\u6c5f\u6cb9","pinyin":"jiangyou"},{"id":901,"name":"\u666f\u6d2a","pinyin":"jinghong"},{"id":1362,"name":"\u96c6\u5b89","pinyin":"jian"},{"id":2181,"name":"\u5373\u58a8","pinyin":"jimo"},{"id":2428,"name":"\u59dc\u5830","pinyin":"jiangyan"},{"id":2691,"name":"\u80f6\u5dde","pinyin":"jiaozhou"},{"id":104,"name":"\u6606\u660e","pinyin":"kunming"},{"id":2581,"name":"\u6606\u5c71","pinyin":"kunshan"},{"id":210,"name":"\u5f00\u5c01","pinyin":"kaifeng"},{"id":95,"name":"\u514b\u62c9\u739b\u4f9d","pinyin":"kelamayi"},{"id":771,"name":"\u594e\u5c6f","pinyin":"kuitun"},{"id":1120,"name":"\u5f00\u53bf","pinyin":"kaixian"},{"id":736,"name":"\u5e93\u5c14\u52d2","pinyin":"kuerle"},{"id":882,"name":"\u5f00\u8fdc","pinyin":"kaiyuan"},{"id":1046,"name":"\u5f00\u539f","pinyin":"kaiyuan"},{"id":36,"name":"\u5170\u5dde","pinyin":"lanzhou"},{"id":234,"name":"\u4e34\u6c82","pinyin":"linyi"},{"id":153,"name":"\u6d1b\u9633","pinyin":"luoyang"},{"id":347,"name":"\u8fde\u4e91\u6e2f","pinyin":"lianyungang"},{"id":366,"name":"\u804a\u57ce","pinyin":"liaocheng"},{"id":191,"name":"\u5eca\u574a","pinyin":"langfang"},{"id":305,"name":"\u67f3\u5dde","pinyin":"liuzhou"},{"id":368,"name":"\u4e34\u6c7e","pinyin":"linfen"},{"id":327,"name":"\u5415\u6881","pinyin":"lvliang"},{"id":351,"name":"\u8fbd\u9633","pinyin":"liaoyang"},{"id":183,"name":"\u8fbd\u6e90","pinyin":"liaoyuan"},{"id":292,"name":"\u4e3d\u6c34","pinyin":"lishui"},{"id":298,"name":"\u516d\u5b89","pinyin":"liuan"},{"id":193,"name":"\u9f99\u5ca9","pinyin":"longyan"},{"id":124,"name":"\u83b1\u829c","pinyin":"laiwu"},{"id":344,"name":"\u6f2f\u6cb3","pinyin":"luohe"},{"id":221,"name":"\u5a04\u5e95","pinyin":"loudi"},{"id":331,"name":"\u6cf8\u5dde","pinyin":"luzhou"},{"id":80,"name":"\u51c9\u5c71","pinyin":"liangshanyizu"},{"id":147,"name":"\u516d\u76d8\u6c34","pinyin":"liupanshui"},{"id":114,"name":"\u4e3d\u6c5f","pinyin":"lijiang"},{"id":110,"name":"\u4e34\u6ca7","pinyin":"lincang"},{"id":100,"name":"\u62c9\u8428","pinyin":"lasa"},{"id":182,"name":"\u4e34\u590f","pinyin":"linxiahuizu"},{"id":1837,"name":"\u9f99\u53e3","pinyin":"longkou"},{"id":202,"name":"\u6765\u5bbe","pinyin":"laibin"},{"id":256,"name":"\u9647\u5357","pinyin":"longnan"},{"id":79,"name":"\u4e50\u5c71","pinyin":"leshan"},{"id":391,"name":"\u4e34\u590f","pinyin":"linxia"},{"id":1462,"name":"\u5170\u6eaa","pinyin":"lanxi"},{"id":1747,"name":"\u6ea7\u9633","pinyin":"liyang"},{"id":2577,"name":"\u6d4f\u9633","pinyin":"liuyang"},{"id":8421,"name":"\u4e34\u9ad8","pinyin":"lingao"},{"id":8427,"name":"\u4e50\u4e1c","pinyin":"ledonglizuzizhixian"},{"id":8429,"name":"\u9675\u6c34","pinyin":"lingshuilizuzizhixian"},{"id":1448,"name":"\u9606\u4e2d","pinyin":"langzhong"},{"id":1152,"name":"\u96f7\u5dde","pinyin":"leizhou"},{"id":139,"name":"\u8302\u540d","pinyin":"maoming"},{"id":49,"name":"\u7261\u4e39\u6c5f","pinyin":"mudanjiang"},{"id":358,"name":"\u9a6c\u978d\u5c71","pinyin":"maanshan"},{"id":141,"name":"\u6885\u5dde","pinyin":"meizhou"},{"id":240,"name":"\u7ef5\u9633","pinyin":"mianyang"},{"id":77,"name":"\u7709\u5c71","pinyin":"meishan"},{"id":542,"name":"\u6ee1\u6d32\u91cc","pinyin":"manzhouli"},{"id":2497,"name":"\u660e\u5149","pinyin":"mingguang"},{"id":1100,"name":"\u8499\u57ce","pinyin":"mengcheng"},{"id":315,"name":"\u5357\u4eac","pinyin":"nanjing"},{"id":180,"name":"\u5b81\u6ce2","pinyin":"ningbo"},{"id":163,"name":"\u5357\u660c","pinyin":"nanchang"},{"id":261,"name":"\u5357\u5b81","pinyin":"nanning"},{"id":161,"name":"\u5357\u901a","pinyin":"nantong"},{"id":309,"name":"\u5357\u9633","pinyin":"nanyang"},{"id":133,"name":"\u5357\u5e73","pinyin":"nanping"},{"id":192,"name":"\u5b81\u5fb7","pinyin":"ningde"},{"id":291,"name":"\u5357\u5145","pinyin":"nanchong"},{"id":113,"name":"\u6012\u6c5f","pinyin":"nujianglisuzu"},{"id":248,"name":"\u5185\u6c5f","pinyin":"neijiang"},{"id":1561,"name":"\u5357\u5ddd","pinyin":"nanchuan"},{"id":2502,"name":"\u5b81\u56fd","pinyin":"ningguo"},{"id":2479,"name":"\u5357\u90e8","pinyin":"nanbu"},{"id":195,"name":"\u8386\u7530","pinyin":"putian"},{"id":228,"name":"\u76d8\u9526","pinyin":"panjin"},{"id":213,"name":"\u5e73\u9876\u5c71","pinyin":"pingdingshan"},{"id":209,"name":"\u6fee\u9633","pinyin":"puyang"},{"id":81,"name":"\u6500\u679d\u82b1","pinyin":"panzhihua"},{"id":359,"name":"\u5e73\u51c9","pinyin":"pingliang"},{"id":350,"name":"\u840d\u4e61","pinyin":"pingxiang"},{"id":108,"name":"\u666e\u6d31","pinyin":"puer"},{"id":2705,"name":"\u5e73\u9633","pinyin":"pingyang"},{"id":2801,"name":"\u5e73\u6e56","pinyin":"pinghu"},{"id":1983,"name":"\u5e73\u6f6d","pinyin":"pingtan"},{"id":236,"name":"\u9752\u5c9b","pinyin":"qingdao"},{"id":134,"name":"\u6cc9\u5dde","pinyin":"quanzhou"},{"id":148,"name":"\u79e6\u7687\u5c9b","pinyin":"qinhuangdao"},{"id":41,"name":"\u9f50\u9f50\u54c8\u5c14","pinyin":"qiqihaer"},{"id":197,"name":"\u6e05\u8fdc","pinyin":"qingyuan"},{"id":145,"name":"\u94a6\u5dde","pinyin":"qinzhou"},{"id":343,"name":"\u9ed4\u897f\u5357","pinyin":"qianxinanbuyizumiaozu"},{"id":306,"name":"\u9ed4\u5357","pinyin":"qiannanbuyizumiaozu"},{"id":249,"name":"\u66f2\u9756","pinyin":"qujing"},{"id":135,"name":"\u5e86\u9633","pinyin":"qingyang"},{"id":342,"name":"\u9ed4\u4e1c\u5357","pinyin":"qiandongnanmiaozudongzu"},{"id":243,"name":"\u8862\u5dde","pinyin":"quzhou"},{"id":1967,"name":"\u7da6\u6c5f","pinyin":"qijiang"},{"id":8385,"name":"\u6f5c\u6c5f\u5e02","pinyin":"qianjiang"},{"id":8405,"name":"\u743c\u6d77","pinyin":"qionghai"},{"id":1965,"name":"\u9ed4\u6c5f","pinyin":"qianjiang"},{"id":1223,"name":"\u8fc1\u5b89","pinyin":"qianan"},{"id":2073,"name":"\u6c81\u9633","pinyin":"qinyang"},{"id":173,"name":"\u65e5\u7167","pinyin":"rizhao"},{"id":1882,"name":"\u745e\u5b89","pinyin":"ruian"},{"id":2422,"name":"\u5982\u768b","pinyin":"rugao"},{"id":289,"name":"\u4e0a\u6d77","pinyin":"shanghai"},{"id":340,"name":"\u6df1\u5733","pinyin":"shenzhen"},{"id":224,"name":"\u82cf\u5dde","pinyin":"suzhou"},{"id":58,"name":"\u6c88\u9633","pinyin":"shenyang"},{"id":121,"name":"\u4e09\u4e9a","pinyin":"sanya"},{"id":303,"name":"\u6c55\u5934","pinyin":"shantou"},{"id":150,"name":"\u77f3\u5bb6\u5e84","pinyin":"shijiazhuang"},{"id":293,"name":"\u7ecd\u5174","pinyin":"shaoxing"},{"id":237,"name":"\u6714\u5dde","pinyin":"shuozhou"},{"id":56,"name":"\u56db\u5e73","pinyin":"siping"},{"id":45,"name":"\u53cc\u9e2d\u5c71","pinyin":"shuangyashan"},{"id":44,"name":"\u7ee5\u5316","pinyin":"suihua"},{"id":277,"name":"\u5bbf\u8fc1","pinyin":"suqian"},{"id":370,"name":"\u5bbf\u5dde","pinyin":"suzhou"},{"id":254,"name":"\u4e09\u660e","pinyin":"sanming"},{"id":1581,"name":"\u77f3\u72ee","pinyin":"shishi"},{"id":364,"name":"\u4e0a\u9976","pinyin":"shangrao"},{"id":212,"name":"\u4e09\u95e8\u5ce1","pinyin":"sanmenxia"},{"id":154,"name":"\u5546\u4e18","pinyin":"shangqiu"},{"id":216,"name":"\u5341\u5830","pinyin":"shiyan"},{"id":371,"name":"\u968f\u5dde","pinyin":"suizhou"},{"id":273,"name":"\u90b5\u9633","pinyin":"shaoyang"},{"id":137,"name":"\u97f6\u5173","pinyin":"shaoguan"},{"id":339,"name":"\u6c55\u5c3e","pinyin":"shanwei"},{"id":330,"name":"\u9042\u5b81","pinyin":"suining"},{"id":335,"name":"\u77f3\u5634\u5c71","pinyin":"shizuishan"},{"id":285,"name":"\u5546\u6d1b","pinyin":"shangluo"},{"id":52,"name":"\u677e\u539f","pinyin":"songyuan"},{"id":1412,"name":"\u5bff\u5149","pinyin":"shouguang"},{"id":1467,"name":"\u4e0a\u865e","pinyin":"shangyu"},{"id":2721,"name":"\u4e09\u6cb3","pinyin":"sanhe"},{"id":8373,"name":"\u77f3\u6cb3\u5b50","pinyin":"shihezi"},{"id":699,"name":"\u4ec0\u90a1","pinyin":"shifang"},{"id":332,"name":"\u5929\u6d25","pinyin":"tianjin"},{"id":176,"name":"\u592a\u539f","pinyin":"taiyuan"},{"id":265,"name":"\u5510\u5c71","pinyin":"tangshan"},{"id":244,"name":"\u53f0\u5dde","pinyin":"taizhou"},{"id":276,"name":"\u6cf0\u5dde","pinyin":"taizhou"},{"id":325,"name":"\u6cf0\u5b89","pinyin":"taian"},{"id":64,"name":"\u901a\u8fbd","pinyin":"tongliao"},{"id":60,"name":"\u94c1\u5cad","pinyin":"tieling"},{"id":165,"name":"\u901a\u5316","pinyin":"tonghua"},{"id":337,"name":"\u94dc\u9675","pinyin":"tongling"},{"id":205,"name":"\u94dc\u4ec1","pinyin":"tongren"},{"id":232,"name":"\u94dc\u5ddd","pinyin":"tongchuan"},{"id":196,"name":"\u5929\u6c34","pinyin":"tianshui"},{"id":94,"name":"\u5854\u57ce","pinyin":"tacheng"},{"id":1335,"name":"\u5929\u957f","pinyin":"tianchang"},{"id":1934,"name":"\u592a\u4ed3","pinyin":"taicang"},{"id":1952,"name":"\u6850\u57ce","pinyin":"tongcheng"},{"id":8387,"name":"\u5929\u95e8","pinyin":"tianmen"},{"id":8417,"name":"\u5c6f\u660c","pinyin":"tunchang"},{"id":2158,"name":"\u6ed5\u5dde","pinyin":"tengzhou"},{"id":2307,"name":"\u94dc\u6881","pinyin":"tongliang"},{"id":1154,"name":"\u53f0\u5c71","pinyin":"taishan"},{"id":218,"name":"\u6b66\u6c49","pinyin":"wuhan"},{"id":2284,"name":"\u5434\u6c5f","pinyin":"wujiang"},{"id":317,"name":"\u65e0\u9521","pinyin":"wuxi"},{"id":178,"name":"\u6e29\u5dde","pinyin":"wenzhou"},{"id":175,"name":"\u5a01\u6d77","pinyin":"weihai"},{"id":287,"name":"\u6f4d\u574a","pinyin":"weifang"},{"id":129,"name":"\u829c\u6e56","pinyin":"wuhu"},{"id":123,"name":"\u4e4c\u6d77","pinyin":"wuhai"},{"id":168,"name":"\u4e4c\u5170\u5bdf\u5e03","pinyin":"wulanchabu"},{"id":304,"name":"\u68a7\u5dde","pinyin":"wuzhou"},{"id":177,"name":"\u6587\u5c71","pinyin":"wenshanzhuangzumiaozu"},{"id":170,"name":"\u6e2d\u5357","pinyin":"weinan"},{"id":118,"name":"\u6b66\u5a01","pinyin":"wuwei"},{"id":322,"name":"\u5434\u5fe0","pinyin":"wuzhong"},{"id":92,"name":"\u4e4c\u9c81\u6728\u9f50","pinyin":"wulumuqi"},{"id":1246,"name":"\u6b66\u5b89","pinyin":"wuan"},{"id":1564,"name":"\u6b66\u5937\u5c71","pinyin":"wuyishan"},{"id":1961,"name":"\u4e07\u5dde","pinyin":"wanzhou"},{"id":8379,"name":"\u4e94\u5bb6\u6e20","pinyin":"wujiaqu"},{"id":8403,"name":"\u4e94\u6307\u5c71","pinyin":"wuzhishan"},{"id":8409,"name":"\u6587\u660c","pinyin":"wenchang"},{"id":233,"name":"\u897f\u5b89","pinyin":"xian"},{"id":66,"name":"\u897f\u5b81","pinyin":"xining"},{"id":194,"name":"\u53a6\u95e8","pinyin":"xiamen"},{"id":316,"name":"\u5f90\u5dde","pinyin":"xuzhou"},{"id":313,"name":"\u6e58\u6f6d","pinyin":"xiangtan"},{"id":155,"name":"\u8bb8\u660c","pinyin":"xuchang"},{"id":323,"name":"\u54b8\u9633","pinyin":"xianyang"},{"id":266,"name":"\u90a2\u53f0","pinyin":"xingtai"},{"id":367,"name":"\u5ffb\u5dde","pinyin":"xinzhou"},{"id":62,"name":"\u5174\u5b89\u76df","pinyin":"xinganmeng"},{"id":63,"name":"\u9521\u6797\u90ed\u52d2\u76df","pinyin":"xilinguolemeng"},{"id":190,"name":"\u5ba3\u57ce","pinyin":"xuancheng"},{"id":164,"name":"\u65b0\u4f59","pinyin":"xinyu"},{"id":152,"name":"\u65b0\u4e61","pinyin":"xinxiang"},{"id":214,"name":"\u4fe1\u9633","pinyin":"xinyang"},{"id":310,"name":"\u5b5d\u611f","pinyin":"xiaogan"},{"id":156,"name":"\u8944\u9633","pinyin":"xiangyang"},{"id":362,"name":"\u54b8\u5b81","pinyin":"xianning"},{"id":274,"name":"\u6e58\u897f","pinyin":"xiangxitujiazumiaozu"},{"id":109,"name":"\u897f\u53cc\u7248\u7eb3","pinyin":"xishuangbannadaizu"},{"id":1876,"name":"\u8c61\u5c71","pinyin":"xiangshan"},{"id":8383,"name":"\u4ed9\u6843","pinyin":"xiaotao"},{"id":550,"name":"\u9521\u6797\u6d69\u7279","pinyin":"xilinhaote"},{"id":1324,"name":"\u5174\u5316","pinyin":"xinghua"},{"id":360,"name":"\u94f6\u5ddd","pinyin":"yinchuan"},{"id":326,"name":"\u70df\u53f0","pinyin":"yantai"},{"id":223,"name":"\u76d0\u57ce","pinyin":"yancheng"},{"id":346,"name":"\u626c\u5dde","pinyin":"yangzhou"},{"id":270,"name":"\u5b9c\u660c","pinyin":"yichang"},{"id":220,"name":"\u5cb3\u9633","pinyin":"yueyang"},{"id":357,"name":"\u9633\u6cc9","pinyin":"yangquan"},{"id":328,"name":"\u8fd0\u57ce","pinyin":"yuncheng"},{"id":281,"name":"\u8425\u53e3","pinyin":"yingkou"},{"id":54,"name":"\u5ef6\u8fb9","pinyin":"yanbianzhaoxianzu"},{"id":40,"name":"\u4f0a\u6625","pinyin":"yichun"},{"id":279,"name":"\u9e70\u6f6d","pinyin":"yingtan"},{"id":278,"name":"\u5b9c\u6625","pinyin":"yichun"},{"id":272,"name":"\u76ca\u9633","pinyin":"yiyang"},{"id":314,"name":"\u6c38\u5dde","pinyin":"yongzhou"},{"id":199,"name":"\u9633\u6c5f","pinyin":"yangjiang"},{"id":258,"name":"\u4e91\u6d6e","pinyin":"yunfu"},{"id":361,"name":"\u7389\u6797","pinyin":"yulin"},{"id":186,"name":"\u5b9c\u5bbe","pinyin":"yibin"},{"id":106,"name":"\u7389\u6eaa","pinyin":"yuxi"},{"id":284,"name":"\u5ef6\u5b89","pinyin":"yanan"},{"id":231,"name":"\u6986\u6797","pinyin":"yulin"},{"id":90,"name":"\u4f0a\u7281","pinyin":"yilihasake"},{"id":76,"name":"\u96c5\u5b89","pinyin":"yaan"},{"id":2217,"name":"\u4e49\u4e4c","pinyin":"yiwu"},{"id":1181,"name":"\u9633\u6714","pinyin":"yangshuo"},{"id":1126,"name":"\u6c38\u5ddd","pinyin":"yongchuan"},{"id":1336,"name":"\u5b9c\u5174","pinyin":"yixing"},{"id":2215,"name":"\u4f59\u59da","pinyin":"yuyao"},{"id":2424,"name":"\u4eea\u5f81","pinyin":"yizheng"},{"id":2487,"name":"\u4e50\u6e05","pinyin":"yueqing"},{"id":2830,"name":"\u6c38\u5eb7","pinyin":"yongkang"},{"id":2822,"name":"\u6768\u9675","pinyin":"yangling"},{"id":495,"name":"\u5ef6\u5409","pinyin":"yanji"},{"id":268,"name":"\u90d1\u5dde","pinyin":"zhengzhou"},{"id":187,"name":"\u4e2d\u5c71","pinyin":"zhongshan"},{"id":245,"name":"\u821f\u5c71","pinyin":"zhoushan"},{"id":160,"name":"\u9547\u6c5f","pinyin":"zhenjiang"},{"id":354,"name":"\u6dc4\u535a","pinyin":"zibo"},{"id":255,"name":"\u6f33\u5dde","pinyin":"zhangzhou"},{"id":222,"name":"\u682a\u6d32","pinyin":"zhuzhou"},{"id":198,"name":"\u6e5b\u6c5f","pinyin":"zhanjiang"},{"id":172,"name":"\u67a3\u5e84","pinyin":"zaozhuang"},{"id":264,"name":"\u5f20\u5bb6\u53e3","pinyin":"zhangjiakou"},{"id":2234,"name":"\u6dbf\u5dde","pinyin":"zhuozhou"},{"id":308,"name":"\u5468\u53e3","pinyin":"zhoukou"},{"id":269,"name":"\u9a7b\u9a6c\u5e97","pinyin":"zhumadian"},{"id":140,"name":"\u73e0\u6d77","pinyin":"zhuhai"},{"id":338,"name":"\u8087\u5e86","pinyin":"zhaoqing"},{"id":78,"name":"\u81ea\u8d21","pinyin":"zigong"},{"id":262,"name":"\u9075\u4e49","pinyin":"zunyi"},{"id":336,"name":"\u662d\u901a","pinyin":"zhaotong"},{"id":117,"name":"\u5f20\u6396","pinyin":"zhangye"},{"id":312,"name":"\u5f20\u5bb6\u754c","pinyin":"zhangjiajie"},{"id":181,"name":"\u4e2d\u536b","pinyin":"zhongwei"},{"id":242,"name":"\u8d44\u9633","pinyin":"ziyang"},{"id":2665,"name":"\u5f20\u5bb6\u6e2f","pinyin":"zhangjiagang"},{"id":2708,"name":"\u8bf8\u66a8","pinyin":"zhuji"},{"id":1035,"name":"\u624e\u5170\u5c6f","pinyin":"zalantun"},{"id":2165,"name":"\u8bf8\u57ce","pinyin":"zhucheng"},{"id":2319,"name":"\u589e\u57ce","pinyin":"zengcheng"}]},"logid":"0512894775","timestamp":1539569312}
+{
+  "errno": 0,
+  "err_msg": "success",
+  "data": {
+    "hot": [
+      {
+        "id": 131,
+        "name": "\u5317\u4eac",
+        "pinyin": "beijing"
+      },
+      {
+        "id": 289,
+        "name": "\u4e0a\u6d77",
+        "pinyin": "shanghai"
+      },
+      {
+        "id": 179,
+        "name": "\u676d\u5dde",
+        "pinyin": "hangzhou"
+      },
+      {
+        "id": 257,
+        "name": "\u5e7f\u5dde",
+        "pinyin": "guangzhou"
+      },
+      {
+        "id": 340,
+        "name": "\u6df1\u5733",
+        "pinyin": "shenzhen"
+      },
+      {
+        "id": 132,
+        "name": "\u91cd\u5e86",
+        "pinyin": "chongqing"
+      },
+      {
+        "id": 75,
+        "name": "\u6210\u90fd",
+        "pinyin": "chengdu"
+      },
+      {
+        "id": 315,
+        "name": "\u5357\u4eac",
+        "pinyin": "nanjing"
+      },
+      {
+        "id": 218,
+        "name": "\u6b66\u6c49",
+        "pinyin": "wuhan"
+      },
+      {
+        "id": 233,
+        "name": "\u897f\u5b89",
+        "pinyin": "xian"
+      },
+      {
+        "id": 194,
+        "name": "\u53a6\u95e8",
+        "pinyin": "xiamen"
+      },
+      {
+        "id": 332,
+        "name": "\u5929\u6d25",
+        "pinyin": "tianjin"
+      }
+    ],
+    "all": [
+      {
+        "id": 320,
+        "name": "\u978d\u5c71",
+        "pinyin": "anshan"
+      },
+      {
+        "id": 130,
+        "name": "\u5b89\u5e86",
+        "pinyin": "anqing"
+      },
+      {
+        "id": 267,
+        "name": "\u5b89\u9633",
+        "pinyin": "anyang"
+      },
+      {
+        "id": 263,
+        "name": "\u5b89\u987a",
+        "pinyin": "anshun"
+      },
+      {
+        "id": 324,
+        "name": "\u5b89\u5eb7",
+        "pinyin": "ankang"
+      },
+      {
+        "id": 1468,
+        "name": "\u5b89\u5409",
+        "pinyin": "anji"
+      },
+      {
+        "id": 866,
+        "name": "\u5b89\u5b81",
+        "pinyin": "anning"
+      },
+      {
+        "id": 131,
+        "name": "\u5317\u4eac",
+        "pinyin": "beijing"
+      },
+      {
+        "id": 307,
+        "name": "\u4fdd\u5b9a",
+        "pinyin": "baoding"
+      },
+      {
+        "id": 229,
+        "name": "\u5305\u5934",
+        "pinyin": "baotou"
+      },
+      {
+        "id": 235,
+        "name": "\u6ee8\u5dde",
+        "pinyin": "binzhou"
+      },
+      {
+        "id": 126,
+        "name": "\u868c\u57e0",
+        "pinyin": "bengbu"
+      },
+      {
+        "id": 171,
+        "name": "\u5b9d\u9e21",
+        "pinyin": "baoji"
+      },
+      {
+        "id": 227,
+        "name": "\u672c\u6eaa",
+        "pinyin": "benxi"
+      },
+      {
+        "id": 57,
+        "name": "\u767d\u5c71",
+        "pinyin": "baishan"
+      },
+      {
+        "id": 51,
+        "name": "\u767d\u57ce",
+        "pinyin": "baicheng"
+      },
+      {
+        "id": 295,
+        "name": "\u5317\u6d77",
+        "pinyin": "beihai"
+      },
+      {
+        "id": 203,
+        "name": "\u767e\u8272",
+        "pinyin": "baise"
+      },
+      {
+        "id": 239,
+        "name": "\u5df4\u4e2d",
+        "pinyin": "bazhong"
+      },
+      {
+        "id": 206,
+        "name": "\u6bd5\u8282",
+        "pinyin": "bijie"
+      },
+      {
+        "id": 112,
+        "name": "\u4fdd\u5c71",
+        "pinyin": "baoshan"
+      },
+      {
+        "id": 35,
+        "name": "\u767d\u94f6",
+        "pinyin": "baiyin"
+      },
+      {
+        "id": 188,
+        "name": "\u4eb3\u5dde",
+        "pinyin": "bozhou"
+      },
+      {
+        "id": 86,
+        "name": "\u5df4\u97f3\u90ed\u695e",
+        "pinyin": "bayinguolengmenggu"
+      },
+      {
+        "id": 8423,
+        "name": "\u767d\u6c99",
+        "pinyin": "baishalizuzizhixian"
+      },
+      {
+        "id": 1125,
+        "name": "\u5317\u789a",
+        "pinyin": "beibei"
+      },
+      {
+        "id": 1963,
+        "name": "\u74a7\u5c71",
+        "pinyin": "bishan"
+      },
+      {
+        "id": 158,
+        "name": "\u957f\u6c99",
+        "pinyin": "changsha"
+      },
+      {
+        "id": 132,
+        "name": "\u91cd\u5e86",
+        "pinyin": "chongqing"
+      },
+      {
+        "id": 2113,
+        "name": "\u5e38\u719f",
+        "pinyin": "changshu"
+      },
+      {
+        "id": 75,
+        "name": "\u6210\u90fd",
+        "pinyin": "chengdu"
+      },
+      {
+        "id": 53,
+        "name": "\u957f\u6625",
+        "pinyin": "changchun"
+      },
+      {
+        "id": 348,
+        "name": "\u5e38\u5dde",
+        "pinyin": "changzhou"
+      },
+      {
+        "id": 207,
+        "name": "\u627f\u5fb7",
+        "pinyin": "chengde"
+      },
+      {
+        "id": 149,
+        "name": "\u6ca7\u5dde",
+        "pinyin": "cangzhou"
+      },
+      {
+        "id": 356,
+        "name": "\u957f\u6cbb",
+        "pinyin": "changzhi"
+      },
+      {
+        "id": 297,
+        "name": "\u8d64\u5cf0",
+        "pinyin": "chifeng"
+      },
+      {
+        "id": 280,
+        "name": "\u671d\u9633",
+        "pinyin": "chaoyang"
+      },
+      {
+        "id": 189,
+        "name": "\u6ec1\u5dde",
+        "pinyin": "chuzhou"
+      },
+      {
+        "id": 299,
+        "name": "\u6c60\u5dde",
+        "pinyin": "chizhou"
+      },
+      {
+        "id": 275,
+        "name": "\u90f4\u5dde",
+        "pinyin": "chenzhou"
+      },
+      {
+        "id": 201,
+        "name": "\u6f6e\u5dde",
+        "pinyin": "chaozhou"
+      },
+      {
+        "id": 105,
+        "name": "\u695a\u96c4",
+        "pinyin": "chuxiongyizu"
+      },
+      {
+        "id": 93,
+        "name": "\u660c\u5409",
+        "pinyin": "changjihuizu"
+      },
+      {
+        "id": 219,
+        "name": "\u5e38\u5fb7",
+        "pinyin": "changde"
+      },
+      {
+        "id": 144,
+        "name": "\u5d07\u5de6",
+        "pinyin": "chongzuo"
+      },
+      {
+        "id": 1879,
+        "name": "\u6148\u6eaa",
+        "pinyin": "cixi"
+      },
+      {
+        "id": 1262,
+        "name": "\u957f\u845b",
+        "pinyin": "changge"
+      },
+      {
+        "id": 2282,
+        "name": "\u957f\u5174",
+        "pinyin": "changxing"
+      },
+      {
+        "id": 2486,
+        "name": "\u82cd\u5357",
+        "pinyin": "cangnan"
+      },
+      {
+        "id": 8419,
+        "name": "\u6f84\u8fc8",
+        "pinyin": "chengmai"
+      },
+      {
+        "id": 8425,
+        "name": "\u660c\u6c5f",
+        "pinyin": "changjainglizuzizhixian"
+      },
+      {
+        "id": 1557,
+        "name": "\u957f\u5bff",
+        "pinyin": "changshou"
+      },
+      {
+        "id": 1568,
+        "name": "\u957f\u4e50",
+        "pinyin": "changle"
+      },
+      {
+        "id": 870,
+        "name": "\u695a\u96c4",
+        "pinyin": "chuxiong"
+      },
+      {
+        "id": 167,
+        "name": "\u5927\u8fde",
+        "pinyin": "dalian"
+      },
+      {
+        "id": 119,
+        "name": "\u4e1c\u839e",
+        "pinyin": "dongguan"
+      },
+      {
+        "id": 50,
+        "name": "\u5927\u5e86",
+        "pinyin": "daqing"
+      },
+      {
+        "id": 174,
+        "name": "\u4e1c\u8425",
+        "pinyin": "dongying"
+      },
+      {
+        "id": 372,
+        "name": "\u5fb7\u5dde",
+        "pinyin": "dezhou"
+      },
+      {
+        "id": 355,
+        "name": "\u5927\u540c",
+        "pinyin": "datong"
+      },
+      {
+        "id": 282,
+        "name": "\u4e39\u4e1c",
+        "pinyin": "dandong"
+      },
+      {
+        "id": 38,
+        "name": "\u5927\u5174\u5b89\u5cad",
+        "pinyin": "daxinganling"
+      },
+      {
+        "id": 74,
+        "name": "\u5fb7\u9633",
+        "pinyin": "deyang"
+      },
+      {
+        "id": 369,
+        "name": "\u8fbe\u5dde",
+        "pinyin": "dazhou"
+      },
+      {
+        "id": 111,
+        "name": "\u5927\u7406",
+        "pinyin": "dalibaizu"
+      },
+      {
+        "id": 136,
+        "name": "\u5b9a\u897f",
+        "pinyin": "dingxi"
+      },
+      {
+        "id": 116,
+        "name": "\u5fb7\u5b8f",
+        "pinyin": "dehongdaizujingpozu"
+      },
+      {
+        "id": 1472,
+        "name": "\u4e1c\u9633",
+        "pinyin": "dongyang"
+      },
+      {
+        "id": 2220,
+        "name": "\u5fb7\u6e05",
+        "pinyin": "deqing"
+      },
+      {
+        "id": 8407,
+        "name": "\u510b\u5dde",
+        "pinyin": "danzhou"
+      },
+      {
+        "id": 8413,
+        "name": "\u4e1c\u65b9",
+        "pinyin": "dongfang"
+      },
+      {
+        "id": 8415,
+        "name": "\u5b9a\u5b89",
+        "pinyin": "dingan"
+      },
+      {
+        "id": 1964,
+        "name": "\u5927\u8db3",
+        "pinyin": "dazu"
+      },
+      {
+        "id": 618,
+        "name": "\u90fd\u6c5f\u5830",
+        "pinyin": "dujiangyan"
+      },
+      {
+        "id": 919,
+        "name": "\u5927\u7406",
+        "pinyin": "dali"
+      },
+      {
+        "id": 1291,
+        "name": "\u5927\u51b6",
+        "pinyin": "daye"
+      },
+      {
+        "id": 1367,
+        "name": "\u4e1c\u6e2f",
+        "pinyin": "donggang"
+      },
+      {
+        "id": 1739,
+        "name": "\u4e1c\u53f0",
+        "pinyin": "dongtai"
+      },
+      {
+        "id": 283,
+        "name": "\u9102\u5c14\u591a\u65af",
+        "pinyin": "eerduosi"
+      },
+      {
+        "id": 656,
+        "name": "\u5ce8\u7709\u5c71",
+        "pinyin": "emeishan"
+      },
+      {
+        "id": 122,
+        "name": "\u9102\u5dde",
+        "pinyin": "ezhou"
+      },
+      {
+        "id": 373,
+        "name": "\u6069\u65bd",
+        "pinyin": "enshi"
+      },
+      {
+        "id": 138,
+        "name": "\u4f5b\u5c71",
+        "pinyin": "foshan"
+      },
+      {
+        "id": 300,
+        "name": "\u798f\u5dde",
+        "pinyin": "fuzhou"
+      },
+      {
+        "id": 184,
+        "name": "\u629a\u987a",
+        "pinyin": "fushun"
+      },
+      {
+        "id": 59,
+        "name": "\u961c\u65b0",
+        "pinyin": "fuxin"
+      },
+      {
+        "id": 128,
+        "name": "\u961c\u9633",
+        "pinyin": "fuyang"
+      },
+      {
+        "id": 2216,
+        "name": "\u5bcc\u9633",
+        "pinyin": "fuyang"
+      },
+      {
+        "id": 226,
+        "name": "\u629a\u5dde",
+        "pinyin": "fuzhou"
+      },
+      {
+        "id": 204,
+        "name": "\u9632\u57ce\u6e2f",
+        "pinyin": "fangchenggang"
+      },
+      {
+        "id": 1724,
+        "name": "\u51e4\u51f0",
+        "pinyin": "fenghuang"
+      },
+      {
+        "id": 1124,
+        "name": "\u6daa\u9675",
+        "pinyin": "fuling"
+      },
+      {
+        "id": 1769,
+        "name": "\u4e30\u57ce",
+        "pinyin": "fengcheng"
+      },
+      {
+        "id": 257,
+        "name": "\u5e7f\u5dde",
+        "pinyin": "guangzhou"
+      },
+      {
+        "id": 142,
+        "name": "\u6842\u6797",
+        "pinyin": "guilin"
+      },
+      {
+        "id": 146,
+        "name": "\u8d35\u9633",
+        "pinyin": "guiyang"
+      },
+      {
+        "id": 365,
+        "name": "\u8d63\u5dde",
+        "pinyin": "ganzhou"
+      },
+      {
+        "id": 341,
+        "name": "\u8d35\u6e2f",
+        "pinyin": "guigang"
+      },
+      {
+        "id": 247,
+        "name": "\u7518\u5357",
+        "pinyin": "gannancangzu"
+      },
+      {
+        "id": 246,
+        "name": "\u56fa\u539f",
+        "pinyin": "guyuan"
+      },
+      {
+        "id": 329,
+        "name": "\u5e7f\u5143",
+        "pinyin": "guangyuan"
+      },
+      {
+        "id": 241,
+        "name": "\u5e7f\u5b89",
+        "pinyin": "guangan"
+      },
+      {
+        "id": 1681,
+        "name": "\u5de9\u4e49",
+        "pinyin": "gongyi"
+      },
+      {
+        "id": 615,
+        "name": "\u5e7f\u6c49",
+        "pinyin": "guanghan"
+      },
+      {
+        "id": 1369,
+        "name": "\u76d6\u5dde",
+        "pinyin": "gaizhou"
+      },
+      {
+        "id": 2117,
+        "name": "\u9ad8\u90ae",
+        "pinyin": "gaoyou"
+      },
+      {
+        "id": 2716,
+        "name": "\u5e7f\u5fb7",
+        "pinyin": "guangde"
+      },
+      {
+        "id": 179,
+        "name": "\u676d\u5dde",
+        "pinyin": "hangzhou"
+      },
+      {
+        "id": 127,
+        "name": "\u5408\u80a5",
+        "pinyin": "hefei"
+      },
+      {
+        "id": 48,
+        "name": "\u54c8\u5c14\u6ee8",
+        "pinyin": "haerbin"
+      },
+      {
+        "id": 321,
+        "name": "\u547c\u548c\u6d69\u7279",
+        "pinyin": "huhehaote"
+      },
+      {
+        "id": 125,
+        "name": "\u6d77\u53e3",
+        "pinyin": "haikou"
+      },
+      {
+        "id": 301,
+        "name": "\u60e0\u5dde",
+        "pinyin": "huizhou"
+      },
+      {
+        "id": 151,
+        "name": "\u90af\u90f8",
+        "pinyin": "handan"
+      },
+      {
+        "id": 311,
+        "name": "\u9ec4\u77f3",
+        "pinyin": "huangshi"
+      },
+      {
+        "id": 294,
+        "name": "\u6e56\u5dde",
+        "pinyin": "huzhou"
+      },
+      {
+        "id": 162,
+        "name": "\u6dee\u5b89",
+        "pinyin": "huaian"
+      },
+      {
+        "id": 208,
+        "name": "\u8861\u6c34",
+        "pinyin": "hengshui"
+      },
+      {
+        "id": 61,
+        "name": "\u547c\u4f26\u8d1d\u5c14",
+        "pinyin": "hulunbeier"
+      },
+      {
+        "id": 319,
+        "name": "\u846b\u82a6\u5c9b",
+        "pinyin": "huludao"
+      },
+      {
+        "id": 39,
+        "name": "\u9ed1\u6cb3",
+        "pinyin": "heihe"
+      },
+      {
+        "id": 250,
+        "name": "\u6dee\u5357",
+        "pinyin": "huainan"
+      },
+      {
+        "id": 253,
+        "name": "\u6dee\u5317",
+        "pinyin": "huaibei"
+      },
+      {
+        "id": 215,
+        "name": "\u9e64\u58c1",
+        "pinyin": "hebi"
+      },
+      {
+        "id": 159,
+        "name": "\u8861\u9633",
+        "pinyin": "hengyang"
+      },
+      {
+        "id": 363,
+        "name": "\u6000\u5316",
+        "pinyin": "huaihua"
+      },
+      {
+        "id": 200,
+        "name": "\u6cb3\u6e90",
+        "pinyin": "heyuan"
+      },
+      {
+        "id": 260,
+        "name": "\u8d3a\u5dde",
+        "pinyin": "hezhou"
+      },
+      {
+        "id": 143,
+        "name": "\u6cb3\u6c60",
+        "pinyin": "hechi"
+      },
+      {
+        "id": 107,
+        "name": "\u7ea2\u6cb3",
+        "pinyin": "honghehanizuyizu"
+      },
+      {
+        "id": 352,
+        "name": "\u6c49\u4e2d",
+        "pinyin": "hanzhong"
+      },
+      {
+        "id": 69,
+        "name": "\u6d77\u4e1c",
+        "pinyin": "haidong"
+      },
+      {
+        "id": 65,
+        "name": "\u6d77\u897f",
+        "pinyin": "haiximengguzucangzu"
+      },
+      {
+        "id": 91,
+        "name": "\u54c8\u5bc6",
+        "pinyin": "hami"
+      },
+      {
+        "id": 353,
+        "name": "\u83cf\u6cfd",
+        "pinyin": "heze"
+      },
+      {
+        "id": 252,
+        "name": "\u9ec4\u5c71",
+        "pinyin": "huangshan"
+      },
+      {
+        "id": 68,
+        "name": "\u6d77\u5357",
+        "pinyin": "hainancangzu"
+      },
+      {
+        "id": 271,
+        "name": "\u9ec4\u5188",
+        "pinyin": "huanggang"
+      },
+      {
+        "id": 1555,
+        "name": "\u5408\u5ddd",
+        "pinyin": "hechuan"
+      },
+      {
+        "id": 2834,
+        "name": "\u6d77\u5b81",
+        "pinyin": "haining"
+      },
+      {
+        "id": 2401,
+        "name": "\u6c49\u5ddd",
+        "pinyin": "hanchuan"
+      },
+      {
+        "id": 2574,
+        "name": "\u6d2a\u6e56",
+        "pinyin": "honghu"
+      },
+      {
+        "id": 2891,
+        "name": "\u6cb3\u6d25",
+        "pinyin": "hejin"
+      },
+      {
+        "id": 2819,
+        "name": "\u6c5f\u9634",
+        "pinyin": "jiangyin"
+      },
+      {
+        "id": 288,
+        "name": "\u6d4e\u5357",
+        "pinyin": "jinan"
+      },
+      {
+        "id": 334,
+        "name": "\u5609\u5174",
+        "pinyin": "jiaxing"
+      },
+      {
+        "id": 333,
+        "name": "\u91d1\u534e",
+        "pinyin": "jinhua"
+      },
+      {
+        "id": 302,
+        "name": "\u6c5f\u95e8",
+        "pinyin": "jiangmen"
+      },
+      {
+        "id": 286,
+        "name": "\u6d4e\u5b81",
+        "pinyin": "jining"
+      },
+      {
+        "id": 55,
+        "name": "\u5409\u6797",
+        "pinyin": "jilin"
+      },
+      {
+        "id": 290,
+        "name": "\u664b\u57ce",
+        "pinyin": "jincheng"
+      },
+      {
+        "id": 238,
+        "name": "\u664b\u4e2d",
+        "pinyin": "jinzhong"
+      },
+      {
+        "id": 166,
+        "name": "\u9526\u5dde",
+        "pinyin": "jinzhou"
+      },
+      {
+        "id": 46,
+        "name": "\u9e21\u897f",
+        "pinyin": "jixi"
+      },
+      {
+        "id": 42,
+        "name": "\u4f73\u6728\u65af",
+        "pinyin": "jiamusi"
+      },
+      {
+        "id": 2599,
+        "name": "\u5c45\u5de2",
+        "pinyin": "juchao"
+      },
+      {
+        "id": 1144,
+        "name": "\u664b\u6c5f",
+        "pinyin": "jinjiang"
+      },
+      {
+        "id": 318,
+        "name": "\u5409\u5b89",
+        "pinyin": "jian"
+      },
+      {
+        "id": 211,
+        "name": "\u7126\u4f5c",
+        "pinyin": "jiaozuo"
+      },
+      {
+        "id": 1277,
+        "name": "\u6d4e\u6e90",
+        "pinyin": "jiyuan"
+      },
+      {
+        "id": 217,
+        "name": "\u8346\u95e8",
+        "pinyin": "jingmen"
+      },
+      {
+        "id": 157,
+        "name": "\u8346\u5dde",
+        "pinyin": "jingzhou"
+      },
+      {
+        "id": 259,
+        "name": "\u63ed\u9633",
+        "pinyin": "jieyang"
+      },
+      {
+        "id": 33,
+        "name": "\u5609\u5cea\u5173",
+        "pinyin": "jiayuguan"
+      },
+      {
+        "id": 34,
+        "name": "\u91d1\u660c",
+        "pinyin": "jinchang"
+      },
+      {
+        "id": 37,
+        "name": "\u9152\u6cc9",
+        "pinyin": "jiuquan"
+      },
+      {
+        "id": 225,
+        "name": "\u666f\u5fb7\u9547",
+        "pinyin": "jingdezhen"
+      },
+      {
+        "id": 349,
+        "name": "\u4e5d\u6c5f",
+        "pinyin": "jiujiang"
+      },
+      {
+        "id": 1562,
+        "name": "\u6c5f\u6d25",
+        "pinyin": "jiangjin"
+      },
+      {
+        "id": 695,
+        "name": "\u6c5f\u6cb9",
+        "pinyin": "jiangyou"
+      },
+      {
+        "id": 901,
+        "name": "\u666f\u6d2a",
+        "pinyin": "jinghong"
+      },
+      {
+        "id": 1362,
+        "name": "\u96c6\u5b89",
+        "pinyin": "jian"
+      },
+      {
+        "id": 2181,
+        "name": "\u5373\u58a8",
+        "pinyin": "jimo"
+      },
+      {
+        "id": 2428,
+        "name": "\u59dc\u5830",
+        "pinyin": "jiangyan"
+      },
+      {
+        "id": 2691,
+        "name": "\u80f6\u5dde",
+        "pinyin": "jiaozhou"
+      },
+      {
+        "id": 104,
+        "name": "\u6606\u660e",
+        "pinyin": "kunming"
+      },
+      {
+        "id": 2581,
+        "name": "\u6606\u5c71",
+        "pinyin": "kunshan"
+      },
+      {
+        "id": 210,
+        "name": "\u5f00\u5c01",
+        "pinyin": "kaifeng"
+      },
+      {
+        "id": 95,
+        "name": "\u514b\u62c9\u739b\u4f9d",
+        "pinyin": "kelamayi"
+      },
+      {
+        "id": 771,
+        "name": "\u594e\u5c6f",
+        "pinyin": "kuitun"
+      },
+      {
+        "id": 1120,
+        "name": "\u5f00\u53bf",
+        "pinyin": "kaixian"
+      },
+      {
+        "id": 736,
+        "name": "\u5e93\u5c14\u52d2",
+        "pinyin": "kuerle"
+      },
+      {
+        "id": 882,
+        "name": "\u5f00\u8fdc",
+        "pinyin": "kaiyuan"
+      },
+      {
+        "id": 1046,
+        "name": "\u5f00\u539f",
+        "pinyin": "kaiyuan"
+      },
+      {
+        "id": 36,
+        "name": "\u5170\u5dde",
+        "pinyin": "lanzhou"
+      },
+      {
+        "id": 234,
+        "name": "\u4e34\u6c82",
+        "pinyin": "linyi"
+      },
+      {
+        "id": 153,
+        "name": "\u6d1b\u9633",
+        "pinyin": "luoyang"
+      },
+      {
+        "id": 347,
+        "name": "\u8fde\u4e91\u6e2f",
+        "pinyin": "lianyungang"
+      },
+      {
+        "id": 366,
+        "name": "\u804a\u57ce",
+        "pinyin": "liaocheng"
+      },
+      {
+        "id": 191,
+        "name": "\u5eca\u574a",
+        "pinyin": "langfang"
+      },
+      {
+        "id": 305,
+        "name": "\u67f3\u5dde",
+        "pinyin": "liuzhou"
+      },
+      {
+        "id": 368,
+        "name": "\u4e34\u6c7e",
+        "pinyin": "linfen"
+      },
+      {
+        "id": 327,
+        "name": "\u5415\u6881",
+        "pinyin": "lvliang"
+      },
+      {
+        "id": 351,
+        "name": "\u8fbd\u9633",
+        "pinyin": "liaoyang"
+      },
+      {
+        "id": 183,
+        "name": "\u8fbd\u6e90",
+        "pinyin": "liaoyuan"
+      },
+      {
+        "id": 292,
+        "name": "\u4e3d\u6c34",
+        "pinyin": "lishui"
+      },
+      {
+        "id": 298,
+        "name": "\u516d\u5b89",
+        "pinyin": "liuan"
+      },
+      {
+        "id": 193,
+        "name": "\u9f99\u5ca9",
+        "pinyin": "longyan"
+      },
+      {
+        "id": 124,
+        "name": "\u83b1\u829c",
+        "pinyin": "laiwu"
+      },
+      {
+        "id": 344,
+        "name": "\u6f2f\u6cb3",
+        "pinyin": "luohe"
+      },
+      {
+        "id": 221,
+        "name": "\u5a04\u5e95",
+        "pinyin": "loudi"
+      },
+      {
+        "id": 331,
+        "name": "\u6cf8\u5dde",
+        "pinyin": "luzhou"
+      },
+      {
+        "id": 80,
+        "name": "\u51c9\u5c71",
+        "pinyin": "liangshanyizu"
+      },
+      {
+        "id": 147,
+        "name": "\u516d\u76d8\u6c34",
+        "pinyin": "liupanshui"
+      },
+      {
+        "id": 114,
+        "name": "\u4e3d\u6c5f",
+        "pinyin": "lijiang"
+      },
+      {
+        "id": 110,
+        "name": "\u4e34\u6ca7",
+        "pinyin": "lincang"
+      },
+      {
+        "id": 100,
+        "name": "\u62c9\u8428",
+        "pinyin": "lasa"
+      },
+      {
+        "id": 182,
+        "name": "\u4e34\u590f",
+        "pinyin": "linxiahuizu"
+      },
+      {
+        "id": 1837,
+        "name": "\u9f99\u53e3",
+        "pinyin": "longkou"
+      },
+      {
+        "id": 202,
+        "name": "\u6765\u5bbe",
+        "pinyin": "laibin"
+      },
+      {
+        "id": 256,
+        "name": "\u9647\u5357",
+        "pinyin": "longnan"
+      },
+      {
+        "id": 79,
+        "name": "\u4e50\u5c71",
+        "pinyin": "leshan"
+      },
+      {
+        "id": 391,
+        "name": "\u4e34\u590f",
+        "pinyin": "linxia"
+      },
+      {
+        "id": 1462,
+        "name": "\u5170\u6eaa",
+        "pinyin": "lanxi"
+      },
+      {
+        "id": 1747,
+        "name": "\u6ea7\u9633",
+        "pinyin": "liyang"
+      },
+      {
+        "id": 2577,
+        "name": "\u6d4f\u9633",
+        "pinyin": "liuyang"
+      },
+      {
+        "id": 8421,
+        "name": "\u4e34\u9ad8",
+        "pinyin": "lingao"
+      },
+      {
+        "id": 8427,
+        "name": "\u4e50\u4e1c",
+        "pinyin": "ledonglizuzizhixian"
+      },
+      {
+        "id": 8429,
+        "name": "\u9675\u6c34",
+        "pinyin": "lingshuilizuzizhixian"
+      },
+      {
+        "id": 1448,
+        "name": "\u9606\u4e2d",
+        "pinyin": "langzhong"
+      },
+      {
+        "id": 1152,
+        "name": "\u96f7\u5dde",
+        "pinyin": "leizhou"
+      },
+      {
+        "id": 139,
+        "name": "\u8302\u540d",
+        "pinyin": "maoming"
+      },
+      {
+        "id": 49,
+        "name": "\u7261\u4e39\u6c5f",
+        "pinyin": "mudanjiang"
+      },
+      {
+        "id": 358,
+        "name": "\u9a6c\u978d\u5c71",
+        "pinyin": "maanshan"
+      },
+      {
+        "id": 141,
+        "name": "\u6885\u5dde",
+        "pinyin": "meizhou"
+      },
+      {
+        "id": 240,
+        "name": "\u7ef5\u9633",
+        "pinyin": "mianyang"
+      },
+      {
+        "id": 77,
+        "name": "\u7709\u5c71",
+        "pinyin": "meishan"
+      },
+      {
+        "id": 542,
+        "name": "\u6ee1\u6d32\u91cc",
+        "pinyin": "manzhouli"
+      },
+      {
+        "id": 2497,
+        "name": "\u660e\u5149",
+        "pinyin": "mingguang"
+      },
+      {
+        "id": 1100,
+        "name": "\u8499\u57ce",
+        "pinyin": "mengcheng"
+      },
+      {
+        "id": 315,
+        "name": "\u5357\u4eac",
+        "pinyin": "nanjing"
+      },
+      {
+        "id": 180,
+        "name": "\u5b81\u6ce2",
+        "pinyin": "ningbo"
+      },
+      {
+        "id": 163,
+        "name": "\u5357\u660c",
+        "pinyin": "nanchang"
+      },
+      {
+        "id": 261,
+        "name": "\u5357\u5b81",
+        "pinyin": "nanning"
+      },
+      {
+        "id": 161,
+        "name": "\u5357\u901a",
+        "pinyin": "nantong"
+      },
+      {
+        "id": 309,
+        "name": "\u5357\u9633",
+        "pinyin": "nanyang"
+      },
+      {
+        "id": 133,
+        "name": "\u5357\u5e73",
+        "pinyin": "nanping"
+      },
+      {
+        "id": 192,
+        "name": "\u5b81\u5fb7",
+        "pinyin": "ningde"
+      },
+      {
+        "id": 291,
+        "name": "\u5357\u5145",
+        "pinyin": "nanchong"
+      },
+      {
+        "id": 113,
+        "name": "\u6012\u6c5f",
+        "pinyin": "nujianglisuzu"
+      },
+      {
+        "id": 248,
+        "name": "\u5185\u6c5f",
+        "pinyin": "neijiang"
+      },
+      {
+        "id": 1561,
+        "name": "\u5357\u5ddd",
+        "pinyin": "nanchuan"
+      },
+      {
+        "id": 2502,
+        "name": "\u5b81\u56fd",
+        "pinyin": "ningguo"
+      },
+      {
+        "id": 2479,
+        "name": "\u5357\u90e8",
+        "pinyin": "nanbu"
+      },
+      {
+        "id": 195,
+        "name": "\u8386\u7530",
+        "pinyin": "putian"
+      },
+      {
+        "id": 228,
+        "name": "\u76d8\u9526",
+        "pinyin": "panjin"
+      },
+      {
+        "id": 213,
+        "name": "\u5e73\u9876\u5c71",
+        "pinyin": "pingdingshan"
+      },
+      {
+        "id": 209,
+        "name": "\u6fee\u9633",
+        "pinyin": "puyang"
+      },
+      {
+        "id": 81,
+        "name": "\u6500\u679d\u82b1",
+        "pinyin": "panzhihua"
+      },
+      {
+        "id": 359,
+        "name": "\u5e73\u51c9",
+        "pinyin": "pingliang"
+      },
+      {
+        "id": 350,
+        "name": "\u840d\u4e61",
+        "pinyin": "pingxiang"
+      },
+      {
+        "id": 108,
+        "name": "\u666e\u6d31",
+        "pinyin": "puer"
+      },
+      {
+        "id": 2705,
+        "name": "\u5e73\u9633",
+        "pinyin": "pingyang"
+      },
+      {
+        "id": 2801,
+        "name": "\u5e73\u6e56",
+        "pinyin": "pinghu"
+      },
+      {
+        "id": 1983,
+        "name": "\u5e73\u6f6d",
+        "pinyin": "pingtan"
+      },
+      {
+        "id": 236,
+        "name": "\u9752\u5c9b",
+        "pinyin": "qingdao"
+      },
+      {
+        "id": 134,
+        "name": "\u6cc9\u5dde",
+        "pinyin": "quanzhou"
+      },
+      {
+        "id": 148,
+        "name": "\u79e6\u7687\u5c9b",
+        "pinyin": "qinhuangdao"
+      },
+      {
+        "id": 41,
+        "name": "\u9f50\u9f50\u54c8\u5c14",
+        "pinyin": "qiqihaer"
+      },
+      {
+        "id": 197,
+        "name": "\u6e05\u8fdc",
+        "pinyin": "qingyuan"
+      },
+      {
+        "id": 145,
+        "name": "\u94a6\u5dde",
+        "pinyin": "qinzhou"
+      },
+      {
+        "id": 343,
+        "name": "\u9ed4\u897f\u5357",
+        "pinyin": "qianxinanbuyizumiaozu"
+      },
+      {
+        "id": 306,
+        "name": "\u9ed4\u5357",
+        "pinyin": "qiannanbuyizumiaozu"
+      },
+      {
+        "id": 249,
+        "name": "\u66f2\u9756",
+        "pinyin": "qujing"
+      },
+      {
+        "id": 135,
+        "name": "\u5e86\u9633",
+        "pinyin": "qingyang"
+      },
+      {
+        "id": 342,
+        "name": "\u9ed4\u4e1c\u5357",
+        "pinyin": "qiandongnanmiaozudongzu"
+      },
+      {
+        "id": 243,
+        "name": "\u8862\u5dde",
+        "pinyin": "quzhou"
+      },
+      {
+        "id": 1967,
+        "name": "\u7da6\u6c5f",
+        "pinyin": "qijiang"
+      },
+      {
+        "id": 8385,
+        "name": "\u6f5c\u6c5f\u5e02",
+        "pinyin": "qianjiang"
+      },
+      {
+        "id": 8405,
+        "name": "\u743c\u6d77",
+        "pinyin": "qionghai"
+      },
+      {
+        "id": 1965,
+        "name": "\u9ed4\u6c5f",
+        "pinyin": "qianjiang"
+      },
+      {
+        "id": 1223,
+        "name": "\u8fc1\u5b89",
+        "pinyin": "qianan"
+      },
+      {
+        "id": 2073,
+        "name": "\u6c81\u9633",
+        "pinyin": "qinyang"
+      },
+      {
+        "id": 173,
+        "name": "\u65e5\u7167",
+        "pinyin": "rizhao"
+      },
+      {
+        "id": 1882,
+        "name": "\u745e\u5b89",
+        "pinyin": "ruian"
+      },
+      {
+        "id": 2422,
+        "name": "\u5982\u768b",
+        "pinyin": "rugao"
+      },
+      {
+        "id": 289,
+        "name": "\u4e0a\u6d77",
+        "pinyin": "shanghai"
+      },
+      {
+        "id": 340,
+        "name": "\u6df1\u5733",
+        "pinyin": "shenzhen"
+      },
+      {
+        "id": 224,
+        "name": "\u82cf\u5dde",
+        "pinyin": "suzhou"
+      },
+      {
+        "id": 58,
+        "name": "\u6c88\u9633",
+        "pinyin": "shenyang"
+      },
+      {
+        "id": 121,
+        "name": "\u4e09\u4e9a",
+        "pinyin": "sanya"
+      },
+      {
+        "id": 303,
+        "name": "\u6c55\u5934",
+        "pinyin": "shantou"
+      },
+      {
+        "id": 150,
+        "name": "\u77f3\u5bb6\u5e84",
+        "pinyin": "shijiazhuang"
+      },
+      {
+        "id": 293,
+        "name": "\u7ecd\u5174",
+        "pinyin": "shaoxing"
+      },
+      {
+        "id": 237,
+        "name": "\u6714\u5dde",
+        "pinyin": "shuozhou"
+      },
+      {
+        "id": 56,
+        "name": "\u56db\u5e73",
+        "pinyin": "siping"
+      },
+      {
+        "id": 45,
+        "name": "\u53cc\u9e2d\u5c71",
+        "pinyin": "shuangyashan"
+      },
+      {
+        "id": 44,
+        "name": "\u7ee5\u5316",
+        "pinyin": "suihua"
+      },
+      {
+        "id": 277,
+        "name": "\u5bbf\u8fc1",
+        "pinyin": "suqian"
+      },
+      {
+        "id": 370,
+        "name": "\u5bbf\u5dde",
+        "pinyin": "suzhou"
+      },
+      {
+        "id": 254,
+        "name": "\u4e09\u660e",
+        "pinyin": "sanming"
+      },
+      {
+        "id": 1581,
+        "name": "\u77f3\u72ee",
+        "pinyin": "shishi"
+      },
+      {
+        "id": 364,
+        "name": "\u4e0a\u9976",
+        "pinyin": "shangrao"
+      },
+      {
+        "id": 212,
+        "name": "\u4e09\u95e8\u5ce1",
+        "pinyin": "sanmenxia"
+      },
+      {
+        "id": 154,
+        "name": "\u5546\u4e18",
+        "pinyin": "shangqiu"
+      },
+      {
+        "id": 216,
+        "name": "\u5341\u5830",
+        "pinyin": "shiyan"
+      },
+      {
+        "id": 371,
+        "name": "\u968f\u5dde",
+        "pinyin": "suizhou"
+      },
+      {
+        "id": 273,
+        "name": "\u90b5\u9633",
+        "pinyin": "shaoyang"
+      },
+      {
+        "id": 137,
+        "name": "\u97f6\u5173",
+        "pinyin": "shaoguan"
+      },
+      {
+        "id": 339,
+        "name": "\u6c55\u5c3e",
+        "pinyin": "shanwei"
+      },
+      {
+        "id": 330,
+        "name": "\u9042\u5b81",
+        "pinyin": "suining"
+      },
+      {
+        "id": 335,
+        "name": "\u77f3\u5634\u5c71",
+        "pinyin": "shizuishan"
+      },
+      {
+        "id": 285,
+        "name": "\u5546\u6d1b",
+        "pinyin": "shangluo"
+      },
+      {
+        "id": 52,
+        "name": "\u677e\u539f",
+        "pinyin": "songyuan"
+      },
+      {
+        "id": 1412,
+        "name": "\u5bff\u5149",
+        "pinyin": "shouguang"
+      },
+      {
+        "id": 1467,
+        "name": "\u4e0a\u865e",
+        "pinyin": "shangyu"
+      },
+      {
+        "id": 2721,
+        "name": "\u4e09\u6cb3",
+        "pinyin": "sanhe"
+      },
+      {
+        "id": 8373,
+        "name": "\u77f3\u6cb3\u5b50",
+        "pinyin": "shihezi"
+      },
+      {
+        "id": 699,
+        "name": "\u4ec0\u90a1",
+        "pinyin": "shifang"
+      },
+      {
+        "id": 332,
+        "name": "\u5929\u6d25",
+        "pinyin": "tianjin"
+      },
+      {
+        "id": 176,
+        "name": "\u592a\u539f",
+        "pinyin": "taiyuan"
+      },
+      {
+        "id": 265,
+        "name": "\u5510\u5c71",
+        "pinyin": "tangshan"
+      },
+      {
+        "id": 244,
+        "name": "\u53f0\u5dde",
+        "pinyin": "taizhou"
+      },
+      {
+        "id": 276,
+        "name": "\u6cf0\u5dde",
+        "pinyin": "taizhou"
+      },
+      {
+        "id": 325,
+        "name": "\u6cf0\u5b89",
+        "pinyin": "taian"
+      },
+      {
+        "id": 64,
+        "name": "\u901a\u8fbd",
+        "pinyin": "tongliao"
+      },
+      {
+        "id": 60,
+        "name": "\u94c1\u5cad",
+        "pinyin": "tieling"
+      },
+      {
+        "id": 165,
+        "name": "\u901a\u5316",
+        "pinyin": "tonghua"
+      },
+      {
+        "id": 337,
+        "name": "\u94dc\u9675",
+        "pinyin": "tongling"
+      },
+      {
+        "id": 205,
+        "name": "\u94dc\u4ec1",
+        "pinyin": "tongren"
+      },
+      {
+        "id": 232,
+        "name": "\u94dc\u5ddd",
+        "pinyin": "tongchuan"
+      },
+      {
+        "id": 196,
+        "name": "\u5929\u6c34",
+        "pinyin": "tianshui"
+      },
+      {
+        "id": 94,
+        "name": "\u5854\u57ce",
+        "pinyin": "tacheng"
+      },
+      {
+        "id": 1335,
+        "name": "\u5929\u957f",
+        "pinyin": "tianchang"
+      },
+      {
+        "id": 1934,
+        "name": "\u592a\u4ed3",
+        "pinyin": "taicang"
+      },
+      {
+        "id": 1952,
+        "name": "\u6850\u57ce",
+        "pinyin": "tongcheng"
+      },
+      {
+        "id": 8387,
+        "name": "\u5929\u95e8",
+        "pinyin": "tianmen"
+      },
+      {
+        "id": 8417,
+        "name": "\u5c6f\u660c",
+        "pinyin": "tunchang"
+      },
+      {
+        "id": 2158,
+        "name": "\u6ed5\u5dde",
+        "pinyin": "tengzhou"
+      },
+      {
+        "id": 2307,
+        "name": "\u94dc\u6881",
+        "pinyin": "tongliang"
+      },
+      {
+        "id": 1154,
+        "name": "\u53f0\u5c71",
+        "pinyin": "taishan"
+      },
+      {
+        "id": 218,
+        "name": "\u6b66\u6c49",
+        "pinyin": "wuhan"
+      },
+      {
+        "id": 2284,
+        "name": "\u5434\u6c5f",
+        "pinyin": "wujiang"
+      },
+      {
+        "id": 317,
+        "name": "\u65e0\u9521",
+        "pinyin": "wuxi"
+      },
+      {
+        "id": 178,
+        "name": "\u6e29\u5dde",
+        "pinyin": "wenzhou"
+      },
+      {
+        "id": 175,
+        "name": "\u5a01\u6d77",
+        "pinyin": "weihai"
+      },
+      {
+        "id": 287,
+        "name": "\u6f4d\u574a",
+        "pinyin": "weifang"
+      },
+      {
+        "id": 129,
+        "name": "\u829c\u6e56",
+        "pinyin": "wuhu"
+      },
+      {
+        "id": 123,
+        "name": "\u4e4c\u6d77",
+        "pinyin": "wuhai"
+      },
+      {
+        "id": 168,
+        "name": "\u4e4c\u5170\u5bdf\u5e03",
+        "pinyin": "wulanchabu"
+      },
+      {
+        "id": 304,
+        "name": "\u68a7\u5dde",
+        "pinyin": "wuzhou"
+      },
+      {
+        "id": 177,
+        "name": "\u6587\u5c71",
+        "pinyin": "wenshanzhuangzumiaozu"
+      },
+      {
+        "id": 170,
+        "name": "\u6e2d\u5357",
+        "pinyin": "weinan"
+      },
+      {
+        "id": 118,
+        "name": "\u6b66\u5a01",
+        "pinyin": "wuwei"
+      },
+      {
+        "id": 322,
+        "name": "\u5434\u5fe0",
+        "pinyin": "wuzhong"
+      },
+      {
+        "id": 92,
+        "name": "\u4e4c\u9c81\u6728\u9f50",
+        "pinyin": "wulumuqi"
+      },
+      {
+        "id": 1246,
+        "name": "\u6b66\u5b89",
+        "pinyin": "wuan"
+      },
+      {
+        "id": 1564,
+        "name": "\u6b66\u5937\u5c71",
+        "pinyin": "wuyishan"
+      },
+      {
+        "id": 1961,
+        "name": "\u4e07\u5dde",
+        "pinyin": "wanzhou"
+      },
+      {
+        "id": 8379,
+        "name": "\u4e94\u5bb6\u6e20",
+        "pinyin": "wujiaqu"
+      },
+      {
+        "id": 8403,
+        "name": "\u4e94\u6307\u5c71",
+        "pinyin": "wuzhishan"
+      },
+      {
+        "id": 8409,
+        "name": "\u6587\u660c",
+        "pinyin": "wenchang"
+      },
+      {
+        "id": 233,
+        "name": "\u897f\u5b89",
+        "pinyin": "xian"
+      },
+      {
+        "id": 66,
+        "name": "\u897f\u5b81",
+        "pinyin": "xining"
+      },
+      {
+        "id": 194,
+        "name": "\u53a6\u95e8",
+        "pinyin": "xiamen"
+      },
+      {
+        "id": 316,
+        "name": "\u5f90\u5dde",
+        "pinyin": "xuzhou"
+      },
+      {
+        "id": 313,
+        "name": "\u6e58\u6f6d",
+        "pinyin": "xiangtan"
+      },
+      {
+        "id": 155,
+        "name": "\u8bb8\u660c",
+        "pinyin": "xuchang"
+      },
+      {
+        "id": 323,
+        "name": "\u54b8\u9633",
+        "pinyin": "xianyang"
+      },
+      {
+        "id": 266,
+        "name": "\u90a2\u53f0",
+        "pinyin": "xingtai"
+      },
+      {
+        "id": 367,
+        "name": "\u5ffb\u5dde",
+        "pinyin": "xinzhou"
+      },
+      {
+        "id": 62,
+        "name": "\u5174\u5b89\u76df",
+        "pinyin": "xinganmeng"
+      },
+      {
+        "id": 63,
+        "name": "\u9521\u6797\u90ed\u52d2\u76df",
+        "pinyin": "xilinguolemeng"
+      },
+      {
+        "id": 190,
+        "name": "\u5ba3\u57ce",
+        "pinyin": "xuancheng"
+      },
+      {
+        "id": 164,
+        "name": "\u65b0\u4f59",
+        "pinyin": "xinyu"
+      },
+      {
+        "id": 152,
+        "name": "\u65b0\u4e61",
+        "pinyin": "xinxiang"
+      },
+      {
+        "id": 214,
+        "name": "\u4fe1\u9633",
+        "pinyin": "xinyang"
+      },
+      {
+        "id": 310,
+        "name": "\u5b5d\u611f",
+        "pinyin": "xiaogan"
+      },
+      {
+        "id": 156,
+        "name": "\u8944\u9633",
+        "pinyin": "xiangyang"
+      },
+      {
+        "id": 362,
+        "name": "\u54b8\u5b81",
+        "pinyin": "xianning"
+      },
+      {
+        "id": 274,
+        "name": "\u6e58\u897f",
+        "pinyin": "xiangxitujiazumiaozu"
+      },
+      {
+        "id": 109,
+        "name": "\u897f\u53cc\u7248\u7eb3",
+        "pinyin": "xishuangbannadaizu"
+      },
+      {
+        "id": 1876,
+        "name": "\u8c61\u5c71",
+        "pinyin": "xiangshan"
+      },
+      {
+        "id": 8383,
+        "name": "\u4ed9\u6843",
+        "pinyin": "xiaotao"
+      },
+      {
+        "id": 550,
+        "name": "\u9521\u6797\u6d69\u7279",
+        "pinyin": "xilinhaote"
+      },
+      {
+        "id": 1324,
+        "name": "\u5174\u5316",
+        "pinyin": "xinghua"
+      },
+      {
+        "id": 360,
+        "name": "\u94f6\u5ddd",
+        "pinyin": "yinchuan"
+      },
+      {
+        "id": 326,
+        "name": "\u70df\u53f0",
+        "pinyin": "yantai"
+      },
+      {
+        "id": 223,
+        "name": "\u76d0\u57ce",
+        "pinyin": "yancheng"
+      },
+      {
+        "id": 346,
+        "name": "\u626c\u5dde",
+        "pinyin": "yangzhou"
+      },
+      {
+        "id": 270,
+        "name": "\u5b9c\u660c",
+        "pinyin": "yichang"
+      },
+      {
+        "id": 220,
+        "name": "\u5cb3\u9633",
+        "pinyin": "yueyang"
+      },
+      {
+        "id": 357,
+        "name": "\u9633\u6cc9",
+        "pinyin": "yangquan"
+      },
+      {
+        "id": 328,
+        "name": "\u8fd0\u57ce",
+        "pinyin": "yuncheng"
+      },
+      {
+        "id": 281,
+        "name": "\u8425\u53e3",
+        "pinyin": "yingkou"
+      },
+      {
+        "id": 54,
+        "name": "\u5ef6\u8fb9",
+        "pinyin": "yanbianzhaoxianzu"
+      },
+      {
+        "id": 40,
+        "name": "\u4f0a\u6625",
+        "pinyin": "yichun"
+      },
+      {
+        "id": 279,
+        "name": "\u9e70\u6f6d",
+        "pinyin": "yingtan"
+      },
+      {
+        "id": 278,
+        "name": "\u5b9c\u6625",
+        "pinyin": "yichun"
+      },
+      {
+        "id": 272,
+        "name": "\u76ca\u9633",
+        "pinyin": "yiyang"
+      },
+      {
+        "id": 314,
+        "name": "\u6c38\u5dde",
+        "pinyin": "yongzhou"
+      },
+      {
+        "id": 199,
+        "name": "\u9633\u6c5f",
+        "pinyin": "yangjiang"
+      },
+      {
+        "id": 258,
+        "name": "\u4e91\u6d6e",
+        "pinyin": "yunfu"
+      },
+      {
+        "id": 361,
+        "name": "\u7389\u6797",
+        "pinyin": "yulin"
+      },
+      {
+        "id": 186,
+        "name": "\u5b9c\u5bbe",
+        "pinyin": "yibin"
+      },
+      {
+        "id": 106,
+        "name": "\u7389\u6eaa",
+        "pinyin": "yuxi"
+      },
+      {
+        "id": 284,
+        "name": "\u5ef6\u5b89",
+        "pinyin": "yanan"
+      },
+      {
+        "id": 231,
+        "name": "\u6986\u6797",
+        "pinyin": "yulin"
+      },
+      {
+        "id": 90,
+        "name": "\u4f0a\u7281",
+        "pinyin": "yilihasake"
+      },
+      {
+        "id": 76,
+        "name": "\u96c5\u5b89",
+        "pinyin": "yaan"
+      },
+      {
+        "id": 2217,
+        "name": "\u4e49\u4e4c",
+        "pinyin": "yiwu"
+      },
+      {
+        "id": 1181,
+        "name": "\u9633\u6714",
+        "pinyin": "yangshuo"
+      },
+      {
+        "id": 1126,
+        "name": "\u6c38\u5ddd",
+        "pinyin": "yongchuan"
+      },
+      {
+        "id": 1336,
+        "name": "\u5b9c\u5174",
+        "pinyin": "yixing"
+      },
+      {
+        "id": 2215,
+        "name": "\u4f59\u59da",
+        "pinyin": "yuyao"
+      },
+      {
+        "id": 2424,
+        "name": "\u4eea\u5f81",
+        "pinyin": "yizheng"
+      },
+      {
+        "id": 2487,
+        "name": "\u4e50\u6e05",
+        "pinyin": "yueqing"
+      },
+      {
+        "id": 2830,
+        "name": "\u6c38\u5eb7",
+        "pinyin": "yongkang"
+      },
+      {
+        "id": 2822,
+        "name": "\u6768\u9675",
+        "pinyin": "yangling"
+      },
+      {
+        "id": 495,
+        "name": "\u5ef6\u5409",
+        "pinyin": "yanji"
+      },
+      {
+        "id": 268,
+        "name": "\u90d1\u5dde",
+        "pinyin": "zhengzhou"
+      },
+      {
+        "id": 187,
+        "name": "\u4e2d\u5c71",
+        "pinyin": "zhongshan"
+      },
+      {
+        "id": 245,
+        "name": "\u821f\u5c71",
+        "pinyin": "zhoushan"
+      },
+      {
+        "id": 160,
+        "name": "\u9547\u6c5f",
+        "pinyin": "zhenjiang"
+      },
+      {
+        "id": 354,
+        "name": "\u6dc4\u535a",
+        "pinyin": "zibo"
+      },
+      {
+        "id": 255,
+        "name": "\u6f33\u5dde",
+        "pinyin": "zhangzhou"
+      },
+      {
+        "id": 222,
+        "name": "\u682a\u6d32",
+        "pinyin": "zhuzhou"
+      },
+      {
+        "id": 198,
+        "name": "\u6e5b\u6c5f",
+        "pinyin": "zhanjiang"
+      },
+      {
+        "id": 172,
+        "name": "\u67a3\u5e84",
+        "pinyin": "zaozhuang"
+      },
+      {
+        "id": 264,
+        "name": "\u5f20\u5bb6\u53e3",
+        "pinyin": "zhangjiakou"
+      },
+      {
+        "id": 2234,
+        "name": "\u6dbf\u5dde",
+        "pinyin": "zhuozhou"
+      },
+      {
+        "id": 308,
+        "name": "\u5468\u53e3",
+        "pinyin": "zhoukou"
+      },
+      {
+        "id": 269,
+        "name": "\u9a7b\u9a6c\u5e97",
+        "pinyin": "zhumadian"
+      },
+      {
+        "id": 140,
+        "name": "\u73e0\u6d77",
+        "pinyin": "zhuhai"
+      },
+      {
+        "id": 338,
+        "name": "\u8087\u5e86",
+        "pinyin": "zhaoqing"
+      },
+      {
+        "id": 78,
+        "name": "\u81ea\u8d21",
+        "pinyin": "zigong"
+      },
+      {
+        "id": 262,
+        "name": "\u9075\u4e49",
+        "pinyin": "zunyi"
+      },
+      {
+        "id": 336,
+        "name": "\u662d\u901a",
+        "pinyin": "zhaotong"
+      },
+      {
+        "id": 117,
+        "name": "\u5f20\u6396",
+        "pinyin": "zhangye"
+      },
+      {
+        "id": 312,
+        "name": "\u5f20\u5bb6\u754c",
+        "pinyin": "zhangjiajie"
+      },
+      {
+        "id": 181,
+        "name": "\u4e2d\u536b",
+        "pinyin": "zhongwei"
+      },
+      {
+        "id": 242,
+        "name": "\u8d44\u9633",
+        "pinyin": "ziyang"
+      },
+      {
+        "id": 2665,
+        "name": "\u5f20\u5bb6\u6e2f",
+        "pinyin": "zhangjiagang"
+      },
+      {
+        "id": 2708,
+        "name": "\u8bf8\u66a8",
+        "pinyin": "zhuji"
+      },
+      {
+        "id": 1035,
+        "name": "\u624e\u5170\u5c6f",
+        "pinyin": "zalantun"
+      },
+      {
+        "id": 2165,
+        "name": "\u8bf8\u57ce",
+        "pinyin": "zhucheng"
+      },
+      {
+        "id": 2319,
+        "name": "\u589e\u57ce",
+        "pinyin": "zengcheng"
+      }
+    ]
+  },
+  "logid": "0512894775",
+  "timestamp": 1539569312
+}

@@ -70,6 +70,7 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
 
         IntentFilter filter = new IntentFilter();
         registerReceiver(exitReceiver, filter);
+        initLocationCity();
     }
 
     @Override
@@ -130,64 +131,9 @@ public abstract class BaseActivity<T extends Presenter<U>, U extends Ui> extends
         }
     }
 
-    public void requestPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            showPermissionDialog();
-        } else {
-            initLocationCity();
-        }
-    }
 
-    private void showPermissionDialog() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.permission_dialog, null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(layout);
-        Button btn_sure = layout.findViewById(R.id.to_setting);
-        Button btn_cancel = layout.findViewById(R.id.i_know);
-        dialog = builder.create();
-        dialog.getWindow().setWindowAnimations(R.style.Dialog);
-        dialog.show();
-        if (dialog.getWindow() != null) {
-            Window window = dialog.getWindow();
-            window.setLayout((int) getResources().getDimension(R.dimen.px912dp), (int) getResources().getDimension(R.dimen.px516dp));
-            window.setBackgroundDrawableResource(R.drawable.permission_dialog_bg);
-            WindowManager.LayoutParams lp = window.getAttributes();
-            window.setGravity(Gravity.CENTER_HORIZONTAL);
-            window.setGravity(Gravity.TOP);
-            lp.y = (int) getResources().getDimension(R.dimen.px480dp);
-            window.setAttributes(lp);
-        }
-        btn_sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startPrivacyActivity();
-                dialog.dismiss();
-            }
-        });
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getGPSAddressFail();
-                dialog.dismiss();
-            }
-        });
-    }
 
-    public void startPrivacyActivity() {
-        Intent intent = new Intent();
-        intent.putExtra(intentKey, locationFlag);
-        intent.setComponent(new ComponentName(targetPackage, targetPath));
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException exception) {
-            exception.printStackTrace();
-        }
-    }
 
     protected void doSearchAddress(final boolean isEditModle) {
         Intent intent = new Intent(mContext, AddressSuggestionActivity.class);

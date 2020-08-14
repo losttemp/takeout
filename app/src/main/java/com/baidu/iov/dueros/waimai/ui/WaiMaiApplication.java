@@ -14,6 +14,8 @@ import com.baidu.iov.dueros.waimai.utils.LocationManager;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.xiaoduos.syncclient.Entry;
+import com.sankuai.waimai.opensdk.MTWMApi;
+import com.sankuai.waimai.opensdk.MTWMSDKOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,11 +28,15 @@ public class WaiMaiApplication extends Application {
     private GuideBean.DataBean.GeneralListBean.TakeoutBean mWaimaiBean;
 
     private HashMap<String, ArrayList<Integer>> tipsMap=new HashMap<>();
+    public static String demoReleaseAppId = "5415973128511615";
+    public static String demoReleaseSecret = "22dd558d11d9492e8b43d94a0bbf06bb";
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		mInstance = this;
+        MTWMSDKOptions options = new MTWMSDKOptions.Builder().setAppId(demoReleaseAppId).setSecret(demoReleaseSecret).setTest(false).setLogEnable(true).create();
+        MTWMApi.initialize(this, options);
 
 		SDKInitializer.initialize(this);
         SDKInitializer.setCoordType(CoordType.GCJ02);

@@ -85,6 +85,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
 //        initPoiInfo();
         initListener();
         requestCity();
+
     }
 
     private void initView() {
@@ -361,10 +362,7 @@ public class AddressSuggestionActivity extends BaseActivity<AddressSuggestionPre
 
     //判断定位权限,权限没开给个提示
     public void requestCity() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (true) {
             Lg.getInstance().e("LocationManager", "AndPermission true");
             getLocationCity();
         } else {
